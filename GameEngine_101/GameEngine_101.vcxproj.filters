@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Game Objects Related">
+      <UniqueIdentifier>{107b2cb6-1727-437e-a182-454c26bc9a0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lights Related">
+      <UniqueIdentifier>{d039a8a7-3ae9-4b99-a468-4aec45e4acb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vertex and Physics Related">
+      <UniqueIdentifier>{3fbde992-b2e7-4511-8144-4f4387a51e61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders Related">
+      <UniqueIdentifier>{a1fee944-3c3d-4df8-bfff-2ccd2f4f4c2c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\simpleVert.glsl">
+      <Filter>Shaders Related</Filter>
+    </None>
+    <None Include="assets\shaders\simpleFrag.glsl">
+      <Filter>Shaders Related</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cCameraObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GE101_Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelUtilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cGameObject.cpp">
+      <Filter>Game Objects Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cLightManager.cpp">
+      <Filter>Lights Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cShader.cpp">
+      <Filter>Shaders Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cShaderManager.cpp">
+      <Filter>Shaders Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cMesh.cpp">
+      <Filter>Vertex and Physics Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cTriangle.cpp">
+      <Filter>Vertex and Physics Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cVAOMeshManager.cpp">
+      <Filter>Vertex and Physics Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cVertex_xyz_rgb_n.cpp">
+      <Filter>Vertex and Physics Related</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ModelUtilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cLightManager.h">
+      <Filter>Lights Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cShaderManager.h">
+      <Filter>Shaders Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cCameraObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cGameObject.h">
+      <Filter>Game Objects Related</Filter>
+    </ClInclude>
+    <ClInclude Include="sVAOInfo.h">
+      <Filter>Vertex and Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cVertex_xyz_rgb_n.h">
+      <Filter>Vertex and Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cVAOMeshManager.h">
+      <Filter>Vertex and Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cTriangle.h">
+      <Filter>Vertex and Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cMesh.h">
+      <Filter>Vertex and Physics Related</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
