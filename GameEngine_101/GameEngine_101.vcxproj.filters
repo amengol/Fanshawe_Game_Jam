@@ -25,6 +25,9 @@
     <Filter Include="Shaders Related">
       <UniqueIdentifier>{a1fee944-3c3d-4df8-bfff-2ccd2f4f4c2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cameras Related">
+      <UniqueIdentifier>{cd261ee4-23fa-4660-baf9-936995cb26fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\simpleVert.glsl">
@@ -36,9 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cCameraObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GE101_Main.cpp">
@@ -77,6 +77,9 @@
     <ClCompile Include="cVertex_xyz_rgb_n.cpp">
       <Filter>Vertex and Physics Related</Filter>
     </ClCompile>
+    <ClCompile Include="cCameraObject.cpp">
+      <Filter>Cameras Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModelUtilities.h">
@@ -90,9 +93,6 @@
     </ClInclude>
     <ClInclude Include="cShaderManager.h">
       <Filter>Shaders Related</Filter>
-    </ClInclude>
-    <ClInclude Include="cCameraObject.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cGameObject.h">
       <Filter>Game Objects Related</Filter>
@@ -111,6 +111,9 @@
     </ClInclude>
     <ClInclude Include="cMesh.h">
       <Filter>Vertex and Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cCameraObject.h">
+      <Filter>Cameras Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
