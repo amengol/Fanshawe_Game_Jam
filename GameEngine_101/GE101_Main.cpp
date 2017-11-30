@@ -198,13 +198,69 @@ int main()
 
     ::g_pLightManager = new cLightManager();
 
-    ::g_pLightManager->CreateLights(1);	// There are 10 lights in the shader
+    ::g_pLightManager->CreateLights(9);	// There are 10 lights in the shader
     ::g_pLightManager->LoadShaderUniformLocations(currentProgID);
 
     // Change ZERO (the SUN) light position
     ::g_pLightManager->vecLights[0].position = glm::vec3(0.0f, 400.0f, 0.0f);
-    ::g_pLightManager->vecLights[0].attenuation.x = 0.6f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[0].attenuation.x = 1.6f;		// Change the costant attenuation
     ::g_pLightManager->vecLights[0].attenuation.y = 0.005f;		// Change the linear attenuation
+
+    // Engine1 light
+    ::g_pLightManager->vecLights[1].position = glm::vec3(-32.0799f, 21.81f, 241.454f);
+    ::g_pLightManager->vecLights[1].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
+    ::g_pLightManager->vecLights[1].attenuation.x = 1.0f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[1].attenuation.y = 0.05f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[1].attenuation.z = 0.04f;		// Change the quadratic attenuation
+
+    // Engine2 light
+    ::g_pLightManager->vecLights[2].position = glm::vec3(32.0799f, 21.81f, 241.454f);
+    ::g_pLightManager->vecLights[2].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
+    ::g_pLightManager->vecLights[2].attenuation.x = 1.0f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[2].attenuation.y = 0.05f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[2].attenuation.z = 0.04f;		// Change the quadratic attenuation
+
+    // Engine3 light
+    ::g_pLightManager->vecLights[3].position = glm::vec3(-28.4753f, -13.04f, 223.99f);
+    ::g_pLightManager->vecLights[3].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
+    ::g_pLightManager->vecLights[3].attenuation.x = 1.0f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[3].attenuation.y = 0.05f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[3].attenuation.z = 0.04f;		// Change the quadratic attenuation
+
+    // Engine4 light
+    ::g_pLightManager->vecLights[4].position = glm::vec3(28.4753f, -13.04f, 223.99f);
+    ::g_pLightManager->vecLights[4].diffuse = glm::vec3(1.74f, 2.15f, 3.0f);		// Change the costant attenuation
+    ::g_pLightManager->vecLights[4].attenuation.x = 1.0f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[4].attenuation.y = 0.05f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[4].attenuation.z = 0.04f;		// Change the quadratic attenuation
+
+    // Back Left Landing Pod light
+    ::g_pLightManager->vecLights[5].position = glm::vec3(-69.3394f, 5.96f, 97.5041f);
+    ::g_pLightManager->vecLights[5].diffuse = glm::vec3(0.9176f, 0.76f, 0.054f);		// Change the costant attenuation
+    ::g_pLightManager->vecLights[5].attenuation.x = 1.0f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[5].attenuation.y = 0.01f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[5].attenuation.z = 0.04f;		// Change the quadratic attenuation
+
+    // Back Right Landing Pod light
+    ::g_pLightManager->vecLights[6].position = glm::vec3(69.3394f, 5.96f, 97.5041f);
+    ::g_pLightManager->vecLights[6].diffuse = glm::vec3(0.9176f, 0.76f, 0.054f);		// Change the costant attenuation
+    ::g_pLightManager->vecLights[6].attenuation.x = 1.0f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[6].attenuation.y = 0.01f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[6].attenuation.z = 0.04f;		// Change the quadratic attenuation
+
+    // Front Left Landing Pod light
+    ::g_pLightManager->vecLights[7].position = glm::vec3(-69.3394f, 5.96f, -66.681f);
+    ::g_pLightManager->vecLights[7].diffuse = glm::vec3(0.9176f, 0.76f, 0.054f);		// Change the costant attenuation
+    ::g_pLightManager->vecLights[7].attenuation.x = 1.0f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[7].attenuation.y = 0.01f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[7].attenuation.z = 0.04f;		// Change the quadratic attenuation
+
+    // Front Right Landing Pod light
+    ::g_pLightManager->vecLights[8].position = glm::vec3(69.3394f, 5.96f, -66.681f);
+    ::g_pLightManager->vecLights[8].diffuse = glm::vec3(0.9176f, 0.76f, 0.054f);		// Change the costant attenuation
+    ::g_pLightManager->vecLights[8].attenuation.x = 1.0f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[8].attenuation.y = 0.01f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[8].attenuation.z = 0.04f;		// Change the quadratic attenuation
 
     // Lights end
     //-------------------------------------------------------------------------
@@ -212,9 +268,9 @@ int main()
 
     g_pCamera = new cCameraObject();
     //g_pCamera->setCameraPosition(glm::vec3(-173.339f, 31.007f, -370.441f));
-    g_pCamera->setCameraPosition(glm::vec3(-93.94f, 90.71f, -602.396));
-    g_pCamera->setCameraOrientationY(-160.0f);  //132
-    g_pCamera->setCameraOrientationX(-16.0f);
+    g_pCamera->setCameraPosition(glm::vec3(-126.539f, 52.8906f, 389.664f));
+    g_pCamera->setCameraOrientationY(-26.0f);
+    g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
     //-------------------------------------------------------------------------
