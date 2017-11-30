@@ -62,7 +62,7 @@ void main()
 	
 	// Set to black...
 	gl_FragColor.rgb = vec3(0.0f, 0.0f, 0.0f);
-	for ( int index = 0; index < 1; index++ )
+	for ( int index = 0; index < 9; index++ )
 	{
 		gl_FragColor.rgb += calcLightColour( vertNormal, vecWorldPosition, index );
 	}
