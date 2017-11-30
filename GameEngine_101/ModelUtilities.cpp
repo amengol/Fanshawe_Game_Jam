@@ -161,7 +161,8 @@ bool Load3DModelsIntoMeshManager(int shaderID, cVAOMeshManager* pVAOManager, std
 	{
 		cMesh theMesh;
         theMesh.name = "Galactica";
-		if ( ! LoadPlyFileIntoMeshWithNormals( "Battlestar_Galactica_ASCII_Res_4_116617_faces_Scale50x.ply", theMesh) )
+		if ( ! LoadPlyFileIntoMeshWithNormals( "Battlestar_Galactica_ASCII_Res_2_468281_faces_Scale50x.ply", theMesh) )
+        //if ( ! LoadPlyFileIntoMeshWithNormals( "Battlestar_Galactica_ASCII_Res_4_116617_faces_Scale50x.ply", theMesh) )
 		{ 
 			ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
 			bAnyErrors = true;
