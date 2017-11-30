@@ -9,7 +9,12 @@ class cCameraObject
 public:
     cCameraObject();
 
-    void setCameraPosition(glm::vec3 NewPosition);
+    // Set camera and also the unity Lookat position
+    void setCameraPosition(glm::vec3 newPosition);
+
+    // Reposition a camera according to a target and reset up vector
+    void setCameraTarget(glm::vec3 target);
+
     void moveCameraBackNForth(float speed);
     void moveCameraLeftNRight(float speed);
     void changeAlongX(float change);

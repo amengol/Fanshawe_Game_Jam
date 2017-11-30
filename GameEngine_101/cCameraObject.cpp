@@ -11,12 +11,27 @@ cCameraObject::cCameraObject()
     this->camVelocity = 0.0f;
 }
 
-void cCameraObject::setCameraPosition(glm::vec3 NewPosition)
+void cCameraObject::setCameraPosition(glm::vec3 newPosition)
 {
     // Use the delta postion as an input to the new lookAt position
     glm::vec3 derivedLookAt = this->lookAtPosition - this->camPosition;
-    this->camPosition = NewPosition;
-    this->lookAtPosition = NewPosition + derivedLookAt;
+    this->camPosition = newPosition;
+    this->lookAtPosition = newPosition + derivedLookAt;
+}
+
+void cCameraObject::setCameraTarget(glm::vec3 target)
+{
+    // Reset the Up Vector
+    this->camUpVector = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    // LookAt direction at the origin
+    glm::vec3 lookAtOrigin = target - this->camPosition;
+
+    // Normalized lookAt at the origin
+    lookAtOrigin = glm::normalize(lookAtOrigin);
+
+    // New LooAt
+    this->lookAtPosition = this->camPosition + lookAtOrigin;
 }
 
 void cCameraObject::moveCameraBackNForth(float speed)
