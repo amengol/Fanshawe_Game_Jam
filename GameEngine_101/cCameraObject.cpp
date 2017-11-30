@@ -19,6 +19,23 @@ void cCameraObject::setCameraPosition(glm::vec3 NewPosition)
     this->lookAtPosition = NewPosition + derivedLookAt;
 }
 
+void cCameraObject::moveCameraBackNForth(float speed)
+{
+    // Set a vector at the origin with the change in position along the Z axis
+    glm::vec4 originZ = glm::vec4(0.0f, 0.0f, speed, 0.0f);
+
+    // Transfor the vector according to the rotation of the camera
+    glm::vec3 newOriginZ = this->camOrientation * originZ;
+
+    setCameraPosition(this->camPosition + newOriginZ);
+}
+
+void cCameraObject::setChangeAlongY(float change)
+{
+    glm::vec3 vecChange = glm::vec3(0.0f, change, 0.0f);
+    setCameraPosition(this->camPosition + vecChange);
+}
+
 void cCameraObject::setCameraOrientationX(float degrees)
 {
     // Transform the Camera Orientation

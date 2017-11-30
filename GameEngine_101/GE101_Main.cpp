@@ -313,32 +313,38 @@ static void key_callback(GLFWwindow* window,
 
     // Camera movements
     const float ROTANGLE = 1.0f;
-    const float CAMSPEED = 0.25f;
+    const float CAMSPEED = 1.0f;
     switch (key)
     {
-    case GLFW_KEY_W:        // rotate around local camera X axis +
-        g_pCamera->setCameraOrientationX(ROTANGLE);
+    case GLFW_KEY_W:       // Move camera forward along local Z axis 
+        g_pCamera->moveCameraBackNForth(-CAMSPEED);
         break;
-    case GLFW_KEY_S:        // rotate around local camera X axis -
-        g_pCamera->setCameraOrientationX(-ROTANGLE);
+    case GLFW_KEY_S:       // Move camera backward along local Z axis 
+        g_pCamera->moveCameraBackNForth(CAMSPEED);
         break;
-    case GLFW_KEY_A:        // rotate around local camera Y axis +
-        g_pCamera->setCameraOrientationY(ROTANGLE);
+    case GLFW_KEY_A:        // rotate around local camera Z axis +
+        g_pCamera->setCameraOrientationZ(ROTANGLE);        
         break;
-    case GLFW_KEY_D:        // rotate around local camera Y axis -
-        g_pCamera->setCameraOrientationY(-ROTANGLE);
-        break;
-    case GLFW_KEY_LEFT:     // rotate around local camera Z axis +
-        g_pCamera->setCameraOrientationZ(ROTANGLE);
-        break;
-    case GLFW_KEY_RIGHT:    // rotate around local camera Z axis -
+    case GLFW_KEY_D:        // rotate around local camera Z axis -
         g_pCamera->setCameraOrientationZ(-ROTANGLE);
         break;
-    case GLFW_KEY_UP:       // move towards local Y axis
-        g_pCamera->setVelocity(CAMSPEED);
+    case GLFW_KEY_LEFT:     // rotate around local camera Y axis +
+        g_pCamera->setCameraOrientationY(ROTANGLE);
         break;
-    case GLFW_KEY_DOWN:     // move backwards in the Y axis
-        g_pCamera->setVelocity(-CAMSPEED);
+    case GLFW_KEY_RIGHT:    // rotate around local camera Y axis -
+        g_pCamera->setCameraOrientationY(-ROTANGLE);
+        break;
+    case GLFW_KEY_Q:        // Increase high along Y axis
+        g_pCamera->setChangeAlongY(CAMSPEED);
+        break;
+    case GLFW_KEY_E:        // Decrease high along Y axis
+        g_pCamera->setChangeAlongY(-CAMSPEED);
+        break;
+    case GLFW_KEY_UP:       // rotate around local camera X axis +
+        g_pCamera->setCameraOrientationX(ROTANGLE);
+        break;
+    case GLFW_KEY_DOWN:     // rotate around local camera X axis -
+        g_pCamera->setCameraOrientationX(-ROTANGLE);
         break;
     }// switch ( key )
 
