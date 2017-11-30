@@ -202,15 +202,19 @@ int main()
     ::g_pLightManager->LoadShaderUniformLocations(currentProgID);
 
     // Change ZERO (the SUN) light position
-    ::g_pLightManager->vecLights[0].position = glm::vec3(0.0f, 0.0f, 50.0f);
-    ::g_pLightManager->vecLights[0].attenuation.y = 0.04f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[0].position = glm::vec3(0.0f, 400.0f, 0.0f);
+    ::g_pLightManager->vecLights[0].attenuation.x = 0.6f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[0].attenuation.y = 0.005f;		// Change the linear attenuation
 
     // Lights end
     //-------------------------------------------------------------------------
     // Camera
 
     g_pCamera = new cCameraObject();
-    g_pCamera->setCameraPosition(glm::vec3(0.0f, 10.0f, 122.0f));
+    //g_pCamera->setCameraPosition(glm::vec3(-173.339f, 31.007f, -370.441f));
+    g_pCamera->setCameraPosition(glm::vec3(-93.94f, 90.71f, -602.396));
+    g_pCamera->setCameraOrientationY(-160.0f);  //132
+    g_pCamera->setCameraOrientationX(-16.0f);
 
     // Camera end
     //-------------------------------------------------------------------------
@@ -322,10 +326,16 @@ static void key_callback(GLFWwindow* window,
     case GLFW_KEY_S:       // Move camera backward along local Z axis 
         g_pCamera->moveCameraBackNForth(CAMSPEED);
         break;
-    case GLFW_KEY_A:        // rotate around local camera Z axis +
-        g_pCamera->setCameraOrientationZ(ROTANGLE);        
+    case GLFW_KEY_A:        // Move camera right along local X axis
+        g_pCamera->moveCameraLeftNRight(-CAMSPEED);
         break;
-    case GLFW_KEY_D:        // rotate around local camera Z axis -
+    case GLFW_KEY_D:        // Move camera right along local x axis
+        g_pCamera->moveCameraLeftNRight(CAMSPEED);
+        break;
+    case GLFW_KEY_Z:        // rotate around local camera Z axis +
+        g_pCamera->setCameraOrientationZ(ROTANGLE);
+        break;
+    case GLFW_KEY_C:        // rotate around local camera Z axis -
         g_pCamera->setCameraOrientationZ(-ROTANGLE);
         break;
     case GLFW_KEY_LEFT:     // rotate around local camera Y axis +
@@ -335,10 +345,10 @@ static void key_callback(GLFWwindow* window,
         g_pCamera->setCameraOrientationY(-ROTANGLE);
         break;
     case GLFW_KEY_Q:        // Increase high along Y axis
-        g_pCamera->setChangeAlongY(CAMSPEED);
+        g_pCamera->changeAlongY(CAMSPEED);
         break;
     case GLFW_KEY_E:        // Decrease high along Y axis
-        g_pCamera->setChangeAlongY(-CAMSPEED);
+        g_pCamera->changeAlongY(-CAMSPEED);
         break;
     case GLFW_KEY_UP:       // rotate around local camera X axis +
         g_pCamera->setCameraOrientationX(ROTANGLE);
