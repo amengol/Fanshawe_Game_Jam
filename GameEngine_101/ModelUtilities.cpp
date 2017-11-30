@@ -159,19 +159,49 @@ bool Load3DModelsIntoMeshManager(int shaderID, cVAOMeshManager* pVAOManager, std
 	//}	// ENDOF: load models
 
 	{
-		cMesh MeshFractalTerrain;
-        MeshFractalTerrain.name = "FractalTerrain";
-		if ( ! LoadPlyFileIntoMeshWithNormals( "FractalTerrain2_xyz_n.ply", MeshFractalTerrain) )
+		cMesh theMesh;
+        theMesh.name = "Galactica";
+		if ( ! LoadPlyFileIntoMeshWithNormals( "Battlestar_Galactica_ASCII_Res_4_116617_faces_Scale50x.ply", theMesh) )
 		{ 
-			ssError << "Didn't load model >" << MeshFractalTerrain.name << "<" << std::endl;
+			ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
 			bAnyErrors = true;
 		}
-		if ( ! pVAOManager->loadMeshIntoVAO(MeshFractalTerrain, shaderID ) )
+		if ( ! pVAOManager->loadMeshIntoVAO(theMesh, shaderID ) )
 		{
-			ssError << "Could not load mesh >" << MeshFractalTerrain.name << "< into VAO" << std::endl;
+			ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
 			bAnyErrors = true;
 		}
-	}	
+	}
+
+    {
+        cMesh theMesh;
+        theMesh.name = "Viper";
+        if (!LoadPlyFileIntoMeshWithNormals("Viper_MkVII_ASCII_UVTex.ply", theMesh))
+        {
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAnyErrors = true;
+        }
+        if (!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
+        {
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAnyErrors = true;
+        }
+    }
+
+    {
+        cMesh theMesh;
+        theMesh.name = "Raider";
+        if (!LoadPlyFileIntoMeshWithNormals("Raider_ASCII_UVtex_Scale8x.ply", theMesh))
+        {
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAnyErrors = true;
+        }
+        if (!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
+        {
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAnyErrors = true;
+        }
+    }
 		
 
 	if ( ! bAnyErrors ) 
