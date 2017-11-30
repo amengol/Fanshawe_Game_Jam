@@ -42,6 +42,9 @@ std::vector< cGameObject* >  g_vecGameObjects;
 glm::vec3 g_cameraXYZ = glm::vec3(0.0f, 51.0f, 122.0f);
 glm::vec3 g_cameraTarget_XYZ = glm::vec3(0.0f, 0.0f, 0.0f);
 
+// Variable to store the camera target through all objects
+int g_objectTurn = 1;
+
 // Other uniforms:
 GLint uniLoc_materialDiffuse = -1;
 GLint uniLoc_materialAmbient = -1;
@@ -268,9 +271,9 @@ int main()
 
     g_pCamera = new cCameraObject();
     //g_pCamera->setCameraPosition(glm::vec3(-173.339f, 31.007f, -370.441f));
-    g_pCamera->setCameraPosition(glm::vec3(-126.539f, 52.8906f, 389.664f));
-    g_pCamera->setCameraOrientationY(-26.0f);
-    g_pCamera->setCameraOrientationX(-10.0f);
+    g_pCamera->setCameraPosition(glm::vec3(0.0f, 90.0f, -46.0f));
+    //g_pCamera->setCameraOrientationY(-26.0f);
+    g_pCamera->setCameraOrientationX(-20.0f);
 
     // Camera end
     //-------------------------------------------------------------------------
@@ -368,6 +371,22 @@ static void key_callback(GLFWwindow* window,
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
+
+    // Switch camera targets
+    if (key == GLFW_KEY_P && action == GLFW_PRESS)
+    {
+        if (g_objectTurn < g_vecGameObjects.size())    
+        {
+            g_pCamera->setCameraTarget(g_vecGameObjects.at(g_objectTurn)->position);
+            g_objectTurn++;
+        }
+        else
+        {
+            g_objectTurn = 1; // Because interested objects start at 1
+            g_pCamera->setCameraTarget(g_vecGameObjects.at(g_objectTurn)->position);
+            g_objectTurn++;
+        }
+    }
 
     if (key == GLFW_KEY_SPACE);
 
