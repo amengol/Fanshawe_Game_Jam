@@ -11,7 +11,10 @@ public:
 
     void setCameraPosition(glm::vec3 NewPosition);
     void moveCameraBackNForth(float speed);
-    void setChangeAlongY(float change);
+    void moveCameraLeftNRight(float speed);
+    void changeAlongX(float change);
+    void changeAlongY(float change);
+    void changeAlongZ(float change);
     void setCameraOrientationX(float degrees);
     void setCameraOrientationY(float degrees);
     void setCameraOrientationZ(float degrees);

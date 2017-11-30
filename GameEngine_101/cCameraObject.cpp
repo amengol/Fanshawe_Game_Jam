@@ -30,9 +30,32 @@ void cCameraObject::moveCameraBackNForth(float speed)
     setCameraPosition(this->camPosition + newOriginZ);
 }
 
-void cCameraObject::setChangeAlongY(float change)
+void cCameraObject::moveCameraLeftNRight(float speed)
+{
+    // Set a vector at the origin with the change in position along the X axis
+    glm::vec4 originX = glm::vec4(speed, 0.0f, 0.0f , 0.0f);
+
+    // Transfor the vector according to the rotation of the camera
+    glm::vec3 newOriginX = this->camOrientation * originX;
+
+    setCameraPosition(this->camPosition + newOriginX);
+}
+
+void cCameraObject::changeAlongX(float change)
+{
+    glm::vec3 vecChange = glm::vec3(change, 0.0f, 0.0f);
+    setCameraPosition(this->camPosition + vecChange);
+}
+
+void cCameraObject::changeAlongY(float change)
 {
     glm::vec3 vecChange = glm::vec3(0.0f, change, 0.0f);
+    setCameraPosition(this->camPosition + vecChange);
+}
+
+void cCameraObject::changeAlongZ(float change)
+{
+    glm::vec3 vecChange = glm::vec3(0.0f, 0.0f, change);
     setCameraPosition(this->camPosition + vecChange);
 }
 
