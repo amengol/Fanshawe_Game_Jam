@@ -23,7 +23,7 @@ void LoadModelsIntoScene(void)
 
     for (int i = 0; i < 16; i++)
     {
-        // Viper1
+        // Vipers
         cGameObject* pViper = new cGameObject();
         pViper->diffuseColour = glm::vec4(2.36f, 2.29f, 1.99f, 1.0f);
         pViper->meshName = "Viper";
@@ -59,11 +59,11 @@ void LoadModelsIntoScene(void)
 
     for (int i = 0; i < 24; i++)
     {
-        // Viper1
+        // Raiders
         cGameObject* pRaider = new cGameObject();
-        pRaider->diffuseColour = glm::vec4(1.035f, 1.023f, 1.08f, 1.0f);
+        pRaider->diffuseColour = glm::vec4(2.07f, 2.046f, 2.16f, 1.0f);
         pRaider->meshName = "Raider";
-        pRaider->bIsUpdatedInPhysics = false;
+        pRaider->bIsUpdatedInPhysics = true;
         pRaider->bIsWireFrame = false;
         ::g_vecGameObjects.push_back(pRaider);
     }
@@ -71,7 +71,7 @@ void LoadModelsIntoScene(void)
     float alongX = -120.0f;
     for (int i = 17; i < g_vecGameObjects.size(); i++)
     {
-        g_vecGameObjects.at(i)->position = glm::vec3(alongX, 0.0f, -400.0f);
+        g_vecGameObjects.at(i)->position = glm::vec3(alongX, 0.0f, -470.0f);
         alongX += 10.0f;
     }
     
