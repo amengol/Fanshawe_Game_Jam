@@ -27,6 +27,7 @@ using namespace std;
 
 // Function Prototypes
 void DrawObject(cGameObject* pTheGO);
+void PhysicsStep(double deltaTime);
 static void key_callback(GLFWwindow* window, 
                          int key, 
                          int scancode, 
@@ -271,9 +272,10 @@ int main()
 
     g_pCamera = new cCameraObject();
     //g_pCamera->setCameraPosition(glm::vec3(-173.339f, 31.007f, -370.441f));
-    g_pCamera->setCameraPosition(glm::vec3(0.0f, 90.0f, -46.0f));
-    //g_pCamera->setCameraOrientationY(-26.0f);
-    g_pCamera->setCameraOrientationX(-20.0f);
+    g_pCamera->setCameraPosition(glm::vec3(-206.226, 79.9552f, -606.804f));
+    //g_pCamera->setCameraPosition(glm::vec3(0.0f, 90.0f, -46.0f)); // Bridge position
+    g_pCamera->setCameraOrientationY(-150.0f);
+    g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
     //-------------------------------------------------------------------------
@@ -348,6 +350,14 @@ int main()
             << curCameraLookAt.z;
         glfwSetWindowTitle(window, ssTitle.str().c_str());
 
+        // Now many seconds that have elapsed since we last checked
+        double curTime = glfwGetTime();
+        double deltaTime = curTime - lastTimeStep;
+
+        // Physics step
+        PhysicsStep(deltaTime);
+        lastTimeStep = curTime;
+
         glfwSwapBuffers(window);
         glfwPollEvents();
 
@@ -356,6 +366,7 @@ int main()
     glfwDestroyWindow(window);
     glfwTerminate();
 
+    
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
 
@@ -385,6 +396,17 @@ static void key_callback(GLFWwindow* window,
             g_objectTurn = 1; // Because interested objects start at 1
             g_pCamera->setCameraTarget(g_vecGameObjects.at(g_objectTurn)->position);
             g_objectTurn++;
+        }
+    }
+
+    // The Raiders move toward the Galactica
+    if (key == GLFW_KEY_R && action == GLFW_PRESS)
+    {
+        // Raiders initial object
+        int firstRaider = 17;
+        for (int i = firstRaider; i < g_vecGameObjects.size(); i++)
+        {
+            g_vecGameObjects.at(i)->vel.z = 10.0f;
         }
     }
 
@@ -589,6 +611,38 @@ void DrawObject(cGameObject* pTheGO)
 
     // Unbind that VAO
     glBindVertexArray(0);
+
+    return;
+}
+
+// Update the world 1 "step" in time
+void PhysicsStep(double deltaTime)
+{    
+    const glm::vec3 GRAVITY = glm::vec3(0.0f, 0.0f, 0.0f);
+
+    // Identical to the 'render' (drawing) loop
+    for (int index = 0; index != ::g_vecGameObjects.size(); index++)
+    {
+        cGameObject* pCurGO = ::g_vecGameObjects[index];
+
+        // Is this object to be updated?
+        if (!pCurGO->bIsUpdatedInPhysics)
+        {
+            continue;
+        }
+
+        // Explicit Euler  (RK4)
+        // New position is based on velocity over time
+        glm::vec3 deltaPosition = (float)deltaTime * pCurGO->vel;
+        pCurGO->position += deltaPosition;
+
+        // New velocity is based on acceleration over time
+        glm::vec3 deltaVelocity = ((float)deltaTime * pCurGO->accel)
+            + ((float)deltaTime * GRAVITY);
+
+        pCurGO->vel += deltaVelocity;        
+
+    }//for ( int index... 
 
     return;
 }
