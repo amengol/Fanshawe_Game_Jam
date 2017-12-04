@@ -3,6 +3,7 @@
 
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
+#include <glm\gtc\matrix_transform.hpp>
 #include <string>
 //#include "cDebugRenderer.h"
 
@@ -22,9 +23,12 @@ public:
 	cGameObject();
 	~cGameObject();
 	glm::vec3 position;
-	glm::vec3 orientation;
-	glm::vec3 orientation2;
+    glm::mat4x4 orientation;
+    glm::vec3 vecOrientation;
 	float scale;
+    float rateOfTurnX;
+    float rateOfTurnY;
+    float rateOfTurnZ;
 	// **********************************
 	// Physics properties
 	glm::vec3 vel;
@@ -38,9 +42,13 @@ public:
 	std::string meshName;
 
 	// Behaviour
- 	void Update(double deltaTime);
+ 	void Update(float deltaTime, glm::vec3 GRAVITY);
  
  	void DebugUpdate(double deltaTime);
+
+    void rotateX(float degreesX);
+    void rotateY(float degreesY);
+    void rotateZ(float degreesZ);
  
  private:
  	//cDebugRenderer* m_pTheDR;
