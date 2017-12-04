@@ -15,7 +15,8 @@ void LoadModelsIntoScene(void)
         pGalactca->meshName = "Galactica";
         pGalactca->bIsUpdatedInPhysics = false;
         pGalactca->bIsWireFrame = false;
-		::g_vecGameObjects.push_back(pGalactca);
+        pGalactca->position = glm::vec3(0.0f, 0.0f, 0.0f);
+        ::g_vecGameObjects.push_back(pGalactca);
 	}
 
     //=========================================================================
@@ -27,11 +28,9 @@ void LoadModelsIntoScene(void)
         cGameObject* pViper = new cGameObject();
         pViper->diffuseColour = glm::vec4(2.36f, 2.29f, 1.99f, 1.0f);
         pViper->meshName = "Viper";
-        pViper->bIsUpdatedInPhysics = false;
+        pViper->bIsUpdatedInPhysics = true;
         pViper->bIsWireFrame = false;
-        // Rotate the Viper 180 degrees around the Y axis
-        pViper->orientation2.y = glm::radians(180.0f);
-        glm::mat4x4 RotY180(1.0f);
+        pViper->rotateY(180.0f);
         ::g_vecGameObjects.push_back(pViper);
     }
 
@@ -71,12 +70,23 @@ void LoadModelsIntoScene(void)
     float alongX = -120.0f;
     for (int i = 17; i < g_vecGameObjects.size(); i++)
     {
-        g_vecGameObjects.at(i)->position = glm::vec3(alongX, 0.0f, -470.0f);
+        g_vecGameObjects.at(i)->position = glm::vec3(alongX, 0.0f, -470.0f);  
         alongX += 10.0f;
     }
     
+    {
+        // Raider Dummy
+        cGameObject* pRaider = new cGameObject();
+        pRaider->diffuseColour = glm::vec4(2.07f, 2.046f, 2.16f, 1.0f);
+        pRaider->meshName = "Raider";
+        pRaider->bIsUpdatedInPhysics = true;
+        pRaider->bIsWireFrame = false;
+        ::g_vecGameObjects.push_back(pRaider);
+        //g_vecGameObjects.at(g_vecGameObjects.size()-1)->position = glm::vec3(-68.3558f, 7.02644f, 198.422f);
+        //g_vecGameObjects.at(g_vecGameObjects.size() - 1)->position = glm::vec3(22.399f, 70.50f, -287.0f);
+    }
 
-    // End of Vipers creation
+    // End of Raiders creation
     //=========================================================================
 
 	return;
