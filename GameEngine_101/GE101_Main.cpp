@@ -46,6 +46,7 @@ glm::vec3 g_cameraTarget_XYZ = glm::vec3(0.0f, 0.0f, 0.0f);
 // Variable to store the camera target through all objects
 int g_objectTurn = 1;
 
+
 // Other uniforms:
 GLint uniLoc_materialDiffuse = -1;
 GLint uniLoc_materialAmbient = -1;
@@ -271,10 +272,11 @@ int main()
     // Camera
 
     g_pCamera = new cCameraObject();
-    //g_pCamera->setCameraPosition(glm::vec3(-173.339f, 31.007f, -370.441f));
-    g_pCamera->setCameraPosition(glm::vec3(-206.226, 79.9552f, -606.804f));
+    g_pCamera->setCameraPosition(glm::vec3(-148.048f, 20.427f, 266.741f)); // Question5
+    //g_pCamera->setCameraPosition(glm::vec3(-206.226, 79.9552f, -606.804f)); // Question4
     //g_pCamera->setCameraPosition(glm::vec3(0.0f, 90.0f, -46.0f)); // Bridge position
-    g_pCamera->setCameraOrientationY(-150.0f);
+    //g_pCamera->setCameraPosition(glm::vec3(22.399f, -0.50f, -287.0f)); // Near the viper
+    g_pCamera->setCameraOrientationY(-30.0f);
     g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
@@ -348,6 +350,7 @@ int main()
             << curCameraLookAt.x << ", "
             << curCameraLookAt.y << ", "
             << curCameraLookAt.z;
+
         glfwSetWindowTitle(window, ssTitle.str().c_str());
 
         // Now many seconds that have elapsed since we last checked
@@ -408,6 +411,14 @@ static void key_callback(GLFWwindow* window,
         {
             g_vecGameObjects.at(i)->vel.z = 10.0f;
         }
+    }
+
+    // Prepare one viper to land
+    if (key == GLFW_KEY_T && action == GLFW_PRESS)
+    {
+        g_vecGameObjects.at(1)->position = glm::vec3(-68.3558f, 7.02644f, 198.422f);
+        //g_vecGameObjects.at(1)->vel.z = 10.0f;
+      
     }
 
     if (key == GLFW_KEY_SPACE);
@@ -540,25 +551,24 @@ void DrawObject(cGameObject* pTheGO)
 
     glm::mat4x4 mModel = glm::mat4x4(1.0f);
 
-    glm::mat4 matRreRotZ = glm::mat4x4(1.0f);
-    matRreRotZ = glm::rotate(matRreRotZ, pTheGO->orientation.z, glm::vec3(0.0f, 0.0f, 1.0f));
-    mModel = mModel * matRreRotZ;
+    
 
     glm::mat4 trans = glm::mat4x4(1.0f);
     trans = glm::translate(trans, pTheGO->position);
-    mModel = mModel * trans;
+    mModel = mModel * trans;    
 
-    glm::mat4 matPostRotZ = glm::mat4x4(1.0f);
-    matPostRotZ = glm::rotate(matPostRotZ, pTheGO->orientation2.z, glm::vec3(0.0f, 0.0f, 1.0f));
-    mModel = mModel * matPostRotZ;
+    mModel = mModel * pTheGO->orientation;
+    //glm::mat4 matRotX = glm::mat4x4(1.0f);
+    //matRotX = glm::rotate(matRotX, pTheGO->orientation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+    //mModel = mModel * matRotX;
 
-    glm::mat4 matPostRotY = glm::mat4x4(1.0f);
-    matPostRotY = glm::rotate(matPostRotY, pTheGO->orientation2.y, glm::vec3(0.0f, 1.0f, 0.0f));
-    mModel = mModel * matPostRotY;
+    //glm::mat4 matRotY = glm::mat4x4(1.0f);
+    //matRotY = glm::rotate(matRotY, pTheGO->orientation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+    //mModel = mModel * matRotY;
 
-    glm::mat4 matPostRotX = glm::mat4x4(1.0f);
-    matPostRotX = glm::rotate(matPostRotX, pTheGO->orientation2.x, glm::vec3(1.0f, 0.0f, 0.0f));
-    mModel = mModel * matPostRotX;
+    //glm::mat4 matRotZ = glm::mat4x4(1.0f);
+    //matRotZ = glm::rotate(matRotZ, pTheGO->orientation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+    //mModel = mModel * matRotZ;
 
     float finalScale = pTheGO->scale;
 
@@ -631,16 +641,8 @@ void PhysicsStep(double deltaTime)
             continue;
         }
 
-        // Explicit Euler  (RK4)
-        // New position is based on velocity over time
-        glm::vec3 deltaPosition = (float)deltaTime * pCurGO->vel;
-        pCurGO->position += deltaPosition;
-
-        // New velocity is based on acceleration over time
-        glm::vec3 deltaVelocity = ((float)deltaTime * pCurGO->accel)
-            + ((float)deltaTime * GRAVITY);
-
-        pCurGO->vel += deltaVelocity;        
+        pCurGO->Update(deltaTime, GRAVITY);
+              
 
     }//for ( int index... 
 
