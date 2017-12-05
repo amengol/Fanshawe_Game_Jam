@@ -28,6 +28,9 @@
     <Filter Include="Cameras Related">
       <UniqueIdentifier>{cd261ee4-23fa-4660-baf9-936995cb26fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound Related">
+      <UniqueIdentifier>{24d7e714-3285-4cde-a59e-f0923e8de418}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\simpleVert.glsl">
@@ -80,6 +83,15 @@
     <ClCompile Include="cCameraObject.cpp">
       <Filter>Cameras Related</Filter>
     </ClCompile>
+    <ClCompile Include="cSoundManager.cpp">
+      <Filter>Sound Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cSoundManager_Imp.cpp">
+      <Filter>Sound Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cSoundObject.cpp">
+      <Filter>Sound Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModelUtilities.h">
@@ -114,6 +126,15 @@
     </ClInclude>
     <ClInclude Include="cCameraObject.h">
       <Filter>Cameras Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cSoundManager.h">
+      <Filter>Sound Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cSoundManager_Imp.h">
+      <Filter>Sound Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cSoundObject.h">
+      <Filter>Sound Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
