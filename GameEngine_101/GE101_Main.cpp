@@ -3,7 +3,7 @@
 *   By Jorge Amengol
 *   2017
 *
-*   Version 0.0.1
+*   Version 0.0.2
 */
 
 #include <glad/glad.h>
@@ -22,6 +22,7 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "cSoundManager.h"
 
 using namespace std;
 
@@ -42,6 +43,9 @@ cLightManager*	g_pLightManager = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
 glm::vec3 g_cameraXYZ = glm::vec3(0.0f, 51.0f, 122.0f);
 glm::vec3 g_cameraTarget_XYZ = glm::vec3(0.0f, 0.0f, 0.0f);
+
+// To deal with sounds
+cSoundManager* g_pSoundManager = NULL;
 
 // Variable to store the camera target through all objects
 int g_objectTurn = 1;
@@ -67,6 +71,12 @@ static void error_callback(int error, const char* description)
 
 int main()
 {
+    //=========================================================================
+    // Sound things
+    g_pSoundManager = new cSoundManager();
+    g_pSoundManager->initSoundScene();
+    //=========================================================================
+
     GLFWwindow* window;
     GLint mvp_location;
     glfwSetErrorCallback(error_callback);
@@ -290,6 +300,11 @@ int main()
     // Main game or application loop
     while (!glfwWindowShouldClose(window))
     {
+        //=====================================================================
+        //Sound
+        g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
+        //=====================================================================
+
         float ratio;
         int width, height;
         glm::mat4x4 p, mvp;
@@ -372,6 +387,7 @@ int main()
     
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
+    delete ::g_pSoundManager;
 
     return 0;
 
