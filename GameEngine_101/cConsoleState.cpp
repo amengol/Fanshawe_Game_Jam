@@ -159,10 +159,24 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
                 bypass = !bypass;
                 theDSP->setBypass(bypass);
             }
-            print_text("2 [%c] DSP Effect                                                               ",
+            print_text("2 [%c] Tremolo                                                                   ",
                 this->mDSPG2_2 ? 'X' : ' ');
-            print_text("3 [%c] DSP Effect                                                               ",
+            groupB->getDSP(2, &theDSP);
+            theDSP->getBypass(&bypass);
+            if (mDSPG2_2 == bypass)
+            {
+                bypass = !bypass;
+                theDSP->setBypass(bypass);
+            }
+            print_text("3 [%c] Flange                                                                   ",
                 this->mDSPG2_3 ? 'X' : ' ');
+            groupB->getDSP(3, &theDSP);
+            theDSP->getBypass(&bypass);
+            if (mDSPG2_3 == bypass)
+            {
+                bypass = !bypass;
+                theDSP->setBypass(bypass);
+            }
             print_text("-------------------------------------------------------------------------------");
             groupB->getNumChannels(&numChannels);
             for (int i = 0; i < numChannels; i++)
@@ -185,12 +199,33 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [ ] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [X] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
-            print_text("1 [%c] DSP Effect                                                               ",
+            print_text("1 [%c] Pitch Shift                                                              ",
                 this->mDSPG3_1 ? 'X' : ' ');
-            print_text("2 [%c] DSP Effect                                                               ",
+            groupC->getDSP(1, &theDSP);
+            theDSP->getBypass(&bypass);
+            if (mDSPG3_1 == bypass)
+            {
+                bypass = !bypass;
+                theDSP->setBypass(bypass);
+            }
+            print_text("2 [%c] SFX Reverb                                                               ",
                 this->mDSPG3_2 ? 'X' : ' ');
-            print_text("3 [%c] DSP Effect                                                               ",
+            groupC->getDSP(2, &theDSP);
+            theDSP->getBypass(&bypass);
+            if (mDSPG3_2 == bypass)
+            {
+                bypass = !bypass;
+                theDSP->setBypass(bypass);
+            }
+            print_text("3 [%c] Highpass                                                                 ",
                 this->mDSPG3_3 ? 'X' : ' ');
+            groupC->getDSP(3, &theDSP);
+            theDSP->getBypass(&bypass);
+            if (mDSPG3_3 == bypass)
+            {
+                bypass = !bypass;
+                theDSP->setBypass(bypass);
+            }
             print_text("-------------------------------------------------------------------------------");
             groupC->getNumChannels(&numChannels);
             for (int i = 0; i < numChannels; i++)
@@ -219,6 +254,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [X] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [ ] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
+            print_text("                        Use ',' or '.' after selecting a parameter to change it");
             groupA->getNumChannels(&numChannels);
             for (int i = 0; i < numChannels; i++) 
             {                           
@@ -228,7 +264,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
                 print_text("%d [ ] %s                                                                      "
                     , i + 1, soundName);
             }
-            for (int i = 0; i < 14; i++)
+            for (int i = 0; i < 13; i++)
                 print_text("                                                                               ");
         }
         else if (this->mSelectedGroup == 2)
@@ -239,6 +275,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [X] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [ ] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
+            print_text("                        Use ',' or '.' after selecting a parameter to change it");
             groupB->getNumChannels(&numChannels);
             for (int i = 0; i < numChannels; i++) 
             {
@@ -249,7 +286,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
                 print_text("%d [ ] %s                                                                      "
                     , i + 1, soundName);
             }
-            for (int i = 0; i < 14; i++)
+            for (int i = 0; i < 13; i++)
                 print_text("                                                                               ");
         }
         else
@@ -260,6 +297,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [X] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [ ] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
+            print_text("                        Use ',' or '.' after selecting a parameter to change it");
             groupC->getNumChannels(&numChannels);
             for (int i = 0; i < numChannels; i++)
             {
@@ -270,7 +308,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
                 print_text("%d [ ] %s                                                                      "
                     , i + 1, soundName);
             }
-            for (int i = 0; i < 14; i++)
+            for (int i = 0; i < 13; i++)
                 print_text("                                                                               ");
         }
     }
@@ -287,6 +325,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [X] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [ ] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
+            print_text("                        Use ',' or '.' after selecting a parameter to change it");
             for (int i = 0; i < numChannels; i++)
             {
                 groupA->getChannel(i, &chann);
@@ -348,6 +387,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [X] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [ ] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
+            print_text("                        Use ',' or '.' after selecting a parameter to change it");
             for (int i = 0; i < numChannels; i++)
             {
                 groupB->getChannel(i, &chann);
@@ -409,6 +449,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [X] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [ ] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
+            print_text("                        Use ',' or '.' after selecting a parameter to change it");
             for (int i = 0; i < numChannels; i++)
             {
                 groupC->getChannel(i, &chann);
@@ -476,6 +517,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [X] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [ ] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
+            print_text("                        Use ',' or '.' after selecting a parameter to change it");
             for (int i = 0; i < numChannels; i++)
             {
                 groupA->getChannel(i, &chann);
@@ -537,6 +579,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [X] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [ ] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
+            print_text("                        Use ',' or '.' after selecting a parameter to change it");
             for (int i = 0; i < numChannels; i++)
             {
                 groupB->getChannel(i, &chann);
@@ -598,6 +641,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [X] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [ ] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
+            print_text("                        Use ',' or '.' after selecting a parameter to change it");
             for (int i = 0; i < numChannels; i++)
             {
                 groupC->getChannel(i, &chann);
@@ -665,6 +709,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [X] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [ ] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
+            print_text("                        Use ',' or '.' after selecting a parameter to change it");
             for (int i = 0; i < numChannels; i++)
             {
                 groupA->getChannel(i, &chann);
@@ -726,6 +771,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [X] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [ ] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
+            print_text("                        Use ',' or '.' after selecting a parameter to change it");
             for (int i = 0; i < numChannels; i++)
             {
                 groupB->getChannel(i, &chann);
@@ -787,6 +833,7 @@ void cConsoleState::printScreen(FMOD::ChannelGroup* groupA, FMOD::ChannelGroup* 
             print_text("  [X] Change aspects of a sound (volume, balance, etc)                         ");
             print_text("  [ ] Apply DSP effects to the selected group                                  ");
             print_text("-------------------------------------------------------------------------------");
+            print_text("                        Use ',' or '.' after selecting a parameter to change it");
             for (int i = 0; i < numChannels; i++)
             {
                 groupC->getChannel(i, &chann);
@@ -1159,45 +1206,45 @@ void cConsoleState::handle_keyboard()
     }
 
 
-    //===============================================================================================
-    //Arrow UP
-    else if ((GetKeyState(VK_UP) < 0) && !mkeydown) {
-        mkeydown = true;
-        //YOUR CODE HERE
+    ////===============================================================================================
+    ////Arrow UP
+    //else if ((GetKeyState(VK_UP) < 0) && !mkeydown) {
+    //    mkeydown = true;
+    //    //YOUR CODE HERE
 
-        Sleep(sleep_ms);
-        mkeydown = false;
-    }
+    //    Sleep(sleep_ms);
+    //    mkeydown = false;
+    //}
 
-    //===============================================================================================
-    //Arrow Down
-    else if ((GetKeyState(VK_DOWN) < 0) && !mkeydown) {
-        mkeydown = true;
-        //YOUR CODE HERE
+    ////===============================================================================================
+    ////Arrow Down
+    //else if ((GetKeyState(VK_DOWN) < 0) && !mkeydown) {
+    //    mkeydown = true;
+    //    //YOUR CODE HERE
 
-        Sleep(sleep_ms);
-        mkeydown = false;
-    }
+    //    Sleep(sleep_ms);
+    //    mkeydown = false;
+    //}
 
-    //===============================================================================================
-    //Arrow right
-    else if ((GetKeyState(VK_RIGHT) < 0) && !mkeydown) {
-        mkeydown = true;
-        //YOUR CODE HERE
+    ////===============================================================================================
+    ////Arrow right
+    //else if ((GetKeyState(VK_RIGHT) < 0) && !mkeydown) {
+    //    mkeydown = true;
+    //    //YOUR CODE HERE
 
-        Sleep(sleep_ms);
-        mkeydown = false;        
-    }
+    //    Sleep(sleep_ms);
+    //    mkeydown = false;        
+    //}
 
-    //===============================================================================================
-    //Arrow left
-    else if ((GetKeyState(VK_LEFT) < 0) && !mkeydown) {
-        mkeydown = true;
-        //YOUR CODE HERE
+    ////===============================================================================================
+    ////Arrow left
+    //else if ((GetKeyState(VK_LEFT) < 0) && !mkeydown) {
+    //    mkeydown = true;
+    //    //YOUR CODE HERE
 
-        Sleep(sleep_ms);
-        mkeydown = false;        
-    }
+    //    Sleep(sleep_ms);
+    //    mkeydown = false;        
+    //}
 
     //===============================================================================================
     //Comma
@@ -1212,6 +1259,7 @@ void cConsoleState::handle_keyboard()
                 if (theVolume < 0.006f)
                 {
                     theVolume = 0.0f;
+                    chann->setVolume(theVolume);
                     Sleep(sleep_ms);
                     mkeydown = false;
                     return;
@@ -1263,6 +1311,8 @@ void cConsoleState::handle_keyboard()
                 return;
             }
         }
+        Sleep(sleep_ms);
+        mkeydown = false;
     }
      
     //===============================================================================================
@@ -1278,6 +1328,7 @@ void cConsoleState::handle_keyboard()
                 if (theVolume > 0.994f)
                 {
                     theVolume = 1.0f;
+                    chann->setVolume(theVolume);
                     Sleep(sleep_ms);
                     mkeydown = false;
                     return;
@@ -1329,6 +1380,8 @@ void cConsoleState::handle_keyboard()
                 return;
             }
         }
+        Sleep(sleep_ms);
+        mkeydown = false;
     }
 
     //===============================================================================================
