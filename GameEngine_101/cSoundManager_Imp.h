@@ -2,10 +2,12 @@
 #define _cSoundManager_Imp_HG_
 
 #include <vector>
+#include "cConsoleState.h"
 #include <fmod\fmod.hpp>
 #include <fmod\fmod_errors.h>
 #include <glm\vec3.hpp>
 #include "cSoundObject.h"
+
 
 class cSoundManager_Imp
 {
@@ -26,18 +28,24 @@ private:
     
     std::vector<cSoudObject*> soundObjects;
 
+    cConsoleState screenState;
+
     FMOD_RESULT mresult;
     FMOD::System* msystem;
     std::vector<FMOD::Sound*> msounds;
     std::vector<FMOD::Channel*> mchannels;
+    
+    // Channel groups
+    FMOD::ChannelGroup *groupA, *groupB, *groupC, *masterGroup;
+
     //Master channel group
     FMOD::ChannelGroup* mastergroup;
 
     //DSP variables
-    FMOD::DSP* dsplowpass;
-    FMOD::DSP* dsphighpass;
-    FMOD::DSP* dspecho;
-    FMOD::DSP* dspflange;
+    FMOD::DSP* dspEcho;
+    FMOD::DSP* dspChorus;
+    FMOD::DSP* dspDistortion;
+    FMOD::DSP* dspLowpass;
 
     FMOD_VECTOR mlistenerposition;
     FMOD_VECTOR mforward;
