@@ -297,6 +297,12 @@ int main()
     // Will be used in the physics step
     double lastTimeStep = glfwGetTime();
 
+    //=========================================================================
+    // Clear the screen
+    // REMOVE AFTER MEDIA Project
+    system("cls");
+    //=========================================================================
+
     // Main game or application loop
     while (!glfwWindowShouldClose(window))
     {
