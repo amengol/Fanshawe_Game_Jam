@@ -9,11 +9,7 @@ int get_FMOD_Type(std::string token);
 cSoundManager_Imp::cSoundManager_Imp()
 {
     this->msystem = NULL;
-    this->mastergroup = 0;
-    this->dsplowpass = 0;
-    this->dsphighpass = 0;
-    this->dspecho = 0;
-    this->dspflange = 0;
+    this->dspEcho = 0;
     this->mlistenerposition = { 0.0f, 0.0f, -5.0f };
     this->mforward = { 0.0f, 0.0f, 1.0f };
     this->mup = { 0.0f, 1.0f, 0.0f };
@@ -62,19 +58,23 @@ void cSoundManager_Imp::initSoundScene()
 
     init_fmod();
 
+    
+
     ////Get master channel group
     //mresult = msystem->getMasterChannelGroup(&mastergroup);
     //errorcheck(mresult);
 
-    ////Create DSP effects
+    //Create DSP effects
     //mresult = msystem->createDSPByType(FMOD_DSP_TYPE_LOWPASS, &dsplowpass);
     //errorcheck(mresult);
     //mresult = msystem->createDSPByType(FMOD_DSP_TYPE_HIGHPASS, &dsphighpass);
     //errorcheck(mresult);
-    //mresult = msystem->createDSPByType(FMOD_DSP_TYPE_ECHO, &dspecho);
+    //mresult = msystem->createDSPByType(FMOD_DSP_TYPE_ECHO, &dspEcho);
     //errorcheck(mresult);
     //mresult = msystem->createDSPByType(FMOD_DSP_TYPE_FLANGE, &dspflange);
     //errorcheck(mresult);
+
+
 
     ////Add effects to master channel group.
     //mresult = mastergroup->addDSP(0, dsplowpass);
@@ -148,9 +148,94 @@ void cSoundManager_Imp::initSoundScene()
             mresult = mchannels[i]->setVolume(0.005f);
             errorcheck(mresult);
         }
+    }
 
+    // Create group channels
+    mresult = msystem->createChannelGroup("Group A", &groupA);
+    errorcheck(mresult);
+    mresult = msystem->createChannelGroup("Group B", &groupB);
+    errorcheck(mresult);
+    mresult = msystem->createChannelGroup("Group C", &groupC);
+    errorcheck(mresult);
 
+    //mresult = msystem->getMasterChannelGroup(&masterGroup);
+    //errorcheck(mresult);
+    //mresult = masterGroup->addGroup(groupA);
+    //errorcheck(mresult);
+    //mresult = masterGroup->addGroup(groupB);
+    //errorcheck(mresult);
+    //mresult = masterGroup->addGroup(groupC);
+    //errorcheck(mresult);
+    //
+    //mresult = msystem->getMasterChannelGroup(&masterGroup);
+    //errorcheck(mresult);
 
+    //mresult = masterGroup->addGroup(groupA);
+    //errorcheck(mresult);
+    //mresult = masterGroup->addGroup(groupB);
+    //errorcheck(mresult);
+    //mresult = masterGroup->addGroup(groupC);
+    //errorcheck(mresult);
+
+    // Create DSP effect
+    mresult = msystem->createDSPByType(FMOD_DSP_TYPE_ECHO, &dspEcho);
+    errorcheck(mresult);
+    mresult = msystem->createDSPByType(FMOD_DSP_TYPE_CHORUS, &dspChorus);
+    errorcheck(mresult);
+    mresult = msystem->createDSPByType(FMOD_DSP_TYPE_DISTORTION, &dspDistortion);
+    errorcheck(mresult);
+    mresult = msystem->createDSPByType(FMOD_DSP_TYPE_LOWPASS, &dspLowpass);
+    errorcheck(mresult);    
+    
+    
+    // Add effects to a group
+    mresult = groupA->addDSP(1, dspEcho);
+    errorcheck(mresult);
+    mresult = groupA->addDSP(2, dspChorus);
+    errorcheck(mresult);
+    mresult = groupA->addDSP(3, dspDistortion);
+    errorcheck(mresult);
+    mresult = groupB->addDSP(1, dspLowpass);
+    errorcheck(mresult);
+
+    //Bypass the effects
+    mresult = dspEcho->setBypass(true);
+    errorcheck(mresult);
+    mresult = dspChorus->setBypass(true);
+    errorcheck(mresult);
+    mresult = dspDistortion->setBypass(true);
+    errorcheck(mresult);
+    mresult = dspLowpass->setBypass(true);
+    errorcheck(mresult);
+
+    // Only load 9 stream sounds into the group channels
+    int countGA = 0;
+    int countGB = 0;
+    int countGC = 0;
+
+    for (int i = 0; i < mchannels.size(); i++)
+    {
+        // Check if it is a stream sound
+        int channelMod= soundObjects.at(i)->getFMODType();
+
+        if (channelMod != FMOD_CREATESTREAM)
+            continue;
+
+        if (countGA < 3)
+        {
+            mresult = mchannels[i]->setChannelGroup(groupA);
+            countGA++;
+        }
+        else if (countGB < 3)
+        {
+            mresult = mchannels[i]->setChannelGroup(groupB);
+            countGB++;
+        }
+        else if (countGC < 3)
+        {
+            mresult = mchannels[i]->setChannelGroup(groupC);
+            countGC++;
+        }
     }
     
     if (this->soundObjects.size() == 0)
@@ -159,12 +244,6 @@ void cSoundManager_Imp::initSoundScene()
         system("pause");
         exit(-1);
     }
-
-
-
-    
-
-
 
 }
 
@@ -179,6 +258,9 @@ void cSoundManager_Imp::updateSoundScene(glm::vec3 listener)
     mresult = msystem->set3DListenerAttributes(0, &mlistenerposition, &mvel, &mforward, &mup);
     mresult = msystem->update();
     errorcheck(mresult);
+    
+    screenState.printScreen(groupA, groupB, groupC);
+
 }
 
 bool cSoundManager_Imp::loadSoundParameters(std::string configFile)
