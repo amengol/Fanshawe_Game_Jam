@@ -1,10 +1,13 @@
 #include "cSoundManager_Imp.h"
 #include <fstream>
 #include <iostream>
+#include "cGameObject.h"
 
 // Function signature
 void errorcheck(FMOD_RESULT result);
 int get_FMOD_Type(std::string token);
+
+extern std::vector< cGameObject* >  g_vecGameObjects;
 
 cSoundManager_Imp::cSoundManager_Imp()
 {
@@ -58,43 +61,6 @@ void cSoundManager_Imp::initSoundScene()
 
     init_fmod();
 
-    
-
-    ////Get master channel group
-    //mresult = msystem->getMasterChannelGroup(&mastergroup);
-    //errorcheck(mresult);
-
-    //Create DSP effects
-    //mresult = msystem->createDSPByType(FMOD_DSP_TYPE_LOWPASS, &dsplowpass);
-    //errorcheck(mresult);
-    //mresult = msystem->createDSPByType(FMOD_DSP_TYPE_HIGHPASS, &dsphighpass);
-    //errorcheck(mresult);
-    //mresult = msystem->createDSPByType(FMOD_DSP_TYPE_ECHO, &dspEcho);
-    //errorcheck(mresult);
-    //mresult = msystem->createDSPByType(FMOD_DSP_TYPE_FLANGE, &dspflange);
-    //errorcheck(mresult);
-
-
-
-    ////Add effects to master channel group.
-    //mresult = mastergroup->addDSP(0, dsplowpass);
-    //errorcheck(mresult);
-    //mresult = mastergroup->addDSP(0, dsphighpass);
-    //errorcheck(mresult);
-    //mresult = mastergroup->addDSP(0, dspecho);
-    //errorcheck(mresult);
-    //mresult = mastergroup->addDSP(0, dspflange);
-    //errorcheck(mresult);
-
-    ////Bypass all effects, this plays the sound with no effects.
-    //mresult = dsplowpass->setBypass(true);
-    //errorcheck(mresult);
-    //mresult = dsphighpass->setBypass(true);;
-    //errorcheck(mresult);
-    //mresult = dspecho->setBypass(true);
-    //errorcheck(mresult);
-    //mresult = dspflange->setBypass(true);
-    //errorcheck(mresult);
 
     // Sounds initializations
     for (int i = 0; i < this->soundObjects.size(); i++)
@@ -119,7 +85,7 @@ void cSoundManager_Imp::initSoundScene()
             mresult = msounds[i]->setMode(FMOD_LOOP_NORMAL);
             errorcheck(mresult);
 
-            mresult = msounds[i]->set3DMinMaxDistance(0.3f, 5000.0f);
+            mresult = msounds[i]->set3DMinMaxDistance(0.4f, 5000.0f);
             errorcheck(mresult);
 
             //play sound as paused, we will set 3d settings after
@@ -131,7 +97,12 @@ void cSoundManager_Imp::initSoundScene()
             //unpause
             mresult = mchannels[i]->setPaused(false);
             errorcheck(mresult);
-
+            // Set volume
+            mresult = mchannels[i]->setVolume(this->soundObjects[i]->getVolume());
+            errorcheck(mresult);
+            // Set mute
+            mresult = mchannels[i]->setMute(this->soundObjects[i]->getMute());
+            errorcheck(mresult);
         }
         else
         {
@@ -145,7 +116,12 @@ void cSoundManager_Imp::initSoundScene()
             mresult = msystem->playSound(msounds[i], 0, false, &mchannels[i]);
             errorcheck(mresult);
 
-            mresult = mchannels[i]->setVolume(0.005f);
+            // Set volume
+            mresult = mchannels[i]->setVolume(this->soundObjects[i]->getVolume());
+            errorcheck(mresult);
+            
+            // Set mute
+            mresult = mchannels[i]->setMute(this->soundObjects[i]->getMute());
             errorcheck(mresult);
         }
     }
@@ -186,7 +162,16 @@ void cSoundManager_Imp::initSoundScene()
     errorcheck(mresult);
     mresult = msystem->createDSPByType(FMOD_DSP_TYPE_LOWPASS, &dspLowpass);
     errorcheck(mresult);    
-    
+    mresult = msystem->createDSPByType(FMOD_DSP_TYPE_TREMOLO, &dspTremolo);
+    errorcheck(mresult);
+    mresult = msystem->createDSPByType(FMOD_DSP_TYPE_FLANGE, &dspFlange);
+    errorcheck(mresult); 
+    mresult = msystem->createDSPByType(FMOD_DSP_TYPE_PITCHSHIFT, &dspPitchShift);
+    errorcheck(mresult); 
+    mresult = msystem->createDSPByType(FMOD_DSP_TYPE_SFXREVERB, &dspSFXReverb);
+    errorcheck(mresult); 
+    mresult = msystem->createDSPByType(FMOD_DSP_TYPE_HIGHPASS, &dspHighpass);
+    errorcheck(mresult); 
     
     // Add effects to a group
     mresult = groupA->addDSP(1, dspEcho);
@@ -197,6 +182,16 @@ void cSoundManager_Imp::initSoundScene()
     errorcheck(mresult);
     mresult = groupB->addDSP(1, dspLowpass);
     errorcheck(mresult);
+    mresult = groupB->addDSP(2, dspTremolo);
+    errorcheck(mresult);
+    mresult = groupB->addDSP(3, dspFlange);
+    errorcheck(mresult);
+    mresult = groupC->addDSP(1, dspPitchShift);
+    errorcheck(mresult);
+    mresult = groupC->addDSP(2, dspSFXReverb);
+    errorcheck(mresult);
+    mresult = groupC->addDSP(3, dspHighpass);
+    errorcheck(mresult);
 
     //Bypass the effects
     mresult = dspEcho->setBypass(true);
@@ -206,6 +201,18 @@ void cSoundManager_Imp::initSoundScene()
     mresult = dspDistortion->setBypass(true);
     errorcheck(mresult);
     mresult = dspLowpass->setBypass(true);
+    errorcheck(mresult);
+    mresult = dspTremolo->setBypass(true);
+    errorcheck(mresult);
+    mresult = dspFlange->setBypass(true);
+    errorcheck(mresult);
+    mresult = dspPitchShift->setBypass(true);
+    errorcheck(mresult);
+    mresult = dspSFXReverb->setParameterFloat(FMOD_DSP_SFXREVERB_DIFFUSION, 20.0f);
+    errorcheck(mresult);
+    mresult = dspSFXReverb->setBypass(true);
+    errorcheck(mresult);
+    mresult = dspHighpass->setBypass(true);
     errorcheck(mresult);
 
     // Only load 9 stream sounds into the group channels
@@ -254,8 +261,30 @@ void cSoundManager_Imp::updateSoundScene(glm::vec3 listener)
     this->mlistenerposition.y = listener.y;
     this->mlistenerposition.z = listener.z;
 
+
+
+
     //Important to update msystem
     mresult = msystem->set3DListenerAttributes(0, &mlistenerposition, &mvel, &mforward, &mup);
+    errorcheck(mresult);
+
+    for (int i = 0; i < soundObjects.size(); i++)
+    {
+        if (soundObjects.at(i)->getMovType() == 2)
+        {
+            //set 3d attributes
+            FMOD_VECTOR sound_velocity = { 0.0f, 0.0f, 0.0f };
+            FMOD_VECTOR sound_position = { 0.0f, 0.0f, 0.0f };
+            glm::vec3 v3SoundPos = this->soundObjects[i]->getPosition();
+            sound_position.x = v3SoundPos.x;
+            sound_position.y = v3SoundPos.y;
+            sound_position.z = v3SoundPos.z;
+
+            mresult = mchannels[i]->set3DAttributes(&sound_position, &sound_velocity);
+            errorcheck(mresult);
+        }
+    }
+
     mresult = msystem->update();
     errorcheck(mresult);
     
@@ -265,8 +294,7 @@ void cSoundManager_Imp::updateSoundScene(glm::vec3 listener)
 
 bool cSoundManager_Imp::loadSoundParameters(std::string configFile)
 {
-
-
+    
     std::ifstream file(configFile.c_str());
 
     if (!file.is_open())
@@ -307,6 +335,18 @@ bool cSoundManager_Imp::loadSoundParameters(std::string configFile)
             so->setFMODType(FMOD_3D);
             file >> token;
             so->setfriendlyName(token);
+            
+            int type;
+            if (!(file >> type))
+            {
+                std::cout << "There were a problem reading a model "
+                    "movement's type in the config file at line "
+                    << line << std::endl;
+                return false;
+            }
+
+            so->setMovType(type);
+
             float xPos, yPos, zPos;
             if (!(file >> xPos >> yPos >> zPos))
             {
@@ -318,7 +358,26 @@ bool cSoundManager_Imp::loadSoundParameters(std::string configFile)
             glm::vec3 position(xPos, yPos, zPos);
             so->setPosition(position);
             file >> token;
-            so->setSource(token);
+            so->setSource(token);            
+            float volume;
+            file >> volume;
+            so->setVolume(volume);
+            bool mute;
+            file >> mute;
+            so->setMute(mute);
+
+            // For type 2 sounds, you control through Game Objects
+            for (int i = 0; i < g_vecGameObjects.size(); i++)
+            {
+                if (g_vecGameObjects[i]->hasSound() && (g_vecGameObjects[i]->getSoundName() == so->getFriendlyName()))
+                {
+                    cSoudObject* movSO = g_vecGameObjects[i]->getSoundObject();                    
+                    movSO->setSource(so->getSource());
+                    this->soundObjects.push_back(movSO);
+                }
+
+            }
+
             this->soundObjects.push_back(so);
             file >> token;
             continue;
@@ -329,6 +388,12 @@ bool cSoundManager_Imp::loadSoundParameters(std::string configFile)
         so->setfriendlyName(token);
         file >> token;
         so->setSource(token);
+        float volume;
+        file >> volume;
+        so->setVolume(volume);
+        bool mute;
+        file >> mute;
+        so->setMute(mute);
         this->soundObjects.push_back(so);
         file >> token;
 

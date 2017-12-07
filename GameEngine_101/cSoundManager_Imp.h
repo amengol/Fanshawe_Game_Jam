@@ -46,11 +46,17 @@ private:
     FMOD::DSP* dspChorus;
     FMOD::DSP* dspDistortion;
     FMOD::DSP* dspLowpass;
+    FMOD::DSP* dspTremolo;
+    FMOD::DSP* dspFlange;
+    FMOD::DSP* dspPitchShift;
+    FMOD::DSP* dspSFXReverb;
+    FMOD::DSP* dspHighpass;
 
     FMOD_VECTOR mlistenerposition;
     FMOD_VECTOR mforward;
     FMOD_VECTOR mup;
     FMOD_VECTOR mvel;
+    FMOD_VECTOR mViperPosition;
 
 };
 
