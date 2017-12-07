@@ -71,12 +71,6 @@ static void error_callback(int error, const char* description)
 
 int main()
 {
-    //=========================================================================
-    // Sound things
-    g_pSoundManager = new cSoundManager();
-    g_pSoundManager->initSoundScene();
-    //=========================================================================
-
     GLFWwindow* window;
     GLint mvp_location;
     glfwSetErrorCallback(error_callback);
@@ -191,6 +185,12 @@ int main()
     extern void LoadModelsIntoScene(void);
     LoadModelsIntoScene();
 
+    //=========================================================================
+    // Sound things
+    g_pSoundManager = new cSoundManager();
+    g_pSoundManager->initSoundScene();
+    //=========================================================================
+
     // End of loading models
     //-------------------------------------------------------------------------
 
@@ -229,25 +229,25 @@ int main()
     ::g_pLightManager->vecLights[1].attenuation.z = 0.04f;		// Change the quadratic attenuation
 
     // Engine2 light
-    ::g_pLightManager->vecLights[2].position = glm::vec3(32.0799f, 21.81f, 241.454f);
-    ::g_pLightManager->vecLights[2].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
-    ::g_pLightManager->vecLights[2].attenuation.x = 1.0f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[2].attenuation.y = 0.05f;		// Change the linear attenuation
-    ::g_pLightManager->vecLights[2].attenuation.z = 0.04f;		// Change the quadratic attenuation
+    //::g_pLightManager->vecLights[2].position = glm::vec3(32.0799f, 21.81f, 241.454f);
+    //::g_pLightManager->vecLights[2].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
+    //::g_pLightManager->vecLights[2].attenuation.x = 1.0f;		// Change the costant attenuation
+    //::g_pLightManager->vecLights[2].attenuation.y = 0.05f;		// Change the linear attenuation
+    //::g_pLightManager->vecLights[2].attenuation.z = 0.04f;		// Change the quadratic attenuation
 
     // Engine3 light
-    ::g_pLightManager->vecLights[3].position = glm::vec3(-28.4753f, -13.04f, 223.99f);
-    ::g_pLightManager->vecLights[3].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
-    ::g_pLightManager->vecLights[3].attenuation.x = 1.0f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[3].attenuation.y = 0.05f;		// Change the linear attenuation
-    ::g_pLightManager->vecLights[3].attenuation.z = 0.04f;		// Change the quadratic attenuation
+    //::g_pLightManager->vecLights[3].position = glm::vec3(-28.4753f, -13.04f, 223.99f);
+    //::g_pLightManager->vecLights[3].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
+    //::g_pLightManager->vecLights[3].attenuation.x = 1.0f;		// Change the costant attenuation
+    //::g_pLightManager->vecLights[3].attenuation.y = 0.05f;		// Change the linear attenuation
+    //::g_pLightManager->vecLights[3].attenuation.z = 0.04f;		// Change the quadratic attenuation
 
     // Engine4 light
-    ::g_pLightManager->vecLights[4].position = glm::vec3(28.4753f, -13.04f, 223.99f);
-    ::g_pLightManager->vecLights[4].diffuse = glm::vec3(1.74f, 2.15f, 3.0f);		// Change the costant attenuation
-    ::g_pLightManager->vecLights[4].attenuation.x = 1.0f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[4].attenuation.y = 0.05f;		// Change the linear attenuation
-    ::g_pLightManager->vecLights[4].attenuation.z = 0.04f;		// Change the quadratic attenuation
+    //::g_pLightManager->vecLights[4].position = glm::vec3(28.4753f, -13.04f, 223.99f);
+    //::g_pLightManager->vecLights[4].diffuse = glm::vec3(1.74f, 2.15f, 3.0f);		// Change the costant attenuation
+    //::g_pLightManager->vecLights[4].attenuation.x = 1.0f;		// Change the costant attenuation
+    //::g_pLightManager->vecLights[4].attenuation.y = 0.05f;		// Change the linear attenuation
+    //::g_pLightManager->vecLights[4].attenuation.z = 0.04f;		// Change the quadratic attenuation
 
     // Back Left Landing Pod light
     ::g_pLightManager->vecLights[5].position = glm::vec3(-69.3394f, 5.96f, 97.5041f);
@@ -282,12 +282,13 @@ int main()
     // Camera
 
     g_pCamera = new cCameraObject();
-    g_pCamera->setCameraPosition(glm::vec3(-148.048f, 20.427f, 266.741f)); // Question5
+    g_pCamera->setCameraPosition(glm::vec3(-124.5f, 30.0f, 349.453f)); // Media assignment
+    //g_pCamera->setCameraPosition(glm::vec3(-148.048f, 20.427f, 266.741f)); // Question5
     //g_pCamera->setCameraPosition(glm::vec3(-206.226, 79.9552f, -606.804f)); // Question4
     //g_pCamera->setCameraPosition(glm::vec3(0.0f, 90.0f, -46.0f)); // Bridge position
     //g_pCamera->setCameraPosition(glm::vec3(22.399f, -0.50f, -287.0f)); // Near the viper
     g_pCamera->setCameraOrientationY(-30.0f);
-    g_pCamera->setCameraOrientationX(-10.0f);
+    //g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
     //-------------------------------------------------------------------------
