@@ -92,6 +92,12 @@
     <ClCompile Include="cSoundObject.cpp">
       <Filter>Sound Related</Filter>
     </ClCompile>
+    <ClCompile Include="include\utils\utils.cpp">
+      <Filter>Sound Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cConsoleState.cpp">
+      <Filter>Sound Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModelUtilities.h">
@@ -134,6 +140,12 @@
       <Filter>Sound Related</Filter>
     </ClInclude>
     <ClInclude Include="cSoundObject.h">
+      <Filter>Sound Related</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\utils.h">
+      <Filter>Sound Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cConsoleState.h">
       <Filter>Sound Related</Filter>
     </ClInclude>
   </ItemGroup>

@@ -90,6 +90,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>fmod_vc.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -139,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cCameraObject.cpp" />
+    <ClCompile Include="cConsoleState.cpp" />
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cLightManager.cpp" />
     <ClCompile Include="cMesh.cpp" />
@@ -152,12 +154,14 @@
     <ClCompile Include="cVertex_xyz_rgb_n.cpp" />
     <ClCompile Include="GE101_Main.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="include\utils\utils.cpp" />
     <ClCompile Include="ModelUtilities.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cCameraObject.h" />
+    <ClInclude Include="cConsoleState.h" />
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cLightManager.h" />
     <ClInclude Include="cMesh.h" />
@@ -168,6 +172,7 @@
     <ClInclude Include="cTriangle.h" />
     <ClInclude Include="cVAOMeshManager.h" />
     <ClInclude Include="cVertex_xyz_rgb_n.h" />
+    <ClInclude Include="include\utils\utils.h" />
     <ClInclude Include="ModelUtilities.h" />
     <ClInclude Include="sVAOInfo.h" />
     <ClInclude Include="Utilities.h" />
