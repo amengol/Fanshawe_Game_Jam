@@ -20,7 +20,7 @@ void LoadModelsIntoScene(void)
 	}
 
     //=========================================================================
-    // Create and place 24 Vipers
+    // Create and place 16 Vipers
 
     for (int i = 0; i < 16; i++)
     {
@@ -64,6 +64,7 @@ void LoadModelsIntoScene(void)
         pRaider->meshName = "Raider";
         pRaider->bIsUpdatedInPhysics = true;
         pRaider->bIsWireFrame = false;
+        pRaider->initSoundObject("Raider");
         ::g_vecGameObjects.push_back(pRaider);
     }
 
