@@ -134,25 +134,6 @@ void cSoundManager_Imp::initSoundScene()
     mresult = msystem->createChannelGroup("Group C", &groupC);
     errorcheck(mresult);
 
-    //mresult = msystem->getMasterChannelGroup(&masterGroup);
-    //errorcheck(mresult);
-    //mresult = masterGroup->addGroup(groupA);
-    //errorcheck(mresult);
-    //mresult = masterGroup->addGroup(groupB);
-    //errorcheck(mresult);
-    //mresult = masterGroup->addGroup(groupC);
-    //errorcheck(mresult);
-    //
-    //mresult = msystem->getMasterChannelGroup(&masterGroup);
-    //errorcheck(mresult);
-
-    //mresult = masterGroup->addGroup(groupA);
-    //errorcheck(mresult);
-    //mresult = masterGroup->addGroup(groupB);
-    //errorcheck(mresult);
-    //mresult = masterGroup->addGroup(groupC);
-    //errorcheck(mresult);
-
     // Create DSP effect
     mresult = msystem->createDSPByType(FMOD_DSP_TYPE_ECHO, &dspEcho);
     errorcheck(mresult);
@@ -287,8 +268,6 @@ void cSoundManager_Imp::updateSoundScene(glm::vec3 listener)
 
     mresult = msystem->update();
     errorcheck(mresult);
-    
-    screenState.printScreen(groupA, groupB, groupC);
 
 }
 

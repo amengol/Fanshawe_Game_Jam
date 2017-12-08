@@ -2,7 +2,6 @@
 #define _cSoundManager_Imp_HG_
 
 #include <vector>
-#include "cConsoleState.h"
 #include <fmod\fmod.hpp>
 #include <fmod\fmod_errors.h>
 #include <glm\vec3.hpp>
@@ -28,7 +27,6 @@ private:
     
     std::vector<cSoudObject*> soundObjects;
 
-    cConsoleState screenState;
 
     FMOD_RESULT mresult;
     FMOD::System* msystem;
