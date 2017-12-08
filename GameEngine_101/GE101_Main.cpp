@@ -283,12 +283,12 @@ int main()
     // Camera
 
     g_pCamera = new cCameraObject();
-    g_pCamera->setCameraPosition(glm::vec3(-124.5f, 30.0f, 349.453f)); // Media assignment
-    //g_pCamera->setCameraPosition(glm::vec3(-148.048f, 20.427f, 266.741f)); // Question5
+    //g_pCamera->setCameraPosition(glm::vec3(-124.5f, 30.0f, 349.453f)); // Media assignment
+    g_pCamera->setCameraPosition(glm::vec3(-74.4702f, 9.6897f, 213.803)); // Question5
     //g_pCamera->setCameraPosition(glm::vec3(-206.226, 79.9552f, -606.804f)); // Question4
     //g_pCamera->setCameraPosition(glm::vec3(0.0f, 90.0f, -46.0f)); // Bridge position
     //g_pCamera->setCameraPosition(glm::vec3(22.399f, -0.50f, -287.0f)); // Near the viper
-    g_pCamera->setCameraOrientationY(-30.0f);
+    g_pCamera->setCameraOrientationY(-10.0f);
     //g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
@@ -298,12 +298,6 @@ int main()
 
     // Will be used in the physics step
     double lastTimeStep = glfwGetTime();
-
-    //=========================================================================
-    // Clear the screen
-    // REMOVE AFTER MEDIA Project
-    system("cls");
-    //=========================================================================
 
     // Main game or application loop
     while (!glfwWindowShouldClose(window))
