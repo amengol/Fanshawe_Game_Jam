@@ -5,6 +5,7 @@
 #include <glm/vec4.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include <string>
+#include "cSoundObject.h"
 //#include "cDebugRenderer.h"
 
 enum eTypeOfObject
@@ -49,8 +50,18 @@ public:
     void rotateX(float degreesX);
     void rotateY(float degreesY);
     void rotateZ(float degreesZ);
+
+    bool initSoundObject(std::string name);
+    bool hasSound();
+    cSoudObject* getSoundObject();
+    std::string getSoundName();
  
  private:
  	//cDebugRenderer* m_pTheDR;
+    // **********************************
+    // Sound properties
+     cSoudObject* mGOSound;
+     bool mHasSound;
+     // **********************************
 };
 #endif
