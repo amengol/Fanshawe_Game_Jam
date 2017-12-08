@@ -141,7 +141,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cCameraObject.cpp" />
-    <ClCompile Include="cConsoleState.cpp" />
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cLightManager.cpp" />
     <ClCompile Include="cMesh.cpp" />
@@ -155,14 +154,12 @@
     <ClCompile Include="cVertex_xyz_rgb_n.cpp" />
     <ClCompile Include="GE101_Main.cpp" />
     <ClCompile Include="glad.c" />
-    <ClCompile Include="include\utils\utils.cpp" />
     <ClCompile Include="ModelUtilities.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cCameraObject.h" />
-    <ClInclude Include="cConsoleState.h" />
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cLightManager.h" />
     <ClInclude Include="cMesh.h" />
@@ -173,7 +170,6 @@
     <ClInclude Include="cTriangle.h" />
     <ClInclude Include="cVAOMeshManager.h" />
     <ClInclude Include="cVertex_xyz_rgb_n.h" />
-    <ClInclude Include="include\utils\utils.h" />
     <ClInclude Include="ModelUtilities.h" />
     <ClInclude Include="sVAOInfo.h" />
     <ClInclude Include="Utilities.h" />
