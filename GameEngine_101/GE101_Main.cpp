@@ -45,7 +45,8 @@ glm::vec3 g_cameraXYZ = glm::vec3(0.0f, 51.0f, 122.0f);
 glm::vec3 g_cameraTarget_XYZ = glm::vec3(0.0f, 0.0f, 0.0f);
 
 // To deal with sounds
-cSoundManager* g_pSoundManager = NULL;
+// Disabled for now
+// cSoundManager* g_pSoundManager = NULL;
 
 // Variable to store the camera target through all objects
 int g_objectTurn = 1;
@@ -187,8 +188,8 @@ int main()
 
     //=========================================================================
     // Sound things
-    g_pSoundManager = new cSoundManager();
-    g_pSoundManager->initSoundScene();
+    // g_pSoundManager = new cSoundManager();
+    // g_pSoundManager->initSoundScene();
     //=========================================================================
 
     // End of loading models
@@ -229,25 +230,25 @@ int main()
     ::g_pLightManager->vecLights[1].attenuation.z = 0.04f;		// Change the quadratic attenuation
 
     // Engine2 light
-    //::g_pLightManager->vecLights[2].position = glm::vec3(32.0799f, 21.81f, 241.454f);
-    //::g_pLightManager->vecLights[2].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
-    //::g_pLightManager->vecLights[2].attenuation.x = 1.0f;		// Change the costant attenuation
-    //::g_pLightManager->vecLights[2].attenuation.y = 0.05f;		// Change the linear attenuation
-    //::g_pLightManager->vecLights[2].attenuation.z = 0.04f;		// Change the quadratic attenuation
+    ::g_pLightManager->vecLights[2].position = glm::vec3(32.0799f, 21.81f, 241.454f);
+    ::g_pLightManager->vecLights[2].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
+    ::g_pLightManager->vecLights[2].attenuation.x = 1.0f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[2].attenuation.y = 0.05f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[2].attenuation.z = 0.04f;		// Change the quadratic attenuation
 
     // Engine3 light
-    //::g_pLightManager->vecLights[3].position = glm::vec3(-28.4753f, -13.04f, 223.99f);
-    //::g_pLightManager->vecLights[3].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
-    //::g_pLightManager->vecLights[3].attenuation.x = 1.0f;		// Change the costant attenuation
-    //::g_pLightManager->vecLights[3].attenuation.y = 0.05f;		// Change the linear attenuation
-    //::g_pLightManager->vecLights[3].attenuation.z = 0.04f;		// Change the quadratic attenuation
+    ::g_pLightManager->vecLights[3].position = glm::vec3(-28.4753f, -13.04f, 223.99f);
+    ::g_pLightManager->vecLights[3].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
+    ::g_pLightManager->vecLights[3].attenuation.x = 1.0f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[3].attenuation.y = 0.05f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[3].attenuation.z = 0.04f;		// Change the quadratic attenuation
 
     // Engine4 light
-    //::g_pLightManager->vecLights[4].position = glm::vec3(28.4753f, -13.04f, 223.99f);
-    //::g_pLightManager->vecLights[4].diffuse = glm::vec3(1.74f, 2.15f, 3.0f);		// Change the costant attenuation
-    //::g_pLightManager->vecLights[4].attenuation.x = 1.0f;		// Change the costant attenuation
-    //::g_pLightManager->vecLights[4].attenuation.y = 0.05f;		// Change the linear attenuation
-    //::g_pLightManager->vecLights[4].attenuation.z = 0.04f;		// Change the quadratic attenuation
+    ::g_pLightManager->vecLights[4].position = glm::vec3(28.4753f, -13.04f, 223.99f);
+    ::g_pLightManager->vecLights[4].diffuse = glm::vec3(1.74f, 2.15f, 3.0f);		// Change the costant attenuation
+    ::g_pLightManager->vecLights[4].attenuation.x = 1.0f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[4].attenuation.y = 0.05f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[4].attenuation.z = 0.04f;		// Change the quadratic attenuation
 
     // Back Left Landing Pod light
     ::g_pLightManager->vecLights[5].position = glm::vec3(-69.3394f, 5.96f, 97.5041f);
@@ -309,7 +310,7 @@ int main()
     {
         //=====================================================================
         //Sound
-        g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
+        //g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
         //=====================================================================
 
         float ratio;
@@ -394,7 +395,7 @@ int main()
     
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
-    delete ::g_pSoundManager;
+    //delete ::g_pSoundManager;
 
     return 0;
 
