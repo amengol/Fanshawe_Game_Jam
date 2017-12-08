@@ -64,7 +64,6 @@ void LoadModelsIntoScene(void)
         pRaider->meshName = "Raider";
         pRaider->bIsUpdatedInPhysics = true;
         pRaider->bIsWireFrame = false;
-        pRaider->initSoundObject("Raider");
         ::g_vecGameObjects.push_back(pRaider);
     }
 
