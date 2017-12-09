@@ -60,6 +60,12 @@ GLint uniLoc_materialSpecular = -1;         // rgb = colour of HIGHLIGHT only | 
 GLint uniLoc_bIsDebugWireFrameObject = -1;
 GLint uniLoc_bUseTheVertexColourAsDiffuse = -1;
 
+// Question7 variables
+GLint uniLoc_materialDiffuse_r = -1;
+GLint uniLoc_materialDiffuse_g = -1;
+GLint uniLoc_materialDiffuse_b = -1;
+GLint uniLoc_materialDiffuse_a = -1;
+
 GLint uniLoc_eyePosition = -1;	            // Camera position
 GLint uniLoc_mModel = -1;
 GLint uniLoc_mView = -1;
@@ -151,7 +157,7 @@ int main()
     cShaderManager::cShader fragShader;
 
     vertShader.fileName = "simpleVert.glsl";
-    fragShader.fileName = "simpleFrag.glsl";
+    fragShader.fileName = "Question7.glsl";
 
     ::g_pShaderManager->setBasePath("assets//shaders//");
 
@@ -199,6 +205,10 @@ int main()
 
     mvp_location = glGetUniformLocation(currentProgID, "MVP");
     uniLoc_materialDiffuse = glGetUniformLocation(currentProgID, "materialDiffuse");
+    uniLoc_materialDiffuse_r = glGetUniformLocation(currentProgID, "materialDiffuse_r");
+    uniLoc_materialDiffuse_g = glGetUniformLocation(currentProgID, "materialDiffuse_g");
+    uniLoc_materialDiffuse_b = glGetUniformLocation(currentProgID, "materialDiffuse_b");
+    uniLoc_materialDiffuse_a = glGetUniformLocation(currentProgID, "materialDiffuse_a");
     uniLoc_materialAmbient = glGetUniformLocation(currentProgID, "materialAmbient");
     uniLoc_ambientToDiffuseRatio = glGetUniformLocation(currentProgID, "ambientToDiffuseRatio");
     uniLoc_materialSpecular = glGetUniformLocation(currentProgID, "materialSpecular");
@@ -619,6 +629,14 @@ void DrawObject(cGameObject* pTheGO)
         pTheGO->diffuseColour.g,
         pTheGO->diffuseColour.b,
         pTheGO->diffuseColour.a);
+
+    // Question7
+    // Put a green color
+    glUniform1f(uniLoc_materialDiffuse_r, 0.0f);
+    glUniform1f(uniLoc_materialDiffuse_g, 1.0f);
+    glUniform1f(uniLoc_materialDiffuse_b, 0.0f);
+    glUniform1f(uniLoc_materialDiffuse_a, 1.0f);
+
     //...and all the other object material colours
 
     if (pTheGO->bIsWireFrame)
