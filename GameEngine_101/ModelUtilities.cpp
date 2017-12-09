@@ -223,8 +223,8 @@ bool Load3DModelsIntoMeshManager(int shaderID, cVAOMeshManager* pVAOManager, std
 	{
 		cMesh theMesh;
         theMesh.name = "Galactica";
-        if (!LoadFeeneyPLY("Battlestar_Galactica_ASCII_Res_1_888174_faces_UVVert.ply_x", theMesh))
-        //if (!LoadFeeneyPLY("Battlestar_Galactica_ASCII_Res_4_116617_faces.ply_x", theMesh))
+        //if (!LoadFeeneyPLY("Battlestar_Galactica_ASCII_Res_1_888174_faces_UVVert.ply_x", theMesh))
+        if (!LoadFeeneyPLY("Battlestar_Galactica_ASCII_Res_4_116617_faces.ply_x", theMesh))
         //if ( ! LoadPlyFileIntoMeshWithNormals( "Battlestar_Galactica_ASCII_Res_2_468281_faces_Scale50x.ply", theMesh) )
         //if ( ! LoadPlyFileIntoMeshWithNormals( "Battlestar_Galactica_ASCII_Res_4_116617_faces_Scale50x.ply", theMesh) )
         //if ( ! LoadPlyFileIntoMeshWithNormals( "Battlestar_Galactica_ASCII_Res_1_888174_faces_UVVert_Scale50x.ply", theMesh) )            
