@@ -133,102 +133,16 @@ bool LoadPlyFileIntoMeshWithNormals( std::string filename, cMesh &theMesh )
 	return true;
 }
 
-// Loads Feeney's custom PLY file
-// DELETE after the assignment
-bool LoadFeeneyPLY(std::string filename, cMesh &theMesh)
-{
-    // Load the vertices
-    std::ifstream plyFile(filename.c_str());
-
-    if (!plyFile.is_open())
-    {
-        return false;
-    }
-    // File is open, let's read it
-
-    std::string garbage;
-
-    plyFile >> garbage; // NumberOfTriangles
-    plyFile >> garbage; // =
-    plyFile >> theMesh.numberOfTriangles;
-
-    // Allocate the appropriate sized array
-    theMesh.pTriangles = new cTriangle[theMesh.numberOfTriangles];
-
-    // Load the triangle (or face) information
-    for (int count = 0; count < theMesh.numberOfTriangles; count++)
-    {
-        plyFile >> theMesh.pTriangles[count].vertex_ID_0;
-        plyFile >> theMesh.pTriangles[count].vertex_ID_1;
-        plyFile >> theMesh.pTriangles[count].vertex_ID_2;
-    }
-
-    plyFile >> garbage; // NumberOfVertices
-    plyFile >> garbage; // =
-    plyFile >> theMesh.numberOfVertices;
-
-
-    // Allocate the appropriate sized array
-    theMesh.pVertices = new cVertex_xyz_rgb_n[theMesh.numberOfVertices];
-
-
-    // Read vertices
-    for (int index = 0; index < theMesh.numberOfVertices; index++)
-    {
-        float x, y, z, nx, ny, nz; // In case we need-> , confidence, intensity;
-
-        plyFile >> z >> y >> x;
-        plyFile >> nz >> ny >> nx;
-
-        theMesh.pVertices[index].x = x;
-        theMesh.pVertices[index].y = y;
-        theMesh.pVertices[index].z = z;
-        theMesh.pVertices[index].r = 1.0f;
-        theMesh.pVertices[index].g = 1.0f;
-        theMesh.pVertices[index].b = 1.0f;
-        theMesh.pVertices[index].nx = nx;
-        theMesh.pVertices[index].ny = ny;
-        theMesh.pVertices[index].nz = nz;
-    }
-
-
-
-    return true;
-}
-
 bool Load3DModelsIntoMeshManager(int shaderID, cVAOMeshManager* pVAOManager, std::string &error)
 {
 	std::stringstream ssError;
-	bool bAnyErrors = false;
-    	
-	//// This is our Fractal terrain model
-	//{
-	//	::g_MeshFractalTerrain.name = "FractalTerrain";
-	//	if ( ! LoadPlyFileIntoMeshWithNormals( "FractalTerrain2_xyz_n.ply", g_MeshFractalTerrain ) )
-	//	{ 
-	//		ssError << "Didn't load model >" << g_MeshFractalTerrain.name << "<" << std::endl;
-	//		bAnyErrors = true;
-	//	}
-	//	if ( ! pVAOManager->loadMeshIntoVAO( g_MeshFractalTerrain, shaderID ) )
-	//	{
-	//		ssError << "Could not load mesh >" << g_MeshFractalTerrain.name << "< into VAO" << std::endl;
-	//		bAnyErrors = true;
-	//	}
-	//		
-	//	// For physics, generate the triangles we need for physics
-	//	::g_MeshFractalTerrain.GeneratePhysicsTriangles();
-
-	//}	// ENDOF: load models
+	bool bAnyErrors = false;    	
 
 	{
 		cMesh theMesh;
-        theMesh.name = "Galactica";
-        //if (!LoadFeeneyPLY("Battlestar_Galactica_ASCII_Res_1_888174_faces_UVVert.ply_x", theMesh))
-        if (!LoadFeeneyPLY("Battlestar_Galactica_ASCII_Res_4_116617_faces.ply_x", theMesh))
-        //if ( ! LoadPlyFileIntoMeshWithNormals( "Battlestar_Galactica_ASCII_Res_2_468281_faces_Scale50x.ply", theMesh) )
-        //if ( ! LoadPlyFileIntoMeshWithNormals( "Battlestar_Galactica_ASCII_Res_4_116617_faces_Scale50x.ply", theMesh) )
-        //if ( ! LoadPlyFileIntoMeshWithNormals( "Battlestar_Galactica_ASCII_Res_1_888174_faces_UVVert_Scale50x.ply", theMesh) )            
-		{ 
+        theMesh.name = "FractalTerrain";
+        if (!LoadPlyFileIntoMeshWithNormals("FractalTerrain_xyz_n_4xBigger.ply", theMesh))
+  		{ 
 			ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
 			bAnyErrors = true;
 		}
@@ -237,38 +151,7 @@ bool Load3DModelsIntoMeshManager(int shaderID, cVAOMeshManager* pVAOManager, std
 			ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
 			bAnyErrors = true;
 		}
-	}
-
-    {
-        cMesh theMesh;
-        theMesh.name = "Viper";
-        if (!LoadFeeneyPLY("Viper_MkVII_ASCII_UVTex.ply_x", theMesh))
-        {
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAnyErrors = true;
-        }
-        if (!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
-        {
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAnyErrors = true;
-        }
-    }
-
-    {
-        cMesh theMesh;
-        theMesh.name = "Raider";
-        if (!LoadPlyFileIntoMeshWithNormals("Raider_ASCII_UVtex_Scale8x.ply", theMesh))
-        {
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAnyErrors = true;
-        }
-        if (!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
-        {
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAnyErrors = true;
-        }
-    }
-		
+	}   		
 
 	if ( ! bAnyErrors ) 
 	{
