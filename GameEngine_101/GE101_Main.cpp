@@ -1,9 +1,9 @@
 /*
+*
 *   Game Engine 101
 *   By Jorge Amengol
 *   2017
 *
-*   Version 0.0.2
 */
 
 #include <glad/glad.h>
@@ -59,12 +59,6 @@ GLint uniLoc_ambientToDiffuseRatio = -1; 	// Maybe	// 0.2 or 0.3
 GLint uniLoc_materialSpecular = -1;         // rgb = colour of HIGHLIGHT only | w = shininess of the 
 GLint uniLoc_bIsDebugWireFrameObject = -1;
 GLint uniLoc_bUseTheVertexColourAsDiffuse = -1;
-
-// Question7 variables
-GLint uniLoc_materialDiffuse_r = -1;
-GLint uniLoc_materialDiffuse_g = -1;
-GLint uniLoc_materialDiffuse_b = -1;
-GLint uniLoc_materialDiffuse_a = -1;
 
 GLint uniLoc_eyePosition = -1;	            // Camera position
 GLint uniLoc_mModel = -1;
@@ -157,7 +151,7 @@ int main()
     cShaderManager::cShader fragShader;
 
     vertShader.fileName = "simpleVert.glsl";
-    fragShader.fileName = "Question7.glsl";
+    fragShader.fileName = "simpleFrag.glsl";
 
     ::g_pShaderManager->setBasePath("assets//shaders//");
 
@@ -205,10 +199,6 @@ int main()
 
     mvp_location = glGetUniformLocation(currentProgID, "MVP");
     uniLoc_materialDiffuse = glGetUniformLocation(currentProgID, "materialDiffuse");
-    uniLoc_materialDiffuse_r = glGetUniformLocation(currentProgID, "materialDiffuse_r");
-    uniLoc_materialDiffuse_g = glGetUniformLocation(currentProgID, "materialDiffuse_g");
-    uniLoc_materialDiffuse_b = glGetUniformLocation(currentProgID, "materialDiffuse_b");
-    uniLoc_materialDiffuse_a = glGetUniformLocation(currentProgID, "materialDiffuse_a");
     uniLoc_materialAmbient = glGetUniformLocation(currentProgID, "materialAmbient");
     uniLoc_ambientToDiffuseRatio = glGetUniformLocation(currentProgID, "ambientToDiffuseRatio");
     uniLoc_materialSpecular = glGetUniformLocation(currentProgID, "materialSpecular");
@@ -231,75 +221,13 @@ int main()
     ::g_pLightManager->vecLights[0].position = glm::vec3(0.0f, 400.0f, 0.0f);
     ::g_pLightManager->vecLights[0].attenuation.x = 1.6f;		// Change the costant attenuation
     ::g_pLightManager->vecLights[0].attenuation.y = 0.005f;		// Change the linear attenuation
-
-    // Engine1 light
-    ::g_pLightManager->vecLights[1].position = glm::vec3(-32.0799f, 21.81f, 241.454f);
-    ::g_pLightManager->vecLights[1].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
-    ::g_pLightManager->vecLights[1].attenuation.x = 1.0f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[1].attenuation.y = 0.05f;		// Change the linear attenuation
-    ::g_pLightManager->vecLights[1].attenuation.z = 0.04f;		// Change the quadratic attenuation
-
-    // Engine2 light
-    ::g_pLightManager->vecLights[2].position = glm::vec3(32.0799f, 21.81f, 241.454f);
-    ::g_pLightManager->vecLights[2].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
-    ::g_pLightManager->vecLights[2].attenuation.x = 1.0f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[2].attenuation.y = 0.05f;		// Change the linear attenuation
-    ::g_pLightManager->vecLights[2].attenuation.z = 0.04f;		// Change the quadratic attenuation
-
-    // Engine3 light
-    ::g_pLightManager->vecLights[3].position = glm::vec3(-28.4753f, -13.04f, 223.99f);
-    ::g_pLightManager->vecLights[3].diffuse = glm::vec3( 1.74f, 2.15f, 3.0f);		// Change the costant attenuation
-    ::g_pLightManager->vecLights[3].attenuation.x = 1.0f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[3].attenuation.y = 0.05f;		// Change the linear attenuation
-    ::g_pLightManager->vecLights[3].attenuation.z = 0.04f;		// Change the quadratic attenuation
-
-    // Engine4 light
-    ::g_pLightManager->vecLights[4].position = glm::vec3(28.4753f, -13.04f, 223.99f);
-    ::g_pLightManager->vecLights[4].diffuse = glm::vec3(1.74f, 2.15f, 3.0f);		// Change the costant attenuation
-    ::g_pLightManager->vecLights[4].attenuation.x = 1.0f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[4].attenuation.y = 0.05f;		// Change the linear attenuation
-    ::g_pLightManager->vecLights[4].attenuation.z = 0.04f;		// Change the quadratic attenuation
-
-    // Back Left Landing Pod light
-    ::g_pLightManager->vecLights[5].position = glm::vec3(-69.3394f, 5.96f, 97.5041f);
-    ::g_pLightManager->vecLights[5].diffuse = glm::vec3(0.9176f, 0.76f, 0.054f);		// Change the costant attenuation
-    ::g_pLightManager->vecLights[5].attenuation.x = 1.0f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[5].attenuation.y = 0.01f;		// Change the linear attenuation
-    ::g_pLightManager->vecLights[5].attenuation.z = 0.04f;		// Change the quadratic attenuation
-
-    // Back Right Landing Pod light
-    ::g_pLightManager->vecLights[6].position = glm::vec3(69.3394f, 5.96f, 97.5041f);
-    ::g_pLightManager->vecLights[6].diffuse = glm::vec3(0.9176f, 0.76f, 0.054f);		// Change the costant attenuation
-    ::g_pLightManager->vecLights[6].attenuation.x = 1.0f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[6].attenuation.y = 0.01f;		// Change the linear attenuation
-    ::g_pLightManager->vecLights[6].attenuation.z = 0.04f;		// Change the quadratic attenuation
-
-    // Front Left Landing Pod light
-    ::g_pLightManager->vecLights[7].position = glm::vec3(-69.3394f, 5.96f, -66.681f);
-    ::g_pLightManager->vecLights[7].diffuse = glm::vec3(0.9176f, 0.76f, 0.054f);		// Change the costant attenuation
-    ::g_pLightManager->vecLights[7].attenuation.x = 1.0f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[7].attenuation.y = 0.01f;		// Change the linear attenuation
-    ::g_pLightManager->vecLights[7].attenuation.z = 0.04f;		// Change the quadratic attenuation
-
-    // Front Right Landing Pod light
-    ::g_pLightManager->vecLights[8].position = glm::vec3(69.3394f, 5.96f, -66.681f);
-    ::g_pLightManager->vecLights[8].diffuse = glm::vec3(0.9176f, 0.76f, 0.054f);		// Change the costant attenuation
-    ::g_pLightManager->vecLights[8].attenuation.x = 1.0f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[8].attenuation.y = 0.01f;		// Change the linear attenuation
-    ::g_pLightManager->vecLights[8].attenuation.z = 0.04f;		// Change the quadratic attenuation
-
+    
     // Lights end
     //-------------------------------------------------------------------------
     // Camera
 
     g_pCamera = new cCameraObject();
-    //g_pCamera->setCameraPosition(glm::vec3(-124.5f, 30.0f, 349.453f)); // Media assignment
-    g_pCamera->setCameraPosition(glm::vec3(-74.4702f, 9.6897f, 213.803)); // Question5
-    //g_pCamera->setCameraPosition(glm::vec3(-206.226, 79.9552f, -606.804f)); // Question4
-    //g_pCamera->setCameraPosition(glm::vec3(0.0f, 90.0f, -46.0f)); // Bridge position
-    //g_pCamera->setCameraPosition(glm::vec3(22.399f, -0.50f, -287.0f)); // Near the viper
-    //g_pCamera->setCameraOrientationY(-10.0f);
-    //g_pCamera->setCameraOrientationX(-10.0f);
+    g_pCamera->setCameraPosition(glm::vec3(0.0f, 50.0f, 300.0f)); // Question5
 
     // Camera end
     //-------------------------------------------------------------------------
@@ -492,22 +420,6 @@ static void key_callback(GLFWwindow* window,
     case GLFW_KEY_DOWN:     // rotate around local camera X axis -
         g_pCamera->setCameraOrientationX(-ROTANGLE);
         break;
-    case GLFW_KEY_L:     // Land the viper
-        // Final position: -69.5395f, 1.38476f, 92.482f
-        // Landing vector:
-        glm::vec3 vLanding = (g_vecGameObjects.at(1)->position) - glm::vec3(-69.5395f, 1.38476f, 92.482f);
-
-
-        // While we have not landed
-        if (glm::length(vLanding) > 0.2f)
-        {
-            //Normalize and multiply by a factor (SPEED)
-            glm::vec3 vSpeed = glm::normalize(vLanding) * 0.5f;
-            vLanding = vLanding - vSpeed;
-            g_vecGameObjects.at(1)->position = glm::vec3(-69.5395f, 1.38476f, 92.482f) + vLanding;
-            g_pCamera->setCameraPosition(g_vecGameObjects.at(1)->position + glm::vec3(0.0f, 0.5f, 0.0f));
-        }
-        break;
     }// switch ( key )
 
     // // Press SHIFT to change the lighting parameters
@@ -629,13 +541,6 @@ void DrawObject(cGameObject* pTheGO)
         pTheGO->diffuseColour.g,
         pTheGO->diffuseColour.b,
         pTheGO->diffuseColour.a);
-
-    // Question7
-    // Put a green color
-    glUniform1f(uniLoc_materialDiffuse_r, 0.0f);
-    glUniform1f(uniLoc_materialDiffuse_g, 1.0f);
-    glUniform1f(uniLoc_materialDiffuse_b, 0.0f);
-    glUniform1f(uniLoc_materialDiffuse_a, 1.0f);
 
     //...and all the other object material colours
 
