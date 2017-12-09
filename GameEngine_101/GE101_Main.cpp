@@ -218,9 +218,9 @@ int main()
     ::g_pLightManager->LoadShaderUniformLocations(currentProgID);
 
     // Change ZERO (the SUN) light position
-    ::g_pLightManager->vecLights[0].position = glm::vec3(0.0f, 400.0f, 0.0f);
-    ::g_pLightManager->vecLights[0].attenuation.x = 1.6f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[0].attenuation.y = 0.005f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[0].position = glm::vec3(0.0f, 5000.0f, 0.0f);
+    ::g_pLightManager->vecLights[0].attenuation.x = 2.5f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;		// Change the linear attenuation
     
     // Lights end
     //-------------------------------------------------------------------------
@@ -305,6 +305,13 @@ int main()
             << curCameraLookAt.x << ", "
             << curCameraLookAt.y << ", "
             << curCameraLookAt.z;
+            // For lights information
+            //<< " Light attenuation - Constant:"
+            //<< ::g_pLightManager->vecLights[0].attenuation.x
+            //<< " Linear:"
+            //<< ::g_pLightManager->vecLights[0].attenuation.y
+            //<< " Quadratic:"
+            //<< ::g_pLightManager->vecLights[0].attenuation.z;
 
         glfwSetWindowTitle(window, ssTitle.str().c_str());
 
@@ -419,6 +426,33 @@ static void key_callback(GLFWwindow* window,
         break;
     case GLFW_KEY_DOWN:     // rotate around local camera X axis -
         g_pCamera->setCameraOrientationX(-ROTANGLE);
+        break;
+    case GLFW_KEY_H:        // Increase constant light attenuation
+        ::g_pLightManager->vecLights[0].attenuation.x += 0.01f;
+        break;
+    case GLFW_KEY_B:        // Decrease constant light attenuation
+        if (::g_pLightManager->vecLights[0].attenuation.x < 0.01f)
+            ::g_pLightManager->vecLights[0].attenuation.x = 0.0f;
+        else
+            ::g_pLightManager->vecLights[0].attenuation.x -= 0.01f;
+        break;
+    case GLFW_KEY_J:        // Increase linear light attenuation
+        ::g_pLightManager->vecLights[0].attenuation.y += 0.01f;
+        break;
+    case GLFW_KEY_N:        // Decrease linear light attenuation
+        if (::g_pLightManager->vecLights[0].attenuation.y < 0.01f)
+            ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;
+        else
+            ::g_pLightManager->vecLights[0].attenuation.y -= 0.01f;
+        break;
+    case GLFW_KEY_K:        // Increase quadratic light attenuation
+        ::g_pLightManager->vecLights[0].attenuation.z += 0.01f;
+        break;
+    case GLFW_KEY_M:        // Decrease quadratic light attenuation
+        if (::g_pLightManager->vecLights[0].attenuation.z < 0.01f)
+            ::g_pLightManager->vecLights[0].attenuation.z = 0.0f;
+        else                                            
+            ::g_pLightManager->vecLights[0].attenuation.z -= 0.01f;
         break;
     }// switch ( key )
 
