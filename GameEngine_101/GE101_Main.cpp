@@ -288,7 +288,7 @@ int main()
     //g_pCamera->setCameraPosition(glm::vec3(-206.226, 79.9552f, -606.804f)); // Question4
     //g_pCamera->setCameraPosition(glm::vec3(0.0f, 90.0f, -46.0f)); // Bridge position
     //g_pCamera->setCameraPosition(glm::vec3(22.399f, -0.50f, -287.0f)); // Near the viper
-    g_pCamera->setCameraOrientationY(-10.0f);
+    //g_pCamera->setCameraOrientationY(-10.0f);
     //g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
@@ -481,6 +481,22 @@ static void key_callback(GLFWwindow* window,
         break;
     case GLFW_KEY_DOWN:     // rotate around local camera X axis -
         g_pCamera->setCameraOrientationX(-ROTANGLE);
+        break;
+    case GLFW_KEY_L:     // Land the viper
+        // Final position: -69.5395f, 1.38476f, 92.482f
+        // Landing vector:
+        glm::vec3 vLanding = (g_vecGameObjects.at(1)->position) - glm::vec3(-69.5395f, 1.38476f, 92.482f);
+
+
+        // While we have not landed
+        if (glm::length(vLanding) > 0.2f)
+        {
+            //Normalize and multiply by a factor (SPEED)
+            glm::vec3 vSpeed = glm::normalize(vLanding) * 0.5f;
+            vLanding = vLanding - vSpeed;
+            g_vecGameObjects.at(1)->position = glm::vec3(-69.5395f, 1.38476f, 92.482f) + vLanding;
+            g_pCamera->setCameraPosition(g_vecGameObjects.at(1)->position + glm::vec3(0.0f, 0.5f, 0.0f));
+        }
         break;
     }// switch ( key )
 
