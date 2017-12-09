@@ -15,7 +15,7 @@ void LoadModelsIntoScene(void)
         pGalactca->meshName = "Galactica";
         pGalactca->scale = 50.0f;
         pGalactca->bIsUpdatedInPhysics = false;
-        pGalactca->bIsWireFrame = false;
+        pGalactca->bIsWireFrame = true;
         pGalactca->position = glm::vec3(0.0f, 0.0f, 0.0f);
         ::g_vecGameObjects.push_back(pGalactca);
 	}
