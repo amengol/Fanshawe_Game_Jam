@@ -13,6 +13,7 @@ void LoadModelsIntoScene(void)
 		cGameObject* pGalactca = new cGameObject();		
         pGalactca->diffuseColour = glm::vec4( 1.4f, 1.4f, 1.4f, 1.0f );
         pGalactca->meshName = "Galactica";
+        pGalactca->scale = 50.0f;
         pGalactca->bIsUpdatedInPhysics = false;
         pGalactca->bIsWireFrame = false;
         pGalactca->position = glm::vec3(0.0f, 0.0f, 0.0f);
