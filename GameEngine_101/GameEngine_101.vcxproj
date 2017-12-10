@@ -153,6 +153,7 @@
     <ClCompile Include="GE101_Main.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="ModelUtilities.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
@@ -168,7 +169,10 @@
     <ClInclude Include="cSoundObject.h" />
     <ClInclude Include="cTriangle.h" />
     <ClInclude Include="cVAOMeshManager.h" />
+    <ClInclude Include="globalGameStuff.h" />
+    <ClInclude Include="globalOpenGL_GLFW.h" />
     <ClInclude Include="ModelUtilities.h" />
+    <ClInclude Include="Physics.h" />
     <ClInclude Include="sVAOInfo.h" />
     <ClInclude Include="sVertex.h" />
     <ClInclude Include="Utilities.h" />

@@ -31,6 +31,9 @@
     <Filter Include="Vertex, Model and Physics Related">
       <UniqueIdentifier>{3fbde992-b2e7-4511-8144-4f4387a51e61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{6e8dca10-27a4-4969-be67-77a00fa413c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\simpleVert.glsl">
@@ -92,6 +95,9 @@
     <ClCompile Include="cModelAssetLoader.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Vertex, Model and Physics Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -138,6 +144,15 @@
     </ClInclude>
     <ClInclude Include="cModelAssetLoader.h">
       <Filter>Vertex, Model and Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Vertex, Model and Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="globalGameStuff.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="globalOpenGL_GLFW.h">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
