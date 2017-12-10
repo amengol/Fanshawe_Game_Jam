@@ -1,7 +1,7 @@
 #ifndef _cMesh_HG_
 #define _cMesh_HG_
 
-#include "cVertex_xyz_rgb_n.h"
+#include "sVertex.h"
 #include "cTriangle.h" 
 #include <string>
 #include <glm/vec3.hpp>
@@ -17,7 +17,7 @@ public:
 	// the friendly name of the mesh
 	std::string name;
 
-	cVertex_xyz_rgb_n* pVertices;
+	sVertex* pVertices;
 	int numberOfVertices;
 
 	cTriangle* pTriangles;

@@ -165,17 +165,17 @@ void cMesh::GeneratePhysicsTriangles(void)
 
 		cPhysTriangle tempTri;
 
-		cVertex_xyz_rgb_n V0 = this->pVertices[triVert0_index];
+		sVertex V0 = this->pVertices[triVert0_index];
 		tempTri.vertex[0].x = V0.x;
 		tempTri.vertex[0].y = V0.y;
 		tempTri.vertex[0].z = V0.z;
 
-		cVertex_xyz_rgb_n V1 = this->pVertices[triVert1_index];
+        sVertex V1 = this->pVertices[triVert1_index];
 		tempTri.vertex[1].x = V1.x;
 		tempTri.vertex[1].y = V1.y;
 		tempTri.vertex[1].z = V1.z;
 
-		cVertex_xyz_rgb_n V2 = this->pVertices[triVert2_index];
+        sVertex V2 = this->pVertices[triVert2_index];
 		tempTri.vertex[2].x = V2.x;
 		tempTri.vertex[2].y = V2.y;
 		tempTri.vertex[2].z = V2.z;
