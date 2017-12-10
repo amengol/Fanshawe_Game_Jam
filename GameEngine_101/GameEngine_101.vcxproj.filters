@@ -19,9 +19,6 @@
     <Filter Include="Lights Related">
       <UniqueIdentifier>{d039a8a7-3ae9-4b99-a468-4aec45e4acb2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Vertex and Physics Related">
-      <UniqueIdentifier>{3fbde992-b2e7-4511-8144-4f4387a51e61}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shaders Related">
       <UniqueIdentifier>{a1fee944-3c3d-4df8-bfff-2ccd2f4f4c2c}</UniqueIdentifier>
     </Filter>
@@ -30,6 +27,9 @@
     </Filter>
     <Filter Include="Sound Related">
       <UniqueIdentifier>{24d7e714-3285-4cde-a59e-f0923e8de418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vertex, Model and Physics Related">
+      <UniqueIdentifier>{3fbde992-b2e7-4511-8144-4f4387a51e61}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,9 +45,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GE101_Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelUtilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SceneLoader.cpp">
@@ -69,16 +66,13 @@
       <Filter>Shaders Related</Filter>
     </ClCompile>
     <ClCompile Include="cMesh.cpp">
-      <Filter>Vertex and Physics Related</Filter>
+      <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
     <ClCompile Include="cTriangle.cpp">
-      <Filter>Vertex and Physics Related</Filter>
+      <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
     <ClCompile Include="cVAOMeshManager.cpp">
-      <Filter>Vertex and Physics Related</Filter>
-    </ClCompile>
-    <ClCompile Include="cVertex_xyz_rgb_n.cpp">
-      <Filter>Vertex and Physics Related</Filter>
+      <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
     <ClCompile Include="cCameraObject.cpp">
       <Filter>Cameras Related</Filter>
@@ -92,11 +86,14 @@
     <ClCompile Include="cSoundObject.cpp">
       <Filter>Sound Related</Filter>
     </ClCompile>
+    <ClCompile Include="ModelUtilities.cpp">
+      <Filter>Vertex, Model and Physics Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cModelAssetLoader.cpp">
+      <Filter>Vertex, Model and Physics Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ModelUtilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -110,19 +107,16 @@
       <Filter>Game Objects Related</Filter>
     </ClInclude>
     <ClInclude Include="sVAOInfo.h">
-      <Filter>Vertex and Physics Related</Filter>
-    </ClInclude>
-    <ClInclude Include="cVertex_xyz_rgb_n.h">
-      <Filter>Vertex and Physics Related</Filter>
+      <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
     <ClInclude Include="cVAOMeshManager.h">
-      <Filter>Vertex and Physics Related</Filter>
+      <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
     <ClInclude Include="cTriangle.h">
-      <Filter>Vertex and Physics Related</Filter>
+      <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
     <ClInclude Include="cMesh.h">
-      <Filter>Vertex and Physics Related</Filter>
+      <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
     <ClInclude Include="cCameraObject.h">
       <Filter>Cameras Related</Filter>
@@ -135,6 +129,15 @@
     </ClInclude>
     <ClInclude Include="cSoundObject.h">
       <Filter>Sound Related</Filter>
+    </ClInclude>
+    <ClInclude Include="sVertex.h">
+      <Filter>Vertex, Model and Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelUtilities.h">
+      <Filter>Vertex, Model and Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cModelAssetLoader.h">
+      <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

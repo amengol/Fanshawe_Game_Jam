@@ -142,6 +142,7 @@
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cLightManager.cpp" />
     <ClCompile Include="cMesh.cpp" />
+    <ClCompile Include="cModelAssetLoader.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
@@ -149,7 +150,6 @@
     <ClCompile Include="cSoundObject.cpp" />
     <ClCompile Include="cTriangle.cpp" />
     <ClCompile Include="cVAOMeshManager.cpp" />
-    <ClCompile Include="cVertex_xyz_rgb_n.cpp" />
     <ClCompile Include="GE101_Main.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="ModelUtilities.cpp" />
@@ -161,15 +161,16 @@
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cLightManager.h" />
     <ClInclude Include="cMesh.h" />
+    <ClInclude Include="cModelAssetLoader.h" />
     <ClInclude Include="cShaderManager.h" />
     <ClInclude Include="cSoundManager.h" />
     <ClInclude Include="cSoundManager_Imp.h" />
     <ClInclude Include="cSoundObject.h" />
     <ClInclude Include="cTriangle.h" />
     <ClInclude Include="cVAOMeshManager.h" />
-    <ClInclude Include="cVertex_xyz_rgb_n.h" />
     <ClInclude Include="ModelUtilities.h" />
     <ClInclude Include="sVAOInfo.h" />
+    <ClInclude Include="sVertex.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
