@@ -2,7 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "cVAOMeshManager.h"
 #include "cMesh.h"
-#include "cVertex_xyz_rgb_n.h"
+#include "sVertex.h"
 
 cVAOMeshManager::cVAOMeshManager()
 {
@@ -14,7 +14,7 @@ cVAOMeshManager::~cVAOMeshManager()
 	return;
 }
 
-bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID )
+bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID, bool bKeepMesh /*=false*/)
 {
 // ******************************************************************************
 //__      __       _              ____         __  __          
@@ -36,7 +36,7 @@ bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID )
     glBindBuffer(GL_ARRAY_BUFFER, theVAOInfo.vertex_buffer_ID);
 
 	// Allocate the global vertex array
-    cVertex_xyz_rgb_n* pVertices = new cVertex_xyz_rgb_n[theMesh.numberOfVertices];
+    sVertex* pVertices = new sVertex[theMesh.numberOfVertices];
 
 	for ( int index = 0; index < theMesh.numberOfVertices; index++ )
 	{
@@ -51,10 +51,24 @@ bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID )
 		pVertices[index].nx = theMesh.pVertices[index].nx;
  		pVertices[index].ny = theMesh.pVertices[index].ny;
  		pVertices[index].nz = theMesh.pVertices[index].nz;
+
+        // Other additions: texture coords, tangent, and bi-normal
+        pVertices[index].u1 = theMesh.pVertices[index].u1;
+        pVertices[index].v1 = theMesh.pVertices[index].v1;
+        pVertices[index].u2 = theMesh.pVertices[index].u2;
+        pVertices[index].v2 = theMesh.pVertices[index].v2;
+
+        pVertices[index].bx = theMesh.pVertices[index].bx;
+        pVertices[index].by = theMesh.pVertices[index].by;
+        pVertices[index].bz = theMesh.pVertices[index].bz;
+
+        pVertices[index].tx = theMesh.pVertices[index].tx;
+        pVertices[index].ty = theMesh.pVertices[index].ty;
+        pVertices[index].tz = theMesh.pVertices[index].tz;
 	}
 
 	// Copy the local vertex array into the GPUs memory
-	int sizeOfGlobalVertexArrayInBytes = sizeof(cVertex_xyz_rgb_n) * theMesh.numberOfVertices;
+	int sizeOfGlobalVertexArrayInBytes = sizeof(sVertex) * theMesh.numberOfVertices;
     glBufferData(GL_ARRAY_BUFFER, sizeOfGlobalVertexArrayInBytes, pVertices, GL_STATIC_DRAW);
 
 	delete [] pVertices;
@@ -102,21 +116,39 @@ bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID )
 	GLuint vpos_location = glGetAttribLocation(shaderID, "vPos");
     GLuint vcol_location = glGetAttribLocation(shaderID, "vCol");
 	GLuint vnorm_location = glGetAttribLocation(shaderID, "vNorm");
+    GLuint vUVx2_location = glGetAttribLocation(shaderID, "uvX2");
+
+    // Size of the vertex we are using in the array.
+    // This is called the "stride" of the vertices in the vertex buffer
+    const unsigned int VERTEX_STRIDE = sizeof(sVertex);
 
     glEnableVertexAttribArray(vpos_location);
+    const unsigned int OFFSET_TO_X = offsetof(sVertex, x);
     glVertexAttribPointer(vpos_location, 3,
 						  GL_FLOAT, GL_FALSE,
-                          sizeof(float) * 9, (void*) offsetof(cVertex_xyz_rgb_n, x ) );
+                          VERTEX_STRIDE, 
+                          reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_X)));
 
     glEnableVertexAttribArray(vcol_location);
-    glVertexAttribPointer(vcol_location, 3, 
+    const unsigned int OFFSET_TO_R = offsetof(sVertex, r);
+    glVertexAttribPointer(vcol_location, 4, 
 						  GL_FLOAT, GL_FALSE,
-                          sizeof(float) * 9, (void*) offsetof(cVertex_xyz_rgb_n, r ) );
+                          VERTEX_STRIDE,
+                          reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_R)));
 
 	glEnableVertexAttribArray(vnorm_location);
+    const unsigned int OFFSET_TO_NX = offsetof(sVertex, nx);
 	glVertexAttribPointer(vnorm_location, 3,
 		                  GL_FLOAT,	GL_FALSE,
-		                  sizeof(float) * 9, (void*) offsetof(cVertex_xyz_rgb_n, nx ) );
+		                  VERTEX_STRIDE, 
+                          reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_NX)));
+
+    glEnableVertexAttribArray(vUVx2_location);
+    const unsigned int OFFSET_TO_UVs = offsetof(sVertex, u1);
+    glVertexAttribPointer(vUVx2_location, 4,
+		                  GL_FLOAT,	GL_FALSE,
+		                  VERTEX_STRIDE, 
+                          reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_UVs)));
 
 	// Copy the information into the VAOInfo structure
 	theVAOInfo.numberOfIndices   = theMesh.numberOfTriangles * 3;
@@ -140,6 +172,15 @@ bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID )
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 	glDisableVertexAttribArray(vcol_location);
 	glDisableVertexAttribArray(vpos_location);
+    glDisableVertexAttribArray(vnorm_location);
+    glDisableVertexAttribArray(vUVx2_location);
+
+    // Save this mesh? 
+    if (bKeepMesh)
+    {	// Make a COPY for later...
+        //std::map< std::string, cMesh > m_mapNameToMesh;
+        this->m_mapNameToMesh[theMesh.name] = theMesh;
+    }//if (bKeepMesh)
 
 	return true;
 }
@@ -159,4 +200,20 @@ bool cVAOMeshManager::lookupVAOFromName( std::string name, sVAOInfo &theVAOInfo 
 	theVAOInfo = itVAO->second;
 
 	return true;
+}
+
+bool cVAOMeshManager::lookupMeshFromName(std::string name, cMesh &theMesh)
+{
+    // Search for mesh by name using iterator based find
+    std::map< std::string, cMesh >::iterator itMesh =
+        this->m_mapNameToMesh.find(name);
+
+    // Find it? 
+    if (itMesh == this->m_mapNameToMesh.end())
+    {	// Nope. 
+        return false;
+    }
+    // Found the mesh (DIDN'T return .end())
+    theMesh = itMesh->second;		// "return" the mesh by reference 
+    return true;
 }

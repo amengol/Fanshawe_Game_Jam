@@ -18,10 +18,13 @@ public:
 	~cVAOMeshManager();
 	
 	// Take name from mesh for lookup (for rendering)
-	bool loadMeshIntoVAO( cMesh &theMesh, int shaderID );
+	bool loadMeshIntoVAO( cMesh &theMesh, int shaderID, bool bKeepMesh = false );
 
 	// During rendering (aka 'drawing'), get the info we need.
 	bool lookupVAOFromName( std::string name, sVAOInfo &theVAOInfo );
+
+    // Return mesh by name
+    bool lookupMeshFromName(std::string name, cMesh &theMesh);
 
 	std::map<int, std::string> mapNumberToName;
 
@@ -30,5 +33,8 @@ private:
 	// 1st is what I'm indexing by (i.e. type)
 	// 2nd is what I'm actually storing (the type)
 	std::map< std::string, sVAOInfo > m_mapNameToVAO;
+
+    // Meshes that I want to keep around (like the terrain?)
+    std::map< std::string, cMesh > m_mapNameToMesh;
 };
 #endif
