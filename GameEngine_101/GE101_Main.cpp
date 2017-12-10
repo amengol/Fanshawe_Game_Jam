@@ -23,12 +23,15 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "cSoundManager.h"
+#include "Physics.h"
+
+// Just to compile and before implementing GlobalGameStuff
+extern cModelAssetLoader* g_pModelAssetLoader;	// (ModelUtilies.cpp)
 
 using namespace std;
 
 // Function Prototypes
 void DrawObject(cGameObject* pTheGO);
-void PhysicsStep(double deltaTime);
 static void key_callback(GLFWwindow* window, 
                          int key, 
                          int scancode, 
@@ -171,19 +174,20 @@ int main()
 
     //-------------------------------------------------------------------------
     // Load models
+        
+    ::g_pModelAssetLoader = new cModelAssetLoader();
+    ::g_pModelAssetLoader->setBasePath("assets/models/");
 
     ::g_pVAOManager = new cVAOMeshManager();
 
     GLint ShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
 
     std::string error;
-    if (!Load3DModelsIntoMeshManager(ShaderID, ::g_pVAOManager, error))
+    if (!Load3DModelsIntoMeshManager(ShaderID, ::g_pVAOManager, ::g_pModelAssetLoader, error))
     {
         std::cout << "Not all models were loaded..." << std::endl;
         std::cout << error << std::endl;
-    }    
-
-    extern void LoadModelsIntoScene(void);
+    }
     LoadModelsIntoScene();
 
     //=========================================================================
@@ -616,26 +620,3 @@ void DrawObject(cGameObject* pTheGO)
     return;
 }
 
-// Update the world 1 "step" in time
-void PhysicsStep(double deltaTime)
-{    
-    const glm::vec3 GRAVITY = glm::vec3(0.0f, 0.0f, 0.0f);
-
-    // Identical to the 'render' (drawing) loop
-    for (int index = 0; index != ::g_vecGameObjects.size(); index++)
-    {
-        cGameObject* pCurGO = ::g_vecGameObjects[index];
-
-        // Is this object to be updated?
-        if (!pCurGO->bIsUpdatedInPhysics)
-        {
-            continue;
-        }
-
-        pCurGO->Update(deltaTime, GRAVITY);
-              
-
-    }//for ( int index... 
-
-    return;
-}
