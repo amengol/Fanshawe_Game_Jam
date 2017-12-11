@@ -90,6 +90,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>fmod_vc.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -100,6 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>fmod64_vc.lib;glfw3_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -112,6 +114,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -126,6 +129,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -139,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cCameraObject.cpp" />
+    <ClCompile Include="cDebugRenderer.cpp" />
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cLightManager.cpp" />
     <ClCompile Include="cMesh.cpp" />
@@ -151,7 +156,9 @@
     <ClCompile Include="cTriangle.cpp" />
     <ClCompile Include="cVAOMeshManager.cpp" />
     <ClCompile Include="GE101_Main.cpp" />
+    <ClCompile Include="generalGLStuff.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="GLFW_keyboardCallback.cpp" />
     <ClCompile Include="ModelUtilities.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
@@ -159,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cCameraObject.h" />
+    <ClInclude Include="cDebugRenderer.h" />
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cLightManager.h" />
     <ClInclude Include="cMesh.h" />

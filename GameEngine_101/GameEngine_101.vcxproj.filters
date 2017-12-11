@@ -34,6 +34,9 @@
     <Filter Include="Global">
       <UniqueIdentifier>{6e8dca10-27a4-4969-be67-77a00fa413c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DebugRenderer">
+      <UniqueIdentifier>{0e3c1c14-157f-486d-977e-0c91a61341c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\simpleVert.glsl">
@@ -98,6 +101,15 @@
     <ClCompile Include="Physics.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
+    <ClCompile Include="GLFW_keyboardCallback.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="cDebugRenderer.cpp">
+      <Filter>DebugRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="generalGLStuff.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -153,6 +165,9 @@
     </ClInclude>
     <ClInclude Include="globalOpenGL_GLFW.h">
       <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="cDebugRenderer.h">
+      <Filter>DebugRenderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
