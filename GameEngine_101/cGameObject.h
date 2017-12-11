@@ -42,6 +42,9 @@ public:
 	glm::vec4 diffuseColour;
 	std::string meshName;
 
+    std::string friendlyName;
+    inline unsigned int getUniqueID(void) { return this->m_UniqueID; }
+
 	// Behaviour
  	void Update(float deltaTime, glm::vec3 GRAVITY);
  
@@ -57,6 +60,10 @@ public:
     std::string getSoundName();
  
  private:
+     unsigned int m_UniqueID;
+     // Used when creating objects
+     static unsigned int m_nextUniqueID;
+
  	//cDebugRenderer* m_pTheDR;
     // **********************************
     // Sound properties
