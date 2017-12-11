@@ -6,8 +6,7 @@
 *
 */
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "globalOpenGL_GLFW.h"
 #include <iostream>
 #include <stdio.h>
 #include <fstream>
@@ -24,35 +23,24 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "cSoundManager.h"
 #include "Physics.h"
-
-// Just to compile and before implementing GlobalGameStuff
-extern cModelAssetLoader* g_pModelAssetLoader;	// (ModelUtilies.cpp)
+#include "globalGameStuff.h"
 
 using namespace std;
 
 // Function Prototypes
 void DrawObject(cGameObject* pTheGO);
-static void key_callback(GLFWwindow* window, 
-                         int key, 
-                         int scancode, 
-                         int action, 
-                         int mods);
 
 // Global variables
 cVAOMeshManager* g_pVAOManager = NULL;
 cCameraObject* g_pCamera = NULL;
 cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
+cDebugRenderer*	g_pDebugRenderer = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
-glm::vec3 g_cameraXYZ = glm::vec3(0.0f, 51.0f, 122.0f);
-glm::vec3 g_cameraTarget_XYZ = glm::vec3(0.0f, 0.0f, 0.0f);
 
 // To deal with sounds
 // Disabled for now
 // cSoundManager* g_pSoundManager = NULL;
-
-// Variable to store the camera target through all objects
-int g_objectTurn = 1;
 
 
 // Other uniforms:
@@ -61,7 +49,6 @@ GLint uniLoc_materialAmbient = -1;
 GLint uniLoc_ambientToDiffuseRatio = -1; 	// Maybe	// 0.2 or 0.3
 GLint uniLoc_materialSpecular = -1;         // rgb = colour of HIGHLIGHT only | w = shininess of the 
 GLint uniLoc_bIsDebugWireFrameObject = -1;
-GLint uniLoc_bUseTheVertexColourAsDiffuse = -1;
 
 GLint uniLoc_eyePosition = -1;	            // Camera position
 GLint uniLoc_mModel = -1;
@@ -141,6 +128,9 @@ int main()
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     glfwSwapInterval(1);
 
+    // General error string, used for a number of items during start up
+    std::string error;
+
     std::cout << glGetString(GL_VENDOR) << " "
         << glGetString(GL_RENDERER) << ", "
         << glGetString(GL_VERSION) << std::endl;
@@ -173,6 +163,17 @@ int main()
     std::cout << "The shaders comipled and linked OK" << std::endl;
 
     //-------------------------------------------------------------------------
+    // Debug render
+    ::g_pDebugRenderer = new cDebugRenderer();
+    if (!::g_pDebugRenderer->initialize(error))
+    {
+        std::cout << "Warning: couldn't init the debug renderer." << std::endl;
+    }
+    ::g_pDebugRenderer->addTriangle(glm::vec3(-100.0f, 0.0f, 0.0f),
+                                    glm::vec3(100.0f, 0.0f, 0.0f),
+                                    glm::vec3(0.0f, 100.0f, 0.0f),
+                                    glm::vec3(1.0f, 1.0f, 1.0f), true);
+    //-------------------------------------------------------------------------
     // Load models
         
     ::g_pModelAssetLoader = new cModelAssetLoader();
@@ -182,7 +183,6 @@ int main()
 
     GLint ShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
 
-    std::string error;
     if (!Load3DModelsIntoMeshManager(ShaderID, ::g_pVAOManager, ::g_pModelAssetLoader, error))
     {
         std::cout << "Not all models were loaded..." << std::endl;
@@ -207,7 +207,6 @@ int main()
     uniLoc_ambientToDiffuseRatio = glGetUniformLocation(currentProgID, "ambientToDiffuseRatio");
     uniLoc_materialSpecular = glGetUniformLocation(currentProgID, "materialSpecular");
     uniLoc_bIsDebugWireFrameObject = glGetUniformLocation(currentProgID, "bIsDebugWireFrameObject");
-    uniLoc_bUseTheVertexColourAsDiffuse = glGetUniformLocation(currentProgID, "bUseTheVertexColourAsDiffuse");
     uniLoc_eyePosition = glGetUniformLocation(currentProgID, "eyePosition");
     uniLoc_mModel = glGetUniformLocation(currentProgID, "mModel");
     uniLoc_mView = glGetUniformLocation(currentProgID, "mView");
@@ -250,8 +249,7 @@ int main()
         //=====================================================================
 
         float ratio;
-        int width, height;
-        glm::mat4x4 p, mvp;
+        int width, height;        
         glfwGetFramebufferSize(window, &width, &height);
         ratio = width / (float)height;
         glViewport(0, 0, width, height);
@@ -266,32 +264,36 @@ int main()
         // (for the whole scene)
         ::g_pLightManager->CopyLightInformationToCurrentShader();
 
+        glm::mat4x4 matProjection;
+
         // Projection and view don't change per scene (maybe)
-        p = glm::perspective(0.6f,			// FOV
-            ratio,		// Aspect ratio
-            0.1f,			// Near (as big as possible)
-            1000.0f);	// Far (as small as possible)
+        matProjection = glm::perspective(0.6f,			// FOV
+                        ratio,		// Aspect ratio
+                        1.0f,			// Near (as big as possible)
+                        10000.0f);	// Far (as small as possible)
 
         // View or "camera" matrix
-        glm::mat4 v = glm::mat4(1.0f);
+        glm::mat4 matView = glm::mat4(1.0f);
 
-        v = glm::lookAt(g_pCamera->getCameraPosition(),		// "eye" or "camera" position
-            g_pCamera->getLookAtPosition(),				// "At" or "target" 
-            g_pCamera->getCameraUpVector());	// "up" vector
+        matView = glm::lookAt(g_pCamera->getCameraPosition(),		// "eye" or "camera" position
+                  g_pCamera->getLookAtPosition(),				// "At" or "target" 
+                  g_pCamera->getCameraUpVector());	// "up" vector
 
-        glUniformMatrix4fv(uniLoc_mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(v));
-        glUniformMatrix4fv(uniLoc_mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(p));
+        glUniformMatrix4fv(uniLoc_mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matView));
+        glUniformMatrix4fv(uniLoc_mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));
 
         //---------------------------------------------------------------------
         // "Draw scene" loop
 
-        unsigned int sizeOfVector = ::g_vecGameObjects.size();
+        unsigned int sizeOfVector = (unsigned int)::g_vecGameObjects.size();
         for (int index = 0; index != sizeOfVector; index++)
         {
             cGameObject* pTheGO = ::g_vecGameObjects[index];
 
             DrawObject(pTheGO);
         }
+
+        ::g_pDebugRenderer->RenderDebugObjects(matView, matProjection);
 
         // "Draw scene" loop end
         //---------------------------------------------------------------------
@@ -319,6 +321,9 @@ int main()
 
         glfwSetWindowTitle(window, ssTitle.str().c_str());
 
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+
         // Now many seconds that have elapsed since we last checked
         double curTime = glfwGetTime();
         double deltaTime = curTime - lastTimeStep;
@@ -326,9 +331,6 @@ int main()
         // Physics step
         PhysicsStep(deltaTime);
         lastTimeStep = curTime;
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
 
     }// Main Game Loop end
 
@@ -338,189 +340,11 @@ int main()
     
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
+    delete g_pDebugRenderer;
     //delete ::g_pSoundManager;
 
     return 0;
 
-}
-
-static void key_callback(GLFWwindow* window, 
-                         int key, 
-                         int scancode, 
-                         int action, 
-                         int mods)
-{
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
-
-    // Switch camera targets
-    if (key == GLFW_KEY_P && action == GLFW_PRESS)
-    {
-        if (g_objectTurn < g_vecGameObjects.size())    
-        {
-            g_pCamera->setCameraTarget(g_vecGameObjects.at(g_objectTurn)->position);
-            g_objectTurn++;
-        }
-        else
-        {
-            g_objectTurn = 1; // Because interested objects start at 1
-            g_pCamera->setCameraTarget(g_vecGameObjects.at(g_objectTurn)->position);
-            g_objectTurn++;
-        }
-    }
-
-    // The Raiders move toward the Galactica
-    if (key == GLFW_KEY_R && action == GLFW_PRESS)
-    {
-        // Raiders initial object
-        int firstRaider = 17;
-        for (int i = firstRaider; i < g_vecGameObjects.size(); i++)
-        {
-            g_vecGameObjects.at(i)->vel.z = 10.0f;
-        }
-    }
-
-    // Prepare one viper to land
-    if (key == GLFW_KEY_T && action == GLFW_PRESS)
-    {
-        g_vecGameObjects.at(1)->position = glm::vec3(-68.3558f, 7.02644f, 198.422f);
-        //g_vecGameObjects.at(1)->vel.z = 10.0f;
-      
-    }
-
-    if (key == GLFW_KEY_SPACE);
-
-    // Camera movements
-    const float ROTANGLE = 1.0f;
-    const float CAMSPEED = 1.0f;
-    switch (key)
-    {
-    case GLFW_KEY_W:       // Move camera forward along local Z axis 
-        g_pCamera->moveCameraBackNForth(-CAMSPEED);
-        break;
-    case GLFW_KEY_S:       // Move camera backward along local Z axis 
-        g_pCamera->moveCameraBackNForth(CAMSPEED);
-        break;
-    case GLFW_KEY_A:        // Move camera right along local X axis
-        g_pCamera->moveCameraLeftNRight(-CAMSPEED);
-        break;
-    case GLFW_KEY_D:        // Move camera right along local x axis
-        g_pCamera->moveCameraLeftNRight(CAMSPEED);
-        break;
-    case GLFW_KEY_Z:        // rotate around local camera Z axis +
-        g_pCamera->setCameraOrientationZ(ROTANGLE);
-        break;
-    case GLFW_KEY_C:        // rotate around local camera Z axis -
-        g_pCamera->setCameraOrientationZ(-ROTANGLE);
-        break;
-    case GLFW_KEY_LEFT:     // rotate around local camera Y axis +
-        g_pCamera->setCameraOrientationY(ROTANGLE);
-        break;
-    case GLFW_KEY_RIGHT:    // rotate around local camera Y axis -
-        g_pCamera->setCameraOrientationY(-ROTANGLE);
-        break;
-    case GLFW_KEY_Q:        // Increase high along Y axis
-        g_pCamera->changeAlongY(CAMSPEED);
-        break;
-    case GLFW_KEY_E:        // Decrease high along Y axis
-        g_pCamera->changeAlongY(-CAMSPEED);
-        break;
-    case GLFW_KEY_UP:       // rotate around local camera X axis +
-        g_pCamera->setCameraOrientationX(ROTANGLE);
-        break;
-    case GLFW_KEY_DOWN:     // rotate around local camera X axis -
-        g_pCamera->setCameraOrientationX(-ROTANGLE);
-        break;
-    case GLFW_KEY_H:        // Increase constant light attenuation
-        ::g_pLightManager->vecLights[0].attenuation.x += 0.01f;
-        break;
-    case GLFW_KEY_B:        // Decrease constant light attenuation
-        if (::g_pLightManager->vecLights[0].attenuation.x < 0.01f)
-            ::g_pLightManager->vecLights[0].attenuation.x = 0.0f;
-        else
-            ::g_pLightManager->vecLights[0].attenuation.x -= 0.01f;
-        break;
-    case GLFW_KEY_J:        // Increase linear light attenuation
-        ::g_pLightManager->vecLights[0].attenuation.y += 0.01f;
-        break;
-    case GLFW_KEY_N:        // Decrease linear light attenuation
-        if (::g_pLightManager->vecLights[0].attenuation.y < 0.01f)
-            ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;
-        else
-            ::g_pLightManager->vecLights[0].attenuation.y -= 0.01f;
-        break;
-    case GLFW_KEY_K:        // Increase quadratic light attenuation
-        ::g_pLightManager->vecLights[0].attenuation.z += 0.01f;
-        break;
-    case GLFW_KEY_M:        // Decrease quadratic light attenuation
-        if (::g_pLightManager->vecLights[0].attenuation.z < 0.01f)
-            ::g_pLightManager->vecLights[0].attenuation.z = 0.0f;
-        else                                            
-            ::g_pLightManager->vecLights[0].attenuation.z -= 0.01f;
-        break;
-    }// switch ( key )
-
-    // // Press SHIFT to change the lighting parameters
-    //if (bIsShiftPressedAlone(mods))
-    //{
-    //    switch (key)
-    //    {
-    //    case GLFW_KEY_A:        // Left
-    //        ::g_pLightManager->vecLights[0].position.x -= CAMERASPEED;
-    //        break;
-    //    case GLFW_KEY_D:        // Right
-    //        ::g_pLightManager->vecLights[0].position.x += CAMERASPEED;
-    //        break;
-    //    case GLFW_KEY_W:        // Forward (along z)
-    //        ::g_pLightManager->vecLights[0].position.z += CAMERASPEED;
-    //        break;
-    //    case GLFW_KEY_S:        // Backwards (along z)
-    //        ::g_pLightManager->vecLights[0].position.z -= CAMERASPEED;
-    //        break;
-    //    case GLFW_KEY_Q:        // "Down" (along y axis)
-    //        ::g_pLightManager->vecLights[0].position.y -= CAMERASPEED;
-    //        break;
-    //    case GLFW_KEY_E:        // "Up" (along y axis)
-    //        ::g_pLightManager->vecLights[0].position.y += CAMERASPEED;
-    //        break;
-    //    case GLFW_KEY_1:
-    //        ::g_pLightManager->vecLights[0].attenuation.y *= 0.99f;    // less 1%
-    //        break;
-    //    case GLFW_KEY_2:
-    //        ::g_pLightManager->vecLights[0].attenuation.y *= 1.01f; // more 1%
-    //        if (::g_pLightManager->vecLights[0].attenuation.y <= 0.0f)
-    //        {
-    //            ::g_pLightManager->vecLights[0].attenuation.y = 0.001f;    // Some really tiny value
-    //        }
-    //        break;
-    //    case GLFW_KEY_3:    // Quad
-    //        ::g_pLightManager->vecLights[0].attenuation.z *= 0.99f;    // less 1%
-    //        break;
-    //    case GLFW_KEY_4:    //  Quad
-    //        ::g_pLightManager->vecLights[0].attenuation.z *= 1.01f; // more 1%
-    //        if (::g_pLightManager->vecLights[0].attenuation.z <= 0.0f)
-    //        {
-    //            ::g_pLightManager->vecLights[0].attenuation.z = 0.001f;    // Some really tiny value
-    //        }
-    //        break;
-
-    //    case GLFW_KEY_9:
-    //        ::g_bDrawDebugLightSpheres = true;
-    //        break;
-    //    case GLFW_KEY_0:
-    //        ::g_bDrawDebugLightSpheres = false;
-    //        break;
-
-    //    }// switch ( key )
-
-    //}//if ( bIsShiftPressedAlone(mods) )
-
-    // // HACK: print output to the console
-    //std::cout << "Light[0] linear atten: "
-    //    << ::g_pLightManager->vecLights[0].attenuation.y << ", "
-    //    << ::g_pLightManager->vecLights[0].attenuation.z << std::endl;
-
-    return;
 }
 
 // Draw a single object
@@ -591,7 +415,7 @@ void DrawObject(cGameObject* pTheGO)
         glUniform1f(uniLoc_bIsDebugWireFrameObject, 0.0f);	// FALSE
     }
 
-    glUniform1f(uniLoc_bUseTheVertexColourAsDiffuse, 0.0f);
+
 
     //			glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
     //			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
