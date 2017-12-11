@@ -27,6 +27,7 @@ public:
 		// ID is a "name" from OpenGL
 		unsigned int ID;
 		std::vector<std::string> vecSource;
+        void parseStringIntoMultiLine(std::string singleLineSouce);
 		bool bSourceIsMultiLine;
 		std::string fileName;
 	};
@@ -47,8 +48,12 @@ public:
 	bool useShaderProgram( unsigned int ID );
 	bool useShaderProgram( std::string friendlyName );
 
-	// Create a shader program from cShader object (source)
-	bool createProgramFromFile( std::string friendlyName, cShader &vertexShad, cShader &fragShader );
+    bool createProgramFromFile(std::string friendlyName,
+        cShader &vertexShad,
+        cShader &fragShader);
+    bool createProgramFromSource(std::string friendlyName,
+        cShader &vertexShad,
+        cShader &fragShader);
 	
 	void setBasePath( std::string basepath );
 	unsigned int getIDFromFriendlyName( std::string friendlyName );
