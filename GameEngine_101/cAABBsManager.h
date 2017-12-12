@@ -17,15 +17,19 @@ public:
     void genAABBs(cMesh* mesh, float size);
 
     // Calculates the longest side of a triangle
-    float calcLongestSide(sAABB_Triangle* triangle);
+    float calcLongestSide(sAABB_Triangle& triangle);
 
     // Calculates an ID from a vertice
-    long long calcID(glm::vec3 vertice);
+    // Returns false if the vertice position is too long for the format
+    bool calcID(glm::vec3 vertice, long long& ID);
 
     // Tesselates a triangle according to a minimum size
     // Set all tesselated triangles back in a vector
     // Returns false if no need to tesselate
-    bool tesselate(sAABB_Triangle* triangle, float size, std::vector<sAABB_Triangle*>& tesseleted);
+    bool tesselate(sAABB_Triangle* triangle, float size, std::vector<sAABB_Triangle>& tesseleted);
+
+    // Gets the centre point of two vertices
+    glm::vec3 getCentreEdge(glm::vec3 vertice1, glm::vec3 vertice2);
 
 private:
    // std::vector<cAABB*> m_AABBs;                   // Stores all AABBs for the mesh
