@@ -142,6 +142,7 @@
     <None Include="assets\shaders\simpleVert.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cAABBsManager.cpp" />
     <ClCompile Include="cCameraObject.cpp" />
     <ClCompile Include="cDebugRenderer.cpp" />
     <ClCompile Include="cGameObject.cpp" />
@@ -165,6 +166,8 @@
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cAABB.h" />
+    <ClInclude Include="cAABBsManager.h" />
     <ClInclude Include="cCameraObject.h" />
     <ClInclude Include="cDebugRenderer.h" />
     <ClInclude Include="cGameObject.h" />
@@ -181,6 +184,7 @@
     <ClInclude Include="globalOpenGL_GLFW.h" />
     <ClInclude Include="ModelUtilities.h" />
     <ClInclude Include="Physics.h" />
+    <ClInclude Include="sAABB_Triangle.h" />
     <ClInclude Include="sVAOInfo.h" />
     <ClInclude Include="sVertex.h" />
     <ClInclude Include="Utilities.h" />

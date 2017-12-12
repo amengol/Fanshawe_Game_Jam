@@ -37,6 +37,9 @@
     <Filter Include="DebugRenderer">
       <UniqueIdentifier>{0e3c1c14-157f-486d-977e-0c91a61341c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AABB">
+      <UniqueIdentifier>{07d5c8e3-55ab-44b0-aa75-11ec89319140}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\simpleVert.glsl">
@@ -110,6 +113,9 @@
     <ClCompile Include="generalGLStuff.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="cAABBsManager.cpp">
+      <Filter>AABB</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -168,6 +174,15 @@
     </ClInclude>
     <ClInclude Include="cDebugRenderer.h">
       <Filter>DebugRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="cAABBsManager.h">
+      <Filter>AABB</Filter>
+    </ClInclude>
+    <ClInclude Include="sAABB_Triangle.h">
+      <Filter>AABB</Filter>
+    </ClInclude>
+    <ClInclude Include="cAABB.h">
+      <Filter>AABB</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
