@@ -33,7 +33,7 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
         vertC.y = mesh->pVertices[mesh->pTriangles[i].vertex_ID_2].y;
         vertC.z = mesh->pVertices[mesh->pTriangles[i].vertex_ID_2].z;
         
-        sAABB_Triangle* tri;
+        sAABB_Triangle* tri = new sAABB_Triangle();
         tri->verticeA = vertA;
         tri->verticeB = vertB;
         tri->verticeC = vertC;
