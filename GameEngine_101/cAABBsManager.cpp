@@ -65,7 +65,7 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                 if (itAABB == this->m_mapIDtoAABB.end())
                 {
                     // Didn't find an AABB, let's create it
-                    cAABB* theAABB = new cAABB(ID1);
+                    cAABB* theAABB = new cAABB(ID1, size);
                     theAABB->AABBsTriangles.push_back(tri);
                     this->m_mapIDtoAABB[ID1] = theAABB;
                 }
@@ -87,7 +87,7 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                 if (itAABB == this->m_mapIDtoAABB.end())
                 {
                     // Didn't find an AABB, let's create it
-                    cAABB* theAABB = new cAABB(ID2);
+                    cAABB* theAABB = new cAABB(ID2, size);
                     theAABB->AABBsTriangles.push_back(tri);
                     this->m_mapIDtoAABB[ID2] = theAABB;
                 }
@@ -109,7 +109,7 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                 if (itAABB == this->m_mapIDtoAABB.end())
                 {
                     // Didn't find an AABB, let's create it
-                    cAABB* theAABB = new cAABB(ID3);
+                    cAABB* theAABB = new cAABB(ID3, size);
                     theAABB->AABBsTriangles.push_back(tri);
                     this->m_mapIDtoAABB[ID2] = theAABB;
                 }
