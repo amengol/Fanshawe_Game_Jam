@@ -93,9 +93,13 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                 }
                 else
                 {
-                    // There is already an ID, so just add the triangle to it
-                    cAABB* theAABB = itAABB->second;
-                    theAABB->AABBsTriangles.push_back(tri);
+                    // There is already an ID, but we have to make 
+                    // sure that the triangle wasn't already there
+                    if (ID2 != ID1)
+                    {
+                        cAABB* theAABB = itAABB->second;
+                        theAABB->AABBsTriangles.push_back(tri);
+                    }                    
                 }
 
                 long long ID3;
@@ -115,9 +119,13 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                 }
                 else
                 {
-                    // There is already an ID, so just add the triangle to it
-                    cAABB* theAABB = itAABB->second;
-                    theAABB->AABBsTriangles.push_back(tri);
+                    // There is already an ID, but we have to make 
+                    // sure that the triangle wasn't already there
+                    if ((ID3 != ID1) && (ID3 != ID2))
+                    {
+                        cAABB* theAABB = itAABB->second;
+                        theAABB->AABBsTriangles.push_back(tri);
+                    }
                 }
             }//for (int i = 0; i < tesseleted...
         }//elseif (this->tesselate(tri...        
