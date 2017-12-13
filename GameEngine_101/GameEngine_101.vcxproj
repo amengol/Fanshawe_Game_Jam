@@ -142,6 +142,7 @@
     <None Include="assets\shaders\simpleVert.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cAABB.cpp" />
     <ClCompile Include="cAABBsManager.cpp" />
     <ClCompile Include="cCameraObject.cpp" />
     <ClCompile Include="cDebugRenderer.cpp" />
