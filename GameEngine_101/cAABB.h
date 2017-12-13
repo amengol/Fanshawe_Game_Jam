@@ -14,12 +14,10 @@ public:
     std::vector<sAABB_Triangle*> AABBsTriangles;
 
 private:
-    // MinXYZ and Diameter
-    glm::vec3 min;
-    float diameter;
-
-    // sAABB ID
-    long long int ID;
+    
+    glm::vec3 min;      // The minimum XYZ point of the bouding box
+    glm::vec3 max;      // The maximum XYZ point of the bouding box    
+    long long int ID;   // sAABB ID
 
 };
 

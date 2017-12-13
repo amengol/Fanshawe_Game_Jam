@@ -2,9 +2,6 @@
 
 cAABB::cAABB(long long int ID, float diameter)
 {
-    // Set the diameter
-    this->diameter = diameter;
-
     // Let's decompose the long long
     // The ID should be 18 digits long in the format
     // ?xxxxx?yyyyy?zzzzz (? can be 1 or 0 for negative and posite, respectively)
@@ -12,7 +9,7 @@ cAABB::cAABB(long long int ID, float diameter)
     const int oneBi = 1000000;                  // one Billion
     const long long oneBiSq = oneBi * oneBi;    // one Billion Squared
 
-                                                // For X we want the first 6 digits (Left to Ritgh)
+    // For X we want the first 6 digits (Left to Ritgh)
     int x = floor(ID / oneBiSq);
 
     // Check if it is "negative"
@@ -52,6 +49,9 @@ cAABB::cAABB(long long int ID, float diameter)
     {
         this->min.z = z;
     }
+
+    // Now the maximum point
+    this->max = this->min + diameter;
 
 
 }
