@@ -159,29 +159,29 @@ void cAABBsManager::genDebugTris()
         // The order of the vertices follows a counter clockwise
         // "render" direction (in case o need it)
         tempTri.setTriangle(vert2, vert1, vert0);
-        m_vDebugTri.push_back(tempTri);
+        vDebugTri.push_back(tempTri);
         tempTri.setTriangle(vert1, vert2, vert3);
-        m_vDebugTri.push_back(tempTri);
+        vDebugTri.push_back(tempTri);
         tempTri.setTriangle(vert4, vert2, vert0);
-        m_vDebugTri.push_back(tempTri);
+        vDebugTri.push_back(tempTri);
         tempTri.setTriangle(vert2, vert4, vert6);
-        m_vDebugTri.push_back(tempTri);
+        vDebugTri.push_back(tempTri);
         tempTri.setTriangle(vert1, vert4, vert0);
-        m_vDebugTri.push_back(tempTri);
+        vDebugTri.push_back(tempTri);
         tempTri.setTriangle(vert4, vert1, vert5);
-        m_vDebugTri.push_back(tempTri);
+        vDebugTri.push_back(tempTri);
         tempTri.setTriangle(vert6, vert5, vert7);
-        m_vDebugTri.push_back(tempTri);
+        vDebugTri.push_back(tempTri);
         tempTri.setTriangle(vert5, vert6, vert4);
-        m_vDebugTri.push_back(tempTri);
+        vDebugTri.push_back(tempTri);
         tempTri.setTriangle(vert3, vert6, vert7);
-        m_vDebugTri.push_back(tempTri);
+        vDebugTri.push_back(tempTri);
         tempTri.setTriangle(vert6, vert3, vert2);
-        m_vDebugTri.push_back(tempTri);
+        vDebugTri.push_back(tempTri);
         tempTri.setTriangle(vert5, vert3, vert7);
-        m_vDebugTri.push_back(tempTri);
+        vDebugTri.push_back(tempTri);
         tempTri.setTriangle(vert3, vert5, vert1);
-        m_vDebugTri.push_back(tempTri);
+        vDebugTri.push_back(tempTri);
         
     }
 }
@@ -264,7 +264,8 @@ bool cAABBsManager::tesselate(sAABB_Triangle* triangle,
     float triSize = this->calcLongestSide(*triangle);
     if (triSize <= (minSize))
     {
-        return false;
+        tesseleted.push_back(*triangle);
+        return true;
     }
     
     // Based on Feeney's code:
@@ -276,13 +277,15 @@ bool cAABBsManager::tesselate(sAABB_Triangle* triangle,
     vecSourceTris.push_back(*triangle);
 
     // Loop through the source list
-    for (std::vector<sAABB_Triangle>::iterator itTri = vecSourceTris.begin();
-        itTri != vecSourceTris.end(); itTri++)
+    for (int i = 0; i < vecSourceTris.size(); i++)
+    /*for (std::vector<sAABB_Triangle>::iterator itTri = vecSourceTris.begin();
+        itTri != vecSourceTris.end(); itTri++)*/
     {
+        sAABB_Triangle tri = vecSourceTris[i];
         // Is the current triangle small enough? 
-        if (this->calcLongestSide(*itTri) <= minSize)
+        if (this->calcLongestSide(tri) <= minSize)
         {	// Yes, so add it to the tessellated vector
-            tesseleted.push_back(*itTri);
+            tesseleted.push_back(tri);
         }
         else
         {	// Triangle is too big, so split into three triangles
@@ -300,21 +303,21 @@ bool cAABBsManager::tesselate(sAABB_Triangle* triangle,
             
             sAABB_Triangle A, B, C, D;
 
-            A.verticeA = itTri->verticeA;
-            A.verticeB = this->getCentreEdge(itTri->verticeA, itTri->verticeB);
-            A.verticeC = this->getCentreEdge(itTri->verticeA, itTri->verticeC);
+            A.verticeA = tri.verticeA;
+            A.verticeB = this->getCentreEdge(tri.verticeA, tri.verticeB);
+            A.verticeC = this->getCentreEdge(tri.verticeA, tri.verticeC);
 
-            B.verticeA = itTri->verticeB;
-            B.verticeB = this->getCentreEdge(itTri->verticeA, itTri->verticeB);
-            B.verticeC = this->getCentreEdge(itTri->verticeB, itTri->verticeC);
+            B.verticeA = tri.verticeB;
+            B.verticeB = this->getCentreEdge(tri.verticeA, tri.verticeB);
+            B.verticeC = this->getCentreEdge(tri.verticeB, tri.verticeC);
 
-            C.verticeA = itTri->verticeC;
-            C.verticeB = this->getCentreEdge(itTri->verticeA, itTri->verticeC);
-            C.verticeC = this->getCentreEdge(itTri->verticeB, itTri->verticeC);
+            C.verticeA = tri.verticeC;
+            C.verticeB = this->getCentreEdge(tri.verticeA, tri.verticeC);
+            C.verticeC = this->getCentreEdge(tri.verticeB, tri.verticeC);
 
-            D.verticeA = this->getCentreEdge(itTri->verticeA, itTri->verticeB);
-            D.verticeB = this->getCentreEdge(itTri->verticeA, itTri->verticeC);
-            D.verticeC = this->getCentreEdge(itTri->verticeB, itTri->verticeC);
+            D.verticeA = this->getCentreEdge(tri.verticeA, tri.verticeB);
+            D.verticeB = this->getCentreEdge(tri.verticeA, tri.verticeC);
+            D.verticeC = this->getCentreEdge(tri.verticeB, tri.verticeC);
 
             // Note we add this to the "too big" triangles, 
             //	but we DON'T bother taking the original one off.
@@ -332,7 +335,7 @@ bool cAABBsManager::tesselate(sAABB_Triangle* triangle,
         }// if ( itTri...
     }//for ( std::vector<sTriAABB>...
 
-    return false;
+    return true;
 }
 
 // From Feeney's code
