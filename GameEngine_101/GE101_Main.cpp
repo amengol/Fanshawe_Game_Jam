@@ -188,6 +188,7 @@ int main()
     ::g_pVAOManager->lookupMeshFromName("FractalTerrain", terrain);
     ::g_pAABBsManager->genAABBs(&terrain, 1.0f);
     ::g_pAABBsManager->genDebugTris();
+    ::g_pAABBsManager->createMesh();
 
     //-------------------------------------------------------------------------
     // Debug render
