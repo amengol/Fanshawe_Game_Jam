@@ -24,6 +24,7 @@
 #include "cSoundManager.h"
 #include "Physics.h"
 #include "globalGameStuff.h"
+#include "cAABBsManager.h"
 
 using namespace std;
 
@@ -36,6 +37,7 @@ cCameraObject* g_pCamera = NULL;
 cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
 cDebugRenderer*	g_pDebugRenderer = NULL;
+cAABBsManager* g_pAABBsManager = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
 
 // To deal with sounds
@@ -161,18 +163,7 @@ int main()
 
     // If we are here, the shaders comipled and linked OK
     std::cout << "The shaders comipled and linked OK" << std::endl;
-
-    //-------------------------------------------------------------------------
-    // Debug render
-    ::g_pDebugRenderer = new cDebugRenderer();
-    if (!::g_pDebugRenderer->initialize(error))
-    {
-        std::cout << "Warning: couldn't init the debug renderer." << std::endl;
-    }
-    ::g_pDebugRenderer->addTriangle(glm::vec3(-100.0f, 0.0f, 0.0f),
-                                    glm::vec3(100.0f, 0.0f, 0.0f),
-                                    glm::vec3(0.0f, 100.0f, 0.0f),
-                                    glm::vec3(1.0f, 1.0f, 1.0f), true);
+        
     //-------------------------------------------------------------------------
     // Load models
         
@@ -189,6 +180,31 @@ int main()
         std::cout << error << std::endl;
     }
     LoadModelsIntoScene();
+
+    //-------------------------------------------------------------------------
+    // AABBs
+    ::g_pAABBsManager = new cAABBsManager();
+    cMesh terrain;
+    ::g_pVAOManager->lookupMeshFromName("FractalTerrain", terrain);
+    ::g_pAABBsManager->genAABBs(&terrain, 1.0f);
+    ::g_pAABBsManager->genDebugTris();
+
+    //-------------------------------------------------------------------------
+    // Debug render
+    ::g_pDebugRenderer = new cDebugRenderer();
+    if (!::g_pDebugRenderer->initialize(error))
+    {
+        std::cout << "Warning: couldn't init the debug renderer." << std::endl;
+    }
+
+    for (int i = 0; i < ::g_pAABBsManager->vDebugTri.size(); i++)
+    {
+        glm::vec3 vertA = ::g_pAABBsManager->vDebugTri[i].verticeA;
+        glm::vec3 vertB = ::g_pAABBsManager->vDebugTri[i].verticeB;
+        glm::vec3 vertC = ::g_pAABBsManager->vDebugTri[i].verticeC;
+
+        ::g_pDebugRenderer->addTriangle(vertA, vertB, vertC, glm::vec3(1.0f, 1.0f, 1.0f), true);
+    }
 
     //=========================================================================
     // Sound things
