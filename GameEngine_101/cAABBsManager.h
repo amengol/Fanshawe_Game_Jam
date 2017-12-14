@@ -37,6 +37,9 @@ public:
     // Generates a vec3 from an ID (sort of a helper function)
     glm::vec3 genVecFromID(long long ID);
 
+    // To debug: create a mesh file
+    void createMesh();
+
     std::vector<sAABB_Triangle> vDebugTri;                   // Vector of Debug Triangles
 
 private:

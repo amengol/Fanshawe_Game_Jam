@@ -72,9 +72,20 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                 }
                 else
                 {
-                    // There is already an ID, so just add the triangle to it
+                    // There is already an ID, but we have to make 
+                    // sure that the triangle wasn't already there
                     cAABB* theAABB = itAABB->second;
-                    theAABB->AABBsTriangles.push_back(tri);
+                    bool hasTheTriangle = false;
+                    for (int i = 0; i < theAABB->AABBsTriangles.size(); i++)
+                    {
+                        // If the triangle's centroid technically don't differ, they are the same
+                        if (glm::length((tri->Centroid - theAABB->AABBsTriangles[i]->Centroid)) < 0.01f)
+                        {
+                            hasTheTriangle = true;
+                            break;
+                        }
+                    }
+                    if (!hasTheTriangle) theAABB->AABBsTriangles.push_back(tri);
                 }
 
                 long long ID2;
@@ -99,7 +110,17 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                     if (ID2 != ID1)
                     {
                         cAABB* theAABB = itAABB->second;
-                        theAABB->AABBsTriangles.push_back(tri);
+                        bool hasTheTriangle = false;
+                        for (int i = 0; i < theAABB->AABBsTriangles.size(); i++)
+                        {
+                            // If the triangle's centroid technically don't differ, they are the same
+                            if (glm::length((tri->Centroid - theAABB->AABBsTriangles[i]->Centroid)) < 0.01f)
+                            {
+                                hasTheTriangle = true;
+                                break;
+                            }
+                        }
+                        if (!hasTheTriangle) theAABB->AABBsTriangles.push_back(tri);
                     }                    
                 }
 
@@ -125,7 +146,17 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                     if ((ID3 != ID1) && (ID3 != ID2))
                     {
                         cAABB* theAABB = itAABB->second;
-                        theAABB->AABBsTriangles.push_back(tri);
+                        bool hasTheTriangle = false;
+                        for (int i = 0; i < theAABB->AABBsTriangles.size(); i++)
+                        {
+                            // If the triangle's centroid technically don't differ, they are the same
+                            if (glm::length((tri->Centroid - theAABB->AABBsTriangles[i]->Centroid)) < 0.01f)
+                            {
+                                hasTheTriangle = true;
+                                break;
+                            }
+                        }
+                        if (!hasTheTriangle) theAABB->AABBsTriangles.push_back(tri);
                     }
                 }
             }//for (int i = 0; i < tesseleted...
@@ -153,7 +184,7 @@ void cAABBsManager::genDebugTris()
         glm::vec3 vert6 = vert0 + glm::vec3(0.0f, diameter, diameter);
         glm::vec3 vert7 = vert0 + glm::vec3(diameter, diameter, diameter);
 
-        // Now create 16 triangles
+        // Now create 12 triangles
         sAABB_Triangle tempTri;
 
         // The order of the vertices follows a counter clockwise
@@ -348,28 +379,103 @@ glm::vec3 cAABBsManager::genVecFromID(long long ID)
 {
     // Extract XYZ coordinates
     
-    int oneBi = 1000000;
-    long long oneBiSq = oneBi * oneBi;
+    unsigned long long oneBi = 1000000;
+    unsigned long long oneBiSq = oneBi * oneBi;
+    
+    // Return values
+    float retX, retY, retZ;
 
     // For X, shifit 12 places to the right
-    float x = floor(ID / oneBiSq);
+    unsigned long long x = floor(ID / oneBiSq);
 
     // Is it "negative"?
-    if (x > 99999) x = -x;
+    if (x > 99999)
+    {
+        retX = x - 100000;
+        retX = -retX;
+    }
+    else
+    {
+        retX = x;
+    }
 
     // For Y, we need ID - the X with all the 12 places
     // then shift 6 places to the right
-    float y = floor((ID - (x * oneBiSq)) / oneBi);
+    unsigned long long y = floor((ID - (x * oneBiSq)) / oneBi);
 
     // Is it "negative"?
-    if (y > 99999) y = -y;
+    if (y > 99999)
+    {
+        retY = y - 100000;
+        retY = -retY;
+    }
+    else
+    {
+        retY = y;
+    }
 
     // For Z, we need ID - XsYs
-    float z = ID - ((x * oneBiSq) + (y * oneBi));
+    unsigned long long z = ID - ((x * oneBiSq) + (y * oneBi));
 
     // Is it "negative"?
-    if (z > 99999) z = -z;
+    if (z > 99999)
+    {
+        retZ = z - 100000;
+        retZ = -retZ;
+    }
+    else
+    {
+        retZ = z;
+    }
 
-    return glm::vec3(x, y, z);
+    return glm::vec3(retX, retY, retZ);
+}
+
+void cAABBsManager::createMesh()
+{
+    std::ofstream plyFile("assets/models/aabb.ply");
+
+    if (!plyFile.is_open())
+    {	// Didn't open file, so return
+        std::cout << "Didn't create the Debug PLY file\n";
+    }
+    // File is open, let's read it
+
+    plyFile << "ply\n";
+    plyFile << "format ascii 1.0\n";
+    plyFile << "comment VCGLIB generated\n";
+    plyFile << "element vertex ";
+    int numVertices = this->vDebugTri.size() * 3;
+    plyFile << numVertices << '\n';
+    plyFile << "property float x\n"
+        << "property float y\n"
+        << "property float z\n";
+    plyFile << "element face ";
+    int numTriangles = this->vDebugTri.size();
+    plyFile << numTriangles << '\n';
+    plyFile << "property list uchar int vertex_indices\n" << "end_header\n";
+    for (int i = 0; i < this->vDebugTri.size(); i++)
+    {
+        plyFile << this->vDebugTri[i].verticeA.x << " ";
+        plyFile << this->vDebugTri[i].verticeA.y << " ";
+        plyFile << this->vDebugTri[i].verticeA.z;
+        plyFile << '\n';
+
+        plyFile << this->vDebugTri[i].verticeB.x << " ";
+        plyFile << this->vDebugTri[i].verticeB.y << " ";
+        plyFile << this->vDebugTri[i].verticeB.z;
+        plyFile << '\n';
+
+        plyFile << this->vDebugTri[i].verticeC.x << " ";
+        plyFile << this->vDebugTri[i].verticeC.y << " ";
+        plyFile << this->vDebugTri[i].verticeC.z;
+        plyFile << '\n';
+    }
+
+    for (int i = 0; i < this->vDebugTri.size(); i++)
+    {
+        plyFile << "3 " << i << " " << i + 1 << " " << i + 2 << '\n';
+    }
+
 }
 
