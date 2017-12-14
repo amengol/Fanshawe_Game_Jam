@@ -9,16 +9,17 @@ cAABB::cAABB(long long int ID, float diameter)
     // The ID should be 18 digits long in the format
     // ?xxxxx?yyyyy?zzzzz (? can be 1 or 0 for negative and posite, respectively)
 
-    const int oneBi = 1000000;                  // one Billion
-    const long long oneBiSq = oneBi * oneBi;    // one Billion Squared
+    const unsigned long long oneBi = 1000000;                  // one Billion
+    const unsigned long long oneBiSq = oneBi * oneBi;          // one Billion Squared
 
     // For X we want the first 6 digits (Left to Ritgh)
     int x = floor(ID / oneBiSq);
 
     // Check if it is "negative"
-    if (x > oneBi)
+    if (x > 99999)
     {
-        this->min.x = -x;
+        int theX = x - 100000;
+        this->min.x = -theX;
     }
     else
     {
@@ -27,12 +28,13 @@ cAABB::cAABB(long long int ID, float diameter)
 
 
     // For Y we want the 6 in-between digits
-    long long xyDigits = floor(ID / oneBi) * oneBi;
-    int y = (xyDigits - (x * oneBiSq)) / oneBi;
+    unsigned long long xyDigits = floor(ID / oneBi) * oneBi;
+    int y = floor((xyDigits - (x * oneBiSq)) / oneBi);
 
     // Check if it is "negative"
-    if (y > oneBi)
+    if (y > 99999)
     {
+        y -= 100000;
         this->min.y = -y;
     }
     else
@@ -44,8 +46,9 @@ cAABB::cAABB(long long int ID, float diameter)
     int z = ID - xyDigits;
 
     // Check if it is "negative"
-    if (z > oneBi)
+    if (z > 99999)
     {
+        z -= 100000;
         this->min.z = -z;
     }
     else
