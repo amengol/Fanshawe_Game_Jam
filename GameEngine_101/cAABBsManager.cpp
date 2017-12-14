@@ -1,6 +1,7 @@
 #include "cAABBsManager.h"
 #include "sAABB_Triangle.h"
 #include <iostream>
+#include "sAABB_Triangle.h"
 
 cAABBsManager::cAABBsManager()
 {
@@ -131,6 +132,58 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
         }//elseif (this->tesselate(tri...        
     }//for (int i = 0; i < mesh->numberOfTriangles...
 
+}
+
+void cAABBsManager::genDebugTris()
+{
+    // Loop through the map
+    for (std::map<long long, cAABB*>::iterator itTri = m_mapIDtoAABB.begin();
+        itTri != m_mapIDtoAABB.end(); itTri++)
+    {
+        cAABB* theAABB = itTri->second;
+        float diameter = theAABB->getDiameter();
+
+        // The box has eight vertices
+        glm::vec3 vert0 = this->genVecFromID(itTri->first);
+        glm::vec3 vert1 = vert0 + glm::vec3(diameter, 0.0f, 0.0f);
+        glm::vec3 vert2 = vert0 + glm::vec3(0.0f, diameter, 0.0f);
+        glm::vec3 vert3 = vert0 + glm::vec3(diameter, diameter, 0.0f);
+        glm::vec3 vert4 = vert0 + glm::vec3(0.0f, 0.0f, diameter);
+        glm::vec3 vert5 = vert0 + glm::vec3(diameter, 0.0f, diameter);
+        glm::vec3 vert6 = vert0 + glm::vec3(0.0f, diameter, diameter);
+        glm::vec3 vert7 = vert0 + glm::vec3(diameter, diameter, diameter);
+
+        // Now create 16 triangles
+        sAABB_Triangle tempTri;
+
+        // The order of the vertices follows a counter clockwise
+        // "render" direction (in case o need it)
+        tempTri.setTriangle(vert2, vert1, vert0);
+        m_vDebugTri.push_back(tempTri);
+        tempTri.setTriangle(vert1, vert2, vert3);
+        m_vDebugTri.push_back(tempTri);
+        tempTri.setTriangle(vert4, vert2, vert0);
+        m_vDebugTri.push_back(tempTri);
+        tempTri.setTriangle(vert2, vert4, vert6);
+        m_vDebugTri.push_back(tempTri);
+        tempTri.setTriangle(vert1, vert4, vert0);
+        m_vDebugTri.push_back(tempTri);
+        tempTri.setTriangle(vert4, vert1, vert5);
+        m_vDebugTri.push_back(tempTri);
+        tempTri.setTriangle(vert6, vert5, vert7);
+        m_vDebugTri.push_back(tempTri);
+        tempTri.setTriangle(vert5, vert6, vert4);
+        m_vDebugTri.push_back(tempTri);
+        tempTri.setTriangle(vert3, vert6, vert7);
+        m_vDebugTri.push_back(tempTri);
+        tempTri.setTriangle(vert6, vert3, vert2);
+        m_vDebugTri.push_back(tempTri);
+        tempTri.setTriangle(vert5, vert3, vert7);
+        m_vDebugTri.push_back(tempTri);
+        tempTri.setTriangle(vert3, vert5, vert1);
+        m_vDebugTri.push_back(tempTri);
+        
+    }
 }
 
 float cAABBsManager::calcLongestSide(sAABB_Triangle& triangle)
@@ -287,3 +340,33 @@ glm::vec3 cAABBsManager::getCentreEdge(glm::vec3 vertice1, glm::vec3 vertice2)
 {
     return (vertice1 + vertice2) / 2.0f;
 }
+
+glm::vec3 cAABBsManager::genVecFromID(long long ID)
+{
+    // Extract XYZ coordinates
+    
+    int oneBi = 1000000;
+    long long oneBiSq = oneBi * oneBi;
+
+    // For X, shifit 12 places to the right
+    float x = floor(ID / oneBiSq);
+
+    // Is it "negative"?
+    if (x > 99999) x = -x;
+
+    // For Y, we need ID - the X with all the 12 places
+    // then shift 6 places to the right
+    float y = floor((ID - (x * oneBiSq)) / oneBi);
+
+    // Is it "negative"?
+    if (y > 99999) y = -y;
+
+    // For Z, we need ID - XsYs
+    float z = ID - ((x * oneBiSq) + (y * oneBi));
+
+    // Is it "negative"?
+    if (z > 99999) z = -z;
+
+    return glm::vec3(x, y, z);
+}
+

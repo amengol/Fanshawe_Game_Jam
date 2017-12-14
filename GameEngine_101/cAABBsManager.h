@@ -16,6 +16,9 @@ public:
     // Generates AABBs from a mesh, respecting a size
     void genAABBs(cMesh* mesh, float size);
 
+    // Generates DebugRenderer triangles
+    void genDebugTris();
+
     // Calculates the longest side of a triangle
     float calcLongestSide(sAABB_Triangle& triangle);
 
@@ -31,9 +34,13 @@ public:
     // Gets the centre point of two vertices
     glm::vec3 getCentreEdge(glm::vec3 vertice1, glm::vec3 vertice2);
 
+    // Generates a vec3 from an ID (sort of a helper function)
+    glm::vec3 genVecFromID(long long ID);
+
 private:
-   // std::vector<cAABB*> m_AABBs;                   // Stores all AABBs for the mesh
-    std::map<long long, cAABB*> m_mapIDtoAABB;     // Map the IDs to the AABBs
+   // std::vector<cAABB*> m_AABBs;                         // Stores all AABBs for the mesh
+    std::map<long long, cAABB*> m_mapIDtoAABB;             // Map the IDs to the AABBs
+    std::vector<sAABB_Triangle> m_vDebugTri;                   // Vector of Debug Triangles
 };
 
 #endif // !_cAABBsManager_HG_
