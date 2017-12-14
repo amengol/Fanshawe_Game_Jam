@@ -37,10 +37,12 @@ public:
     // Generates a vec3 from an ID (sort of a helper function)
     glm::vec3 genVecFromID(long long ID);
 
+    std::vector<sAABB_Triangle> vDebugTri;                   // Vector of Debug Triangles
+
 private:
    // std::vector<cAABB*> m_AABBs;                         // Stores all AABBs for the mesh
     std::map<long long, cAABB*> m_mapIDtoAABB;             // Map the IDs to the AABBs
-    std::vector<sAABB_Triangle> m_vDebugTri;                   // Vector of Debug Triangles
+    
 };
 
 #endif // !_cAABBsManager_HG_
