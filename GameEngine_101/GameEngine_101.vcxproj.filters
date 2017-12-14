@@ -119,6 +119,9 @@
     <ClCompile Include="cAABB.cpp">
       <Filter>AABB</Filter>
     </ClCompile>
+    <ClCompile Include="sAABB_Triangle.cpp">
+      <Filter>AABB</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
