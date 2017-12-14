@@ -2,6 +2,9 @@
 
 cAABB::cAABB(long long int ID, float diameter)
 {
+    // Set the diameter
+    this->diameter = diameter;
+
     // Let's decompose the long long
     // The ID should be 18 digits long in the format
     // ?xxxxx?yyyyy?zzzzz (? can be 1 or 0 for negative and posite, respectively)
@@ -50,12 +53,24 @@ cAABB::cAABB(long long int ID, float diameter)
         this->min.z = z;
     }
 
-    // Now the maximum point
-    this->max = this->min + diameter;
-
 
 }
 
 cAABB::~cAABB()
 {
+}
+
+glm::vec3 cAABB::getMinVertice()
+{
+    return this->min;
+}
+
+glm::vec3 cAABB::getMaxVertice()
+{
+    return this->min + 1.0f;
+}
+
+float cAABB::getDiameter()
+{
+    return this->diameter;
 }
