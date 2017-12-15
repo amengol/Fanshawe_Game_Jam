@@ -217,6 +217,80 @@ void cAABBsManager::genDebugTris()
     }
 }
 
+void cAABBsManager::genDebugLines()
+{
+    // Loop through the map
+    for (std::map<long long, cAABB*>::iterator itTri = m_mapIDtoAABB.begin();
+        itTri != m_mapIDtoAABB.end(); itTri++)
+    {
+        cAABB* theAABB = itTri->second;
+        float diameter = theAABB->getDiameter();
+
+        // The box has eight vertices
+        glm::vec3 vert0 = this->genVecFromID(itTri->first);
+        glm::vec3 vert1 = vert0 + glm::vec3(diameter, 0.0f, 0.0f);
+        glm::vec3 vert2 = vert0 + glm::vec3(0.0f, diameter, 0.0f);
+        glm::vec3 vert3 = vert0 + glm::vec3(diameter, diameter, 0.0f);
+        glm::vec3 vert4 = vert0 + glm::vec3(0.0f, 0.0f, diameter);
+        glm::vec3 vert5 = vert0 + glm::vec3(diameter, 0.0f, diameter);
+        glm::vec3 vert6 = vert0 + glm::vec3(0.0f, diameter, diameter);
+        glm::vec3 vert7 = vert0 + glm::vec3(diameter, diameter, diameter);
+
+        // Now create 12 lines
+        Lines tempLine;
+        tempLine.color = glm::vec3(1.0f, 0.0f, 0.0f);
+        
+        tempLine.lineStart = vert0;
+        tempLine.lineEnd = vert1;        
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert0;
+        tempLine.lineEnd = vert2;        
+        vDebugLines.push_back(tempLine);
+        
+        tempLine.lineStart = vert0;
+        tempLine.lineEnd = vert4;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert1;
+        tempLine.lineEnd = vert3;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert1;
+        tempLine.lineEnd = vert5;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert2;
+        tempLine.lineEnd = vert3;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert2;
+        tempLine.lineEnd = vert6;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert3;
+        tempLine.lineEnd = vert7;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert4;
+        tempLine.lineEnd = vert5;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert4;
+        tempLine.lineEnd = vert6;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert5;
+        tempLine.lineEnd = vert7;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert6;
+        tempLine.lineEnd = vert7;
+        vDebugLines.push_back(tempLine);
+
+    }
+}
+
 float cAABBsManager::calcLongestSide(sAABB_Triangle& triangle)
 {
     // Based on Feeney's code
@@ -429,53 +503,5 @@ glm::vec3 cAABBsManager::genVecFromID(long long ID)
     }
 
     return glm::vec3(retX, retY, retZ);
-}
-
-void cAABBsManager::createMesh()
-{
-    std::ofstream plyFile("assets/models/aabb.ply");
-
-    if (!plyFile.is_open())
-    {	// Didn't open file, so return
-        std::cout << "Didn't create the Debug PLY file\n";
-    }
-    // File is open, let's read it
-
-    plyFile << "ply\n";
-    plyFile << "format ascii 1.0\n";
-    plyFile << "comment VCGLIB generated\n";
-    plyFile << "element vertex ";
-    int numVertices = this->vDebugTri.size() * 3;
-    plyFile << numVertices << '\n';
-    plyFile << "property float x\n"
-        << "property float y\n"
-        << "property float z\n";
-    plyFile << "element face ";
-    int numTriangles = this->vDebugTri.size();
-    plyFile << numTriangles << '\n';
-    plyFile << "property list uchar int vertex_indices\n" << "end_header\n";
-    for (int i = 0; i < this->vDebugTri.size(); i++)
-    {
-        plyFile << this->vDebugTri[i].verticeA.x << " ";
-        plyFile << this->vDebugTri[i].verticeA.y << " ";
-        plyFile << this->vDebugTri[i].verticeA.z;
-        plyFile << '\n';
-
-        plyFile << this->vDebugTri[i].verticeB.x << " ";
-        plyFile << this->vDebugTri[i].verticeB.y << " ";
-        plyFile << this->vDebugTri[i].verticeB.z;
-        plyFile << '\n';
-
-        plyFile << this->vDebugTri[i].verticeC.x << " ";
-        plyFile << this->vDebugTri[i].verticeC.y << " ";
-        plyFile << this->vDebugTri[i].verticeC.z;
-        plyFile << '\n';
-    }
-
-    for (int i = 0; i < this->vDebugTri.size(); i++)
-    {
-        plyFile << "3 " << i << " " << i + 1 << " " << i + 2 << '\n';
-    }
-
 }
 

@@ -19,6 +19,9 @@ public:
     // Generates DebugRenderer triangles
     void genDebugTris();
 
+    // Generates DebugRenderer Lines
+    void genDebugLines();
+
     // Calculates the longest side of a triangle
     float calcLongestSide(sAABB_Triangle& triangle);
 
@@ -37,10 +40,16 @@ public:
     // Generates a vec3 from an ID (sort of a helper function)
     glm::vec3 genVecFromID(long long ID);
 
-    // To debug: create a mesh file
-    void createMesh();
-
     std::vector<sAABB_Triangle> vDebugTri;                   // Vector of Debug Triangles
+
+    struct Lines
+    {
+        glm::vec3 lineStart;
+        glm::vec3 lineEnd;
+        glm::vec3 color;
+    };
+
+    std::vector<Lines> vDebugLines;                         // Debug lines
 
 private:
    // std::vector<cAABB*> m_AABBs;                         // Stores all AABBs for the mesh
