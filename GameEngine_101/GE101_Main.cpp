@@ -187,8 +187,7 @@ int main()
     cMesh terrain;
     ::g_pVAOManager->lookupMeshFromName("FractalTerrain", terrain);
     ::g_pAABBsManager->genAABBs(&terrain, 1.0f);
-    ::g_pAABBsManager->genDebugTris();
-    ::g_pAABBsManager->createMesh();
+    ::g_pAABBsManager->genDebugLines();
 
     //-------------------------------------------------------------------------
     // Debug render
@@ -198,13 +197,13 @@ int main()
         std::cout << "Warning: couldn't init the debug renderer." << std::endl;
     }
 
-    for (int i = 0; i < ::g_pAABBsManager->vDebugTri.size(); i++)
+    for (int i = 0; i < ::g_pAABBsManager->vDebugLines.size(); i++)
     {
-        glm::vec3 vertA = ::g_pAABBsManager->vDebugTri[i].verticeA;
-        glm::vec3 vertB = ::g_pAABBsManager->vDebugTri[i].verticeB;
-        glm::vec3 vertC = ::g_pAABBsManager->vDebugTri[i].verticeC;
+        glm::vec3 lineStart = ::g_pAABBsManager->vDebugLines[i].lineStart;
+        glm::vec3 lineEnd = ::g_pAABBsManager->vDebugLines[i].lineEnd;
+        glm::vec3 color = ::g_pAABBsManager->vDebugLines[i].color;
 
-        ::g_pDebugRenderer->addTriangle(vertA, vertB, vertC, glm::vec3(1.0f, 1.0f, 1.0f), true);
+        ::g_pDebugRenderer->addLine(lineStart, lineEnd, color, true);
     }
 
     //=========================================================================
