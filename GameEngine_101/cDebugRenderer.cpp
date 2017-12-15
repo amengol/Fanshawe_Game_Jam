@@ -113,8 +113,17 @@ bool cDebugRenderer::resizeBufferForPoints(unsigned int newNumberOfPoints)
 
 bool cDebugRenderer::resizeBufferForLines(unsigned int newNumberOfLines)
 {
-	//TODO
-	return true;
+    // ***********************************************************
+    // TODO: Erase the old array and buffer if present
+    // ***********************************************************
+
+    this->m_VAOBufferInfoLines.bufferSizeObjects = newNumberOfLines;
+    this->m_VAOBufferInfoLines.bufferSizeVertices = newNumberOfLines * 2;
+    this->m_VAOBufferInfoLines.bufferSizeBytes = 0;
+    this->m_VAOBufferInfoLines.numberOfObjectsToDraw = 0;
+    this->m_VAOBufferInfoLines.numberOfVerticesToDraw = 0;
+    this->m_VAOBufferInfoLines.shaderID = this->m_pShaderProg->shaderProgramID;
+    return this->m_InitBuffer(this->m_VAOBufferInfoLines);
 }
 
 bool cDebugRenderer::resizeBufferForTriangles(unsigned int newNumberOfTriangles)
@@ -236,7 +245,7 @@ cDebugRenderer::~cDebugRenderer()
 void cDebugRenderer::RenderDebugObjects(glm::mat4 matCameraView, glm::mat4 matProjection)
 {
 	this->m_copyTrianglesIntoRenderBuffer();
-//	this->m_copyLinesIntoRenderBuffer();
+	this->m_copyLinesIntoRenderBuffer();
 //	this->m_copyPointsIntoRenderBuffer();
 
 	// Start rendering 
@@ -271,6 +280,11 @@ void cDebugRenderer::RenderDebugObjects(glm::mat4 matCameraView, glm::mat4 matPr
 	glBindVertexArray( 0 );
 
 	// Draw lines
+    glBindVertexArray(this->m_VAOBufferInfoLines.VAO_ID);
+    glDrawArrays(GL_LINES,
+        0,		// 1st vertex
+        this->m_VAOBufferInfoLines.numberOfVerticesToDraw);
+    glBindVertexArray(0);
 
 	// Draw points
 
@@ -298,7 +312,7 @@ void cDebugRenderer::m_copyTrianglesIntoRenderBuffer(void)
 	unsigned int vertexIndex = 0;	// index of the vertex buffer to copy into 
 	unsigned int triIndex = 0;		// index of the triangle buffer
 	for (; triIndex != this->m_VAOBufferInfoTriangles.numberOfObjectsToDraw; 
-		   triIndex++, vertexIndex++)
+		   triIndex++)
 	{
 		sDebugTri& curTri = this->m_vecTriangles[triIndex];
 		this->m_VAOBufferInfoTriangles.pLocalVertexArray[vertexIndex+0].x = curTri.v[0].x;
@@ -327,6 +341,8 @@ void cDebugRenderer::m_copyTrianglesIntoRenderBuffer(void)
 		this->m_VAOBufferInfoTriangles.pLocalVertexArray[vertexIndex+2].g = curTri.colour.g;
 		this->m_VAOBufferInfoTriangles.pLocalVertexArray[vertexIndex+2].b = curTri.colour.b;
 		this->m_VAOBufferInfoTriangles.pLocalVertexArray[vertexIndex+2].a = 1.0f;
+
+        vertexIndex += 3;
 
 		// Keep this one? (i.e. is persistent?)
 		if (curTri.bPersist)
@@ -382,6 +398,98 @@ void cDebugRenderer::m_copyTrianglesIntoRenderBuffer(void)
 //	glUnmapBuffer(this->m_VAOBufferInfoTriangles.vertex_buffer_ID);
 
 	return;
+}
+
+void cDebugRenderer::m_copyLinesIntoRenderBuffer(void)
+{
+    // Used to keep the "persistent" ones...
+    std::vector<sDebugLine> vecLineTemp;
+
+    this->m_VAOBufferInfoLines.numberOfObjectsToDraw = (unsigned int)this->m_vecLines.size();
+
+    this->m_VAOBufferInfoLines.numberOfVerticesToDraw
+        = this->m_VAOBufferInfoLines.numberOfObjectsToDraw * 2;	// Lines
+
+    unsigned int vertexIndex = 0;	// index of the vertex buffer to copy into 
+    unsigned int LineIndex = 0;		// index of the line buffer
+    for (; LineIndex != this->m_VAOBufferInfoLines.numberOfObjectsToDraw;
+        LineIndex++)
+    {
+        sDebugLine& curLine = this->m_vecLines[LineIndex];
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].x = curLine.points[0].x;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].y = curLine.points[0].y;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].z = curLine.points[0].z;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].w = 1.0f;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].r = curLine.colour.r;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].g = curLine.colour.g;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].b = curLine.colour.b;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].a = 1.0f;
+
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].x = curLine.points[1].x;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].y = curLine.points[1].y;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].z = curLine.points[1].z;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].w = 1.0f;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].r = curLine.colour.r;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].g = curLine.colour.g;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].b = curLine.colour.b;
+        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].a = 1.0f;
+
+        vertexIndex += 2;
+
+        // Keep this one? (i.e. is persistent?)
+        if (curLine.bPersist)
+        {
+            vecLineTemp.push_back(curLine);
+        }
+    }//for (; 
+
+
+     // Clear the line list and push back the persistent ones
+    this->m_vecLines.clear();
+    for (std::vector<sDebugLine>::iterator itLine = vecLineTemp.begin(); itLine != vecLineTemp.end(); itLine++)
+    {
+        this->m_vecLines.push_back(*itLine);
+    }
+
+    // Copy the new vertex information to the vertex buffer
+    // Copy the local vertex array into the GPUs memory
+    unsigned int numberOfBytesToCopy =
+        this->m_VAOBufferInfoLines.numberOfVerticesToDraw *
+        sizeof(sVertex_xyzw_rgba);
+
+    GLenum err = glGetError();
+
+    glBindBuffer(GL_ARRAY_BUFFER, this->m_VAOBufferInfoLines.vertex_buffer_ID);
+    glBufferData(GL_ARRAY_BUFFER,
+        numberOfBytesToCopy,
+        this->m_VAOBufferInfoLines.pLocalVertexArray,
+        GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    err = glGetError();
+    std::string error;
+    std::string errDetails;
+    if (err != GL_NO_ERROR)
+    {
+        error = decodeGLErrorFromEnum(err, errDetails);
+    }
+
+    //	numberOfBytesToCopy,
+    //	this->m_VAOBufferInfoTriangles.pLocalVertexArray,
+    //	GL_DYNAMIC_DRAW);
+
+    //	void* pGPUBuff = glMapBuffer( this->m_VAOBufferInfoTriangles.vertex_buffer_ID,
+    //                             GL_COPY_WRITE_BUFFER);
+    //memcpy(
+    //	this->m_VAOBufferInfoTriangles.pLocalVertexArray,
+    //	pGPUBuff,
+    //	numberOfBytesToCopy);
+
+
+
+    //	glUnmapBuffer(this->m_VAOBufferInfoTriangles.vertex_buffer_ID);
+
+    return;
 }
 
 

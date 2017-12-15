@@ -16,7 +16,7 @@ public:
 
 	// Default maximum number of objects in buffer before a resize is forced
 	static const unsigned int DEFAULTNUMBEROFTRIANGLES = 1000;
-	static const unsigned int DEFAULTNUMBEROFLINES = 1000;
+	static const unsigned int DEFAULTNUMBEROFLINES = 10000000;
 	static const unsigned int DEFAULTNUMBEROFPOINTS = 1000;
 
 	bool initialize(std::string &error);
