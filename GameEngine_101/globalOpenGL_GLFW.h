@@ -19,14 +19,14 @@
 
 #include "cVAOMeshManager.h"
 #include "cShaderManager.h"
-//#include "Texture/cBasicTextureManager.h"
+#include "Texture/cBasicTextureManager.h"
 #include "cDebugRenderer.h"
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 extern cVAOMeshManager*			g_pVAOManager;		// (theMain.cpp)
 extern cShaderManager*			g_pShaderManager;	// (theMain.cpp)
-//extern cBasicTextureManager*	g_pTextureManager;	// (theMain.cpp)
+extern cBasicTextureManager*	g_pTextureManager;	// (theMain.cpp)
 extern cDebugRenderer*			g_pDebugRenderer;	// (theMain.cpp)
 
 std::string decodeGLErrorFromEnum(GLenum error, std::string &details);
