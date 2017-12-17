@@ -70,7 +70,7 @@ glm::vec3 cAABB::getMinVertice()
 
 glm::vec3 cAABB::getMaxVertice()
 {
-    return this->min + 1.0f;
+    return this->min + this->diameter;
 }
 
 float cAABB::getDiameter()
