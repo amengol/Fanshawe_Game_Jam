@@ -14,6 +14,8 @@ void LoadModelsIntoScene(void)
         theGO->diffuseColour = glm::vec4( 1.4f, 1.4f, 1.4f, 1.0f );
         theGO->meshName = "FractalTerrain";
         theGO->bIsUpdatedInPhysics = false;
+        //theGO->textureBlend[0] = 1.0f;
+        //theGO->textureNames[0] = "delorean.bmp";
         theGO->bIsWireFrame = false;
         theGO->position = glm::vec3(0.0f, 0.0f, 0.0f);
         ::g_vecGameObjects.push_back(theGO);
