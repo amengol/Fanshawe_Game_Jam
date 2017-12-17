@@ -56,7 +56,7 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
             {
 
                 long long ID1;
-                if (!this->calcID(tesseleted[i].verticeA, ID1))
+                if (!this->calcID(tesseleted[i].verticeA, ID1, size))
                 {
                     std::cout << "There was an error generating an AABB ID\n";
                 }
@@ -89,7 +89,7 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                 }
 
                 long long ID2;
-                if (!this->calcID(tesseleted[i].verticeB, ID2))
+                if (!this->calcID(tesseleted[i].verticeB, ID2, size))
                 {
                     std::cout << "There was an error generating an AABB ID\n";
                 }
@@ -125,7 +125,7 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                 }
 
                 long long ID3;
-                if (!this->calcID(tesseleted[i].verticeC, ID3))
+                if (!this->calcID(tesseleted[i].verticeC, ID3, size))
                 {
                     std::cout << "There was an error generating an AABB ID\n";
                 }
@@ -175,7 +175,7 @@ void cAABBsManager::genDebugTris()
         float diameter = theAABB->getDiameter();
 
         // The box has eight vertices
-        glm::vec3 vert0 = this->genVecFromID(itTri->first);
+        glm::vec3 vert0 = this->genVecFromID(itTri->first, diameter);
         glm::vec3 vert1 = vert0 + glm::vec3(diameter, 0.0f, 0.0f);
         glm::vec3 vert2 = vert0 + glm::vec3(0.0f, diameter, 0.0f);
         glm::vec3 vert3 = vert0 + glm::vec3(diameter, diameter, 0.0f);
@@ -220,14 +220,14 @@ void cAABBsManager::genDebugTris()
 void cAABBsManager::genDebugLines()
 {
     // Loop through the map
-    for (std::map<long long, cAABB*>::iterator itTri = m_mapIDtoAABB.begin();
-        itTri != m_mapIDtoAABB.end(); itTri++)
+    for (std::map<long long, cAABB*>::iterator itBox = m_mapIDtoAABB.begin();
+        itBox != m_mapIDtoAABB.end(); itBox++)
     {
-        cAABB* theAABB = itTri->second;
+        cAABB* theAABB = itBox->second;
         float diameter = theAABB->getDiameter();
 
         // The box has eight vertices
-        glm::vec3 vert0 = this->genVecFromID(itTri->first);
+        glm::vec3 vert0 = this->genVecFromID(itBox->first, diameter);
         glm::vec3 vert1 = vert0 + glm::vec3(diameter, 0.0f, 0.0f);
         glm::vec3 vert2 = vert0 + glm::vec3(0.0f, diameter, 0.0f);
         glm::vec3 vert3 = vert0 + glm::vec3(diameter, diameter, 0.0f);
@@ -301,7 +301,7 @@ float cAABBsManager::calcLongestSide(sAABB_Triangle& triangle)
     return glm::max(AB, glm::max(BC, AC));
 }
 
-bool cAABBsManager::calcID(glm::vec3 vertice, long long& ID)
+bool cAABBsManager::calcID(glm::vec3 vertice, long long& ID, float size)
 {
     // Following Feeney's example of unique IDs we would have a system like:
     // _XXXXX | _YYYYY | _ZZZZZ
@@ -314,9 +314,9 @@ bool cAABBsManager::calcID(glm::vec3 vertice, long long& ID)
     // 100012000016100003 --> x = -12, y = 16, z = -3
 
     // Put the vertices in long long integers
-    long long x = fabs(floor(vertice.x));
-    long long y = fabs(floor(vertice.y));
-    long long z = fabs(floor(vertice.z));
+    long long x = fabs(floor(vertice.x/size));
+    long long y = fabs(floor(vertice.y/size));
+    long long z = fabs(floor(vertice.z/size));
     
     // Sanity check to see whether the coordinate is too long for this method
     if (x > 99999 || y > 99999 || z > 99999)
@@ -449,7 +449,7 @@ glm::vec3 cAABBsManager::getCentreEdge(glm::vec3 vertice1, glm::vec3 vertice2)
     return (vertice1 + vertice2) / 2.0f;
 }
 
-glm::vec3 cAABBsManager::genVecFromID(long long ID)
+glm::vec3 cAABBsManager::genVecFromID(long long ID, float size)
 {
     // Extract XYZ coordinates
     
@@ -502,6 +502,6 @@ glm::vec3 cAABBsManager::genVecFromID(long long ID)
         retZ = z;
     }
 
-    return glm::vec3(retX, retY, retZ);
+    return glm::vec3(retX * size, retY * size, retZ * size);
 }
 

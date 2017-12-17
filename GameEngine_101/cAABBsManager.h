@@ -27,7 +27,7 @@ public:
 
     // Calculates an ID from a vertice
     // Returns false if the vertice position is too long for the format
-    bool calcID(glm::vec3 vertice, long long& ID);
+    bool calcID(glm::vec3 vertice, long long& ID, float size);
 
     // Tesselates a triangle according to a minimum size
     // Set all tesselated triangles back in a vector
@@ -38,7 +38,7 @@ public:
     glm::vec3 getCentreEdge(glm::vec3 vertice1, glm::vec3 vertice2);
 
     // Generates a vec3 from an ID (sort of a helper function)
-    glm::vec3 genVecFromID(long long ID);
+    glm::vec3 genVecFromID(long long ID, float size);
 
     std::vector<sAABB_Triangle> vDebugTri;                   // Vector of Debug Triangles
 
