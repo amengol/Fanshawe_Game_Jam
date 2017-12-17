@@ -40,6 +40,9 @@
     <Filter Include="AABB">
       <UniqueIdentifier>{07d5c8e3-55ab-44b0-aa75-11ec89319140}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Textures Related">
+      <UniqueIdentifier>{f5d50ab1-6e60-49f3-9cbb-c28d59b1e649}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\simpleVert.glsl">
@@ -122,6 +125,15 @@
     <ClCompile Include="sAABB_Triangle.cpp">
       <Filter>AABB</Filter>
     </ClCompile>
+    <ClCompile Include="Texture\C24BitBMPpixel.cpp">
+      <Filter>Textures Related</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\cBasicTextureManager.cpp">
+      <Filter>Textures Related</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\CTextureFromBMP.cpp">
+      <Filter>Textures Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -189,6 +201,15 @@
     </ClInclude>
     <ClInclude Include="cAABB.h">
       <Filter>AABB</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\C24BitBMPpixel.h">
+      <Filter>Textures Related</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\cBasicTextureManager.h">
+      <Filter>Textures Related</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\CTextureFromBMP.h">
+      <Filter>Textures Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

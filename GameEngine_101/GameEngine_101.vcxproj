@@ -165,6 +165,9 @@
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="sAABB_Triangle.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
+    <ClCompile Include="Texture\C24BitBMPpixel.cpp" />
+    <ClCompile Include="Texture\cBasicTextureManager.cpp" />
+    <ClCompile Include="Texture\CTextureFromBMP.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +192,9 @@
     <ClInclude Include="sAABB_Triangle.h" />
     <ClInclude Include="sVAOInfo.h" />
     <ClInclude Include="sVertex.h" />
+    <ClInclude Include="Texture\C24BitBMPpixel.h" />
+    <ClInclude Include="Texture\cBasicTextureManager.h" />
+    <ClInclude Include="Texture\CTextureFromBMP.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
