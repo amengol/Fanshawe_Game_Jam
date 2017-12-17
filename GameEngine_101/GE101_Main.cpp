@@ -38,6 +38,7 @@ cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
 cDebugRenderer*	g_pDebugRenderer = NULL;
 cAABBsManager* g_pAABBsManager = NULL;
+cBasicTextureManager* g_pTextureManager = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
 
 // To deal with sounds
@@ -186,7 +187,7 @@ int main()
     ::g_pAABBsManager = new cAABBsManager();
     cMesh terrain;
     ::g_pVAOManager->lookupMeshFromName("FractalTerrain", terrain);
-    ::g_pAABBsManager->genAABBs(&terrain, 1.0f);
+    ::g_pAABBsManager->genAABBs(&terrain, 10.0f);
     ::g_pAABBsManager->genDebugLines();
 
     //-------------------------------------------------------------------------
@@ -242,6 +243,20 @@ int main()
     ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;		// Change the linear attenuation
     
     // Lights end
+
+    //-------------------------------------------------------------------------
+    // Texture 
+    ::g_pTextureManager = new cBasicTextureManager();
+    ::g_pTextureManager->SetBasePath("assets/textures");
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("delorean.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
     //-------------------------------------------------------------------------
     // Camera
 
@@ -431,6 +446,46 @@ void DrawObject(cGameObject* pTheGO)
         glUniform1f(uniLoc_bIsDebugWireFrameObject, 0.0f);	// FALSE
     }
 
+    // Set up the textures
+    std::string textureName = pTheGO->textureNames[0];
+    GLuint texture00Number
+        = ::g_pTextureManager->getTextureIDFromName(textureName);
+    // Texture binding... (i.e. set the 'active' texture
+    GLuint texture00Unit = 13;							// Texture units go from 0 to 79 (at least)
+    glActiveTexture(texture00Unit + GL_TEXTURE0);		// GL_TEXTURE0 = 33984
+    glBindTexture(GL_TEXTURE_2D, texture00Number);
+
+    // 0 
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D,
+        ::g_pTextureManager->getTextureIDFromName(pTheGO->textureNames[0]));
+    //::g_pTextureManager->getTextureIDFromName("Utah_Teapot_xyz_n_uv_Enterprise.bmp"));
+    // 1
+    //glActiveTexture(GL_TEXTURE1);
+    //glBindTexture(GL_TEXTURE_2D,
+    //    ::g_pTextureManager->getTextureIDFromName(pTheGO->textureNames[1]));
+    ////::g_pTextureManager->getTextureIDFromName("GuysOnSharkUnicorn.bmp"));
+    //// 2..  and so on... 
+
+    // Set sampler in the shader
+    // NOTE: You shouldn't be doing this during the draw call...
+    GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+    GLint textSampler00_ID = glGetUniformLocation(curShaderID, "myAmazingTexture00");
+    //GLint textSampler01_ID = glGetUniformLocation(curShaderID, "myAmazingTexture01");
+    //// And so on (up to 10, or whatever number of textures)... 
+
+    GLint textBlend00_ID = glGetUniformLocation(curShaderID, "textureBlend00");
+    //GLint textBlend01_ID = glGetUniformLocation(curShaderID, "textureBlend01");
+
+    //// This connects the texture sampler to the texture units... 
+    //glUniform1i( textSampler00_ID, 0  );		// Enterprise
+    //glUniform1i( textSampler01_ID, 1  );		// GuysOnSharkUnicorn
+    // .. and so on
+
+    // And the blending values
+    glUniform1f(textBlend00_ID, pTheGO->textureBlend[0]);
+    //glUniform1f(textBlend01_ID, pTheGO->textureBlend[1]);
+    // And so on...
 
 
     //			glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
