@@ -42,6 +42,11 @@ public:
 	glm::vec4 diffuseColour;
 	std::string meshName;
 
+    // The texture of this object
+    static const unsigned int NUMTEXTURES = 10;
+    std::string textureNames[NUMTEXTURES];
+    float textureBlend[NUMTEXTURES];			// 0 - 1
+
     std::string friendlyName;
     inline unsigned int getUniqueID(void) { return this->m_UniqueID; }
 
