@@ -65,7 +65,26 @@ bool Load3DModelsIntoMeshManager(int shaderID,
         }
         // ***********************************************************************
     }
-    
+ 
+    {
+        cMesh Delorean;
+        Delorean.name = "Delorean";
+        if (!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals_and_colours("Delorean.ply", Delorean))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << Delorean.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        // NOTE the TRUE so that it keeps the mesh!!!
+        if (!pVAOManager->loadMeshIntoVAO(Delorean, shaderID))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << Delorean.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
 
     if (!bAllGood)
     {
