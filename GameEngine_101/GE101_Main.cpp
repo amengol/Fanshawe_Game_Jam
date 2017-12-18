@@ -36,8 +36,8 @@ cVAOMeshManager* g_pVAOManager = NULL;
 cCameraObject* g_pCamera = NULL;
 cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
-cDebugRenderer*	g_pDebugRenderer = NULL;
-cAABBsManager* g_pAABBsManager = NULL;
+//cDebugRenderer*	g_pDebugRenderer = NULL;
+//cAABBsManager* g_pAABBsManager = NULL;
 cBasicTextureManager* g_pTextureManager = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
 
@@ -52,6 +52,7 @@ GLint uniLoc_materialAmbient = -1;
 GLint uniLoc_ambientToDiffuseRatio = -1; 	// Maybe	// 0.2 or 0.3
 GLint uniLoc_materialSpecular = -1;         // rgb = colour of HIGHLIGHT only | w = shininess of the 
 GLint uniLoc_bIsDebugWireFrameObject = -1;
+GLint uniLoc_HasColour = -1;
 
 GLint uniLoc_eyePosition = -1;	            // Camera position
 GLint uniLoc_mModel = -1;
@@ -182,30 +183,30 @@ int main()
     }
     LoadModelsIntoScene();
 
-    //-------------------------------------------------------------------------
-    // AABBs
-    ::g_pAABBsManager = new cAABBsManager();
-    cMesh terrain;
-    ::g_pVAOManager->lookupMeshFromName("FractalTerrain", terrain);
-    ::g_pAABBsManager->genAABBs(&terrain, 10.0f);
-    ::g_pAABBsManager->genDebugLines();
+    ////-------------------------------------------------------------------------
+    //// AABBs
+    //::g_pAABBsManager = new cAABBsManager();
+    //cMesh terrain;
+    //::g_pVAOManager->lookupMeshFromName("FractalTerrain", terrain);
+    //::g_pAABBsManager->genAABBs(&terrain, 10.0f);
+    //::g_pAABBsManager->genDebugLines();
 
-    //-------------------------------------------------------------------------
-    // Debug render
-    ::g_pDebugRenderer = new cDebugRenderer();
-    if (!::g_pDebugRenderer->initialize(error))
-    {
-        std::cout << "Warning: couldn't init the debug renderer." << std::endl;
-    }
+    ////-------------------------------------------------------------------------
+    //// Debug render
+    //::g_pDebugRenderer = new cDebugRenderer();
+    //if (!::g_pDebugRenderer->initialize(error))
+    //{
+    //    std::cout << "Warning: couldn't init the debug renderer." << std::endl;
+    //}
 
-    for (int i = 0; i < ::g_pAABBsManager->vDebugLines.size(); i++)
-    {
-        glm::vec3 lineStart = ::g_pAABBsManager->vDebugLines[i].lineStart;
-        glm::vec3 lineEnd = ::g_pAABBsManager->vDebugLines[i].lineEnd;
-        glm::vec3 color = ::g_pAABBsManager->vDebugLines[i].color;
+    //for (int i = 0; i < ::g_pAABBsManager->vDebugLines.size(); i++)
+    //{
+    //    glm::vec3 lineStart = ::g_pAABBsManager->vDebugLines[i].lineStart;
+    //    glm::vec3 lineEnd = ::g_pAABBsManager->vDebugLines[i].lineEnd;
+    //    glm::vec3 color = ::g_pAABBsManager->vDebugLines[i].color;
 
-        ::g_pDebugRenderer->addLine(lineStart, lineEnd, color, true);
-    }
+    //    ::g_pDebugRenderer->addLine(lineStart, lineEnd, color, true);
+    //}
 
     //=========================================================================
     // Sound things
@@ -224,6 +225,7 @@ int main()
     uniLoc_ambientToDiffuseRatio = glGetUniformLocation(currentProgID, "ambientToDiffuseRatio");
     uniLoc_materialSpecular = glGetUniformLocation(currentProgID, "materialSpecular");
     uniLoc_bIsDebugWireFrameObject = glGetUniformLocation(currentProgID, "bIsDebugWireFrameObject");
+    uniLoc_HasColour = glGetUniformLocation(currentProgID, "hasColour");
     uniLoc_eyePosition = glGetUniformLocation(currentProgID, "eyePosition");
     uniLoc_mModel = glGetUniformLocation(currentProgID, "mModel");
     uniLoc_mView = glGetUniformLocation(currentProgID, "mView");
@@ -261,7 +263,8 @@ int main()
     // Camera
 
     g_pCamera = new cCameraObject();
-    g_pCamera->setCameraPosition(glm::vec3(0.0f, 50.0f, 300.0f)); // Question5
+    g_pCamera->setCameraPosition(glm::vec3(0.0f, 50.0f, 300.0f));
+    g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
     //-------------------------------------------------------------------------
@@ -324,7 +327,7 @@ int main()
             DrawObject(pTheGO);
         }
 
-        ::g_pDebugRenderer->RenderDebugObjects(matView, matProjection);
+        //::g_pDebugRenderer->RenderDebugObjects(matView, matProjection);
 
         // "Draw scene" loop end
         //---------------------------------------------------------------------
@@ -371,7 +374,8 @@ int main()
     
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
-    delete g_pDebugRenderer;
+    //delete ::g_pDebugRenderer;
+    //delete ::g_pAABBsManager;
     //delete ::g_pSoundManager;
 
     return 0;
@@ -434,6 +438,16 @@ void DrawObject(cGameObject* pTheGO)
         pTheGO->diffuseColour.g,
         pTheGO->diffuseColour.b,
         pTheGO->diffuseColour.a);
+    
+    if (pTheGO->hasColour)
+    {
+        glUniform1f(uniLoc_HasColour, 1.0f);
+    }
+    else
+    {
+        glUniform1f(uniLoc_HasColour, 0.0f);
+    }
+    
 
     //...and all the other object material colours
 
