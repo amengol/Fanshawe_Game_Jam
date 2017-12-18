@@ -20,6 +20,8 @@ uniform vec3 eyePosition;	// Camera position
 
 uniform bool bIsDebugWireFrameObject;
 
+uniform bool hasColour;
+
 // Note: this CAN'T be an array (sorry). See 3D texture array
 uniform sampler2D myAmazingTexture00;		// Represents a 2D image
 uniform sampler2D myAmazingTexture01;		// Represents a 2D image
@@ -58,9 +60,18 @@ void main()
 	// Is this a 'debug' wireframe object, i.e. no lighting, just use diffuse
 	if ( bIsDebugWireFrameObject )
 	{
-		gl_FragColor.rgb = materialDiffuse.rgb;
-		gl_FragColor.a = materialDiffuse.a;		//gl_FragColor.a = 1.0f	
-		return;		// Immediate return
+		if (hasColour)
+		{
+			gl_FragColor.rgb = color.rgb;
+			gl_FragColor.a = color.a;		//gl_FragColor.a = 1.0f	
+			return;		// Immediate return
+		}
+		else
+		{
+			gl_FragColor.rgb = materialDiffuse.rgb;
+			gl_FragColor.a = materialDiffuse.a;		//gl_FragColor.a = 1.0f	
+			return;		// Immediate return
+		}
 	}
 	
 	// Set to black...
@@ -70,8 +81,16 @@ void main()
 		gl_FragColor.rgb += calcLightColour( vertNormal, vecWorldPosition, index );
 	}
 
-	// 
-	gl_FragColor.a = materialDiffuse.a;	// set 4th value to 1 if unsure
+	//
+	if (hasColour)
+	{
+		gl_FragColor.a = color.a;	// set 4th value to 1 if unsure
+	}
+	else
+	{
+		
+		gl_FragColor.a = materialDiffuse.a;	// set 4th value to 1 if unsure
+	}
 	
 	// Screen is so dim...
 	gl_FragColor *= 1.5f;	// 150% brighter
@@ -135,10 +154,18 @@ vec3 calcLightColour( in vec3 vecNormal,
 	// How much diffuse light is being "reflected" off the surface 
 	float diffFactor = max(0.0f, dot( lightVector, vecNormal ));
 	
-	
-	outDiffuse.rgb = myLight[lightID].diffuse.rgb 		// Light contribution
-	                 * materialDiffuse.rgb				// Material contribution
-					 * diffFactor;						// Factor based on direction
+	if (hasColour)
+	{
+		outDiffuse.rgb = myLight[lightID].diffuse.rgb 		// Light contribution
+			             * color.rgb				// Material contribution
+						 * diffFactor;						// Factor based on direction
+	}
+	else	
+	{
+		outDiffuse.rgb = myLight[lightID].diffuse.rgb 		// Light contribution
+			             * materialDiffuse.rgb				// Material contribution
+						 * diffFactor;
+	}
 
 // Simple linear attenuation
 //	float attenuation = 1.0f / lightDistance; 
