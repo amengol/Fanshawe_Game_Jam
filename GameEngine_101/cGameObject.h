@@ -38,6 +38,7 @@ public:
 	eTypeOfObject typeOfObject;
 	float radius;
 	bool bIsWireFrame;
+    bool hasColour;
 	// **********************************
 	glm::vec4 diffuseColour;
 	std::string meshName;
