@@ -16,6 +16,7 @@ public:
 	// ALSO note that this is a C++ thing (& isn't a thing in C)
 	bool LoadPlyFileIntoMesh( std::string filename, cMesh &theMesh );
 	bool LoadPlyFileIntoMeshWithNormals( std::string filename, cMesh &theMesh );
+    bool LoadPlyFileIntoMeshWithNormals_and_colours(std::string filename, cMesh &theMesh);
 	bool LoadPlyFileIntoMeshWith_Normals_and_UV( std::string filename, cMesh &theMesh );
 	
 	// Is the full path, so requires end slash. 
