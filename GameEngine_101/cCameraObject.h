@@ -24,7 +24,10 @@ public:
     void setCameraTarget(glm::vec3 target);
 
     // Let the camera be a follow_camera and controls a gameObject
-    void controlGameObject(cGameObject*);
+    void lockOnGameObject(cGameObject*);
+
+    // Return the Game Object
+    cGameObject* getGameObject();
 
     // Releases the camera from controlling a gameObject
     void releaseGameObject();

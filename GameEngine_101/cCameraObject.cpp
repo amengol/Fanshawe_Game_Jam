@@ -40,11 +40,16 @@ void cCameraObject::setCameraTarget(glm::vec3 target)
     this->camOrientation = glm::inverse(glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), lookAtOrigin, this->camUpVector));
 }
 
-void cCameraObject::controlGameObject(cGameObject* GO)
+void cCameraObject::lockOnGameObject(cGameObject* GO)
 {
     this->controlledGameObject = GO;
     this->cameraMode = FOLLOW_CAMERA;
     this->setCameraTarget(GO->position);
+}
+
+cGameObject * cCameraObject::getGameObject()
+{
+    return this->controlledGameObject;
 }
 
 void cCameraObject::releaseGameObject()
