@@ -35,6 +35,9 @@ void cCameraObject::setCameraTarget(glm::vec3 target)
 
     // New LooAt
     this->lookAtPosition = this->camPosition + lookAtOrigin;
+
+    // Care about the orientation too
+    this->camOrientation = glm::inverse(glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), lookAtOrigin, this->camUpVector));
 }
 
 void cCameraObject::controlGameObject(cGameObject* GO)
