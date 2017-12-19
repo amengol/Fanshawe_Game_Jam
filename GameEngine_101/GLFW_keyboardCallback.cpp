@@ -119,11 +119,17 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_D:        // Move camera right along local x axis
             g_pCamera->moveCameraLeftNRight(CAMSPEED);
             break;
-        case GLFW_KEY_Z:        // rotate around local camera Z axis +
-            g_pCamera->setCameraOrientationZ(ROTANGLE);
+        case GLFW_KEY_Z:        // rotate around local GameObject Z axis +
+        {
+            cGameObject * theGO = g_pCamera->getGameObject();
+            theGO->rotateZ(ROTANGLE);
+        }
             break;
-        case GLFW_KEY_C:        // rotate around local camera Z axis -
-            g_pCamera->setCameraOrientationZ(-ROTANGLE);
+        case GLFW_KEY_C:        // rotate around local GameObject Z axis -
+        {
+            cGameObject * theGO = g_pCamera->getGameObject();
+            theGO->rotateZ(-ROTANGLE);
+        }
             break;
         case GLFW_KEY_LEFT:     // rotate around local GameObject Y axis +
         {
