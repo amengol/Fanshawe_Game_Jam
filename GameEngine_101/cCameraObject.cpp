@@ -1,5 +1,6 @@
 #include "cCameraObject.h"
 #include <glm\gtc\matrix_transform.hpp>
+#include "cGameObject.h"
 
 cCameraObject::cCameraObject()
 {
@@ -9,6 +10,8 @@ cCameraObject::cCameraObject()
     this->camUpVector = glm::vec3(0.0f, 1.0f, 0.0f);
     this->camOrientation = glm::mat4x4(1.0f);
     this->camVelocity = 0.0f;
+    this->cameraMode = MANUAL;
+    this->controlledGameObject = NULL;
 }
 
 void cCameraObject::setCameraPosition(glm::vec3 newPosition)
@@ -32,6 +35,18 @@ void cCameraObject::setCameraTarget(glm::vec3 target)
 
     // New LooAt
     this->lookAtPosition = this->camPosition + lookAtOrigin;
+}
+
+void cCameraObject::controlGameObject(cGameObject* GO)
+{
+    this->controlledGameObject = GO;
+    this->cameraMode = FOLLOW_CAMERA;
+    this->setCameraTarget(GO->position);
+}
+
+void cCameraObject::releaseGameObject()
+{
+    this->cameraMode = MANUAL;
 }
 
 void cCameraObject::moveCameraBackNForth(float speed)
@@ -178,11 +193,21 @@ void cCameraObject::setCameraOrientationZ(float degrees)
     this->camUpVector = transUpVector;
 }
 
+void cCameraObject::setCameraMode(eCameraMode cameraMode)
+{
+    this->cameraMode = cameraMode;
+}
+
 void cCameraObject::getCameraInfo(glm::vec3 &camPosition,
                                   glm::vec3 &lookAtPosition)
 {
     camPosition = this->camPosition;
     lookAtPosition = this->lookAtPosition;
+}
+
+eCameraMode cCameraObject::getCameraMode()
+{
+    return this->cameraMode;
 }
 
 glm::vec3 cCameraObject::getCameraPosition()

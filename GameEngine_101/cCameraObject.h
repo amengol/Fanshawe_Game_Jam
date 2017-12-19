@@ -4,6 +4,14 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
+class cGameObject;
+
+enum eCameraMode {
+    MANUAL,			// Move along the axes (lookat)
+    FOLLOW_CAMERA,	// Follows a target (lookat)
+    FLY_CAMERA		// Movement based on direction of gaze                    
+};
+
 class cCameraObject
 {
 public:
@@ -15,6 +23,15 @@ public:
     // Reposition a camera according to a target and reset up vector
     void setCameraTarget(glm::vec3 target);
 
+    // Let the camera be a follow_camera and controls a gameObject
+    void controlGameObject(cGameObject*);
+
+    // Releases the camera from controlling a gameObject
+    void releaseGameObject();
+
+    // Updates the camera
+    void update(double deltaTime);
+
     void moveCameraBackNForth(float speed);
     void moveCameraLeftNRight(float speed);
     void changeAlongX(float change);
@@ -23,7 +40,9 @@ public:
     void setCameraOrientationX(float degrees);
     void setCameraOrientationY(float degrees);
     void setCameraOrientationZ(float degrees);
+    void setCameraMode(eCameraMode);
     void getCameraInfo(glm::vec3 &camPosition, glm::vec3 &lookAtPosition);
+    eCameraMode getCameraMode();
     glm::vec3 getCameraPosition();
     glm::vec3 getLookAtPosition();
     glm::vec3 getCameraUpVector();
@@ -36,6 +55,8 @@ private:
     glm::vec3 camUpVector;
     glm::mat4x4 camOrientation;
     float camVelocity;
+    eCameraMode cameraMode;
+    cGameObject* controlledGameObject;
 };
 
 #endif // !_cCameraObject_HG_
