@@ -37,6 +37,7 @@ public:
 
     void moveCameraBackNForth(float speed);
     void moveCameraLeftNRight(float speed);
+    void moveCameraUpNDown(float speed);
     void changeAlongX(float change);
     void changeAlongY(float change);
     void changeAlongZ(float change);

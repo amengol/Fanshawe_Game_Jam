@@ -5,8 +5,8 @@
 cCameraObject::cCameraObject()
 {
     // The camera position should always be 1 unit behind the lookAt position
-    this->camPosition = glm::vec3(0.0f, 0.0f, 1.0f);
-    this->lookAtPosition = glm::vec3(0.0f);
+    this->camPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+    this->lookAtPosition = glm::vec3(0.0f, 0.0f, -1.0f);
     this->camUpVector = glm::vec3(0.0f, 1.0f, 0.0f);
     this->camOrientation = glm::mat4x4(1.0f);
     this->camVelocity = 0.0f;
@@ -44,7 +44,21 @@ void cCameraObject::lockOnGameObject(cGameObject* GO)
 {
     this->controlledGameObject = GO;
     this->cameraMode = FOLLOW_CAMERA;
-    this->setCameraTarget(GO->position);
+
+    // Move the camera to the target
+    this->camPosition = GO->position;
+
+    // Reorient the camera according to the target
+    this->camUpVector = GO->orientation * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+    glm::vec3 lookAtOrigin = (GO->orientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));
+    this->camOrientation = glm::inverse(glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), lookAtOrigin, this->camUpVector));
+    this->lookAtPosition = this->camPosition + lookAtOrigin;
+
+    // Reposition the camera to a better 'Follow' style
+    this->moveCameraBackNForth(6.0f);
+    this->moveCameraUpNDown(2.0f);
+    this->setCameraOrientationX(-10.0f);
+    
 }
 
 cGameObject * cCameraObject::getGameObject()
@@ -77,6 +91,17 @@ void cCameraObject::moveCameraLeftNRight(float speed)
     glm::vec3 newOriginX = this->camOrientation * originX;
 
     setCameraPosition(this->camPosition + newOriginX);
+}
+
+void cCameraObject::moveCameraUpNDown(float speed)
+{
+    // Set a vector at the origin with the change in position along the Y axis
+    glm::vec4 originY = glm::vec4(0.0f, speed, 0.0f, 0.0f);
+
+    // Transfor the vector according to the rotation of the camera
+    glm::vec3 newOriginY = this->camOrientation * originY;
+
+    setCameraPosition(this->camPosition + newOriginY);
 }
 
 void cCameraObject::changeAlongX(float change)
