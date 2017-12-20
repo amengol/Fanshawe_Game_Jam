@@ -33,7 +33,7 @@ public:
     void releaseGameObject();
 
     // Updates the camera
-    void update(double deltaTime);
+    void update();
 
     void moveCameraBackNForth(float speed);
     void moveCameraLeftNRight(float speed);

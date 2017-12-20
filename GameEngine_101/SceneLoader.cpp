@@ -25,7 +25,7 @@ void LoadModelsIntoScene(void)
         // Delorean
         cGameObject* theGO = new cGameObject();
         theGO->meshName = "Delorean";
-        theGO->bIsUpdatedInPhysics = false;
+        theGO->bIsUpdatedInPhysics = true;
         theGO->bIsWireFrame = false;
         theGO->hasColour = true;
         theGO->position = glm::vec3(0.0f, 48.0f, 294.0f);

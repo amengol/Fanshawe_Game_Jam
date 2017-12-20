@@ -107,11 +107,17 @@ void key_callback(GLFWwindow* window,
         const float CAMSPEED = 1.0f;
         switch(key)
         {
-        case GLFW_KEY_W:       // Move camera forward along local Z axis 
-            g_pCamera->moveCameraBackNForth(-CAMSPEED);
+        case GLFW_KEY_W:       // Increase speed
+        {
+            cGameObject* theGO = g_pCamera->getGameObject();
+            theGO->vel.z += 1.0f;
+        }
             break;
-        case GLFW_KEY_S:       // Move camera backward along local Z axis 
-            g_pCamera->moveCameraBackNForth(CAMSPEED);
+        case GLFW_KEY_S:       // Decrease speed 
+        {
+            cGameObject* theGO = g_pCamera->getGameObject();
+            theGO->vel.z -= 1.0f;
+        }
             break;
         case GLFW_KEY_A:        // Move camera right along local X axis
             g_pCamera->moveCameraLeftNRight(-CAMSPEED);

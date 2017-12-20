@@ -298,6 +298,9 @@ int main()
         // (for the whole scene)
         ::g_pLightManager->CopyLightInformationToCurrentShader();
 
+        //---------------------------------------------------------------------
+        // Camera block
+
         glm::mat4x4 matProjection;
 
         // Projection and view don't change per scene (maybe)
@@ -305,6 +308,8 @@ int main()
                         ratio,		// Aspect ratio
                         1.0f,			// Near (as big as possible)
                         10000.0f);	// Far (as small as possible)
+
+        g_pCamera->update();
 
         // View or "camera" matrix
         glm::mat4 matView = glm::mat4(1.0f);

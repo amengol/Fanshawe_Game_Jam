@@ -43,22 +43,7 @@ void cCameraObject::setCameraTarget(glm::vec3 target)
 void cCameraObject::lockOnGameObject(cGameObject* GO)
 {
     this->controlledGameObject = GO;
-    this->cameraMode = FOLLOW_CAMERA;
-
-    // Move the camera to the target
-    this->camPosition = GO->position;
-
-    // Reorient the camera according to the target
-    this->camUpVector = GO->orientation * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
-    glm::vec3 lookAtOrigin = (GO->orientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));
-    this->camOrientation = glm::inverse(glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), lookAtOrigin, this->camUpVector));
-    this->lookAtPosition = this->camPosition + lookAtOrigin;
-
-    // Reposition the camera to a better 'Follow' style
-    this->moveCameraBackNForth(6.0f);
-    this->moveCameraUpNDown(2.0f);
-    this->setCameraOrientationX(-10.0f);
-    
+    this->cameraMode = FOLLOW_CAMERA;    
 }
 
 cGameObject * cCameraObject::getGameObject()
@@ -69,6 +54,26 @@ cGameObject * cCameraObject::getGameObject()
 void cCameraObject::releaseGameObject()
 {
     this->cameraMode = MANUAL;
+}
+
+void cCameraObject::update()
+{
+    if(this->cameraMode == FOLLOW_CAMERA)
+    {
+        // Move the camera to the target
+        this->camPosition = this->controlledGameObject->position;
+
+        // Reorient the camera according to the target
+        this->camUpVector = this->controlledGameObject->orientation * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+        glm::vec3 lookAtOrigin = (this->controlledGameObject->orientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));
+        this->camOrientation = glm::inverse(glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), lookAtOrigin, this->camUpVector));
+        this->lookAtPosition = this->camPosition + lookAtOrigin;
+
+        // Reposition the camera to a better 'Follow' style
+        this->moveCameraBackNForth(6.0f);
+        this->moveCameraUpNDown(2.0f);
+        this->setCameraOrientationX(-10.0f);
+    }
 }
 
 void cCameraObject::moveCameraBackNForth(float speed)
