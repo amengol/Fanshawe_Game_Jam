@@ -36,8 +36,8 @@ cVAOMeshManager* g_pVAOManager = NULL;
 cCameraObject* g_pCamera = NULL;
 cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
-//cDebugRenderer*	g_pDebugRenderer = NULL;
-//cAABBsManager* g_pAABBsManager = NULL;
+cDebugRenderer*	g_pDebugRenderer = NULL;
+cAABBsManager* g_pAABBsManager = NULL;
 cBasicTextureManager* g_pTextureManager = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
 
@@ -183,30 +183,30 @@ int main()
     }
     LoadModelsIntoScene();
 
-    ////-------------------------------------------------------------------------
-    //// AABBs
-    //::g_pAABBsManager = new cAABBsManager();
-    //cMesh terrain;
-    //::g_pVAOManager->lookupMeshFromName("FractalTerrain", terrain);
-    //::g_pAABBsManager->genAABBs(&terrain, 10.0f);
-    //::g_pAABBsManager->genDebugLines();
+    //-------------------------------------------------------------------------
+    // AABBs
+    ::g_pAABBsManager = new cAABBsManager();
+    cMesh terrain;
+    ::g_pVAOManager->lookupMeshFromName("FlatMesh", terrain);
+    ::g_pAABBsManager->genAABBs(&terrain, 5.0f);
+    ::g_pAABBsManager->genDebugLines();
 
-    ////-------------------------------------------------------------------------
-    //// Debug render
-    //::g_pDebugRenderer = new cDebugRenderer();
-    //if (!::g_pDebugRenderer->initialize(error))
-    //{
-    //    std::cout << "Warning: couldn't init the debug renderer." << std::endl;
-    //}
+    //-------------------------------------------------------------------------
+    // Debug render
+    ::g_pDebugRenderer = new cDebugRenderer();
+    if (!::g_pDebugRenderer->initialize(error))
+    {
+        std::cout << "Warning: couldn't init the debug renderer." << std::endl;
+    }
 
-    //for (int i = 0; i < ::g_pAABBsManager->vDebugLines.size(); i++)
-    //{
-    //    glm::vec3 lineStart = ::g_pAABBsManager->vDebugLines[i].lineStart;
-    //    glm::vec3 lineEnd = ::g_pAABBsManager->vDebugLines[i].lineEnd;
-    //    glm::vec3 color = ::g_pAABBsManager->vDebugLines[i].color;
+    for (int i = 0; i < ::g_pAABBsManager->vDebugLines.size(); i++)
+    {
+        glm::vec3 lineStart = ::g_pAABBsManager->vDebugLines[i].lineStart;
+        glm::vec3 lineEnd = ::g_pAABBsManager->vDebugLines[i].lineEnd;
+        glm::vec3 color = ::g_pAABBsManager->vDebugLines[i].color;
 
-    //    ::g_pDebugRenderer->addLine(lineStart, lineEnd, color, true);
-    //}
+        ::g_pDebugRenderer->addLine(lineStart, lineEnd, color, true);
+    }
 
     //=========================================================================
     // Sound things
@@ -263,7 +263,7 @@ int main()
     // Camera
 
     g_pCamera = new cCameraObject();
-    g_pCamera->setCameraPosition(glm::vec3(0.0f, 50.0f, 300.0f));
+    g_pCamera->setCameraPosition(glm::vec3(0.0f, 30.0f, 75.0f));
     g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
@@ -332,7 +332,7 @@ int main()
             DrawObject(pTheGO);
         }
 
-        //::g_pDebugRenderer->RenderDebugObjects(matView, matProjection);
+        ::g_pDebugRenderer->RenderDebugObjects(matView, matProjection);
 
         // "Draw scene" loop end
         //---------------------------------------------------------------------
@@ -379,8 +379,8 @@ int main()
     
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
-    //delete ::g_pDebugRenderer;
-    //delete ::g_pAABBsManager;
+    delete ::g_pDebugRenderer;
+    delete ::g_pAABBsManager;
     //delete ::g_pSoundManager;
 
     return 0;

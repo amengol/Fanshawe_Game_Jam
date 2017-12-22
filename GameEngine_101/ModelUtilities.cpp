@@ -46,41 +46,80 @@ bool Load3DModelsIntoMeshManager(int shaderID,
     std::stringstream ssError;
     bool bAllGood = true;
 
+    //{
+    //    cMesh fractalTerrain;
+    //    fractalTerrain.name = "FractalTerrain";
+    //    if (!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals("FractalTerrain_xyz_n_4xBigger.ply", fractalTerrain))
+    //    {
+    //        //std::cout << "Didn't load model" << std::endl;
+    //        ssError << "Didn't load model >" << fractalTerrain.name << "<" << std::endl;
+    //        bAllGood = false;
+    //    }
+    //    // ***********************************************************************
+    //    // NOTE the TRUE so that it keeps the mesh!!!
+    //    if (!pVAOManager->loadMeshIntoVAO(fractalTerrain, shaderID, true))
+    //    {
+    //        //std::cout << "Could not load mesh into VAO" << std::endl;
+    //        ssError << "Could not load mesh >" << fractalTerrain.name << "< into VAO" << std::endl;
+    //        bAllGood = false;
+    //    }
+    //    // ***********************************************************************
+    //}
+ 
+    //{
+    //    cMesh Delorean;
+    //    Delorean.name = "Delorean";
+    //    if (!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals_and_colours("Delorean.ply", Delorean))
+    //    {
+    //        //std::cout << "Didn't load model" << std::endl;
+    //        ssError << "Didn't load model >" << Delorean.name << "<" << std::endl;
+    //        bAllGood = false;
+    //    }
+    //    // ***********************************************************************
+    //    // NOTE the TRUE so that it keeps the mesh!!!
+    //    if (!pVAOManager->loadMeshIntoVAO(Delorean, shaderID))
+    //    {
+    //        //std::cout << "Could not load mesh into VAO" << std::endl;
+    //        ssError << "Could not load mesh >" << Delorean.name << "< into VAO" << std::endl;
+    //        bAllGood = false;
+    //    }
+    //    // ***********************************************************************
+    //}
+
     {
-        cMesh fractalTerrain;
-        fractalTerrain.name = "FractalTerrain";
-        if (!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals("FractalTerrain_xyz_n_4xBigger.ply", fractalTerrain))
+        cMesh theMesh;
+        theMesh.name = "FlatMesh";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals("Flat_Mesh_100x100.ply", theMesh))
         {
             //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << fractalTerrain.name << "<" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
             bAllGood = false;
         }
         // ***********************************************************************
         // NOTE the TRUE so that it keeps the mesh!!!
-        if (!pVAOManager->loadMeshIntoVAO(fractalTerrain, shaderID, true))
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
         {
             //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << fractalTerrain.name << "< into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
             bAllGood = false;
         }
         // ***********************************************************************
     }
- 
+
     {
-        cMesh Delorean;
-        Delorean.name = "Delorean";
-        if (!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals_and_colours("Delorean.ply", Delorean))
+        cMesh theMesh;
+        theMesh.name = "Sphere";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals("Sphere.ply", theMesh))
         {
             //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << Delorean.name << "<" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
             bAllGood = false;
         }
         // ***********************************************************************
-        // NOTE the TRUE so that it keeps the mesh!!!
-        if (!pVAOManager->loadMeshIntoVAO(Delorean, shaderID))
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
         {
             //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << Delorean.name << "< into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
             bAllGood = false;
         }
         // ***********************************************************************
