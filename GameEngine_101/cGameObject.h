@@ -13,7 +13,9 @@ enum eTypeOfObject
 	SPHERE  = 0,
 	PLANE   = 1,
 	CAPSULE = 2,
-	AABB    = 3,		// Axis-aligned box
+	MESH    = 3,
+    TERRAIN = 4,
+    CONTACT_POINTS = 5,
 	UNKNOWN = 99
 };
 
