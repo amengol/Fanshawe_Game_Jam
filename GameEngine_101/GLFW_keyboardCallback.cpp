@@ -110,20 +110,42 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_W:       // Increase speed
         {
             cGameObject* theGO = g_pCamera->getGameObject();
-            theGO->vel.z += 1.0f;
+            //theGO->vel.z += 1.0f;
+            theGO->position.z += 1.0f;
         }
             break;
         case GLFW_KEY_S:       // Decrease speed 
         {
             cGameObject* theGO = g_pCamera->getGameObject();
-            theGO->vel.z -= 1.0f;
+            //theGO->vel.z -= 1.0f;
+            theGO->position.z -= 1.0f;
         }
             break;
         case GLFW_KEY_A:        // Move camera right along local X axis
-            g_pCamera->moveCameraLeftNRight(-CAMSPEED);
+        {
+            //g_pCamera->moveCameraLeftNRight(-CAMSPEED);
+            cGameObject * theGO = g_pCamera->getGameObject();
+            theGO->position.x += 1.0f;
+        }            
             break;
         case GLFW_KEY_D:        // Move camera right along local x axis
-            g_pCamera->moveCameraLeftNRight(CAMSPEED);
+        {
+            //g_pCamera->moveCameraLeftNRight(CAMSPEED);
+            cGameObject * theGO = g_pCamera->getGameObject();
+            theGO->position.x -= 1.0f;
+        }
+            break;
+        case GLFW_KEY_Q:        // Increase high along Y axis
+        {
+            cGameObject * theGO = g_pCamera->getGameObject();
+            theGO->position.y += 1.0f;
+        }
+            break;
+        case GLFW_KEY_E:        // Decrease high along Y axis
+        {
+            cGameObject * theGO = g_pCamera->getGameObject();
+            theGO->position.y -= 1.0f;
+        }
             break;
         case GLFW_KEY_Z:        // rotate around local GameObject Z axis +
         {
