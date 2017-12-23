@@ -40,6 +40,7 @@ void LoadModelsIntoScene(void)
         theGO->meshName = "FlatMesh";
         theGO->bIsUpdatedInPhysics = false;
         theGO->bIsWireFrame = false;
+        theGO->typeOfObject = TERRAIN;
         ::g_vecGameObjects.push_back(theGO);
     }
 
@@ -49,6 +50,7 @@ void LoadModelsIntoScene(void)
         theGO->meshName = "Sphere";
         theGO->bIsUpdatedInPhysics = true;
         theGO->bIsWireFrame = false;
+        theGO->typeOfObject = SPHERE;
         theGO->diffuseColour = glm::vec4(1.4f, 0.4f, 0.4f, 1.0f);
         theGO->position = glm::vec3(0.0f, 25.0f, 0.0f);        
         ::g_vecGameObjects.push_back(theGO);
