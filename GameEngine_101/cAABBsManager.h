@@ -19,8 +19,11 @@ public:
     // Generates DebugRenderer triangles
     void genDebugTris();
 
-    // Generates DebugRenderer Lines
-    void genDebugLines();
+    // Generates DebugRenderer Lines for an AABB
+    void genDebugLines(long long ID, float diameter);
+
+    // Generates all stored AABBs debug lines at once
+    void genAllAABBsDebugLines();
 
     // Calculates the longest side of a triangle
     float calcLongestSide(sAABB_Triangle& triangle);
@@ -39,6 +42,9 @@ public:
 
     // Generates a vec3 from an ID (sort of a helper function)
     glm::vec3 genVecFromID(long long ID, float size);
+
+    // Returns an AABB from an ID. True or false whether it finds it or not
+    bool getAABB(long long& ID, cAABB*);
 
     std::vector<sAABB_Triangle> vDebugTri;                   // Vector of Debug Triangles
 

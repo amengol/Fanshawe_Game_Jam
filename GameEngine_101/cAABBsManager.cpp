@@ -217,17 +217,10 @@ void cAABBsManager::genDebugTris()
     }
 }
 
-void cAABBsManager::genDebugLines()
+void cAABBsManager::genDebugLines(long long ID, float diameter)
 {
-    // Loop through the map
-    for (std::map<long long, cAABB*>::iterator itBox = m_mapIDtoAABB.begin();
-        itBox != m_mapIDtoAABB.end(); itBox++)
-    {
-        cAABB* theAABB = itBox->second;
-        float diameter = theAABB->getDiameter();
-
         // The box has eight vertices
-        glm::vec3 vert0 = this->genVecFromID(itBox->first, diameter);
+        glm::vec3 vert0 = this->genVecFromID(ID, diameter);
         glm::vec3 vert1 = vert0 + glm::vec3(diameter, 0.0f, 0.0f);
         glm::vec3 vert2 = vert0 + glm::vec3(0.0f, diameter, 0.0f);
         glm::vec3 vert3 = vert0 + glm::vec3(diameter, diameter, 0.0f);
@@ -248,6 +241,78 @@ void cAABBsManager::genDebugLines()
         tempLine.lineEnd = vert2;        
         vDebugLines.push_back(tempLine);
         
+        tempLine.lineStart = vert0;
+        tempLine.lineEnd = vert4;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert1;
+        tempLine.lineEnd = vert3;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert1;
+        tempLine.lineEnd = vert5;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert2;
+        tempLine.lineEnd = vert3;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert2;
+        tempLine.lineEnd = vert6;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert3;
+        tempLine.lineEnd = vert7;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert4;
+        tempLine.lineEnd = vert5;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert4;
+        tempLine.lineEnd = vert6;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert5;
+        tempLine.lineEnd = vert7;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert6;
+        tempLine.lineEnd = vert7;
+        vDebugLines.push_back(tempLine);
+}
+
+void cAABBsManager::genAllAABBsDebugLines()
+{
+    // Loop through the map
+    for(std::map<long long, cAABB*>::iterator itBox = m_mapIDtoAABB.begin();
+        itBox != m_mapIDtoAABB.end(); itBox++)
+    {
+        cAABB* theAABB = itBox->second;
+        float diameter = theAABB->getDiameter();
+
+        // The box has eight vertices
+        glm::vec3 vert0 = this->genVecFromID(itBox->first, diameter);
+        glm::vec3 vert1 = vert0 + glm::vec3(diameter, 0.0f, 0.0f);
+        glm::vec3 vert2 = vert0 + glm::vec3(0.0f, diameter, 0.0f);
+        glm::vec3 vert3 = vert0 + glm::vec3(diameter, diameter, 0.0f);
+        glm::vec3 vert4 = vert0 + glm::vec3(0.0f, 0.0f, diameter);
+        glm::vec3 vert5 = vert0 + glm::vec3(diameter, 0.0f, diameter);
+        glm::vec3 vert6 = vert0 + glm::vec3(0.0f, diameter, diameter);
+        glm::vec3 vert7 = vert0 + glm::vec3(diameter, diameter, diameter);
+
+        // Now create 12 lines
+        Lines tempLine;
+        tempLine.color = glm::vec3(1.0f, 0.0f, 0.0f);
+
+        tempLine.lineStart = vert0;
+        tempLine.lineEnd = vert1;
+        vDebugLines.push_back(tempLine);
+
+        tempLine.lineStart = vert0;
+        tempLine.lineEnd = vert2;
+        vDebugLines.push_back(tempLine);
+
         tempLine.lineStart = vert0;
         tempLine.lineEnd = vert4;
         vDebugLines.push_back(tempLine);
@@ -503,5 +568,19 @@ glm::vec3 cAABBsManager::genVecFromID(long long ID, float size)
     }
 
     return glm::vec3(retX * size, retY * size, retZ * size);
+}
+
+bool cAABBsManager::getAABB(long long& ID, cAABB* AABB)
+{
+    std::map<long long, cAABB*>::iterator itAABB = this->m_mapIDtoAABB.find(ID);
+    if(itAABB == this->m_mapIDtoAABB.end())
+    {
+        return false;
+    }
+    else
+    {
+        AABB = itAABB->second;
+        return true;
+    }
 }
 
