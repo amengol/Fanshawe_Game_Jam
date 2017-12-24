@@ -25,6 +25,7 @@
 #include "Physics.h"
 #include "globalGameStuff.h"
 #include "cAABBsManager.h"
+#include "cSimpleDebugRenderer.h"
 
 using namespace std;
 
@@ -32,22 +33,18 @@ using namespace std;
 void DrawObject(cGameObject* pTheGO);
 void DrawAABB(cGameObject* pTheGO, float size);
 
-struct miniVAOInfo
-{
-    unsigned int VAO_ID;
-    GLuint bufferID;
-};
-
 // Global variables
 cVAOMeshManager* g_pVAOManager = NULL;
 cCameraObject* g_pCamera = NULL;
 cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
 //cDebugRenderer*	g_pDebugRenderer = NULL;
+cSimpleDebugRenderer* g_simpleDebug = NULL;
 cAABBsManager* g_pAABBsManager = NULL;
 cBasicTextureManager* g_pTextureManager = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
 std::map<long long, miniVAOInfo> g_map_AABBID_miniVAO;
+long long g_GeometryID = -1;
 
 // To deal with sounds
 // Disabled for now
@@ -196,8 +193,16 @@ int main()
     ::g_pAABBsManager = new cAABBsManager();
     cMesh terrain;
     ::g_pVAOManager->lookupMeshFromName("FlatMesh", terrain);
-    ::g_pAABBsManager->genAABBs(&terrain, 5.0f);
+    ::g_pAABBsManager->genAABBs(&terrain, 5.0f);    
     //::g_pAABBsManager->genAllAABBsDebugLines();
+    //-------------------------------------------------------------------------
+    // Simple Debug Renderer
+    ::g_simpleDebug = new cSimpleDebugRenderer();
+    float cubeSide = 5.0f;
+    if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, cubeSide, g_GeometryID))
+    {
+        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    }
 
     //-------------------------------------------------------------------------
     // Debug render
@@ -338,7 +343,7 @@ int main()
             cGameObject* pTheGO = ::g_vecGameObjects[index];
 
             DrawObject(pTheGO);
-            DrawAABB(pTheGO, 5.0f);
+            DrawAABB(pTheGO, cubeSide);
         }
 
         
@@ -545,7 +550,8 @@ void DrawObject(cGameObject* pTheGO)
     return;
 }
 
-void DrawAABB(cGameObject * pTheGO, float size)
+// Helper function to draw a debug cube at an AABB location
+void DrawAABB(cGameObject* pTheGO, float size)
 {
     if(!pTheGO->isDebugAABBActive)
     {
@@ -567,270 +573,9 @@ void DrawAABB(cGameObject * pTheGO, float size)
         return;
     }
 
-    // Look for the VAO_ID (if it was previously stored)
-    std::map<long long, miniVAOInfo>::iterator itAABB_VAO = g_map_AABBID_miniVAO.find(GO_ID);
-    if(itAABB_VAO == g_map_AABBID_miniVAO.end())
-    {
-        // Didn't find one, so create it
-        unsigned int VAO_ID;
+    glm::vec3 min = g_pAABBsManager->genVecFromID(GO_ID, size);
 
-        glGenVertexArrays(1, &VAO_ID);
-        glBindVertexArray(VAO_ID);
+    g_simpleDebug->drawDebugGeometry(min, g_GeometryID);
 
-        GLuint bufferID;
-
-        glGenBuffers(1, &bufferID);
-        glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-
-        glm::vec3 minVec = g_pAABBsManager->genVecFromID(GO_ID, size);
-        glm::vec3 vert0, vert1, vert2, vert3, vert4, vert5, vert6, vert7;
-
-
-        // The vertice 0
-        vert0 = minVec;
-
-        // The vertice 1
-        vert1.x = vert0.x + size;
-        vert1.y = vert0.y;
-        vert1.z = vert0.z;
-
-        // The vertice 2
-        vert2.x = vert0.x;
-        vert2.y = vert0.y + size;
-        vert2.z = vert0.z;
-
-        // The vertice 3
-        vert3.x = vert0.x + size;
-        vert3.y = vert0.y + size;
-        vert3.z = vert0.z;
-
-        // The vertice 4
-        vert4.x = vert0.x;
-        vert4.y = vert0.y;
-        vert4.z = vert0.z + size;
-
-        // The vertice 5
-        vert5.x = vert0.x + size;
-        vert5.y = vert0.y;
-        vert5.z = vert0.z + size;
-
-        // The vertice 6
-        vert6.x = vert0.x;
-        vert6.y = vert0.y + size;
-        vert6.z = vert0.z + size;
-
-        // The vertice 7
-        vert7.x = vert0.x + size;
-        vert7.y = vert0.y + size;
-        vert7.z = vert0.z + size;
-
-        // Allocate the global vertex array
-        sVertex* pVertices = new sVertex[24];
-
-        //Line 0-1
-        pVertices[0].x = vert0.x;
-        pVertices[0].y = vert0.y;
-        pVertices[0].z = vert0.z;
-        pVertices[1].x = vert1.x;
-        pVertices[1].y = vert1.y;
-        pVertices[1].z = vert1.z;
-
-        //Line 0-2
-        pVertices[2].x = vert0.x;
-        pVertices[2].y = vert0.y;
-        pVertices[2].z = vert0.z;
-        pVertices[3].x = vert2.x;
-        pVertices[3].y = vert2.y;
-        pVertices[3].z = vert2.z;
-
-        //Line 1-3
-        pVertices[4].x = vert3.x;
-        pVertices[4].y = vert3.y;
-        pVertices[4].z = vert3.z;
-        pVertices[5].x = vert1.x;
-        pVertices[5].y = vert1.y;
-        pVertices[5].z = vert1.z;
-
-        //Line 2-3
-        pVertices[6].x = vert2.x;
-        pVertices[6].y = vert2.y;
-        pVertices[6].z = vert2.z;
-        pVertices[7].x = vert3.x;
-        pVertices[7].y = vert3.y;
-        pVertices[7].z = vert3.z;
-
-        //Line 0-4
-        pVertices[8].x = vert0.x;
-        pVertices[8].y = vert0.y;
-        pVertices[8].z = vert0.z;
-        pVertices[9].x = vert4.x;
-        pVertices[9].y = vert4.y;
-        pVertices[9].z = vert4.z;
-
-        //Line 2-6
-        pVertices[10].x = vert2.x;
-        pVertices[10].y = vert2.y;
-        pVertices[10].z = vert2.z;
-        pVertices[11].x = vert6.x;
-        pVertices[11].y = vert6.y;
-        pVertices[11].z = vert6.z;
-
-        //Line 1-5
-        pVertices[12].x = vert1.x;
-        pVertices[12].y = vert1.y;
-        pVertices[12].z = vert1.z;
-        pVertices[13].x = vert5.x;
-        pVertices[13].y = vert5.y;
-        pVertices[13].z = vert5.z;
-
-        //Line 3-7
-        pVertices[14].x = vert3.x;
-        pVertices[14].y = vert3.y;
-        pVertices[14].z = vert3.z;
-        pVertices[15].x = vert7.x;
-        pVertices[15].y = vert7.y;
-        pVertices[15].z = vert7.z;
-
-        //Line 4-6
-        pVertices[16].x = vert4.x;
-        pVertices[16].y = vert4.y;
-        pVertices[16].z = vert4.z;
-        pVertices[17].x = vert6.x;
-        pVertices[17].y = vert6.y;
-        pVertices[17].z = vert6.z;
-
-        //Line 4-5
-        pVertices[18].x = vert4.x;
-        pVertices[18].y = vert4.y;
-        pVertices[18].z = vert4.z;
-        pVertices[19].x = vert5.x;
-        pVertices[19].y = vert5.y;
-        pVertices[19].z = vert5.z;
-
-        //Line 5-7
-        pVertices[20].x = vert5.x;
-        pVertices[20].y = vert5.y;
-        pVertices[20].z = vert5.z;
-        pVertices[21].x = vert7.x;
-        pVertices[21].y = vert7.y;
-        pVertices[21].z = vert7.z;
-
-        //Line 6-7
-        pVertices[22].x = vert6.x;
-        pVertices[22].y = vert6.y;
-        pVertices[22].z = vert6.z;
-        pVertices[23].x = vert7.x;
-        pVertices[23].y = vert7.y;
-        pVertices[23].z = vert7.z;
-
-        // Copy the local vertex array into the GPUs memory
-        int sizeOfGlobalVertexArrayInBytes = sizeof(sVertex) * 24;
-        glBufferData(GL_ARRAY_BUFFER, sizeOfGlobalVertexArrayInBytes, pVertices, GL_STATIC_DRAW);
-
-        delete[] pVertices;
-
-        // Now set up the vertex layout (for this shader)
-        GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-        GLuint vpos_location = glGetAttribLocation(shaderID, "vPos");
-
-        // Size of the vertex we are using in the array.
-        // This is called the "stride" of the vertices in the vertex buffer
-        const unsigned int VERTEX_STRIDE = sizeof(sVertex);
-
-        glEnableVertexAttribArray(vpos_location);
-        const unsigned int OFFSET_TO_X = offsetof(sVertex, x);
-        glVertexAttribPointer(vpos_location, 3,
-                              GL_FLOAT, GL_FALSE,
-                              VERTEX_STRIDE,
-                              reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_X)));
-
-
-        glm::mat4x4 mModel = glm::mat4x4(1.0f);
-
-        glUniformMatrix4fv(uniLoc_mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
-
-        glm::mat4 mWorldInTranpose = glm::inverse(glm::transpose(mModel));
-
-        glUniform1f(uniLoc_HasColour, 0.0f);
-        glUniform1f(uniLoc_bIsDebugWireFrameObject, 1.0f);
-
-
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glDisable(GL_CULL_FACE);
-
-
-        glCullFace(GL_BACK);
-
-        glDrawArrays(GL_LINES, 0, 24);
-
-
-        // Unbind that VAO
-        glBindVertexArray(0);
-
-        // Unbind (release) everything
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        glDisableVertexAttribArray(vpos_location);
-
-        miniVAOInfo theVAO;
-        theVAO.VAO_ID = VAO_ID;
-        theVAO.bufferID = bufferID;
-
-        g_map_AABBID_miniVAO[GO_ID] = theVAO;
-
-        return;
-    }
-    else
-    {
-        miniVAOInfo theVAO = itAABB_VAO->second;
-
-        glBindVertexArray(theVAO.VAO_ID);
-        glBindBuffer(GL_ARRAY_BUFFER, theVAO.bufferID);
-
-        // Now set up the vertex layout (for this shader)
-        GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-        GLuint vpos_location = glGetAttribLocation(shaderID, "vPos");
-
-        // Size of the vertex we are using in the array.
-        // This is called the "stride" of the vertices in the vertex buffer
-        const unsigned int VERTEX_STRIDE = sizeof(sVertex);
-
-        glEnableVertexAttribArray(vpos_location);
-        const unsigned int OFFSET_TO_X = offsetof(sVertex, x);
-        glVertexAttribPointer(vpos_location, 3,
-                              GL_FLOAT, GL_FALSE,
-                              VERTEX_STRIDE,
-                              reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_X)));
-
-
-        glm::mat4x4 mModel = glm::mat4x4(1.0f);
-
-        glUniformMatrix4fv(uniLoc_mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
-
-        glm::mat4 mWorldInTranpose = glm::inverse(glm::transpose(mModel));
-
-        glUniform1f(uniLoc_HasColour, 0.0f);
-        glUniform1f(uniLoc_bIsDebugWireFrameObject, 1.0f);
-
-
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glDisable(GL_CULL_FACE);
-
-
-        glCullFace(GL_BACK);
-
-        glDrawArrays(GL_LINES, 0, 24);
-
-
-        // Unbind that VAO
-        glBindVertexArray(0);
-
-        // Unbind (release) everything
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        glDisableVertexAttribArray(vpos_location);
-
-        return;
-    }
 }
 
