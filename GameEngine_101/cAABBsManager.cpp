@@ -584,3 +584,15 @@ bool cAABBsManager::getAABB(long long& ID, cAABB* AABB)
     }
 }
 
+bool cAABBsManager::findAABB(long long& ID)
+{
+    std::map<long long, cAABB*>::iterator itAABB = this->m_mapIDtoAABB.find(ID);
+    if(itAABB == this->m_mapIDtoAABB.end())
+    {
+        return false;
+    } else
+    {
+        return true;
+    }
+}
+

@@ -46,6 +46,9 @@ public:
     // Returns an AABB from an ID. True or false whether it finds it or not
     bool getAABB(long long& ID, cAABB*);
 
+    // Finds an AABB. False if not was found
+    bool findAABB(long long& ID);
+
     std::vector<sAABB_Triangle> vDebugTri;                   // Vector of Debug Triangles
 
     struct Lines
