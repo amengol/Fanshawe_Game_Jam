@@ -89,7 +89,7 @@ bool Load3DModelsIntoMeshManager(int shaderID,
     {
         cMesh theMesh;
         theMesh.name = "FlatMesh";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals("Flat_Mesh_100x100.ply", theMesh))
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals("FractalTerrain_xyz_n_4xBigger.ply", theMesh))
         {
             //std::cout << "Didn't load model" << std::endl;
             ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;

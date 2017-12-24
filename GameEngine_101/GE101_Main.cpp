@@ -545,6 +545,21 @@ void DrawAABB(cGameObject * pTheGO, float size)
         return;
     }
     
+    // Calculate the ID of the GameObject
+    long long GO_ID = -999;
+
+    if(!g_pAABBsManager->calcID(pTheGO->position, GO_ID, size))
+    {
+        std::cout << "Problem generating AABB ID during DrawAABB() function!\n";
+        return;
+    }
+
+    // Check if the ID exists
+    if(!g_pAABBsManager->findAABB(GO_ID))
+    {
+        return;
+    }
+
     unsigned int VAO_ID;    
     
     glGenVertexArrays(1, &VAO_ID);
@@ -554,15 +569,6 @@ void DrawAABB(cGameObject * pTheGO, float size)
 
     glGenBuffers(1, &bufferID);
     glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-
-    // Calculate the ID of the GameObject
-    long long GO_ID = -999;
-
-    if(!g_pAABBsManager->calcID(pTheGO->position, GO_ID, size))
-    {
-        std::cout << "Problem generating AABB ID during DrawAABB() function!\n";
-        return;
-    }
 
     glm::vec3 minVec = g_pAABBsManager->genVecFromID(GO_ID, size);
     glm::vec3 vert0, vert1, vert2, vert3, vert4, vert5, vert6, vert7;
