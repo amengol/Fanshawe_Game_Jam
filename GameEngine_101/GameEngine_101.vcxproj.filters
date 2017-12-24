@@ -134,6 +134,9 @@
     <ClCompile Include="Texture\CTextureFromBMP.cpp">
       <Filter>Textures Related</Filter>
     </ClCompile>
+    <ClCompile Include="cSimpleDebugRenderer.cpp">
+      <Filter>DebugRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -210,6 +213,9 @@
     </ClInclude>
     <ClInclude Include="Texture\CTextureFromBMP.h">
       <Filter>Textures Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cSimpleDebugRenderer.h">
+      <Filter>DebugRenderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

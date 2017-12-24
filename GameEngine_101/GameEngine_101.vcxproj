@@ -152,6 +152,7 @@
     <ClCompile Include="cModelAssetLoader.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
+    <ClCompile Include="cSimpleDebugRenderer.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
     <ClCompile Include="cSoundManager_Imp.cpp" />
     <ClCompile Include="cSoundObject.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="cMesh.h" />
     <ClInclude Include="cModelAssetLoader.h" />
     <ClInclude Include="cShaderManager.h" />
+    <ClInclude Include="cSimpleDebugRenderer.h" />
     <ClInclude Include="cSoundManager.h" />
     <ClInclude Include="cSoundManager_Imp.h" />
     <ClInclude Include="cSoundObject.h" />
