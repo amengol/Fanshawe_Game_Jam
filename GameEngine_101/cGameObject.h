@@ -41,6 +41,7 @@ public:
 	float radius;
 	bool bIsWireFrame;
     bool hasColour;
+    bool isDebugAABBActive;
 	// **********************************
 	glm::vec4 diffuseColour;
 	std::string meshName;

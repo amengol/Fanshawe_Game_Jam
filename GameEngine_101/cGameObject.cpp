@@ -23,6 +23,7 @@ cGameObject::cGameObject()
     this->mGOSound = NULL;
     this->mHasSound = false;
     this->hasColour = false;
+    this->isDebugAABBActive = false;
 
 #ifdef _DEBUG
  	//this->m_pTheDR = cDebugRenderer::getInstance();

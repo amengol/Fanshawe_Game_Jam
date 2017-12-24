@@ -52,7 +52,8 @@ void LoadModelsIntoScene(void)
         theGO->bIsWireFrame = false;
         theGO->typeOfObject = SPHERE;
         theGO->diffuseColour = glm::vec4(1.4f, 0.4f, 0.4f, 1.0f);
-        theGO->position = glm::vec3(0.0f, 25.0f, 0.0f);        
+        theGO->position = glm::vec3(0.0f, 25.0f, 0.0f);
+        theGO->isDebugAABBActive = true;
         ::g_vecGameObjects.push_back(theGO);
     }
 
