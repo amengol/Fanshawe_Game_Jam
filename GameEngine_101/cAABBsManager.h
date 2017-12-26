@@ -44,7 +44,7 @@ public:
     glm::vec3 genVecFromID(long long ID, float size);
 
     // Returns an AABB from an ID. True or false whether it finds it or not
-    bool getAABB(long long& ID, cAABB*);
+    bool getAABB(long long& ID, cAABB&);
 
     // Finds an AABB. False if not was found
     bool findAABB(long long& ID);

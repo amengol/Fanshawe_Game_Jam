@@ -21,23 +21,39 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
         glm::vec3 vertA;
         glm::vec3 vertB;
         glm::vec3 vertC;
+        glm::vec3 normA;
+        glm::vec3 normB;
+        glm::vec3 normC;
 
         vertA.x = mesh->pVertices[mesh->pTriangles[i].vertex_ID_0].x;
         vertA.y = mesh->pVertices[mesh->pTriangles[i].vertex_ID_0].y;
         vertA.z = mesh->pVertices[mesh->pTriangles[i].vertex_ID_0].z;
+        normA.x = mesh->pVertices[mesh->pTriangles[i].vertex_ID_0].nx;
+        normA.y = mesh->pVertices[mesh->pTriangles[i].vertex_ID_0].ny;
+        normA.z = mesh->pVertices[mesh->pTriangles[i].vertex_ID_0].nz;
 
         vertB.x = mesh->pVertices[mesh->pTriangles[i].vertex_ID_1].x;
         vertB.y = mesh->pVertices[mesh->pTriangles[i].vertex_ID_1].y;
         vertB.z = mesh->pVertices[mesh->pTriangles[i].vertex_ID_1].z;
+        normB.x = mesh->pVertices[mesh->pTriangles[i].vertex_ID_1].nx;
+        normB.y = mesh->pVertices[mesh->pTriangles[i].vertex_ID_1].ny;
+        normB.z = mesh->pVertices[mesh->pTriangles[i].vertex_ID_1].nz;
 
         vertC.x = mesh->pVertices[mesh->pTriangles[i].vertex_ID_2].x;
         vertC.y = mesh->pVertices[mesh->pTriangles[i].vertex_ID_2].y;
         vertC.z = mesh->pVertices[mesh->pTriangles[i].vertex_ID_2].z;
-        
+        normC.x = mesh->pVertices[mesh->pTriangles[i].vertex_ID_2].nx;
+        normC.y = mesh->pVertices[mesh->pTriangles[i].vertex_ID_2].ny;
+        normC.z = mesh->pVertices[mesh->pTriangles[i].vertex_ID_2].nz;
+
+        glm::vec3 faceNormal = glm::normalize(normA + normB + normC);
+
         sAABB_Triangle* tri = new sAABB_Triangle();
-        tri->verticeA = vertA;
-        tri->verticeB = vertB;
-        tri->verticeC = vertC;
+        tri->setTriangle(vertA, vertB, vertC);
+        //tri->verticeA = vertA;
+        //tri->verticeB = vertB;
+        //tri->verticeC = vertC;
+        tri->faceNormal = faceNormal;
         
         // Find longest side
         float longestSide = this->calcLongestSide(*tri);
@@ -570,7 +586,7 @@ glm::vec3 cAABBsManager::genVecFromID(long long ID, float size)
     return glm::vec3(retX * size, retY * size, retZ * size);
 }
 
-bool cAABBsManager::getAABB(long long& ID, cAABB* AABB)
+bool cAABBsManager::getAABB(long long& ID, cAABB& AABB)
 {
     std::map<long long, cAABB*>::iterator itAABB = this->m_mapIDtoAABB.find(ID);
     if(itAABB == this->m_mapIDtoAABB.end())
@@ -579,7 +595,7 @@ bool cAABBsManager::getAABB(long long& ID, cAABB* AABB)
     }
     else
     {
-        AABB = itAABB->second;
+        AABB = *itAABB->second;
         return true;
     }
 }
