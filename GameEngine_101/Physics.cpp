@@ -36,12 +36,14 @@ void PhysicsStep(double deltaTime)
             }
 
             // Check if we have an AABB in that position
-            cAABB* theAABB = nullptr;
+            cAABB theAABB(0, 0.0f);
             if(g_pAABBsManager->getAABB(GO_ID, theAABB))
             {
-                g_pAABBsManager->genDebugLines(GO_ID, 5.0f); // Not sure yet if I will go this way!!
-
-                // TODO: draw my own debug AABB
+                for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
+                {
+                    sAABB_Triangle* theTri = theAABB.AABBsTriangles[i];
+                    // Make physics thing
+                }
             }
 
             pCurGO->Update(deltaTime, GRAVITY);
