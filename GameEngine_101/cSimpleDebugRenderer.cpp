@@ -15,6 +15,63 @@ bool cSimpleDebugRenderer::genDebugGeometry(DebugType type, float size, long lon
 {
     switch(type)
     {
+    case DEBUG_LINE:
+    {
+        unsigned int VAO_ID;
+
+        glGenVertexArrays(1, &VAO_ID);
+        glBindVertexArray(VAO_ID);
+
+        GLuint bufferID;
+
+        glGenBuffers(1, &bufferID);
+        glBindBuffer(GL_ARRAY_BUFFER, bufferID);
+
+        // Line vertices
+        glm::vec3 vert0, vert1;
+
+        // The vertice 0
+        vert0 = glm::vec3(0.0f, 0.0f, 0.0f);
+
+        // The vertice 1
+        vert1.x = vert0.x;
+        vert1.y = vert0.y + size;
+        vert1.z = vert0.z;
+
+        // Allocate the global vertex array
+        sVertex* pVertices = new sVertex[2];
+
+        //Line 0-1
+        pVertices[0].x = vert0.x;
+        pVertices[0].y = vert0.y;
+        pVertices[0].z = vert0.z;
+        pVertices[1].x = vert1.x;
+        pVertices[1].y = vert1.y;
+        pVertices[1].z = vert1.z;
+        
+        // Copy the local vertex array into the GPUs memory
+        int sizeOfGlobalVertexArrayInBytes = sizeof(sVertex) * 2;
+        glBufferData(GL_ARRAY_BUFFER, sizeOfGlobalVertexArrayInBytes, pVertices, GL_STATIC_DRAW);
+
+        delete[] pVertices;
+
+        // Unbind that VAO
+        glBindVertexArray(0);
+
+        // Unbind (release) everything
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        miniVAOInfo theVAO;
+        theVAO.VAO_ID = VAO_ID;
+        theVAO.bufferID = bufferID;
+
+
+        this->mapGeometryID_VAOInfo[this->theGeoID] = theVAO;
+        geometryID = this->theGeoID;
+        this->theGeoID++;
+
+        return true;
+    }
     case DEBUG_CUBE:
     {
         unsigned int VAO_ID;
@@ -195,7 +252,7 @@ bool cSimpleDebugRenderer::genDebugGeometry(DebugType type, float size, long lon
     }
 }
 
-void cSimpleDebugRenderer::drawDebugGeometry(glm::vec3 position, long long geometryID)
+void cSimpleDebugRenderer::drawDebugGeometry(glm::vec3 position, long long geometryID, glm::mat4x4 orientation)
 {
     std::map<long long, miniVAOInfo>::iterator itIDVao = mapGeometryID_VAOInfo.find(geometryID);
     if(itIDVao == mapGeometryID_VAOInfo.end())
@@ -229,7 +286,14 @@ void cSimpleDebugRenderer::drawDebugGeometry(glm::vec3 position, long long geome
 
 
         glm::mat4x4 mModel = glm::mat4x4(1.0f);
+
+        // Translate
         mModel = glm::translate(mModel, position);
+
+        // Rotate
+        mModel = mModel * orientation;
+
+
 
         glUniformMatrix4fv(uniLoc_mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
 

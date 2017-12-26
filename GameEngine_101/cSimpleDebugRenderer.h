@@ -23,7 +23,7 @@ public:
     ~cSimpleDebugRenderer();
 
     bool genDebugGeometry(DebugType, float size, long long& geometryID);
-    void drawDebugGeometry(glm::vec3 position, long long geometryID);
+    void drawDebugGeometry(glm::vec3 position, long long geometryID, glm::mat4x4 orientation);
 
 private:
     std::map<long long, miniVAOInfo> mapGeometryID_VAOInfo;
