@@ -5,7 +5,7 @@
 
 struct sAABB_Triangle
 {
-    sAABB_Triangle() : verticeA(0.0f), verticeB(0.0f), verticeC(0.0f), Centroid(0.0f) {}
+    sAABB_Triangle() : verticeA(0.0f), verticeB(0.0f), verticeC(0.0f), faceNormal(0.0f), Centroid(0.0f) {}
     sAABB_Triangle(glm::vec3, glm::vec3, glm::vec3);
     ~sAABB_Triangle() { return; };
 
@@ -14,6 +14,7 @@ struct sAABB_Triangle
     glm::vec3 verticeA;
     glm::vec3 verticeB;
     glm::vec3 verticeC;
+    glm::vec3 faceNormal;
 
     // Triandle must have and ID too
     // the Centroind will do the job
