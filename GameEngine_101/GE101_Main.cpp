@@ -27,6 +27,9 @@
 #include "cAABBsManager.h"
 #include "cSimpleDebugRenderer.h"
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm\gtx\quaternion.hpp>
+
 using namespace std;
 
 // Function Prototypes
@@ -44,7 +47,8 @@ cAABBsManager* g_pAABBsManager = NULL;
 cBasicTextureManager* g_pTextureManager = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
 std::map<long long, miniVAOInfo> g_map_AABBID_miniVAO;
-long long g_GeometryID = -1;
+long long g_cubeID = -1;
+long long g_lineID = -1;
 
 // To deal with sounds
 // Disabled for now
@@ -199,7 +203,11 @@ int main()
     // Simple Debug Renderer
     ::g_simpleDebug = new cSimpleDebugRenderer();
     float cubeSide = 5.0f;
-    if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, cubeSide, g_GeometryID))
+    if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, cubeSide, g_cubeID))
+    {
+        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    }
+    if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
     {
         std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
     }
@@ -276,7 +284,7 @@ int main()
     // Camera
 
     g_pCamera = new cCameraObject();
-    g_pCamera->setCameraPosition(glm::vec3(0.0f, 30.0f, 75.0f));
+    g_pCamera->setCameraPosition(glm::vec3(0.0f, 50.0f, 75.0f));
     g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
@@ -575,7 +583,24 @@ void DrawAABB(cGameObject* pTheGO, float size)
 
     glm::vec3 min = g_pAABBsManager->genVecFromID(GO_ID, size);
 
-    g_simpleDebug->drawDebugGeometry(min, g_GeometryID);
+    g_simpleDebug->drawDebugGeometry(min, g_cubeID, glm::mat4(1.0f));
+
+    // Print the normals
+    cAABB theAABB(0, 0.0f);
+    if(!g_pAABBsManager->getAABB(GO_ID, theAABB))
+    {
+        //error
+        return;
+    }
+
+    for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
+    {
+        glm::vec3 fn = theAABB.AABBsTriangles[i]->faceNormal;
+        glm::vec3 cn = theAABB.AABBsTriangles[i]->Centroid;
+        glm::quat qNormal = glm::rotation(glm::vec3(0.0f, 1.0f, 0.0f), fn);
+        glm::mat4 matNormal = glm::toMat4(qNormal);
+        g_simpleDebug->drawDebugGeometry(cn, g_lineID, matNormal);
+    }
 
 }
 
