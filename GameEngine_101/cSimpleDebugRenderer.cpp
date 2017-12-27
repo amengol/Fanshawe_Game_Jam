@@ -1,6 +1,7 @@
 #include "cSimpleDebugRenderer.h"
 #include "globalGameStuff.h"
 #include <glm/gtc/type_ptr.hpp>
+#include "sAABB_Triangle.h"
 
 cSimpleDebugRenderer::cSimpleDebugRenderer()
 {
@@ -250,6 +251,74 @@ bool cSimpleDebugRenderer::genDebugGeometry(DebugType type, float size, long lon
     default:
         return false;
     }
+}
+
+bool cSimpleDebugRenderer::genDebugTriangle(sAABB_Triangle theTri, long long& geometryID)
+{
+    unsigned int VAO_ID;
+
+    glGenVertexArrays(1, &VAO_ID);
+    glBindVertexArray(VAO_ID);
+
+    GLuint bufferID;
+
+    glGenBuffers(1, &bufferID);
+    glBindBuffer(GL_ARRAY_BUFFER, bufferID);
+
+    // All triangle vertices
+    glm::vec3 vertA = theTri.verticeA;
+    glm::vec3 vertB = theTri.verticeB;
+    glm::vec3 vertC = theTri.verticeC;
+
+    // Allocate the global vertex array
+    sVertex* pVertices = new sVertex[6];
+
+    //Line A-B
+    pVertices[0].x = vertA.x;
+    pVertices[0].y = vertA.y;
+    pVertices[0].z = vertA.z;
+    pVertices[1].x = vertB.x;
+    pVertices[1].y = vertB.y;
+    pVertices[1].z = vertB.z;
+
+    //Line B-C
+    pVertices[2].x = vertB.x;
+    pVertices[2].y = vertB.y;
+    pVertices[2].z = vertB.z;
+    pVertices[3].x = vertC.x;
+    pVertices[3].y = vertC.y;
+    pVertices[3].z = vertC.z;
+
+    //Line C-A
+    pVertices[4].x = vertC.x;
+    pVertices[4].y = vertC.y;
+    pVertices[4].z = vertC.z;
+    pVertices[5].x = vertA.x;
+    pVertices[5].y = vertA.y;
+    pVertices[5].z = vertA.z;
+   
+    // Copy the local vertex array into the GPUs memory
+    int sizeOfGlobalVertexArrayInBytes = sizeof(sVertex) * 6;
+    glBufferData(GL_ARRAY_BUFFER, sizeOfGlobalVertexArrayInBytes, pVertices, GL_STATIC_DRAW);
+
+    delete[] pVertices;
+
+    // Unbind that VAO
+    glBindVertexArray(0);
+
+    // Unbind (release) everything
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    miniVAOInfo theVAO;
+    theVAO.VAO_ID = VAO_ID;
+    theVAO.bufferID = bufferID;
+
+
+    this->mapGeometryID_VAOInfo[this->theGeoID] = theVAO;
+    geometryID = this->theGeoID;
+    this->theGeoID++;
+
+    return true;
 }
 
 void cSimpleDebugRenderer::drawDebugGeometry(glm::vec3 position, long long geometryID, glm::mat4x4 orientation)
