@@ -27,9 +27,6 @@
 #include "cAABBsManager.h"
 #include "cSimpleDebugRenderer.h"
 
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm\gtx\quaternion.hpp>
-
 using namespace std;
 
 // Function Prototypes
