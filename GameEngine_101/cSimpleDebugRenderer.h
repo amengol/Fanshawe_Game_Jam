@@ -1,8 +1,10 @@
 #ifndef _cSimpleDebugRenderer_HG_
 #define _cSimpleDebugRenderer_HG_
 #include "globalOpenGL_GLFW.h"
+#include "sVertex.h"
 
 class sAABB_Triangle;
+
 
 enum DebugType
 {
@@ -27,10 +29,12 @@ public:
     bool genDebugGeometry(DebugType, float size, long long& geometryID);
     bool genDebugTriangle(sAABB_Triangle, long long& geometryID);
     void drawDebugGeometry(glm::vec3 position, long long geometryID, glm::mat4x4 orientation);
+    void drawCustomGeometry(std::vector<sVertex>&);
 
 private:
     std::map<long long, miniVAOInfo> mapGeometryID_VAOInfo;
     long long theGeoID;
+    miniVAOInfo dynamicBuffer;
 };
 
 #endif // !_cSimpleDebugRenderer_HG_
