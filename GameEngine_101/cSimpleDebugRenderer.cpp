@@ -345,7 +345,7 @@ bool cSimpleDebugRenderer::genDebugTriangle(sAABB_Triangle theTri, long long& ge
     return true;
 }
 
-void cSimpleDebugRenderer::drawDebugGeometry(glm::vec3 position, long long geometryID, glm::mat4x4 orientation)
+void cSimpleDebugRenderer::drawDebugGeometry(glm::vec3 position, long long geometryID, glm::vec3 color, glm::mat4x4 orientation)
 {
     std::map<long long, miniVAOInfo>::iterator itIDVao = mapGeometryID_VAOInfo.find(geometryID);
     if(itIDVao == mapGeometryID_VAOInfo.end())
@@ -362,6 +362,7 @@ void cSimpleDebugRenderer::drawDebugGeometry(glm::vec3 position, long long geome
         // Now set up the vertex layout (for this shader)
         GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
         GLuint vpos_location = glGetAttribLocation(shaderID, "vPos");
+        GLuint uniLoc_materialDiffuse = glGetUniformLocation(shaderID, "materialDiffuse");
         GLuint uniLoc_mModel = glGetUniformLocation(shaderID, "mModel");
         GLuint uniLoc_HasColour = glGetUniformLocation(shaderID, "hasColour");
         GLuint uniLoc_bIsDebugWireFrameObject = glGetUniformLocation(shaderID, "bIsDebugWireFrameObject");
@@ -394,7 +395,7 @@ void cSimpleDebugRenderer::drawDebugGeometry(glm::vec3 position, long long geome
 
         glUniform1f(uniLoc_HasColour, 0.0f);
         glUniform1f(uniLoc_bIsDebugWireFrameObject, 1.0f);
-
+        glUniform4f(uniLoc_materialDiffuse, color.r, color.g, color.b, 1.0f);
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glDisable(GL_CULL_FACE);
@@ -414,7 +415,7 @@ void cSimpleDebugRenderer::drawDebugGeometry(glm::vec3 position, long long geome
     }
 }
 
-void cSimpleDebugRenderer::drawCustomGeometry(std::vector<sVertex>& theMesh)
+void cSimpleDebugRenderer::drawCustomGeometry(std::vector<sVertex>& theMesh, glm::vec3 color)
 {
     glBindVertexArray(this->dynamicBuffer.VAO_ID);
     glBindBuffer(GL_ARRAY_BUFFER, this->dynamicBuffer.bufferID);
@@ -435,6 +436,7 @@ void cSimpleDebugRenderer::drawCustomGeometry(std::vector<sVertex>& theMesh)
     // Now set up the vertex layout (for this shader)
     GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
     GLuint vpos_location = glGetAttribLocation(shaderID, "vPos");
+    GLuint uniLoc_materialDiffuse = glGetUniformLocation(shaderID, "materialDiffuse");
     GLuint uniLoc_mModel = glGetUniformLocation(shaderID, "mModel");
     GLuint uniLoc_HasColour = glGetUniformLocation(shaderID, "hasColour");
     GLuint uniLoc_bIsDebugWireFrameObject = glGetUniformLocation(shaderID, "bIsDebugWireFrameObject");
@@ -460,6 +462,7 @@ void cSimpleDebugRenderer::drawCustomGeometry(std::vector<sVertex>& theMesh)
 
     glUniform1f(uniLoc_HasColour, 0.0f);
     glUniform1f(uniLoc_bIsDebugWireFrameObject, 1.0f);
+    glUniform4f(uniLoc_materialDiffuse, color.r, color.g, color.b, 1.0f);
 
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

@@ -66,6 +66,7 @@ void PhysicsStep(double deltaTime)
                     tmpGeo.x = theTri->verticeA.x;
                     tmpGeo.y = theTri->verticeA.y;
                     tmpGeo.z = theTri->verticeA.z;
+                    tmpGeo.g = 1.0f;
                     // Find vertices normals
                     glm::vec3 normal = glm::normalize(glm::cross(theTri->verticeA, theTri->verticeB));
                     tmpGeo.nx = normal.x;
@@ -76,6 +77,7 @@ void PhysicsStep(double deltaTime)
                     tmpGeo.x = theTri->verticeB.x;
                     tmpGeo.y = theTri->verticeB.y;
                     tmpGeo.z = theTri->verticeB.z;
+                    tmpGeo.g = 1.0f;
                     // Find vertices normals
                     normal = glm::normalize(glm::cross(theTri->verticeB, theTri->verticeC));
                     tmpGeo.nx = normal.x;
@@ -86,6 +88,7 @@ void PhysicsStep(double deltaTime)
                     tmpGeo.x = theTri->verticeC.x;
                     tmpGeo.y = theTri->verticeC.y;
                     tmpGeo.z = theTri->verticeC.z;
+                    tmpGeo.g = 1.0f;
                     // Find vertices normals
                     normal = glm::normalize(glm::cross(theTri->verticeC, theTri->verticeA));
                     tmpGeo.nx = normal.x;
@@ -95,7 +98,7 @@ void PhysicsStep(double deltaTime)
                 }
 
                 // Print the mesh
-                g_simpleDebug->drawCustomGeometry(theGeometry);
+                g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
 
             }
 

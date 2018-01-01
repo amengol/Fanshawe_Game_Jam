@@ -580,7 +580,8 @@ void DrawAABB(cGameObject* pTheGO, float size)
 
     glm::vec3 min = g_pAABBsManager->genVecFromID(GO_ID, size);
 
-    g_simpleDebug->drawDebugGeometry(min, g_cubeID, glm::mat4(1.0f));
+    glm::vec3 cubeColor = glm::vec3(1.0f, 0.0f, 0.0f);
+    g_simpleDebug->drawDebugGeometry(min, g_cubeID, cubeColor, glm::mat4(1.0f));
 
     // Print the normals
     cAABB theAABB(0, 0.0f);
@@ -596,7 +597,8 @@ void DrawAABB(cGameObject* pTheGO, float size)
         glm::vec3 cn = theAABB.AABBsTriangles[i]->Centroid;
         glm::quat qNormal = glm::rotation(glm::vec3(0.0f, 1.0f, 0.0f), fn);
         glm::mat4 matNormal = glm::toMat4(qNormal);
-        g_simpleDebug->drawDebugGeometry(cn, g_lineID, matNormal);
+        glm::vec3 normalColor = glm::vec3(0.0f, 0.0f, 1.0f);
+        g_simpleDebug->drawDebugGeometry(cn, g_lineID, normalColor, matNormal);
     }
 
 }
