@@ -11,6 +11,8 @@ extern std::vector< cGameObject* >  g_vecGameObjects;
 
 extern cSimpleDebugRenderer* g_simpleDebug; // (GE101_Main.cpp)
 
+extern float g_AABBSize;                    // (GE101_Main.cpp)
+
 // Update the world 1 "step" in time
 void PhysicsStep(double deltaTime)
 {
@@ -33,7 +35,7 @@ void PhysicsStep(double deltaTime)
         {
             // Calculate an AABB ID to the GameObject
             long long GO_ID;
-            if(!g_pAABBsManager->calcID(pCurGO->position, GO_ID, 5.0f))
+            if(!g_pAABBsManager->calcID(pCurGO->position, GO_ID, g_AABBSize))
             {
                 return;
             }
