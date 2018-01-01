@@ -46,6 +46,7 @@ std::vector< cGameObject* >  g_vecGameObjects;
 std::map<long long, miniVAOInfo> g_map_AABBID_miniVAO;
 long long g_cubeID = -1;
 long long g_lineID = -1;
+float g_AABBSize = 5.0f;
 
 // To deal with sounds
 // Disabled for now
@@ -194,13 +195,12 @@ int main()
     ::g_pAABBsManager = new cAABBsManager();
     cMesh terrain;
     ::g_pVAOManager->lookupMeshFromName("FlatMesh", terrain);
-    ::g_pAABBsManager->genAABBs(&terrain, 5.0f);    
+    ::g_pAABBsManager->genAABBs(&terrain, g_AABBSize);
     //::g_pAABBsManager->genAllAABBsDebugLines();
     //-------------------------------------------------------------------------
     // Simple Debug Renderer
     ::g_simpleDebug = new cSimpleDebugRenderer();
-    float cubeSide = 5.0f;
-    if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, cubeSide, g_cubeID))
+    if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
     {
         std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
     }
@@ -348,7 +348,7 @@ int main()
             cGameObject* pTheGO = ::g_vecGameObjects[index];
 
             DrawObject(pTheGO);
-            DrawAABB(pTheGO, cubeSide);
+            DrawAABB(pTheGO, g_AABBSize);
         }
 
         
