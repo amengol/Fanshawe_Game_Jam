@@ -70,7 +70,9 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
             // Create the AABBs according to the tesselated triangles
             for (int i = 0; i < tesseleted.size(); i++)
             {
-
+                
+                bool triangleInserted = false;  // Do we already have the triangle?
+                
                 long long ID1;
                 if (!this->calcID(tesseleted[i].verticeA, ID1, size))
                 {
@@ -88,20 +90,10 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                 }
                 else
                 {
-                    // There is already an ID, but we have to make 
-                    // sure that the triangle wasn't already there
+                    // There is already an ID
                     cAABB* theAABB = itAABB->second;
-                    bool hasTheTriangle = false;
-                    for (int i = 0; i < theAABB->AABBsTriangles.size(); i++)
-                    {
-                        // If the triangle's centroid technically don't differ, they are the same
-                        if (glm::length((tri->Centroid - theAABB->AABBsTriangles[i]->Centroid)) < 0.01f)
-                        {
-                            hasTheTriangle = true;
-                            break;
-                        }
-                    }
-                    if (!hasTheTriangle) theAABB->AABBsTriangles.push_back(tri);
+                    theAABB->AABBsTriangles.push_back(tri);
+                    triangleInserted = true; // To not insert it twice further
                 }
 
                 long long ID2;
@@ -121,22 +113,16 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                 }
                 else
                 {
-                    // There is already an ID, but we have to make 
-                    // sure that the triangle wasn't already there
+                    // There is already an ID, but it may be from a new trianlge
                     if (ID2 != ID1)
                     {
-                        cAABB* theAABB = itAABB->second;
-                        bool hasTheTriangle = false;
-                        for (int i = 0; i < theAABB->AABBsTriangles.size(); i++)
+                        // Before inserting, make sure it wasn't already there
+                        if(triangleInserted)
                         {
-                            // If the triangle's centroid technically don't differ, they are the same
-                            if (glm::length((tri->Centroid - theAABB->AABBsTriangles[i]->Centroid)) < 0.01f)
-                            {
-                                hasTheTriangle = true;
-                                break;
-                            }
+                            cAABB* theAABB = itAABB->second;
+                            theAABB->AABBsTriangles.push_back(tri);
+                            triangleInserted = true;
                         }
-                        if (!hasTheTriangle) theAABB->AABBsTriangles.push_back(tri);
                     }                    
                 }
 
@@ -157,22 +143,15 @@ void cAABBsManager::genAABBs(cMesh* mesh, float size)
                 }
                 else
                 {
-                    // There is already an ID, but we have to make 
-                    // sure that the triangle wasn't already there
+                    // There is already an ID, but it may be from a new trianlge
                     if ((ID3 != ID1) && (ID3 != ID2))
                     {
-                        cAABB* theAABB = itAABB->second;
-                        bool hasTheTriangle = false;
-                        for (int i = 0; i < theAABB->AABBsTriangles.size(); i++)
+                        // Before inserting, make sure it wasn't already there
+                        if(triangleInserted)
                         {
-                            // If the triangle's centroid technically don't differ, they are the same
-                            if (glm::length((tri->Centroid - theAABB->AABBsTriangles[i]->Centroid)) < 0.01f)
-                            {
-                                hasTheTriangle = true;
-                                break;
-                            }
+                            cAABB* theAABB = itAABB->second;
+                            theAABB->AABBsTriangles.push_back(tri);
                         }
-                        if (!hasTheTriangle) theAABB->AABBsTriangles.push_back(tri);
                     }
                 }
             }//for (int i = 0; i < tesseleted...
