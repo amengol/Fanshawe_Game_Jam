@@ -380,10 +380,7 @@ int main()
             //<< ::g_pLightManager->vecLights[0].attenuation.z;
 
         glfwSetWindowTitle(window, ssTitle.str().c_str());
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-
+                
         // Now many seconds that have elapsed since we last checked
         double curTime = glfwGetTime();
         double deltaTime = curTime - lastTimeStep;
@@ -391,6 +388,14 @@ int main()
         // Physics step
         PhysicsStep(deltaTime);
         lastTimeStep = curTime;
+
+        // Move this here before Physics step to be able to print 
+        // the SimpleDebugRender
+        // WARNING! ============================================== 
+        // Should move this to before the physics step
+        // if no debug render is being done
+        glfwSwapBuffers(window);
+        glfwPollEvents();
 
     }// Main Game Loop end
 
