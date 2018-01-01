@@ -471,8 +471,9 @@ void cSimpleDebugRenderer::drawCustomGeometry(std::vector<sVertex>& theMesh, glm
 
     glCullFace(GL_BACK);
 
-    glDrawArrays(GL_LINES, 0, theMesh.size() * 3);
-
+    glLineWidth(2.0f);
+    glDrawArrays(GL_TRIANGLES, 0, theMesh.size());
+    glLineWidth(1.0f);
 
     // Unbind that VAO
     glBindVertexArray(0);
