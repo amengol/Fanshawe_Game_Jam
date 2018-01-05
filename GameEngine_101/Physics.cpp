@@ -13,10 +13,13 @@ extern cSimpleDebugRenderer* g_simpleDebug; // (GE101_Main.cpp)
 
 extern float g_AABBSize;                    // (GE101_Main.cpp)
 
+static float lowerT = 1000.0f;
+static float lowerDiff = 1000.0f;
+
 // Update the world 1 "step" in time
 void PhysicsStep(double deltaTime)
 {
-    const glm::vec3 GRAVITY = glm::vec3(0.0f, -5.0f, 0.0f);
+    const glm::vec3 GRAVITY = glm::vec3(0.0f, -10.0f, 0.0f);
 
     // Identical to the 'render' (drawing) loop
     for (int index = 0; index != ::g_vecGameObjects.size(); index++)
@@ -64,49 +67,64 @@ void PhysicsStep(double deltaTime)
                     //---------------------------------------------------------
                     // Collision Detection
                     
-                    // Project the point at the same plane as the triangle
-                    // Inspired by the Closest Point on Plane to Point from
-                    // Christer Ericson's book
-                    glm::vec3 normalA = theTri->verticeA + theTri->faceNormal;
-                    //float t = glm::dot(normalA, (pCurGO->position - theTri->verticeA));
-                    float t = (glm::dot(normalA, pCurGO->position) - glm::length(theTri->verticeA)) / glm::dot(normalA, normalA);
-                    glm::vec3 projectedPoint = pCurGO->position - t * normalA;
+                    //-----------------------
+                    // OLD CODE
+                    //// Project the point at the same plane as the triangle
+                    //// Inspired by the Closest Point on Plane to Point from
+                    //// Christer Ericson's book
+                    //glm::vec3 projectedPoint = pCurGO->position - (glm::dot((pCurGO->position - theTri->verticeA), theTri->faceNormal) * theTri->faceNormal);
+                    //float t = glm::dot((pCurGO->position - theTri->verticeA), theTri->faceNormal);
 
-                    // Find the triangle ABC
-                    glm::vec3 AB = theTri->verticeB - theTri->verticeA;
-                    glm::vec3 AC = theTri->verticeC - theTri->verticeA;
-                    glm::vec3 BC = theTri->verticeC - theTri->verticeB;
+                    //    
 
-                    // The triangle ABC area
-                    float areaABC = glm::length(glm::cross(AB, AC)) / 2;
+                    //float testDot = glm::dot(projectedPoint - theTri->verticeA, theTri->faceNormal);
 
-                    // If we consider the point being inside the triangle, the
-                    // sum of the areas of the triangles formed by two vertex 
-                    // and the point must be equal to the are of the triangle.
-                    // If they are grater it means that the point is outside
-                    // of the triangle.
+                    //// Find the triangle ABC
+                    //glm::vec3 AB = theTri->verticeB - theTri->verticeA;
+                    //glm::vec3 AC = theTri->verticeC - theTri->verticeA;
+                    //glm::vec3 BC = theTri->verticeC - theTri->verticeB;
+
+                    //// The triangle ABC area
+                    //float areaABC = glm::length(glm::cross(AB, AC)) / 2;
+
+                    //// If we consider the point being inside the triangle, the
+                    //// sum of the areas of the triangles formed by two vertex 
+                    //// and the point must be equal to the are of the triangle.
+                    //// If they are grater it means that the point is outside
+                    //// of the triangle.
                    
-                    // Triangle APC
-                    glm::vec3 AP = projectedPoint - theTri->verticeA;
-                    float areaAPC = glm::length(glm::cross(AC, AP)) / 2;
+                    //// Triangle APC
+                    //glm::vec3 AP = projectedPoint - theTri->verticeA;
+                    //float areaAPC = glm::length(glm::cross(AC, AP)) / 2;
 
-                    // Triangle APB
-                    float areaAPB = glm::length(glm::cross(AP, AB)) / 2;
+                    //// Triangle APB
+                    //float areaAPB = glm::length(glm::cross(AP, AB)) / 2;
 
-                    // Triangle BPC
-                    glm::vec3 CP = projectedPoint - theTri->verticeC;
-                    float areaBPC = glm::length(glm::cross(CP, BC)) / 2;
+                    //// Triangle BPC
+                    //glm::vec3 CP = projectedPoint - theTri->verticeC;
+                    //glm::vec3 CB = theTri->verticeB - theTri->verticeC;
+                    //float areaBPC = glm::length(glm::cross(CP, CB)) / 2;
 
-                    // Area of the 3 sub triangles
-                    float subTrisArea = areaAPB + areaAPC + areaBPC;
+                    //// Area of the 3 sub triangles
+                    //float subTrisArea = areaAPB + areaAPC + areaBPC;
 
-                    // Let's give a threshold for floating point erros
-                    if(subTrisArea - areaABC < 0.1f)// && fabs(t) < 0.1f)
-                    {
-                        // We have a collision
-                        //pCurGO->bIsUpdatedInPhysics = false;
-                        pCurGO->vel.y = -pCurGO->vel.y;
-                    }
+                    //if(t < lowerT)
+                    //{
+                    //    lowerT = t;
+                    //    printf("Lowest value of t is %f for a diff area of %f\n", lowerT, subTrisArea - areaABC);
+                    //}
+
+                    //if(subTrisArea - areaABC < lowerDiff)
+                    //{
+                    //    lowerDiff = subTrisArea - areaABC;
+                    //    printf("Lowest diff is %f for a t of %f\n", lowerDiff, t);
+                    //}
+
+                    //// Let's give a threshold for floating point erros
+                    //if(subTrisArea - areaABC < 0.1f && t < 0.0f)
+                    //{
+                    //    // We have a collision                     
+                    //}
 
                     //---------------------------------------------------------
 
