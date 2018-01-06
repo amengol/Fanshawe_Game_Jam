@@ -32,6 +32,7 @@ using namespace std;
 // Function Prototypes
 void DrawObject(cGameObject* pTheGO);
 void DrawAABB(cGameObject* pTheGO, float size);
+void DrawAABBforPoints(std::vector<glm::vec3> vertices, float AABBSize);
 
 // Global variables
 cVAOMeshManager* g_pVAOManager = NULL;
@@ -348,7 +349,31 @@ int main()
             cGameObject* pTheGO = ::g_vecGameObjects[index];
 
             DrawObject(pTheGO);
-            DrawAABB(pTheGO, g_AABBSize);
+            
+            if(pTheGO->typeOfObject == SPHERE)
+            {
+                // Calculate all AABBs for the sphere
+                // Put the sphere inside an axis-aligned box
+
+                // Vertices
+                float diameter = pTheGO->radius * 2;
+                std::vector<glm::vec3> vertices;
+                glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
+                vertices.push_back(vertex0);
+                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
+                vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
+                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
+                vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
+                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
+                vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
+                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
+
+                DrawAABBforPoints(vertices, g_AABBSize);
+            }
+            else
+            {
+                DrawAABB(pTheGO, g_AABBSize);
+            }            
         }
 
         
@@ -604,6 +629,51 @@ void DrawAABB(cGameObject* pTheGO, float size)
         glm::mat4 matNormal = glm::toMat4(qNormal);
         glm::vec3 normalColor = glm::vec3(0.0f, 0.0f, 1.0f);
         g_simpleDebug->drawDebugGeometry(cn, g_lineID, normalColor, matNormal);
+    }
+
+}
+
+void DrawAABBforPoints(std::vector<glm::vec3> vertices, float size)
+{
+    for(int i = 0; i < vertices.size(); i++)
+    {
+        // Calculate the ID of the GameObject
+        long long GO_ID = -999;
+
+        if(!g_pAABBsManager->calcID(vertices[i], GO_ID, size))
+        {
+            std::cout << "Problem generating AABB ID during DrawAABB() function!\n";
+            return;
+        }
+
+        // Check if the ID exists
+        if(!g_pAABBsManager->findAABB(GO_ID))
+        {
+            continue;
+        }
+
+        glm::vec3 min = g_pAABBsManager->genVecFromID(GO_ID, size);
+
+        glm::vec3 cubeColor = glm::vec3(1.0f, 0.0f, 0.0f);
+        g_simpleDebug->drawDebugGeometry(min, g_cubeID, cubeColor, glm::mat4(1.0f));
+
+        // Print the normals
+        cAABB theAABB(0, 0.0f);
+        if(!g_pAABBsManager->getAABB(GO_ID, theAABB))
+        {
+            //error
+            return;
+        }
+
+        for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
+        {
+            glm::vec3 fn = theAABB.AABBsTriangles[i]->faceNormal;
+            glm::vec3 cn = theAABB.AABBsTriangles[i]->Centroid;
+            glm::quat qNormal = glm::rotation(glm::vec3(0.0f, 1.0f, 0.0f), fn);
+            glm::mat4 matNormal = glm::toMat4(qNormal);
+            glm::vec3 normalColor = glm::vec3(0.0f, 0.0f, 1.0f);
+            g_simpleDebug->drawDebugGeometry(cn, g_lineID, normalColor, matNormal);
+        }
     }
 
 }
