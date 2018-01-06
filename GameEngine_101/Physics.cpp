@@ -13,8 +13,6 @@ extern cSimpleDebugRenderer* g_simpleDebug; // (GE101_Main.cpp)
 
 extern float g_AABBSize;                    // (GE101_Main.cpp)
 
-static float lowerT = 1000.0f;
-static float lowerDiff = 1000.0f;
 
 // Update the world 1 "step" in time
 void PhysicsStep(double deltaTime)
@@ -58,16 +56,18 @@ void PhysicsStep(double deltaTime)
                     // Do we need to test for the triangle?
                     // Check if the Dot product between
                     // the point and the angle is positive
-                    /*glm::vec3 originPos = pCurGO->position - theTri->Centroid;
+                    glm::vec3 originPos = pCurGO->position - theTri->Centroid;
                     if(glm::dot(originPos, theTri->faceNormal) < 0.0f)
                     {
                         continue;
-                    }*/
+                    }
                     
                     //---------------------------------------------------------
                     // Collision Detection
+
                     
-                    //-----------------------
+                    //---------------------------------------------------------
+                    
                     // OLD CODE
                     //// Project the point at the same plane as the triangle
                     //// Inspired by the Closest Point on Plane to Point from
