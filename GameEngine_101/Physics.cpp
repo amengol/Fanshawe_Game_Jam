@@ -17,7 +17,7 @@ extern float g_AABBSize;                    // (GE101_Main.cpp)
 // Update the world 1 "step" in time
 void PhysicsStep(double deltaTime)
 {
-    const glm::vec3 GRAVITY = glm::vec3(0.0f, -25.0f, 0.0f);
+    const glm::vec3 GRAVITY = glm::vec3(0.0f, 0.0f, 0.0f);
 
     // Identical to the 'render' (drawing) loop
     for (int index = 0; index != ::g_vecGameObjects.size(); index++)
