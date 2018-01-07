@@ -24,14 +24,14 @@ void key_callback(GLFWwindow* window,
     if(key == GLFW_KEY_1 && action == GLFW_PRESS)
     {
         ::g_pCamera->lockOnGameObject(::g_vecGameObjects[1]);
-        ::g_vecGameObjects[1]->bIsUpdatedInPhysics = true;
+        //::g_vecGameObjects[1]->bIsUpdatedInPhysics = true;
     }
 
     if(key == GLFW_KEY_2 && action == GLFW_PRESS)
     {
-        ::g_vecGameObjects[1]->bIsUpdatedInPhysics = false;
-        ::g_vecGameObjects[1]->position = glm::vec3(0.0f, 60.0f, 5.0f);
-        ::g_vecGameObjects[1]->vel = glm::vec3(0.0f);
+        //::g_vecGameObjects[1]->bIsUpdatedInPhysics = false;
+        //::g_vecGameObjects[1]->position = glm::vec3(0.0f, 60.0f, 5.0f);
+        //::g_vecGameObjects[1]->vel = glm::vec3(0.0f);
     }
         
 
