@@ -88,8 +88,28 @@ bool Load3DModelsIntoMeshManager(int shaderID,
 
     {
         cMesh theMesh;
-        theMesh.name = "FlatMesh";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals("FractalTerrain_xyz_n_4xBigger.ply", theMesh))
+        theMesh.name = "FacadeSets";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("FacadeSets.ply", theMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        // NOTE the TRUE so that it keeps the mesh!!!
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
+    {
+        cMesh theMesh;
+        theMesh.name = "SideWalkTree";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("SideWalkTree.ply", theMesh))
         {
             //std::cout << "Didn't load model" << std::endl;
             ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
