@@ -282,7 +282,7 @@ int main()
     // Camera
 
     g_pCamera = new cCameraObject();
-    g_pCamera->setCameraPosition(glm::vec3(0.0f, 50.0f, 75.0f));
+    g_pCamera->setCameraPosition(glm::vec3(0.0f, 70.0f, 170.0f));
     g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
