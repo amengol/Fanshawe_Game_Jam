@@ -26,6 +26,7 @@
 #include "globalGameStuff.h"
 #include "cAABBsManager.h"
 #include "cSimpleDebugRenderer.h"
+#include "TextureLoader.h"
 
 using namespace std;
 
@@ -61,6 +62,7 @@ GLint uniLoc_ambientToDiffuseRatio = -1; 	// Maybe	// 0.2 or 0.3
 GLint uniLoc_materialSpecular = -1;         // rgb = colour of HIGHLIGHT only | w = shininess of the 
 GLint uniLoc_bIsDebugWireFrameObject = -1;
 GLint uniLoc_HasColour = -1;
+GLint uniLoc_HasAlpha = -1;
 
 GLint uniLoc_eyePosition = -1;	            // Camera position
 GLint uniLoc_mModel = -1;
@@ -191,24 +193,24 @@ int main()
     }
     LoadModelsIntoScene();
 
-    //-------------------------------------------------------------------------
-    // AABBs
-    ::g_pAABBsManager = new cAABBsManager();
-    cMesh terrain;
-    ::g_pVAOManager->lookupMeshFromName("FlatMesh", terrain);
-    ::g_pAABBsManager->genAABBs(&terrain, g_AABBSize);
-    //::g_pAABBsManager->genAllAABBsDebugLines();
-    //-------------------------------------------------------------------------
-    // Simple Debug Renderer
-    ::g_simpleDebug = new cSimpleDebugRenderer();
-    if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
-    {
-        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    }
-    if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
-    {
-        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    }
+    ////-------------------------------------------------------------------------
+    //// AABBs
+    //::g_pAABBsManager = new cAABBsManager();
+    //cMesh terrain;
+    //::g_pVAOManager->lookupMeshFromName("FlatMesh", terrain);
+    //::g_pAABBsManager->genAABBs(&terrain, g_AABBSize);
+    ////::g_pAABBsManager->genAllAABBsDebugLines();
+    ////-------------------------------------------------------------------------
+    //// Simple Debug Renderer
+    //::g_simpleDebug = new cSimpleDebugRenderer();
+    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
+    //{
+    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    //}
+    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
+    //{
+    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    //}
 
     //-------------------------------------------------------------------------
     // Debug render
@@ -245,6 +247,7 @@ int main()
     uniLoc_materialSpecular = glGetUniformLocation(currentProgID, "materialSpecular");
     uniLoc_bIsDebugWireFrameObject = glGetUniformLocation(currentProgID, "bIsDebugWireFrameObject");
     uniLoc_HasColour = glGetUniformLocation(currentProgID, "hasColour");
+    uniLoc_HasAlpha = glGetUniformLocation(currentProgID, "hasAlpha");
     uniLoc_eyePosition = glGetUniformLocation(currentProgID, "eyePosition");
     uniLoc_mModel = glGetUniformLocation(currentProgID, "mModel");
     uniLoc_mView = glGetUniformLocation(currentProgID, "mView");
@@ -267,16 +270,8 @@ int main()
 
     //-------------------------------------------------------------------------
     // Texture 
-    ::g_pTextureManager = new cBasicTextureManager();
-    ::g_pTextureManager->SetBasePath("assets/textures");
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("delorean.bmp", true))
-    {
-        std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    }
-    else
-    {
-        std::cout << "Texture is loaded!" << std::endl;
-    }
+    if(!loadTextures())
+        std::cout << "Something went wrong while loading the textures!\n";
 
     //-------------------------------------------------------------------------
     // Camera
@@ -309,6 +304,9 @@ int main()
 
         // Clear colour AND depth buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glEnable(GL_BLEND);	   
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         ::g_pShaderManager->useShaderProgram("GE101_Shader");
         GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
@@ -350,30 +348,30 @@ int main()
 
             DrawObject(pTheGO);
             
-            if(pTheGO->typeOfObject == SPHERE)
-            {
-                // Calculate all AABBs for the sphere
-                // Put the sphere inside an axis-aligned box
+            //if(pTheGO->typeOfObject == SPHERE)
+            //{
+            //    // Calculate all AABBs for the sphere
+            //    // Put the sphere inside an axis-aligned box
 
-                // Vertices
-                float diameter = pTheGO->radius * 2;
-                std::vector<glm::vec3> vertices;
-                glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
-                vertices.push_back(vertex0);
-                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
-                vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
-                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
-                vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
-                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
-                vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
-                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
+            //    // Vertices
+            //    float diameter = pTheGO->radius * 2;
+            //    std::vector<glm::vec3> vertices;
+            //    glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
+            //    vertices.push_back(vertex0);
+            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
+            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
+            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
+            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
+            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
+            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
+            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
 
-                DrawAABBforPoints(vertices, g_AABBSize);
-            }
-            else
-            {
-                DrawAABB(pTheGO, g_AABBSize);
-            }            
+            //    DrawAABBforPoints(vertices, g_AABBSize);
+            //}
+            //else
+            //{
+            //    DrawAABB(pTheGO, g_AABBSize);
+            //}            
         }
 
         
@@ -431,7 +429,7 @@ int main()
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
     //delete ::g_pDebugRenderer;
-    delete ::g_pAABBsManager;
+    //delete ::g_pAABBsManager;
     //delete ::g_pSoundManager;
 
     return 0;
@@ -503,6 +501,14 @@ void DrawObject(cGameObject* pTheGO)
     {
         glUniform1f(uniLoc_HasColour, 0.0f);
     }
+
+    if(pTheGO->hasAlpha)
+    {
+        glUniform1f(uniLoc_HasAlpha, 1.0f);
+    } else
+    {
+        glUniform1f(uniLoc_HasAlpha, 0.0f);
+    }
     
 
     //...and all the other object material colours
@@ -521,7 +527,7 @@ void DrawObject(cGameObject* pTheGO)
     GLuint texture00Number
         = ::g_pTextureManager->getTextureIDFromName(textureName);
     // Texture binding... (i.e. set the 'active' texture
-    GLuint texture00Unit = 13;							// Texture units go from 0 to 79 (at least)
+    GLuint texture00Unit = 0;							// Texture units go from 0 to 79 (at least)
     glActiveTexture(texture00Unit + GL_TEXTURE0);		// GL_TEXTURE0 = 33984
     glBindTexture(GL_TEXTURE_2D, texture00Number);
 
@@ -529,34 +535,31 @@ void DrawObject(cGameObject* pTheGO)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D,
         ::g_pTextureManager->getTextureIDFromName(pTheGO->textureNames[0]));
-    //::g_pTextureManager->getTextureIDFromName("Utah_Teapot_xyz_n_uv_Enterprise.bmp"));
     // 1
-    //glActiveTexture(GL_TEXTURE1);
-    //glBindTexture(GL_TEXTURE_2D,
-    //    ::g_pTextureManager->getTextureIDFromName(pTheGO->textureNames[1]));
-    ////::g_pTextureManager->getTextureIDFromName("GuysOnSharkUnicorn.bmp"));
-    //// 2..  and so on... 
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D,
+        ::g_pTextureManager->getTextureIDFromName(pTheGO->textureNames[1]));
+    // 2..  and so on... 
 
     // Set sampler in the shader
     // NOTE: You shouldn't be doing this during the draw call...
     GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
     GLint textSampler00_ID = glGetUniformLocation(curShaderID, "myAmazingTexture00");
-    //GLint textSampler01_ID = glGetUniformLocation(curShaderID, "myAmazingTexture01");
+    GLint textSampler01_ID = glGetUniformLocation(curShaderID, "myAmazingTexture01");
     //// And so on (up to 10, or whatever number of textures)... 
 
     GLint textBlend00_ID = glGetUniformLocation(curShaderID, "textureBlend00");
-    //GLint textBlend01_ID = glGetUniformLocation(curShaderID, "textureBlend01");
+    GLint textBlend01_ID = glGetUniformLocation(curShaderID, "textureBlend01");
 
-    //// This connects the texture sampler to the texture units... 
-    //glUniform1i( textSampler00_ID, 0  );		// Enterprise
-    //glUniform1i( textSampler01_ID, 1  );		// GuysOnSharkUnicorn
+    // This connects the texture sampler to the texture units... 
+    glUniform1i( textSampler00_ID, 0  );		// Enterprise
+    glUniform1i( textSampler01_ID, 1  );		// GuysOnSharkUnicorn
     // .. and so on
 
     // And the blending values
     glUniform1f(textBlend00_ID, pTheGO->textureBlend[0]);
-    //glUniform1f(textBlend01_ID, pTheGO->textureBlend[1]);
+    glUniform1f(textBlend01_ID, pTheGO->textureBlend[1]);
     // And so on...
-
 
     //			glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
     //			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
@@ -565,11 +568,17 @@ void DrawObject(cGameObject* pTheGO)
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glDisable(GL_CULL_FACE);
     }
-    else
+    else if (pTheGO->cullFace)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
+    }
+    else
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glEnable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
     }
 
     glCullFace(GL_BACK);
