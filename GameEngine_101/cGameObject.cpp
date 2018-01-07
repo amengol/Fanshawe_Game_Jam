@@ -24,6 +24,8 @@ cGameObject::cGameObject()
     this->mGOSound = NULL;
     this->mHasSound = false;
     this->hasColour = false;
+    this->hasAlpha = false;
+    this->cullFace = true;
     this->isDebugAABBActive = false;
 
 #ifdef _DEBUG

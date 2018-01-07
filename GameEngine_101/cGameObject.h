@@ -41,6 +41,8 @@ public:
 	float radius;
 	bool bIsWireFrame;
     bool hasColour;
+    bool hasAlpha;
+    bool cullFace;
     bool isDebugAABBActive;
     glm::vec3 previousPosition;
 	// **********************************
