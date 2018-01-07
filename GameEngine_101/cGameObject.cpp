@@ -11,6 +11,7 @@ cGameObject::cGameObject()
     this->rateOfTurnY = 0.0f;
     this->rateOfTurnZ = 0.0f;
 	this->position = glm::vec3(0.0f);
+    this->previousPosition = glm::vec3(0.0f);
 	this->orientation = glm::mat4x4(1.0f);
     this->vecOrientation = glm::vec3(0.0f);
 	this->vel = glm::vec3(0.0f);
@@ -49,6 +50,9 @@ void cGameObject::DebugUpdate(double deltaTime)
  
  void cGameObject::Update(float deltaTime, glm::vec3 GRAVITY)
  {
+     // Remember the last position
+     this->previousPosition = this->position;
+
      // Explicit Euler  (RK4)
      // New position is based on velocity over time
      // Velocity is based on local axis

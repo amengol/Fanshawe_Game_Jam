@@ -42,6 +42,7 @@ public:
 	bool bIsWireFrame;
     bool hasColour;
     bool isDebugAABBActive;
+    glm::vec3 previousPosition;
 	// **********************************
 	glm::vec4 diffuseColour;
 	std::string meshName;
