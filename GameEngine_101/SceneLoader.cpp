@@ -48,12 +48,12 @@ void LoadModelsIntoScene(void)
         // Sphere
         cGameObject* theGO = new cGameObject();
         theGO->meshName = "Sphere";
-        theGO->bIsUpdatedInPhysics = true;
+        theGO->bIsUpdatedInPhysics = false;
         theGO->bIsWireFrame = false;
         theGO->typeOfObject = SPHERE;
         theGO->radius = 1.0f;
         theGO->diffuseColour = glm::vec4(1.4f, 0.4f, 0.4f, 1.0f);
-        theGO->position = glm::vec3(10.0f, 60.0f, 0.0f);
+        theGO->position = glm::vec3(0.0f, 60.0f, 5.0f);
         theGO->isDebugAABBActive = true;
         ::g_vecGameObjects.push_back(theGO);
     }
