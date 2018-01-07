@@ -166,6 +166,7 @@
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="sAABB_Triangle.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
+    <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="Texture\C24BitBMPpixel.cpp" />
     <ClCompile Include="Texture\cBasicTextureManager.cpp" />
     <ClCompile Include="Texture\CTextureFromBMP.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="cVAOMeshManager.h" />
     <ClInclude Include="globalGameStuff.h" />
     <ClInclude Include="globalOpenGL_GLFW.h" />
+    <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="ModelUtilities.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="sAABB_Triangle.h" />
