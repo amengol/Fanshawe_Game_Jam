@@ -34,13 +34,14 @@ void LoadModelsIntoScene(void)
     //}
 
     {
-        // Flat mesh
+        // Facade Sets
         cGameObject* theGO = new cGameObject();
-        theGO->diffuseColour = glm::vec4(1.4f, 1.4f, 1.4f, 1.0f);
-        theGO->meshName = "FlatMesh";
-        theGO->bIsUpdatedInPhysics = false;
+        theGO->meshName = "FacadeSets";
+        theGO->bIsUpdatedInPhysics = true;
         theGO->bIsWireFrame = false;
         theGO->typeOfObject = TERRAIN;
+        theGO->textureBlend[0] = 1.0f;
+        theGO->textureNames[0] = "FacadeSets01.bmp";
         ::g_vecGameObjects.push_back(theGO);
     }
 
@@ -55,6 +56,22 @@ void LoadModelsIntoScene(void)
         theGO->diffuseColour = glm::vec4(1.4f, 0.4f, 0.4f, 1.0f);
         theGO->position = glm::vec3(0.0f, 60.0f, 5.0f);
         theGO->isDebugAABBActive = true;
+        ::g_vecGameObjects.push_back(theGO);
+    }
+
+    {
+        // Side Walk Tree
+        cGameObject* theGO = new cGameObject();
+        theGO->meshName = "SideWalkTree";
+        theGO->bIsUpdatedInPhysics = false;
+        theGO->bIsWireFrame = false;
+        theGO->typeOfObject = TERRAIN;
+        theGO->textureBlend[0] = 1.0f;
+        theGO->textureNames[0] = "tree15.bmp";
+        theGO->textureBlend[1] = 1.0f;
+        theGO->textureNames[1] = "tree15_alpha.bmp";
+        theGO->hasAlpha = true;
+        theGO->cullFace = false;
         ::g_vecGameObjects.push_back(theGO);
     }
 
