@@ -17,7 +17,7 @@ extern float g_AABBSize;                    // (GE101_Main.cpp)
 // Update the world 1 "step" in time
 void PhysicsStep(double deltaTime)
 {
-    const glm::vec3 GRAVITY = glm::vec3(0.0f, 0.0f, 0.0f);
+    const glm::vec3 GRAVITY = glm::vec3(0.0f, -25.0f, 0.0f);
 
     // Identical to the 'render' (drawing) loop
     for (int index = 0; index != ::g_vecGameObjects.size(); index++)
@@ -97,7 +97,19 @@ void PhysicsStep(double deltaTime)
 
                         //---------------------------------------------------------
                         // Collision Detection
-
+                        glm::vec3 closestPointToSphere(0.0f);
+                        if(TestSphereTriangle(pCurGO, theTri->verticeA, theTri->verticeB,
+                           theTri->verticeC, closestPointToSphere))
+                        {
+                            // We have a collision                            
+                            //glm::vec3 incidenceVector = pCurGO->position - pCurGO->previousPosition;
+                            //glm::vec3 incidenceVector = pCurGO->vel;
+                            glm::vec3 reflectedVector = glm::reflect(pCurGO->vel, theTri->faceNormal);
+                            glm::quat qRotatedVel = glm::rotation(glm::normalize(pCurGO->vel), glm::normalize(reflectedVector));
+                            pCurGO->vel = qRotatedVel * pCurGO->vel;
+                            pCurGO->position = pCurGO->previousPosition;
+                            pCurGO->vel.y *= 0.7f;
+                        }
 
                         //---------------------------------------------------------
 
@@ -209,10 +221,75 @@ void PhysicsStep(double deltaTime)
             break;
         }
 
-        
-
-
     }//for ( int index... 
 
     return;
+}
+
+// Based on Ericson's code
+// Returns true if sphere s intersects triangle ABC, false otherwise.
+// The point p on abc closest to the sphere center is also returned
+bool TestSphereTriangle(cGameObject* s, glm::vec3 a, glm::vec3 b, glm::vec3 c, glm::vec3 &p)
+{
+    // Find point P on triangle ABC closest to sphere center
+    p = ClosestPtPointTriangle(s->position, a, b, c);
+
+    // Sphere and triangle intersect if the (squared) distance from sphere
+    // center to point p is less than the (squared) sphere radius
+    glm::vec3 v = p - s->position;
+    return glm::dot(v, v) <= s->radius * s->radius;
+}
+
+// Based on Ericson's code
+glm::vec3 ClosestPtPointTriangle(glm::vec3 p, glm::vec3 a, glm::vec3 b, glm::vec3 c)
+{
+    // Check if P in vertex region outside A
+    glm::vec3 ab = b - a;
+    glm::vec3 ac = c - a;
+    glm::vec3 ap = p - a;
+    float d1 = glm::dot(ab, ap);
+    float d2 = glm::dot(ac, ap);
+    if(d1 <= 0.0f && d2 <= 0.0f) return a; // barycentric coordinates (1,0,0)
+                                           
+    // Check if P in vertex region outside B
+    glm::vec3 bp = p - b;
+    float d3 = glm::dot(ab, bp);
+    float d4 = glm::dot(ac, bp);
+    if(d3 >= 0.0f && d4 <= d3) return b; // barycentric coordinates (0,1,0)
+                                         
+    // Check if P in edge region of AB, if so return projection of P onto AB
+    float vc = d1 * d4 - d3 * d2;
+    if(vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f)
+    {
+        float v = d1 / (d1 - d3);
+        return a + v * ab; // barycentric coordinates (1-v,v,0)
+    }
+    
+    // Check if P in vertex region outside C
+    glm::vec3 cp = p - c;
+    float d5 = glm::dot(ab, cp);
+    float d6 = glm::dot(ac, cp);
+    if(d6 >= 0.0f && d5 <= d6) return c; // barycentric coordinates (0,0,1)
+
+    // Check if P in edge region of AC, if so return projection of P onto AC
+    float vb = d5 * d2 - d1 * d6;
+    if(vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f)
+    {
+        float w = d2 / (d2 - d6);
+        return a + w * ac; // barycentric coordinates (1-w,0,w)
+    }
+    
+    // Check if P in edge region of BC, if so return projection of P onto BC
+    float va = d3 * d6 - d5 * d4;
+    if(va <= 0.0f && (d4 - d3) >= 0.0f && (d5 - d6) >= 0.0f)
+    {
+        float w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+        return b + w * (c - b); // barycentric coordinates (0,1-w,w)
+    }
+
+    // P inside face region. Compute Q through its barycentric coordinates (u,v,w)
+    float denom = 1.0f / (va + vb + vc);
+    float v = vb * denom;
+    float w = vc * denom;
+    return a + ab * v + ac * w; // = u*a + v*b + w*c, u = va * denom = 1.0f - v - w
 }
