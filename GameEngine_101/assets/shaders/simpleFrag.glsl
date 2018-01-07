@@ -21,6 +21,7 @@ uniform vec3 eyePosition;	// Camera position
 uniform bool bIsDebugWireFrameObject;
 
 uniform bool hasColour;
+uniform bool hasAlpha;
 
 // Note: this CAN'T be an array (sorry). See 3D texture array
 uniform sampler2D myAmazingTexture00;		// Represents a 2D image
@@ -113,10 +114,20 @@ void main()
 	//                    (texCol01.rgb * textureBlend01);	// .. and so on
 	                    //(texCol02.rgb * textureBlend00);	// .. and so on
 
+	gl_FragColor.rgb += texCol00.rgb * textureBlend00;
 	//gl_FragColor.rgb += texColour.rgb;
 	
 	// Copy object material diffuse to alpha
-	gl_FragColor.a = materialDiffuse.a;
+	if (hasAlpha)
+	{
+		if (texCol01.r < 0.5)
+			discard;
+		gl_FragColor.a = texCol01.r;
+	}
+	else
+	{
+		gl_FragColor.a = materialDiffuse.a;
+	}
 
 	return;
 }
