@@ -48,7 +48,7 @@ std::vector< cGameObject* >  g_vecGameObjects;
 std::map<long long, miniVAOInfo> g_map_AABBID_miniVAO;
 long long g_cubeID = -1;
 long long g_lineID = -1;
-float g_AABBSize = 5.0f;
+float g_AABBSize = 20.0f;
 
 // To deal with sounds
 // Disabled for now
@@ -193,24 +193,27 @@ int main()
     }
     LoadModelsIntoScene();
 
-    ////-------------------------------------------------------------------------
-    //// AABBs
-    //::g_pAABBsManager = new cAABBsManager();
-    //cMesh terrain;
-    //::g_pVAOManager->lookupMeshFromName("FlatMesh", terrain);
-    //::g_pAABBsManager->genAABBs(&terrain, g_AABBSize);
-    ////::g_pAABBsManager->genAllAABBsDebugLines();
-    ////-------------------------------------------------------------------------
-    //// Simple Debug Renderer
-    //::g_simpleDebug = new cSimpleDebugRenderer();
-    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
-    //{
-    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    //}
-    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
-    //{
-    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    //}
+    //-------------------------------------------------------------------------
+    // AABBs
+    ::g_pAABBsManager = new cAABBsManager();
+    cMesh terrain;
+    ::g_pVAOManager->lookupMeshFromName("FacadeSets", terrain);
+    ::g_pAABBsManager->genAABBs(&terrain, g_AABBSize);
+    cMesh trees;
+    ::g_pVAOManager->lookupMeshFromName("SideWalkTree", trees);
+    ::g_pAABBsManager->genAABBs(&trees, g_AABBSize);
+
+    //-------------------------------------------------------------------------
+    // Simple Debug Renderer
+    ::g_simpleDebug = new cSimpleDebugRenderer();
+    if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
+    {
+        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    }
+    if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
+    {
+        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    }
 
     //-------------------------------------------------------------------------
     // Debug render
@@ -348,30 +351,30 @@ int main()
 
             DrawObject(pTheGO);
             
-            //if(pTheGO->typeOfObject == SPHERE)
-            //{
-            //    // Calculate all AABBs for the sphere
-            //    // Put the sphere inside an axis-aligned box
+            if(pTheGO->typeOfObject == SPHERE)
+            {
+                // Calculate all AABBs for the sphere
+                // Put the sphere inside an axis-aligned box
 
-            //    // Vertices
-            //    float diameter = pTheGO->radius * 2;
-            //    std::vector<glm::vec3> vertices;
-            //    glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
-            //    vertices.push_back(vertex0);
-            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
-            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
-            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
-            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
-            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
-            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
-            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
+                // Vertices
+                float diameter = pTheGO->radius * 2;
+                std::vector<glm::vec3> vertices;
+                glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
+                vertices.push_back(vertex0);
+                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
+                vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
+                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
+                vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
+                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
+                vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
+                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
 
-            //    DrawAABBforPoints(vertices, g_AABBSize);
-            //}
-            //else
-            //{
-            //    DrawAABB(pTheGO, g_AABBSize);
-            //}            
+                DrawAABBforPoints(vertices, g_AABBSize);
+            }
+            else
+            {
+                DrawAABB(pTheGO, g_AABBSize);
+            }            
         }
 
         
