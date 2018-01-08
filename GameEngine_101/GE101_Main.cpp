@@ -38,6 +38,7 @@ void DrawAABBforPoints(std::vector<glm::vec3> vertices, float AABBSize);
 // Global variables
 cVAOMeshManager* g_pVAOManager = NULL;
 cCameraObject* g_pCamera = NULL;
+cGameObject* g_pSkyBoxObject = NULL;
 cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
 //cDebugRenderer*	g_pDebugRenderer = NULL;
@@ -63,6 +64,7 @@ GLint uniLoc_materialSpecular = -1;         // rgb = colour of HIGHLIGHT only | 
 GLint uniLoc_bIsDebugWireFrameObject = -1;
 GLint uniLoc_HasColour = -1;
 GLint uniLoc_HasAlpha = -1;
+GLint uniLoc_bIsSkyBoxObject = -1;
 
 GLint uniLoc_eyePosition = -1;	            // Camera position
 GLint uniLoc_mModel = -1;
@@ -250,6 +252,7 @@ int main()
     uniLoc_bIsDebugWireFrameObject = glGetUniformLocation(currentProgID, "bIsDebugWireFrameObject");
     uniLoc_HasColour = glGetUniformLocation(currentProgID, "hasColour");
     uniLoc_HasAlpha = glGetUniformLocation(currentProgID, "hasAlpha");
+    uniLoc_bIsSkyBoxObject = glGetUniformLocation(currentProgID, "isASkyBox");
     uniLoc_eyePosition = glGetUniformLocation(currentProgID, "eyePosition");
     uniLoc_mModel = glGetUniformLocation(currentProgID, "mModel");
     uniLoc_mView = glGetUniformLocation(currentProgID, "mView");
@@ -327,9 +330,11 @@ int main()
         matProjection = glm::perspective(0.6f,			// FOV
                         ratio,		// Aspect ratio
                         1.0f,			// Near (as big as possible)
-                        10000.0f);	// Far (as small as possible)
+                        100500.0f);	// Far (as small as possible)
 
         g_pCamera->update();
+
+        ::g_pSkyBoxObject->position = g_pCamera->getCameraPosition();
 
         // View or "camera" matrix
         glm::mat4 matView = glm::mat4(1.0f);
@@ -533,6 +538,15 @@ void DrawObject(cGameObject* pTheGO)
         glUniform1f(uniLoc_bIsDebugWireFrameObject, 0.0f);	// FALSE
     }
 
+    
+    if(pTheGO->bIsSkyBoxObject)
+    {
+        glUniform1f(uniLoc_bIsSkyBoxObject, GL_TRUE);
+    } else
+    {
+        glUniform1f(uniLoc_bIsSkyBoxObject, GL_FALSE);
+    }
+
     // Set up the textures
     std::string textureName = pTheGO->textureNames[0];
     GLuint texture00Number
@@ -561,6 +575,16 @@ void DrawObject(cGameObject* pTheGO)
 
     GLint textBlend00_ID = glGetUniformLocation(curShaderID, "texBlend00");
     GLint textBlend01_ID = glGetUniformLocation(curShaderID, "texBlend01");
+
+    GLint texSampCube00_LocID = glGetUniformLocation(curShaderID, "texSampCube00");
+    GLint texSampCube01_LocID = glGetUniformLocation(curShaderID, "texSampCube00");
+    GLint texSampCube02_LocID = glGetUniformLocation(curShaderID, "texSampCube00");
+    GLint texSampCube03_LocID = glGetUniformLocation(curShaderID, "texSampCube00");
+    
+    GLint texCubeBlend00_LocID = glGetUniformLocation(curShaderID, "texCubeBlend00");
+    GLint texCubeBlend01_LocID = glGetUniformLocation(curShaderID, "texCubeBlend01");
+    GLint texCubeBlend02_LocID = glGetUniformLocation(curShaderID, "texCubeBlend02");
+    GLint texCubeBlend03_LocID = glGetUniformLocation(curShaderID, "texCubeBlend03");
 
     // This connects the texture sampler to the texture units... 
     glUniform1i( textSampler00_ID, 0  );		// Enterprise

@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 extern std::vector< cGameObject* >  g_vecGameObjects;
+extern cGameObject* g_pSkyBoxObject;
 
 void LoadModelsIntoScene(void)
 {
@@ -32,6 +33,18 @@ void LoadModelsIntoScene(void)
     //    theGO->rotateY(180.0f);
     //    ::g_vecGameObjects.push_back(theGO);
     //}
+
+    
+    // Our skybox object
+    {
+        //cGameObject* pTempGO = new cGameObject();
+        ::g_pSkyBoxObject = new cGameObject();
+        g_pSkyBoxObject->scale = 100000.0f;
+        g_pSkyBoxObject->diffuseColour = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+        g_pSkyBoxObject->meshName = "SkyBox";
+        g_pSkyBoxObject->bIsSkyBoxObject = true;
+        ::g_vecGameObjects.push_back(::g_pSkyBoxObject);		// Fastest way to add
+    }
 
     {
         // Facade Sets

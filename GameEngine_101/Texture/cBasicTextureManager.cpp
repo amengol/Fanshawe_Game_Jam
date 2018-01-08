@@ -31,42 +31,57 @@ bool cBasicTextureManager::Create2DTextureFromBMPFile( std::string textureFileNa
 
 	return true;
 }
-
-bool cBasicTextureManager::CreateNewCubeTextureFromBMPFiles( std::string cubeMapName, 
-		                                   std::string posX_fileName, std::string negX_fileName, 
-		                                   std::string posY_fileName, std::string negY_fileName, 
-										   std::string posZ_fileName, std::string negZ_fileName )
+bool cBasicTextureManager::CreateCubeTextureFromBMPFiles(std::string cubeMapName,
+                                                    std::string posX_fileName, std::string negX_fileName,
+                                                    std::string posY_fileName, std::string negY_fileName,
+                                                    std::string posZ_fileName, std::string negZ_fileName,
+                                                    bool bGenerateMipmap, bool bIsSeamless)
 {
-	std::string posX_fileFullPath = this->m_basePath + "/" + posX_fileName;
-	std::string negX_fileFullPath = this->m_basePath + "/" + negX_fileName; 
-	std::string posY_fileFullPath = this->m_basePath + "/" + posY_fileName;
-	std::string negY_fileFullPath = this->m_basePath + "/" + negY_fileName; 
-	std::string posZ_fileFullPath = this->m_basePath + "/" + posZ_fileName;
-	std::string negZ_fileFullPath = this->m_basePath + "/" + negZ_fileName;
+    std::string posX_fileName_FULL = this->m_basePath + "/" + posX_fileName;
+    std::string negX_fileName_FULL = this->m_basePath + "/" + negX_fileName;
+    std::string posY_fileName_FULL = this->m_basePath + "/" + posY_fileName;
+    std::string negY_fileName_FULL = this->m_basePath + "/" + negY_fileName;
+    std::string posZ_fileName_FULL = this->m_basePath + "/" + posZ_fileName;
+    std::string negZ_fileName_FULL = this->m_basePath + "/" + negZ_fileName;
 
 
-	CTextureFromBMP* pTempTexture = new CTextureFromBMP();
-	GLenum errorEnum = 0;
-	std::string errorString;
-	std::string errorDetails;
-	if ( ! pTempTexture->CreateNewCubeTextureFromBMPFiles( cubeMapName, 
-	                         posX_fileFullPath, negX_fileFullPath, 
-	                         posY_fileFullPath, negY_fileFullPath, 
-	                         posZ_fileFullPath, negZ_fileFullPath, 
-	                         true /*is seamless*/, errorEnum, 
-	                         errorString, errorDetails ) )
-	{
-		this->m_appendErrorString( "Can't load " );
-		this->m_appendErrorString( cubeMapName );
-		this->m_appendErrorString( "\n" );
-		this->m_appendErrorString( errorString );
-		this->m_appendErrorString( errorDetails );
-		return false;
-	}
+    // #define GL_TEXTURE0 0x84C0
+    //GLuint textureUnit = this->m_BASETEXTURE + this->m_nextTextureUnitOffset;
 
-	this->m_map_TexNameToTexture[ cubeMapName ] = pTempTexture;
+    //// Gone over the GL_TEXTURE31? ('cause we can't load any more, then)
+    //if ( textureUnit > GL_TEXTURE31 )		// #define GL_TEXTURE31 0x84DF
+    //{
+    //	this->m_appendErrorStringLine( "Too many textures are loaded. GL_TEXTURE31 is maximum." );
+    //	return false;
+    //}
 
-	return true;
+    CTextureFromBMP* pTempTexture = new CTextureFromBMP();
+    GLenum errorEnum = GL_NO_ERROR;
+    std::string errorString;
+    std::string errorDetails;
+    if(!pTempTexture->CreateNewCubeTextureFromBMPFiles(cubeMapName,
+       posX_fileName_FULL, negX_fileName_FULL,
+       posY_fileName_FULL, negY_fileName_FULL,
+       posZ_fileName_FULL, negZ_fileName_FULL,
+       /*textureUnit,*/ bIsSeamless,
+       errorEnum, errorString, errorDetails))
+    {
+        this->m_appendErrorString("Can't load ");
+        this->m_appendErrorString(cubeMapName);
+        this->m_appendErrorString("\n");
+        this->m_appendErrorStringLine(errorString);
+        this->m_appendErrorStringLine(errorDetails);
+        return false;
+    }
+
+
+
+    // Texture is loaded OK
+    //this->m_nextTextureUnitOffset++;
+
+    this->m_map_TexNameToTexture[cubeMapName] = pTempTexture;
+
+    return true;
 }
 
 std::string cBasicTextureManager::getLastError( bool bClearError /*=true*/ )

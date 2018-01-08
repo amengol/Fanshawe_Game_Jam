@@ -44,6 +44,7 @@ public:
     bool hasAlpha;
     bool cullFace;
     bool isDebugAABBActive;
+    bool bIsSkyBoxObject;
     glm::vec3 previousPosition;
 	// **********************************
 	glm::vec4 diffuseColour;

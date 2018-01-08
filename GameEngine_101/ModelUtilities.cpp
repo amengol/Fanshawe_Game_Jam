@@ -87,6 +87,26 @@ bool Load3DModelsIntoMeshManager(int shaderID,
     //}
 
     {
+        cMesh testMesh;
+        testMesh.name = "SkyBox";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals("SkyBox.ply", testMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << testMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        // NOTE the TRUE so that it keeps the mesh!!!
+        if(!pVAOManager->loadMeshIntoVAO(testMesh, shaderID, true))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << testMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
+    {
         cMesh theMesh;
         theMesh.name = "FacadeSets";
         if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("FacadeSets.ply", theMesh))

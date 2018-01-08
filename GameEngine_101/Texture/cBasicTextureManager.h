@@ -16,6 +16,12 @@ public:
 		                                   std::string posY_fileName, std::string negY_fileName, 
 										   std::string posZ_fileName, std::string negZ_fileName );
 
+    bool CreateCubeTextureFromBMPFiles(std::string cubeMapName,
+                                       std::string posX_fileName, std::string negX_fileName,
+                                       std::string posY_fileName, std::string negY_fileName,
+                                       std::string posZ_fileName, std::string negZ_fileName,
+                                       bool bGenerateMipmap, bool bIsSeamless);
+
 
 	// returns 0 on error
 	GLuint getTextureIDFromName( std::string textureFileName );

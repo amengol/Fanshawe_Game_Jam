@@ -26,6 +26,7 @@ cGameObject::cGameObject()
     this->hasColour = false;
     this->hasAlpha = false;
     this->cullFace = true;
+    this->bIsSkyBoxObject = false;
     this->isDebugAABBActive = false;
 
 #ifdef _DEBUG

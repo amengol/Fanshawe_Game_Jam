@@ -7,6 +7,21 @@ extern cBasicTextureManager* g_pTextureManager;
 bool loadTextures()
 {
     ::g_pTextureManager = new cBasicTextureManager();
+
+    ::g_pTextureManager->SetBasePath("assets/textures/skybox");
+    if(!::g_pTextureManager->CreateCubeTextureFromBMPFiles(
+        "space",
+        "NightSky_Right.bmp",
+        "NightSky_Left.bmp",
+        "NightSky_Bottom.bmp",
+        "NightSky_Top.bmp",
+        "NightSky_Front.bmp",
+        "NightSky_Back.bmp", true, true))
+    {
+        std::cout << "Didn't load skybox" << std::endl;
+    }
+
+
     ::g_pTextureManager->SetBasePath("assets/textures");
 
     if(!::g_pTextureManager->Create2DTextureFromBMPFile("FacadeSets01.bmp", true))
