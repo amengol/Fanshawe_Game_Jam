@@ -57,7 +57,7 @@ float g_AABBSize = 20.0f;
 
 // Other uniforms:
 GLint uniLoc_materialDiffuse = -1;
-GLint uniLoc_materialAmbient = -1;
+//GLint uniLoc_materialAmbient = -1;
 GLint uniLoc_ambientToDiffuseRatio = -1; 	// Maybe	// 0.2 or 0.3
 GLint uniLoc_materialSpecular = -1;         // rgb = colour of HIGHLIGHT only | w = shininess of the 
 GLint uniLoc_bIsDebugWireFrameObject = -1;
@@ -68,6 +68,7 @@ GLint uniLoc_eyePosition = -1;	            // Camera position
 GLint uniLoc_mModel = -1;
 GLint uniLoc_mView = -1;
 GLint uniLoc_mProjection = -1;
+GLint uniLoc_mWorldInvTrans = -1;
 
 static void error_callback(int error, const char* description)
 {
@@ -77,7 +78,6 @@ static void error_callback(int error, const char* description)
 int main()
 {
     GLFWwindow* window;
-    GLint mvp_location;
     glfwSetErrorCallback(error_callback);
 
     if (!glfwInit())
@@ -157,8 +157,8 @@ int main()
     cShaderManager::cShader vertShader;
     cShaderManager::cShader fragShader;
 
-    vertShader.fileName = "simpleVert.glsl";
-    fragShader.fileName = "simpleFrag.glsl";
+    vertShader.fileName = "newVert.glsl";
+    fragShader.fileName = "newFrag.glsl";
 
     ::g_pShaderManager->setBasePath("assets//shaders//");
 
@@ -193,27 +193,27 @@ int main()
     }
     LoadModelsIntoScene();
 
-    //-------------------------------------------------------------------------
-    // AABBs
-    ::g_pAABBsManager = new cAABBsManager();
-    cMesh terrain;
-    ::g_pVAOManager->lookupMeshFromName("FacadeSets", terrain);
-    ::g_pAABBsManager->genAABBs(&terrain, g_AABBSize);
-    cMesh trees;
-    ::g_pVAOManager->lookupMeshFromName("SideWalkTree", trees);
-    ::g_pAABBsManager->genAABBs(&trees, g_AABBSize);
+    ////-------------------------------------------------------------------------
+    //// AABBs
+    //::g_pAABBsManager = new cAABBsManager();
+    //cMesh terrain;
+    //::g_pVAOManager->lookupMeshFromName("FacadeSets", terrain);
+    //::g_pAABBsManager->genAABBs(&terrain, g_AABBSize);
+    //cMesh trees;
+    //::g_pVAOManager->lookupMeshFromName("SideWalkTree", trees);
+    //::g_pAABBsManager->genAABBs(&trees, g_AABBSize);
 
-    //-------------------------------------------------------------------------
-    // Simple Debug Renderer
-    ::g_simpleDebug = new cSimpleDebugRenderer();
-    if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
-    {
-        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    }
-    if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
-    {
-        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    }
+    ////-------------------------------------------------------------------------
+    //// Simple Debug Renderer
+    //::g_simpleDebug = new cSimpleDebugRenderer();
+    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
+    //{
+    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    //}
+    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
+    //{
+    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    //}
 
     //-------------------------------------------------------------------------
     // Debug render
@@ -243,9 +243,8 @@ int main()
 
     GLint currentProgID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
 
-    mvp_location = glGetUniformLocation(currentProgID, "MVP");
     uniLoc_materialDiffuse = glGetUniformLocation(currentProgID, "materialDiffuse");
-    uniLoc_materialAmbient = glGetUniformLocation(currentProgID, "materialAmbient");
+    //uniLoc_materialAmbient = glGetUniformLocation(currentProgID, "materialAmbient");
     uniLoc_ambientToDiffuseRatio = glGetUniformLocation(currentProgID, "ambientToDiffuseRatio");
     uniLoc_materialSpecular = glGetUniformLocation(currentProgID, "materialSpecular");
     uniLoc_bIsDebugWireFrameObject = glGetUniformLocation(currentProgID, "bIsDebugWireFrameObject");
@@ -255,6 +254,7 @@ int main()
     uniLoc_mModel = glGetUniformLocation(currentProgID, "mModel");
     uniLoc_mView = glGetUniformLocation(currentProgID, "mView");
     uniLoc_mProjection = glGetUniformLocation(currentProgID, "mProjection");
+    uniLoc_mWorldInvTrans = glGetUniformLocation(currentProgID, "mWorldInvTranspose");
 
     //-------------------------------------------------------------------------
     // Lights
@@ -265,7 +265,7 @@ int main()
     ::g_pLightManager->LoadShaderUniformLocations(currentProgID);
 
     // Change ZERO (the SUN) light position
-    ::g_pLightManager->vecLights[0].position = glm::vec3(0.0f, 5000.0f, 0.0f);
+    ::g_pLightManager->vecLights[0].position = glm::vec3(0.0f, 100.0f, 0.0f);
     ::g_pLightManager->vecLights[0].attenuation.x = 2.5f;		// Change the costant attenuation
     ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;		// Change the linear attenuation
     
@@ -280,7 +280,7 @@ int main()
     // Camera
 
     g_pCamera = new cCameraObject();
-    g_pCamera->setCameraPosition(glm::vec3(0.0f, 70.0f, 170.0f));
+    g_pCamera->setCameraPosition(glm::vec3(0.0f, 100.0f, 174.9f));
     g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
@@ -351,30 +351,30 @@ int main()
 
             DrawObject(pTheGO);
             
-            if(pTheGO->typeOfObject == SPHERE)
-            {
-                // Calculate all AABBs for the sphere
-                // Put the sphere inside an axis-aligned box
+            //if(pTheGO->typeOfObject == SPHERE)
+            //{
+            //    // Calculate all AABBs for the sphere
+            //    // Put the sphere inside an axis-aligned box
 
-                // Vertices
-                float diameter = pTheGO->radius * 2;
-                std::vector<glm::vec3> vertices;
-                glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
-                vertices.push_back(vertex0);
-                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
-                vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
-                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
-                vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
-                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
-                vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
-                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
+            //    // Vertices
+            //    float diameter = pTheGO->radius * 2;
+            //    std::vector<glm::vec3> vertices;
+            //    glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
+            //    vertices.push_back(vertex0);
+            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
+            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
+            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
+            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
+            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
+            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
+            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
 
-                DrawAABBforPoints(vertices, g_AABBSize);
-            }
-            else
-            {
-                DrawAABB(pTheGO, g_AABBSize);
-            }            
+            //    DrawAABBforPoints(vertices, g_AABBSize);
+            //}
+            //else
+            //{
+            //    DrawAABB(pTheGO, g_AABBSize);
+            //}            
         }
 
         
@@ -396,14 +396,14 @@ int main()
             << "Camera LookAt(xyz): "
             << curCameraLookAt.x << ", "
             << curCameraLookAt.y << ", "
-            << curCameraLookAt.z;
+            << curCameraLookAt.z
             // For lights information
-            //<< " Light attenuation - Constant:"
-            //<< ::g_pLightManager->vecLights[0].attenuation.x
-            //<< " Linear:"
-            //<< ::g_pLightManager->vecLights[0].attenuation.y
-            //<< " Quadratic:"
-            //<< ::g_pLightManager->vecLights[0].attenuation.z;
+            << " Light attenuation - Constant:"
+            << ::g_pLightManager->vecLights[0].attenuation.x
+            << " Linear:"
+            << ::g_pLightManager->vecLights[0].attenuation.y
+            << " Quadratic:"
+            << ::g_pLightManager->vecLights[0].attenuation.z;
 
         glfwSetWindowTitle(window, ssTitle.str().c_str());
                 
@@ -488,7 +488,15 @@ void DrawObject(cGameObject* pTheGO)
 
     glUniformMatrix4fv(uniLoc_mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
 
-    glm::mat4 mWorldInTranpose = glm::inverse(glm::transpose(mModel));
+    glm::mat4 mWorldInvTranpose = glm::inverse(glm::transpose(mModel));
+    glUniformMatrix4fv(uniLoc_mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
+
+    // Diffuse is often 0.2-0.3 the value of the diffuse
+    glUniform1f(uniLoc_ambientToDiffuseRatio, 0.2f);
+
+    // Specular: For now, set this colour to white, and the shininess to something high 
+    //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
+    glUniform4f(uniLoc_materialSpecular, 1.0f, 1.0f, 1.0f, 64.0f);
 
     glUniform4f(uniLoc_materialDiffuse,
         pTheGO->diffuseColour.r,
@@ -547,12 +555,12 @@ void DrawObject(cGameObject* pTheGO)
     // Set sampler in the shader
     // NOTE: You shouldn't be doing this during the draw call...
     GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-    GLint textSampler00_ID = glGetUniformLocation(curShaderID, "myAmazingTexture00");
-    GLint textSampler01_ID = glGetUniformLocation(curShaderID, "myAmazingTexture01");
+    GLint textSampler00_ID = glGetUniformLocation(curShaderID, "texSamp2D00");
+    GLint textSampler01_ID = glGetUniformLocation(curShaderID, "texSamp2D01");
     //// And so on (up to 10, or whatever number of textures)... 
 
-    GLint textBlend00_ID = glGetUniformLocation(curShaderID, "textureBlend00");
-    GLint textBlend01_ID = glGetUniformLocation(curShaderID, "textureBlend01");
+    GLint textBlend00_ID = glGetUniformLocation(curShaderID, "texBlend00");
+    GLint textBlend01_ID = glGetUniformLocation(curShaderID, "texBlend01");
 
     // This connects the texture sampler to the texture units... 
     glUniform1i( textSampler00_ID, 0  );		// Enterprise
