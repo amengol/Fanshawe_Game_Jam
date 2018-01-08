@@ -68,7 +68,7 @@ void LoadModelsIntoScene(void)
         theGO->typeOfObject = TERRAIN;
         theGO->textureBlend[0] = 1.0f;
         theGO->textureNames[0] = "tree15.bmp";
-        theGO->textureBlend[1] = 1.0f;
+        theGO->textureBlend[1] = 0.0f;
         theGO->textureNames[1] = "tree15_alpha.bmp";
         theGO->hasAlpha = true;
         theGO->cullFace = false;
