@@ -23,7 +23,7 @@ void key_callback(GLFWwindow* window,
 
     if(key == GLFW_KEY_1 && action == GLFW_PRESS)
     {
-        ::g_pCamera->lockOnGameObject(::g_vecGameObjects[1]);
+        ::g_pCamera->lockOnGameObject(::g_vecGameObjects[g_vecGameObjects.size()-1]);
         //::g_vecGameObjects[1]->bIsUpdatedInPhysics = true;
     }        
 
