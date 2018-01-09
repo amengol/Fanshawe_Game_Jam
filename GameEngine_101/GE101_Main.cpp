@@ -178,22 +178,7 @@ int main()
     // If we are here, the shaders comipled and linked OK
     std::cout << "The shaders comipled and linked OK" << std::endl;
         
-    //-------------------------------------------------------------------------
-    // Load models
-        
-    ::g_pModelAssetLoader = new cModelAssetLoader();
-    ::g_pModelAssetLoader->setBasePath("assets/models/");
 
-    ::g_pVAOManager = new cVAOMeshManager();
-
-    GLint ShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-
-    if (!Load3DModelsIntoMeshManager(ShaderID, ::g_pVAOManager, ::g_pModelAssetLoader, error))
-    {
-        std::cout << "Not all models were loaded..." << std::endl;
-        std::cout << error << std::endl;
-    }
-    LoadModelsIntoScene();
 
     ////-------------------------------------------------------------------------
     //// AABBs
@@ -289,7 +274,24 @@ int main()
     ::g_pLightManager->vecLights[0].typeParams.w = glm::radians(60.0f);
     
     // Lights end
+    
+    //-------------------------------------------------------------------------
+    // Load models
 
+    ::g_pModelAssetLoader = new cModelAssetLoader();
+    ::g_pModelAssetLoader->setBasePath("assets/models/");
+
+    ::g_pVAOManager = new cVAOMeshManager();
+
+    GLint ShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+
+    if(!Load3DModelsIntoMeshManager(ShaderID, ::g_pVAOManager, ::g_pModelAssetLoader, error))
+    {
+        std::cout << "Not all models were loaded..." << std::endl;
+        std::cout << error << std::endl;
+    }
+    LoadModelsIntoScene();
+    
     //-------------------------------------------------------------------------
     // Texture 
     if(!loadTextures())
