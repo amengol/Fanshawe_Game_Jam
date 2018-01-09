@@ -215,11 +215,13 @@ void PhysicsStep(double deltaTime)
             }
 
 
-            pCurGO->Update(deltaTime, GRAVITY);
+            
         }
         default:
             break;
         }
+
+        pCurGO->Update(deltaTime, GRAVITY);
 
     }//for ( int index... 
 
