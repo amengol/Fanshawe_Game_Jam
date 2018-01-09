@@ -281,7 +281,9 @@ vec3 calcLightColour( in vec3 vecNormal,
 				   
 	outSpecular *= attenuation;
 	
-	colour = outDiffuse + outSpecular;
+	//colour = outDiffuse + outSpecular;
+	// No specular for now...
+	colour = outDiffuse;
 
 	// Now we have the colour if this was a point light 
 	// See if it's a spot light...
