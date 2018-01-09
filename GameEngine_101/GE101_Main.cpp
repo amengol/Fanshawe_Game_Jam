@@ -64,6 +64,7 @@ GLint uniLoc_materialSpecular = -1;         // rgb = colour of HIGHLIGHT only | 
 GLint uniLoc_bIsDebugWireFrameObject = -1;
 GLint uniLoc_HasColour = -1;
 GLint uniLoc_HasAlpha = -1;
+GLint uniLoc_UseDiscardAlpha = -1;
 GLint uniLoc_bIsSkyBoxObject = -1;
 
 GLint uniLoc_eyePosition = -1;	            // Camera position
@@ -261,6 +262,7 @@ int main()
     uniLoc_bIsDebugWireFrameObject = glGetUniformLocation(currentProgID, "bIsDebugWireFrameObject");
     uniLoc_HasColour = glGetUniformLocation(currentProgID, "hasColour");
     uniLoc_HasAlpha = glGetUniformLocation(currentProgID, "hasAlpha");
+    uniLoc_UseDiscardAlpha = glGetUniformLocation(currentProgID, "useDiscardAlpha");    
     uniLoc_bIsSkyBoxObject = glGetUniformLocation(currentProgID, "isASkyBox");
     uniLoc_eyePosition = glGetUniformLocation(currentProgID, "eyePosition");
     uniLoc_mModel = glGetUniformLocation(currentProgID, "mModel");
@@ -546,11 +548,20 @@ void DrawObject(cGameObject* pTheGO)
     if(pTheGO->hasAlpha)
     {
         glUniform1f(uniLoc_HasAlpha, 1.0f);
-    } else
+    } 
+    else
     {
         glUniform1f(uniLoc_HasAlpha, 0.0f);
     }
     
+    if(pTheGO->useDiscardAlpha)
+    {
+        glUniform1f(uniLoc_UseDiscardAlpha, 1.0f);
+    }
+    else
+    {
+        glUniform1f(uniLoc_UseDiscardAlpha, 0.0f);
+    }
 
     //...and all the other object material colours
 

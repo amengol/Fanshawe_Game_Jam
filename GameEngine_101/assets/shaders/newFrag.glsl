@@ -23,6 +23,7 @@ uniform vec3 eyePosition;	// Camera position
 uniform bool bIsDebugWireFrameObject;
 uniform bool hasColour;
 uniform bool hasAlpha;
+uniform bool useDiscardAlpha;
 
 // Note: this CAN'T be an array (sorry). See 3D texture array
 uniform sampler2D texSamp2D00;		// Represents a 2D image
@@ -202,8 +203,11 @@ void main()
 	// Copy object material diffuse to alpha
 	if (hasAlpha)
 	{
-		if (texCol01.r < 0.5)
-			discard;
+		if (useDiscardAlpha)
+		{
+			if (texCol01.r < 0.5)
+				discard;
+		}
 		fragColourOut.a = texCol01.r;
 	}
 	else

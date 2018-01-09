@@ -50,6 +50,7 @@ public:
 	bool bIsWireFrame;
     bool hasColour;
     bool hasAlpha;
+    bool useDiscardAlpha;
     bool cullFace;
     bool isDebugAABBActive;
     bool bIsSkyBoxObject;

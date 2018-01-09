@@ -168,6 +168,7 @@ void LoadModelsIntoScene(void)
         theGO->textureBlend[1] = 0.0f;
         theGO->textureNames[1] = "tree15_alpha.bmp";
         theGO->hasAlpha = true;
+        theGO->useDiscardAlpha = true;
         theGO->cullFace = false;
         ::g_vecGameObjects.push_back(theGO);
     }
