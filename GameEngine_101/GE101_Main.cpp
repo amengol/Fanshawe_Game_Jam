@@ -195,36 +195,36 @@ int main()
     }
     LoadModelsIntoScene();
 
-    //-------------------------------------------------------------------------
-    // AABBs
-    ::g_pAABBsManager = new cAABBsManager();
-    cMesh meshWithAABBs;
-    ::g_pVAOManager->lookupMeshFromName("FacadeSets", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    ::g_pVAOManager->lookupMeshFromName("RoofsEtc", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    ::g_pVAOManager->lookupMeshFromName("Asphalt", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    ::g_pVAOManager->lookupMeshFromName("Concrete", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    ::g_pVAOManager->lookupMeshFromName("Ground1", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    ::g_pVAOManager->lookupMeshFromName("Ground2", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    ::g_pVAOManager->lookupMeshFromName("StreetPart", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ////-------------------------------------------------------------------------
+    //// AABBs
+    //::g_pAABBsManager = new cAABBsManager();
+    //cMesh meshWithAABBs;
+    //::g_pVAOManager->lookupMeshFromName("FacadeSets", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("RoofsEtc", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("Asphalt", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("Concrete", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("Ground1", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("Ground2", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("StreetPart", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
 
-    //-------------------------------------------------------------------------
-    // Simple Debug Renderer
-    ::g_simpleDebug = new cSimpleDebugRenderer();
-    if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
-    {
-        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    }
-    if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
-    {
-        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    }
+    ////-------------------------------------------------------------------------
+    //// Simple Debug Renderer
+    //::g_simpleDebug = new cSimpleDebugRenderer();
+    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
+    //{
+    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    //}
+    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
+    //{
+    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    //}
 
     //-------------------------------------------------------------------------
     // Debug render
@@ -273,14 +273,20 @@ int main()
 
     ::g_pLightManager = new cLightManager();
 
-    ::g_pLightManager->CreateLights(9);	// There are 10 lights in the shader
+    ::g_pLightManager->CreateLights(2);	// There are 10 lights in the shader
     ::g_pLightManager->LoadShaderUniformLocations(currentProgID);
 
     // Change ZERO (the SUN) light position
-    ::g_pLightManager->vecLights[0].position = glm::vec3(-1840.0f, 500.0f, 2100.0f);
-    g_pLightManager->vecLights[0].diffuse = glm::vec3(1.0f, 1.0f, 0.59f);
-    ::g_pLightManager->vecLights[0].attenuation.x = 2.5f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[1].position = glm::vec3(-1840.0f, 500.0f, 2100.0f);
+    ::g_pLightManager->vecLights[1].diffuse = glm::vec3(1.0f, 1.0f, 0.59f);
+    ::g_pLightManager->vecLights[1].attenuation.x = 2.5f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[1].attenuation.y = 0.0f;		// Change the linear attenuation
+
+    ::g_pLightManager->vecLights[0].position = glm::vec3(-323.027f, 107.775f, 106.373f);
+    ::g_pLightManager->vecLights[0].direction = glm::vec3(0.0f, -1.0f, 0.0f);
+    ::g_pLightManager->vecLights[0].typeParams.x = 2.0f;
+    ::g_pLightManager->vecLights[0].typeParams.z = glm::radians(30.0f);
+    ::g_pLightManager->vecLights[0].typeParams.w = glm::radians(60.0f);
     
     // Lights end
 
@@ -293,7 +299,8 @@ int main()
     // Camera
 
     g_pCamera = new cCameraObject();
-    g_pCamera->setCameraPosition(glm::vec3(100.0f, 146.0f, 67.0f));
+    g_pCamera->setCameraPosition(glm::vec3(-337.824f, 114.477f, 147.835f));
+    g_pCamera->setCameraOrientationY(-35.0f);
     g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
@@ -366,30 +373,30 @@ int main()
 
             DrawObject(pTheGO);
             
-            if(pTheGO->typeOfObject == SPHERE)
-            {
-                // Calculate all AABBs for the sphere
-                // Put the sphere inside an axis-aligned box
+            //if(pTheGO->typeOfObject == SPHERE)
+            //{
+            //    // Calculate all AABBs for the sphere
+            //    // Put the sphere inside an axis-aligned box
 
-                // Vertices
-                float diameter = pTheGO->radius * 2;
-                std::vector<glm::vec3> vertices;
-                glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
-                vertices.push_back(vertex0);
-                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
-                vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
-                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
-                vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
-                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
-                vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
-                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
+            //    // Vertices
+            //    float diameter = pTheGO->radius * 2;
+            //    std::vector<glm::vec3> vertices;
+            //    glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
+            //    vertices.push_back(vertex0);
+            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
+            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
+            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
+            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
+            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
+            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
+            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
 
-                DrawAABBforPoints(vertices, g_AABBSize);
-            }
-            else
-            {
-                DrawAABB(pTheGO, g_AABBSize);
-            }            
+            //    DrawAABBforPoints(vertices, g_AABBSize);
+            //}
+            //else
+            //{
+            //    DrawAABB(pTheGO, g_AABBSize);
+            //}            
         }
 
         
