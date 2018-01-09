@@ -195,27 +195,36 @@ int main()
     }
     LoadModelsIntoScene();
 
-    ////-------------------------------------------------------------------------
-    //// AABBs
-    //::g_pAABBsManager = new cAABBsManager();
-    //cMesh terrain;
-    //::g_pVAOManager->lookupMeshFromName("FacadeSets", terrain);
-    //::g_pAABBsManager->genAABBs(&terrain, g_AABBSize);
-    //cMesh trees;
-    //::g_pVAOManager->lookupMeshFromName("SideWalkTree", trees);
-    //::g_pAABBsManager->genAABBs(&trees, g_AABBSize);
+    //-------------------------------------------------------------------------
+    // AABBs
+    ::g_pAABBsManager = new cAABBsManager();
+    cMesh meshWithAABBs;
+    ::g_pVAOManager->lookupMeshFromName("FacadeSets", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ::g_pVAOManager->lookupMeshFromName("RoofsEtc", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ::g_pVAOManager->lookupMeshFromName("Asphalt", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ::g_pVAOManager->lookupMeshFromName("Concrete", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ::g_pVAOManager->lookupMeshFromName("Ground1", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ::g_pVAOManager->lookupMeshFromName("Ground2", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ::g_pVAOManager->lookupMeshFromName("StreetPart", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
 
-    ////-------------------------------------------------------------------------
-    //// Simple Debug Renderer
-    //::g_simpleDebug = new cSimpleDebugRenderer();
-    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
-    //{
-    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    //}
-    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
-    //{
-    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    //}
+    //-------------------------------------------------------------------------
+    // Simple Debug Renderer
+    ::g_simpleDebug = new cSimpleDebugRenderer();
+    if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
+    {
+        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    }
+    if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
+    {
+        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    }
 
     //-------------------------------------------------------------------------
     // Debug render
@@ -268,7 +277,8 @@ int main()
     ::g_pLightManager->LoadShaderUniformLocations(currentProgID);
 
     // Change ZERO (the SUN) light position
-    ::g_pLightManager->vecLights[0].position = glm::vec3(0.0f, 100.0f, 0.0f);
+    ::g_pLightManager->vecLights[0].position = glm::vec3(-1840.0f, 500.0f, 2100.0f);
+    g_pLightManager->vecLights[0].diffuse = glm::vec3(1.0f, 1.0f, 0.59f);
     ::g_pLightManager->vecLights[0].attenuation.x = 2.5f;		// Change the costant attenuation
     ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;		// Change the linear attenuation
     
@@ -283,7 +293,7 @@ int main()
     // Camera
 
     g_pCamera = new cCameraObject();
-    g_pCamera->setCameraPosition(glm::vec3(0.0f, 100.0f, 174.9f));
+    g_pCamera->setCameraPosition(glm::vec3(100.0f, 146.0f, 67.0f));
     g_pCamera->setCameraOrientationX(-10.0f);
 
     // Camera end
@@ -330,7 +340,7 @@ int main()
         matProjection = glm::perspective(0.6f,			// FOV
                         ratio,		// Aspect ratio
                         1.0f,			// Near (as big as possible)
-                        100500.0f);	// Far (as small as possible)
+                        200000.0f);	// Far (as small as possible)
 
         g_pCamera->update();
 
@@ -356,30 +366,30 @@ int main()
 
             DrawObject(pTheGO);
             
-            //if(pTheGO->typeOfObject == SPHERE)
-            //{
-            //    // Calculate all AABBs for the sphere
-            //    // Put the sphere inside an axis-aligned box
+            if(pTheGO->typeOfObject == SPHERE)
+            {
+                // Calculate all AABBs for the sphere
+                // Put the sphere inside an axis-aligned box
 
-            //    // Vertices
-            //    float diameter = pTheGO->radius * 2;
-            //    std::vector<glm::vec3> vertices;
-            //    glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
-            //    vertices.push_back(vertex0);
-            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
-            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
-            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
-            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
-            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
-            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
-            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
+                // Vertices
+                float diameter = pTheGO->radius * 2;
+                std::vector<glm::vec3> vertices;
+                glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
+                vertices.push_back(vertex0);
+                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
+                vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
+                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
+                vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
+                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
+                vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
+                vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
 
-            //    DrawAABBforPoints(vertices, g_AABBSize);
-            //}
-            //else
-            //{
-            //    DrawAABB(pTheGO, g_AABBSize);
-            //}            
+                DrawAABBforPoints(vertices, g_AABBSize);
+            }
+            else
+            {
+                DrawAABB(pTheGO, g_AABBSize);
+            }            
         }
 
         
