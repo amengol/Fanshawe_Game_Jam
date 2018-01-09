@@ -7,6 +7,7 @@
 #include <string>
 #include "cSoundObject.h"
 //#include "cDebugRenderer.h"
+#include <vector>
 
 enum eTypeOfObject
 {	
@@ -17,6 +18,13 @@ enum eTypeOfObject
     TERRAIN = 4,
     CONTACT_POINTS = 5,
 	UNKNOWN = 99
+};
+
+struct lightInfo
+{
+    int index;
+    glm::vec3 offset;
+    glm::vec3 focusDirection;
 };
 
 // Sotores vec position, orientation and scale about a Game Object
@@ -47,6 +55,10 @@ public:
     bool bIsSkyBoxObject;
     glm::vec3 previousPosition;
 	// **********************************
+    //Lights
+    bool hasLights;
+    std::vector<lightInfo> vecLightsInfo;
+    // **********************************
 	glm::vec4 diffuseColour;
 	std::string meshName;
 

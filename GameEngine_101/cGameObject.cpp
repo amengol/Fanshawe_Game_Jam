@@ -2,7 +2,9 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/vector_angle.hpp>
 #include <fmod\fmod.hpp>
+#include "cLightManager.h"
 
+extern cLightManager* g_pLightManager;
 
 cGameObject::cGameObject()
 {
@@ -28,6 +30,7 @@ cGameObject::cGameObject()
     this->cullFace = true;
     this->bIsSkyBoxObject = false;
     this->isDebugAABBActive = false;
+    this->hasLights = false;
 
 #ifdef _DEBUG
  	//this->m_pTheDR = cDebugRenderer::getInstance();
@@ -92,6 +95,19 @@ void cGameObject::DebugUpdate(double deltaTime)
      if (this->mHasSound)
          this->mGOSound->setPosition(this->position);
      //------------------------------------------------------------------------ 
+
+     // Update lights
+     if(this->hasLights)
+     {
+         for(int i = 0; i < this->vecLightsInfo.size(); i++)
+         {
+             lightInfo lightInfo = vecLightsInfo[i];
+             glm::vec3 rotatedOffset = this->orientation * glm::vec4(lightInfo.offset, 0.0f);
+             g_pLightManager->vecLights[lightInfo.index].position = this->position + rotatedOffset;
+             glm::vec3 rotatedFocus = this->orientation * glm::vec4(lightInfo.focusDirection, 0.0f);
+             g_pLightManager->vecLights[lightInfo.index].direction = rotatedFocus;
+         }
+     }
   }
 
  void cGameObject::rotateX(float degreesX)
