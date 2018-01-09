@@ -172,5 +172,18 @@ void LoadModelsIntoScene(void)
         ::g_vecGameObjects.push_back(theGO);
     }
 
+    {
+        // md500
+        cGameObject* theGO = new cGameObject();
+        theGO->meshName = "md500";
+        theGO->bIsUpdatedInPhysics = false;
+        theGO->bIsWireFrame = false;
+        theGO->textureBlend[0] = 1.0f;
+        theGO->textureNames[0] = "green.bmp";
+        theGO->position = glm::vec3(-323.027f, 107.775f, 106.373f);
+        theGO->rotateY(180.0f);
+        ::g_vecGameObjects.push_back(theGO);
+    }
+
 	return;
 }
