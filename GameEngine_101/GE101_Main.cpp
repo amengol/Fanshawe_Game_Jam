@@ -178,7 +178,22 @@ int main()
     // If we are here, the shaders comipled and linked OK
     std::cout << "The shaders comipled and linked OK" << std::endl;
         
+    //-------------------------------------------------------------------------
+    // Load models
 
+    ::g_pModelAssetLoader = new cModelAssetLoader();
+    ::g_pModelAssetLoader->setBasePath("assets/models/");
+
+    ::g_pVAOManager = new cVAOMeshManager();
+
+    GLint ShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+
+    if(!Load3DModelsIntoMeshManager(ShaderID, ::g_pVAOManager, ::g_pModelAssetLoader, error))
+    {
+        std::cout << "Not all models were loaded..." << std::endl;
+        std::cout << error << std::endl;
+    }
+    LoadModelsIntoScene();
 
     ////-------------------------------------------------------------------------
     //// AABBs
@@ -266,31 +281,22 @@ int main()
     ::g_pLightManager->vecLights[1].diffuse = glm::vec3(1.0f, 1.0f, 0.59f);
     ::g_pLightManager->vecLights[1].attenuation.x = 2.5f;		// Change the costant attenuation
     ::g_pLightManager->vecLights[1].attenuation.y = 0.0f;		// Change the linear attenuation
-
-    ::g_pLightManager->vecLights[0].position = glm::vec3(-323.027f, 107.775f, 106.373f);
-    ::g_pLightManager->vecLights[0].direction = glm::vec3(0.0f, -1.0f, 0.0f);
+    
+    // Helicopter spot light
+    ::g_pLightManager->vecLights[0].attenuation.x = 0.2f;
+    ::g_pLightManager->vecLights[0].attenuation.y = 0.025f;
     ::g_pLightManager->vecLights[0].typeParams.x = 2.0f;
-    ::g_pLightManager->vecLights[0].typeParams.z = glm::radians(30.0f);
+    ::g_pLightManager->vecLights[0].typeParams.z = glm::radians(55.0f);
     ::g_pLightManager->vecLights[0].typeParams.w = glm::radians(60.0f);
-    
+    cGameObject* theHelo = g_vecGameObjects[g_vecGameObjects.size() - 1];
+    theHelo->hasLights = true;
+    theHelo->bIsUpdatedInPhysics = true;
+    lightInfo GO_Light;
+    GO_Light.index = 0;
+    GO_Light.offset = glm::vec3(0.0f, -2.277f, 1.887f);
+    GO_Light.focusDirection = glm::vec3(0.0f, -0.5f, 0.5f);
+    theHelo->vecLightsInfo.push_back(GO_Light);
     // Lights end
-    
-    //-------------------------------------------------------------------------
-    // Load models
-
-    ::g_pModelAssetLoader = new cModelAssetLoader();
-    ::g_pModelAssetLoader->setBasePath("assets/models/");
-
-    ::g_pVAOManager = new cVAOMeshManager();
-
-    GLint ShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-
-    if(!Load3DModelsIntoMeshManager(ShaderID, ::g_pVAOManager, ::g_pModelAssetLoader, error))
-    {
-        std::cout << "Not all models were loaded..." << std::endl;
-        std::cout << error << std::endl;
-    }
-    LoadModelsIntoScene();
     
     //-------------------------------------------------------------------------
     // Texture 
