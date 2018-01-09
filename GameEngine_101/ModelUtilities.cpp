@@ -97,7 +97,7 @@ bool Load3DModelsIntoMeshManager(int shaderID,
         }
         // ***********************************************************************
         // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(testMesh, shaderID, true))
+        if(!pVAOManager->loadMeshIntoVAO(testMesh, shaderID, false))
         {
             //std::cout << "Could not load mesh into VAO" << std::endl;
             ssError << "Could not load mesh >" << testMesh.name << "< into VAO" << std::endl;
@@ -128,6 +128,146 @@ bool Load3DModelsIntoMeshManager(int shaderID,
 
     {
         cMesh theMesh;
+        theMesh.name = "RoofsEtc";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("RoofsEtc.ply", theMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        // NOTE the TRUE so that it keeps the mesh!!!
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
+    {
+        cMesh theMesh;
+        theMesh.name = "Asphalt";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Asphalt.ply", theMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        // NOTE the TRUE so that it keeps the mesh!!!
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
+    {
+        cMesh theMesh;
+        theMesh.name = "Concrete";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Concrete.ply", theMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        // NOTE the TRUE so that it keeps the mesh!!!
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
+    {
+        cMesh theMesh;
+        theMesh.name = "Curbs";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Curbs.ply", theMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        // NOTE the TRUE so that it keeps the mesh!!!
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, false))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
+    {
+        cMesh theMesh;
+        theMesh.name = "Ground1";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Ground1.ply", theMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        // NOTE the TRUE so that it keeps the mesh!!!
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
+    {
+        cMesh theMesh;
+        theMesh.name = "Ground2";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Ground2.ply", theMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        // NOTE the TRUE so that it keeps the mesh!!!
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
+    {
+        cMesh theMesh;
+        theMesh.name = "StreetPart";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("StreetPart.ply", theMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        // NOTE the TRUE so that it keeps the mesh!!!
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
+    {
+        cMesh theMesh;
         theMesh.name = "SideWalkTree";
         if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("SideWalkTree.ply", theMesh))
         {
@@ -137,7 +277,7 @@ bool Load3DModelsIntoMeshManager(int shaderID,
         }
         // ***********************************************************************
         // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, false))
         {
             //std::cout << "Could not load mesh into VAO" << std::endl;
             ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;

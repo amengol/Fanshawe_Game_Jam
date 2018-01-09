@@ -47,18 +47,6 @@ void LoadModelsIntoScene(void)
     }
 
     {
-        // Facade Sets
-        cGameObject* theGO = new cGameObject();
-        theGO->meshName = "FacadeSets";
-        theGO->bIsUpdatedInPhysics = true;
-        theGO->bIsWireFrame = false;
-        theGO->typeOfObject = TERRAIN;
-        theGO->textureBlend[0] = 1.0f;
-        theGO->textureNames[0] = "FacadeSets01.bmp";
-        ::g_vecGameObjects.push_back(theGO);
-    }
-
-    {
         // Sphere
         cGameObject* theGO = new cGameObject();
         theGO->meshName = "Sphere";
@@ -67,8 +55,104 @@ void LoadModelsIntoScene(void)
         theGO->typeOfObject = SPHERE;
         theGO->radius = 1.0f;
         theGO->diffuseColour = glm::vec4(1.4f, 0.4f, 0.4f, 1.0f);
-        theGO->position = glm::vec3(0.0f, 60.0f, 5.0f);
+        theGO->position = glm::vec3(100.0f, 100.0f, 5.0f);
         theGO->isDebugAABBActive = true;
+        ::g_vecGameObjects.push_back(theGO);
+    }
+
+    {
+        // Facade Sets
+        cGameObject* theGO = new cGameObject();
+        theGO->meshName = "FacadeSets";
+        theGO->bIsUpdatedInPhysics = false;
+        theGO->bIsWireFrame = false;
+        theGO->typeOfObject = TERRAIN;
+        theGO->textureBlend[0] = 1.0f;
+        theGO->textureNames[0] = "FacadeSets01.bmp";
+        ::g_vecGameObjects.push_back(theGO);
+    }
+
+    {
+        // Roof tops and etc
+        cGameObject* theGO = new cGameObject();
+        theGO->meshName = "RoofsEtc";
+        theGO->bIsUpdatedInPhysics = false;
+        theGO->bIsWireFrame = false;
+        theGO->typeOfObject = TERRAIN;
+        theGO->textureBlend[0] = 1.0f;
+        theGO->textureNames[0] = "RoofsEtc.bmp";
+        ::g_vecGameObjects.push_back(theGO);
+    }
+
+    {
+        // Roof tops and etc
+        cGameObject* theGO = new cGameObject();
+        theGO->meshName = "Asphalt";
+        theGO->bIsUpdatedInPhysics = false;
+        theGO->bIsWireFrame = false;
+        theGO->typeOfObject = TERRAIN;
+        theGO->textureBlend[0] = 1.0f;
+        theGO->textureNames[0] = "Asphalt_rue.bmp";
+        ::g_vecGameObjects.push_back(theGO);
+    }
+
+    {
+        // Roof tops and etc
+        cGameObject* theGO = new cGameObject();
+        theGO->meshName = "Concrete";
+        theGO->bIsUpdatedInPhysics = false;
+        theGO->bIsWireFrame = false;
+        theGO->typeOfObject = TERRAIN;
+        theGO->textureBlend[0] = 1.0f;
+        theGO->textureNames[0] = "trottoir.bmp";
+        ::g_vecGameObjects.push_back(theGO);
+    }
+
+    {
+        // Roof tops and etc
+        cGameObject* theGO = new cGameObject();
+        theGO->meshName = "Curbs";
+        theGO->bIsUpdatedInPhysics = false;
+        theGO->bIsWireFrame = false;
+        theGO->typeOfObject = TERRAIN;
+        theGO->textureBlend[0] = 1.0f;
+        theGO->textureNames[0] = "curb.bmp";
+        ::g_vecGameObjects.push_back(theGO);
+    }
+
+    {
+        // Roof tops and etc
+        cGameObject* theGO = new cGameObject();
+        theGO->meshName = "Ground1";
+        theGO->bIsUpdatedInPhysics = false;
+        theGO->bIsWireFrame = false;
+        theGO->typeOfObject = TERRAIN;
+        theGO->textureBlend[0] = 1.0f;
+        theGO->textureNames[0] = "herbe1.bmp";
+        ::g_vecGameObjects.push_back(theGO);
+    }
+
+    {
+        // Roof tops and etc
+        cGameObject* theGO = new cGameObject();
+        theGO->meshName = "Ground2";
+        theGO->bIsUpdatedInPhysics = false;
+        theGO->bIsWireFrame = false;
+        theGO->typeOfObject = TERRAIN;
+        theGO->textureBlend[0] = 1.0f;
+        theGO->textureNames[0] = "sol8.bmp";
+        ::g_vecGameObjects.push_back(theGO);
+    }
+
+    {
+        // Roof tops and etc
+        cGameObject* theGO = new cGameObject();
+        theGO->meshName = "StreetPart";
+        theGO->bIsUpdatedInPhysics = false;
+        theGO->bIsWireFrame = false;
+        theGO->typeOfObject = TERRAIN;
+        theGO->textureBlend[0] = 1.0f;
+        theGO->textureNames[0] = "StreetPart.bmp";
         ::g_vecGameObjects.push_back(theGO);
     }
 
