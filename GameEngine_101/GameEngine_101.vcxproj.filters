@@ -146,6 +146,9 @@
     <ClCompile Include="TextureLoader.cpp">
       <Filter>Textures Related</Filter>
     </ClCompile>
+    <ClCompile Include="cTransparencyManager.cpp">
+      <Filter>Game Objects Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -228,6 +231,9 @@
     </ClInclude>
     <ClInclude Include="TextureLoader.h">
       <Filter>Textures Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cTransparencyManager.h">
+      <Filter>Game Objects Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

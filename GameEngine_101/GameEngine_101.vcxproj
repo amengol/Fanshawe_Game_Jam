@@ -158,6 +158,7 @@
     <ClCompile Include="cSoundManager.cpp" />
     <ClCompile Include="cSoundManager_Imp.cpp" />
     <ClCompile Include="cSoundObject.cpp" />
+    <ClCompile Include="cTransparencyManager.cpp" />
     <ClCompile Include="cTriangle.cpp" />
     <ClCompile Include="cVAOMeshManager.cpp" />
     <ClCompile Include="GE101_Main.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Texture\C24BitBMPpixel.h" />
     <ClInclude Include="Texture\cBasicTextureManager.h" />
     <ClInclude Include="Texture\CTextureFromBMP.h" />
+    <ClInclude Include="cTransparencyManager.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
