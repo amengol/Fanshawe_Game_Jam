@@ -4,6 +4,9 @@
 #include "cGameObject.h"
 #include "cAABBsManager.h"
 #include "cSimpleDebugRenderer.h"
+#include "cTransparencyManager.h"
+
+extern cTransparencyManager* g_pTranspManager;
 
 extern cAABBsManager* g_pAABBsManager;      // (GE101_Main.cpp)
 
@@ -13,19 +16,34 @@ extern cSimpleDebugRenderer* g_simpleDebug; // (GE101_Main.cpp)
 
 extern float g_AABBSize;                    // (GE101_Main.cpp)
 
+void updateGameObjects(double deltaTime,
+                       glm::vec3 gravity,
+                       std::vector<cGameObject*> vecGO);
 
 // Update the world 1 "step" in time
 void PhysicsStep(double deltaTime)
 {
     const glm::vec3 GRAVITY = glm::vec3(0.0f, 0.0f, 0.0f);
 
-    // Identical to the 'render' (drawing) loop
-    for (int index = 0; index != ::g_vecGameObjects.size(); index++)
+    // Update for regular Game Objects
+    updateGameObjects(deltaTime, GRAVITY, g_vecGameObjects);
+
+    // Update for transparency Game Objects
+    updateGameObjects(deltaTime, GRAVITY, g_pTranspManager->transpObjects);
+
+    return;
+}
+
+void updateGameObjects(double deltaTime, 
+                       glm::vec3 gravity,
+                       std::vector<cGameObject*> vecGO)
+{
+    for(int index = 0; index != vecGO.size(); index++)
     {
-        cGameObject* pCurGO = ::g_vecGameObjects[index];
+        cGameObject* pCurGO = vecGO[index];
 
         // Is this object to be updated?
-        if (!pCurGO->bIsUpdatedInPhysics)
+        if(!pCurGO->bIsUpdatedInPhysics)
         {
             continue;
         }
@@ -36,11 +54,11 @@ void PhysicsStep(double deltaTime)
         {
             // Calculate all AABBs for the sphere
             // Put the sphere inside an axis-aligned box
-            
+
             // Vertices
             float diameter = pCurGO->radius * 2;
             glm::vec3 vertices[8];
-            vertices[0] = glm::vec3(pCurGO->position - pCurGO->radius);            
+            vertices[0] = glm::vec3(pCurGO->position - pCurGO->radius);
             vertices[1] = glm::vec3(vertices[0].x + diameter, vertices[0].y, vertices[0].z);
             vertices[2] = glm::vec3(vertices[0].x, vertices[0].y + diameter, vertices[0].z);
             vertices[3] = glm::vec3(vertices[0].x + diameter, vertices[0].y + diameter, vertices[0].z);
@@ -71,7 +89,7 @@ void PhysicsStep(double deltaTime)
                     vecIDs.push_back(GO_ID);
                 }
             }
-            
+
             for(int i = 0; i < vecIDs.size(); i++)
             {
                 // Check if we have an AABB in that position
@@ -110,68 +128,6 @@ void PhysicsStep(double deltaTime)
                             pCurGO->position = pCurGO->previousPosition;
                             pCurGO->vel.y *= 0.7f;
                         }
-
-                        //---------------------------------------------------------
-
-                        // OLD CODE
-                        //// Project the point at the same plane as the triangle
-                        //// Inspired by the Closest Point on Plane to Point from
-                        //// Christer Ericson's book
-                        //glm::vec3 projectedPoint = pCurGO->position - (glm::dot((pCurGO->position - theTri->verticeA), theTri->faceNormal) * theTri->faceNormal);
-                        //float t = glm::dot((pCurGO->position - theTri->verticeA), theTri->faceNormal);
-
-                        //    
-
-                        //float testDot = glm::dot(projectedPoint - theTri->verticeA, theTri->faceNormal);
-
-                        //// Find the triangle ABC
-                        //glm::vec3 AB = theTri->verticeB - theTri->verticeA;
-                        //glm::vec3 AC = theTri->verticeC - theTri->verticeA;
-                        //glm::vec3 BC = theTri->verticeC - theTri->verticeB;
-
-                        //// The triangle ABC area
-                        //float areaABC = glm::length(glm::cross(AB, AC)) / 2;
-
-                        //// If we consider the point being inside the triangle, the
-                        //// sum of the areas of the triangles formed by two vertex 
-                        //// and the point must be equal to the are of the triangle.
-                        //// If they are grater it means that the point is outside
-                        //// of the triangle.
-
-                        //// Triangle APC
-                        //glm::vec3 AP = projectedPoint - theTri->verticeA;
-                        //float areaAPC = glm::length(glm::cross(AC, AP)) / 2;
-
-                        //// Triangle APB
-                        //float areaAPB = glm::length(glm::cross(AP, AB)) / 2;
-
-                        //// Triangle BPC
-                        //glm::vec3 CP = projectedPoint - theTri->verticeC;
-                        //glm::vec3 CB = theTri->verticeB - theTri->verticeC;
-                        //float areaBPC = glm::length(glm::cross(CP, CB)) / 2;
-
-                        //// Area of the 3 sub triangles
-                        //float subTrisArea = areaAPB + areaAPC + areaBPC;
-
-                        //if(t < lowerT)
-                        //{
-                        //    lowerT = t;
-                        //    printf("Lowest value of t is %f for a diff area of %f\n", lowerT, subTrisArea - areaABC);
-                        //}
-
-                        //if(subTrisArea - areaABC < lowerDiff)
-                        //{
-                        //    lowerDiff = subTrisArea - areaABC;
-                        //    printf("Lowest diff is %f for a t of %f\n", lowerDiff, t);
-                        //}
-
-                        //// Let's give a threshold for floating point erros
-                        //if(subTrisArea - areaABC < 0.1f && t < 0.0f)
-                        //{
-                        //    // We have a collision                     
-                        //}
-
-                        //---------------------------------------------------------
 
                         // Create the triangle                    
                         sVertex tmpGeo;
@@ -215,17 +171,15 @@ void PhysicsStep(double deltaTime)
             }
 
 
-            
+
         }
         default:
             break;
         }
 
-        pCurGO->Update(deltaTime, GRAVITY);
+        pCurGO->Update(deltaTime, gravity);
 
     }//for ( int index... 
-
-    return;
 }
 
 // Based on Ericson's code
