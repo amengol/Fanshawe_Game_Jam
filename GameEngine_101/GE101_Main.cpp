@@ -285,7 +285,7 @@ int main()
 
     ::g_pLightManager = new cLightManager();
 
-    ::g_pLightManager->CreateLights(2);	// There are 10 lights in the shader
+    ::g_pLightManager->CreateLights(6);	// There are 10 lights in the shader
     ::g_pLightManager->LoadShaderUniformLocations(currentProgID);
 
     // Change ZERO (the SUN) light position
@@ -300,13 +300,49 @@ int main()
     ::g_pLightManager->vecLights[0].typeParams.x = 2.0f;
     ::g_pLightManager->vecLights[0].typeParams.z = glm::radians(55.0f);
     ::g_pLightManager->vecLights[0].typeParams.w = glm::radians(60.0f);
+
+    // Other Heli lights
+    ::g_pLightManager->vecLights[2].attenuation.x = 0.0f;
+    ::g_pLightManager->vecLights[2].attenuation.y = 0.16f;
+    ::g_pLightManager->vecLights[2].attenuation.z = 0.3f;
+    ::g_pLightManager->vecLights[2].diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+    ::g_pLightManager->vecLights[3].attenuation.x = 0.0f;
+    ::g_pLightManager->vecLights[3].attenuation.y = 0.16f;
+    ::g_pLightManager->vecLights[3].attenuation.z = 0.3f;
+    ::g_pLightManager->vecLights[3].diffuse = glm::vec3(1.0f, 0.0f, 0.0f);
+    ::g_pLightManager->vecLights[4].attenuation.x = 0.0f;
+    ::g_pLightManager->vecLights[4].attenuation.y = 0.16f;
+    ::g_pLightManager->vecLights[4].attenuation.z = 0.3f;
+    ::g_pLightManager->vecLights[4].diffuse = glm::vec3(0.0f, 1.0f, 0.0f);
+    ::g_pLightManager->vecLights[5].attenuation.x = 0.0f;
+    ::g_pLightManager->vecLights[5].attenuation.y = 0.16f;
+    ::g_pLightManager->vecLights[5].attenuation.z = 0.3f;
+    ::g_pLightManager->vecLights[5].diffuse = glm::vec3(1.0f, 0.0f, 0.0f);
+
     cGameObject* theHelo = g_vecGameObjects[g_vecGameObjects.size() - 1];
     theHelo->hasLights = true;
     theHelo->bIsUpdatedInPhysics = true;
     lightInfo GO_Light;
     GO_Light.index = 0;
-    GO_Light.offset = glm::vec3(0.0f, -2.277f, 1.887f);
+    GO_Light.offset = glm::vec3(0.0f, -2.277f, 2.0f);
     GO_Light.focusDirection = glm::vec3(0.0f, -0.5f, 0.5f);
+    GO_Light.type = SPOT;
+    theHelo->vecLightsInfo.push_back(GO_Light);
+    GO_Light.index = 2;
+    GO_Light.offset = glm::vec3(-0.02f, -2.2f, 1.915f);
+    GO_Light.type = OMNI;
+    theHelo->vecLightsInfo.push_back(GO_Light);
+    GO_Light.index = 3;
+    GO_Light.offset = glm::vec3(1.836f, -2.275f, -0.82f);
+    GO_Light.type = OMNI;
+    theHelo->vecLightsInfo.push_back(GO_Light);
+    GO_Light.index = 4;
+    GO_Light.offset = glm::vec3(-1.836f, -2.275f, -0.82f);
+    GO_Light.type = OMNI;
+    theHelo->vecLightsInfo.push_back(GO_Light);
+    GO_Light.index = 5;
+    GO_Light.offset = glm::vec3(-1.747f, 0.349f, -6.541f);
+    GO_Light.type = OMNI;
     theHelo->vecLightsInfo.push_back(GO_Light);
     // Lights end
     
@@ -471,11 +507,11 @@ int main()
             << curCameraLookAt.z
             // For lights information
             << " Light attenuation - Constant:"
-            << ::g_pLightManager->vecLights[0].attenuation.x
+            << ::g_pLightManager->vecLights[2].attenuation.x
             << " Linear:"
-            << ::g_pLightManager->vecLights[0].attenuation.y
+            << ::g_pLightManager->vecLights[2].attenuation.y
             << " Quadratic:"
-            << ::g_pLightManager->vecLights[0].attenuation.z;
+            << ::g_pLightManager->vecLights[2].attenuation.z;
 
         glfwSetWindowTitle(window, ssTitle.str().c_str());
                 
@@ -515,11 +551,40 @@ int main()
 // Draw a single object
 void DrawObject(cGameObject* pTheGO)
 {
+
     // Is there a game object? 
-    if (pTheGO == 0)
+    if(pTheGO == 0)
     {
         return;
     }
+
+    // Update lights
+    if(pTheGO->hasLights)
+    {
+        for(int i = 0; i < pTheGO->vecLightsInfo.size(); i++)
+        {
+            lightInfo lightInfo = pTheGO->vecLightsInfo[i];
+            glm::vec3 rotatedOffset = pTheGO->orientation * glm::vec4(lightInfo.offset, 0.0f);
+            g_pLightManager->vecLights[lightInfo.index].position = pTheGO->position + rotatedOffset;
+            // Update directly to not get a delay
+            glUniform4f(g_pLightManager->vecLights[lightInfo.index].shaderlocID_position,
+                        g_pLightManager->vecLights[lightInfo.index].position.x,
+                        g_pLightManager->vecLights[lightInfo.index].position.y,
+                        g_pLightManager->vecLights[lightInfo.index].position.z,
+                        1.0f);
+            if(lightInfo.type == SPOT)
+            {
+                glm::vec3 rotatedFocus = pTheGO->orientation * glm::vec4(lightInfo.focusDirection, 0.0f);
+                g_pLightManager->vecLights[lightInfo.index].direction = rotatedFocus;
+                // Update directly to not get a delay
+                glUniform4f(g_pLightManager->vecLights[lightInfo.index].shaderlocID_direction,
+                            g_pLightManager->vecLights[lightInfo.index].direction.x,
+                            g_pLightManager->vecLights[lightInfo.index].direction.y,
+                            g_pLightManager->vecLights[lightInfo.index].direction.z,
+                            1.0f);
+            }
+        }
+    }    
 
     // Was near the draw call, but we need the mesh name
     std::string meshToDraw = pTheGO->meshName;
@@ -651,6 +716,11 @@ void DrawObject(cGameObject* pTheGO)
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D,
         ::g_pTextureManager->getTextureIDFromName(pTheGO->textureNames[1]));
+
+    // 2
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D,
+        ::g_pTextureManager->getTextureIDFromName(pTheGO->textureNames[2]));
     // 2..  and so on... 
 
     // Set sampler in the shader
@@ -658,10 +728,12 @@ void DrawObject(cGameObject* pTheGO)
     GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
     GLint textSampler00_ID = glGetUniformLocation(curShaderID, "texSamp2D00");
     GLint textSampler01_ID = glGetUniformLocation(curShaderID, "texSamp2D01");
+    GLint textSampler02_ID = glGetUniformLocation(curShaderID, "texSamp2D02");
     //// And so on (up to 10, or whatever number of textures)... 
 
     GLint textBlend00_ID = glGetUniformLocation(curShaderID, "texBlend00");
     GLint textBlend01_ID = glGetUniformLocation(curShaderID, "texBlend01");
+    GLint textBlend02_ID = glGetUniformLocation(curShaderID, "texBlend02");
 
     GLint texSampCube00_LocID = glGetUniformLocation(curShaderID, "texSampCube00");
     GLint texSampCube01_LocID = glGetUniformLocation(curShaderID, "texSampCube00");
@@ -674,13 +746,15 @@ void DrawObject(cGameObject* pTheGO)
     GLint texCubeBlend03_LocID = glGetUniformLocation(curShaderID, "texCubeBlend03");
 
     // This connects the texture sampler to the texture units... 
-    glUniform1i( textSampler00_ID, 0  );		// Enterprise
-    glUniform1i( textSampler01_ID, 1  );		// GuysOnSharkUnicorn
+    glUniform1i( textSampler00_ID, 0  );
+    glUniform1i( textSampler01_ID, 1  );
+    glUniform1i( textSampler02_ID, 2  );
     // .. and so on
 
     // And the blending values
     glUniform1f(textBlend00_ID, pTheGO->textureBlend[0]);
     glUniform1f(textBlend01_ID, pTheGO->textureBlend[1]);
+    glUniform1f(textBlend02_ID, pTheGO->textureBlend[2]);
     // And so on...
 
     //			glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
