@@ -3,9 +3,11 @@
 #include <vector>
 #include "Utilities.h"
 #include <glm/glm.hpp>
+#include "cTransparencyManager.h"
 
 extern std::vector< cGameObject* >  g_vecGameObjects;
 extern cGameObject* g_pSkyBoxObject;
+extern cTransparencyManager* g_pTranspManager;
 
 void LoadModelsIntoScene(void)
 {
@@ -191,7 +193,9 @@ void LoadModelsIntoScene(void)
         theGO->useDiscardAlpha = false;
         theGO->position = glm::vec3(-323.027f, 107.775f, 106.373f);
         theGO->rotateY(180.0f);
-        ::g_vecGameObjects.push_back(theGO);
+        theGO->friendlyName = "Helicopter01";
+        //::g_vecGameObjects.push_back(theGO);
+        g_pTranspManager->transpObjects.push_back(theGO);
     }
 
 	return;
