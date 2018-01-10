@@ -114,7 +114,7 @@ bool loadTextures()
         std::cout << "Texture is loaded!" << std::endl;
     }
 
-    if(!::g_pTextureManager->Create2DTextureFromBMPFile("green.bmp", true))
+    if(!::g_pTextureManager->Create2DTextureFromBMPFile("heli_green.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;
@@ -123,7 +123,16 @@ bool loadTextures()
         std::cout << "Texture is loaded!" << std::endl;
     }
 
-    if(!::g_pTextureManager->Create2DTextureFromBMPFile("reflection.bmp", true))
+    if(!::g_pTextureManager->Create2DTextureFromBMPFile("heli_green_alpha.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    } else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    if(!::g_pTextureManager->Create2DTextureFromBMPFile("heli_green_reflection.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;
