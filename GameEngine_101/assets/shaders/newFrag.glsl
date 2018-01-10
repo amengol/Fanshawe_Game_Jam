@@ -202,16 +202,14 @@ void main()
 	vec3 ambientContribution = matDiffuse.rgb * ambientToDiffuseRatio;
 	fragColourOut.rgb += ambientContribution.rgb;		
 	
-		if ( hasReflection )
+	if ( hasReflection )
 	{
 		vec3 eyeDir = vecWorldPosition - eyePosition;		
 		vec3 reflectedDirection = normalize(reflect(eyeDir, normalize(vertNormal)));
 		vec4 fragColor = textureCube(texSampCube00, reflectedDirection);
-		vec4 matReflect = texCol01;
+		vec4 matReflect = texCol02;
 		fragColourOut += fragColor * matReflect;
-		fragColourOut.rgb += ambientContribution.rgb;
-		
-		return;	
+		fragColourOut.rgb += ambientContribution.rgb;	
 	}	
 
 	// Copy object material diffuse to alpha
