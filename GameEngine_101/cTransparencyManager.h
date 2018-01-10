@@ -17,11 +17,7 @@ public:
     cTransparencyManager();
     ~cTransparencyManager();
 
-    void createRamdomObjects(int numOfObjects,
-                             std::vector<transparencyInfo> info,
-                             float minX, float maxX,
-                             float minY, float maxY,
-                             float minZ, float maxZ);
+    void sortObjects();
     
     std::vector<cGameObject*> transpObjects;
 };

@@ -1,5 +1,8 @@
 #include "cTransparencyManager.h"
-#include <time.h>
+#include <algorithm>
+#include "cCameraObject.h"
+
+extern cCameraObject* g_pCamera;
 
 cTransparencyManager::cTransparencyManager()
 {
@@ -15,47 +18,19 @@ cTransparencyManager::~cTransparencyManager()
     }
 }
 
-void cTransparencyManager::createRamdomObjects(int numOfObjects,
-                                               std::vector<transparencyInfo> info,
-                                               float minX, float maxX,
-                                               float minY, float maxY,
-                                               float minZ, float maxZ)
+bool compare(cGameObject* i, cGameObject* j);
+
+void cTransparencyManager::sortObjects()
 {
-    srand(time(NULL));
+    
+    std::sort(this->transpObjects.begin(), this->transpObjects.end(), compare);
+}
 
-    for(int i = 0; i < numOfObjects; i++)
-    {
-        cGameObject* theGO = new cGameObject();
-
-        // Pic one object
-        
-        int objIndex = std::rand() % info.size();
-
-        theGO->meshName = info[objIndex].meshName;
-        theGO->textureBlend[0] = 1.0f;
-        theGO->textureNames[0] = info[objIndex].texture;
-        theGO->textureBlend[1] = 0.0f;
-        theGO->textureNames[1] = info[objIndex].alpha;
-        theGO->bIsUpdatedInPhysics = false;
-        theGO->bIsWireFrame = false;
-        theGO->hasAlpha = true;
-        theGO->useDiscardAlpha = false;
-        theGO->cullFace = false;
-        theGO->typeOfObject = TERRAIN;
-
-        // Calculate a random position
-        int rangeX = maxX - minX;
-        int x = (std::rand() % rangeX) + minX;
-        int rangeY = maxY - minY;
-        int y = (std::rand() % rangeY) + minY;
-        int rangeZ = maxZ - minZ;
-        int z = (std::rand() % rangeZ) + minZ;
-
-        theGO->position = glm::vec3((float)x, (float)y, (float)z);      
-
-
-        this->transpObjects.push_back(theGO);
-    }
-
-    return;
+bool compare(cGameObject* i, cGameObject* j)
+{
+    if(glm::length(i->position - g_pCamera->getCameraPosition())
+    > glm::length(j->position - g_pCamera->getCameraPosition()))
+        return true;
+    else
+        return false;
 }
