@@ -28,8 +28,7 @@
 #include "cSimpleDebugRenderer.h"
 #include "TextureLoader.h"
 #include "cTransparencyManager.h"
-#include <algorithm> 
-#include <glm\gtx\vector_angle.hpp>
+#include "Utilities.h"
 
 using namespace std;
 
@@ -49,7 +48,7 @@ cLightManager*	g_pLightManager = NULL;
 cSimpleDebugRenderer* g_simpleDebug = NULL;
 cAABBsManager* g_pAABBsManager = NULL;
 cBasicTextureManager* g_pTextureManager = NULL;
-cTransparencyManager* g_pClouds = NULL;
+cTransparencyManager* g_pTranspManager = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
 std::map<long long, miniVAOInfo> g_map_AABBID_miniVAO;
 long long g_cubeID = -1;
@@ -186,7 +185,10 @@ int main()
 
     // If we are here, the shaders comipled and linked OK
     std::cout << "The shaders comipled and linked OK" << std::endl;
-        
+
+    // Init transparency Manager
+    ::g_pTranspManager = new cTransparencyManager();
+
     //-------------------------------------------------------------------------
     // Load models
 
@@ -319,7 +321,7 @@ int main()
     ::g_pLightManager->vecLights[5].attenuation.z = 0.3f;
     ::g_pLightManager->vecLights[5].diffuse = glm::vec3(1.0f, 0.0f, 0.0f);
 
-    cGameObject* theHelo = g_vecGameObjects[g_vecGameObjects.size() - 1];
+    cGameObject* theHelo = ::g_pTranspManager->transpObjects[0];
     theHelo->hasLights = true;
     theHelo->bIsUpdatedInPhysics = true;
     lightInfo GO_Light;
@@ -362,21 +364,28 @@ int main()
     // Camera end
     //-------------------------------------------------------------------------
     // Clouds
-    ::g_pClouds = new cTransparencyManager();
-    std::vector<transparencyInfo> transInfo;
+    std::vector<GameObjectsInfo> transInfo;
     for(int i = 0; i < 4; i++)
     {
-        transparencyInfo ti;
+        GameObjectsInfo ti;
         ti.meshName = "Cloud" + std::to_string(i + 1);
         ti.texture = "clouds.bmp";
         ti.alpha = "clouds_alpha.bmp";
         transInfo.push_back(ti);
     }
-    ::g_pClouds->createRamdomObjects(100,
-                                     transInfo,
-                                     -500.0f, 500.0f,
-                                     150.0f, 180.0f, 
-                                     -500.0f, 500.0f);
+
+    createRamdomGameObjects(100,
+                            ::g_pTranspManager->transpObjects,
+                            transInfo,
+                            -1000.0f, 1000.0f,
+                            150.0f, 180.0f,
+                            -1000.0f, 1000.0f);
+
+    //::g_pTranspManager->createRamdomObjects(100,
+    //                                 transInfo,
+    //                                 -500.0f, 500.0f,
+    //                                 150.0f, 180.0f, 
+    //                                 -500.0f, 500.0f);
     // ------------------------------------------------------------------------
     glEnable(GL_DEPTH);
 
@@ -472,18 +481,17 @@ int main()
         }
 
         // Now Draw the transparent objects
-        std::sort(::g_pClouds->transpObjects.begin(), ::g_pClouds->transpObjects.end(), compare);
-        int numTransObjects = ::g_pClouds->transpObjects.size();
+        ::g_pTranspManager->sortObjects();
+        int numTransObjects = ::g_pTranspManager->transpObjects.size();
         for(int i = 0; i < numTransObjects; i++)
         {
-            // Orient the cloud to the camera
-            glm::vec3 dir = g_pCamera->getCameraPosition() - ::g_pClouds->transpObjects[i]->position;
-            // Discard X rotations
-            glm::vec3 clippedD = glm::normalize(glm::vec3(dir.x, 0.0f, dir.z));
-            glm::quat qOrientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), clippedD);
-            glm::mat4 orientation = glm::toMat4(qOrientation);
-            ::g_pClouds->transpObjects[i]->orientation = orientation;
-            DrawObject(::g_pClouds->transpObjects[i]);
+            if(::g_pTranspManager->transpObjects[i]->rotateToCamera)
+            {
+                // Orient the cloud to the camera
+                turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], g_pCamera->getCameraPosition());
+            }
+            
+            DrawObject(::g_pTranspManager->transpObjects[i]);
         }
         
 
@@ -542,7 +550,7 @@ int main()
     //delete ::g_pDebugRenderer;
     //delete ::g_pAABBsManager;
     //delete ::g_pSoundManager;
-    delete ::g_pClouds;
+    delete ::g_pTranspManager;
 
     return 0;
 
@@ -881,13 +889,4 @@ void DrawAABBforPoints(std::vector<glm::vec3> vertices, float size)
         }
     }
 
-}
-
-bool compare(cGameObject* i, cGameObject* j)
-{
-    if(glm::length(i->position - g_pCamera->getCameraPosition())
-       > glm::length(j->position - g_pCamera->getCameraPosition()))
-        return true;
-    else
-        return false;
 }
