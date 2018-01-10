@@ -1,5 +1,8 @@
 #include "globalOpenGL_GLFW.h"
 #include "globalGameStuff.h"
+#include "cTransparencyManager.h"
+
+extern cTransparencyManager* g_pTranspManager;
 
 #include <iostream>
 
@@ -16,14 +19,22 @@ void key_callback(GLFWwindow* window,
     if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 
-    if(key == GLFW_KEY_SPACE);
+    if(key == GLFW_KEY_SPACE)
+        return;
 
     if(key == GLFW_KEY_0 && action == GLFW_PRESS)
         ::g_pCamera->releaseGameObject();
 
     if(key == GLFW_KEY_1 && action == GLFW_PRESS)
     {
-        ::g_pCamera->lockOnGameObject(::g_vecGameObjects[g_vecGameObjects.size()-1]);
+        for(int i = 0; i < g_pTranspManager->transpObjects.size(); i++)
+        {
+            if(g_pTranspManager->transpObjects[i]->friendlyName == "Helicopter01")
+            {
+                ::g_pCamera->lockOnGameObject(g_pTranspManager->transpObjects[i]);
+            }
+        }
+        
         //::g_vecGameObjects[1]->bIsUpdatedInPhysics = true;
     }        
 
