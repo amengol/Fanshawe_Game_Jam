@@ -291,17 +291,17 @@ int main()
     ::g_pLightManager->LoadShaderUniformLocations(currentProgID);
 
     // Change ZERO (the SUN) light position
-    ::g_pLightManager->vecLights[1].position = glm::vec3(-1840.0f, 500.0f, 2100.0f);
-    ::g_pLightManager->vecLights[1].diffuse = glm::vec3(1.0f, 1.0f, 0.59f);
-    ::g_pLightManager->vecLights[1].attenuation.x = 2.5f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[1].attenuation.y = 0.0f;		// Change the linear attenuation
+    ::g_pLightManager->vecLights[0].position = glm::vec3(-1840.0f, 500.0f, 2100.0f);
+    ::g_pLightManager->vecLights[0].diffuse = glm::vec3(1.0f, 1.0f, 0.59f);
+    ::g_pLightManager->vecLights[0].attenuation.x = 2.5f;		// Change the costant attenuation
+    ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;		// Change the linear attenuation
     
     // Helicopter spot light
-    ::g_pLightManager->vecLights[0].attenuation.x = 0.2f;
-    ::g_pLightManager->vecLights[0].attenuation.y = 0.025f;
-    ::g_pLightManager->vecLights[0].typeParams.x = 2.0f;
-    ::g_pLightManager->vecLights[0].typeParams.z = glm::radians(55.0f);
-    ::g_pLightManager->vecLights[0].typeParams.w = glm::radians(60.0f);
+    ::g_pLightManager->vecLights[1].attenuation.x = 0.2f;
+    ::g_pLightManager->vecLights[1].attenuation.y = 0.025f;
+    ::g_pLightManager->vecLights[1].typeParams.x = 2.0f;
+    ::g_pLightManager->vecLights[1].typeParams.z = glm::radians(55.0f);
+    ::g_pLightManager->vecLights[1].typeParams.w = glm::radians(60.0f);
 
     // Other Heli lights
     ::g_pLightManager->vecLights[2].attenuation.x = 0.0f;
@@ -325,7 +325,7 @@ int main()
     theHelo->hasLights = true;
     theHelo->bIsUpdatedInPhysics = true;
     lightInfo GO_Light;
-    GO_Light.index = 0;
+    GO_Light.index = 1;
     GO_Light.offset = glm::vec3(0.0f, -2.277f, 2.0f);
     GO_Light.focusDirection = glm::vec3(0.0f, -0.5f, 0.5f);
     GO_Light.type = SPOT;
