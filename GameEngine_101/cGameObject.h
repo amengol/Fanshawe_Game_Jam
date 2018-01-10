@@ -64,6 +64,7 @@ public:
     bool isDebugAABBActive;
     bool bIsSkyBoxObject;
     bool hasReflection;
+    bool rotateToCamera;
     glm::vec3 previousPosition;
 	// **********************************
     //Lights

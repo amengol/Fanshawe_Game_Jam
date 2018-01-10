@@ -1,6 +1,4 @@
 #include "cGameObject.h"
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/vector_angle.hpp>
 #include <fmod\fmod.hpp>
 
 cGameObject::cGameObject()
@@ -30,6 +28,7 @@ cGameObject::cGameObject()
     this->bIsSkyBoxObject = false;
     this->isDebugAABBActive = false;
     this->hasLights = false;
+    this->rotateToCamera = false;
 
 #ifdef _DEBUG
  	//this->m_pTheDR = cDebugRenderer::getInstance();
