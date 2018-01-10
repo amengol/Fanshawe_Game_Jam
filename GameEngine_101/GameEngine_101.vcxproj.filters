@@ -43,6 +43,9 @@
     <Filter Include="Textures Related">
       <UniqueIdentifier>{f5d50ab1-6e60-49f3-9cbb-c28d59b1e649}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI">
+      <UniqueIdentifier>{a88ec110-43fe-447a-8333-7e018c8bd928}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\simpleVert.glsl">
@@ -234,6 +237,9 @@
     </ClInclude>
     <ClInclude Include="cTransparencyManager.h">
       <Filter>Game Objects Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cSimpleAI_Manager.h">
+      <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
