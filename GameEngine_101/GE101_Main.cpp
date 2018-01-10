@@ -69,8 +69,11 @@ GLint uniLoc_materialSpecular = -1;         // rgb = colour of HIGHLIGHT only | 
 GLint uniLoc_bIsDebugWireFrameObject = -1;
 GLint uniLoc_HasColour = -1;
 GLint uniLoc_HasAlpha = -1;
+GLint uniLoc_HasReflection = -1;
 GLint uniLoc_UseDiscardAlpha = -1;
 GLint uniLoc_bIsSkyBoxObject = -1;
+GLint uniLoc_bIsReflectRefract = -1;
+
 
 GLint uniLoc_eyePosition = -1;	            // Camera position
 GLint uniLoc_mModel = -1;
@@ -267,6 +270,8 @@ int main()
     uniLoc_bIsDebugWireFrameObject = glGetUniformLocation(currentProgID, "bIsDebugWireFrameObject");
     uniLoc_HasColour = glGetUniformLocation(currentProgID, "hasColour");
     uniLoc_HasAlpha = glGetUniformLocation(currentProgID, "hasAlpha");
+    uniLoc_HasReflection = glGetUniformLocation(currentProgID, "hasReflection");
+    uniLoc_bIsReflectRefract = glGetUniformLocation(currentProgID, "isReflectRefract");
     uniLoc_UseDiscardAlpha = glGetUniformLocation(currentProgID, "useDiscardAlpha");    
     uniLoc_bIsSkyBoxObject = glGetUniformLocation(currentProgID, "isASkyBox");
     uniLoc_eyePosition = glGetUniformLocation(currentProgID, "eyePosition");
@@ -614,9 +619,19 @@ void DrawObject(cGameObject* pTheGO)
     if(pTheGO->bIsSkyBoxObject)
     {
         glUniform1f(uniLoc_bIsSkyBoxObject, GL_TRUE);
-    } else
+    } 
+    else
     {
         glUniform1f(uniLoc_bIsSkyBoxObject, GL_FALSE);
+    }
+
+    if(pTheGO->hasReflection)
+    {
+        glUniform1f(uniLoc_HasReflection, 1.0f);
+    }
+    else
+    {
+        glUniform1f(uniLoc_HasReflection, 0.0f);
     }
 
     // Set up the textures

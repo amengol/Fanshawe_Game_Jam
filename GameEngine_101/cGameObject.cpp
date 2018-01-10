@@ -29,6 +29,7 @@ cGameObject::cGameObject()
     this->hasAlpha = false;
     this->useDiscardAlpha = true;
     this->cullFace = true;
+    this->hasReflection = false;
     this->bIsSkyBoxObject = false;
     this->isDebugAABBActive = false;
     this->hasLights = false;

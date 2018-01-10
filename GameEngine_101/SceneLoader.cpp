@@ -199,6 +199,9 @@ void LoadModelsIntoScene(void)
         theGO->bIsWireFrame = false;
         theGO->textureBlend[0] = 1.0f;
         theGO->textureNames[0] = "green.bmp";
+        theGO->textureBlend[1] = 0.0f;
+        theGO->textureNames[1] = "reflection.bmp";
+        theGO->hasReflection = true;
         theGO->position = glm::vec3(-323.027f, 107.775f, 106.373f);
         theGO->rotateY(180.0f);
         ::g_vecGameObjects.push_back(theGO);

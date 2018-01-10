@@ -24,6 +24,7 @@ uniform bool bIsDebugWireFrameObject;
 uniform bool hasColour;
 uniform bool hasAlpha;
 uniform bool useDiscardAlpha;
+uniform bool hasReflection;
 
 // Note: this CAN'T be an array (sorry). See 3D texture array
 uniform sampler2D texSamp2D00;		// Represents a 2D image
@@ -127,17 +128,16 @@ void main()
 		return;	
 	}
 	
-	if ( isReflectRefract )
+		if ( isReflectRefract )
 	{			
 		// Have "eyePosition" (camera eye) in WORLD space
 		
 		// reFLECTion value 
 		vec3 vecReflectEyeToVertex = vecWorldPosition - eyePosition;
+		//vec3 vecReflectEyeToVertex = eyePosition - vecWorldPosition;
 		vecReflectEyeToVertex = normalize(vecReflectEyeToVertex);
 		vec3 vecReflect = reflect( vecReflectEyeToVertex, vertNormal.xyz );
 		// Look up colour for reflection
-
-		// WHY this twice assignment???
 		vec4 rgbReflection = texture( texSampCube00, vertNormal.xyz );
 
 		rgbReflection = texture( texSampCube00, vecReflect );
@@ -156,6 +156,8 @@ void main()
 		// Mix the two, based on how reflective the surface is
 		fragColourOut = (rgbReflection * reflectBlendRatio) + 
 		                (rgbRefraction * refractBlendRatio);
+		
+		//fragColourOut.r = 1.0f;
 		
 		return;	
 	}	
@@ -200,6 +202,18 @@ void main()
 	vec3 ambientContribution = matDiffuse.rgb * ambientToDiffuseRatio;
 	fragColourOut.rgb += ambientContribution.rgb;		
 	
+		if ( hasReflection )
+	{
+		vec3 eyeDir = vecWorldPosition - eyePosition;		
+		vec3 reflectedDirection = normalize(reflect(eyeDir, normalize(vertNormal)));
+		vec4 fragColor = textureCube(texSampCube00, reflectedDirection);
+		vec4 matReflect = texCol01;
+		fragColourOut = fragColor * matReflect;
+		fragColourOut.rgb += ambientContribution.rgb;
+		
+		return;	
+	}	
+
 	// Copy object material diffuse to alpha
 	if (hasAlpha)
 	{
