@@ -1,6 +1,9 @@
 #ifndef _Utilities_HG_
 #define _Utilities_HG_
 
+#include <vector>;
+#include "cGameObject.h"
+
 // Inspired by: https://stackoverflow.com/questions/686353/c-random-float-number-generation
 
 template <class T>
@@ -13,5 +16,21 @@ T getRandInRange( T min, T max )
 	return static_cast<T>(value);
 
 }
+
+struct GameObjectsInfo
+{
+    std::string meshName;
+    std::string texture;
+    std::string alpha;
+};
+
+void createRamdomGameObjects(int numOfObjects,
+                             std::vector<cGameObject*>&,
+                             std::vector<GameObjectsInfo> info,
+                             float minX, float maxX,
+                             float minY, float maxY,
+                             float minZ, float maxZ);
+
+void turnGameObjectToCamera(cGameObject*, glm::vec3 cameraPosition);
 
 #endif
