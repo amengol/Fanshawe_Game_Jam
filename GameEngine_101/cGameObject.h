@@ -20,12 +20,21 @@ enum eTypeOfObject
 	UNKNOWN = 99
 };
 
+enum LightType
+{
+    OMNI,
+    SPOT
+};
+
 struct lightInfo
 {
     int index;
     glm::vec3 offset;
     glm::vec3 focusDirection;
+    LightType type;
 };
+
+
 
 // Sotores vec position, orientation and scale about a Game Object
 class cGameObject
