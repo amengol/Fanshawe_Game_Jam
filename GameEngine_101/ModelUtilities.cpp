@@ -325,6 +325,82 @@ bool Load3DModelsIntoMeshManager(int shaderID,
         // ***********************************************************************
     }
 
+    {
+        cMesh theMesh;
+        theMesh.name = "Cloud1";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Cloud1.ply", theMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
+    {
+        cMesh theMesh;
+        theMesh.name = "Cloud2";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Cloud2.ply", theMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
+    {
+        cMesh theMesh;
+        theMesh.name = "Cloud3";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Cloud3.ply", theMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
+    {
+        cMesh theMesh;
+        theMesh.name = "Cloud4";
+        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Cloud4.ply", theMesh))
+        {
+            //std::cout << "Didn't load model" << std::endl;
+            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
+        {
+            //std::cout << "Could not load mesh into VAO" << std::endl;
+            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
+            bAllGood = false;
+        }
+        // ***********************************************************************
+    }
+
     if (!bAllGood)
     {
         // Copy the error string stream into the error string that
