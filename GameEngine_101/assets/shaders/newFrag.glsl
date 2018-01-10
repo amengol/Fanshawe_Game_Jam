@@ -208,7 +208,7 @@ void main()
 		vec3 reflectedDirection = normalize(reflect(eyeDir, normalize(vertNormal)));
 		vec4 fragColor = textureCube(texSampCube00, reflectedDirection);
 		vec4 matReflect = texCol01;
-		fragColourOut = fragColor * matReflect;
+		fragColourOut += fragColor * matReflect;
 		fragColourOut.rgb += ambientContribution.rgb;
 		
 		return;	
