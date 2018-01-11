@@ -76,37 +76,29 @@ bool loadFileIntoString(std::string& theString, std::string fileName)
     }
 
     std::string token;
-    file >> token;
+    
 
     while(!file.eof())
     {
+        token = "";
+        file >> token;
         
         // Ignore lines starting with #
-        if(token.at(0) == '#')
+        if(token != "")
         {
-            file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            file >> token;
-            continue;
+            if(token.at(0) == '#')
+            {
+                file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                //file >> token;
+                continue;
+            }
         }
+        
 
-        theString.append(token);
-
-        file >> token;
+        if (token != "")
+            theString.append(token);
 
     }
-
-    // For the last token
-    // Ignore lines starting with #
-    if(theString != "")
-    {
-        if(token.at(0))
-        {
-            return true;
-        }
-    }
-    
-
-    theString.append(token);
 
     if(theString != "")
     {
