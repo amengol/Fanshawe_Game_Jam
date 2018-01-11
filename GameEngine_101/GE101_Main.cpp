@@ -688,7 +688,7 @@ void DrawObject(cGameObject* pTheGO)
     }
 
     
-    if(pTheGO->bIsSkyBoxObject)
+    if(pTheGO->typeOfObject == SKYBOX)
     {
         glUniform1f(uniLoc_bIsSkyBoxObject, GL_TRUE);
     } 

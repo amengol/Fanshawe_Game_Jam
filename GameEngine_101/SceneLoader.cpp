@@ -41,10 +41,11 @@ void LoadModelsIntoScene(void)
     {
         //cGameObject* pTempGO = new cGameObject();
         ::g_pSkyBoxObject = new cGameObject();
+        g_pSkyBoxObject->typeOfObject = SKYBOX;
         g_pSkyBoxObject->scale = 100000.0f;
         g_pSkyBoxObject->diffuseColour = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
         g_pSkyBoxObject->meshName = "SkyBox";
-        g_pSkyBoxObject->bIsSkyBoxObject = true;
+        //g_pSkyBoxObject->bIsSkyBoxObject = true;
         ::g_vecGameObjects.push_back(::g_pSkyBoxObject);		// Fastest way to add
     }
 

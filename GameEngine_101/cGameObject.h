@@ -17,6 +17,7 @@ enum eTypeOfObject
 	MESH    = 3,
     TERRAIN = 4,
     CONTACT_POINTS = 5,
+    SKYBOX = 6,
 	UNKNOWN = 99
 };
 
@@ -62,7 +63,6 @@ public:
     bool useDiscardAlpha;
     bool cullFace;
     bool isDebugAABBActive;
-    bool bIsSkyBoxObject;
     bool hasReflection;
     bool rotateToCamera;
     glm::vec3 previousPosition;
