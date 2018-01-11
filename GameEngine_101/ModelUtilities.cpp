@@ -4,6 +4,8 @@
 #include <sstream>
 #include <vector>
 #include "cGameObject.h"
+#include "Utilities.h"
+#include <rapidjson\document.h>
 
 cModelAssetLoader* g_pModelAssetLoader = NULL;
 
@@ -46,359 +48,95 @@ bool Load3DModelsIntoMeshManager(int shaderID,
     std::stringstream ssError;
     bool bAllGood = true;
 
-    //{
-    //    cMesh fractalTerrain;
-    //    fractalTerrain.name = "FractalTerrain";
-    //    if (!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals("FractalTerrain_xyz_n_4xBigger.ply", fractalTerrain))
-    //    {
-    //        //std::cout << "Didn't load model" << std::endl;
-    //        ssError << "Didn't load model >" << fractalTerrain.name << "<" << std::endl;
-    //        bAllGood = false;
-    //    }
-    //    // ***********************************************************************
-    //    // NOTE the TRUE so that it keeps the mesh!!!
-    //    if (!pVAOManager->loadMeshIntoVAO(fractalTerrain, shaderID, true))
-    //    {
-    //        //std::cout << "Could not load mesh into VAO" << std::endl;
-    //        ssError << "Could not load mesh >" << fractalTerrain.name << "< into VAO" << std::endl;
-    //        bAllGood = false;
-    //    }
-    //    // ***********************************************************************
-    //}
- 
-    //{
-    //    cMesh Delorean;
-    //    Delorean.name = "Delorean";
-    //    if (!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals_and_colours("Delorean.ply", Delorean))
-    //    {
-    //        //std::cout << "Didn't load model" << std::endl;
-    //        ssError << "Didn't load model >" << Delorean.name << "<" << std::endl;
-    //        bAllGood = false;
-    //    }
-    //    // ***********************************************************************
-    //    // NOTE the TRUE so that it keeps the mesh!!!
-    //    if (!pVAOManager->loadMeshIntoVAO(Delorean, shaderID))
-    //    {
-    //        //std::cout << "Could not load mesh into VAO" << std::endl;
-    //        ssError << "Could not load mesh >" << Delorean.name << "< into VAO" << std::endl;
-    //        bAllGood = false;
-    //    }
-    //    // ***********************************************************************
-    //}
+    std::string jsonStr;
 
+    if(!loadFileIntoString(jsonStr, "assets//models//_models.json"))
     {
-        cMesh testMesh;
-        testMesh.name = "SkyBox";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals("SkyBox.ply", testMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << testMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(testMesh, shaderID, false))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << testMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
+        ssError << "Didn't load the Json file!" << std::endl;
+        bAllGood = false;
     }
 
+    const char* json = new char[jsonStr.size() + 1];
+    json = jsonStr.c_str();
+
+    rapidjson::Document document;
+
+    if(document.Parse(json).HasParseError())
     {
-        cMesh theMesh;
-        theMesh.name = "FacadeSets";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("FacadeSets.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
+        ssError << "There was an error parsing the Json file" << std::endl;
+        bAllGood = false;
+    }
+    
+
+    if(!(document.IsObject() && document.HasMember("Meshes") && document["Meshes"].IsArray()))
+    {
+        ssError << "The Json file had a wrong format" << std::endl;
+        error = ssError.str();
+        return false;        
     }
 
-    {
-        cMesh theMesh;
-        theMesh.name = "RoofsEtc";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("RoofsEtc.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
 
-    {
-        cMesh theMesh;
-        theMesh.name = "Asphalt";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Asphalt.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
 
+    const rapidjson::Value& a = document["Meshes"];
+    for(rapidjson::SizeType i = 0; i < a.Size(); i++)
     {
-        cMesh theMesh;
-        theMesh.name = "Concrete";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Concrete.ply", theMesh))
+        // Test all variables before reading
+        if(!(a[i].IsObject()
+           && a[i].HasMember("meshName")
+           && a[i].HasMember("meshFile")
+           && a[i]["meshFile"].IsString()
+           && a[i].HasMember("hasUV")
+           && a[i]["hasUV"].IsBool()
+           && a[i].HasMember("isPersistent")
+           && a[i]["isPersistent"].IsBool()))
         {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
+            ssError << "The Json object number "<< i+1 << " is not properly formated!" << std::endl;
+            error = ssError.str();
+            return false;
         }
-        // ***********************************************************************
-        // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
 
-    {
-        cMesh theMesh;
-        theMesh.name = "Curbs";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Curbs.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, false))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
+        std::string meshName = a[i]["meshName"].GetString();
+        std::string meshFile = a[i]["meshFile"].GetString();
+        bool hasUV = a[i]["hasUV"].GetBool();
+        bool isPersistent = a[i]["isPersistent"].GetBool();
 
-    {
-        cMesh theMesh;
-        theMesh.name = "Ground1";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Ground1.ply", theMesh))
+        if(hasUV)
         {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
+            cMesh mesh;
+            mesh.name = meshName;
+            if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV(meshFile, mesh))
+            {
+                //std::cout << "Didn't load model" << std::endl;
+                ssError << "Didn't load model >" << mesh.name << "<" << std::endl;
+                bAllGood = false;
+            }
 
-    {
-        cMesh theMesh;
-        theMesh.name = "Ground2";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Ground2.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
+            if(!pVAOManager->loadMeshIntoVAO(mesh, shaderID, isPersistent))
+            {
+                //std::cout << "Could not load mesh into VAO" << std::endl;
+                ssError << "Could not load mesh >" << mesh.name << "< into VAO" << std::endl;
+                bAllGood = false;
+            }
         }
-        // ***********************************************************************
-        // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
+        else
         {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
+            cMesh mesh;
+            mesh.name = meshName;
+            if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals(meshFile, mesh))
+            {
+                //std::cout << "Didn't load model" << std::endl;
+                ssError << "Didn't load model >" << mesh.name << "<" << std::endl;
+                bAllGood = false;
+            }
 
-    {
-        cMesh theMesh;
-        theMesh.name = "StreetPart";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("StreetPart.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, true))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
+            if(!pVAOManager->loadMeshIntoVAO(mesh, shaderID, isPersistent))
+            {
+                //std::cout << "Could not load mesh into VAO" << std::endl;
+                ssError << "Could not load mesh >" << mesh.name << "< into VAO" << std::endl;
+                bAllGood = false;
+            }
+        }       
 
-    {
-        cMesh theMesh;
-        theMesh.name = "SideWalkTree";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("SideWalkTree.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID, false))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
-
-    {
-        cMesh theMesh;
-        theMesh.name = "md500";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("md500.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        // NOTE the TRUE so that it keeps the mesh!!!
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
-
-    {
-        cMesh theMesh;
-        theMesh.name = "Sphere";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals("Sphere.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
-
-    {
-        cMesh theMesh;
-        theMesh.name = "Cloud1";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Cloud1.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
-
-    {
-        cMesh theMesh;
-        theMesh.name = "Cloud2";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Cloud2.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
-
-    {
-        cMesh theMesh;
-        theMesh.name = "Cloud3";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Cloud3.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-    }
-
-    {
-        cMesh theMesh;
-        theMesh.name = "Cloud4";
-        if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV("Cloud4.ply", theMesh))
-        {
-            //std::cout << "Didn't load model" << std::endl;
-            ssError << "Didn't load model >" << theMesh.name << "<" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
-        if(!pVAOManager->loadMeshIntoVAO(theMesh, shaderID))
-        {
-            //std::cout << "Could not load mesh into VAO" << std::endl;
-            ssError << "Could not load mesh >" << theMesh.name << "< into VAO" << std::endl;
-            bAllGood = false;
-        }
-        // ***********************************************************************
     }
 
     if (!bAllGood)

@@ -1,0 +1,24 @@
+# Mesh loader
+# Authored by Jorge Amengol - Janyary 2018
+
+# You can comment a line placing a '#' as the first character
+{"Meshes" : 
+[
+{"meshName" : "SkyBox", "meshFile" : "SkyBox.ply", "hasUV" : false, "isPersistent" : false},
+{"meshName" : "FacadeSets", "meshFile" : "FacadeSets.ply", "hasUV" : true, "isPersistent" : false},
+{"meshName" : "RoofsEtc", "meshFile" : "RoofsEtc.ply", "hasUV" : true, "isPersistent" : true},
+{"meshName" : "Asphalt", "meshFile" : "Asphalt.ply", "hasUV" : true, "isPersistent" : true},
+{"meshName" : "Concrete", "meshFile" : "Concrete.ply", "hasUV" : true, "isPersistent" : true},
+{"meshName" : "Curbs", "meshFile" : "Curbs.ply", "hasUV" : true, "isPersistent" : false},
+{"meshName" : "Ground1", "meshFile" : "Ground1.ply", "hasUV" : true, "isPersistent" : true},
+{"meshName" : "Ground2", "meshFile" : "Ground2.ply", "hasUV" : true, "isPersistent" : true},
+{"meshName" : "StreetPart", "meshFile" : "StreetPart.ply", "hasUV" : true, "isPersistent" : true},
+{"meshName" : "SideWalkTree", "meshFile" : "SideWalkTree.ply", "hasUV" : true, "isPersistent" : false},
+{"meshName" : "md500", "meshFile" : "md500.ply", "hasUV" : true, "isPersistent" : false},
+{"meshName" : "Sphere", "meshFile" : "Sphere.ply", "hasUV" : false, "isPersistent" : false},
+{"meshName" : "Cloud1", "meshFile" : "Cloud1.ply", "hasUV" : true, "isPersistent" : false},
+{"meshName" : "Cloud2", "meshFile" : "Cloud2.ply", "hasUV" : true, "isPersistent" : false},
+{"meshName" : "Cloud3", "meshFile" : "Cloud3.ply", "hasUV" : true, "isPersistent" : false},
+{"meshName" : "Cloud4", "meshFile" : "Cloud4.ply", "hasUV" : true, "isPersistent" : false}
+]
+}
