@@ -181,7 +181,7 @@ void LoadModelsIntoScene(void)
         cGameObject* theGO = new cGameObject();
         theGO->meshName = "md500";
         theGO->bIsUpdatedInPhysics = true;
-        theGO->vel.z = 10.0f;
+        //theGO->vel.z = 10.0f;
         theGO->bIsWireFrame = false;
         theGO->textureBlend[0] = 1.0f;
         theGO->textureNames[0] = "heli_green.bmp";
@@ -196,43 +196,43 @@ void LoadModelsIntoScene(void)
         theGO->position = glm::vec3(-323.027f, 107.775f, 106.373f);
         theGO->rotateY(180.0f);
         theGO->friendlyName = "Helicopter01";
-        theGO->hasAI = true;
-        theGO->currentTargetIndex = 0;
-        theGO->target = glm::vec3(100.0f, 150.0f, 0.0f);
-        theGO->wayPointList.push_back(glm::vec3(100.0f, 150.0f, 0.0f));
-        theGO->wayPointList.push_back(glm::vec3(-100.0f, 150.0f, 0.0f));
+        //theGO->hasAI = true;
+        //theGO->currentTargetIndex = 0;
+        //theGO->target = glm::vec3(100.0f, 150.0f, 0.0f);
+        //theGO->wayPointList.push_back(glm::vec3(100.0f, 150.0f, 0.0f));
+        //theGO->wayPointList.push_back(glm::vec3(-100.0f, 150.0f, 0.0f));
         //::g_vecGameObjects.push_back(theGO);
         g_pTranspManager->transpObjects.push_back(theGO);
     }
 
-    {
-        // md500
-        cGameObject* theGO = new cGameObject();
-        theGO->meshName = "md500";
-        theGO->bIsUpdatedInPhysics = true;
-        theGO->vel.z = 10.0f;
-        theGO->bIsWireFrame = false;
-        theGO->textureBlend[0] = 1.0f;
-        theGO->textureNames[0] = "heli_green.bmp";
-        theGO->textureBlend[1] = 0.0f;
-        theGO->textureNames[1] = "heli_green_alpha.bmp";
-        theGO->textureBlend[2] = 0.0f;
-        theGO->textureNames[2] = "heli_green_reflection.bmp";
-        theGO->hasReflection = true;
-        theGO->hasAlpha = true;
-        theGO->cullFace = false;
-        theGO->useDiscardAlpha = false;
-        theGO->position = glm::vec3(-323.027f, 107.775f, 106.373f);
-        theGO->rotateY(180.0f);
-        theGO->friendlyName = "Helicopter02";
-        theGO->hasAI = true;
-        theGO->currentTargetIndex = 0;
-        theGO->target = glm::vec3(0.0f, 150.0f, 100.0f);
-        theGO->wayPointList.push_back(glm::vec3(0.0f, 150.0f, 100.0f));
-        theGO->wayPointList.push_back(glm::vec3(0.0f, 150.0f, -100.0f));
-        //::g_vecGameObjects.push_back(theGO);
-        g_pTranspManager->transpObjects.push_back(theGO);
-    }
+    //{
+    //    // md500
+    //    cGameObject* theGO = new cGameObject();
+    //    theGO->meshName = "md500";
+    //    theGO->bIsUpdatedInPhysics = true;
+    //    theGO->vel.z = 10.0f;
+    //    theGO->bIsWireFrame = false;
+    //    theGO->textureBlend[0] = 1.0f;
+    //    theGO->textureNames[0] = "heli_green.bmp";
+    //    theGO->textureBlend[1] = 0.0f;
+    //    theGO->textureNames[1] = "heli_green_alpha.bmp";
+    //    theGO->textureBlend[2] = 0.0f;
+    //    theGO->textureNames[2] = "heli_green_reflection.bmp";
+    //    theGO->hasReflection = true;
+    //    theGO->hasAlpha = true;
+    //    theGO->cullFace = false;
+    //    theGO->useDiscardAlpha = false;
+    //    theGO->position = glm::vec3(-323.027f, 107.775f, 106.373f);
+    //    theGO->rotateY(180.0f);
+    //    theGO->friendlyName = "Helicopter02";
+    //    theGO->hasAI = true;
+    //    theGO->currentTargetIndex = 0;
+    //    theGO->target = glm::vec3(0.0f, 150.0f, 100.0f);
+    //    theGO->wayPointList.push_back(glm::vec3(0.0f, 150.0f, 100.0f));
+    //    theGO->wayPointList.push_back(glm::vec3(0.0f, 150.0f, -100.0f));
+    //    //::g_vecGameObjects.push_back(theGO);
+    //    g_pTranspManager->transpObjects.push_back(theGO);
+    //}
 
 	return;
 }
