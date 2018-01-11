@@ -5,6 +5,7 @@
 #include "cAABBsManager.h"
 #include "cSimpleDebugRenderer.h"
 #include "cTransparencyManager.h"
+#include "simpleAI.h"
 
 extern cTransparencyManager* g_pTranspManager;
 
@@ -48,6 +49,11 @@ void updateGameObjects(double deltaTime,
             continue;
         }
 
+        if(pCurGO->hasAI)
+        {
+            update_AI_Parameters(pCurGO, 10.0f);
+        }
+
         switch(pCurGO->typeOfObject)
         {
         case SPHERE:
@@ -80,7 +86,11 @@ void updateGameObjects(double deltaTime,
                 {
                     if(GO_ID == vecIDs[i])
                     {
-                        hasID == true;
+                        //=====================================================
+                        // WARNING it had a == and was working
+                        // Investigate
+                        //=====================================================
+                        hasID = true;
                         break;
                     }
                 }
