@@ -4,6 +4,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm\gtx\vector_angle.hpp>
 
+#include <string>
+#include <fstream>
+#include <iostream>
+
 void createRamdomGameObjects(int numOfObjects,
                              std::vector<cGameObject*>& theVecGO,
                              std::vector<GameObjectsInfo> info,
@@ -59,4 +63,60 @@ void turnGameObjectToCamera(cGameObject* theGO, glm::vec3 cameraPosition)
     glm::quat qOrientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), clippedD);
     glm::mat4 orientation = glm::toMat4(qOrientation);
     theGO->orientation = orientation;
+}
+
+bool loadFileIntoString(std::string& theString, std::string fileName)
+{   
+
+    std::ifstream file(fileName.c_str());
+
+    if(!file.is_open())
+    {
+        return false;
+    }
+
+    std::string token;
+    file >> token;
+
+    while(!file.eof())
+    {
+        
+        // Ignore lines starting with #
+        if(token.at(0) == '#')
+        {
+            file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            file >> token;
+            continue;
+        }
+
+        theString.append(token);
+
+        file >> token;
+
+    }
+
+    // For the last token
+    // Ignore lines starting with #
+    if(theString != "")
+    {
+        if(token.at(0))
+        {
+            return true;
+        }
+    }
+    
+
+    theString.append(token);
+
+    if(theString != "")
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+    
+
+    
 }

@@ -33,4 +33,6 @@ void createRamdomGameObjects(int numOfObjects,
 
 void turnGameObjectToCamera(cGameObject*, glm::vec3 cameraPosition);
 
+bool loadFileIntoString(std::string& theString, std::string fileName);
+
 #endif
