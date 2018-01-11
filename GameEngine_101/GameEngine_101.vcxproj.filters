@@ -238,7 +238,7 @@
     <ClInclude Include="cTransparencyManager.h">
       <Filter>Game Objects Related</Filter>
     </ClInclude>
-    <ClInclude Include="cSimpleAI_Manager.h">
+    <ClInclude Include="simpleAI.h">
       <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>

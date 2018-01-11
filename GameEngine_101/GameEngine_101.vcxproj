@@ -185,7 +185,7 @@
     <ClInclude Include="cMesh.h" />
     <ClInclude Include="cModelAssetLoader.h" />
     <ClInclude Include="cShaderManager.h" />
-    <ClInclude Include="cSimpleAI_Manager.h" />
+    <ClInclude Include="simpleAI.h" />
     <ClInclude Include="cSimpleDebugRenderer.h" />
     <ClInclude Include="cSoundManager.h" />
     <ClInclude Include="cSoundManager_Imp.h" />
