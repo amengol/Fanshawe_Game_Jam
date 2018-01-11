@@ -74,6 +74,12 @@ public:
 	glm::vec4 diffuseColour;
 	std::string meshName;
 
+    // AI
+    bool hasAI;
+    glm::vec3 target;
+    unsigned int currentTargetIndex;
+    std::vector<glm::vec3> wayPointList;
+
     // The texture of this object
     static const unsigned int NUMTEXTURES = 10;
     std::string textureNames[NUMTEXTURES];

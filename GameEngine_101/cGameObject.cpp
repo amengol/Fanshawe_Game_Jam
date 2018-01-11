@@ -29,6 +29,8 @@ cGameObject::cGameObject()
     this->isDebugAABBActive = false;
     this->hasLights = false;
     this->rotateToCamera = false;
+    this->hasAI = false;
+    this->target = glm::vec3(0.0f);
 
 #ifdef _DEBUG
  	//this->m_pTheDR = cDebugRenderer::getInstance();
