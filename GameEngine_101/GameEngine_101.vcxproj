@@ -169,7 +169,6 @@
     <ClCompile Include="ModelUtilities.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="sAABB_Triangle.cpp" />
-    <ClCompile Include="SceneLoader.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="Texture\C24BitBMPpixel.cpp" />
     <ClCompile Include="Texture\cBasicTextureManager.cpp" />
