@@ -15,7 +15,7 @@
 #include "cCameraObject.h"
 #include "cShaderManager.h"
 #include "cVAOMeshManager.h"
-#include "ModelUtilities.h"
+//#include "ModelUtilities.h"
 #include "cGameObject.h"
 #include "cLightManager.h"
 #include <glm/mat4x4.hpp>
@@ -29,6 +29,7 @@
 #include "TextureLoader.h"
 #include "cTransparencyManager.h"
 #include "Utilities.h"
+#include "cSceneLoader.h"
 
 using namespace std;
 
@@ -194,17 +195,15 @@ int main()
 
     ::g_pModelAssetLoader = new cModelAssetLoader();
     ::g_pModelAssetLoader->setBasePath("assets/models/");
-
     ::g_pVAOManager = new cVAOMeshManager();
-
     GLint ShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-
-    if(!Load3DModelsIntoMeshManager(ShaderID, ::g_pVAOManager, ::g_pModelAssetLoader, error))
+    
+    cSceneLoader sceneLoader;
+    if(!sceneLoader.loadModelsIntoScene(ShaderID, g_pVAOManager, g_pModelAssetLoader, error))
     {
         std::cout << "Not all models were loaded..." << std::endl;
         std::cout << error << std::endl;
     }
-    LoadModelsIntoScene();
 
     ////-------------------------------------------------------------------------
     //// AABBs

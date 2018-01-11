@@ -152,6 +152,7 @@
     <ClCompile Include="cLightManager.cpp" />
     <ClCompile Include="cMesh.cpp" />
     <ClCompile Include="cModelAssetLoader.cpp" />
+    <ClCompile Include="cSceneLoader.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
     <ClCompile Include="cSimpleDebugRenderer.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="cLightManager.h" />
     <ClInclude Include="cMesh.h" />
     <ClInclude Include="cModelAssetLoader.h" />
+    <ClInclude Include="cSceneLoader.h" />
     <ClInclude Include="cShaderManager.h" />
     <ClInclude Include="simpleAI.h" />
     <ClInclude Include="cSimpleDebugRenderer.h" />

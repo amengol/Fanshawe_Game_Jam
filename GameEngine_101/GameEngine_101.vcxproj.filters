@@ -152,6 +152,9 @@
     <ClCompile Include="cTransparencyManager.cpp">
       <Filter>Game Objects Related</Filter>
     </ClCompile>
+    <ClCompile Include="cSceneLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -240,6 +243,9 @@
     </ClInclude>
     <ClInclude Include="simpleAI.h">
       <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="cSceneLoader.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
