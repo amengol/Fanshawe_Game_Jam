@@ -34,7 +34,19 @@
 #	"hasToBeSorted" : false
 #}
 
-{ "GameObject" :
+# Type of objects are (typeOfObject):
+#	SPHERE  = 0,
+#	PLANE   = 1,
+#	CAPSULE = 2,
+#	MESH    = 3,
+#   TERRAIN = 4,
+#   CONTACT_POINTS = 5,
+#   SKYBOX = 6,
+#	UNKNOWN = 99
+
+
+{ 
+"GameObject" :
 [
 	{ 
 		"meshName" : "SkyBox",
@@ -347,6 +359,115 @@
 		"rotateY" : 180.0,
 		"rotateZ" : 0.0,
 		"hasToBeSorted" : true
+	}
+],
+# Lights block. A maximum of 10 light are allowed
+
+
+# Lights template 
+# Warning: Even if the light doesn't have a particular option
+# you should leave the "default" template's value
+
+#{
+#		"position" : [0.0, 0.0, 0.0],
+#		"diffuse" : [1.0, 1.0, 1.0],
+#		"attenuation.x" :0.0,
+#		"attenuation.y" :1.0,
+#		"attenuation.z" :0.0,
+#		"attachToGameObject" : "",
+#		"type" : 0,
+#		"innerAngle" : 0.0,
+#		"outerAngle" : 0.0,
+#		"offset" : [0.0, 0.0, 0.0],
+#		"focusDirection" : [0.0, 1.0, 0.0]		
+#}
+
+# Type of lights are:
+# OMNI = 0
+# SPOT = 1
+
+"Lights" : 
+[
+#### The SUN
+	{
+		"position" : [-1840.0, 500.0, 2100.0],
+		"diffuse" : [1.0, 1.0, 0.59],
+		"attenuation.x" :2.5,
+		"attenuation.y" :0.0,
+		"attenuation.z" :0.0,
+		"attachToGameObject" : "",
+		"type" : 0,
+		"innerAngle" : 0.0,
+		"outerAngle" : 0.0,
+		"offset" : [0.0, 0.0, 0.0],
+		"focusDirection" : [0.0, 1.0, 0.0]		
+	},
+#### Helicopter01 spot light
+	{
+		"position" : [0.0, 0.0, 0.0],
+		"diffuse" : [1.0, 1.0, 1.0],
+		"attenuation.x" :0.2,
+		"attenuation.y" :0.025,
+		"attenuation.z" :0.0,
+		"attachToGameObject" : "Helicopter01",
+		"type" : 1,
+		"innerAngle" : 55.0,
+		"outerAngle" : 60.0,
+		"offset" : [0.0, -2.277, 2.0],
+		"focusDirection" : [0.0, -0.5, 0.5]		
+	},
+#### Helicopter01 other omni lights
+	{
+		"position" : [0.0, 0.0, 0.0],
+		"diffuse" : [1.0, 1.0, 1.0],
+		"attenuation.x" :0.0,
+		"attenuation.y" :0.16,
+		"attenuation.z" :0.3,
+		"attachToGameObject" : "Helicopter01",
+		"type" : 0,
+		"innerAngle" : 0.0,
+		"outerAngle" : 0.0,
+		"offset" : [-0.02, -2.2, 1.915],
+		"focusDirection" : [0.0, 1.0, 0.0]		
+	},
+	{
+		"position" : [0.0, 0.0, 0.0],
+		"diffuse" : [1.0, 0.0, 0.0],
+		"attenuation.x" :0.0,
+		"attenuation.y" :0.16,
+		"attenuation.z" :0.3,
+		"attachToGameObject" : "Helicopter01",
+		"type" : 0,
+		"innerAngle" : 0.0,
+		"outerAngle" : 0.0,
+		"offset" : [1.836, -2.275, -0.82],
+		"focusDirection" : [0.0, 1.0, 0.0]		
+	},
+	{
+		"position" : [0.0, 0.0, 0.0],
+		"diffuse" : [0.0, 1.0, 0.0],
+		"attenuation.x" :0.0,
+		"attenuation.y" :0.16,
+		"attenuation.z" :0.3,
+		"attachToGameObject" : "Helicopter01",
+		"type" : 0,
+		"innerAngle" : 0.0,
+		"outerAngle" : 0.0,
+		"offset" : [-1.836, -2.275, -0.82],
+		"focusDirection" : [0.0, 1.0, 0.0]		
+	},
+	{
+		"position" : [0.0, 0.0, 0.0],
+		"diffuse" : [1.0, 0.0, 0.0],
+		"attenuation.x" :0.0,
+		"attenuation.y" :0.16,
+		"attenuation.z" :0.3,
+		"attachToGameObject" : "Helicopter01",
+		"type" : 0,
+		"innerAngle" : 0.0,
+		"outerAngle" : 0.0,
+		"offset" : [-1.747, 0.349, -6.541],
+		"focusDirection" : [0.0, 1.0, 0.0]		
 	}
 ]
 }
