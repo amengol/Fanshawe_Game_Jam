@@ -203,6 +203,8 @@ int main()
     {
         std::cout << "Not all models were loaded..." << std::endl;
         std::cout << error << std::endl;
+        system("pause");
+        exit(-1);
     }
 
     ////-------------------------------------------------------------------------
@@ -286,65 +288,12 @@ int main()
 
     ::g_pLightManager = new cLightManager();
 
-    ::g_pLightManager->CreateLights(10);	// There are 10 lights in the shader
-    ::g_pLightManager->LoadShaderUniformLocations(currentProgID);
+    if(!sceneLoader.loadLightParams(currentProgID, g_pLightManager, error))
+    {
+        std::cout << "Not all lights were loaded..." << std::endl;
+        std::cout << error << std::endl;
+    }
 
-    // Change ZERO (the SUN) light position
-    ::g_pLightManager->vecLights[0].position = glm::vec3(-1840.0f, 500.0f, 2100.0f);
-    ::g_pLightManager->vecLights[0].diffuse = glm::vec3(1.0f, 1.0f, 0.59f);
-    ::g_pLightManager->vecLights[0].attenuation.x = 2.5f;		// Change the costant attenuation
-    ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;		// Change the linear attenuation
-    
-    // Helicopter spot light
-    ::g_pLightManager->vecLights[1].attenuation.x = 0.2f;
-    ::g_pLightManager->vecLights[1].attenuation.y = 0.025f;
-    ::g_pLightManager->vecLights[1].typeParams.x = 2.0f;
-    ::g_pLightManager->vecLights[1].typeParams.z = glm::radians(55.0f);
-    ::g_pLightManager->vecLights[1].typeParams.w = glm::radians(60.0f);
-
-    // Other Heli lights
-    ::g_pLightManager->vecLights[2].attenuation.x = 0.0f;
-    ::g_pLightManager->vecLights[2].attenuation.y = 0.16f;
-    ::g_pLightManager->vecLights[2].attenuation.z = 0.3f;
-    ::g_pLightManager->vecLights[2].diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
-    ::g_pLightManager->vecLights[3].attenuation.x = 0.0f;
-    ::g_pLightManager->vecLights[3].attenuation.y = 0.16f;
-    ::g_pLightManager->vecLights[3].attenuation.z = 0.3f;
-    ::g_pLightManager->vecLights[3].diffuse = glm::vec3(1.0f, 0.0f, 0.0f);
-    ::g_pLightManager->vecLights[4].attenuation.x = 0.0f;
-    ::g_pLightManager->vecLights[4].attenuation.y = 0.16f;
-    ::g_pLightManager->vecLights[4].attenuation.z = 0.3f;
-    ::g_pLightManager->vecLights[4].diffuse = glm::vec3(0.0f, 1.0f, 0.0f);
-    ::g_pLightManager->vecLights[5].attenuation.x = 0.0f;
-    ::g_pLightManager->vecLights[5].attenuation.y = 0.16f;
-    ::g_pLightManager->vecLights[5].attenuation.z = 0.3f;
-    ::g_pLightManager->vecLights[5].diffuse = glm::vec3(1.0f, 0.0f, 0.0f);
-
-    cGameObject* theHelo = ::g_pTranspManager->transpObjects[0];
-    theHelo->hasLights = true;
-    theHelo->bIsUpdatedInPhysics = true;
-    lightInfo GO_Light;
-    GO_Light.index = 1;
-    GO_Light.offset = glm::vec3(0.0f, -2.277f, 2.0f);
-    GO_Light.focusDirection = glm::vec3(0.0f, -0.5f, 0.5f);
-    GO_Light.type = SPOT;
-    theHelo->vecLightsInfo.push_back(GO_Light);
-    GO_Light.index = 2;
-    GO_Light.offset = glm::vec3(-0.02f, -2.2f, 1.915f);
-    GO_Light.type = OMNI;
-    theHelo->vecLightsInfo.push_back(GO_Light);
-    GO_Light.index = 3;
-    GO_Light.offset = glm::vec3(1.836f, -2.275f, -0.82f);
-    GO_Light.type = OMNI;
-    theHelo->vecLightsInfo.push_back(GO_Light);
-    GO_Light.index = 4;
-    GO_Light.offset = glm::vec3(-1.836f, -2.275f, -0.82f);
-    GO_Light.type = OMNI;
-    theHelo->vecLightsInfo.push_back(GO_Light);
-    GO_Light.index = 5;
-    GO_Light.offset = glm::vec3(-1.747f, 0.349f, -6.541f);
-    GO_Light.type = OMNI;
-    theHelo->vecLightsInfo.push_back(GO_Light);
     // Lights end
     
     //-------------------------------------------------------------------------

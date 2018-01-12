@@ -4,12 +4,11 @@
 #include <sstream>
 #include "Utilities.h"
 #include "cTransparencyManager.h"
+#include "cLightManager.h"
 
 extern std::vector< cGameObject* >  g_vecGameObjects;
 extern cGameObject* g_pSkyBoxObject;
 extern cTransparencyManager* g_pTranspManager;
-
-extern std::vector< cGameObject* >  g_vecGameObjects;
 
 cSceneLoader::cSceneLoader()
 {
@@ -29,9 +28,6 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         return false;
     }
 
-    //std::stringstream ssError;
-    //bool bAllGood = true;
-
     std::string jsonStr;
 
     if(!loadFileIntoString(jsonStr, "_Scene.json"))
@@ -50,7 +46,6 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         error = "There was an error parsing the Json Scene file";
         return false;
     }
-
 
     if(!(document.IsObject() 
        && document.HasMember("GameObject") 
@@ -189,6 +184,194 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         g_vecGameObjects.push_back(theGO);
 
     }
+
+    return true;
+}
+
+bool cSceneLoader::loadLightParams(int shaderID, 
+                                   cLightManager* lightManager, 
+                                   std::string& error)
+{
+    // This number should reflect int the shader
+    const unsigned int MAXNUMLIGHTS = 10;
+
+    std::string jsonStr;
+
+    if(!loadFileIntoString(jsonStr, "_Scene.json"))
+    {
+        error = "Didn't load the Json Scene file!";
+        return false;
+    }
+
+    const char* json = new char[jsonStr.size() + 1];
+    json = jsonStr.c_str();
+
+    rapidjson::Document document;
+
+    if(document.Parse(json).HasParseError())
+    {
+        error = "There was an error parsing the Json Scene file";
+        return false;
+    }
+
+    if(!(document.IsObject()
+       && document.HasMember("Lights")
+       && document["Lights"].IsArray()))
+    {
+        error = "The Json Scene file had a wrong format";
+        return false;
+    }
+
+
+    const rapidjson::Value& lights = document["Lights"];
+
+    unsigned int numberOfLights = lights.Size();
+    for(rapidjson::SizeType i = 0; i < numberOfLights; i++)
+    {
+        // Test all variables before reading
+        if(!(lights[i]["position"].IsArray()
+           && lights[i]["diffuse"].IsArray()
+           && lights[i]["costantAttenuation"].IsNumber()
+           && lights[i]["linearAttenuation"].IsNumber()
+           && lights[i]["quadraticAttenuation"].IsNumber()
+           && lights[i]["attachToGameObject"].IsString()
+           && lights[i]["type"].IsNumber()
+           && lights[i]["innerAngle"].IsNumber()
+           && lights[i]["outerAngle"].IsNumber()
+           && lights[i]["offset"].IsArray()
+           && lights[i]["focusDirection"].IsArray()))
+        {
+            error = "The Json light number " + std::to_string(i + 1) 
+                + " is not properly formated!";
+            return false;
+        }        
+    }
+
+    if(numberOfLights > MAXNUMLIGHTS)
+    {
+        lightManager->CreateLights(MAXNUMLIGHTS);
+        lightManager->LoadShaderUniformLocations(shaderID);
+    } else
+    {
+        lightManager->CreateLights(numberOfLights);
+        lightManager->LoadShaderUniformLocations(shaderID);
+    }
+
+    for(rapidjson::SizeType i = 0; i < numberOfLights; i++)
+    {
+        if(!(lights[i]["position"][0].IsNumber()
+           && lights[i]["position"][1].IsNumber()
+           && lights[i]["position"][2].IsNumber()))
+        {
+            error = "The Json light number " + std::to_string(i + 1) +
+                " is not properly formated for its \"position\" array!";
+            return false;
+        }
+        lightManager->vecLights[i].position.x = lights[i]["position"][0].GetFloat();
+        lightManager->vecLights[i].position.y = lights[i]["position"][1].GetFloat();
+        lightManager->vecLights[i].position.z = lights[i]["position"][2].GetFloat();
+
+        if(!(lights[i]["diffuse"][0].IsNumber()
+           && lights[i]["diffuse"][1].IsNumber()
+           && lights[i]["diffuse"][2].IsNumber()))
+        {
+            error = "The Json light number " + std::to_string(i + 1) +
+                " is not properly formated for its \"diffuse\" array!";
+            return false;
+        }
+        lightManager->vecLights[i].diffuse.x = lights[i]["diffuse"][0].GetFloat();
+        lightManager->vecLights[i].diffuse.y = lights[i]["diffuse"][1].GetFloat();
+        lightManager->vecLights[i].diffuse.z = lights[i]["diffuse"][2].GetFloat();
+
+        lightManager->vecLights[i].attenuation.x = lights[i]["costantAttenuation"].GetFloat();
+        lightManager->vecLights[i].attenuation.y = lights[i]["linearAttenuation"].GetFloat();
+        lightManager->vecLights[i].attenuation.z = lights[i]["quadraticAttenuation"].GetFloat();
+
+        std::string gameObject = lights[i]["attachToGameObject"].GetString();
+
+        if(gameObject != "")
+        {
+            // Look for the GameObject in the g_vecGameObjects
+            for(int j = 0; j < g_vecGameObjects.size(); j++)
+            {
+                if(g_vecGameObjects[j]->friendlyName == gameObject)
+                {
+                    g_vecGameObjects[j]->hasLights = true;
+                    lightInfo GO_Light;
+                    GO_Light.index = i;
+
+                    if(!(lights[i]["offset"][0].IsNumber()
+                       && lights[i]["offset"][1].IsNumber()
+                       && lights[i]["offset"][2].IsNumber()))
+                    {
+                        error = "The Json light number " + std::to_string(i + 1) +
+                            " is not properly formated for its \"offset\" array!";
+                        return false;
+                    }
+                    GO_Light.offset.x = lights[i]["offset"][0].GetFloat();
+                    GO_Light.offset.y = lights[i]["offset"][1].GetFloat();
+                    GO_Light.offset.z = lights[i]["offset"][2].GetFloat();
+
+                    if(!(lights[i]["focusDirection"][0].IsNumber()
+                       && lights[i]["focusDirection"][1].IsNumber()
+                       && lights[i]["focusDirection"][2].IsNumber()))
+                    {
+                        error = "The Json light number " + std::to_string(i + 1) +
+                            " is not properly formated for its \"focusDirection\" array!";
+                        return false;
+                    }
+                    GO_Light.focusDirection.x = lights[i]["focusDirection"][0].GetFloat();
+                    GO_Light.focusDirection.y = lights[i]["focusDirection"][1].GetFloat();
+                    GO_Light.focusDirection.z = lights[i]["focusDirection"][2].GetFloat();
+
+                    GO_Light.type = (LightType)lights[i]["type"].GetUint();
+
+                    g_vecGameObjects[j]->vecLightsInfo.push_back(GO_Light);
+                    break;
+                }//if(g_vecGameObjects[j]->friendlyName...
+            }//for(int j = 0; j < g_vecGameObjects.size()...
+
+             // Look for the GameObject in the g_pTranspManager
+            for(int j = 0; j < g_pTranspManager->transpObjects.size(); j++)
+            {
+                if(g_pTranspManager->transpObjects[j]->friendlyName == gameObject)
+                {
+                    g_pTranspManager->transpObjects[j]->hasLights = true;
+                    lightInfo GO_Light;
+                    GO_Light.index = i;
+
+                    if(!(lights[i]["offset"][0].IsNumber()
+                       && lights[i]["offset"][1].IsNumber()
+                       && lights[i]["offset"][2].IsNumber()))
+                    {
+                        error = "The Json light number " + std::to_string(i + 1) +
+                            " is not properly formated for its \"offset\" array!";
+                        return false;
+                    }
+                    GO_Light.offset.x = lights[i]["offset"][0].GetFloat();
+                    GO_Light.offset.y = lights[i]["offset"][1].GetFloat();
+                    GO_Light.offset.z = lights[i]["offset"][2].GetFloat();
+
+                    if(!(lights[i]["focusDirection"][0].IsNumber()
+                       && lights[i]["focusDirection"][1].IsNumber()
+                       && lights[i]["focusDirection"][2].IsNumber()))
+                    {
+                        error = "The Json light number " + std::to_string(i + 1) +
+                            " is not properly formated for its \"focusDirection\" array!";
+                        return false;
+                    }
+                    GO_Light.focusDirection.x = lights[i]["focusDirection"][0].GetFloat();
+                    GO_Light.focusDirection.y = lights[i]["focusDirection"][1].GetFloat();
+                    GO_Light.focusDirection.z = lights[i]["focusDirection"][2].GetFloat();
+
+                    GO_Light.type = (LightType)lights[i]["type"].GetUint();
+
+                    g_pTranspManager->transpObjects[j]->vecLightsInfo.push_back(GO_Light);
+                    break;
+                }//if(g_pTranspManager->transpObjects[j]->friendlyName...
+            }//for(int j = 0; j < g_pTranspManager->transpObjects.size()...
+        }//if(gameObject != "")..
+    }//for(rapidjson::SizeType i = 0...
 
     return true;
 }
