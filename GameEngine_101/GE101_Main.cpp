@@ -286,7 +286,7 @@ int main()
 
     ::g_pLightManager = new cLightManager();
 
-    ::g_pLightManager->CreateLights(6);	// There are 10 lights in the shader
+    ::g_pLightManager->CreateLights(10);	// There are 10 lights in the shader
     ::g_pLightManager->LoadShaderUniformLocations(currentProgID);
 
     // Change ZERO (the SUN) light position
@@ -356,7 +356,7 @@ int main()
     // Camera
 
     g_pCamera = new cCameraObject();
-    g_pCamera->setCameraPosition(glm::vec3(-337.824f, 114.477f, 147.835f));
+    g_pCamera->setCameraPosition(glm::vec3(-332.968f, 109.962f, 119.978f));
     g_pCamera->setCameraOrientationY(-35.0f);
     g_pCamera->setCameraOrientationX(-10.0f);
 
