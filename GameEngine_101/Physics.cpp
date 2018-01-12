@@ -177,7 +177,10 @@ void updateGameObjects(double deltaTime,
                     }
 
                     // Print the mesh
-                    g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
+                    if(pCurGO->isDebugAABBActive)
+                    {
+                        g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
+                    }
 
                 }
             }
@@ -295,7 +298,10 @@ void updateGameObjects(double deltaTime,
                         }
 
                         // Print the mesh
-                        g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
+                        if(pCurGO->isDebugAABBActive)
+                        {
+                            g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
+                        }
 
                     }
                 }
