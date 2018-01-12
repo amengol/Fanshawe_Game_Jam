@@ -449,14 +449,7 @@ int main()
             << "Camera LookAt(xyz): "
             << curCameraLookAt.x << ", "
             << curCameraLookAt.y << ", "
-            << curCameraLookAt.z
-            // For lights information
-            << " Light attenuation - Constant:"
-            << ::g_pLightManager->vecLights[2].attenuation.x
-            << " Linear:"
-            << ::g_pLightManager->vecLights[2].attenuation.y
-            << " Quadratic:"
-            << ::g_pLightManager->vecLights[2].attenuation.z;
+            << curCameraLookAt.z;
 
         glfwSetWindowTitle(window, ssTitle.str().c_str());
                 
@@ -551,17 +544,6 @@ void DrawObject(cGameObject* pTheGO)
     mModel = mModel * trans;    
 
     mModel = mModel * pTheGO->orientation;
-    //glm::mat4 matRotX = glm::mat4x4(1.0f);
-    //matRotX = glm::rotate(matRotX, pTheGO->orientation.x, glm::vec3(1.0f, 0.0f, 0.0f));
-    //mModel = mModel * matRotX;
-
-    //glm::mat4 matRotY = glm::mat4x4(1.0f);
-    //matRotY = glm::rotate(matRotY, pTheGO->orientation.y, glm::vec3(0.0f, 1.0f, 0.0f));
-    //mModel = mModel * matRotY;
-
-    //glm::mat4 matRotZ = glm::mat4x4(1.0f);
-    //matRotZ = glm::rotate(matRotZ, pTheGO->orientation.z, glm::vec3(0.0f, 0.0f, 1.0f));
-    //mModel = mModel * matRotZ;
 
     float finalScale = pTheGO->scale;
 
@@ -579,8 +561,6 @@ void DrawObject(cGameObject* pTheGO)
 
     // Specular: For now, set this colour to white, and the shininess to something high 
     //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
-    //glUniform4f(uniLoc_materialSpecular, 0.25f, 0.25f, 0.14f, 40.0f);
-    //glUniform4f(uniLoc_materialSpecular, 0.0f, 0.0f, 0.0f, 1.0f);
     glUniform4f(uniLoc_materialSpecular, 
                 pTheGO->specular.x, 
                 pTheGO->specular.y, 

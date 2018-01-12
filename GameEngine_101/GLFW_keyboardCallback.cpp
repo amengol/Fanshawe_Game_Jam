@@ -224,33 +224,6 @@ void key_callback(GLFWwindow* window,
             theGO->rotateX(-ROTANGLE);
         }
             break;
-        case GLFW_KEY_H:        // Increase constant light attenuation
-            ::g_pLightManager->vecLights[1].attenuation.x += 0.1f;
-            break;
-        case GLFW_KEY_B:        // Decrease constant light attenuation
-            if(::g_pLightManager->vecLights[1].attenuation.x < 0.1f)
-                ::g_pLightManager->vecLights[1].attenuation.x = 0.0f;
-            else
-                ::g_pLightManager->vecLights[1].attenuation.x -= 0.1f;
-            break;
-        case GLFW_KEY_J:        // Increase linear light attenuation
-            ::g_pLightManager->vecLights[1].attenuation.y += 0.01f;
-            break;
-        case GLFW_KEY_N:        // Decrease linear light attenuation
-            if(::g_pLightManager->vecLights[1].attenuation.y < 0.01f)
-                ::g_pLightManager->vecLights[1].attenuation.y = 0.0f;
-            else
-                ::g_pLightManager->vecLights[1].attenuation.y -= 0.01f;
-            break;
-        case GLFW_KEY_K:        // Increase quadratic light attenuation
-            ::g_pLightManager->vecLights[1].attenuation.z += 0.01f;
-            break;
-        case GLFW_KEY_M:        // Decrease quadratic light attenuation
-            if(::g_pLightManager->vecLights[1].attenuation.z < 0.01f)
-                ::g_pLightManager->vecLights[1].attenuation.z = 0.0f;
-            else
-                ::g_pLightManager->vecLights[1].attenuation.z -= 0.01f;
-            break;
         }// switch ( key )
     }
     break;
