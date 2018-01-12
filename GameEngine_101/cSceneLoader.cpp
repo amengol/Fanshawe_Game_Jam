@@ -5,6 +5,7 @@
 #include "Utilities.h"
 #include "cTransparencyManager.h"
 #include "cLightManager.h"
+#include "cCameraObject.h"
 
 extern std::vector< cGameObject* >  g_vecGameObjects;
 extern cGameObject* g_pSkyBoxObject;
@@ -386,6 +387,75 @@ bool cSceneLoader::loadLightParams(int shaderID,
             }//for(int j = 0; j < g_pTranspManager->transpObjects.size()...
         }//if(gameObject != "")..
     }//for(rapidjson::SizeType i = 0...
+
+    return true;
+}
+
+bool cSceneLoader::loadCameraParams(cCameraObject* camera, std::string error)
+{
+    std::string jsonStr;
+
+    if(!loadFileIntoString(jsonStr, "_Scene.json"))
+    {
+        error = "Didn't load the Json Scene file!";
+        return false;
+    }
+
+    const char* json = new char[jsonStr.size() + 1];
+    json = jsonStr.c_str();
+
+    rapidjson::Document document;
+
+    if(document.Parse(json).HasParseError())
+    {
+        error = "There was an error parsing the Json Scene file";
+        return false;
+    }
+
+    if(!(document.IsObject()
+       && document.HasMember("Camera")
+       && document["Camera"].IsArray()))
+    {
+        error = "The Json Scene file had a wrong format";
+        return false;
+    }
+
+
+    const rapidjson::Value& cameraParams = document["Camera"];
+
+    for(rapidjson::SizeType i = 0; i < cameraParams.Size(); i++)
+    {
+        // Test all variables before reading
+        if(!(cameraParams[i]["CameraPosition"].IsArray()
+           && cameraParams[i]["CameraOrientationX"].IsNumber()
+           && cameraParams[i]["CameraOrientationY"].IsNumber()
+           && cameraParams[i]["CameraOrientationZ"].IsNumber()))
+        {
+            error = "The Json camera parameters are not properly formated!";
+            return false;
+        }
+
+        if(!(cameraParams[i]["CameraPosition"][0].IsNumber()
+           && cameraParams[i]["CameraPosition"][1].IsNumber()
+           && cameraParams[i]["CameraPosition"][2].IsNumber()))
+        {
+            error = "The Json camera position is not properly formated!";
+            return false;
+        }
+
+        glm::vec3 camPos(0.0f);
+        camPos.x = cameraParams[i]["CameraPosition"][0].GetFloat();
+        camPos.y = cameraParams[i]["CameraPosition"][1].GetFloat();
+        camPos.z = cameraParams[i]["CameraPosition"][2].GetFloat();
+        camera->setCameraPosition(camPos);
+
+        camera->setCameraOrientationY(cameraParams[i]["CameraOrientationY"].GetFloat());
+        camera->setCameraOrientationX(cameraParams[i]["CameraOrientationX"].GetFloat());        
+        camera->setCameraOrientationZ(cameraParams[i]["CameraOrientationZ"].GetFloat());
+
+        break; // only one camera allowed
+        
+    }//for(rapidjson::SizeType...
 
     return true;
 }

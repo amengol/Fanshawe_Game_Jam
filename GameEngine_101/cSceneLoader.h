@@ -3,7 +3,7 @@
     Purpose: to help loading all settings and config files for a scene
 
     @author Jorge Amengol
-    @version 0.1.2 
+    @version 0.1.3 
     @date Jan 12th, 2018
 */
 
@@ -15,6 +15,7 @@
 class cVAOMeshManager;
 class cModelAssetLoader;
 class cLightManager;
+class cCameraObject;
 
 class cSceneLoader
 {
@@ -31,6 +32,10 @@ public:
     // Loads all lights parameters from a json file. Reports back an
     // error via a string
     bool loadLightParams(int shaderID, cLightManager*, std::string& error);
+
+    bool loadCameraParams(cCameraObject*, std::string error);
+    // Loads all camera parameters from a joson files. Reports back an
+    // error via a string
 
 private:
 

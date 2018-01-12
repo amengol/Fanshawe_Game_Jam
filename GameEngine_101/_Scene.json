@@ -3,6 +3,34 @@
 
 # You can comment a line placing a '#' as the first character
 
+# Camera block
+
+# GameObject block.
+
+# Camera template (Only one camera allowed!!)
+# Warning. Do not remove any option, even if they are all zeros.
+# Orientation should be passed in degress
+# Attention: order metters. The order of rotation for the camera
+# used inside the engine is Y->X->Z
+
+#{
+#		"CameraPosition" : [0.0, 0.0, 0.0],
+#		"CameraOrientationX" : 0.0,
+#		"CameraOrientationY" : 0.0,
+#		"CameraOrientationZ" : 0.0
+#}
+
+{
+"Camera" :
+[
+	{
+		"CameraPosition" : [-332.968, 109.962, 119.978],
+		"CameraOrientationX" : -10.0,
+		"CameraOrientationY" : -35.0,
+		"CameraOrientationZ" : 0.0
+	}
+],
+
 # GameObject template 
 # Warning: Even if the GameObject doesn't have a particular option
 # you should leave the "default" template's value
@@ -44,8 +72,6 @@
 #   SKYBOX = 6,
 #	UNKNOWN = 99
 
-
-{ 
 "GameObject" :
 [
 	{ 

@@ -15,7 +15,6 @@
 #include "cCameraObject.h"
 #include "cShaderManager.h"
 #include "cVAOMeshManager.h"
-//#include "ModelUtilities.h"
 #include "cGameObject.h"
 #include "cLightManager.h"
 #include <glm/mat4x4.hpp>
@@ -305,9 +304,12 @@ int main()
     // Camera
 
     g_pCamera = new cCameraObject();
-    g_pCamera->setCameraPosition(glm::vec3(-332.968f, 109.962f, 119.978f));
-    g_pCamera->setCameraOrientationY(-35.0f);
-    g_pCamera->setCameraOrientationX(-10.0f);
+
+    if(!sceneLoader.loadCameraParams(g_pCamera, error))
+    {
+        std::cout << "The camera configuration was not loaded..." << std::endl;
+        std::cout << error << std::endl;
+    }
 
     // Camera end
     //-------------------------------------------------------------------------
