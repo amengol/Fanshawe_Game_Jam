@@ -68,6 +68,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
            && gameObject[i]["radius"].IsNumber()
            && gameObject[i]["position"].IsArray()
            && gameObject[i]["diffuseColour"].IsArray()
+           && gameObject[i]["hasMaterialColour"].IsBool()
            && gameObject[i]["specular"].IsArray()
            && gameObject[i]["scale"].IsNumber()
            && gameObject[i]["bIsUpdatedInPhysics"].IsBool()
@@ -127,6 +128,8 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         diffuseColour.z = gameObject[i]["diffuseColour"][2].GetFloat();
         diffuseColour.w = gameObject[i]["diffuseColour"][3].GetFloat();
 
+        bool hasMaterialColour = gameObject[i]["hasMaterialColour"].GetBool();
+
         if(!(gameObject[i]["specular"][0].IsNumber()
            && gameObject[i]["specular"][1].IsNumber()
            && gameObject[i]["specular"][2].IsNumber()
@@ -169,6 +172,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         theGO->radius = radius;
         theGO->position = position;
         theGO->diffuseColour = diffuseColour;
+        theGO->hasColour = hasMaterialColour;
         theGO->specular = specular;
         theGO->scale = scale;
         theGO->bIsUpdatedInPhysics = bIsUpdatedInPhysics;

@@ -263,15 +263,16 @@ vec3 calcLightColour( in vec3 vecNormal,
 	
 	if (hasColour)
 	{
-		outDiffuse.rgb = myLight[lightID].diffuse.rgb 		// Light contribution
-			             * color.rgb						// Material contribution
-						 * diffFactor;						// Factor based on direction
+		outDiffuse.rgb = ((myLight[lightID].diffuse.rgb 		
+			              * color.rgb) +					
+						  (myLight[lightID].diffuse.rgb 	
+						   * materialDiffuse.rgb)) * diffFactor;				
 	}
 	else	
 	{
 		outDiffuse.rgb = myLight[lightID].diffuse.rgb 		// Light contribution
 			             * matDiffuse.rgb					// Material contribution
-						 * diffFactor;
+						 * diffFactor;						// Factor based on direction
 	}
 					 
 
