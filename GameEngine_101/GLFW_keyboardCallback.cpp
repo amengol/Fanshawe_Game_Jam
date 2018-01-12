@@ -32,6 +32,7 @@ void key_callback(GLFWwindow* window,
             if(g_pTranspManager->transpObjects[i]->friendlyName == "Helicopter01")
             {
                 ::g_pCamera->lockOnGameObject(g_pTranspManager->transpObjects[i]);
+                g_pTranspManager->transpObjects[i]->rateOfTurnY = 0.0f;
             }
         }        
     }
@@ -43,6 +44,18 @@ void key_callback(GLFWwindow* window,
             if(g_pTranspManager->transpObjects[i]->friendlyName == "Helicopter02")
             {
                 ::g_pCamera->lockOnGameObject(g_pTranspManager->transpObjects[i]);
+            }
+        }
+    }
+
+    if(key == GLFW_KEY_3 && action == GLFW_PRESS)
+    {
+        for(int i = 0; i < g_vecGameObjects.size(); i++)
+        {
+            if(g_vecGameObjects[i]->friendlyName == "Delorean")
+            {
+                ::g_pCamera->lockOnGameObject(g_vecGameObjects[i]);
+                g_vecGameObjects[i]->vel.z = 0.0f;
             }
         }
     }

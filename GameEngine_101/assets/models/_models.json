@@ -2,23 +2,30 @@
 # Authored by Jorge Amengol - Janyary 2018
 
 # You can comment a line placing a '#' as the first character
+# You have to use all given variables to be able to load the mesh. Don't delete them
+# Type of mesh are:
+# 0 -> Only normals information
+# 1 -> Normals and colours
+# 2 -> Normals and textures
+
 {"Meshes" : 
 [
-{"meshName" : "SkyBox", "meshFile" : "SkyBox.ply", "hasUV" : false, "isPersistent" : false},
-{"meshName" : "FacadeSets", "meshFile" : "FacadeSets.ply", "hasUV" : true, "isPersistent" : true},
-{"meshName" : "RoofsEtc", "meshFile" : "RoofsEtc.ply", "hasUV" : true, "isPersistent" : true},
-{"meshName" : "Asphalt", "meshFile" : "Asphalt.ply", "hasUV" : true, "isPersistent" : true},
-{"meshName" : "Concrete", "meshFile" : "Concrete.ply", "hasUV" : true, "isPersistent" : true},
-{"meshName" : "Curbs", "meshFile" : "Curbs.ply", "hasUV" : true, "isPersistent" : false},
-{"meshName" : "Ground1", "meshFile" : "Ground1.ply", "hasUV" : true, "isPersistent" : true},
-{"meshName" : "Ground2", "meshFile" : "Ground2.ply", "hasUV" : true, "isPersistent" : true},
-{"meshName" : "StreetPart", "meshFile" : "StreetPart.ply", "hasUV" : true, "isPersistent" : true},
-{"meshName" : "SideWalkTree", "meshFile" : "SideWalkTree.ply", "hasUV" : true, "isPersistent" : false},
-{"meshName" : "md500", "meshFile" : "md500.ply", "hasUV" : true, "isPersistent" : true},
-{"meshName" : "Sphere", "meshFile" : "Sphere.ply", "hasUV" : false, "isPersistent" : false},
-{"meshName" : "Cloud1", "meshFile" : "Cloud1.ply", "hasUV" : true, "isPersistent" : false},
-{"meshName" : "Cloud2", "meshFile" : "Cloud2.ply", "hasUV" : true, "isPersistent" : false},
-{"meshName" : "Cloud3", "meshFile" : "Cloud3.ply", "hasUV" : true, "isPersistent" : false},
-{"meshName" : "Cloud4", "meshFile" : "Cloud4.ply", "hasUV" : true, "isPersistent" : false}
+{"meshName" : "SkyBox", "meshFile" : "SkyBox.ply", "type" : 0, "isPersistent" : false},
+{"meshName" : "FacadeSets", "meshFile" : "FacadeSets.ply", "type" : 2, "isPersistent" : true},
+{"meshName" : "RoofsEtc", "meshFile" : "RoofsEtc.ply", "type" : 2, "isPersistent" : true},
+{"meshName" : "Asphalt", "meshFile" : "Asphalt.ply", "type" : 2, "isPersistent" : true},
+{"meshName" : "Concrete", "meshFile" : "Concrete.ply", "type" : 2, "isPersistent" : true},
+{"meshName" : "Curbs", "meshFile" : "Curbs.ply", "type" : 2, "isPersistent" : false},
+{"meshName" : "Ground1", "meshFile" : "Ground1.ply", "type" : 2, "isPersistent" : true},
+{"meshName" : "Ground2", "meshFile" : "Ground2.ply", "type" : 2, "isPersistent" : true},
+{"meshName" : "StreetPart", "meshFile" : "StreetPart.ply", "type" : 2, "isPersistent" : true},
+{"meshName" : "SideWalkTree", "meshFile" : "SideWalkTree.ply", "type" : 2, "isPersistent" : false},
+{"meshName" : "md500", "meshFile" : "md500.ply", "type" : 2, "isPersistent" : true},
+{"meshName" : "Delorean", "meshFile" : "Delorean.ply", "type" : 1, "isPersistent" : true},
+{"meshName" : "Sphere", "meshFile" : "Sphere.ply", "type" : 0, "isPersistent" : false},
+{"meshName" : "Cloud1", "meshFile" : "Cloud1.ply", "type" : 2, "isPersistent" : false},
+{"meshName" : "Cloud2", "meshFile" : "Cloud2.ply", "type" : 2, "isPersistent" : false},
+{"meshName" : "Cloud2", "meshFile" : "Cloud2.ply", "type" : 2, "isPersistent" : false},
+{"meshName" : "Cloud4", "meshFile" : "Cloud4.ply", "type" : 2, "isPersistent" : false}
 ]
 }
