@@ -17,6 +17,8 @@ extern cSimpleDebugRenderer* g_simpleDebug; // (GE101_Main.cpp)
 
 extern float g_AABBSize;                    // (GE101_Main.cpp)
 
+extern cVAOMeshManager* g_pVAOManager;
+
 void updateGameObjects(double deltaTime,
                        glm::vec3 gravity,
                        std::vector<cGameObject*> vecGO);
@@ -180,9 +182,127 @@ void updateGameObjects(double deltaTime,
                 }
             }
 
-
-
         }
+        case MESH:
+        {
+            {
+                // Calculate all AABBs for the mesh
+                
+                // Take the mesh extents
+                cMesh theMesh;
+                g_pVAOManager->lookupMeshFromName(pCurGO->meshName, theMesh);
+                float diameter = theMesh.maxExtent;
+
+                // Vertices                
+                glm::vec3 vertices[8];
+                vertices[0] = glm::vec3(pCurGO->position - pCurGO->radius);
+                vertices[1] = glm::vec3(vertices[0].x + diameter, vertices[0].y, vertices[0].z);
+                vertices[2] = glm::vec3(vertices[0].x, vertices[0].y + diameter, vertices[0].z);
+                vertices[3] = glm::vec3(vertices[0].x + diameter, vertices[0].y + diameter, vertices[0].z);
+                vertices[4] = glm::vec3(vertices[0].x, vertices[0].y, vertices[0].z + diameter);
+                vertices[5] = glm::vec3(vertices[0].x + diameter, vertices[0].y, vertices[0].z + diameter);
+                vertices[6] = glm::vec3(vertices[0].x, vertices[0].y + diameter, vertices[0].z + diameter);
+                vertices[7] = glm::vec3(vertices[0].x + diameter, vertices[0].y + diameter, vertices[0].z + diameter);
+
+                std::vector<long long> vecIDs;
+                for(int i = 0; i < 8; i++)
+                {
+                    long long GO_ID;
+                    if(!g_pAABBsManager->calcID(vertices[i], GO_ID, g_AABBSize))
+                    {
+                        continue;
+                    }
+                    bool hasID = false;
+                    for(int i = 0; i < vecIDs.size(); i++)
+                    {
+                        if(GO_ID == vecIDs[i])
+                        {
+                            //=====================================================
+                            // WARNING it had a == and was working
+                            // Investigate
+                            //=====================================================
+                            hasID = true;
+                            break;
+                        }
+                    }
+                    if(!hasID)
+                    {
+                        vecIDs.push_back(GO_ID);
+                    }
+                }
+
+                for(int i = 0; i < vecIDs.size(); i++)
+                {
+                    // Check if we have an AABB in that position
+                    cAABB theAABB(0, 0.0f);
+                    if(g_pAABBsManager->getAABB(vecIDs[i], theAABB))
+                    {
+                        std::vector<sVertex> theGeometry;
+
+                        for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
+                        {
+                            sAABB_Triangle* theTri = theAABB.AABBsTriangles[i];
+
+                            // Make physics thing                   
+
+                            // Do we need to test for the triangle?
+                            // Check if the Dot product between
+                            // the point and the angle is positive
+                            glm::vec3 originPos = pCurGO->position - theTri->Centroid;
+                            if(glm::dot(originPos, theTri->faceNormal) < 0.0f)
+                            {
+                                continue;
+                            }
+
+                            //---------------------------------------------------------
+                            // Collision Detection
+                            // Not yet
+                            //---------------------------------------------------------
+
+                            // Create the triangle                    
+                            sVertex tmpGeo;
+
+                            tmpGeo.x = theTri->verticeA.x;
+                            tmpGeo.y = theTri->verticeA.y;
+                            tmpGeo.z = theTri->verticeA.z;
+                            // Find vertices normals
+                            glm::vec3 normal = glm::normalize(glm::cross(theTri->verticeA, theTri->verticeB));
+                            tmpGeo.nx = normal.x;
+                            tmpGeo.ny = normal.y;
+                            tmpGeo.nz = normal.z;
+                            theGeometry.push_back(tmpGeo);
+
+                            tmpGeo.x = theTri->verticeB.x;
+                            tmpGeo.y = theTri->verticeB.y;
+                            tmpGeo.z = theTri->verticeB.z;
+                            // Find vertices normals
+                            normal = glm::normalize(glm::cross(theTri->verticeB, theTri->verticeC));
+                            tmpGeo.nx = normal.x;
+                            tmpGeo.ny = normal.y;
+                            tmpGeo.nz = normal.z;
+                            theGeometry.push_back(tmpGeo);
+
+                            tmpGeo.x = theTri->verticeC.x;
+                            tmpGeo.y = theTri->verticeC.y;
+                            tmpGeo.z = theTri->verticeC.z;
+
+                            // Find vertices normals
+                            normal = glm::normalize(glm::cross(theTri->verticeC, theTri->verticeA));
+                            tmpGeo.nx = normal.x;
+                            tmpGeo.ny = normal.y;
+                            tmpGeo.nz = normal.z;
+                            theGeometry.push_back(tmpGeo);
+                        }
+
+                        // Print the mesh
+                        g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
+
+                    }
+                }
+
+            }
+        }
+        break;
         default:
             break;
         }

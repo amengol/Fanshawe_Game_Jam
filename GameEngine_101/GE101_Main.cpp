@@ -206,53 +206,36 @@ int main()
         exit(-1);
     }
 
-    ////-------------------------------------------------------------------------
-    //// AABBs
-    //::g_pAABBsManager = new cAABBsManager();
-    //cMesh meshWithAABBs;
-    //::g_pVAOManager->lookupMeshFromName("FacadeSets", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("RoofsEtc", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("Asphalt", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("Concrete", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("Ground1", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("Ground2", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("StreetPart", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-
-    ////-------------------------------------------------------------------------
-    //// Simple Debug Renderer
-    //::g_simpleDebug = new cSimpleDebugRenderer();
-    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
-    //{
-    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    //}
-    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
-    //{
-    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    //}
+    //-------------------------------------------------------------------------
+    // AABBs
+    ::g_pAABBsManager = new cAABBsManager();
+    cMesh meshWithAABBs;
+    ::g_pVAOManager->lookupMeshFromName("FacadeSets", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ::g_pVAOManager->lookupMeshFromName("RoofsEtc", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ::g_pVAOManager->lookupMeshFromName("Asphalt", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ::g_pVAOManager->lookupMeshFromName("Concrete", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ::g_pVAOManager->lookupMeshFromName("Ground1", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ::g_pVAOManager->lookupMeshFromName("Ground2", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    ::g_pVAOManager->lookupMeshFromName("StreetPart", meshWithAABBs);
+    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
 
     //-------------------------------------------------------------------------
-    // Debug render
-    //::g_pDebugRenderer = new cDebugRenderer();
-    //if (!::g_pDebugRenderer->initialize(error))
-    //{
-    //    std::cout << "Warning: couldn't init the debug renderer." << std::endl;
-    //}
-
-    //for (int i = 0; i < ::g_pAABBsManager->vDebugLines.size(); i++)
-    //{
-    //    glm::vec3 lineStart = ::g_pAABBsManager->vDebugLines[i].lineStart;
-    //    glm::vec3 lineEnd = ::g_pAABBsManager->vDebugLines[i].lineEnd;
-    //    glm::vec3 color = ::g_pAABBsManager->vDebugLines[i].color;
-
-    //    ::g_pDebugRenderer->addLine(lineStart, lineEnd, color, true);
-    //}
+    // Simple Debug Renderer
+    ::g_simpleDebug = new cSimpleDebugRenderer();
+    if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
+    {
+        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    }
+    if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
+    {
+        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    }
 
     //=========================================================================
     // Sound things
@@ -330,12 +313,6 @@ int main()
                             -1000.0f, 1000.0f,
                             150.0f, 180.0f,
                             -1000.0f, 1000.0f);
-
-    //::g_pTranspManager->createRamdomObjects(100,
-    //                                 transInfo,
-    //                                 -500.0f, 500.0f,
-    //                                 150.0f, 180.0f, 
-    //                                 -500.0f, 500.0f);
     // ------------------------------------------------------------------------
     glEnable(GL_DEPTH);
 
@@ -404,30 +381,34 @@ int main()
 
             DrawObject(pTheGO);
             
-            //if(pTheGO->typeOfObject == SPHERE)
-            //{
-            //    // Calculate all AABBs for the sphere
-            //    // Put the sphere inside an axis-aligned box
+            // For the AABBs
+            if(pTheGO->isDebugAABBActive)
+            {
+                if(pTheGO->typeOfObject == SPHERE)
+                {
+                    // Calculate all AABBs for the sphere
+                    // Put the sphere inside an axis-aligned box
 
-            //    // Vertices
-            //    float diameter = pTheGO->radius * 2;
-            //    std::vector<glm::vec3> vertices;
-            //    glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
-            //    vertices.push_back(vertex0);
-            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
-            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
-            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
-            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
-            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
-            //    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
-            //    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
+                    // Vertices
+                    float diameter = pTheGO->radius * 2;
+                    std::vector<glm::vec3> vertices;
+                    glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
+                    vertices.push_back(vertex0);
+                    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
+                    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
+                    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
+                    vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
+                    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
+                    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
+                    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
 
-            //    DrawAABBforPoints(vertices, g_AABBSize);
-            //}
-            //else
-            //{
-            //    DrawAABB(pTheGO, g_AABBSize);
-            //}            
+                    DrawAABBforPoints(vertices, g_AABBSize);
+                } else
+                {
+                    DrawAABB(pTheGO, g_AABBSize);
+                }
+            }
+          
         }
 
         // Now Draw the transparent objects
@@ -442,6 +423,12 @@ int main()
             }
             
             DrawObject(::g_pTranspManager->transpObjects[i]);
+
+            // For the AABBs
+            if(::g_pTranspManager->transpObjects[i]->isDebugAABBActive)
+            {
+                DrawAABB(::g_pTranspManager->transpObjects[i], g_AABBSize);
+            }
         }
         
 
@@ -497,8 +484,8 @@ int main()
     
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
-    //delete ::g_pDebugRenderer;
-    //delete ::g_pAABBsManager;
+    delete ::g_simpleDebug;
+    delete ::g_pAABBsManager;
     //delete ::g_pSoundManager;
     delete ::g_pTranspManager;
 
