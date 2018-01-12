@@ -128,7 +128,7 @@ void main()
 		return;	
 	}
 	
-		if ( isReflectRefract )
+	if ( isReflectRefract )
 	{			
 		// Have "eyePosition" (camera eye) in WORLD space
 		
@@ -297,9 +297,7 @@ vec3 calcLightColour( in vec3 vecNormal,
 				   
 	outSpecular *= attenuation;
 	
-	//colour = outDiffuse + outSpecular;
-	// No specular for now...
-	colour = outDiffuse;
+	colour = outDiffuse + outSpecular;
 
 	// Now we have the colour if this was a point light 
 	// See if it's a spot light...

@@ -14,6 +14,7 @@ cGameObject::cGameObject()
 	this->vel = glm::vec3(0.0f);
 	this->accel = glm::vec3(0.0f);
 	this->diffuseColour = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    this->specular = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	this->bIsUpdatedInPhysics = true;
 	this->radius = 0.0f;
 	this->typeOfObject = eTypeOfObject::UNKNOWN;

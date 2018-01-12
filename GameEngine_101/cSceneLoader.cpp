@@ -68,6 +68,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
            && gameObject[i]["radius"].IsNumber()
            && gameObject[i]["position"].IsArray()
            && gameObject[i]["diffuseColour"].IsArray()
+           && gameObject[i]["specular"].IsArray()
            && gameObject[i]["scale"].IsNumber()
            && gameObject[i]["bIsUpdatedInPhysics"].IsBool()
            && gameObject[i]["bIsWireFrame"].IsBool()
@@ -126,6 +127,22 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         diffuseColour.z = gameObject[i]["diffuseColour"][2].GetFloat();
         diffuseColour.w = gameObject[i]["diffuseColour"][3].GetFloat();
 
+        if(!(gameObject[i]["specular"][0].IsNumber()
+           && gameObject[i]["specular"][1].IsNumber()
+           && gameObject[i]["specular"][2].IsNumber()
+           && gameObject[i]["specular"][3].IsNumber()))
+        {
+            error = "The Json Gameobject number " + std::to_string(i + 1) +
+                " is not properly formated for its \"specular\" array!";
+            return false;
+        }
+
+        glm::vec4 specular;
+        specular.x = gameObject[i]["specular"][0].GetFloat();
+        specular.y = gameObject[i]["specular"][1].GetFloat();
+        specular.z = gameObject[i]["specular"][2].GetFloat();
+        specular.w = gameObject[i]["specular"][3].GetFloat();
+
         float scale = gameObject[i]["scale"].GetFloat();
         bool bIsUpdatedInPhysics = gameObject[i]["bIsUpdatedInPhysics"].GetBool();
         bool bIsWireFrame = gameObject[i]["bIsWireFrame"].GetBool();
@@ -152,6 +169,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         theGO->radius = radius;
         theGO->position = position;
         theGO->diffuseColour = diffuseColour;
+        theGO->specular = specular;
         theGO->scale = scale;
         theGO->bIsUpdatedInPhysics = bIsUpdatedInPhysics;
         theGO->bIsWireFrame = bIsWireFrame;

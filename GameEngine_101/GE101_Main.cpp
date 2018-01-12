@@ -592,7 +592,14 @@ void DrawObject(cGameObject* pTheGO)
 
     // Specular: For now, set this colour to white, and the shininess to something high 
     //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
-    glUniform4f(uniLoc_materialSpecular, 1.0f, 1.0f, 1.0f, 64.0f);
+    //glUniform4f(uniLoc_materialSpecular, 0.25f, 0.25f, 0.14f, 40.0f);
+    //glUniform4f(uniLoc_materialSpecular, 0.0f, 0.0f, 0.0f, 1.0f);
+    glUniform4f(uniLoc_materialSpecular, 
+                pTheGO->specular.x, 
+                pTheGO->specular.y, 
+                pTheGO->specular.z,
+                pTheGO->specular.w);
+
 
     glUniform4f(uniLoc_materialDiffuse,
         pTheGO->diffuseColour.r,

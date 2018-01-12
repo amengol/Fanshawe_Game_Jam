@@ -72,6 +72,7 @@ public:
     std::vector<lightInfo> vecLightsInfo;
     // **********************************
 	glm::vec4 diffuseColour;
+    glm::vec4 specular;
 	std::string meshName;
 
     // AI
