@@ -216,7 +216,7 @@ bool cSceneLoader::loadLightParams(int shaderID,
                                    std::string& error)
 {
     // This number should reflect int the shader
-    const unsigned int MAXNUMLIGHTS = 10;
+    const unsigned int MAXNUMLIGHTS = 20;
 
     std::string jsonStr;
 

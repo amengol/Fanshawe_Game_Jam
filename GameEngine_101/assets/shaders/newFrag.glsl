@@ -80,7 +80,7 @@ struct sLightDesc {
 	                    // z angle1, w = angle2		- only for spot
 };
 
-const int NUMBEROFLIGHTS = 10;
+const int NUMBEROFLIGHTS = 20;
 uniform sLightDesc myLight[NUMBEROFLIGHTS];
 
 // Calculate the contribution of a light at a vertex
