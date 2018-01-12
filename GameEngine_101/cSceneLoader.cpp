@@ -312,19 +312,26 @@ bool cSceneLoader::loadLightParams(int shaderID,
                     GO_Light.offset.y = lights[i]["offset"][1].GetFloat();
                     GO_Light.offset.z = lights[i]["offset"][2].GetFloat();
 
-                    if(!(lights[i]["focusDirection"][0].IsNumber()
-                       && lights[i]["focusDirection"][1].IsNumber()
-                       && lights[i]["focusDirection"][2].IsNumber()))
-                    {
-                        error = "The Json light number " + std::to_string(i + 1) +
-                            " is not properly formated for its \"focusDirection\" array!";
-                        return false;
-                    }
-                    GO_Light.focusDirection.x = lights[i]["focusDirection"][0].GetFloat();
-                    GO_Light.focusDirection.y = lights[i]["focusDirection"][1].GetFloat();
-                    GO_Light.focusDirection.z = lights[i]["focusDirection"][2].GetFloat();
-
                     GO_Light.type = (LightType)lights[i]["type"].GetUint();
+
+                    if(GO_Light.type == SPOT)
+                    {
+                        if(!(lights[i]["focusDirection"][0].IsNumber()
+                           && lights[i]["focusDirection"][1].IsNumber()
+                           && lights[i]["focusDirection"][2].IsNumber()))
+                        {
+                            error = "The Json light number " + std::to_string(i + 1) +
+                                " is not properly formated for its \"focusDirection\" array!";
+                            return false;
+                        }
+                        GO_Light.focusDirection.x = lights[i]["focusDirection"][0].GetFloat();
+                        GO_Light.focusDirection.y = lights[i]["focusDirection"][1].GetFloat();
+                        GO_Light.focusDirection.z = lights[i]["focusDirection"][2].GetFloat();
+
+                        lightManager->vecLights[i].typeParams.x = 2.0f;
+                        lightManager->vecLights[i].typeParams.z = glm::radians(lights[i]["innerAngle"].GetFloat());
+                        lightManager->vecLights[i].typeParams.w = glm::radians(lights[i]["outerAngle"].GetFloat());
+                    }                    
 
                     g_vecGameObjects[j]->vecLightsInfo.push_back(GO_Light);
                     break;
@@ -352,19 +359,26 @@ bool cSceneLoader::loadLightParams(int shaderID,
                     GO_Light.offset.y = lights[i]["offset"][1].GetFloat();
                     GO_Light.offset.z = lights[i]["offset"][2].GetFloat();
 
-                    if(!(lights[i]["focusDirection"][0].IsNumber()
-                       && lights[i]["focusDirection"][1].IsNumber()
-                       && lights[i]["focusDirection"][2].IsNumber()))
-                    {
-                        error = "The Json light number " + std::to_string(i + 1) +
-                            " is not properly formated for its \"focusDirection\" array!";
-                        return false;
-                    }
-                    GO_Light.focusDirection.x = lights[i]["focusDirection"][0].GetFloat();
-                    GO_Light.focusDirection.y = lights[i]["focusDirection"][1].GetFloat();
-                    GO_Light.focusDirection.z = lights[i]["focusDirection"][2].GetFloat();
-
                     GO_Light.type = (LightType)lights[i]["type"].GetUint();
+
+                    if(GO_Light.type == SPOT)
+                    {
+                        if(!(lights[i]["focusDirection"][0].IsNumber()
+                           && lights[i]["focusDirection"][1].IsNumber()
+                           && lights[i]["focusDirection"][2].IsNumber()))
+                        {
+                            error = "The Json light number " + std::to_string(i + 1) +
+                                " is not properly formated for its \"focusDirection\" array!";
+                            return false;
+                        }
+                        GO_Light.focusDirection.x = lights[i]["focusDirection"][0].GetFloat();
+                        GO_Light.focusDirection.y = lights[i]["focusDirection"][1].GetFloat();
+                        GO_Light.focusDirection.z = lights[i]["focusDirection"][2].GetFloat();
+
+                        lightManager->vecLights[i].typeParams.x = 2.0f;
+                        lightManager->vecLights[i].typeParams.z = glm::radians(lights[i]["innerAngle"].GetFloat());
+                        lightManager->vecLights[i].typeParams.w = glm::radians(lights[i]["outerAngle"].GetFloat());
+                    }
 
                     g_pTranspManager->transpObjects[j]->vecLightsInfo.push_back(GO_Light);
                     break;
