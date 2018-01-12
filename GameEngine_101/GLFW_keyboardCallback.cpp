@@ -33,10 +33,29 @@ void key_callback(GLFWwindow* window,
             {
                 ::g_pCamera->lockOnGameObject(g_pTranspManager->transpObjects[i]);
             }
+        }        
+    }
+
+    if(key == GLFW_KEY_2 && action == GLFW_PRESS)
+    {
+        for(int i = 0; i < g_pTranspManager->transpObjects.size(); i++)
+        {
+            if(g_pTranspManager->transpObjects[i]->friendlyName == "Helicopter02")
+            {
+                ::g_pCamera->lockOnGameObject(g_pTranspManager->transpObjects[i]);
+            }
         }
-        
-        //::g_vecGameObjects[1]->bIsUpdatedInPhysics = true;
-    }        
+    }
+
+    if(key == GLFW_KEY_L && action == GLFW_PRESS)
+    {
+        cGameObject* theGO = NULL;
+        theGO = g_pCamera->getGameObject();
+        if(theGO != NULL)
+        {
+            theGO->isDebugAABBActive = !theGO->isDebugAABBActive;
+        }
+    }
 
     switch(::g_pCamera->getCameraMode())
     {
