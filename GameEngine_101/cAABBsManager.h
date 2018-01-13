@@ -5,7 +5,7 @@
 #include "cMesh.h"
 #include <map>
 
-class sAABB_Triangle;
+struct sAABB_Triangle;
 
 class cAABBsManager
 {
