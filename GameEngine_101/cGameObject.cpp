@@ -1,5 +1,6 @@
 #include "cGameObject.h"
 #include <fmod\fmod.hpp>
+#include "cMesh.h"
 
 cGameObject::cGameObject()
 {
@@ -40,6 +41,57 @@ cGameObject::cGameObject()
 cGameObject::~cGameObject()
 {
 	return;
+}
+
+void cGameObject::setCollisionGeometry(cMesh mesh)
+{
+    sCollisionGeometry collGeometry;
+
+    // Put each triangle of the mesh in a sCollisionTriangle
+    for (int i = 0; i < mesh.numberOfTriangles; i++)
+    {
+        // Reconstrunct the triangle
+        glm::vec3 vertA;
+        glm::vec3 vertB;
+        glm::vec3 vertC;
+        glm::vec3 normA;
+        glm::vec3 normB;
+        glm::vec3 normC;
+
+        vertA.x = mesh.pVertices[mesh.pTriangles[i].vertex_ID_0].x;
+        vertA.y = mesh.pVertices[mesh.pTriangles[i].vertex_ID_0].y;
+        vertA.z = mesh.pVertices[mesh.pTriangles[i].vertex_ID_0].z;
+        normA.x = mesh.pVertices[mesh.pTriangles[i].vertex_ID_0].nx;
+        normA.y = mesh.pVertices[mesh.pTriangles[i].vertex_ID_0].ny;
+        normA.z = mesh.pVertices[mesh.pTriangles[i].vertex_ID_0].nz;
+
+        vertB.x = mesh.pVertices[mesh.pTriangles[i].vertex_ID_1].x;
+        vertB.y = mesh.pVertices[mesh.pTriangles[i].vertex_ID_1].y;
+        vertB.z = mesh.pVertices[mesh.pTriangles[i].vertex_ID_1].z;
+        normB.x = mesh.pVertices[mesh.pTriangles[i].vertex_ID_1].nx;
+        normB.y = mesh.pVertices[mesh.pTriangles[i].vertex_ID_1].ny;
+        normB.z = mesh.pVertices[mesh.pTriangles[i].vertex_ID_1].nz;
+
+        vertC.x = mesh.pVertices[mesh.pTriangles[i].vertex_ID_2].x;
+        vertC.y = mesh.pVertices[mesh.pTriangles[i].vertex_ID_2].y;
+        vertC.z = mesh.pVertices[mesh.pTriangles[i].vertex_ID_2].z;
+        normC.x = mesh.pVertices[mesh.pTriangles[i].vertex_ID_2].nx;
+        normC.y = mesh.pVertices[mesh.pTriangles[i].vertex_ID_2].ny;
+        normC.z = mesh.pVertices[mesh.pTriangles[i].vertex_ID_2].nz;
+
+        glm::vec3 faceNormal = glm::normalize(normA + normB + normC);
+
+        sCollisionTriangle tri;
+        tri.setTriangle(vertA, vertB, vertC);
+        tri.faceNormal = faceNormal;
+
+        collGeometry.meshName = mesh.name;
+        collGeometry.collisionTriangles.push_back(tri);
+    }
+
+    this->contacPoints.push_back(collGeometry);
+
+    
 }
 
 void cGameObject::DebugUpdate(double deltaTime)

@@ -6,6 +6,9 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include <string>
 #include <vector>
+#include "sCollisionTriangle.h"
+
+class cMesh;
 
 enum eTypeOfObject
 {	
@@ -33,6 +36,11 @@ struct lightInfo
     LightType type;
 };
 
+struct sCollisionGeometry
+{
+    std::vector<sCollisionTriangle> collisionTriangles;
+    std::string meshName;
+};
 
 
 // Sotores vec position, orientation and scale about a Game Object
@@ -55,6 +63,9 @@ public:
 	bool bIsUpdatedInPhysics;
 	eTypeOfObject typeOfObject;
 	float radius;
+    std::vector<sCollisionGeometry> contacPoints;
+    void setCollisionGeometry(cMesh);
+
 	bool bIsWireFrame;
     bool hasColour;
     bool hasAlpha;
