@@ -156,37 +156,34 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_W:       // Increase speed
         {
             cGameObject* theGO = g_pCamera->getGameObject();
-            //theGO->vel.z += 1.0f;
-            //theGO->position.z -= 1.0f;
-            glm::vec3 newPos = theGO->orientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-            theGO->position += newPos;
+            theGO->vel.z += 0.1f;
+            //glm::vec3 newPos = theGO->orientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+            //theGO->position += newPos;
         }
             break;
         case GLFW_KEY_S:       // Decrease speed 
         {
             cGameObject* theGO = g_pCamera->getGameObject();
-            //theGO->vel.z -= 1.0f;
+            theGO->vel.z -= 0.1f;
             //theGO->position.z += 1.0f;
-            glm::vec3 newPos = theGO->orientation * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f);
-            theGO->position += newPos;
+            //glm::vec3 newPos = theGO->orientation * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f);
+            //theGO->position += newPos;
         }
             break;
         case GLFW_KEY_A:        // Move camera right along local X axis
         {
-            //g_pCamera->moveCameraLeftNRight(-CAMSPEED);
             cGameObject * theGO = g_pCamera->getGameObject();
-            //theGO->position.x -= 1.0f;
-            glm::vec3 newPos = theGO->orientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
-            theGO->position += newPos;
+            theGO->rateOfTurnZ -= 30.0f;
+            //glm::vec3 newPos = theGO->orientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+            //theGO->position += newPos;
         }            
             break;
         case GLFW_KEY_D:        // Move camera right along local x axis
         {
-            //g_pCamera->moveCameraLeftNRight(CAMSPEED);
             cGameObject * theGO = g_pCamera->getGameObject();
-            //theGO->position.x += 1.0f;
-            glm::vec3 newPos = theGO->orientation * glm::vec4(-1.0f, 0.0f, 0.0f, 0.0f);
-            theGO->position += newPos;
+            theGO->rateOfTurnZ += 30.0f;
+            //glm::vec3 newPos = theGO->orientation * glm::vec4(-1.0f, 0.0f, 0.0f, 0.0f);
+            //theGO->position += newPos;
         }
             break;
         case GLFW_KEY_Q:        // Increase high along Y axis
@@ -204,37 +201,43 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_Z:        // rotate around local GameObject Z axis +
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->rotateZ(ROTANGLE);
+            theGO->rotateZ(-ROTANGLE);
         }
             break;
         case GLFW_KEY_C:        // rotate around local GameObject Z axis -
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->rotateZ(-ROTANGLE);
+            theGO->rotateZ(+ROTANGLE);
         }
             break;
         case GLFW_KEY_LEFT:     // rotate around local GameObject Y axis +
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->rotateY(ROTANGLE);
+            theGO->rateOfTurnZ -= 30.0f;
+            //glm::vec3 newPos = theGO->orientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+            //theGO->position += newPos;
         }
             break;
         case GLFW_KEY_RIGHT:    // rotate around local GameObject Y axis -
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->rotateY(-ROTANGLE);
+            theGO->rateOfTurnZ += 30.0f;
+            //glm::vec3 newPos = theGO->orientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+            //theGO->position += newPos;
         }
             break;
         case GLFW_KEY_UP:       // rotate around local GameObject X axis +
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->rotateX(ROTANGLE);
+            //theGO->rotateX(ROTANGLE);
+            theGO->rateOfTurnX += 30.0f;
         }
             break;
         case GLFW_KEY_DOWN:     // rotate around local GameObject X axis -
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->rotateX(-ROTANGLE);
+            //theGO->rotateX(-ROTANGLE);
+            theGO->rateOfTurnX -= 30.0f;
         }
             break;
         }// switch ( key )
