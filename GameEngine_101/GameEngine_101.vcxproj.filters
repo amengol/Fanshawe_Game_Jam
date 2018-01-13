@@ -140,6 +140,12 @@
     <ClCompile Include="cSceneLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="opttritri.h">
+      <Filter>Vertex, Model and Physics Related</Filter>
+    </ClCompile>
+    <ClCompile Include="sCollisionTriangle.cpp">
+      <Filter>Game Objects Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -222,6 +228,9 @@
     </ClInclude>
     <ClInclude Include="cSceneLoader.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sCollisionTriangle.h">
+      <Filter>Game Objects Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

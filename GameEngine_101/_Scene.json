@@ -61,7 +61,10 @@
 #	"rotateX" : 0.0,
 #	"rotateY" : 0.0,
 #	"rotateZ" : 0.0,
-#	"hasToBeSorted" : false
+#	"hasToBeSorted" : false,
+#	"hasCollisionMesh" : false,
+#	"numCollisionMeshes" : 0,
+#	"collisionMeshesNames" : []
 #}
 
 # Type of objects are (typeOfObject):
@@ -75,7 +78,7 @@
 #	UNKNOWN = 99
 
 "GameObject" :
-[
+[	
 	{ 
 		"meshName" : "SkyBox",
 		"friendlyName" : "",
@@ -102,7 +105,10 @@
 		"rotateX" : 0.0,
 		"rotateY" : 0.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : false
+		"hasToBeSorted" : false,
+		"hasCollisionMesh" : false,
+		"numCollisionMeshes" : 0,
+		"collisionMeshesNames" : []	
 	},
 	{ 
 		"meshName" : "FacadeSets",
@@ -130,7 +136,10 @@
 		"rotateX" : 0.0,
 		"rotateY" : 0.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : false
+		"hasToBeSorted" : false,
+		"hasCollisionMesh" : false,
+		"numCollisionMeshes" : 0,
+		"collisionMeshesNames" : []	
 	},
 	{ 
 		"meshName" : "RoofsEtc",
@@ -158,7 +167,10 @@
 		"rotateX" : 0.0,
 		"rotateY" : 0.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : false
+		"hasToBeSorted" : false,
+		"hasCollisionMesh" : false,
+		"numCollisionMeshes" : 0,
+		"collisionMeshesNames" : []	
 	},
 	{ 
 		"meshName" : "Asphalt",
@@ -186,7 +198,10 @@
 		"rotateX" : 0.0,
 		"rotateY" : 0.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : false
+		"hasToBeSorted" : false,
+		"hasCollisionMesh" : false,
+		"numCollisionMeshes" : 0,
+		"collisionMeshesNames" : []	
 	},
 	{ 
 		"meshName" : "Concrete",
@@ -214,7 +229,10 @@
 		"rotateX" : 0.0,
 		"rotateY" : 0.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : false
+		"hasToBeSorted" : false,
+		"hasCollisionMesh" : false,
+		"numCollisionMeshes" : 0,
+		"collisionMeshesNames" : []	
 	},
 	{ 
 		"meshName" : "Curbs",
@@ -242,7 +260,10 @@
 		"rotateX" : 0.0,
 		"rotateY" : 0.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : false
+		"hasToBeSorted" : false,
+		"hasCollisionMesh" : false,
+		"numCollisionMeshes" : 0,
+		"collisionMeshesNames" : []	
 	},
 	{ 
 		"meshName" : "Ground1",
@@ -270,7 +291,10 @@
 		"rotateX" : 0.0,
 		"rotateY" : 0.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : false
+		"hasToBeSorted" : false,
+		"hasCollisionMesh" : false,
+		"numCollisionMeshes" : 0,
+		"collisionMeshesNames" : []	
 	},
 	{ 
 		"meshName" : "Ground2",
@@ -298,7 +322,10 @@
 		"rotateX" : 0.0,
 		"rotateY" : 0.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : false
+		"hasToBeSorted" : false,
+		"hasCollisionMesh" : false,
+		"numCollisionMeshes" : 0,
+		"collisionMeshesNames" : []	
 	},
 	{ 
 		"meshName" : "StreetPart",
@@ -326,7 +353,10 @@
 		"rotateX" : 0.0,
 		"rotateY" : 0.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : false
+		"hasToBeSorted" : false,
+		"hasCollisionMesh" : false,
+		"numCollisionMeshes" : 0,
+		"collisionMeshesNames" : []	
 	},
 	{ 
 		"meshName" : "SideWalkTree",
@@ -354,7 +384,10 @@
 		"rotateX" : 0.0,
 		"rotateY" : 0.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : false
+		"hasToBeSorted" : false,
+		"hasCollisionMesh" : false,
+		"numCollisionMeshes" : 0,
+		"collisionMeshesNames" : []	
 	},
 	{ 
 		"meshName" : "md500",
@@ -382,7 +415,10 @@
 		"rotateX" : 0.0,
 		"rotateY" : 180.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : true
+		"hasToBeSorted" : true,
+		"hasCollisionMesh" : false,
+		"numCollisionMeshes" : 0,
+		"collisionMeshesNames" : []	
 	},
 	{ 
 		"meshName" : "Delorean",
@@ -410,7 +446,19 @@
 		"rotateX" : 0.0,
 		"rotateY" : -30.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : false
+		"hasToBeSorted" : false,
+		"hasCollisionMesh" : true,
+		"numCollisionMeshes" : 7,
+		"collisionMeshesNames" : 
+			[
+				"Del_Collision001",
+				"Del_Collision002",
+				"Del_Collision003",
+				"Del_Collision004",
+				"Del_Collision005",
+				"Del_Collision006",
+				"Del_Collision007"
+			]	
 	},
 	{ 
 		"meshName" : "md500",
@@ -438,7 +486,10 @@
 		"rotateX" : 0.0,
 		"rotateY" : -100.0,
 		"rotateZ" : 0.0,
-		"hasToBeSorted" : true
+		"hasToBeSorted" : true,
+		"hasCollisionMesh" : false,
+		"numCollisionMeshes" : 0,
+		"collisionMeshesNames" : []	
 	}
 ],
 # Lights block. A maximum of 10 light are allowed

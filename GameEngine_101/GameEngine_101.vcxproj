@@ -164,8 +164,10 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="GLFW_keyboardCallback.cpp" />
     <ClCompile Include="ModelUtilities.cpp" />
+    <ClCompile Include="opttritri.h" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="sAABB_Triangle.cpp" />
+    <ClCompile Include="sCollisionTriangle.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="Texture\C24BitBMPpixel.cpp" />
     <ClCompile Include="Texture\cBasicTextureManager.cpp" />
@@ -183,6 +185,7 @@
     <ClInclude Include="cModelAssetLoader.h" />
     <ClInclude Include="cSceneLoader.h" />
     <ClInclude Include="cShaderManager.h" />
+    <ClInclude Include="sCollisionTriangle.h" />
     <ClInclude Include="simpleAI.h" />
     <ClInclude Include="cSimpleDebugRenderer.h" />
     <ClInclude Include="cTriangle.h" />
