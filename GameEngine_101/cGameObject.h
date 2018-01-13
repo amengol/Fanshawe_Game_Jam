@@ -38,7 +38,7 @@ struct lightInfo
 
 struct sCollisionGeometry
 {
-    std::vector<sCollisionTriangle> collisionTriangles;
+    std::vector<sCollisionTriangle*> collisionTriangles;
     std::string meshName;
 };
 

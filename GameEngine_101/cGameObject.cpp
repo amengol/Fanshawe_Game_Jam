@@ -81,9 +81,9 @@ void cGameObject::setCollisionGeometry(cMesh mesh)
 
         glm::vec3 faceNormal = glm::normalize(normA + normB + normC);
 
-        sCollisionTriangle tri;
-        tri.setTriangle(vertA, vertB, vertC);
-        tri.faceNormal = faceNormal;
+        sCollisionTriangle* tri = new sCollisionTriangle();
+        tri->setTriangle(vertA, vertB, vertC);
+        tri->faceNormal = faceNormal;
 
         collGeometry.meshName = mesh.name;
         collGeometry.collisionTriangles.push_back(tri);
