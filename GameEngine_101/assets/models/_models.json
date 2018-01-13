@@ -11,6 +11,7 @@
 {"Meshes" : 
 [
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply", "type" : 0, "isPersistent" : false},
+# Comment the following lines to speed up the load
 {"meshName" : "FacadeSets", "meshFile" : "FacadeSets.ply", "type" : 2, "isPersistent" : true},
 {"meshName" : "RoofsEtc", "meshFile" : "RoofsEtc.ply", "type" : 2, "isPersistent" : true},
 {"meshName" : "Asphalt", "meshFile" : "Asphalt.ply", "type" : 2, "isPersistent" : true},
@@ -20,6 +21,7 @@
 {"meshName" : "Ground2", "meshFile" : "Ground2.ply", "type" : 2, "isPersistent" : true},
 {"meshName" : "StreetPart", "meshFile" : "StreetPart.ply", "type" : 2, "isPersistent" : true},
 {"meshName" : "SideWalkTree", "meshFile" : "SideWalkTree.ply", "type" : 2, "isPersistent" : false},
+# end of "heavy" models
 {"meshName" : "md500", "meshFile" : "md500.ply", "type" : 2, "isPersistent" : true},
 {"meshName" : "Delorean", "meshFile" : "Delorean.ply", "type" : 1, "isPersistent" : true},
 {"meshName" : "Sphere", "meshFile" : "Sphere.ply", "type" : 0, "isPersistent" : false},

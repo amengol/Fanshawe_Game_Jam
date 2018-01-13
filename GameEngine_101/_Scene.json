@@ -566,6 +566,19 @@
 #### Helicopter02 omni lights
 	{
 		"position" : [0.0, 0.0, 0.0],
+		"diffuse" : [1.0, 1.0, 1.0],
+		"costantAttenuation" :0.0,
+		"linearAttenuation" :0.16,
+		"quadraticAttenuation" :0.3,
+		"attachToGameObject" : "Helicopter02",
+		"type" : 0,
+		"innerAngle" : 0.0,
+		"outerAngle" : 0.0,
+		"offset" : [-0.02, -2.2, 1.915],
+		"focusDirection" : [0.0, 1.0, 0.0]		
+	},
+	{
+		"position" : [0.0, 0.0, 0.0],
 		"diffuse" : [1.0, 0.0, 0.0],
 		"costantAttenuation" :0.0,
 		"linearAttenuation" :0.16,
