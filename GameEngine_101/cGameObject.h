@@ -61,6 +61,7 @@ public:
 	glm::vec3 vel;
 	glm::vec3 accel;
 	bool bIsUpdatedInPhysics;
+    bool hadAlreadyCollided; // Used to free the object from collision stuck
 	eTypeOfObject typeOfObject;
 	float radius;
     std::vector<sCollisionGeometry> contacPoints;

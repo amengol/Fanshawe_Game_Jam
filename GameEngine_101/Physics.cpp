@@ -243,6 +243,8 @@ void updateGameObjects(double deltaTime,
                     {
                         std::vector<sVertex> theGeometry;
                         
+                        bool thisPassCollided = false;
+
                         for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
                         {
                             sAABB_Triangle* theTri = theAABB.AABBsTriangles[i];
@@ -260,9 +262,11 @@ void updateGameObjects(double deltaTime,
 
                             //---------------------------------------------------------
                             // Collision Detection
+                            
                             for (int collIndex = 0; collIndex < pCurGO->contacPoints.size(); collIndex++)
                             {
                                 sCollisionGeometry Geometry = pCurGO->contacPoints[collIndex];
+                                
 
                                 for (int geoIndex = 0; geoIndex < Geometry.collisionTriangles.size(); geoIndex++)
                                 {
@@ -286,10 +290,21 @@ void updateGameObjects(double deltaTime,
                                     if (areIntercepting(&collTri, theTri))
                                     {
                                         drawCollMesh(Geometry.meshName, pCurGO);
+                                        thisPassCollided = true;
+                                        if (!pCurGO->hadAlreadyCollided)
+                                        {
+                                            pCurGO->vel = glm::vec3(0.0f);
+                                            pCurGO->rateOfTurnX = 0.0f;
+                                            pCurGO->rateOfTurnY = 0.0f;
+                                            pCurGO->rateOfTurnZ = 0.0f;
+                                            pCurGO->hadAlreadyCollided = true;
+                                        }
+                                        
                                     }
                                 }
-
                             }
+
+                            
                             // End of collision detection
                             //---------------------------------------------------------
 
@@ -327,6 +342,12 @@ void updateGameObjects(double deltaTime,
                             tmpGeo.nz = normal.z;
                             theGeometry.push_back(tmpGeo);
                         }                        
+
+                        // Did this pass had a collision
+                        if (!thisPassCollided)
+                        {
+                            pCurGO->hadAlreadyCollided = false;
+                        }
 
                         // Print the mesh
                         if(pCurGO->isDebugAABBActive)
