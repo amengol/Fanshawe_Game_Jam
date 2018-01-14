@@ -9,6 +9,7 @@ class cGameObject;
 enum eCameraMode {
     MANUAL,			// Move along the axes (lookat)
     FOLLOW_CAMERA,	// Follows a target (lookat)
+    CONTROL_CAMERA,
     FLY_CAMERA		// Movement based on direction of gaze                    
 };
 
@@ -24,7 +25,7 @@ public:
     void setCameraTarget(glm::vec3 target);
 
     // Let the camera be a follow_camera and controls a gameObject
-    void lockOnGameObject(cGameObject*);
+    void lockOnGameObject(cGameObject*, bool control = false);
 
     // Return the Game Object
     cGameObject* getGameObject();
