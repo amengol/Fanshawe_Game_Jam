@@ -30,6 +30,8 @@ void updateGameObjects(double deltaTime,
 
 bool areIntercepting(sCollisionTriangle*, sAABB_Triangle*);
 
+void drawCollMesh(std::string, cGameObject*);
+
 // Update the world 1 "step" in time
 void PhysicsStep(double deltaTime)
 {
@@ -240,8 +242,7 @@ void updateGameObjects(double deltaTime,
                     if(g_pAABBsManager->getAABB(vecIDs[i], theAABB))
                     {
                         std::vector<sVertex> theGeometry;
-                        std::vector<sVertex> CollisionGeometry;
-
+                        
                         for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
                         {
                             sAABB_Triangle* theTri = theAABB.AABBsTriangles[i];
@@ -251,11 +252,11 @@ void updateGameObjects(double deltaTime,
                             // Do we need to test for the triangle?
                             // Check if the Dot product between
                             // the point and the angle is positive
-                            glm::vec3 originPos = pCurGO->position - theTri->Centroid;
-                            if(glm::dot(originPos, theTri->faceNormal) < 0.0f)
-                            {
-                                continue;
-                            }
+                            //glm::vec3 originPos = pCurGO->position - theTri->Centroid;
+                            //if(glm::dot(originPos, theTri->faceNormal) < 0.0f)
+                            //{
+                            //    continue;
+                            //}
 
                             //---------------------------------------------------------
                             // Collision Detection
@@ -265,21 +266,34 @@ void updateGameObjects(double deltaTime,
 
                                 for (int geoIndex = 0; geoIndex < Geometry.collisionTriangles.size(); geoIndex++)
                                 {
-                                    sCollisionTriangle* collTri = Geometry.collisionTriangles[geoIndex];
+                                    sCollisionTriangle collTri = *Geometry.collisionTriangles[geoIndex];
+                                    
+                                    // The collision triangles are all at the origin. We need to
+                                    // reorient to the object position and rotation
+
+                                    // Rotation
+                                    collTri.verticeA = pCurGO->orientation * glm::vec4(collTri.verticeA, 0.0f);
+                                    collTri.verticeB = pCurGO->orientation * glm::vec4(collTri.verticeB, 0.0f);
+                                    collTri.verticeC = pCurGO->orientation * glm::vec4(collTri.verticeC, 0.0f);
+
+                                    // Translation
+                                    collTri.verticeA += pCurGO->position;
+                                    collTri.verticeB += pCurGO->position;
+                                    collTri.verticeC += pCurGO->position;
+                                    
                                                                         
                                     //Test if the trianlge is intercepting with a mesh
-                                    if (areIntercepting(collTri, theTri))
+                                    if (areIntercepting(&collTri, theTri))
                                     {
-                                        // Do somethinbg
+                                        drawCollMesh(Geometry.meshName, pCurGO);
                                     }
                                 }
 
                             }
-
-                            // Not yet
+                            // End of collision detection
                             //---------------------------------------------------------
 
-                            // Create the triangle                    
+                            // Create the triangle of the mesh for rendering                
                             sVertex tmpGeo;
 
                             tmpGeo.x = theTri->verticeA.x;
@@ -312,70 +326,12 @@ void updateGameObjects(double deltaTime,
                             tmpGeo.ny = normal.y;
                             tmpGeo.nz = normal.z;
                             theGeometry.push_back(tmpGeo);
-                        }
-
-
-                        for (int collIndex = 0; collIndex < pCurGO->contacPoints.size(); collIndex++)
-                        {
-                            sCollisionGeometry Geometry = pCurGO->contacPoints[collIndex];
-
-                            for (int geoIndex = 0; geoIndex < Geometry.collisionTriangles.size(); geoIndex++)
-                            {
-                                sCollisionTriangle* collTri = Geometry.collisionTriangles[geoIndex];
-
-                                //collTri->verticeA += pCurGO->position;
-                                //collTri->verticeB += pCurGO->position;
-                                //collTri->verticeC += pCurGO->position;
-
-                                // Create the triangle                    
-                                sVertex tmpGeo;
-
-                                tmpGeo.x = collTri->verticeA.x;
-                                tmpGeo.y = collTri->verticeA.y;
-                                tmpGeo.z = collTri->verticeA.z;
-                                // Find vertices normals
-                                glm::vec3 normal = glm::normalize(glm::cross(collTri->verticeA, collTri->verticeB));
-                                tmpGeo.nx = normal.x;
-                                tmpGeo.ny = normal.y;
-                                tmpGeo.nz = normal.z;
-                                CollisionGeometry.push_back(tmpGeo);
-
-                                tmpGeo.x = collTri->verticeB.x;
-                                tmpGeo.y = collTri->verticeB.y;
-                                tmpGeo.z = collTri->verticeB.z;
-                                // Find vertices normals
-                                normal = glm::normalize(glm::cross(collTri->verticeB, collTri->verticeC));
-                                tmpGeo.nx = normal.x;
-                                tmpGeo.ny = normal.y;
-                                tmpGeo.nz = normal.z;
-                                CollisionGeometry.push_back(tmpGeo);
-
-                                tmpGeo.x = collTri->verticeC.x;
-                                tmpGeo.y = collTri->verticeC.y;
-                                tmpGeo.z = collTri->verticeC.z;
-
-                                // Find vertices normals
-                                normal = glm::normalize(glm::cross(collTri->verticeC, collTri->verticeA));
-                                tmpGeo.nx = normal.x;
-                                tmpGeo.ny = normal.y;
-                                tmpGeo.nz = normal.z;
-                                CollisionGeometry.push_back(tmpGeo);
-                            }
-
-                        }
+                        }                        
 
                         // Print the mesh
                         if(pCurGO->isDebugAABBActive)
                         {
-                            g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
-
-                            glm::mat4 repo(1.0f);
-                            repo = glm::translate(repo, pCurGO->position);
-                            repo *= pCurGO->orientation;
-                            g_simpleDebug->drawCustomGeometry(CollisionGeometry, 
-                                                              glm::vec3(1.0f, 0.0f, 0.0f),
-                                                              true,
-                                                              repo);
+                            g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));                           
                         }
 
                     }
@@ -391,6 +347,66 @@ void updateGameObjects(double deltaTime,
         pCurGO->Update(deltaTime, gravity);
 
     }//for ( int index... 
+}
+
+void drawCollMesh(std::string meshName, cGameObject* GO)
+{
+    for (int collIndex = 0; collIndex < GO->contacPoints.size(); collIndex++)
+    {
+        if (GO->contacPoints[collIndex].meshName == meshName)
+        {
+            sCollisionGeometry Geometry = GO->contacPoints[collIndex];
+            std::vector<sVertex> CollisionGeometry;
+
+            for (int geoIndex = 0; geoIndex < Geometry.collisionTriangles.size(); geoIndex++)
+            {
+                sCollisionTriangle* collTri = Geometry.collisionTriangles[geoIndex];
+
+                // Create the triangle                    
+                sVertex tmpGeo;
+
+                tmpGeo.x = collTri->verticeA.x;
+                tmpGeo.y = collTri->verticeA.y;
+                tmpGeo.z = collTri->verticeA.z;
+                // Find vertices normals
+                glm::vec3 normal = glm::normalize(glm::cross(collTri->verticeA, collTri->verticeB));
+                tmpGeo.nx = normal.x;
+                tmpGeo.ny = normal.y;
+                tmpGeo.nz = normal.z;
+                CollisionGeometry.push_back(tmpGeo);
+
+                tmpGeo.x = collTri->verticeB.x;
+                tmpGeo.y = collTri->verticeB.y;
+                tmpGeo.z = collTri->verticeB.z;
+                // Find vertices normals
+                normal = glm::normalize(glm::cross(collTri->verticeB, collTri->verticeC));
+                tmpGeo.nx = normal.x;
+                tmpGeo.ny = normal.y;
+                tmpGeo.nz = normal.z;
+                CollisionGeometry.push_back(tmpGeo);
+
+                tmpGeo.x = collTri->verticeC.x;
+                tmpGeo.y = collTri->verticeC.y;
+                tmpGeo.z = collTri->verticeC.z;
+
+                // Find vertices normals
+                normal = glm::normalize(glm::cross(collTri->verticeC, collTri->verticeA));
+                tmpGeo.nx = normal.x;
+                tmpGeo.ny = normal.y;
+                tmpGeo.nz = normal.z;
+                CollisionGeometry.push_back(tmpGeo);
+            }
+
+            glm::mat4 repo(1.0f);
+            repo = glm::translate(repo, GO->position);
+            repo *= GO->orientation;
+            g_simpleDebug->drawCustomGeometry(CollisionGeometry,
+                                              glm::vec3(1.0f, 0.0f, 0.0f),
+                                              true,
+                                              repo);
+        }
+
+    }
 }
 
 // Based on Ericson's code
