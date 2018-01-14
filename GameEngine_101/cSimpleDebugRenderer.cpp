@@ -415,7 +415,10 @@ void cSimpleDebugRenderer::drawDebugGeometry(glm::vec3 position, long long geome
     }
 }
 
-void cSimpleDebugRenderer::drawCustomGeometry(std::vector<sVertex>& theMesh, glm::vec3 color)
+void cSimpleDebugRenderer::drawCustomGeometry(std::vector<sVertex>& theMesh,
+                                              glm::vec3 color,
+                                              bool repositioning,
+                                              glm::mat4 posMatrix                                              )
 {
     glBindVertexArray(this->dynamicBuffer.VAO_ID);
     glBindBuffer(GL_ARRAY_BUFFER, this->dynamicBuffer.bufferID);
@@ -454,6 +457,12 @@ void cSimpleDebugRenderer::drawCustomGeometry(std::vector<sVertex>& theMesh, glm
 
 
     glm::mat4x4 mModel = glm::mat4x4(1.0f);
+
+    if (repositioning)
+    {
+        mModel = posMatrix;
+    }
+    
 
 
     glUniformMatrix4fv(uniLoc_mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));

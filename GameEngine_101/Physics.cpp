@@ -368,7 +368,14 @@ void updateGameObjects(double deltaTime,
                         if(pCurGO->isDebugAABBActive)
                         {
                             g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
-                            g_simpleDebug->drawCustomGeometry(CollisionGeometry, glm::vec3(1.0f, 0.0f, 0.0f));
+
+                            glm::mat4 repo(1.0f);
+                            repo = glm::translate(repo, pCurGO->position);
+                            repo *= pCurGO->orientation;
+                            g_simpleDebug->drawCustomGeometry(CollisionGeometry, 
+                                                              glm::vec3(1.0f, 0.0f, 0.0f),
+                                                              true,
+                                                              repo);
                         }
 
                     }

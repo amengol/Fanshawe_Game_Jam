@@ -29,7 +29,10 @@ public:
     bool genDebugGeometry(DebugType, float size, long long& geometryID);
     bool genDebugTriangle(sAABB_Triangle, long long& geometryID);
     void drawDebugGeometry(glm::vec3 position, long long geometryID, glm::vec3 color, glm::mat4x4 orientation);
-    void drawCustomGeometry(std::vector<sVertex>&, glm::vec3 color);
+    void drawCustomGeometry(std::vector<sVertex>&, 
+                            glm::vec3 color,
+                            bool repositioning = false,
+                            glm::mat4 posMatrix = glm::mat4(1.0f));
 
 private:
     std::map<long long, miniVAOInfo> mapGeometryID_VAOInfo;
