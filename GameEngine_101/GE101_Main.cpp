@@ -243,11 +243,11 @@ int main()
         if(g_pTranspManager->transpObjects[i]->friendlyName == "Helicopter01")
             g_pTranspManager->transpObjects[i]->rateOfTurnY = 1350.0f;
     }
-    for(int i = 0; i < g_vecGameObjects.size(); i++)
-    {
-        if(g_vecGameObjects[i]->friendlyName == "Delorean")
-            g_vecGameObjects[i]->vel.z = 20.0f;
-    }
+    //for(int i = 0; i < g_vecGameObjects.size(); i++)
+    //{
+    //    if(g_vecGameObjects[i]->friendlyName == "Delorean")
+    //        g_vecGameObjects[i]->vel.z = 20.0f;
+    //}
     //=========================================================================
     // Sound things
     // g_pSoundManager = new cSoundManager();

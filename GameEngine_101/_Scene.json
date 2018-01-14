@@ -24,7 +24,7 @@
 "Camera" :
 [
 	{
-		"CameraPosition" : [-332.968, 109.962, 119.978],
+		"CameraPosition" : [-203.56, 64.0, -94.9391],
 		"CameraOrientationX" : -10.0,
 		"CameraOrientationY" : -35.0,
 		"CameraOrientationZ" : 0.0
@@ -425,7 +425,7 @@
 		"friendlyName" : "Delorean",
 		"typeOfObject" : 3,
 		"radius" : 0.0,
-		"position" : [-199.237, 107.0, -102.391], 
+		"position" : [-199.237, 64.0, -102.391], 
 		"diffuseColour" : [0.0, 0.0, 0.0, 1.0],
 		"hasMaterialColour" : true,
 		"specular" : [0.25, 0.25, 0.14, 40.0],
