@@ -1,11 +1,16 @@
 #include "Physics.h"
 #include <glm/vec3.hpp>
+//#include <glm/mat4x4.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <vector>
 #include "cGameObject.h"
 #include "cAABBsManager.h"
 #include "cSimpleDebugRenderer.h"
 #include "cTransparencyManager.h"
 #include "simpleAI.h"
+#include "OptTriTri.h"
+
 
 extern cTransparencyManager* g_pTranspManager;
 
@@ -22,6 +27,8 @@ extern cVAOMeshManager* g_pVAOManager;
 void updateGameObjects(double deltaTime,
                        glm::vec3 gravity,
                        std::vector<cGameObject*> vecGO);
+
+bool areIntercepting(sCollisionTriangle*, sAABB_Triangle*);
 
 // Update the world 1 "step" in time
 void PhysicsStep(double deltaTime)
@@ -88,10 +95,6 @@ void updateGameObjects(double deltaTime,
                 {
                     if(GO_ID == vecIDs[i])
                     {
-                        //=====================================================
-                        // WARNING it had a == and was working
-                        // Investigate
-                        //=====================================================
                         hasID = true;
                         break;
                     }
@@ -140,7 +143,7 @@ void updateGameObjects(double deltaTime,
                             pCurGO->position = pCurGO->previousPosition;
                             pCurGO->vel.y *= 0.7f;
                         }
-
+                        //----------------------------------------------------------
                         // Create the triangle                    
                         sVertex tmpGeo;
 
@@ -220,10 +223,6 @@ void updateGameObjects(double deltaTime,
                     {
                         if(GO_ID == vecIDs[i])
                         {
-                            //=====================================================
-                            // WARNING it had a == and was working
-                            // Investigate
-                            //=====================================================
                             hasID = true;
                             break;
                         }
@@ -241,6 +240,7 @@ void updateGameObjects(double deltaTime,
                     if(g_pAABBsManager->getAABB(vecIDs[i], theAABB))
                     {
                         std::vector<sVertex> theGeometry;
+                        std::vector<sVertex> CollisionGeometry;
 
                         for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
                         {
@@ -259,6 +259,23 @@ void updateGameObjects(double deltaTime,
 
                             //---------------------------------------------------------
                             // Collision Detection
+                            for (int collIndex = 0; collIndex < pCurGO->contacPoints.size(); collIndex++)
+                            {
+                                sCollisionGeometry Geometry = pCurGO->contacPoints[collIndex];
+
+                                for (int geoIndex = 0; geoIndex < Geometry.collisionTriangles.size(); geoIndex++)
+                                {
+                                    sCollisionTriangle* collTri = Geometry.collisionTriangles[geoIndex];
+                                                                        
+                                    //Test if the trianlge is intercepting with a mesh
+                                    if (areIntercepting(collTri, theTri))
+                                    {
+                                        // Do somethinbg
+                                    }
+                                }
+
+                            }
+
                             // Not yet
                             //---------------------------------------------------------
 
@@ -297,10 +314,61 @@ void updateGameObjects(double deltaTime,
                             theGeometry.push_back(tmpGeo);
                         }
 
+
+                        for (int collIndex = 0; collIndex < pCurGO->contacPoints.size(); collIndex++)
+                        {
+                            sCollisionGeometry Geometry = pCurGO->contacPoints[collIndex];
+
+                            for (int geoIndex = 0; geoIndex < Geometry.collisionTriangles.size(); geoIndex++)
+                            {
+                                sCollisionTriangle* collTri = Geometry.collisionTriangles[geoIndex];
+
+                                //collTri->verticeA += pCurGO->position;
+                                //collTri->verticeB += pCurGO->position;
+                                //collTri->verticeC += pCurGO->position;
+
+                                // Create the triangle                    
+                                sVertex tmpGeo;
+
+                                tmpGeo.x = collTri->verticeA.x;
+                                tmpGeo.y = collTri->verticeA.y;
+                                tmpGeo.z = collTri->verticeA.z;
+                                // Find vertices normals
+                                glm::vec3 normal = glm::normalize(glm::cross(collTri->verticeA, collTri->verticeB));
+                                tmpGeo.nx = normal.x;
+                                tmpGeo.ny = normal.y;
+                                tmpGeo.nz = normal.z;
+                                CollisionGeometry.push_back(tmpGeo);
+
+                                tmpGeo.x = collTri->verticeB.x;
+                                tmpGeo.y = collTri->verticeB.y;
+                                tmpGeo.z = collTri->verticeB.z;
+                                // Find vertices normals
+                                normal = glm::normalize(glm::cross(collTri->verticeB, collTri->verticeC));
+                                tmpGeo.nx = normal.x;
+                                tmpGeo.ny = normal.y;
+                                tmpGeo.nz = normal.z;
+                                CollisionGeometry.push_back(tmpGeo);
+
+                                tmpGeo.x = collTri->verticeC.x;
+                                tmpGeo.y = collTri->verticeC.y;
+                                tmpGeo.z = collTri->verticeC.z;
+
+                                // Find vertices normals
+                                normal = glm::normalize(glm::cross(collTri->verticeC, collTri->verticeA));
+                                tmpGeo.nx = normal.x;
+                                tmpGeo.ny = normal.y;
+                                tmpGeo.nz = normal.z;
+                                CollisionGeometry.push_back(tmpGeo);
+                            }
+
+                        }
+
                         // Print the mesh
                         if(pCurGO->isDebugAABBActive)
                         {
                             g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
+                            g_simpleDebug->drawCustomGeometry(CollisionGeometry, glm::vec3(1.0f, 0.0f, 0.0f));
                         }
 
                     }
@@ -384,4 +452,48 @@ glm::vec3 ClosestPtPointTriangle(glm::vec3 p, glm::vec3 a, glm::vec3 b, glm::vec
     float v = vb * denom;
     float w = vc * denom;
     return a + ab * v + ac * w; // = u*a + v*b + w*c, u = va * denom = 1.0f - v - w
+}
+
+bool areIntercepting(sCollisionTriangle* collTri, sAABB_Triangle* AABB_Tri)
+{
+    float collTriA[3];
+    collTriA[0] = collTri->verticeA.x;
+    collTriA[1] = collTri->verticeA.y;
+    collTriA[2] = collTri->verticeA.z;
+
+    float collTriB[3];
+    collTriB[0] = collTri->verticeB.x;
+    collTriB[1] = collTri->verticeB.y;
+    collTriB[2] = collTri->verticeB.z;
+
+    float collTriC[3];
+    collTriC[0] = collTri->verticeC.x;
+    collTriC[1] = collTri->verticeC.y;
+    collTriC[2] = collTri->verticeC.z;
+
+    float AABB_TriA[3];
+    AABB_TriA[0] = AABB_Tri->verticeA.x;
+    AABB_TriA[1] = AABB_Tri->verticeA.y;
+    AABB_TriA[2] = AABB_Tri->verticeA.z;
+
+    float AABB_TriB[3];
+    AABB_TriB[0] = AABB_Tri->verticeB.x;
+    AABB_TriB[1] = AABB_Tri->verticeB.y;
+    AABB_TriB[2] = AABB_Tri->verticeB.z;
+
+    float AABB_TriC[3];
+    AABB_TriC[0] = AABB_Tri->verticeC.x;
+    AABB_TriC[1] = AABB_Tri->verticeC.y;
+    AABB_TriC[2] = AABB_Tri->verticeC.z;
+
+    if (NoDivTriTriIsect(collTriA, collTriB, collTriC,
+                         AABB_TriA, AABB_TriB, AABB_TriC))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+        
 }
