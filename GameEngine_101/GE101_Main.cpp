@@ -642,6 +642,11 @@ void DrawObject(cGameObject* pTheGO)
         glUniform1f(uniLoc_HasReflection, 0.0f);
     }
 
+    // Set up cube map...
+    GLuint cubeMapNumber = ::g_pTextureManager->getTextureIDFromName("space");
+    glActiveTexture(GL_TEXTURE31);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
+
     // Set up the textures
     std::string textureName = pTheGO->textureNames[0];
     GLuint texture00Number
@@ -687,6 +692,11 @@ void DrawObject(cGameObject* pTheGO)
     GLint texCubeBlend01_LocID = glGetUniformLocation(curShaderID, "texCubeBlend01");
     GLint texCubeBlend02_LocID = glGetUniformLocation(curShaderID, "texCubeBlend02");
     GLint texCubeBlend03_LocID = glGetUniformLocation(curShaderID, "texCubeBlend03");
+
+    glUniform1i(texSampCube00_LocID, 31);
+    glUniform1i(texSampCube01_LocID, 31);
+    glUniform1i(texSampCube02_LocID, 31);
+    glUniform1i(texSampCube03_LocID, 31);
 
     // This connects the texture sampler to the texture units... 
     glUniform1i( textSampler00_ID, 0  );
