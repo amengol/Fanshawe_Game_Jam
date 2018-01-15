@@ -119,8 +119,8 @@ void cGameObject::DebugUpdate(double deltaTime)
 
      // New velocity is based on acceleration over time
      // Acceleration is based on local axis
-     glm::vec3 newAccel = this->orientation * glm::vec4(this->accel, 0.0f);
-     glm::vec3 deltaVelocity = ((float)deltaTime * newAccel)
+     //glm::vec3 newAccel = this->orientation * glm::vec4(this->accel, 0.0f);
+     glm::vec3 deltaVelocity = ((float)deltaTime * /*newAccel*/this->accel)
          + ((float)deltaTime * GRAVITY);
      this->vel += deltaVelocity;
 

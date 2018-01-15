@@ -31,7 +31,6 @@
 {"meshName" : "Del_Collision005", "meshFile" : "Del_Collision005.ply", "type" : 0, "isPersistent" : true},
 {"meshName" : "Del_Collision006", "meshFile" : "Del_Collision006.ply", "type" : 0, "isPersistent" : true},
 {"meshName" : "Del_Collision007", "meshFile" : "Del_Collision007.ply", "type" : 0, "isPersistent" : true},
-{"meshName" : "Sphere", "meshFile" : "Sphere.ply", "type" : 0, "isPersistent" : false},
 {"meshName" : "Cloud1", "meshFile" : "Cloud1.ply", "type" : 2, "isPersistent" : false},
 {"meshName" : "Cloud2", "meshFile" : "Cloud2.ply", "type" : 2, "isPersistent" : false},
 {"meshName" : "Cloud2", "meshFile" : "Cloud2.ply", "type" : 2, "isPersistent" : false},

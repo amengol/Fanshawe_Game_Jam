@@ -283,25 +283,25 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_A:        // Move camera right along local X axis
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->rateOfTurnZ -= 30.0f;
+            theGO->rateOfTurnY += 30.0f;
         }
         break;
         case GLFW_KEY_D:        // Move camera right along local x axis
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->rateOfTurnZ += 30.0f;
+            theGO->rateOfTurnY -= 30.0f;
         }
         break;
         case GLFW_KEY_Q:        // Increase high along Y axis
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->position.y += 1.0f;
+            theGO->vel.y += 0.1f;
         }
         break;
         case GLFW_KEY_E:        // Decrease high along Y axis
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->position.y -= 1.0f;
+            theGO->vel.y -= 0.1f;
         }
         break;
         case GLFW_KEY_Z:        // rotate around local GameObject Z axis +
