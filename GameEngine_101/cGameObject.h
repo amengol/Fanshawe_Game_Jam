@@ -9,6 +9,7 @@
 #include "sCollisionTriangle.h"
 
 class cMesh;
+class cSoudObject;
 
 enum eTypeOfObject
 {	
@@ -108,10 +109,19 @@ public:
     void rotateY(float degreesY);
     void rotateZ(float degreesZ);
 
+    // Sound
+    bool initSoundObject(std::string name);
+    bool hasSound();
+    cSoudObject* getSoundObject();
+    std::string getSoundName();
  
  private:
      unsigned int m_UniqueID;
      // Used when creating objects
      static unsigned int m_nextUniqueID;
+
+     // Sound properties
+     cSoudObject* mGOSound;
+     bool mHasSound;
 };
 #endif

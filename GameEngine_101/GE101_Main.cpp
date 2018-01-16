@@ -28,6 +28,7 @@
 #include "cTransparencyManager.h"
 #include "Utilities.h"
 #include "cSceneLoader.h"
+#include "cSoundManager.h"
 
 using namespace std;
 
@@ -55,8 +56,7 @@ long long g_lineID = -1;
 float g_AABBSize = 20.0f;
 
 // To deal with sounds
-// Disabled for now
-// cSoundManager* g_pSoundManager = NULL;
+cSoundManager* g_pSoundManager = NULL;
 
 
 // Other uniforms:
@@ -250,8 +250,8 @@ int main()
     //}
     //=========================================================================
     // Sound things
-    // g_pSoundManager = new cSoundManager();
-    // g_pSoundManager->initSoundScene();
+     g_pSoundManager = new cSoundManager();
+     g_pSoundManager->initSoundScene();
     //=========================================================================
 
     // End of loading models
@@ -335,7 +335,7 @@ int main()
     {
         //=====================================================================
         //Sound
-        //g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
+        g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
         //=====================================================================
 
         float ratio;
@@ -490,7 +490,7 @@ int main()
     delete ::g_pVAOManager;
     delete ::g_simpleDebug;
     delete ::g_pAABBsManager;
-    //delete ::g_pSoundManager;
+    delete ::g_pSoundManager;
     delete ::g_pTranspManager;
 
     return 0;

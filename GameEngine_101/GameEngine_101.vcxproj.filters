@@ -43,6 +43,9 @@
     <Filter Include="AI">
       <UniqueIdentifier>{a88ec110-43fe-447a-8333-7e018c8bd928}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sounds Related">
+      <UniqueIdentifier>{96237b34-24a7-4a2f-8b1e-131adae2a78a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\simpleVert.glsl">
@@ -146,6 +149,15 @@
     <ClCompile Include="opttritri.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
+    <ClCompile Include="cSoundManager.cpp">
+      <Filter>Sounds Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cSoundManager_Imp.cpp">
+      <Filter>Sounds Related</Filter>
+    </ClCompile>
+    <ClCompile Include="cSoundObject.cpp">
+      <Filter>Sounds Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -234,6 +246,15 @@
     </ClInclude>
     <ClInclude Include="OptTriTri.h">
       <Filter>Vertex, Model and Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cSoundManager.h">
+      <Filter>Sounds Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cSoundManager_Imp.h">
+      <Filter>Sounds Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cSoundObject.h">
+      <Filter>Sounds Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

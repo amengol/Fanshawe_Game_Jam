@@ -1,6 +1,7 @@
 #include "cGameObject.h"
 #include <fmod\fmod.hpp>
 #include "cMesh.h"
+#include "cSoundObject.h"
 
 cGameObject::cGameObject()
 {
@@ -20,6 +21,8 @@ cGameObject::cGameObject()
     this->hadAlreadyCollided = false;
 	this->radius = 0.0f;
 	this->typeOfObject = eTypeOfObject::UNKNOWN;
+    this->mGOSound = NULL;
+    this->mHasSound = false;
 	this->bIsWireFrame = false;
     this->hasColour = false;
     this->hasAlpha = false;
@@ -141,6 +144,11 @@ void cGameObject::DebugUpdate(double deltaTime)
          float theTurnZ = (this->rateOfTurnZ * deltaTime) / 60.0f;
          this->orientation = glm::rotate(this->orientation, glm::radians(theTurnZ), glm::vec3(0.0f, 0.0f, 1.0f));
      }
+     //------------------------------------------------------------------------ 
+     // Update sound Objects
+     if(this->mHasSound)
+         this->mGOSound->setPosition(this->position);
+     //------------------------------------------------------------------------ 
   }
 
  void cGameObject::rotateX(float degreesX)
@@ -156,4 +164,41 @@ void cGameObject::DebugUpdate(double deltaTime)
  void cGameObject::rotateZ(float degreesZ)
  {
      this->orientation = glm::rotate(this->orientation, glm::radians(degreesZ), glm::vec3(0.0f, 0.0f, 1.0f));
+ }
+
+ bool cGameObject::initSoundObject(std::string name)
+ {
+     if(!this->mHasSound) {
+         cSoudObject* theSO = new cSoudObject();
+         theSO->setFMODType(FMOD_3D);
+         theSO->setPosition(this->position);
+         theSO->setMovType(2);
+         theSO->setfriendlyName(name);
+         this->mGOSound = theSO;
+         mHasSound = true;
+         return true;
+     }
+     return false;
+ }
+
+ bool cGameObject::hasSound()
+ {
+     return this->mHasSound;
+ }
+
+ cSoudObject* cGameObject::getSoundObject()
+ {
+     if(this->mHasSound)
+         return this->mGOSound;
+     else {
+         this->initSoundObject("Generic");
+         return this->mGOSound;
+     }
+
+ }
+
+ std::string cGameObject::getSoundName()
+ {
+     if(this->mHasSound)
+         return this->mGOSound->getFriendlyName();
  }
