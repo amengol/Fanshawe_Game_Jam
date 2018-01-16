@@ -24,6 +24,7 @@
 # end of "heavy" models
 {"meshName" : "md500", "meshFile" : "md500.ply", "type" : 2, "isPersistent" : true},
 {"meshName" : "Delorean", "meshFile" : "Delorean_Textured.ply", "type" : 2, "isPersistent" : false},
+{"meshName" : "Marty", "meshFile" : "Marty.ply", "type" : 2, "isPersistent" : false},
 {"meshName" : "Del_Collision001", "meshFile" : "Del_Collision001.ply", "type" : 0, "isPersistent" : true},
 {"meshName" : "Del_Collision002", "meshFile" : "Del_Collision002.ply", "type" : 0, "isPersistent" : true},
 {"meshName" : "Del_Collision003", "meshFile" : "Del_Collision003.ply", "type" : 0, "isPersistent" : true},

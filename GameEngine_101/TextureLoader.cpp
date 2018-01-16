@@ -33,6 +33,15 @@ bool loadTextures()
         std::cout << "Texture is loaded!" << std::endl;
     }
 
+    ::g_pTextureManager->SetBasePath("assets/textures");
+
+    if(!::g_pTextureManager->Create2DTextureFromBMPFile("Marty.bmp", true)) {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    } else {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
     if (!::g_pTextureManager->Create2DTextureFromBMPFile("delorean_reflection.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
