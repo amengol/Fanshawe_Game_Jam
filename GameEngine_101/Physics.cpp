@@ -198,19 +198,23 @@ void updateGameObjects(double deltaTime,
                 
                 // Take the mesh extents
                 cMesh theMesh;
-                g_pVAOManager->lookupMeshFromName(pCurGO->meshName, theMesh);
-                float diameter = theMesh.maxExtent;
+                if (!g_pVAOManager->lookupMeshFromName(pCurGO->meshName, theMesh))
+                {
+                    // Can't find the mesh
+                    return;
+                }
+                float extent = theMesh.maxExtent;
 
                 // Vertices                
                 glm::vec3 vertices[8];
-                vertices[0] = glm::vec3(pCurGO->position - pCurGO->radius);
-                vertices[1] = glm::vec3(vertices[0].x + diameter, vertices[0].y, vertices[0].z);
-                vertices[2] = glm::vec3(vertices[0].x, vertices[0].y + diameter, vertices[0].z);
-                vertices[3] = glm::vec3(vertices[0].x + diameter, vertices[0].y + diameter, vertices[0].z);
-                vertices[4] = glm::vec3(vertices[0].x, vertices[0].y, vertices[0].z + diameter);
-                vertices[5] = glm::vec3(vertices[0].x + diameter, vertices[0].y, vertices[0].z + diameter);
-                vertices[6] = glm::vec3(vertices[0].x, vertices[0].y + diameter, vertices[0].z + diameter);
-                vertices[7] = glm::vec3(vertices[0].x + diameter, vertices[0].y + diameter, vertices[0].z + diameter);
+                vertices[0] = pCurGO->position - (extent / 2.0f);
+                vertices[1] = glm::vec3(vertices[0].x + extent, vertices[0].y, vertices[0].z);
+                vertices[2] = glm::vec3(vertices[0].x, vertices[0].y + extent, vertices[0].z);
+                vertices[3] = glm::vec3(vertices[0].x + extent, vertices[0].y + extent, vertices[0].z);
+                vertices[4] = glm::vec3(vertices[0].x, vertices[0].y, vertices[0].z + extent);
+                vertices[5] = glm::vec3(vertices[0].x + extent, vertices[0].y, vertices[0].z + extent);
+                vertices[6] = glm::vec3(vertices[0].x, vertices[0].y + extent, vertices[0].z + extent);
+                vertices[7] = glm::vec3(vertices[0].x + extent, vertices[0].y + extent, vertices[0].z + extent);
 
                 std::vector<long long> vecIDs;
                 for(int i = 0; i < 8; i++)
@@ -235,6 +239,9 @@ void updateGameObjects(double deltaTime,
                     }
                 }
 
+                // Avoid getting stuck
+                bool thisPassCollided = false;
+
                 for(int i = 0; i < vecIDs.size(); i++)
                 {
                     // Check if we have an AABB in that position
@@ -242,8 +249,6 @@ void updateGameObjects(double deltaTime,
                     if(g_pAABBsManager->getAABB(vecIDs[i], theAABB))
                     {
                         std::vector<sVertex> theGeometry;
-                        
-                        bool thisPassCollided = false;
 
                         for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
                         {
@@ -342,13 +347,7 @@ void updateGameObjects(double deltaTime,
                             tmpGeo.nz = normal.z;
                             theGeometry.push_back(tmpGeo);
                         }                        
-
-                        // Did this pass had a collision
-                        if (!thisPassCollided)
-                        {
-                            pCurGO->hadAlreadyCollided = false;
-                        }
-
+                                                
                         // Print the mesh
                         if(pCurGO->isDebugAABBActive)
                         {
@@ -356,6 +355,12 @@ void updateGameObjects(double deltaTime,
                         }
 
                     }
+                }
+
+                // Did this pass had a collision
+                if (!thisPassCollided)
+                {
+                    pCurGO->hadAlreadyCollided = false;
                 }
 
             }

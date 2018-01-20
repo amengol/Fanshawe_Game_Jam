@@ -414,7 +414,38 @@ int main()
                     vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
 
                     DrawAABBforPoints(vertices, g_AABBSize);
-                } else
+                } 
+                else if(pTheGO->typeOfObject == MESH)
+                {
+                    // Calculate all AABBs for the mesh
+                    // Put the mesh inside an axis-aligned box
+
+                    // Take the mesh extents
+                    cMesh theMesh;
+                    if (!g_pVAOManager->lookupMeshFromName(pTheGO->meshName, theMesh))
+                    {
+                        // Can't find the mesh
+                        continue;
+                    }
+
+                    float extent = theMesh.maxExtent;
+
+                    // Vertices
+                    std::vector<glm::vec3> vertices;
+                    glm::vec3 vertex0(0.0f);
+                    vertex0 = pTheGO->position - (extent / 2.0f);
+                    vertices.push_back(vertex0);
+                    vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y, vertex0.z));
+                    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + extent, vertex0.z));
+                    vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y + extent, vertex0.z));
+                    vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + extent));
+                    vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y, vertex0.z + extent));
+                    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + extent, vertex0.z + extent));
+                    vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y + extent, vertex0.z + extent));
+
+                    DrawAABBforPoints(vertices, g_AABBSize);
+                }
+                else
                 {
                     DrawAABB(pTheGO, g_AABBSize);
                 }
