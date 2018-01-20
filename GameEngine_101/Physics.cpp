@@ -201,7 +201,7 @@ void updateGameObjects(double deltaTime,
                 if (!g_pVAOManager->lookupMeshFromName(pCurGO->meshName, theMesh))
                 {
                     // Can't find the mesh
-                    return;
+                    break;
                 }
                 float extent = theMesh.maxExtent;
 
