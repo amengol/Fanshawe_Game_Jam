@@ -54,6 +54,7 @@ std::map<long long, miniVAOInfo> g_map_AABBID_miniVAO;
 long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
+float g_FOV = 0.6f;
 
 // To deal with sounds
 cSoundManager* g_pSoundManager = NULL;
@@ -363,10 +364,10 @@ int main()
         glm::mat4x4 matProjection;
 
         // Projection and view don't change per scene (maybe)
-        matProjection = glm::perspective(0.6f,			// FOV
-                        ratio,		// Aspect ratio
-                        1.0f,			// Near (as big as possible)
-                        200000.0f);	// Far (as small as possible)
+        matProjection = glm::perspective(g_FOV,			// FOV
+                                         ratio,		    // Aspect ratio
+                                         1.0f,		   	// Near (as big as possible)
+                                         200000.0f);    // Far (as small as possible)
 
         g_pCamera->update();
 

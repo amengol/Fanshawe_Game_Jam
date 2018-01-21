@@ -3,6 +3,7 @@
 #include "cTransparencyManager.h"
 
 extern cTransparencyManager* g_pTranspManager;
+extern float g_FOV;
 
 #include <iostream>
 
@@ -161,6 +162,12 @@ void key_callback(GLFWwindow* window,
                 ::g_pLightManager->vecLights[0].attenuation.z = 0.0f;
             else
                 ::g_pLightManager->vecLights[0].attenuation.z -= 0.01f;
+            break;
+        case GLFW_KEY_COMMA:
+            g_FOV -= 0.01;
+            break;
+        case GLFW_KEY_PERIOD:
+            g_FOV += 0.01;
             break;
         }// switch ( key ) 
     }
