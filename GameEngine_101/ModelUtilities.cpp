@@ -6,6 +6,8 @@
 #include "cGameObject.h"
 #include "Utilities.h"
 #include <rapidjson\document.h>
+#include "cAssimpAssetLoader.h"
+#include <iostream>
 
 cModelAssetLoader* g_pModelAssetLoader = NULL;
 
@@ -45,12 +47,13 @@ bool Load3DModelsIntoMeshManager(int shaderID,
     cModelAssetLoader* pModelAssetLoader,
     std::string &error)
 {
+    std::string filePath = "assets//models//";
     std::stringstream ssError;
     bool bAllGood = true;
 
     std::string jsonStr;
 
-    if(!loadFileIntoString(jsonStr, "assets//models//_models.json"))
+    if(!loadFileIntoString(jsonStr, filePath + "_models.json"))
     {
         ssError << "Didn't load the Json file!" << std::endl;
         bAllGood = false;
@@ -100,6 +103,54 @@ bool Load3DModelsIntoMeshManager(int shaderID,
         std::string meshFile = a[i]["meshFile"].GetString();
         unsigned int type = a[i]["type"].GetUint();
         bool isPersistent = a[i]["isPersistent"].GetBool();
+
+        //// Assimp
+        //cAssimAssetLoader ail;
+
+        //// Load the models
+        //if (!ail.Import3DFromFile(filePath + meshFile))
+        //{
+        //    std::cout << "There was an error importing the assimp model. See \"assimp_log.txt\" for details.\n";
+        //    return false;
+        //}
+        //else
+        //{
+        //    std::cout << "Assim scene created.\n";
+        //}
+
+        //const aiScene* scene = ail.getScene();
+
+        //// For now, we are goingo to just replace the ModelAssetLoader
+        //cMesh theMesh;
+        //const struct aiMesh* mesh = scene->mMeshes[0];
+        //theMesh.numberOfTriangles = mesh->mNumFaces;
+        //cTriangle* triangle;
+
+        //for (int faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex)
+        //{
+        //    const struct aiFace* face = &mesh->mFaces[faceIndex];
+        //    theMesh.numberOfVertices = face->mNumIndices;            
+        //   
+        //    for (int indicesIndex = 0; indicesIndex < face->mNumIndices; indicesIndex++)		// go through all vertices in face
+        //    {
+        //        int vertexIndex = face->mIndices[indicesIndex];	// get group index for current index
+        //        if (mesh->mColors[0] != NULL)
+        //        {
+        //            Color4f(&mesh->mColors[0][vertexIndex]);
+        //            theMesh.
+        //        }                    
+        //        if (mesh->mNormals != NULL)
+
+        //            if (mesh->HasTextureCoords(0))		//HasTextureCoords(texture_coordinates_set)
+        //            {
+        //                glTexCoord2f(mesh->mTextureCoords[0][vertexIndex].x, 1 - mesh->mTextureCoords[0][vertexIndex].y); //mTextureCoords[channel][vertex]
+        //            }
+
+        //        glNormal3fv(&mesh->mNormals[vertexIndex].x);
+        //        glVertex3fv(&mesh->mVertices[vertexIndex].x);
+        //    }
+        //    glEnd();
+        //}
 
         switch(type)
         {

@@ -73,5 +73,5 @@ void cAssimAssetLoader::createAILogger()
     Assimp::DefaultLogger::create("assimp_log.txt", severity, aiDefaultLogStream_FILE);
 
     // Now I am ready for logging my stuff
-    Assimp::DefaultLogger::get()->info("this is my info-call");
+    Assimp::DefaultLogger::get()->info("Starting the Assimp Logger");
 }
