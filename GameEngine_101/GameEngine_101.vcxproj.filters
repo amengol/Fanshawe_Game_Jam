@@ -158,6 +158,9 @@
     <ClCompile Include="cSoundObject.cpp">
       <Filter>Sounds Related</Filter>
     </ClCompile>
+    <ClCompile Include="cAssimpAssetLoader.cpp">
+      <Filter>Vertex, Model and Physics Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -255,6 +258,9 @@
     </ClInclude>
     <ClInclude Include="cSoundObject.h">
       <Filter>Sounds Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cAssimpAssetLoader.h">
+      <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
