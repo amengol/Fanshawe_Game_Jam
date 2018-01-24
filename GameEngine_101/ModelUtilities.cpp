@@ -104,116 +104,95 @@ bool Load3DModelsIntoMeshManager(int shaderID,
         unsigned int type = a[i]["type"].GetUint();
         bool isPersistent = a[i]["isPersistent"].GetBool();
 
-        //// Assimp
-        //cAssimAssetLoader ail;
+        // Assimp
+        cAssimAssetLoader ail;
 
-        //// Load the models
-        //if (!ail.Import3DFromFile(filePath + meshFile))
+        // Load the models
+        if (!ail.Import3DFromFile(filePath + meshFile))
+        {
+            std::cout << "There was an error importing the assimp model. "
+                      << "See \"assimp_log.txt\" for details.\n";
+            return false;
+        }
+        else
+        {
+            std::cout << "Assimp scene created.\n";
+        }
+
+        // Load the meshes into the VAO manager
+        if (!ail.loadMeshesIntoVAO(pVAOManager, shaderID, meshName, isPersistent))
+        {
+            std::cout << "There was an error loading the meshes into the VAO manager. "
+                      << "See \"assimp_log.txt\" for details.\n";
+            return false;
+        }
+        else
+        {
+            std::cout << "Meshes loaded into the VAO manager.\n";
+        }
+
+        //switch(type)
         //{
-        //    std::cout << "There was an error importing the assimp model. See \"assimp_log.txt\" for details.\n";
-        //    return false;
-        //}
-        //else
+        //case 0:
         //{
-        //    std::cout << "Assim scene created.\n";
-        //}
-
-        //const aiScene* scene = ail.getScene();
-
-        //// For now, we are goingo to just replace the ModelAssetLoader
-        //cMesh theMesh;
-        //const struct aiMesh* mesh = scene->mMeshes[0];
-        //theMesh.numberOfTriangles = mesh->mNumFaces;
-        //cTriangle* triangle;
-
-        //for (int faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex)
-        //{
-        //    const struct aiFace* face = &mesh->mFaces[faceIndex];
-        //    theMesh.numberOfVertices = face->mNumIndices;            
-        //   
-        //    for (int indicesIndex = 0; indicesIndex < face->mNumIndices; indicesIndex++)		// go through all vertices in face
+        //    cMesh mesh;
+        //    mesh.name = meshName;
+        //    if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals(meshFile, mesh))
         //    {
-        //        int vertexIndex = face->mIndices[indicesIndex];	// get group index for current index
-        //        if (mesh->mColors[0] != NULL)
-        //        {
-        //            Color4f(&mesh->mColors[0][vertexIndex]);
-        //            theMesh.
-        //        }                    
-        //        if (mesh->mNormals != NULL)
-
-        //            if (mesh->HasTextureCoords(0))		//HasTextureCoords(texture_coordinates_set)
-        //            {
-        //                glTexCoord2f(mesh->mTextureCoords[0][vertexIndex].x, 1 - mesh->mTextureCoords[0][vertexIndex].y); //mTextureCoords[channel][vertex]
-        //            }
-
-        //        glNormal3fv(&mesh->mNormals[vertexIndex].x);
-        //        glVertex3fv(&mesh->mVertices[vertexIndex].x);
+        //        //std::cout << "Didn't load model" << std::endl;
+        //        ssError << "Didn't load model >" << mesh.name << "<" << std::endl;
+        //        bAllGood = false;
         //    }
-        //    glEnd();
+
+        //    if(!pVAOManager->loadMeshIntoVAO(mesh, shaderID, isPersistent))
+        //    {
+        //        //std::cout << "Could not load mesh into VAO" << std::endl;
+        //        ssError << "Could not load mesh >" << mesh.name << "< into VAO" << std::endl;
+        //        bAllGood = false;
+        //    }
         //}
+        //    break;
+        //case 1:
+        //{
+        //    cMesh mesh;
+        //    mesh.name = meshName;
+        //    if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals_and_colours(meshFile, mesh))
+        //    {
+        //        //std::cout << "Didn't load model" << std::endl;
+        //        ssError << "Didn't load model >" << mesh.name << "<" << std::endl;
+        //        bAllGood = false;
+        //    }
 
-        switch(type)
-        {
-        case 0:
-        {
-            cMesh mesh;
-            mesh.name = meshName;
-            if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals(meshFile, mesh))
-            {
-                //std::cout << "Didn't load model" << std::endl;
-                ssError << "Didn't load model >" << mesh.name << "<" << std::endl;
-                bAllGood = false;
-            }
+        //    if(!pVAOManager->loadMeshIntoVAO(mesh, shaderID, isPersistent))
+        //    {
+        //        //std::cout << "Could not load mesh into VAO" << std::endl;
+        //        ssError << "Could not load mesh >" << mesh.name << "< into VAO" << std::endl;
+        //        bAllGood = false;
+        //    }
+        //}
+        //break;
+        //case 2:
+        //{
+        //    cMesh mesh;
+        //    mesh.name = meshName;
+        //    if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV(meshFile, mesh))
+        //    {
+        //        //std::cout << "Didn't load model" << std::endl;
+        //        ssError << "Didn't load model >" << mesh.name << "<" << std::endl;
+        //        bAllGood = false;
+        //    }
 
-            if(!pVAOManager->loadMeshIntoVAO(mesh, shaderID, isPersistent))
-            {
-                //std::cout << "Could not load mesh into VAO" << std::endl;
-                ssError << "Could not load mesh >" << mesh.name << "< into VAO" << std::endl;
-                bAllGood = false;
-            }
-        }
-            break;
-        case 1:
-        {
-            cMesh mesh;
-            mesh.name = meshName;
-            if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals_and_colours(meshFile, mesh))
-            {
-                //std::cout << "Didn't load model" << std::endl;
-                ssError << "Didn't load model >" << mesh.name << "<" << std::endl;
-                bAllGood = false;
-            }
-
-            if(!pVAOManager->loadMeshIntoVAO(mesh, shaderID, isPersistent))
-            {
-                //std::cout << "Could not load mesh into VAO" << std::endl;
-                ssError << "Could not load mesh >" << mesh.name << "< into VAO" << std::endl;
-                bAllGood = false;
-            }
-        }
-        break;
-        case 2:
-        {
-            cMesh mesh;
-            mesh.name = meshName;
-            if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV(meshFile, mesh))
-            {
-                //std::cout << "Didn't load model" << std::endl;
-                ssError << "Didn't load model >" << mesh.name << "<" << std::endl;
-                bAllGood = false;
-            }
-
-            if(!pVAOManager->loadMeshIntoVAO(mesh, shaderID, isPersistent))
-            {
-                //std::cout << "Could not load mesh into VAO" << std::endl;
-                ssError << "Could not load mesh >" << mesh.name << "< into VAO" << std::endl;
-                bAllGood = false;
-            }
-        }
-        break;
-        default:
-            break;
-        }    
+        //    if(!pVAOManager->loadMeshIntoVAO(mesh, shaderID, isPersistent))
+        //    {
+        //        //std::cout << "Could not load mesh into VAO" << std::endl;
+        //        ssError << "Could not load mesh >" << mesh.name << "< into VAO" << std::endl;
+        //        bAllGood = false;
+        //    }
+        //}
+        //break;
+        //default:
+        //    break;
+        //}    
 
     }
 

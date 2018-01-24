@@ -6,24 +6,43 @@
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 
+class cVAOMeshManager;
+
 class cAssimAssetLoader
 {
 public:
     cAssimAssetLoader();
     ~cAssimAssetLoader();
 
+    // Creates the logger
+    void createAILogger();
+
     // Adds a message to the log file
     void logInfo(std::string logString);
 
+    // Imports  the 3D scene from a file
     bool Import3DFromFile(const std::string& pFile);
 
-    const aiScene* getScene();
+    // Loads all meshes into the VAO manager. If there is more than one mesh in
+    // the Assimp Scene, all of them will have the friendlyName and persistence
+    bool loadMeshesIntoVAO(cVAOMeshManager*, 
+                           int shaderID,
+                           std::string meshName, 
+                           bool isPersistent);
 
 private:
-    void createAILogger();
     
+    // Recurse mesh loader
+    bool recursiveVAOMeshLoader(cVAOMeshManager*,
+                                int shaderID,
+                                std::string meshName,
+                                const struct aiScene*, 
+                                const struct aiNode*,
+                                bool isPersistent);
+
     // the global Assimp scene object
     const aiScene* scene;
+
     // Create an instance of the Importer class
     Assimp::Importer importer;
 };

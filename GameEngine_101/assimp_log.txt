@@ -1,47 +1,51 @@
-Info,  T27868: this is my info-call
-Info,  T27868: start logging for real
-Info,  T27868: Load assets//models//SkyBox.ply
-Debug, T27868: Assimp 3.3.0 amd64 msvc debug shared singlethreaded
-Info,  T27868: Found a matching importer for this file format: Stanford Polygon Library (PLY) Importer.
-Info,  T27868: Import root directory is 'assets//models/'
-Debug, T27868: PLY::DOM::ParseInstance() begin
-Debug, T27868: PLY::DOM::ParseHeader() begin
-Debug, T27868: PLY::DOM::ParseHeader() succeeded
-Debug, T27868: PLY::DOM::ParseElementInstanceLists() begin
-Debug, T27868: PLY::DOM::ParseElementInstanceLists() succeeded
-Debug, T27868: PLY::DOM::ParseInstance() succeeded
-Info,  T27868: Entering post processing pipeline
-Debug, T27868: RemoveRedundantMatsProcess begin
-Debug, T27868: RemoveRedundantMatsProcess finished 
-Debug, T27868: FindDegeneratesProcess begin
-Debug, T27868: FindDegeneratesProcess finished
-Debug, T27868: GenUVCoordsProcess begin
-Debug, T27868: GenUVCoordsProcess finished
-Debug, T27868: TriangulateProcess begin
-Debug, T27868: TriangulateProcess finished. There was nothing to be done.
-Debug, T27868: SortByPTypeProcess begin
-Info,  T27868: Points: 0, Lines: 0, Triangles: 1, Polygons: 0 (Meshes, X = removed)
-Debug, T27868: SortByPTypeProcess finished
-Debug, T27868: FindInvalidDataProcess begin
-Debug, T27868: FindInvalidDataProcess finished. Everything seems to be OK.
-Debug, T27868: SplitLargeMeshesProcess_Triangle begin
-Debug, T27868: SplitLargeMeshesProcess_Triangle finished. There was nothing to do
-Debug, T27868: Generate spatially-sorted vertex cache
-Debug, T27868: GenVertexNormalsProcess begin
-Debug, T27868: GenVertexNormalsProcess finished. Normals are already there
-Debug, T27868: CalcTangentsProcess begin
-Error, T27868: Failed to compute tangents; need UV data in channel0
-Debug, T27868: CalcTangentsProcess finished
-Debug, T27868: JoinVerticesProcess begin
-Debug, T27868: Mesh 0 (unnamed) | Verts in: 3840 out: 642 | ~83.2813%
-Info,  T27868: JoinVerticesProcess finished | Verts in: 3840 out: 642 | ~83.3%
-Debug, T27868: SplitLargeMeshesProcess_Vertex begin
-Debug, T27868: SplitLargeMeshesProcess_Vertex finished. There was nothing to do
-Debug, T27868: LimitBoneWeightsProcess begin
-Debug, T27868: LimitBoneWeightsProcess end
-Debug, T27868: ImproveCacheLocalityProcess begin
-Debug, T27868: Mesh 0 | ACMR in: 0.929688 out: 0.710938 | ~23.5%
-Info,  T27868: Cache relevant are 1 meshes (1280 faces). Average output ACMR is 0.710938
-Debug, T27868: ImproveCacheLocalityProcess finished. 
-Info,  T27868: Leaving post processing pipeline
-Info,  T27868: Import of scene assets//models//SkyBox.ply succeeded.
+Info,  T37072: Starting the Assimp Logger
+Info,  T37072: Load assets//models//Cloud4.ply
+Debug, T37072: Assimp 3.3.0 amd64 msvc shared singlethreaded
+Info,  T37072: Found a matching importer for this file format: Stanford Polygon Library (PLY) Importer.
+Info,  T37072: Import root directory is 'assets//models/'
+Debug, T37072: PLY::DOM::ParseInstance() begin
+Debug, T37072: PLY::DOM::ParseHeader() begin
+Info,  T37072: Found unknown property semantic in file. This is ok
+Info,  T37072: Found unknown semantic in PLY file. This is OK
+Info,  T37072: Found unknown property semantic in file. This is ok
+Info,  T37072: Found unknown semantic in PLY file. This is OK
+Debug, T37072: PLY::DOM::ParseHeader() succeeded
+Debug, T37072: PLY::DOM::ParseElementInstanceLists() begin
+Debug, T37072: PLY::DOM::ParseElementInstanceLists() succeeded
+Debug, T37072: PLY::DOM::ParseInstance() succeeded
+Info,  T37072: Entering post processing pipeline
+Debug, T37072: RemoveRedundantMatsProcess begin
+Debug, T37072: RemoveRedundantMatsProcess finished 
+Debug, T37072: FindDegeneratesProcess begin
+Debug, T37072: FindDegeneratesProcess finished
+Debug, T37072: GenUVCoordsProcess begin
+Debug, T37072: GenUVCoordsProcess finished
+Debug, T37072: TriangulateProcess begin
+Debug, T37072: TriangulateProcess finished. There was nothing to be done.
+Debug, T37072: SortByPTypeProcess begin
+Info,  T37072: Points: 0, Lines: 0, Triangles: 1, Polygons: 0 (Meshes, X = removed)
+Debug, T37072: SortByPTypeProcess finished
+Debug, T37072: FindInvalidDataProcess begin
+Debug, T37072: FindInvalidDataProcess finished. Everything seems to be OK.
+Debug, T37072: SplitLargeMeshesProcess_Triangle begin
+Debug, T37072: SplitLargeMeshesProcess_Triangle finished. There was nothing to do
+Debug, T37072: Generate spatially-sorted vertex cache
+Debug, T37072: GenVertexNormalsProcess begin
+Debug, T37072: GenVertexNormalsProcess finished. Normals are already there
+Debug, T37072: CalcTangentsProcess begin
+Error, T37072: Failed to compute tangents; need UV data in channel0
+Debug, T37072: CalcTangentsProcess finished
+Debug, T37072: JoinVerticesProcess begin
+Debug, T37072: Mesh 0 (unnamed) | Verts in: 6 out: 4 | ~33.3333%
+Info,  T37072: JoinVerticesProcess finished | Verts in: 6 out: 4 | ~33.3%
+Debug, T37072: SplitLargeMeshesProcess_Vertex begin
+Debug, T37072: SplitLargeMeshesProcess_Vertex finished. There was nothing to do
+Debug, T37072: LimitBoneWeightsProcess begin
+Debug, T37072: LimitBoneWeightsProcess end
+Debug, T37072: ImproveCacheLocalityProcess begin
+Info,  T37072: Cache relevant are 0 meshes (0 faces). Average output ACMR is -nan(ind)
+Debug, T37072: ImproveCacheLocalityProcess finished. 
+Info,  T37072: Leaving post processing pipeline
+Info,  T37072: Import of scene assets//models//Cloud4.ply succeeded.
+Info,  T37072: ========= Start loadMeshesIntoVAO ==============
+Info,  T37072: ========= loadMeshesIntoVAO Succeeded ==============
