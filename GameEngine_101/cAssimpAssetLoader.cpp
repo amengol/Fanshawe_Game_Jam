@@ -12,7 +12,8 @@
 
 cAssimAssetLoader::cAssimAssetLoader()
 {
-    this->createAILogger();
+    // To enable loggin, uncoment the next line and all "logInfo" ones
+    //this->createAILogger();
     this->scene = NULL;
 }
 
@@ -37,7 +38,7 @@ bool cAssimAssetLoader::Import3DFromFile(const std::string & pFile)
     else
     {
         std::cout << "Couldn't open file: " + pFile;
-        this->logInfo(importer.GetErrorString());
+        //this->logInfo(importer.GetErrorString());
         return false;
     }
 
@@ -46,12 +47,12 @@ bool cAssimAssetLoader::Import3DFromFile(const std::string & pFile)
     // If the import failed, report it
     if (!scene)
     {
-        this->logInfo(importer.GetErrorString());
+        //this->logInfo(importer.GetErrorString());
         return false;
     }
 
     // Now we can access the file's contents.
-    this->logInfo("Import of scene " + pFile + " succeeded.");
+    //this->logInfo("Import of scene " + pFile + " succeeded.");
 
     // We're done. Everything will be cleaned up by the importer destructor
     return true;
@@ -62,18 +63,18 @@ bool cAssimAssetLoader::loadMeshesIntoVAO(cVAOMeshManager* pVAO,
                                           std::string meshName, 
                                           bool isPersistent)
 {
-    this->logInfo("========= Start loadMeshesIntoVAO ==============");
+    //this->logInfo("========= Start loadMeshesIntoVAO ==============");
 
     if (!recursiveVAOMeshLoader(pVAO, shaderID, meshName,
                                 this->scene,
                                 this->scene->mRootNode,
                                 isPersistent))
     {
-        this->logInfo("========= There was an error loading the mesh ==============");
+        //this->logInfo("========= There was an error loading the mesh ==============");
         return false;
     }
 
-    this->logInfo("========= loadMeshesIntoVAO Succeeded ==============");
+    //this->logInfo("========= loadMeshesIntoVAO Succeeded ==============");
     return true;
 }
 
@@ -144,7 +145,7 @@ bool cAssimAssetLoader::recursiveVAOMeshLoader(cVAOMeshManager* pVAO,
         // Now send the Engine Mesh to the VAO
         if (!pVAO->loadMeshIntoVAO(engMesh, shaderID, isPersistent))
         {
-            this->logInfo("Some went wrong during the \"loadMeshIntoVAO\" of the cVAOMeshManager!\n");
+            //this->logInfo("Some went wrong during the \"loadMeshIntoVAO\" of the cVAOMeshManager!\n");
             return false;
         }
     }
