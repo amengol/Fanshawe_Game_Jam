@@ -210,20 +210,22 @@ int main()
     // AABBs
     ::g_pAABBsManager = new cAABBsManager();
     cMesh meshWithAABBs;
-    ::g_pVAOManager->lookupMeshFromName("FacadeSets", meshWithAABBs);
+    ::g_pVAOManager->lookupMeshFromName("Collision", meshWithAABBs);
     ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    ::g_pVAOManager->lookupMeshFromName("RoofsEtc", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    ::g_pVAOManager->lookupMeshFromName("Asphalt", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    ::g_pVAOManager->lookupMeshFromName("Concrete", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    ::g_pVAOManager->lookupMeshFromName("Ground1", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    ::g_pVAOManager->lookupMeshFromName("Ground2", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    ::g_pVAOManager->lookupMeshFromName("StreetPart", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("FacadeSets", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("RoofsEtc", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("Asphalt", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("Concrete", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("Ground1", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("Ground2", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
+    //::g_pVAOManager->lookupMeshFromName("StreetPart", meshWithAABBs);
+    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
 
     //-------------------------------------------------------------------------
     // Simple Debug Renderer

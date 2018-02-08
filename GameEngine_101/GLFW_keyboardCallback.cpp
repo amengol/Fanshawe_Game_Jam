@@ -46,16 +46,27 @@ void key_callback(GLFWwindow* window,
         }
     }
 
-    if(key == GLFW_KEY_1 && action == GLFW_PRESS)
+    //if(key == GLFW_KEY_1 && action == GLFW_PRESS)
+    //{
+    //    for(int i = 0; i < g_pTranspManager->transpObjects.size(); i++)
+    //    {
+    //        if(g_pTranspManager->transpObjects[i]->friendlyName == "Basketball")
+    //        {
+    //            ::g_pCamera->lockOnGameObject(g_pTranspManager->transpObjects[i]);
+    //            g_pTranspManager->transpObjects[i]->rateOfTurnY = 0.0f;
+    //        }
+    //    }        
+    //}
+
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS)
     {
-        for(int i = 0; i < g_pTranspManager->transpObjects.size(); i++)
+        for (int i = 0; i < g_vecGameObjects.size(); i++)
         {
-            if(g_pTranspManager->transpObjects[i]->friendlyName == "Helicopter01")
+            if (g_vecGameObjects[i]->friendlyName == "Basketball")
             {
-                ::g_pCamera->lockOnGameObject(g_pTranspManager->transpObjects[i]);
-                g_pTranspManager->transpObjects[i]->rateOfTurnY = 0.0f;
+                ::g_pCamera->lockOnGameObject(g_vecGameObjects[i]);
             }
-        }        
+        }
     }
 
     if(key == GLFW_KEY_2 && action == GLFW_PRESS)
