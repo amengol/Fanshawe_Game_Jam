@@ -309,22 +309,22 @@ int main()
     // Camera end
     //-------------------------------------------------------------------------
     // Clouds
-    std::vector<GameObjectsInfo> transInfo;
-    for(int i = 0; i < 4; i++)
-    {
-        GameObjectsInfo ti;
-        ti.meshName = "Cloud" + std::to_string(i + 1);
-        ti.texture = "clouds.bmp";
-        ti.alpha = "clouds_alpha.bmp";
-        transInfo.push_back(ti);
-    }
+    //std::vector<GameObjectsInfo> transInfo;
+    //for(int i = 0; i < 4; i++)
+    //{
+    //    GameObjectsInfo ti;
+    //    ti.meshName = "Cloud" + std::to_string(i + 1);
+    //    ti.texture = "clouds.bmp";
+    //    ti.alpha = "clouds_alpha.bmp";
+    //    transInfo.push_back(ti);
+    //}
 
-    createRamdomGameObjects(100,
-                            ::g_pTranspManager->transpObjects,
-                            transInfo,
-                            -1000.0f, 1000.0f,
-                            150.0f, 180.0f,
-                            -1000.0f, 1000.0f);
+    //createRamdomGameObjects(100,
+    //                        ::g_pTranspManager->transpObjects,
+    //                        transInfo,
+    //                        -1000.0f, 1000.0f,
+    //                        150.0f, 180.0f,
+    //                        -1000.0f, 1000.0f);
     // ------------------------------------------------------------------------
     glEnable(GL_DEPTH);
 

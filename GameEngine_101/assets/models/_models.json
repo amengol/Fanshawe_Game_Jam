@@ -11,30 +11,12 @@
 {"Meshes" : 
 [
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply", "type" : 0, "isPersistent" : false},
-# Comment the following lines to speed up the load
-{"meshName" : "FacadeSets", "meshFile" : "FacadeSets.obj", "type" : 2, "isPersistent" : true},
-{"meshName" : "RoofsEtc", "meshFile" : "RoofsEtc.obj", "type" : 2, "isPersistent" : true},
-{"meshName" : "Asphalt", "meshFile" : "Asphalt.obj", "type" : 2, "isPersistent" : true},
-{"meshName" : "Concrete", "meshFile" : "Concrete.obj", "type" : 2, "isPersistent" : true},
-{"meshName" : "Curbs", "meshFile" : "Curbs.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Ground1", "meshFile" : "Ground1.obj", "type" : 2, "isPersistent" : true},
-{"meshName" : "Ground2", "meshFile" : "Ground2.obj", "type" : 2, "isPersistent" : true},
-{"meshName" : "StreetPart", "meshFile" : "StreetPart.obj", "type" : 2, "isPersistent" : true},
-{"meshName" : "SideWalkTree", "meshFile" : "SideWalkTree.obj", "type" : 2, "isPersistent" : false},
-# end of "heavy" models
-{"meshName" : "md500", "meshFile" : "md500.obj", "type" : 2, "isPersistent" : true},
-{"meshName" : "Delorean", "meshFile" : "Delorean_Textured.obj", "type" : 2, "isPersistent" : true},
-{"meshName" : "Marty", "meshFile" : "Marty.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Del_Collision001", "meshFile" : "Del_Collision001.ply", "type" : 0, "isPersistent" : true},
-{"meshName" : "Del_Collision002", "meshFile" : "Del_Collision002.ply", "type" : 0, "isPersistent" : true},
-{"meshName" : "Del_Collision003", "meshFile" : "Del_Collision003.ply", "type" : 0, "isPersistent" : true},
-{"meshName" : "Del_Collision004", "meshFile" : "Del_Collision004.ply", "type" : 0, "isPersistent" : true},
-{"meshName" : "Del_Collision005", "meshFile" : "Del_Collision005.ply", "type" : 0, "isPersistent" : true},
-{"meshName" : "Del_Collision006", "meshFile" : "Del_Collision006.ply", "type" : 0, "isPersistent" : true},
-{"meshName" : "Del_Collision007", "meshFile" : "Del_Collision007.ply", "type" : 0, "isPersistent" : true},
-{"meshName" : "Cloud1", "meshFile" : "Cloud1.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Cloud2", "meshFile" : "Cloud2.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Cloud2", "meshFile" : "Cloud2.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Cloud4", "meshFile" : "Cloud4.obj", "type" : 2, "isPersistent" : false}
+{"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply", "type" : 0, "isPersistent" : false},
+{"meshName" : "Wooden_Elements", "meshFile" : "Wooden_Elements.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Concrete_Elements", "meshFile" : "Concrete_Elements.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Steel", "meshFile" : "Steel.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Basket_Square", "meshFile" : "Basket_Square.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Fence", "meshFile" : "Fence.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Collision", "meshFile" : "Collision.obj", "type" : 1, "isPersistent" : true}
 ]
 }
