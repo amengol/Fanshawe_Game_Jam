@@ -458,7 +458,7 @@ bool cSceneLoader::loadLightParams(int shaderID,
     return true;
 }
 
-bool cSceneLoader::loadCameraParams(cCameraObject* camera, std::string error)
+bool cSceneLoader::loadCameraParams(cCameraObject* camera, std::string& error)
 {
     std::string jsonStr;
 
@@ -522,6 +522,88 @@ bool cSceneLoader::loadCameraParams(cCameraObject* camera, std::string error)
 
         break; // only one camera allowed
         
+    }//for(rapidjson::SizeType...
+
+    return true;
+}
+
+bool cSceneLoader::loadLimitPlanes(std::vector<LimitPlane>& vecLP, std::string& error)
+{
+    std::string jsonStr;
+
+    if (!loadFileIntoString(jsonStr, "_Scene.json"))
+    {
+        error = "Didn't load the Json Scene file!";
+        return false;
+    }
+
+    const char* json = new char[jsonStr.size() + 1];
+    json = jsonStr.c_str();
+
+    rapidjson::Document document;
+
+    if (document.Parse(json).HasParseError())
+    {
+        error = "There was an error parsing the Json Scene file";
+        return false;
+    }
+
+    if (!(document.IsObject()
+        && document.HasMember("Limit_Planes")
+        && document["Limit_Planes"].IsArray()))
+    {
+        error = "The Json Scene file had a wrong format";
+        return false;
+    }
+
+
+    const rapidjson::Value& limitPlanes = document["Limit_Planes"];
+
+    for (rapidjson::SizeType i = 0; i < limitPlanes.Size(); i++)
+    {
+        LimitPlane lp;
+        // Test all variables before reading
+        if (!(limitPlanes[i]["position"].IsArray()))
+        {
+            error = "The Json limit plane parameters are not properly formated!";
+            return false;
+        }
+
+        if (!(limitPlanes[i]["position"][0].IsNumber()
+            && limitPlanes[i]["position"][1].IsNumber()
+            && limitPlanes[i]["position"][2].IsNumber()))
+        {
+            error = "The Json limit planes position is not properly formated!";
+            return false;
+        }
+
+        lp.position.x = limitPlanes[i]["position"][0].GetFloat();
+        lp.position.y = limitPlanes[i]["position"][1].GetFloat();
+        lp.position.z = limitPlanes[i]["position"][2].GetFloat();
+
+        if (!(limitPlanes[i]["type"].IsString()))
+        {
+            error = "The Json limit plane parameters are not properly formated!";
+            return false;
+        }
+
+        std::string lpType = limitPlanes[i]["type"].GetString();
+
+        if (lpType == "floor")
+            lp.type = FLOOR;
+        else if (lpType == "front")
+            lp.type = FRONT;
+        else if (lpType == "back")
+            lp.type = BACK;
+        else if (lpType == "left")
+            lp.type = LEFT;
+        else if (lpType == "right")
+            lp.type = RIGHT;
+        else
+            return false;
+
+        vecLP.push_back(lp);
+
     }//for(rapidjson::SizeType...
 
     return true;

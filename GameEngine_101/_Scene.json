@@ -24,9 +24,9 @@
 "Camera" :
 [
 	{
-		"CameraPosition" : [22.0, 8.0, 0.0],
+		"CameraPosition" : [0.0, 8.0, 25.0],
 		"CameraOrientationX" : -15.0,
-		"CameraOrientationY" : 90.0,
+		"CameraOrientationY" : 0.0,
 		"CameraOrientationZ" : 0.0
 	}
 ],
@@ -296,37 +296,37 @@
 		"numCollisionMeshes" : 0,
 		"collisionMeshesNames" : []	
 	},
-	{
-		"meshName" : "Collision",
-		"friendlyName" : "Collision",
-		"typeOfObject" : 4,
-		"radius" : 0.0,
-		"position" : [0.0, 0.0, 0.0], 
-		"diffuseColour" : [0.0, 0.0, 0.0, 1.0],
-		"hasMaterialColour" : false,
-		"specular" : [0.0, 0.0, 0.0, 1.0],
-		"scale" : 1.0,
-		"bIsUpdatedInPhysics" : false,
-		"bIsWireFrame" : false,
-		"isDebugAABBActive" : false,
-		"textureBlend[0]" : 1.0,
-		"textureNames[0]" : "",
-		"textureBlend[1]" : 0.0,
-		"textureNames[1]" : "fence_alpha.bmp",
-		"textureBlend[2]" : 0.0,
-		"textureNames[2]" : "",
-		"hasAlpha" : true,
-		"useDiscardAlpha" : true,
-		"cullFace" : true,
-		"hasReflection" : false,
-		"rotateX" : 0.0,
-		"rotateY" : 0.0,
-		"rotateZ" : 0.0,
-		"hasToBeSorted" : false,
-		"hasCollisionMesh" : false,
-		"numCollisionMeshes" : 0,
-		"collisionMeshesNames" : []	
-	},
+#	{
+#		"meshName" : "Collision",
+#		"friendlyName" : "Collision",
+#		"typeOfObject" : 4,
+#		"radius" : 0.0,
+#		"position" : [0.0, 0.0, 0.0], 
+#		"diffuseColour" : [0.0, 0.0, 0.0, 1.0],
+#		"hasMaterialColour" : false,
+#		"specular" : [0.0, 0.0, 0.0, 1.0],
+#		"scale" : 1.0,
+#		"bIsUpdatedInPhysics" : false,
+#		"bIsWireFrame" : false,
+#		"isDebugAABBActive" : false,
+#		"textureBlend[0]" : 1.0,
+#		"textureNames[0]" : "",
+#		"textureBlend[1]" : 0.0,
+#		"textureNames[1]" : "fence_alpha.bmp",
+#		"textureBlend[2]" : 0.0,
+#		"textureNames[2]" : "",
+#		"hasAlpha" : true,
+#		"useDiscardAlpha" : true,
+#		"cullFace" : true,
+#		"hasReflection" : false,
+#		"rotateX" : 0.0,
+#		"rotateY" : 0.0,
+#		"rotateZ" : 0.0,
+#		"hasToBeSorted" : false,
+#		"hasCollisionMesh" : false,
+#		"numCollisionMeshes" : 0,
+#		"collisionMeshesNames" : []	
+#	},
 	{
 		"meshName" : "Basketball",
 		"friendlyName" : "Basketball01",
@@ -574,6 +574,30 @@
 		"hasCollisionMesh" : false,
 		"numCollisionMeshes" : 0,
 		"collisionMeshesNames" : []	
+	}
+],
+# Limit planes Block (Used in Physics)
+"Limit_Planes":
+[
+	{
+		"position" : [0.0, 0.0, 0.0],
+		"type" : "floor"
+	},
+	{
+		"position" : [0.0, 0.0, -13.0],
+		"type" : "front"
+	},
+	{
+		"position" : [0.0, 0.0, 13.0],
+		"type" : "back"
+	},
+	{
+		"position" : [-9.0, 0.0, 0.0],
+		"type" : "left"
+	},
+	{
+		"position" : [9.0, 0.0, 0.0],
+		"type" : "right"
 	}
 ],
 # Lights block. A maximum of 10 light are allowed

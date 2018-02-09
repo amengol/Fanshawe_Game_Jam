@@ -36,6 +36,7 @@
 bool gRenderStuffInDebug;
 nPhysics::iPhysicsFactory* gPhysicsFactory;
 nPhysics::iPhysicsWorld* gPhysicsWorld;
+std::vector<LimitPlane> g_vecLimitPlanes;
 
 bool InitPhysics()
 {
@@ -323,8 +324,18 @@ int main()
         std::cout << "The camera configuration was not loaded..." << std::endl;
         std::cout << error << std::endl;
     }
-
+    
     // Camera end
+    
+    //-------------------------------------------------------------------------
+    // Limit planes
+    if (!sceneLoader.loadLimitPlanes(g_vecLimitPlanes, error))
+    {
+        std::cout << "The limit planes configuration was not loaded..." << std::endl;
+        std::cout << error << std::endl;
+    }
+
+
     //-------------------------------------------------------------------------
     // Clouds
     //std::vector<GameObjectsInfo> transInfo;

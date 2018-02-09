@@ -11,6 +11,7 @@
 #include "simpleAI.h"
 #include "OptTriTri.h"
 
+extern std::vector<LimitPlane> g_vecLimitPlanes;
 
 extern cTransparencyManager* g_pTranspManager;
 
@@ -69,42 +70,57 @@ void updateGameObjects(double deltaTime,
         {
         case SPHERE:
         {
+            for (size_t i = 0; i < g_vecLimitPlanes.size(); i++)
+            {
+                LimitPlane limitPlane = g_vecLimitPlanes[i];
+
+                switch (limitPlane.type)
+                {
+                case FLOOR:
+                    if (pCurGO->position.y <= limitPlane.position.y + pCurGO->radius)
+                    {
+                        pCurGO->position.y = limitPlane.position.y + pCurGO->radius + 0.01;
+                        pCurGO->vel.y = -pCurGO->vel.y;
+                        pCurGO->vel *= 0.85f;
+                    }
+                    break;
+                case FRONT:
+                    if (pCurGO->position.z <= limitPlane.position.z + pCurGO->radius)
+                    {
+                        pCurGO->position.z = limitPlane.position.z + pCurGO->radius + 0.01;
+                        pCurGO->vel.z = -pCurGO->vel.z;
+                        pCurGO->vel *= 0.85f;
+                    }
+                    break;
+                case BACK:
+                    if (pCurGO->position.z >= limitPlane.position.z - pCurGO->radius)
+                    {
+                        pCurGO->position.z = limitPlane.position.z - pCurGO->radius - 0.01;
+                        pCurGO->vel.z = -pCurGO->vel.z;
+                        pCurGO->vel *= 0.85f;
+                    }
+                    break;
+                case LEFT:
+                    if (pCurGO->position.x <= limitPlane.position.x + pCurGO->radius)
+                    {
+                        pCurGO->position.x = limitPlane.position.x + pCurGO->radius + 0.01;
+                        pCurGO->vel.x = -pCurGO->vel.x;
+                        pCurGO->vel *= 0.85f;
+                    }
+                    break;
+                case RIGHT:
+                    if (pCurGO->position.x >= limitPlane.position.x - pCurGO->radius)
+                    {
+                        pCurGO->position.x = limitPlane.position.x - pCurGO->radius - 0.01;
+                        pCurGO->vel.x = -pCurGO->vel.x;
+                        pCurGO->vel *= 0.85f;
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
             
-            
-            if (pCurGO->position.y <= pCurGO->radius)
-            {
-                pCurGO->position.y = pCurGO->radius + 0.01;
-                pCurGO->vel.y = -pCurGO->vel.y;
-                //pCurGO->vel *= 0.85f;
-            }
-
-            if (pCurGO->position.z <= -13)
-            {
-                pCurGO->position.z = -13 + 0.01;
-                pCurGO->vel.z = -pCurGO->vel.z;
-                //pCurGO->vel *= 0.85f;
-            }
-
-            if (pCurGO->position.z >= 13)
-            {
-                pCurGO->position.z = 13 + 0.01;
-                pCurGO->vel.z = -pCurGO->vel.z;
-                //pCurGO->vel *= 0.85f;
-            }
-
-            if (pCurGO->position.x >= 9)
-            {
-                pCurGO->position.x = 9 + 0.01;
-                pCurGO->vel.x = -pCurGO->vel.x;
-                //pCurGO->vel *= 0.85f;
-            }
-
-            if (pCurGO->position.x <= -9)
-            {
-                pCurGO->position.x = -9 + 0.01;
-                pCurGO->vel.x = -pCurGO->vel.x;
-                //pCurGO->vel *= 0.85f;
-            }
 
             //---------------------------------------------------------
             // Collision Detection with other spheres

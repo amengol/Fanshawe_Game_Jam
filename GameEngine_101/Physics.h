@@ -4,6 +4,21 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm\gtx\quaternion.hpp>
 
+enum LimitPlaneType
+{
+    FLOOR,
+    FRONT,
+    BACK,
+    LEFT,
+    RIGHT
+};
+
+struct LimitPlane
+{
+    glm::vec3 position;
+    LimitPlaneType type;
+};
+
 class cGameObject;
 
 // Update the world 1 "step" in time
