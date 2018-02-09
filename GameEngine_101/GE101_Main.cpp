@@ -29,6 +29,20 @@
 #include "Utilities.h"
 #include "cSceneLoader.h"
 #include "cSoundManager.h"
+#include <Physics\cPhysicsWorld.h>
+#include <Physics\iPhysicsFactory.h>
+#include <Physics\cPhysicsFactory.h>
+
+bool gRenderStuffInDebug;
+nPhysics::iPhysicsFactory* gPhysicsFactory;
+nPhysics::iPhysicsWorld* gPhysicsWorld;
+
+bool InitPhysics()
+{
+    gPhysicsFactory = new nPhysics::cPhysicsFactory();
+    gPhysicsWorld = gPhysicsFactory->CreateWorld();
+    return true;
+}
 
 using namespace std;
 
@@ -87,6 +101,8 @@ static void error_callback(int error, const char* description)
 
 int main()
 {
+    InitPhysics();
+
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
 
