@@ -370,7 +370,47 @@ void updateGameObjects(double deltaTime,
             break;
         }
 
-        pCurGO->Update(deltaTime, gravity);
+        //pCurGO->Update(deltaTime, gravity);
+
+        // Remember the last position
+        pCurGO->previousPosition = pCurGO->position;
+
+        // Explicit Euler  (RK4)
+        // New position is based on velocity over time
+        // Velocity is based on local axis
+        glm::vec3 newVel = pCurGO->orientation * glm::vec4(pCurGO->vel, 0.0f);
+        glm::vec3 deltaPosition = (float)deltaTime * newVel;
+        pCurGO->position += deltaPosition;
+
+        // New velocity is based on acceleration over time
+        // Acceleration is based on local axis
+        //glm::vec3 newAccel = this->orientation * glm::vec4(this->accel, 0.0f);
+        glm::vec3 deltaVelocity = ((float)deltaTime * /*newAccel*/pCurGO->accel)
+            + ((float)deltaTime * gravity);
+        pCurGO->vel += deltaVelocity;
+
+        //------------------------------------------------------------------------
+        // Change orientation according to the Rate Of Turn per minute     
+        if (pCurGO->rateOfTurnX != 0.0f)
+        {
+            float theTurnX = (pCurGO->rateOfTurnX * deltaTime) / 60.0f;
+            pCurGO->orientation = glm::rotate(pCurGO->orientation, glm::radians(theTurnX), glm::vec3(1.0f, 0.0f, 0.0f));
+        }
+        if (pCurGO->rateOfTurnY != 0.0f)
+        {
+            float theTurnY = (pCurGO->rateOfTurnY * deltaTime) / 60.0f;
+            pCurGO->orientation = glm::rotate(pCurGO->orientation, glm::radians(theTurnY), glm::vec3(0.0f, 1.0f, 0.0f));
+        }
+        if (pCurGO->rateOfTurnZ != 0.0f)
+        {
+            float theTurnZ = (pCurGO->rateOfTurnZ * deltaTime) / 60.0f;
+            pCurGO->orientation = glm::rotate(pCurGO->orientation, glm::radians(theTurnZ), glm::vec3(0.0f, 0.0f, 1.0f));
+        }
+        //------------------------------------------------------------------------ 
+        // Update sound Objects
+        if (pCurGO->hasSound())
+            pCurGO->setGOSoundPos();
+        //------------------------------------------------------------------------ 
 
     }//for ( int index... 
 }

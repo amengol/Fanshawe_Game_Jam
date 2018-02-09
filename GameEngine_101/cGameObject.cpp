@@ -108,48 +108,48 @@ void cGameObject::DebugUpdate(double deltaTime)
  	return;
  }
  
- void cGameObject::Update(float deltaTime, glm::vec3 GRAVITY)
- {
-     // Remember the last position
-     this->previousPosition = this->position;
+ //void cGameObject::Update(float deltaTime, glm::vec3 GRAVITY)
+ //{
+ //    // Remember the last position
+ //    this->previousPosition = this->position;
 
-     // Explicit Euler  (RK4)
-     // New position is based on velocity over time
-     // Velocity is based on local axis
-     glm::vec3 newVel = this->orientation * glm::vec4(this->vel, 0.0f);
-     glm::vec3 deltaPosition = (float)deltaTime * newVel;
-     this->position += deltaPosition;
+ //    // Explicit Euler  (RK4)
+ //    // New position is based on velocity over time
+ //    // Velocity is based on local axis
+ //    glm::vec3 newVel = this->orientation * glm::vec4(this->vel, 0.0f);
+ //    glm::vec3 deltaPosition = (float)deltaTime * newVel;
+ //    this->position += deltaPosition;
 
-     // New velocity is based on acceleration over time
-     // Acceleration is based on local axis
-     //glm::vec3 newAccel = this->orientation * glm::vec4(this->accel, 0.0f);
-     glm::vec3 deltaVelocity = ((float)deltaTime * /*newAccel*/this->accel)
-         + ((float)deltaTime * GRAVITY);
-     this->vel += deltaVelocity;
+ //    // New velocity is based on acceleration over time
+ //    // Acceleration is based on local axis
+ //    //glm::vec3 newAccel = this->orientation * glm::vec4(this->accel, 0.0f);
+ //    glm::vec3 deltaVelocity = ((float)deltaTime * /*newAccel*/this->accel)
+ //        + ((float)deltaTime * GRAVITY);
+ //    this->vel += deltaVelocity;
 
-     //------------------------------------------------------------------------
-     // Change orientation according to the Rate Of Turn per minute     
-     if (this->rateOfTurnX != 0.0f)
-     {
-         float theTurnX = (this->rateOfTurnX * deltaTime) / 60.0f;         
-         this->orientation = glm::rotate(this->orientation, glm::radians(theTurnX), glm::vec3(1.0f, 0.0f, 0.0f));
-     }
-     if (this->rateOfTurnY != 0.0f)
-     {
-         float theTurnY = (this->rateOfTurnY * deltaTime) / 60.0f;
-         this->orientation = glm::rotate(this->orientation, glm::radians(theTurnY), glm::vec3(0.0f, 1.0f, 0.0f));
-     }
-     if (this->rateOfTurnZ != 0.0f)
-     {
-         float theTurnZ = (this->rateOfTurnZ * deltaTime) / 60.0f;
-         this->orientation = glm::rotate(this->orientation, glm::radians(theTurnZ), glm::vec3(0.0f, 0.0f, 1.0f));
-     }
-     //------------------------------------------------------------------------ 
-     // Update sound Objects
-     if(this->mHasSound)
-         this->mGOSound->setPosition(this->position);
-     //------------------------------------------------------------------------ 
-  }
+ //    //------------------------------------------------------------------------
+ //    // Change orientation according to the Rate Of Turn per minute     
+ //    if (this->rateOfTurnX != 0.0f)
+ //    {
+ //        float theTurnX = (this->rateOfTurnX * deltaTime) / 60.0f;         
+ //        this->orientation = glm::rotate(this->orientation, glm::radians(theTurnX), glm::vec3(1.0f, 0.0f, 0.0f));
+ //    }
+ //    if (this->rateOfTurnY != 0.0f)
+ //    {
+ //        float theTurnY = (this->rateOfTurnY * deltaTime) / 60.0f;
+ //        this->orientation = glm::rotate(this->orientation, glm::radians(theTurnY), glm::vec3(0.0f, 1.0f, 0.0f));
+ //    }
+ //    if (this->rateOfTurnZ != 0.0f)
+ //    {
+ //        float theTurnZ = (this->rateOfTurnZ * deltaTime) / 60.0f;
+ //        this->orientation = glm::rotate(this->orientation, glm::radians(theTurnZ), glm::vec3(0.0f, 0.0f, 1.0f));
+ //    }
+ //    //------------------------------------------------------------------------ 
+ //    // Update sound Objects
+ //    if(this->mHasSound)
+ //        this->mGOSound->setPosition(this->position);
+ //    //------------------------------------------------------------------------ 
+ // }
 
  void cGameObject::rotateX(float degreesX)
  {
@@ -201,4 +201,9 @@ void cGameObject::DebugUpdate(double deltaTime)
  {
      if(this->mHasSound)
          return this->mGOSound->getFriendlyName();
+ }
+
+ void cGameObject::setGOSoundPos()
+ {
+     this->mGOSound->setPosition(this->position);
  }

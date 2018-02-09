@@ -101,7 +101,7 @@ public:
     inline unsigned int getUniqueID(void) { return this->m_UniqueID; }
 
 	// Behaviour
- 	void Update(float deltaTime, glm::vec3 GRAVITY);
+ 	//void Update(float deltaTime, glm::vec3 GRAVITY);
  
  	void DebugUpdate(double deltaTime);
 
@@ -114,6 +114,7 @@ public:
     bool hasSound();
     cSoudObject* getSoundObject();
     std::string getSoundName();
+    void setGOSoundPos();
  
  private:
      unsigned int m_UniqueID;
