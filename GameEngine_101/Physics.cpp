@@ -35,7 +35,7 @@ void drawCollMesh(std::string, cGameObject*);
 // Update the world 1 "step" in time
 void PhysicsStep(double deltaTime)
 {
-    const glm::vec3 GRAVITY = glm::vec3(0.0f, 0.0f, 0.0f);
+    const glm::vec3 GRAVITY = glm::vec3(0.0f, -5.0f, 0.0f);
 
     // Update for regular Game Objects
     updateGameObjects(deltaTime, GRAVITY, g_vecGameObjects);
