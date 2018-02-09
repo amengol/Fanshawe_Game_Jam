@@ -61,7 +61,7 @@ cGameObject * cCameraObject::getGameObject()
 
 void cCameraObject::releaseGameObject()
 {
-    this->cameraMode = MANUAL;
+    this->cameraMode = STADIUM_CAMERA;
 }
 
 void cCameraObject::update()
@@ -95,6 +95,18 @@ void cCameraObject::moveCameraBackNForth(float speed)
     setCameraPosition(this->camPosition + newOriginZ);
 }
 
+void cCameraObject::moveCameraBackNForth_Stadium(float speed)
+{
+    // Find only the Z direction of the orientation
+    glm::vec3 zDirection = this->camOrientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+
+    // Cancel Y axis (no rotations for X)
+    glm::vec3 ZCorrected = glm::normalize(glm::vec3(zDirection.x, 0.0f, zDirection.z));
+
+
+    setCameraPosition(this->camPosition + (ZCorrected * speed));
+}
+
 void cCameraObject::moveCameraLeftNRight(float speed)
 {
     // Set a vector at the origin with the change in position along the X axis
@@ -104,6 +116,18 @@ void cCameraObject::moveCameraLeftNRight(float speed)
     glm::vec3 newOriginX = this->camOrientation * originX;
 
     setCameraPosition(this->camPosition + newOriginX);
+}
+
+void cCameraObject::moveCameraLeftNRight_Stadium(float speed)
+{
+    // Find only the X direction of the orientation
+    glm::vec3 XDirection = this->camOrientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+
+    // Cancel Y axis (no rotations for Z)
+    glm::vec3 XCorrected = glm::normalize(glm::vec3(XDirection.x, 0.0f, XDirection.z));
+
+
+    setCameraPosition(this->camPosition + (XCorrected * speed));
 }
 
 void cCameraObject::moveCameraUpNDown(float speed)
@@ -173,8 +197,38 @@ void cCameraObject::setCameraOrientationX(float degrees)
     this->lookAtPosition = this->camPosition + transLookAtOrigin;
 }
 
+void cCameraObject::setCameraOrientationX_Stadium(float degrees)
+{
+    // Transform the Camera Orientation
+    float newOrientation = glm::radians(degrees);
+    glm::mat4x4 matRotX = glm::mat4x4(1.0f);
+    matRotX = glm::rotate(matRotX, newOrientation, glm::vec3(1.0f, 0.0f, 0.0f));
+    this->camOrientation = this->camOrientation * matRotX;
+
+    // Transform the vector X to the new orientation
+    glm::vec3 newVecX = this->camOrientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+
+    // Clear garbage rotarions (Consider change everything for Quaternions...)
+    newVecX.y = 0.0f;
+
+    // Transform according to camera local axis
+    glm::mat4x4 matRotX_Local = glm::mat4x4(1.0f);
+    matRotX_Local = glm::rotate(matRotX_Local, newOrientation, newVecX);
+
+    // LookAt at origin
+    glm::vec3 lookAtOrigin = this->lookAtPosition - this->camPosition;
+    glm::vec4 v4_lookAtOrigin = {lookAtOrigin, 0.0f};
+
+    // Transformed LookAt at origin
+    glm::vec3 transLookAtOrigin = matRotX_Local * v4_lookAtOrigin;
+
+    // New LookAt position
+    this->lookAtPosition = this->camPosition + transLookAtOrigin;
+}
+
 void cCameraObject::setCameraOrientationY(float degrees)
 {
+
     // Transform the Camera Orientation
     float newOrientation = glm::radians(degrees);
     glm::mat4x4 matRotY = glm::mat4x4(1.0f);
@@ -209,6 +263,35 @@ void cCameraObject::setCameraOrientationY(float degrees)
 
     // New LookAt position
     this->lookAtPosition = this->camPosition + transLookAtOrigin;
+}
+
+void cCameraObject::setCameraOrientationY_Stadium(float degrees)
+{
+    // Transform the Camera Orientation
+    float newOrientation = glm::radians(degrees);
+    glm::mat4x4 matRotY = glm::mat4x4(1.0f);
+    matRotY = glm::rotate(matRotY, newOrientation, glm::vec3(0.0f, 1.0f, 0.0f));
+    this->camOrientation = this->camOrientation * matRotY;
+
+    // Transform according to camera global axis
+    glm::mat4x4 matRotY_Global = glm::mat4x4(1.0f);
+    matRotY_Global = glm::rotate(matRotY_Global, newOrientation, glm::vec3(0.0f, 1.0f, 0.0f));
+
+    // Camera Up Vector
+    //-------------------------------------------------------------------------
+    this->camUpVector = glm::vec3(0.0f, 1.0f, 0.0f);
+    //-------------------------------------------------------------------------
+
+    // LookAt at origin
+    glm::vec3 lookAtOrigin = this->lookAtPosition - this->camPosition;
+    glm::vec4 v4_lookAtOrigin = {lookAtOrigin, 0.0f};
+
+    // Transformed LookAt at origin
+    glm::vec3 transLookAtOrigin = matRotY_Global * v4_lookAtOrigin;
+
+    // New LookAt position
+    this->lookAtPosition = this->camPosition + transLookAtOrigin;
+
 }
 
 void cCameraObject::setCameraOrientationZ(float degrees)
@@ -249,6 +332,17 @@ void cCameraObject::getCameraInfo(glm::vec3 &camPosition,
 {
     camPosition = this->camPosition;
     lookAtPosition = this->lookAtPosition;
+}
+
+void cCameraObject::resetCamera()
+{
+    // Up vector
+    glm::vec3 upVector = glm::normalize(this->camOrientation * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f));
+    this->camUpVector = upVector;
+
+    // Lookat
+    glm::vec3 lookat  = glm::normalize(this->camOrientation * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f));
+    this->lookAtPosition = this->camPosition + lookat;
 }
 
 eCameraMode cCameraObject::getCameraMode()

@@ -10,7 +10,8 @@ enum eCameraMode {
     MANUAL,			// Move along the axes (lookat)
     FOLLOW_CAMERA,	// Follows a target (lookat)
     CONTROL_CAMERA,
-    FLY_CAMERA		// Movement based on direction of gaze                    
+    FLY_CAMERA,		// Movement based on direction of gaze                    
+    STADIUM_CAMERA
 };
 
 class cCameraObject
@@ -37,16 +38,21 @@ public:
     void update();
 
     void moveCameraBackNForth(float speed);
+    void moveCameraBackNForth_Stadium(float speed);
     void moveCameraLeftNRight(float speed);
+    void moveCameraLeftNRight_Stadium(float speed);
     void moveCameraUpNDown(float speed);
     void changeAlongX(float change);
     void changeAlongY(float change);
     void changeAlongZ(float change);
     void setCameraOrientationX(float degrees);
+    void setCameraOrientationX_Stadium(float degrees);
     void setCameraOrientationY(float degrees);
+    void setCameraOrientationY_Stadium(float degrees);
     void setCameraOrientationZ(float degrees);
     void setCameraMode(eCameraMode);
     void getCameraInfo(glm::vec3 &camPosition, glm::vec3 &lookAtPosition);
+    void resetCamera();
     eCameraMode getCameraMode();
     glm::vec3 getCameraPosition();
     glm::vec3 getLookAtPosition();

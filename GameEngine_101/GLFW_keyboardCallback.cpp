@@ -46,6 +46,19 @@ void key_callback(GLFWwindow* window,
         }
     }
 
+    if (key == GLFW_KEY_8 && action == GLFW_PRESS)
+    {
+        if (::g_pCamera->getCameraMode() != MANUAL)
+        {
+            ::g_pCamera->resetCamera();
+            ::g_pCamera->setCameraMode(MANUAL);
+        }
+        else
+        {
+            ::g_pCamera->setCameraMode(STADIUM_CAMERA);
+        }
+    }
+
     //if(key == GLFW_KEY_1 && action == GLFW_PRESS)
     //{
     //    for(int i = 0; i < g_pTranspManager->transpObjects.size(); i++)
@@ -62,9 +75,20 @@ void key_callback(GLFWwindow* window,
     {
         for (int i = 0; i < g_vecGameObjects.size(); i++)
         {
-            if (g_vecGameObjects[i]->friendlyName == "Basketball")
+            if (g_vecGameObjects[i]->friendlyName == "Basketball01")
             {
                 ::g_pCamera->lockOnGameObject(g_vecGameObjects[i]);
+                if (g_vecGameObjects[i]->bIsUpdatedInPhysics)
+                {
+                    g_vecGameObjects[i]->bIsUpdatedInPhysics = false;
+                    g_vecGameObjects[i]->vel = glm::vec3(0.0f, 0.0f, 0.0f);
+                    g_vecGameObjects[i]->position = glm::vec3(0.0f, 4.0f, 0.0f);
+                }
+                else
+                {
+                    g_vecGameObjects[i]->bIsUpdatedInPhysics = true;
+                    g_vecGameObjects[i]->vel = glm::vec3(0.5f, 0.3f, 0.1f);
+                }
             }
         }
     }
@@ -365,6 +389,86 @@ void key_callback(GLFWwindow* window,
     case FLY_CAMERA:
     {
 
+    }
+    break;
+
+    case STADIUM_CAMERA:
+    {
+        // Camera movements
+        const float ROTANGLE = 1.0f;
+        const float CAMSPEED = 1.0f;
+        switch (key)
+        {
+        case GLFW_KEY_W:       // Move camera forward along local Z axis 
+            g_pCamera->moveCameraBackNForth_Stadium(-CAMSPEED);
+            break;
+        case GLFW_KEY_S:       // Move camera backward along local Z axis 
+            g_pCamera->moveCameraBackNForth_Stadium(CAMSPEED);
+            break;
+        case GLFW_KEY_A:        // Move camera right along local X axis
+            g_pCamera->moveCameraLeftNRight_Stadium(-CAMSPEED);
+            break;
+        case GLFW_KEY_D:        // Move camera right along local x axis
+            g_pCamera->moveCameraLeftNRight_Stadium(CAMSPEED);
+            break;
+        case GLFW_KEY_Z:        // rotate around local camera Z axis +
+            g_pCamera->setCameraOrientationZ(ROTANGLE);
+            break;
+        case GLFW_KEY_C:        // rotate around local camera Z axis -
+            g_pCamera->setCameraOrientationZ(-ROTANGLE);
+            break;
+        case GLFW_KEY_Q:        // Increase high along Y axis
+            g_pCamera->changeAlongY(CAMSPEED);
+            break;
+        case GLFW_KEY_E:        // Decrease high along Y axis
+            g_pCamera->changeAlongY(-CAMSPEED);
+            break;
+        case GLFW_KEY_LEFT:     // rotate around local camera Y axis +
+            g_pCamera->setCameraOrientationY_Stadium(ROTANGLE);
+            break;
+        case GLFW_KEY_RIGHT:    // rotate around local camera Y axis -
+            g_pCamera->setCameraOrientationY_Stadium(-ROTANGLE);
+            break;
+        case GLFW_KEY_UP:       // rotate around local camera X axis +
+            g_pCamera->setCameraOrientationX_Stadium(ROTANGLE);
+            break;
+        case GLFW_KEY_DOWN:     // rotate around local camera X axis -
+            g_pCamera->setCameraOrientationX_Stadium(-ROTANGLE);
+            break;
+        case GLFW_KEY_H:        // Increase constant light attenuation
+            ::g_pLightManager->vecLights[0].attenuation.x += 0.1f;
+            break;
+        case GLFW_KEY_B:        // Decrease constant light attenuation
+            if (::g_pLightManager->vecLights[0].attenuation.x < 0.1f)
+                ::g_pLightManager->vecLights[0].attenuation.x = 0.0f;
+            else
+                ::g_pLightManager->vecLights[0].attenuation.x -= 0.1f;
+            break;
+        case GLFW_KEY_J:        // Increase linear light attenuation
+            ::g_pLightManager->vecLights[0].attenuation.y += 0.01f;
+            break;
+        case GLFW_KEY_N:        // Decrease linear light attenuation
+            if (::g_pLightManager->vecLights[0].attenuation.y < 0.01f)
+                ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;
+            else
+                ::g_pLightManager->vecLights[0].attenuation.y -= 0.01f;
+            break;
+        case GLFW_KEY_K:        // Increase quadratic light attenuation
+            ::g_pLightManager->vecLights[0].attenuation.z += 0.01f;
+            break;
+        case GLFW_KEY_M:        // Decrease quadratic light attenuation
+            if (::g_pLightManager->vecLights[0].attenuation.z < 0.01f)
+                ::g_pLightManager->vecLights[0].attenuation.z = 0.0f;
+            else
+                ::g_pLightManager->vecLights[0].attenuation.z -= 0.01f;
+            break;
+        case GLFW_KEY_COMMA:
+            g_FOV -= 0.01;
+            break;
+        case GLFW_KEY_PERIOD:
+            g_FOV += 0.01;
+            break;
+        }// switch ( key ) 
     }
     break;
 
