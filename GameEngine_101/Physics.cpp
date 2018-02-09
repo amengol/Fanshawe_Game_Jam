@@ -140,11 +140,40 @@ void updateGameObjects(double deltaTime,
                             //glm::vec3 incidenceVector = pCurGO->position - pCurGO->previousPosition;
                             //glm::vec3 incidenceVector = pCurGO->vel;
                             glm::vec3 reflectedVector = glm::reflect(pCurGO->vel, theTri->faceNormal);
-                            glm::quat qRotatedVel = glm::rotation(glm::normalize(pCurGO->vel), glm::normalize(reflectedVector));
-                            pCurGO->vel = qRotatedVel * pCurGO->vel;
+                            //glm::quat qRotatedVel = glm::rotation(glm::normalize(pCurGO->vel), glm::normalize(reflectedVector));
+                            pCurGO->vel = reflectedVector;
                             pCurGO->position = pCurGO->previousPosition;
-                            pCurGO->vel.y *= 0.7f;
+                            pCurGO->vel.x *= 0.7f;
+                            pCurGO->vel.z *= 0.7f;
                         }
+
+                        //---------------------------------------------------------
+                        // Collision Detection with other spheres
+                        for (int i = 0; i < g_vecGameObjects.size(); i++)
+                        {
+                            if (g_vecGameObjects[i]->typeOfObject == SPHERE && g_vecGameObjects[i] != pCurGO)
+                            {
+                                cGameObject* sphere1 = pCurGO;
+                                cGameObject* sphere2 = g_vecGameObjects[i];
+                                
+
+                                float distance = glm::length(sphere1->position - sphere2->position);
+                                if (distance <= sphere1->radius + sphere2->radius)
+                                {
+                                    sphere1->position = sphere1->previousPosition;
+                                    sphere2->position = sphere2->previousPosition;
+
+                                    // Collision
+                                    glm::vec3 fakeNormalS2 = glm::normalize(sphere1->position - sphere2->position);
+                                    glm::vec3 reflectedVectorS1 = glm::reflect(sphere1->vel, fakeNormalS2);
+                                    sphere1->vel = reflectedVectorS1;
+                                    glm::vec3 fakeNormalS1 = glm::normalize(sphere2->position - sphere1->position);
+                                    glm::vec3 reflectedVectorS2 = glm::reflect(sphere1->vel, fakeNormalS1);
+                                    sphere2->vel = reflectedVectorS2;
+                                }
+                            }
+                        }
+
                         //----------------------------------------------------------
                         // Create the triangle                    
                         sVertex tmpGeo;
@@ -375,19 +404,19 @@ void updateGameObjects(double deltaTime,
         // Remember the last position
         pCurGO->previousPosition = pCurGO->position;
 
-        // Explicit Euler  (RK4)
-        // New position is based on velocity over time
-        // Velocity is based on local axis
-        glm::vec3 newVel = pCurGO->orientation * glm::vec4(pCurGO->vel, 0.0f);
-        glm::vec3 deltaPosition = (float)deltaTime * newVel;
-        pCurGO->position += deltaPosition;
-
         // New velocity is based on acceleration over time
         // Acceleration is based on local axis
         //glm::vec3 newAccel = this->orientation * glm::vec4(this->accel, 0.0f);
         glm::vec3 deltaVelocity = ((float)deltaTime * /*newAccel*/pCurGO->accel)
             + ((float)deltaTime * gravity);
         pCurGO->vel += deltaVelocity;
+
+        // Explicit Euler  (RK4)
+        // New position is based on velocity over time
+        // Velocity is based on local axis
+        glm::vec3 newVel = pCurGO->orientation * glm::vec4(pCurGO->vel, 0.0f);
+        glm::vec3 deltaPosition = (float)deltaTime * newVel;
+        pCurGO->position += deltaPosition;
 
         //------------------------------------------------------------------------
         // Change orientation according to the Rate Of Turn per minute     

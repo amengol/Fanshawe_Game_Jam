@@ -218,33 +218,35 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_W:       // Increase speed
         {
             cGameObject* theGO = g_pCamera->getGameObject();
-            //theGO->vel.z += 0.1f;
-            glm::vec3 newPos = theGO->orientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-            theGO->position += newPos;
+            theGO->vel.x -= 0.1f;
+            //glm::vec3 newPos = theGO->orientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+            //theGO->position += newPos;
         }
             break;
         case GLFW_KEY_S:       // Decrease speed 
         {
             cGameObject* theGO = g_pCamera->getGameObject();
-            //theGO->vel.z -= 0.1f;
-            glm::vec3 newPos = theGO->orientation * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f);
-            theGO->position += newPos;
+            theGO->vel.x += 0.1f;
+            //glm::vec3 newPos = theGO->orientation * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f);
+            //theGO->position += newPos;
         }
             break;
         case GLFW_KEY_A:        // Move camera right along local X axis
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            //theGO->rateOfTurnZ -= 30.0f;
-            glm::vec3 newPos = theGO->orientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
-            theGO->position += newPos;
+            theGO->vel.z += 0.1f;
+           // theGO->rateOfTurnZ -= 30.0f;
+            //glm::vec3 newPos = theGO->orientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+            //theGO->position += newPos;
         }            
             break;
         case GLFW_KEY_D:        // Move camera right along local x axis
         {
             cGameObject * theGO = g_pCamera->getGameObject();
+            theGO->vel.z -= 0.1f;
             //theGO->rateOfTurnZ += 30.0f;
-            glm::vec3 newPos = theGO->orientation * glm::vec4(-1.0f, 0.0f, 0.0f, 0.0f);
-            theGO->position += newPos;
+            //glm::vec3 newPos = theGO->orientation * glm::vec4(-1.0f, 0.0f, 0.0f, 0.0f);
+            //theGO->position += newPos;
         }
             break;
         case GLFW_KEY_Q:        // Increase high along Y axis
