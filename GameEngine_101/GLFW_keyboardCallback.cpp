@@ -218,47 +218,76 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_W:       // Increase speed
         {
             cGameObject* theGO = g_pCamera->getGameObject();
-            theGO->vel.x -= 0.1f;
-            //glm::vec3 newPos = theGO->orientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-            //theGO->position += newPos;
+            
+            glm::mat4x4 camOrientation = g_pCamera->getCameraOrientation();
+
+            // Camera Z axis
+            glm::vec3 CamZ = camOrientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+
+            // Ortho axis only
+            glm::vec3 orthoZ = glm::normalize(glm::vec3(CamZ.x, 0.0f, CamZ.z));
+
+            theGO->vel -= orthoZ * 0.1f;
+
         }
             break;
         case GLFW_KEY_S:       // Decrease speed 
         {
             cGameObject* theGO = g_pCamera->getGameObject();
-            theGO->vel.x += 0.1f;
-            //glm::vec3 newPos = theGO->orientation * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f);
-            //theGO->position += newPos;
+
+            glm::mat4x4 camOrientation = g_pCamera->getCameraOrientation();
+
+            // Camera Z axis
+            glm::vec3 CamZ = camOrientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+
+            // Ortho axis only
+            glm::vec3 orthoZ = glm::normalize(glm::vec3(CamZ.x, 0.0f, CamZ.z));
+
+            theGO->vel += orthoZ * 0.1f;
         }
             break;
         case GLFW_KEY_A:        // Move camera right along local X axis
         {
-            cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->vel.z += 0.1f;
-           // theGO->rateOfTurnZ -= 30.0f;
-            //glm::vec3 newPos = theGO->orientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
-            //theGO->position += newPos;
+            cGameObject* theGO = g_pCamera->getGameObject();
+
+            glm::mat4x4 camOrientation = g_pCamera->getCameraOrientation();
+
+            // Camera X axis
+            glm::vec3 CamX = camOrientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+
+            // Ortho axis only
+            glm::vec3 orthoX = glm::normalize(glm::vec3(CamX.x, 0.0f, CamX.z));
+
+            theGO->vel -= CamX * 0.1f;
         }            
             break;
         case GLFW_KEY_D:        // Move camera right along local x axis
         {
-            cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->vel.z -= 0.1f;
-            //theGO->rateOfTurnZ += 30.0f;
-            //glm::vec3 newPos = theGO->orientation * glm::vec4(-1.0f, 0.0f, 0.0f, 0.0f);
-            //theGO->position += newPos;
+            cGameObject* theGO = g_pCamera->getGameObject();
+
+            glm::mat4x4 camOrientation = g_pCamera->getCameraOrientation();
+
+            // Camera X axis
+            glm::vec3 CamX = camOrientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+
+            // Ortho axis only
+            glm::vec3 orthoX = glm::normalize(glm::vec3(CamX.x, 0.0f, CamX.z));
+
+            theGO->vel += CamX * 0.1f;
         }
             break;
         case GLFW_KEY_Q:        // Increase high along Y axis
         {
-            cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->position.y += 1.0f;
+            cGameObject* theGO = g_pCamera->getGameObject();
+
+            theGO->vel.y += 0.5f;
         }
             break;
         case GLFW_KEY_E:        // Decrease high along Y axis
         {
-            cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->position.y -= 1.0f;
+            cGameObject* theGO = g_pCamera->getGameObject();
+
+            theGO->vel.y -= 0.1f;
         }
             break;
         case GLFW_KEY_Z:        // rotate around local GameObject Z axis +

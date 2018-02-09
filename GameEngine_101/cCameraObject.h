@@ -59,6 +59,7 @@ public:
     glm::vec3 getCameraUpVector();
     void setVelocity(float newVelocity);
     glm::vec3 getVelocity();
+    glm::mat4x4 getCameraOrientation() { return this->camOrientation; }
 
 private:
     glm::vec3 camPosition;
