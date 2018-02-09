@@ -35,7 +35,7 @@ void drawCollMesh(std::string, cGameObject*);
 // Update the world 1 "step" in time
 void PhysicsStep(double deltaTime)
 {
-    const glm::vec3 GRAVITY = glm::vec3(0.0f, -5.0f, 0.0f);
+    const glm::vec3 GRAVITY = glm::vec3(0.0f, -10.0f, 0.0f);
 
     // Update for regular Game Objects
     updateGameObjects(deltaTime, GRAVITY, g_vecGameObjects);
@@ -69,157 +69,226 @@ void updateGameObjects(double deltaTime,
         {
         case SPHERE:
         {
-            // Calculate all AABBs for the sphere
-            // Put the sphere inside an axis-aligned box
-
-            // Vertices
-            float diameter = pCurGO->radius * 2;
-            glm::vec3 vertices[8];
-            vertices[0] = glm::vec3(pCurGO->position - pCurGO->radius);
-            vertices[1] = glm::vec3(vertices[0].x + diameter, vertices[0].y, vertices[0].z);
-            vertices[2] = glm::vec3(vertices[0].x, vertices[0].y + diameter, vertices[0].z);
-            vertices[3] = glm::vec3(vertices[0].x + diameter, vertices[0].y + diameter, vertices[0].z);
-            vertices[4] = glm::vec3(vertices[0].x, vertices[0].y, vertices[0].z + diameter);
-            vertices[5] = glm::vec3(vertices[0].x + diameter, vertices[0].y, vertices[0].z + diameter);
-            vertices[6] = glm::vec3(vertices[0].x, vertices[0].y + diameter, vertices[0].z + diameter);
-            vertices[7] = glm::vec3(vertices[0].x + diameter, vertices[0].y + diameter, vertices[0].z + diameter);
-
-            std::vector<long long> vecIDs;
-            for(int i = 0; i < 8; i++)
+            
+            
+            if (pCurGO->position.y <= pCurGO->radius)
             {
-                long long GO_ID;
-                if(!g_pAABBsManager->calcID(vertices[i], GO_ID, g_AABBSize))
+                pCurGO->position.y = pCurGO->radius + 0.01;
+                pCurGO->vel.y = -pCurGO->vel.y;
+                //pCurGO->vel *= 0.85f;
+            }
+
+            if (pCurGO->position.z <= -13)
+            {
+                pCurGO->position.z = -13 + 0.01;
+                pCurGO->vel.z = -pCurGO->vel.z;
+                //pCurGO->vel *= 0.85f;
+            }
+
+            if (pCurGO->position.z >= 13)
+            {
+                pCurGO->position.z = 13 + 0.01;
+                pCurGO->vel.z = -pCurGO->vel.z;
+                //pCurGO->vel *= 0.85f;
+            }
+
+            if (pCurGO->position.x >= 9)
+            {
+                pCurGO->position.x = 9 + 0.01;
+                pCurGO->vel.x = -pCurGO->vel.x;
+                //pCurGO->vel *= 0.85f;
+            }
+
+            if (pCurGO->position.x <= -9)
+            {
+                pCurGO->position.x = -9 + 0.01;
+                pCurGO->vel.x = -pCurGO->vel.x;
+                //pCurGO->vel *= 0.85f;
+            }
+
+            //---------------------------------------------------------
+            // Collision Detection with other spheres
+            for (int i = 0; i < g_vecGameObjects.size(); i++)
+            {
+                if (g_vecGameObjects[i]->typeOfObject == SPHERE && g_vecGameObjects[i] != pCurGO)
                 {
-                    continue;
-                }
-                bool hasID = false;
-                for(int i = 0; i < vecIDs.size(); i++)
-                {
-                    if(GO_ID == vecIDs[i])
+                    cGameObject* sphere1 = pCurGO;
+                    cGameObject* sphere2 = g_vecGameObjects[i];
+                    
+
+                    float distance = glm::length(sphere1->position - sphere2->position);
+                    if (distance <= sphere1->radius + sphere2->radius)
                     {
-                        hasID = true;
-                        break;
+                        sphere1->position = sphere1->previousPosition;
+                        sphere2->position = sphere2->previousPosition;
+
+                        // Collision
+                        glm::vec3 fakeNormalS2 = glm::normalize(sphere1->position - sphere2->position);
+                        glm::vec3 reflectedVectorS1 = glm::reflect(sphere1->vel, fakeNormalS2);
+                        sphere1->vel = reflectedVectorS1;
+                        glm::vec3 fakeNormalS1 = glm::normalize(sphere2->position - sphere1->position);
+                        glm::vec3 reflectedVectorS2 = glm::reflect(sphere1->vel, fakeNormalS1);
+                        sphere2->vel = reflectedVectorS2;
                     }
-                }
-                if(!hasID)
-                {
-                    vecIDs.push_back(GO_ID);
                 }
             }
 
-            for(int i = 0; i < vecIDs.size(); i++)
-            {
-                // Check if we have an AABB in that position
-                cAABB theAABB(0, 0.0f);
-                if(g_pAABBsManager->getAABB(vecIDs[i], theAABB))
-                {
-                    std::vector<sVertex> theGeometry;
-
-                    for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
-                    {
-                        sAABB_Triangle* theTri = theAABB.AABBsTriangles[i];
-
-                        // Make physics thing                   
-
-                        // Do we need to test for the triangle?
-                        // Check if the Dot product between
-                        // the point and the angle is positive
-                        glm::vec3 originPos = pCurGO->position - theTri->Centroid;
-                        if(glm::dot(originPos, theTri->faceNormal) < 0.0f)
-                        {
-                            continue;
-                        }
-
-                        //---------------------------------------------------------
-                        // Collision Detection
-                        glm::vec3 closestPointToSphere(0.0f);
-                        if(TestSphereTriangle(pCurGO, theTri->verticeA, theTri->verticeB,
-                           theTri->verticeC, closestPointToSphere))
-                        {
-                            // We have a collision                            
-                            //glm::vec3 incidenceVector = pCurGO->position - pCurGO->previousPosition;
-                            //glm::vec3 incidenceVector = pCurGO->vel;
-                            glm::vec3 reflectedVector = glm::reflect(pCurGO->vel, theTri->faceNormal);
-                            //glm::quat qRotatedVel = glm::rotation(glm::normalize(pCurGO->vel), glm::normalize(reflectedVector));
-                            pCurGO->vel = reflectedVector;
-                            pCurGO->position = pCurGO->previousPosition;
-                            pCurGO->vel.x *= 0.7f;
-                            pCurGO->vel.z *= 0.7f;
-                        }
-
-                        //---------------------------------------------------------
-                        // Collision Detection with other spheres
-                        for (int i = 0; i < g_vecGameObjects.size(); i++)
-                        {
-                            if (g_vecGameObjects[i]->typeOfObject == SPHERE && g_vecGameObjects[i] != pCurGO)
-                            {
-                                cGameObject* sphere1 = pCurGO;
-                                cGameObject* sphere2 = g_vecGameObjects[i];
-                                
-
-                                float distance = glm::length(sphere1->position - sphere2->position);
-                                if (distance <= sphere1->radius + sphere2->radius)
-                                {
-                                    sphere1->position = sphere1->previousPosition;
-                                    sphere2->position = sphere2->previousPosition;
-
-                                    // Collision
-                                    glm::vec3 fakeNormalS2 = glm::normalize(sphere1->position - sphere2->position);
-                                    glm::vec3 reflectedVectorS1 = glm::reflect(sphere1->vel, fakeNormalS2);
-                                    sphere1->vel = reflectedVectorS1;
-                                    glm::vec3 fakeNormalS1 = glm::normalize(sphere2->position - sphere1->position);
-                                    glm::vec3 reflectedVectorS2 = glm::reflect(sphere1->vel, fakeNormalS1);
-                                    sphere2->vel = reflectedVectorS2;
-                                }
-                            }
-                        }
-
-                        //----------------------------------------------------------
-                        // Create the triangle                    
-                        sVertex tmpGeo;
-
-                        tmpGeo.x = theTri->verticeA.x;
-                        tmpGeo.y = theTri->verticeA.y;
-                        tmpGeo.z = theTri->verticeA.z;
-                        // Find vertices normals
-                        glm::vec3 normal = glm::normalize(glm::cross(theTri->verticeA, theTri->verticeB));
-                        tmpGeo.nx = normal.x;
-                        tmpGeo.ny = normal.y;
-                        tmpGeo.nz = normal.z;
-                        theGeometry.push_back(tmpGeo);
-
-                        tmpGeo.x = theTri->verticeB.x;
-                        tmpGeo.y = theTri->verticeB.y;
-                        tmpGeo.z = theTri->verticeB.z;
-                        // Find vertices normals
-                        normal = glm::normalize(glm::cross(theTri->verticeB, theTri->verticeC));
-                        tmpGeo.nx = normal.x;
-                        tmpGeo.ny = normal.y;
-                        tmpGeo.nz = normal.z;
-                        theGeometry.push_back(tmpGeo);
-
-                        tmpGeo.x = theTri->verticeC.x;
-                        tmpGeo.y = theTri->verticeC.y;
-                        tmpGeo.z = theTri->verticeC.z;
-
-                        // Find vertices normals
-                        normal = glm::normalize(glm::cross(theTri->verticeC, theTri->verticeA));
-                        tmpGeo.nx = normal.x;
-                        tmpGeo.ny = normal.y;
-                        tmpGeo.nz = normal.z;
-                        theGeometry.push_back(tmpGeo);
-                    }
-
-                    // Print the mesh
-                    if(pCurGO->isDebugAABBActive)
-                    {
-                        g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
-                    }
-
-                }
-            }
-
+            //----------------------------------------------------------
         }
+            break;
+        //case SPHERE:
+        //{
+        //    // Calculate all AABBs for the sphere
+        //    // Put the sphere inside an axis-aligned box
+
+        //    // Vertices
+        //    float diameter = pCurGO->radius * 2;
+        //    glm::vec3 vertices[8];
+        //    vertices[0] = glm::vec3(pCurGO->position - pCurGO->radius);
+        //    vertices[1] = glm::vec3(vertices[0].x + diameter, vertices[0].y, vertices[0].z);
+        //    vertices[2] = glm::vec3(vertices[0].x, vertices[0].y + diameter, vertices[0].z);
+        //    vertices[3] = glm::vec3(vertices[0].x + diameter, vertices[0].y + diameter, vertices[0].z);
+        //    vertices[4] = glm::vec3(vertices[0].x, vertices[0].y, vertices[0].z + diameter);
+        //    vertices[5] = glm::vec3(vertices[0].x + diameter, vertices[0].y, vertices[0].z + diameter);
+        //    vertices[6] = glm::vec3(vertices[0].x, vertices[0].y + diameter, vertices[0].z + diameter);
+        //    vertices[7] = glm::vec3(vertices[0].x + diameter, vertices[0].y + diameter, vertices[0].z + diameter);
+
+        //    std::vector<long long> vecIDs;
+        //    for(int i = 0; i < 8; i++)
+        //    {
+        //        long long GO_ID;
+        //        if(!g_pAABBsManager->calcID(vertices[i], GO_ID, g_AABBSize))
+        //        {
+        //            continue;
+        //        }
+        //        bool hasID = false;
+        //        for(int i = 0; i < vecIDs.size(); i++)
+        //        {
+        //            if(GO_ID == vecIDs[i])
+        //            {
+        //                hasID = true;
+        //                break;
+        //            }
+        //        }
+        //        if(!hasID)
+        //        {
+        //            vecIDs.push_back(GO_ID);
+        //        }
+        //    }
+
+        //    for(int i = 0; i < vecIDs.size(); i++)
+        //    {
+        //        // Check if we have an AABB in that position
+        //        cAABB theAABB(0, 0.0f);
+        //        if(g_pAABBsManager->getAABB(vecIDs[i], theAABB))
+        //        {
+        //            std::vector<sVertex> theGeometry;
+
+        //            for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
+        //            {
+        //                sAABB_Triangle* theTri = theAABB.AABBsTriangles[i];
+
+        //                // Make physics thing                   
+
+        //                // Do we need to test for the triangle?
+        //                // Check if the Dot product between
+        //                // the point and the angle is positive
+        //                glm::vec3 originPos = pCurGO->position - theTri->Centroid;
+        //                if(glm::dot(originPos, theTri->faceNormal) < 0.0f)
+        //                {
+        //                    continue;
+        //                }
+
+        //                //---------------------------------------------------------
+        //                // Collision Detection
+        //                glm::vec3 closestPointToSphere(0.0f);
+        //                if(TestSphereTriangle(pCurGO, theTri->verticeA, theTri->verticeB,
+        //                   theTri->verticeC, closestPointToSphere))
+        //                {
+        //                    // We have a collision                            
+        //                    //glm::vec3 incidenceVector = pCurGO->position - pCurGO->previousPosition;
+        //                    //glm::vec3 incidenceVector = pCurGO->vel;
+        //                    glm::vec3 reflectedVector = glm::reflect(pCurGO->vel, theTri->faceNormal);
+        //                    //glm::quat qRotatedVel = glm::rotation(glm::normalize(pCurGO->vel), glm::normalize(reflectedVector));
+        //                    pCurGO->vel = reflectedVector;
+        //                    pCurGO->position = pCurGO->previousPosition;
+        //                    pCurGO->vel.x *= 0.7f;
+        //                    pCurGO->vel.z *= 0.7f;
+        //                }
+
+        //                //---------------------------------------------------------
+        //                // Collision Detection with other spheres
+        //                for (int i = 0; i < g_vecGameObjects.size(); i++)
+        //                {
+        //                    if (g_vecGameObjects[i]->typeOfObject == SPHERE && g_vecGameObjects[i] != pCurGO)
+        //                    {
+        //                        cGameObject* sphere1 = pCurGO;
+        //                        cGameObject* sphere2 = g_vecGameObjects[i];
+        //                        
+
+        //                        float distance = glm::length(sphere1->position - sphere2->position);
+        //                        if (distance <= sphere1->radius + sphere2->radius)
+        //                        {
+        //                            sphere1->position = sphere1->previousPosition;
+        //                            sphere2->position = sphere2->previousPosition;
+
+        //                            // Collision
+        //                            glm::vec3 fakeNormalS2 = glm::normalize(sphere1->position - sphere2->position);
+        //                            glm::vec3 reflectedVectorS1 = glm::reflect(sphere1->vel, fakeNormalS2);
+        //                            sphere1->vel = reflectedVectorS1;
+        //                            glm::vec3 fakeNormalS1 = glm::normalize(sphere2->position - sphere1->position);
+        //                            glm::vec3 reflectedVectorS2 = glm::reflect(sphere1->vel, fakeNormalS1);
+        //                            sphere2->vel = reflectedVectorS2;
+        //                        }
+        //                    }
+        //                }
+
+        //                //----------------------------------------------------------
+        //                // Create the triangle                    
+        //                sVertex tmpGeo;
+
+        //                tmpGeo.x = theTri->verticeA.x;
+        //                tmpGeo.y = theTri->verticeA.y;
+        //                tmpGeo.z = theTri->verticeA.z;
+        //                // Find vertices normals
+        //                glm::vec3 normal = glm::normalize(glm::cross(theTri->verticeA, theTri->verticeB));
+        //                tmpGeo.nx = normal.x;
+        //                tmpGeo.ny = normal.y;
+        //                tmpGeo.nz = normal.z;
+        //                theGeometry.push_back(tmpGeo);
+
+        //                tmpGeo.x = theTri->verticeB.x;
+        //                tmpGeo.y = theTri->verticeB.y;
+        //                tmpGeo.z = theTri->verticeB.z;
+        //                // Find vertices normals
+        //                normal = glm::normalize(glm::cross(theTri->verticeB, theTri->verticeC));
+        //                tmpGeo.nx = normal.x;
+        //                tmpGeo.ny = normal.y;
+        //                tmpGeo.nz = normal.z;
+        //                theGeometry.push_back(tmpGeo);
+
+        //                tmpGeo.x = theTri->verticeC.x;
+        //                tmpGeo.y = theTri->verticeC.y;
+        //                tmpGeo.z = theTri->verticeC.z;
+
+        //                // Find vertices normals
+        //                normal = glm::normalize(glm::cross(theTri->verticeC, theTri->verticeA));
+        //                tmpGeo.nx = normal.x;
+        //                tmpGeo.ny = normal.y;
+        //                tmpGeo.nz = normal.z;
+        //                theGeometry.push_back(tmpGeo);
+        //            }
+
+        //            // Print the mesh
+        //            if(pCurGO->isDebugAABBActive)
+        //            {
+        //                g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
+        //            }
+
+        //        }
+        //    }
+
+        //}
         case MESH:
         {
             {
