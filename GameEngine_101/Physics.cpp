@@ -33,6 +33,48 @@ bool areIntercepting(sCollisionTriangle*, sAABB_Triangle*);
 
 void drawCollMesh(std::string, cGameObject*);
 
+RK4_Derivative evaluate(const RK4_State& initial, 
+                        float dt, 
+                        const RK4_Derivative& d)
+{
+    RK4_State state;
+    state.x = initial.x + d.dx*dt;
+    state.v = initial.v + d.dv*dt;
+
+    RK4_Derivative output;
+    output.dx = state.v;
+    //output.dv = acceleration(state, t + dt);
+    return output;
+}
+
+void integrate(glm::vec3& pos, glm::vec3& vel, glm::vec3 accel, float dt)
+{
+    {
+        // Put the acceleration into the velocity
+        glm::vec3 newVel = vel + accel * dt;
+        
+        RK4_State state;
+        state.x = pos;
+        state.v = newVel;
+
+        RK4_Derivative a, b, c, d;
+
+        a = evaluate(state, 0.0f, RK4_Derivative());
+        b = evaluate(state, dt*0.5f, a);
+        c = evaluate(state, dt*0.5f, b);
+        d = evaluate(state, dt, c);
+
+        glm::vec3 dxdt = 1.0f / 6.0f *
+            (a.dx + 2.0f * (b.dx + c.dx) + d.dx);
+
+        glm::vec3 dvdt = 1.0f / 6.0f *
+            (a.dv + 2.0f * (b.dv + c.dv) + d.dv);
+
+        pos = state.x + dxdt * dt;
+        vel = state.v + dvdt * dt;
+    }
+}
+
 // Update the world 1 "step" in time
 void PhysicsStep(double deltaTime)
 {
@@ -81,7 +123,7 @@ void updateGameObjects(double deltaTime,
                     {
                         pCurGO->position.y = limitPlane.position.y + pCurGO->radius + 0.01;
                         pCurGO->vel.y = -pCurGO->vel.y;
-                        pCurGO->vel *= 0.85f;
+                        //pCurGO->vel *= 0.85f;
                     }
                     break;
                 case FRONT:
@@ -89,7 +131,7 @@ void updateGameObjects(double deltaTime,
                     {
                         pCurGO->position.z = limitPlane.position.z + pCurGO->radius + 0.01;
                         pCurGO->vel.z = -pCurGO->vel.z;
-                        pCurGO->vel *= 0.85f;
+                        //pCurGO->vel *= 0.85f;
                     }
                     break;
                 case BACK:
@@ -97,7 +139,7 @@ void updateGameObjects(double deltaTime,
                     {
                         pCurGO->position.z = limitPlane.position.z - pCurGO->radius - 0.01;
                         pCurGO->vel.z = -pCurGO->vel.z;
-                        pCurGO->vel *= 0.85f;
+                        //pCurGO->vel *= 0.85f;
                     }
                     break;
                 case LEFT:
@@ -105,7 +147,7 @@ void updateGameObjects(double deltaTime,
                     {
                         pCurGO->position.x = limitPlane.position.x + pCurGO->radius + 0.01;
                         pCurGO->vel.x = -pCurGO->vel.x;
-                        pCurGO->vel *= 0.85f;
+                        //pCurGO->vel *= 0.85f;
                     }
                     break;
                 case RIGHT:
@@ -113,7 +155,7 @@ void updateGameObjects(double deltaTime,
                     {
                         pCurGO->position.x = limitPlane.position.x - pCurGO->radius - 0.01;
                         pCurGO->vel.x = -pCurGO->vel.x;
-                        pCurGO->vel *= 0.85f;
+                        //pCurGO->vel *= 0.85f;
                     }
                     break;
                 default:
@@ -489,19 +531,22 @@ void updateGameObjects(double deltaTime,
         // Remember the last position
         pCurGO->previousPosition = pCurGO->position;
 
-        // New velocity is based on acceleration over time
-        // Acceleration is based on local axis
-        //glm::vec3 newAccel = this->orientation * glm::vec4(this->accel, 0.0f);
-        glm::vec3 deltaVelocity = ((float)deltaTime * /*newAccel*/pCurGO->accel)
-            + ((float)deltaTime * gravity);
-        pCurGO->vel += deltaVelocity;
+        //RK4
+        integrate(pCurGO->position, pCurGO->vel, gravity, deltaTime);
 
-        // Explicit Euler  (RK4)
-        // New position is based on velocity over time
-        // Velocity is based on local axis
-        glm::vec3 newVel = pCurGO->orientation * glm::vec4(pCurGO->vel, 0.0f);
-        glm::vec3 deltaPosition = (float)deltaTime * newVel;
-        pCurGO->position += deltaPosition;
+        //// New velocity is based on acceleration over time
+        //// Acceleration is based on local axis
+        ////glm::vec3 newAccel = this->orientation * glm::vec4(this->accel, 0.0f);
+        //glm::vec3 deltaVelocity = ((float)deltaTime * /*newAccel*/pCurGO->accel)
+        //    + ((float)deltaTime * gravity);
+        //pCurGO->vel += deltaVelocity;
+
+        //// Explicit Euler  (RK4)
+        //// New position is based on velocity over time
+        //// Velocity is based on local axis
+        //glm::vec3 newVel = pCurGO->orientation * glm::vec4(pCurGO->vel, 0.0f);
+        //glm::vec3 deltaPosition = (float)deltaTime * newVel;
+        //pCurGO->position += deltaPosition;
 
         //------------------------------------------------------------------------
         // Change orientation according to the Rate Of Turn per minute     
