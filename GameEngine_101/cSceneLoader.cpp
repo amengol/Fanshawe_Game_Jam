@@ -9,7 +9,7 @@
 #include "cVAOMeshManager.h"
 #include <iPhysicsFactory.h>
 
-nPhysics::iPhysicsFactory* gPhysicsFactory;
+extern nPhysics::iPhysicsFactory* gPhysicsFactory;
 
 extern std::vector< cGameObject* >  g_vecGameObjects;
 extern cGameObject* g_pSkyBoxObject;
@@ -212,11 +212,13 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         switch (theGO->typeOfObject)
         {
         case SPHERE:
+        {
             nPhysics::iShape* shape = gPhysicsFactory->CreateSphere(radius);
             nPhysics::sRigidBodyDesc desc;
             desc.Position = position;
             nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, shape);
             theGO->rigidBody = rb;
+        }            
             break;
         case PLANE:
             break;
