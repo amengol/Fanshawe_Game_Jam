@@ -185,7 +185,7 @@ void updateGameObjects(double deltaTime,
                         glm::vec3 reflectedVectorS1 = glm::reflect(sphere1->vel, fakeNormalS2);
                         sphere1->vel = reflectedVectorS1;
                         glm::vec3 fakeNormalS1 = glm::normalize(sphere2->position - sphere1->position);
-                        glm::vec3 reflectedVectorS2 = glm::reflect(sphere1->vel, fakeNormalS1);
+                        glm::vec3 reflectedVectorS2 = glm::reflect(sphere2->vel, fakeNormalS1);
                         sphere2->vel = reflectedVectorS2;
                     }
                 }
