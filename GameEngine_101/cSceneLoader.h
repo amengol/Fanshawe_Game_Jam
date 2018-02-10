@@ -11,13 +11,30 @@
 #define _cSceneLoader_HG_
 
 #include <string>
-#include "Physics.h"
+//#include "Physics.h"
 #include <vector>
+#include <glm\vec3.hpp>
 
 class cVAOMeshManager;
 class cModelAssetLoader;
 class cLightManager;
 class cCameraObject;
+
+// Put this and LimitPlane here for now (was in the Physics.cpp)
+enum LimitPlaneType
+{
+    FLOOR,
+    FRONT,
+    BACK,
+    LEFT,
+    RIGHT
+};
+
+struct LimitPlane
+{
+    glm::vec3 position;
+    LimitPlaneType type;
+};
 
 class cSceneLoader
 {

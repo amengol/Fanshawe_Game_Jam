@@ -20,7 +20,7 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "Physics.h"
+//#include "Physics.h"
 #include "globalGameStuff.h"
 #include "cAABBsManager.h"
 #include "cSimpleDebugRenderer.h"
@@ -578,7 +578,7 @@ int main()
 
         // Physics step
         gPhysicsWorld->TimeStep(deltaTime);
-        PhysicsStep(deltaTime);
+        //PhysicsStep(deltaTime);
         lastTimeStep = curTime;
 
         // Move this here before Physics step to be able to print 
