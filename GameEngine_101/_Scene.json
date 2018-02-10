@@ -549,7 +549,7 @@
 		"friendlyName" : "Basketball05",
 		"typeOfObject" : 0,
 		"radius" : 0.72,
-		"position" : [1.0, 3.0, -1.0], 
+		"position" : [0.0, 3.0, 8.0], 
 		"diffuseColour" : [0.0, 0.0, 0.0, 1.0],
 		"hasMaterialColour" : true,
 		"specular" : [0.0, 0.0, 0.0, 1.0],

@@ -348,6 +348,40 @@ int main()
         std::cout << error << std::endl;
     }
 
+    // Limit planes are not being used by local physics anymore, so put them in nPhysics
+    for (size_t i = 0; i < g_vecLimitPlanes.size(); i++)
+    {
+        LimitPlane lp = g_vecLimitPlanes[i];
+
+        nPhysics::iShape* plane = gPhysicsFactory->CreatePlane(glm::vec3(0.0f), 0.0f);
+
+        switch (lp.type)
+        {
+        case FLOOR:             
+            plane->setGameType(nPhysics::iShape::PlaneType::FLOOR);
+            break;
+        case FRONT:
+            plane->setGameType(nPhysics::iShape::PlaneType::FRONT);
+            break;
+        case BACK:
+            plane->setGameType(nPhysics::iShape::PlaneType::BACK);
+            break;
+        case LEFT:
+            plane->setGameType(nPhysics::iShape::PlaneType::LEFT);
+            break;
+        case RIGHT:
+            plane->setGameType(nPhysics::iShape::PlaneType::RIGHT);
+            break;
+        default:
+            break;
+        }
+
+        nPhysics::sRigidBodyDesc desc;
+        desc.Position = lp.position;
+        nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, plane);
+        gPhysicsWorld->AddRigidBody(rb);
+    }
+
 
     //-------------------------------------------------------------------------
     // Clouds

@@ -59,6 +59,16 @@ namespace nPhysics
 	{
 
 	}
+    bool cPlaneShape::getPlaneType(PlaneType& type)
+    {
+        type = this->type;
+        return true;
+    }
+    bool cPlaneShape::setGameType(const PlaneType& type)
+    {
+        this->type = type;
+        return true;
+    }
 	bool cPlaneShape::GetPlaneNormal(glm::vec3& normalOut)
 	{
 		normalOut = mNormal;
