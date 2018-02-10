@@ -11,6 +11,8 @@ bool isShiftKeyDown( int mods, bool bByItself = true );
 bool isCtrlKeyDown( int mods, bool bByItself = true );
 bool isAltKeyDown( int mods, bool bByItself = true );
 
+std::vector<cGameObject*>::iterator itGO;
+
 void key_callback(GLFWwindow* window,
     int key,
     int scancode,
@@ -26,38 +28,38 @@ void key_callback(GLFWwindow* window,
     if(key == GLFW_KEY_0 && action == GLFW_PRESS)
         ::g_pCamera->releaseGameObject();
 
-    if (key == GLFW_KEY_9 && action == GLFW_PRESS)
-    {
-        if (::g_pCamera->getGameObject() != NULL)            
-        {
-            cGameObject* theGO = ::g_pCamera->getGameObject();
-            theGO->vel = glm::vec3(0.0f);
-            theGO->rateOfTurnX = 0.0f;
-            theGO->rateOfTurnY = 0.0f;
-            theGO->rateOfTurnZ = 0.0f;
+    //if (key == GLFW_KEY_9 && action == GLFW_PRESS)
+    //{
+    //    if (::g_pCamera->getGameObject() != NULL)            
+    //    {
+    //        cGameObject* theGO = ::g_pCamera->getGameObject();
+    //        theGO->vel = glm::vec3(0.0f);
+    //        theGO->rateOfTurnX = 0.0f;
+    //        theGO->rateOfTurnY = 0.0f;
+    //        theGO->rateOfTurnZ = 0.0f;
 
-            if (::g_pCamera->getCameraMode() != CONTROL_CAMERA)
-            {
-                ::g_pCamera->setCameraMode(CONTROL_CAMERA);
-            } else
-            {
-                ::g_pCamera->setCameraMode(FOLLOW_CAMERA);
-            }
-        }
-    }
+    //        if (::g_pCamera->getCameraMode() != CONTROL_CAMERA)
+    //        {
+    //            ::g_pCamera->setCameraMode(CONTROL_CAMERA);
+    //        } else
+    //        {
+    //            ::g_pCamera->setCameraMode(FOLLOW_CAMERA);
+    //        }
+    //    }
+    //}
 
-    if (key == GLFW_KEY_8 && action == GLFW_PRESS)
-    {
-        if (::g_pCamera->getCameraMode() != MANUAL)
-        {
-            ::g_pCamera->resetCamera();
-            ::g_pCamera->setCameraMode(MANUAL);
-        }
-        else
-        {
-            ::g_pCamera->setCameraMode(STADIUM_CAMERA);
-        }
-    }
+    //if (key == GLFW_KEY_8 && action == GLFW_PRESS)
+    //{
+    //    if (::g_pCamera->getCameraMode() != MANUAL)
+    //    {
+    //        ::g_pCamera->resetCamera();
+    //        ::g_pCamera->setCameraMode(MANUAL);
+    //    }
+    //    else
+    //    {
+    //        ::g_pCamera->setCameraMode(STADIUM_CAMERA);
+    //    }
+    //}
 
     //if(key == GLFW_KEY_1 && action == GLFW_PRESS)
     //{
@@ -73,58 +75,78 @@ void key_callback(GLFWwindow* window,
 
     if (key == GLFW_KEY_1 && action == GLFW_PRESS)
     {
-        for (int i = 0; i < g_vecGameObjects.size(); i++)
+        if (g_pCamera->getGameObject() != NULL)
         {
-            if (g_vecGameObjects[i]->friendlyName == "Basketball01")
+            cGameObject* curGO = g_pCamera->getGameObject();
+            curGO->textureBlend[0] = 1.0f;
+            curGO->textureBlend[2] = 0.0f;
+
+            itGO++;
+            if (itGO == g_vecGameObjects.end())
+                itGO = g_vecGameObjects.begin();
+
+            for (; itGO != g_vecGameObjects.end(); itGO++)
             {
-                ::g_pCamera->lockOnGameObject(g_vecGameObjects[i]);
-                if (g_vecGameObjects[i]->bIsUpdatedInPhysics)
+                cGameObject* GO = *itGO;
+                if (GO->typeOfObject == SPHERE)
                 {
-                    g_vecGameObjects[i]->bIsUpdatedInPhysics = false;
-                    g_vecGameObjects[i]->vel = glm::vec3(0.0f, 0.0f, 0.0f);
-                    g_vecGameObjects[i]->position = glm::vec3(0.0f, 4.0f, 0.0f);
+                    GO->textureBlend[0] = 0.0f;
+                    GO->textureBlend[2] = 1.0f;
+                    ::g_pCamera->lockOnGameObject(GO);
+                    break;
                 }
-                else
+            }            
+        }
+        else
+        {
+            itGO = g_vecGameObjects.begin();
+            for (; itGO != g_vecGameObjects.end(); itGO++)
+            {
+                cGameObject* GO = *itGO;
+                if (GO->typeOfObject == SPHERE)
                 {
-                    g_vecGameObjects[i]->bIsUpdatedInPhysics = true;
-                    g_vecGameObjects[i]->vel = glm::vec3(0.5f, 0.3f, 0.1f);
+                    GO->textureBlend[0] = 0.0f;
+                    GO->textureBlend[2] = 1.0f;
+                    ::g_pCamera->lockOnGameObject(GO);
+                    break;
                 }
             }
         }
+        
     }
 
-    if(key == GLFW_KEY_2 && action == GLFW_PRESS)
-    {
-        for(int i = 0; i < g_pTranspManager->transpObjects.size(); i++)
-        {
-            if(g_pTranspManager->transpObjects[i]->friendlyName == "Helicopter02")
-            {
-                ::g_pCamera->lockOnGameObject(g_pTranspManager->transpObjects[i]);
-            }
-        }
-    }
+    //if(key == GLFW_KEY_2 && action == GLFW_PRESS)
+    //{
+    //    for(int i = 0; i < g_pTranspManager->transpObjects.size(); i++)
+    //    {
+    //        if(g_pTranspManager->transpObjects[i]->friendlyName == "Helicopter02")
+    //        {
+    //            ::g_pCamera->lockOnGameObject(g_pTranspManager->transpObjects[i]);
+    //        }
+    //    }
+    //}
 
-    if(key == GLFW_KEY_3 && action == GLFW_PRESS)
-    {
-        for(int i = 0; i < g_vecGameObjects.size(); i++)
-        {
-            if(g_vecGameObjects[i]->friendlyName == "Delorean")
-            {
-                ::g_pCamera->lockOnGameObject(g_vecGameObjects[i]);
-                g_vecGameObjects[i]->vel.z = 0.0f;
-            }
-        }
-    }
+    //if(key == GLFW_KEY_3 && action == GLFW_PRESS)
+    //{
+    //    for(int i = 0; i < g_vecGameObjects.size(); i++)
+    //    {
+    //        if(g_vecGameObjects[i]->friendlyName == "Delorean")
+    //        {
+    //            ::g_pCamera->lockOnGameObject(g_vecGameObjects[i]);
+    //            g_vecGameObjects[i]->vel.z = 0.0f;
+    //        }
+    //    }
+    //}
 
-    if(key == GLFW_KEY_L && action == GLFW_PRESS)
-    {
-        cGameObject* theGO = NULL;
-        theGO = g_pCamera->getGameObject();
-        if(theGO != NULL)
-        {
-            theGO->isDebugAABBActive = !theGO->isDebugAABBActive;
-        }
-    }
+    //if(key == GLFW_KEY_L && action == GLFW_PRESS)
+    //{
+    //    cGameObject* theGO = NULL;
+    //    theGO = g_pCamera->getGameObject();
+    //    if(theGO != NULL)
+    //    {
+    //        theGO->isDebugAABBActive = !theGO->isDebugAABBActive;
+    //    }
+    //}
 
     switch(::g_pCamera->getCameraMode())
     {
@@ -227,7 +249,13 @@ void key_callback(GLFWwindow* window,
             // Ortho axis only
             glm::vec3 orthoZ = glm::normalize(glm::vec3(CamZ.x, 0.0f, CamZ.z));
 
-            theGO->vel -= orthoZ * 0.1f;
+            if (theGO->rigidBody != NULL)
+            {
+                glm::vec3 vel;
+                theGO->rigidBody->GetVelocity(vel);
+                vel -= orthoZ * 0.1f;
+                theGO->rigidBody->SetVelocity(vel);
+            }          
 
         }
             break;
@@ -243,7 +271,13 @@ void key_callback(GLFWwindow* window,
             // Ortho axis only
             glm::vec3 orthoZ = glm::normalize(glm::vec3(CamZ.x, 0.0f, CamZ.z));
 
-            theGO->vel += orthoZ * 0.1f;
+            if (theGO->rigidBody != NULL)
+            {
+                glm::vec3 vel;
+                theGO->rigidBody->GetVelocity(vel);
+                vel += orthoZ * 0.1f;
+                theGO->rigidBody->SetVelocity(vel);
+            }
         }
             break;
         case GLFW_KEY_A:        // Move camera right along local X axis
@@ -258,7 +292,13 @@ void key_callback(GLFWwindow* window,
             // Ortho axis only
             glm::vec3 orthoX = glm::normalize(glm::vec3(CamX.x, 0.0f, CamX.z));
 
-            theGO->vel -= CamX * 0.1f;
+            if (theGO->rigidBody != NULL)
+            {
+                glm::vec3 vel;
+                theGO->rigidBody->GetVelocity(vel);
+                vel -= CamX * 0.1f;
+                theGO->rigidBody->SetVelocity(vel);
+            }
         }            
             break;
         case GLFW_KEY_D:        // Move camera right along local x axis
@@ -273,21 +313,39 @@ void key_callback(GLFWwindow* window,
             // Ortho axis only
             glm::vec3 orthoX = glm::normalize(glm::vec3(CamX.x, 0.0f, CamX.z));
 
-            theGO->vel += CamX * 0.1f;
+            if (theGO->rigidBody != NULL)
+            {
+                glm::vec3 vel;
+                theGO->rigidBody->GetVelocity(vel);
+                vel += CamX * 0.1f;
+                theGO->rigidBody->SetVelocity(vel);
+            }
         }
             break;
         case GLFW_KEY_Q:        // Increase high along Y axis
         {
             cGameObject* theGO = g_pCamera->getGameObject();
 
-            theGO->vel.y += 0.5f;
+            if (theGO->rigidBody != NULL)
+            {
+                glm::vec3 vel;
+                theGO->rigidBody->GetVelocity(vel);
+                vel += 0.5f;
+                theGO->rigidBody->SetVelocity(vel);
+            }
         }
             break;
         case GLFW_KEY_E:        // Decrease high along Y axis
         {
             cGameObject* theGO = g_pCamera->getGameObject();
 
-            theGO->vel.y -= 0.1f;
+            if (theGO->rigidBody != NULL)
+            {
+                glm::vec3 vel;
+                theGO->rigidBody->GetVelocity(vel);
+                vel -= 0.1f;
+                theGO->rigidBody->SetVelocity(vel);
+            }
         }
             break;
         case GLFW_KEY_Z:        // rotate around local GameObject Z axis +
