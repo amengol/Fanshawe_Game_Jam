@@ -13,6 +13,8 @@ namespace nPhysics
 
 		virtual bool GetSphereRadius(float& radiusOut);
 
+        inline float getRadius() { return this->mRadius; }
+
 	private:
 		cSphereShape();
 		cSphereShape(const cSphereShape& other);
@@ -24,10 +26,22 @@ namespace nPhysics
 	class cPlaneShape : public iShape
 	{
 	public:
+
+        enum PlaneType
+        {
+            FLOOR,
+            FRONT,
+            BACK,
+            LEFT,
+            RIGHT
+        };
+
 		cPlaneShape(const glm::vec3& normal, float planeConst);
 		
 		virtual ~cPlaneShape();
 
+        inline PlaneType getPlaneType() { return this->type; }
+        inline glm::vec3 getPlanePosition() { return this->mPostiion; }
 		virtual bool GetPlaneNormal(glm::vec3& normalOut);
 		virtual bool GetPlaneConst(float& planeConstOut);
 
@@ -38,5 +52,7 @@ namespace nPhysics
 
 		glm::vec3 mNormal;
 		float mPlaneConst;
+        PlaneType type;
+        glm::vec3 mPostiion;
 	};
 }

@@ -19,6 +19,9 @@ namespace nPhysics
 		virtual void GetPostion(glm::vec3& positionOut);
 		virtual void GetRotation(glm::vec3& rotationOut);
 
+        inline void setLastPosition(glm::vec3 lastPos) { this->mLastPos = lastPos; }
+        inline glm::vec3 getLastPosition() { return this->mLastPos; }
+
 	private:
 		friend class cPhysicsWorld;
 		iShape* mShape;
@@ -26,5 +29,6 @@ namespace nPhysics
 		glm::vec3 mVelocity;
 		glm::quat mRotation;
 		float mMass;
+        glm::vec3 mLastPos;
 	};
 }
