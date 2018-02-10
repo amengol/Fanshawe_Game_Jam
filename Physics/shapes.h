@@ -1,6 +1,6 @@
 #pragma once
 #include <glm\vec3.hpp>
-#include <Physics\Interfaces\iShape.h>
+#include <iShape.h>
 
 namespace nPhysics
 {

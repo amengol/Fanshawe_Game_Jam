@@ -29,9 +29,9 @@
 #include "Utilities.h"
 #include "cSceneLoader.h"
 #include "cSoundManager.h"
-#include <Physics\cPhysicsWorld.h>
-#include <Physics\iPhysicsFactory.h>
-#include <Physics\cPhysicsFactory.h>
+#include <cPhysicsWorld.h>
+#include <iPhysicsFactory.h>
+#include <cPhysicsFactory.h>
 
 bool gRenderStuffInDebug;
 nPhysics::iPhysicsFactory* gPhysicsFactory;

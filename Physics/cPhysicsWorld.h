@@ -1,5 +1,5 @@
 #pragma once
-#include <Physics\Interfaces\iPhysicsWorld.h>
+#include <iPhysicsWorld.h>
 #include <vector>
 #include "cRigidBody.h"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include <Physics\Interfaces\iPhysicsFactory.h>
+#include <iPhysicsFactory.h>
 
 namespace nPhysics
 {

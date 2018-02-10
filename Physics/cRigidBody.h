@@ -1,6 +1,6 @@
 #pragma once
-#include <Physics\Interfaces\iRigidBody.h>
-#include <Physics\Interfaces\sRigidBodyDesc.h>
+#include <iRigidBody.h>
+#include <sRigidBodyDesc.h>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm\gtx\quaternion.hpp>
 
