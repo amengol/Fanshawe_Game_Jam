@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "sCollisionTriangle.h"
+#include <iRigidBody.h>
 
 class cMesh;
 class cSoudObject;
@@ -115,6 +116,9 @@ public:
     cSoudObject* getSoundObject();
     std::string getSoundName();
     void setGOSoundPos();
+
+    // Rigid Body
+    nPhysics::iRigidBody* rigidBody;
  
  private:
      unsigned int m_UniqueID;

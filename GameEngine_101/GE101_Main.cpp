@@ -612,7 +612,19 @@ void DrawObject(cGameObject* pTheGO)
     
 
     glm::mat4 trans = glm::mat4x4(1.0f);
-    trans = glm::translate(trans, pTheGO->position);
+    
+    // Position by nPhysics?
+    if (pTheGO->rigidBody != NULL)
+    {
+        glm::vec3 rbPos;
+        pTheGO->rigidBody->GetPostion(rbPos);
+        trans = glm::translate(trans, rbPos);
+    }
+    else
+    {
+        trans = glm::translate(trans, pTheGO->position);
+    }
+
     mModel = mModel * trans;    
 
     mModel = mModel * pTheGO->orientation;
