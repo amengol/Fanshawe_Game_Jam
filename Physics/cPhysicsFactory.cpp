@@ -2,6 +2,7 @@
 #include "cPhysicsFactory.h"
 #include "cRigidBody.h"
 #include "shapes.h"
+#include "cPhysicsWorld.h"
 
 namespace nPhysics
 {
@@ -9,7 +10,7 @@ namespace nPhysics
 
 	iPhysicsWorld* cPhysicsFactory::CreateWorld()
 	{
-        return  NULL;
+        return new cPhysicsWorld();
 	}
 
 	iRigidBody* cPhysicsFactory::CreateRigidBody(const sRigidBodyDesc& desc, iShape* shape)
