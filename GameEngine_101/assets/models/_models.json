@@ -18,6 +18,6 @@
 {"meshName" : "Basket_Square", "meshFile" : "Basket_Square.obj", "type" : 2, "isPersistent" : false},
 {"meshName" : "Fence", "meshFile" : "Fence.obj", "type" : 2, "isPersistent" : false},
 #{"meshName" : "Collision", "meshFile" : "Collision.obj", "type" : 2, "isPersistent" : true},
-{"meshName" : "Basketball", "meshFile" : "Basketball.ply", "type" : 2, "isPersistent" : false}
+{"meshName" : "Basketball", "meshFile" : "Basketball.obj", "type" : 2, "isPersistent" : false}
 ]
 }
