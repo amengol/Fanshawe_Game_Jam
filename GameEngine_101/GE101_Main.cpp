@@ -224,6 +224,19 @@ int main()
     }
 
     //-------------------------------------------------------------------------
+    // Load Rigid Bodies
+    for (size_t i = 0; i < g_vecGameObjects.size(); i++)
+    {
+        cGameObject* GO = g_vecGameObjects[i];
+
+        if (GO->rigidBody != NULL)
+        {
+            gPhysicsWorld->AddRigidBody(GO->rigidBody);
+        }
+    }
+
+    
+    //-------------------------------------------------------------------------
     // AABBs
     ::g_pAABBsManager = new cAABBsManager();
     cMesh meshWithAABBs;
@@ -530,6 +543,7 @@ int main()
         double deltaTime = curTime - lastTimeStep;
 
         // Physics step
+        gPhysicsWorld->TimeStep(deltaTime);
         PhysicsStep(deltaTime);
         lastTimeStep = curTime;
 
