@@ -3,12 +3,56 @@
 #include <algorithm>
 #include "shapes.h"
 
+const glm::vec3 GRAVITY = glm::vec3(0.0f, -10.0f, 0.0f);
+
 namespace nPhysics
 {
 	cPhysicsWorld::~cPhysicsWorld()
 	{
 
 	}
+
+    cPhysicsWorld::RK4_Derivative cPhysicsWorld::evaluate(const RK4_State& initial,
+                                                          float dt,
+                                                          const RK4_Derivative& d)
+    {
+        RK4_State state;
+        state.x = initial.x + d.dx*dt;
+        state.v = initial.v + d.dv*dt;
+
+        RK4_Derivative output;
+        output.dx = state.v;
+        //output.dv = acceleration(state, t + dt);
+        return output;
+    }
+
+    void cPhysicsWorld::integrate(glm::vec3& pos, glm::vec3& vel, glm::vec3 accel, float dt)
+    {
+        {
+            // Put the acceleration into the velocity
+            glm::vec3 newVel = vel + accel * dt;
+
+            RK4_State state;
+            state.x = pos;
+            state.v = newVel;
+
+            RK4_Derivative a, b, c, d;
+
+            a = evaluate(state, 0.0f, RK4_Derivative());
+            b = evaluate(state, dt*0.5f, a);
+            c = evaluate(state, dt*0.5f, b);
+            d = evaluate(state, dt, c);
+
+            glm::vec3 dxdt = 1.0f / 6.0f *
+                (a.dx + 2.0f * (b.dx + c.dx) + d.dx);
+
+            glm::vec3 dvdt = 1.0f / 6.0f *
+                (a.dv + 2.0f * (b.dv + c.dv) + d.dv);
+
+            pos = state.x + dxdt * dt;
+            vel = state.v + dvdt * dt;
+        }
+    }
 
 	void cPhysicsWorld::TimeStep(float deltaTime)
 	{
@@ -114,6 +158,10 @@ namespace nPhysics
             default:
                 break;
             }//!switch (sh1->GetShapeType()
+
+             //RK4
+            integrate(rb1->mPosition, rb1->mVelocity, GRAVITY, deltaTime);
+
         }//!for (size_t i = 0; i < rbSize; i++)
 	}
 
@@ -131,6 +179,7 @@ namespace nPhysics
 			mRigidBody.push_back(rb);
 		}
 	}
+
 	void cPhysicsWorld::RemoveRigidBody(iRigidBody* rigidBody)
 	{
 		cRigidBody* rb = dynamic_cast<cRigidBody*>(rigidBody);
