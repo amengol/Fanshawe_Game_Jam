@@ -18,6 +18,8 @@ namespace nPhysics
 		virtual void GetTransform(glm::mat4& transformOut);
 		virtual void GetPostion(glm::vec3& positionOut);
 		virtual void GetRotation(glm::vec3& rotationOut);
+        virtual void GetVelocity(glm::vec3& velocity) { velocity = this->mVelocity; }
+        virtual void SetVelocity(const glm::vec3& velocity) { this->mVelocity = velocity; }
 
         inline void setLastPosition(glm::vec3 lastPos) { this->mLastPos = lastPos; }
         inline glm::vec3 getLastPosition() { return this->mLastPos; }
