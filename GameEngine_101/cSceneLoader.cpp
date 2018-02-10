@@ -7,6 +7,9 @@
 #include "cLightManager.h"
 #include "cCameraObject.h"
 #include "cVAOMeshManager.h"
+#include <iPhysicsFactory.h>
+
+nPhysics::iPhysicsFactory* gPhysicsFactory;
 
 extern std::vector< cGameObject* >  g_vecGameObjects;
 extern cGameObject* g_pSkyBoxObject;
@@ -204,6 +207,35 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         theGO->meshName = meshName;
         theGO->friendlyName = friendlyName;
         theGO->typeOfObject = (eTypeOfObject)typeOfObject;
+        //---------------------------------------------------------------------
+        // nPhysics
+        switch (theGO->typeOfObject)
+        {
+        case SPHERE:
+            nPhysics::iShape* shape = gPhysicsFactory->CreateSphere(radius);
+            nPhysics::sRigidBodyDesc desc;
+            desc.Position = position;
+            nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, shape);
+            theGO->rigidBody = rb;
+            break;
+        case PLANE:
+            break;
+        case CAPSULE:
+            break;
+        case MESH:
+            break;
+        case TERRAIN:
+            break;
+        case CONTACT_POINTS:
+            break;
+        case SKYBOX:
+            break;
+        case UNKNOWN:
+            break;
+        default:
+            break;
+        }
+        //---------------------------------------------------------------------
         theGO->radius = radius;
         theGO->position = position;
         theGO->diffuseColour = diffuseColour;
