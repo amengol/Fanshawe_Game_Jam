@@ -111,8 +111,22 @@ void key_callback(GLFWwindow* window,
                     break;
                 }
             }
+        }        
+    }
+
+    if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+    {
+        if (g_pCamera->getGameObject() != NULL)
+        {
+            if (g_pCamera->getCameraMode() != CONTROL_CAMERA_LOCK)
+            {
+                g_pCamera->setCameraMode(CONTROL_CAMERA_LOCK);
+            }
+            else
+            {
+                g_pCamera->setCameraMode(CONTROL_CAMERA);
+            }
         }
-        
     }
 
     //if(key == GLFW_KEY_2 && action == GLFW_PRESS)
@@ -330,7 +344,7 @@ void key_callback(GLFWwindow* window,
             {
                 glm::vec3 vel;
                 theGO->rigidBody->GetVelocity(vel);
-                vel += 0.5f;
+                vel.y += 0.5f;
                 theGO->rigidBody->SetVelocity(vel);
             }
         }
@@ -343,11 +357,22 @@ void key_callback(GLFWwindow* window,
             {
                 glm::vec3 vel;
                 theGO->rigidBody->GetVelocity(vel);
-                vel -= 0.1f;
+                vel.y -= 0.1f;
                 theGO->rigidBody->SetVelocity(vel);
             }
         }
             break;
+        case GLFW_KEY_R:        // Resets object's velocities
+        {
+            cGameObject* theGO = g_pCamera->getGameObject();
+
+            if (theGO->rigidBody != NULL)
+            {
+                glm::vec3 vel(0.0f);
+                theGO->rigidBody->SetVelocity(vel);
+            }
+        }
+        break;
         case GLFW_KEY_Z:        // rotate around local GameObject Z axis +
         {
             cGameObject * theGO = g_pCamera->getGameObject();
@@ -388,8 +413,197 @@ void key_callback(GLFWwindow* window,
             //theGO->rateOfTurnX -= 30.0f;
         }
             break;
+        case GLFW_KEY_MINUS:
+            if (g_FOV <= 2.0f)
+                g_FOV += 0.01;
+            break;
+        case GLFW_KEY_EQUAL:
+            if (g_FOV >= 0.1f)
+                g_FOV -= 0.01;
+            break;
         }// switch ( key )
     }
+    break;
+
+    case CONTROL_CAMERA_LOCK:
+    {
+            // Camera movements
+            const float ROTANGLE = 1.0f;
+            const float CAMSPEED = 1.0f;
+            switch (key)
+            {
+            case GLFW_KEY_W:       // Increase speed
+            {
+                cGameObject* theGO = g_pCamera->getGameObject();
+
+                glm::mat4x4 camOrientation = g_pCamera->getCameraOrientation();
+
+                // Camera Z axis
+                glm::vec3 CamZ = camOrientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+
+                // Ortho axis only
+                glm::vec3 orthoZ = glm::normalize(glm::vec3(CamZ.x, 0.0f, CamZ.z));
+
+                if (theGO->rigidBody != NULL)
+                {
+                    glm::vec3 vel;
+                    theGO->rigidBody->GetVelocity(vel);
+                    vel -= orthoZ * 0.1f;
+                    theGO->rigidBody->SetVelocity(vel);
+                }
+
+            }
+            break;
+            case GLFW_KEY_S:       // Decrease speed 
+            {
+                cGameObject* theGO = g_pCamera->getGameObject();
+
+                glm::mat4x4 camOrientation = g_pCamera->getCameraOrientation();
+
+                // Camera Z axis
+                glm::vec3 CamZ = camOrientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+
+                // Ortho axis only
+                glm::vec3 orthoZ = glm::normalize(glm::vec3(CamZ.x, 0.0f, CamZ.z));
+
+                if (theGO->rigidBody != NULL)
+                {
+                    glm::vec3 vel;
+                    theGO->rigidBody->GetVelocity(vel);
+                    vel += orthoZ * 0.1f;
+                    theGO->rigidBody->SetVelocity(vel);
+                }
+            }
+            break;
+            case GLFW_KEY_A:        // Move camera right along local X axis
+            {
+                cGameObject* theGO = g_pCamera->getGameObject();
+
+                glm::mat4x4 camOrientation = g_pCamera->getCameraOrientation();
+
+                // Camera X axis
+                glm::vec3 CamX = camOrientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+
+                // Ortho axis only
+                glm::vec3 orthoX = glm::normalize(glm::vec3(CamX.x, 0.0f, CamX.z));
+
+                if (theGO->rigidBody != NULL)
+                {
+                    glm::vec3 vel;
+                    theGO->rigidBody->GetVelocity(vel);
+                    vel -= CamX * 0.1f;
+                    theGO->rigidBody->SetVelocity(vel);
+                }
+            }
+            break;
+            case GLFW_KEY_D:        // Move camera right along local x axis
+            {
+                cGameObject* theGO = g_pCamera->getGameObject();
+
+                glm::mat4x4 camOrientation = g_pCamera->getCameraOrientation();
+
+                // Camera X axis
+                glm::vec3 CamX = camOrientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+
+                // Ortho axis only
+                glm::vec3 orthoX = glm::normalize(glm::vec3(CamX.x, 0.0f, CamX.z));
+
+                if (theGO->rigidBody != NULL)
+                {
+                    glm::vec3 vel;
+                    theGO->rigidBody->GetVelocity(vel);
+                    vel += CamX * 0.1f;
+                    theGO->rigidBody->SetVelocity(vel);
+                }
+            }
+            break;
+            case GLFW_KEY_Q:        // Increase high along Y axis
+            {
+                cGameObject* theGO = g_pCamera->getGameObject();
+
+                if (theGO->rigidBody != NULL)
+                {
+                    glm::vec3 vel;
+                    theGO->rigidBody->GetVelocity(vel);
+                    vel.y += 0.5f;
+                    theGO->rigidBody->SetVelocity(vel);
+                }
+            }
+            break;
+            case GLFW_KEY_E:        // Decrease high along Y axis
+            {
+                cGameObject* theGO = g_pCamera->getGameObject();
+
+                if (theGO->rigidBody != NULL)
+                {
+                    glm::vec3 vel;
+                    theGO->rigidBody->GetVelocity(vel);
+                    vel.y -= 0.1f;
+                    theGO->rigidBody->SetVelocity(vel);
+                }
+            }
+            break;
+            case GLFW_KEY_R:        // Resets object's velocities
+            {
+                cGameObject* theGO = g_pCamera->getGameObject();
+
+                if (theGO->rigidBody != NULL)
+                {
+                    glm::vec3 vel(0.0f);
+                    theGO->rigidBody->SetVelocity(vel);
+                }
+            }
+            break;
+            case GLFW_KEY_Z:        // rotate around local GameObject Z axis +
+            {
+                cGameObject * theGO = g_pCamera->getGameObject();
+                theGO->rotateZ(-ROTANGLE);
+            }
+            break;
+            case GLFW_KEY_C:        // rotate around local GameObject Z axis -
+            {
+                cGameObject * theGO = g_pCamera->getGameObject();
+                theGO->rotateZ(+ROTANGLE);
+            }
+            break;
+            case GLFW_KEY_LEFT:     // rotate around local GameObject Y axis +
+            {
+                cGameObject * theGO = g_pCamera->getGameObject();
+                //theGO->rateOfTurnZ -= 30.0f;
+                theGO->rotateY(ROTANGLE);
+            }
+            break;
+            case GLFW_KEY_RIGHT:    // rotate around local GameObject Y axis -
+            {
+                cGameObject * theGO = g_pCamera->getGameObject();
+                //theGO->rateOfTurnZ += 30.0f;
+                theGO->rotateY(-ROTANGLE);
+            }
+            break;
+            case GLFW_KEY_UP:       // rotate around local GameObject X axis +
+            {
+                cGameObject * theGO = g_pCamera->getGameObject();
+                theGO->rotateX(ROTANGLE);
+                //theGO->rateOfTurnX += 30.0f;
+            }
+            break;
+            case GLFW_KEY_DOWN:     // rotate around local GameObject X axis -
+            {
+                cGameObject * theGO = g_pCamera->getGameObject();
+                theGO->rotateX(-ROTANGLE);
+                //theGO->rateOfTurnX -= 30.0f;
+            }
+            break;
+            case GLFW_KEY_MINUS:
+                if (g_FOV <= 2.0f)
+                    g_FOV += 0.01;
+                break;
+            case GLFW_KEY_EQUAL:
+                if (g_FOV >= 0.1f)
+                    g_FOV -= 0.01;
+                break;
+            }// switch ( key )
+        }
     break;
 
     case FOLLOW_CAMERA:
@@ -500,11 +714,11 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_D:        // Move camera right along local x axis
             g_pCamera->moveCameraLeftNRight_Stadium(CAMSPEED);
             break;
-        case GLFW_KEY_Z:        // rotate around local camera Z axis +
-            g_pCamera->setCameraOrientationZ(ROTANGLE);
-            break;
-        case GLFW_KEY_C:        // rotate around local camera Z axis -
-            g_pCamera->setCameraOrientationZ(-ROTANGLE);
+        //case GLFW_KEY_Z:        // rotate around local camera Z axis +
+        //    g_pCamera->setCameraOrientationZ(ROTANGLE);
+        //    break;
+        //case GLFW_KEY_C:        // rotate around local camera Z axis -
+        //    g_pCamera->setCameraOrientationZ(-ROTANGLE);
             break;
         case GLFW_KEY_Q:        // Increase high along Y axis
             g_pCamera->changeAlongY(CAMSPEED);
@@ -512,6 +726,17 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_E:        // Decrease high along Y axis
             g_pCamera->changeAlongY(-CAMSPEED);
             break;
+        case GLFW_KEY_R:        // Resets object's velocities
+        {
+            for (size_t i = 0; i < g_vecGameObjects.size(); i++)
+            {
+                if (g_vecGameObjects[i]->rigidBody != NULL)
+                {
+                    g_vecGameObjects[i]->rigidBody->SetVelocity(glm::vec3(0.0f));
+                }
+            }
+        }
+        break;
         case GLFW_KEY_LEFT:     // rotate around local camera Y axis +
             g_pCamera->setCameraOrientationY_Stadium(ROTANGLE);
             break;
@@ -524,38 +749,40 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_DOWN:     // rotate around local camera X axis -
             g_pCamera->setCameraOrientationX_Stadium(-ROTANGLE);
             break;
-        case GLFW_KEY_H:        // Increase constant light attenuation
-            ::g_pLightManager->vecLights[0].attenuation.x += 0.1f;
+        //case GLFW_KEY_H:        // Increase constant light attenuation
+        //    ::g_pLightManager->vecLights[0].attenuation.x += 0.1f;
+        //    break;
+        //case GLFW_KEY_B:        // Decrease constant light attenuation
+        //    if (::g_pLightManager->vecLights[0].attenuation.x < 0.1f)
+        //        ::g_pLightManager->vecLights[0].attenuation.x = 0.0f;
+        //    else
+        //        ::g_pLightManager->vecLights[0].attenuation.x -= 0.1f;
+        //    break;
+        //case GLFW_KEY_J:        // Increase linear light attenuation
+        //    ::g_pLightManager->vecLights[0].attenuation.y += 0.01f;
+        //    break;
+        //case GLFW_KEY_N:        // Decrease linear light attenuation
+        //    if (::g_pLightManager->vecLights[0].attenuation.y < 0.01f)
+        //        ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;
+        //    else
+        //        ::g_pLightManager->vecLights[0].attenuation.y -= 0.01f;
+        //    break;
+        //case GLFW_KEY_K:        // Increase quadratic light attenuation
+        //    ::g_pLightManager->vecLights[0].attenuation.z += 0.01f;
+        //    break;
+        //case GLFW_KEY_M:        // Decrease quadratic light attenuation
+        //    if (::g_pLightManager->vecLights[0].attenuation.z < 0.01f)
+        //        ::g_pLightManager->vecLights[0].attenuation.z = 0.0f;
+        //    else
+        //        ::g_pLightManager->vecLights[0].attenuation.z -= 0.01f;
+        //    break;
+        case GLFW_KEY_MINUS:
+            if (g_FOV <= 2.0f)
+                g_FOV += 0.01;
             break;
-        case GLFW_KEY_B:        // Decrease constant light attenuation
-            if (::g_pLightManager->vecLights[0].attenuation.x < 0.1f)
-                ::g_pLightManager->vecLights[0].attenuation.x = 0.0f;
-            else
-                ::g_pLightManager->vecLights[0].attenuation.x -= 0.1f;
-            break;
-        case GLFW_KEY_J:        // Increase linear light attenuation
-            ::g_pLightManager->vecLights[0].attenuation.y += 0.01f;
-            break;
-        case GLFW_KEY_N:        // Decrease linear light attenuation
-            if (::g_pLightManager->vecLights[0].attenuation.y < 0.01f)
-                ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;
-            else
-                ::g_pLightManager->vecLights[0].attenuation.y -= 0.01f;
-            break;
-        case GLFW_KEY_K:        // Increase quadratic light attenuation
-            ::g_pLightManager->vecLights[0].attenuation.z += 0.01f;
-            break;
-        case GLFW_KEY_M:        // Decrease quadratic light attenuation
-            if (::g_pLightManager->vecLights[0].attenuation.z < 0.01f)
-                ::g_pLightManager->vecLights[0].attenuation.z = 0.0f;
-            else
-                ::g_pLightManager->vecLights[0].attenuation.z -= 0.01f;
-            break;
-        case GLFW_KEY_COMMA:
-            g_FOV -= 0.01;
-            break;
-        case GLFW_KEY_PERIOD:
-            g_FOV += 0.01;
+        case GLFW_KEY_EQUAL:
+            if (g_FOV >= 0.1f)
+                g_FOV -= 0.01;
             break;
         }// switch ( key ) 
     }

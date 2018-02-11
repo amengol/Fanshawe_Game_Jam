@@ -82,6 +82,19 @@ void cCameraObject::update()
         this->moveCameraUpNDown(2.0f);
         this->setCameraOrientationX(-10.0f);
     }
+
+    if (this->cameraMode == CONTROL_CAMERA_LOCK)
+    {
+        if (this->controlledGameObject != NULL)
+        {
+            if (this->controlledGameObject->rigidBody != NULL)
+            {
+                glm::vec3 pos(0.0f);
+                this->controlledGameObject->rigidBody->GetPostion(pos);
+                this->setCameraTarget(pos);
+            }
+        }            
+    }
 }
 
 void cCameraObject::moveCameraBackNForth(float speed)

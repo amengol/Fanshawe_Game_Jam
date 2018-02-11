@@ -10,6 +10,7 @@ enum eCameraMode {
     MANUAL,			// Move along the axes (lookat)
     FOLLOW_CAMERA,	// Follows a target (lookat)
     CONTROL_CAMERA,
+    CONTROL_CAMERA_LOCK,
     FLY_CAMERA,		// Movement based on direction of gaze                    
     STADIUM_CAMERA
 };
