@@ -91,11 +91,11 @@ namespace nPhysics
                             // If we are just sliding, let make it loose some energy
                             if (rb1->mPosition.y <= sphere1->getRadius() + 0.01)
                             {
-                                if ((rb1->mVelocity.x >= 0.01f || rb1->mVelocity.z >= 0.01f)
+                                if ((rb1->mVelocity.x >= 0.0000001f || rb1->mVelocity.z >= 0.0000001f)
                                     && rb1->mVelocity.y <= 0.1f)
                                 {
                                     // Make it loose energy
-                                    rb1->mVelocity *= 0.99f;
+                                    rb1->mVelocity *= 0.999f;
                                 }
                             }
 
@@ -173,7 +173,7 @@ namespace nPhysics
                                         // This guy is suppose to be stuck in the floor. 
                                         // Lets give him a lift and a push
                                         rb1->mPosition.y += 0.01;
-                                        rb1->mVelocity = -rb2->mVelocity;
+                                        rb1->mVelocity = -(rb2->mVelocity / 2.0f);
                                     }                                    
                                 }
                                 glm::vec3 fakeNormalS2 = glm::normalize(rb1->mPosition - rb2->mPosition);
