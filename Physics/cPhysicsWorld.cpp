@@ -88,6 +88,17 @@ namespace nPhysics
                             nPhysics::iShape::PlaneType planeType;
                             plane->getPlaneType(planeType);
 
+                            // If we are just sliding, let make it loose some energy
+                            if (rb1->mPosition.y <= sphere1->getRadius() + 0.01)
+                            {
+                                if ((rb1->mVelocity.x >= 0.01f || rb1->mVelocity.z >= 0.01f)
+                                    && rb1->mVelocity.y <= 0.1f)
+                                {
+                                    // Make it loose energy
+                                    rb1->mVelocity *= 0.99f;
+                                }
+                            }
+
                             switch (planeType)
                             {
                             case nPhysics::iShape::PlaneType::FLOOR:
@@ -96,9 +107,9 @@ namespace nPhysics
                                 float radius = sphere1->getRadius();
                                 if (rb1->mPosition.y <= rb2->mPosition.y + sphere1->getRadius())
                                 {
-                                    rb1->mPosition.y = rb2->mPosition.y + sphere1->getRadius() + 0.01f;
+                                    rb1->mPosition.y = rb2->mPosition.y + sphere1->getRadius();// +0.01f;
                                     rb1->mVelocity.y = -(rb1->mVelocity.y);
-                                    //rb1->mVelocity.y *= 0.85f;
+                                    rb1->mVelocity.y *= 0.95f;
                                 }
                             }
                                 
@@ -106,33 +117,33 @@ namespace nPhysics
                             case nPhysics::iShape::PlaneType::FRONT:
                                 if (rb1->mPosition.z <= rb2->mPosition.z + sphere1->getRadius())
                                 {
-                                    rb1->mPosition.z = rb2->mPosition.z + sphere1->getRadius() + 0.01f;
+                                    rb1->mPosition.z = rb2->mPosition.z + sphere1->getRadius();// +0.01f;
                                     rb1->mVelocity.z = -(rb1->mVelocity.z);
-                                    //rb1->mVelocity.z *= 0.85f;
+                                    rb1->mVelocity.z *= 0.95f;
                                 }
                                 break;
                             case nPhysics::iShape::PlaneType::BACK:
                                 if (rb1->mPosition.z >= rb2->mPosition.z - sphere1->getRadius())
                                 {
-                                    rb1->mPosition.z = rb2->mPosition.z - sphere1->getRadius() - 0.01f;
+                                    rb1->mPosition.z = rb2->mPosition.z - sphere1->getRadius();// -0.01f;
                                     rb1->mVelocity.z = -(rb1->mVelocity.z);
-                                    //rb1->mVelocity.z *= 0.85f;
+                                    rb1->mVelocity.z *= 0.95f;
                                 }
                                 break;
                             case nPhysics::iShape::PlaneType::LEFT:
                                 if (rb1->mPosition.x <= rb2->mPosition.x + sphere1->getRadius())
                                 {
-                                    rb1->mPosition.x = rb2->mPosition.x + sphere1->getRadius() + 0.01f;
+                                    rb1->mPosition.x = rb2->mPosition.x + sphere1->getRadius();// +0.01f;
                                     rb1->mVelocity.x = -(rb1->mVelocity.x);
-                                    //rb1->mVelocity.x *= 0.85f;
+                                    rb1->mVelocity.x *= 0.95f;
                                 }
                                 break;
                             case nPhysics::iShape::PlaneType::RIGHT:
                                 if (rb1->mPosition.x >= rb2->mPosition.x - sphere1->getRadius())
                                 {
-                                    rb1->mPosition.x = rb2->mPosition.x - sphere1->getRadius() - 0.01f;
+                                    rb1->mPosition.x = rb2->mPosition.x - sphere1->getRadius();// -0.01f;
                                     rb1->mVelocity.x = -(rb1->mVelocity.x);
-                                    //rb1->mVelocity.x *= 0.85f;
+                                    rb1->mVelocity.x *= 0.95f;
                                 }
                                 break;
                             default:
@@ -152,12 +163,27 @@ namespace nPhysics
                                 rb2->mPosition = rb2->mLastPos;
 
                                 // Collision
+                                // Sphere1
+                                if (rb1->mPosition.y <= sphere1->getRadius() + 0.01)
+                                {
+                                    if (rb1->mVelocity.x <= 0.1f
+                                        && rb1->mVelocity.y <= 0.1f
+                                        && rb1->mVelocity.z <= 0.1f)
+                                    {
+                                        // This guy is suppose to be stuck in the floor. 
+                                        // Lets give him a lift and a push
+                                        rb1->mPosition.y += 0.01;
+                                        rb1->mVelocity = -rb2->mVelocity;
+                                    }                                    
+                                }
                                 glm::vec3 fakeNormalS2 = glm::normalize(rb1->mPosition - rb2->mPosition);
-                                glm::vec3 reflectedVectorS1 = glm::reflect(rb1->mVelocity, fakeNormalS2);
-                                rb1->mVelocity = reflectedVectorS1;
+                                glm::vec3 reflectedVectorS1 = glm::reflect(rb1->mVelocity, fakeNormalS2);                                
+                                rb1->mVelocity = reflectedVectorS1 * 0.95f;
+
+                                // Sphere2                                
                                 glm::vec3 fakeNormalS1 = glm::normalize(rb2->mPosition - rb1->mPosition);
-                                glm::vec3 reflectedVectorS2 = glm::reflect(rb2->mVelocity, fakeNormalS1);
-                                rb2->mVelocity = reflectedVectorS2;
+                                glm::vec3 reflectedVectorS2 = glm::reflect(rb2->mVelocity, fakeNormalS1);                                
+                                rb2->mVelocity = reflectedVectorS2 * 0.95f;
                             }
                         }
                     }//!if (rb1 != rb2)
