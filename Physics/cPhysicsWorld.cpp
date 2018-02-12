@@ -2,6 +2,7 @@
 #include "cPhysicsWorld.h"
 #include <algorithm>
 #include "shapes.h"
+#include <glm\gtx\transform.hpp>
 
 const glm::vec3 GRAVITY = glm::vec3(0.0f, -10.0f, 0.0f);
 
@@ -159,10 +160,21 @@ namespace nPhysics
                             float distance = glm::length(rb1->mPosition - rb2->mPosition);
                             if (distance <= sphere1->getRadius() + sphere2->getRadius())
                             {
+                                // Collision
+
+                                // Let's simulate the reponse according to each mass.
+                                // The velocity should be proportional to the inverse of each mass
+                                // In this case, the mass is a factor of each radius, so we first sum
+                                // each one and than by divinding them by that sum. Then, we only
+                                // have to apply this final factor to the final velocity
+                                float radiusSum = sphere1->getRadius() + sphere2->getRadius();
+                                float fac1 = sphere2->getRadius() / radiusSum;
+                                float fac2 = sphere1->getRadius() / radiusSum;
+
+                                // Put them one step back
                                 rb1->mPosition = rb1->mLastPos;
                                 rb2->mPosition = rb2->mLastPos;
-
-                                // Collision
+                                
                                 // Sphere1
                                 if (rb1->mPosition.y <= sphere1->getRadius() + 0.01)
                                 {
@@ -171,19 +183,19 @@ namespace nPhysics
                                         && rb1->mVelocity.z <= 0.1f)
                                     {
                                         // This guy is suppose to be stuck in the floor. 
-                                        // Lets give him a lift and a push
+                                        // Lets give him a lift and a push when colliding
                                         rb1->mPosition.y += 0.01;
                                         rb1->mVelocity = -(rb2->mVelocity / 2.0f);
                                     }                                    
                                 }
                                 glm::vec3 fakeNormalS2 = glm::normalize(rb1->mPosition - rb2->mPosition);
                                 glm::vec3 reflectedVectorS1 = glm::reflect(rb1->mVelocity, fakeNormalS2);                                
-                                rb1->mVelocity = reflectedVectorS1 * 0.95f;
+                                rb1->mVelocity = reflectedVectorS1 * fac1 * 0.95f;
 
                                 // Sphere2                                
                                 glm::vec3 fakeNormalS1 = glm::normalize(rb2->mPosition - rb1->mPosition);
                                 glm::vec3 reflectedVectorS2 = glm::reflect(rb2->mVelocity, fakeNormalS1);                                
-                                rb2->mVelocity = reflectedVectorS2 * 0.95f;
+                                rb2->mVelocity = reflectedVectorS2 * fac2 * 0.95f;
                             }
                         }
                     }//!if (rb1 != rb2)
@@ -193,6 +205,21 @@ namespace nPhysics
             default:
                 break;
             }//!switch (sh1->GetShapeType()
+
+            // Rotation
+            // Let's consider only the velocity of the object in Z local axis
+            // Also getting rid of pitch information (Y axis)
+            glm::vec3 horizontalDir = rb1->mVelocity - rb1->mPosition;
+            horizontalDir.y = 0.0f;
+
+            // Now the axis of rotation should be:
+            glm::vec3 rotAxis = glm::normalize(glm::cross(horizontalDir, glm::vec3(0.0f, -1.0f, 0.0f)));
+
+            float angVelocity = glm::length(glm::vec3(rb1->mVelocity.x, 0.0f, rb1->mVelocity.z)) * deltaTime;
+
+            glm::mat4 finalRotation(1.0f);
+            finalRotation = glm::rotate(finalRotation, angVelocity, rotAxis); //glm::rotate(finalRotation, glm::length(horizontalVel) * deltaTime, rotAxis);
+            rb1->mOrientation *= finalRotation;
 
              //RK4
             rb1->mLastPos = rb1->mPosition; // Save the last position

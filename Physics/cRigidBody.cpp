@@ -11,7 +11,7 @@ namespace nPhysics
 		, mRotation(desc.Rotation)
 		
 	{
-		
+        this->mOrientation = glm::mat4(1.0f);
 	}
 	cRigidBody::~cRigidBody()
 	{

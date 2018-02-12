@@ -18,6 +18,7 @@ namespace nPhysics
 		virtual void GetTransform(glm::mat4& transformOut);
 		virtual void GetPostion(glm::vec3& positionOut);
 		virtual void GetRotation(glm::vec3& rotationOut);
+        virtual void GetMatOrientation(glm::mat4& orientationOut) { orientationOut = this->mOrientation; }
         virtual void GetVelocity(glm::vec3& velocity) { velocity = this->mVelocity; }
         virtual void SetVelocity(const glm::vec3& velocity) { this->mVelocity = velocity; }
 
@@ -32,5 +33,7 @@ namespace nPhysics
 		glm::quat mRotation;
 		float mMass;
         glm::vec3 mLastPos;
+
+        glm::mat4 mOrientation;
 	};
 }
