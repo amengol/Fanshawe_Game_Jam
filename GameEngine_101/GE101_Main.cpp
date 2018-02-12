@@ -675,7 +675,17 @@ void DrawObject(cGameObject* pTheGO)
 
     mModel = mModel * trans;    
 
-    mModel = mModel * pTheGO->orientation;
+    // Orientation by nPhysics?
+    if (pTheGO->rigidBody != NULL)
+    {
+        glm::mat4 orientation;
+        pTheGO->rigidBody->GetMatOrientation(orientation);
+        mModel = mModel * orientation;
+    }
+    else
+    {
+        mModel = mModel * pTheGO->orientation;
+    }
 
     float finalScale = pTheGO->scale;
 

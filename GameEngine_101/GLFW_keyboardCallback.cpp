@@ -162,6 +162,14 @@ void key_callback(GLFWwindow* window,
     //    }
     //}
 
+    if(key == GLFW_KEY_L && action == GLFW_PRESS)
+    {
+        for (size_t i = 0; i < g_vecGameObjects.size() ; i++)
+        {
+            g_vecGameObjects[i]->bIsWireFrame = !g_vecGameObjects[i]->bIsWireFrame;
+        }
+    }
+
     switch(::g_pCamera->getCameraMode())
     {
     case MANUAL:
