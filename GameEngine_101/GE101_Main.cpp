@@ -340,13 +340,13 @@ int main()
     
     // Camera end
     
-    //-------------------------------------------------------------------------
-    // Limit planes
-    if (!sceneLoader.loadLimitPlanes(g_vecLimitPlanes, error))
-    {
-        std::cout << "The limit planes configuration was not loaded..." << std::endl;
-        std::cout << error << std::endl;
-    }
+    ////-------------------------------------------------------------------------
+    //// Limit planes
+    //if (!sceneLoader.loadLimitPlanes(g_vecLimitPlanes, error))
+    //{
+    //    std::cout << "The limit planes configuration was not loaded..." << std::endl;
+    //    std::cout << error << std::endl;
+    //}
 
     // Limit planes are not being used by local physics anymore, so put them in nPhysics
     for (size_t i = 0; i < g_vecLimitPlanes.size(); i++)

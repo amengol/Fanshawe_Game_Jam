@@ -57,7 +57,7 @@ public:
     bool loadCameraParams(cCameraObject*, std::string& error);
     
     // Loads limit planes to be used in the Physics Engine
-    bool loadLimitPlanes(std::vector<LimitPlane>& vecLP, std::string& error);
+    //bool loadLimitPlanes(std::vector<LimitPlane>& vecLP, std::string& error);
 
 private:
 
