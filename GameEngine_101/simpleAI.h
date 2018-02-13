@@ -5,17 +5,19 @@
 
 struct Node
 {
-    Node(int id, unsigned int edge)
+    Node(int id, unsigned int edge, glm::vec3 leftBottom)
     {
         this->ID = id;
 
         int iX = id / 100;
-        int iY = id - iX;       
+        int iY = id - iX * 100;       
 
         // Right handed coord. system:
         this->position.x = iX * edge;
         this->position.y = 0.0f;
         this->position.z = iY * edge;
+
+        this->position += leftBottom;
     }
 
     int ID;
@@ -114,7 +116,10 @@ std::vector<int> findNeighborsIDs(Node* n)
     return ret;
 }
 
-std::vector<Node*> makeGrid(int edgeSize, unsigned int rows, unsigned int columns)
+std::vector<Node*> makeGrid(int edgeSize, 
+                            unsigned int rows, 
+                            unsigned int columns,
+                            glm::vec3 leftBottom)
 {
     std::vector<Node*> nodes;
 
@@ -131,7 +136,7 @@ std::vector<Node*> makeGrid(int edgeSize, unsigned int rows, unsigned int column
             int x = j * 100;
             int y = i;
             int ID = x + y;
-            Node* n = new Node(ID, edgeSize);
+            Node* n = new Node(ID, edgeSize, leftBottom);
             nodes.push_back(n);
         }
     }
@@ -151,7 +156,7 @@ std::vector<Node*> makeGrid(int edgeSize, unsigned int rows, unsigned int column
             {
                 for (size_t k = 0; k < IDs.size(); k++)
                 {
-                    if (n2->ID == IDs[i])
+                    if (n2->ID == IDs[k])
                     {
                         // Connect both
                         n1->connectedNodes.push_back(n2);
