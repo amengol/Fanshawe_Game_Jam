@@ -418,7 +418,7 @@ void cSimpleDebugRenderer::drawDebugGeometry(glm::vec3 position, long long geome
 void cSimpleDebugRenderer::drawCustomGeometry(std::vector<sVertex>& theMesh,
                                               glm::vec3 color,
                                               bool repositioning,
-                                              glm::mat4 posMatrix                                              )
+                                              glm::mat4 posMatrix)
 {
     glBindVertexArray(this->dynamicBuffer.VAO_ID);
     glBindBuffer(GL_ARRAY_BUFFER, this->dynamicBuffer.bufferID);
@@ -482,6 +482,83 @@ void cSimpleDebugRenderer::drawCustomGeometry(std::vector<sVertex>& theMesh,
 
     glLineWidth(2.0f);
     glDrawArrays(GL_TRIANGLES, 0, theMesh.size());
+    glLineWidth(1.0f);
+
+    // Unbind that VAO
+    glBindVertexArray(0);
+
+    // Unbind (release) everything
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glDisableVertexAttribArray(vpos_location);
+}
+
+void cSimpleDebugRenderer::drawCustomLines(std::vector<sVertex>& theMesh,
+                                           glm::vec3 color,
+                                           bool repositioning,
+                                           glm::mat4 posMatrix)
+{
+    glBindVertexArray(this->dynamicBuffer.VAO_ID);
+    glBindBuffer(GL_ARRAY_BUFFER, this->dynamicBuffer.bufferID);
+
+    sVertex* pVertices = new sVertex[theMesh.size()];
+
+    for (int i = 0; i < theMesh.size(); i++)
+    {
+        pVertices[i] = theMesh[i];
+    }
+
+    // Copy the local vertex array into the GPUs memory
+    int sizeOfGlobalVertexArrayInBytes = sizeof(sVertex) * theMesh.size();
+    glBufferData(GL_ARRAY_BUFFER, sizeOfGlobalVertexArrayInBytes, pVertices, GL_STATIC_DRAW);
+
+    delete[] pVertices;
+
+    // Now set up the vertex layout (for this shader)
+    GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+    GLuint vpos_location = glGetAttribLocation(shaderID, "vPos");
+    GLuint uniLoc_materialDiffuse = glGetUniformLocation(shaderID, "materialDiffuse");
+    GLuint uniLoc_mModel = glGetUniformLocation(shaderID, "mModel");
+    GLuint uniLoc_HasColour = glGetUniformLocation(shaderID, "hasColour");
+    GLuint uniLoc_bIsDebugWireFrameObject = glGetUniformLocation(shaderID, "bIsDebugWireFrameObject");
+
+    // Size of the vertex we are using in the array.
+    // This is called the "stride" of the vertices in the vertex buffer
+    const unsigned int VERTEX_STRIDE = sizeof(sVertex);
+
+    glEnableVertexAttribArray(vpos_location);
+    const unsigned int OFFSET_TO_X = offsetof(sVertex, x);
+    glVertexAttribPointer(vpos_location, 3,
+                          GL_FLOAT, GL_FALSE,
+                          VERTEX_STRIDE,
+                          reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_X)));
+
+
+    glm::mat4x4 mModel = glm::mat4x4(1.0f);
+
+    if (repositioning)
+    {
+        mModel = posMatrix;
+    }
+
+
+
+    glUniformMatrix4fv(uniLoc_mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
+
+    glm::mat4 mWorldInTranpose = glm::inverse(glm::transpose(mModel));
+
+    glUniform1f(uniLoc_HasColour, 0.0f);
+    glUniform1f(uniLoc_bIsDebugWireFrameObject, 1.0f);
+    glUniform4f(uniLoc_materialDiffuse, color.r, color.g, color.b, 1.0f);
+
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glDisable(GL_CULL_FACE);
+
+
+    glCullFace(GL_BACK);
+
+    glLineWidth(2.0f);
+    glDrawArrays(GL_LINES, 0, theMesh.size());
     glLineWidth(1.0f);
 
     // Unbind that VAO

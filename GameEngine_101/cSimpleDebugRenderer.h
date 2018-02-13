@@ -33,6 +33,10 @@ public:
                             glm::vec3 color,
                             bool repositioning = false,
                             glm::mat4 posMatrix = glm::mat4(1.0f));
+    void drawCustomLines(std::vector<sVertex>&,
+                         glm::vec3 color,
+                         bool repositioning = false,
+                         glm::mat4 posMatrix = glm::mat4(1.0f));
 
 private:
     std::map<long long, miniVAOInfo> mapGeometryID_VAOInfo;
