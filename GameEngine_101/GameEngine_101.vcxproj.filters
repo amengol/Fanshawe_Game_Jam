@@ -161,6 +161,9 @@
     <ClCompile Include="cAssimpAssetLoader.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
+    <ClCompile Include="cSimpleAi_Manager.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -238,9 +241,6 @@
     <ClInclude Include="cTransparencyManager.h">
       <Filter>Game Objects Related</Filter>
     </ClInclude>
-    <ClInclude Include="simpleAI.h">
-      <Filter>AI</Filter>
-    </ClInclude>
     <ClInclude Include="cSceneLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -261,6 +261,9 @@
     </ClInclude>
     <ClInclude Include="cAssimpAssetLoader.h">
       <Filter>Vertex, Model and Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cSimpleAi_Manager.h">
+      <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

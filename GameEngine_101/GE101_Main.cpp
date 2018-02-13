@@ -32,7 +32,7 @@
 #include <cPhysicsWorld.h>
 #include <iPhysicsFactory.h>
 #include <cPhysicsFactory.h>
-#include "simpleAI.h"
+#include "cSimpleAi_Manager.h"
 
 bool gRenderStuffInDebug;
 nPhysics::iPhysicsFactory* gPhysicsFactory;
@@ -103,17 +103,20 @@ static void error_callback(int error, const char* description)
 
 int main()
 {
-    // Populate all nodes test
-    std::vector<Node*> nodes = makeGrid(10, 15, 15, glm::vec3(-70.0f, 0.0f, -70.0f));
-
-    for (size_t i = 0; i < nodes.size(); i++)
-    {
-        cGameObject* GO = new cGameObject();
-        GO->meshName = "Sockerball";
-        GO->position = nodes[i]->position;
-        g_vecGameObjects.push_back(GO);
-    }
-
+    // Populate all AI nodes
+    cSimpleAi_Manager AiManager;
+    AiManager.makeGrid(10, 15, 15, glm::vec3(-70.0f, 0.0f, -70.0f));
+    std::vector<unsigned int> theNodes;
+    theNodes.push_back(0);
+    theNodes.push_back(1);
+    theNodes.push_back(2);
+    theNodes.push_back(3);
+    theNodes.push_back(4);
+    theNodes.push_back(5);
+    theNodes.push_back(100);
+    theNodes.push_back(200);
+    AiManager.loadWalls("Cube_10x10", theNodes);
+    AiManager.loadNodes("Sockerball");
 
 
     InitPhysics();
@@ -594,6 +597,8 @@ int main()
         gPhysicsWorld->TimeStep(deltaTime);
         //PhysicsStep(deltaTime);
         lastTimeStep = curTime;
+
+        AiManager.updateAi();
 
         // Move this here before Physics step to be able to print 
         // the SimpleDebugRender
