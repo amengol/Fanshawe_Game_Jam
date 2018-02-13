@@ -5,15 +5,17 @@
 
 struct Node
 {
-    Node(int id)
+    Node(int id, unsigned int edge)
     {
+        this->ID = id;
+
         int iX = id / 100;
-        int iY = id - iX;
+        int iY = id - iX;       
 
         // Right handed coord. system:
-        this->position.x = iX;
+        this->position.x = iX * edge;
         this->position.y = 0.0f;
-        this->position.z = iY;
+        this->position.z = iY * edge;
     }
 
     int ID;
@@ -114,11 +116,11 @@ std::vector<int> findNeighborsIDs(Node* n)
 
 std::vector<Node*> makeGrid(int edgeSize, unsigned int rows, unsigned int columns)
 {
+    std::vector<Node*> nodes;
+
     // Our grid has a limit
     if (rows > 99 || columns > 99)
-        return;
-
-    std::vector<Node*> nodes;
+        return nodes;    
 
     // Calc the IDs and create the nodes
     for (size_t i = 0; i < rows; i++)
@@ -126,10 +128,10 @@ std::vector<Node*> makeGrid(int edgeSize, unsigned int rows, unsigned int column
         for (size_t j = 0; j < columns; j++)
         {
             // Shift X to the left
-            int x = i * rows * 100;
-            int y = j * columns;
+            int x = j * 100;
+            int y = i;
             int ID = x + y;
-            Node* n = new Node(ID);
+            Node* n = new Node(ID, edgeSize);
             nodes.push_back(n);
         }
     }
@@ -159,6 +161,8 @@ std::vector<Node*> makeGrid(int edgeSize, unsigned int rows, unsigned int column
             }
         }
     }
+
+    return nodes;
 }
 
 //void update_AI_Parameters(cGameObject* theGO, float threshold)

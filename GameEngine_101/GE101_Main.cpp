@@ -32,6 +32,7 @@
 #include <cPhysicsWorld.h>
 #include <iPhysicsFactory.h>
 #include <cPhysicsFactory.h>
+#include "simpleAI.h"
 
 bool gRenderStuffInDebug;
 nPhysics::iPhysicsFactory* gPhysicsFactory;
@@ -102,6 +103,19 @@ static void error_callback(int error, const char* description)
 
 int main()
 {
+    // Populate all nodes test
+    std::vector<Node*> nodes = makeGrid(10, 15, 15);
+
+    for (size_t i = 0; i < nodes.size(); i++)
+    {
+        cGameObject* GO = new cGameObject();
+        GO->meshName = "Sockerball";
+        GO->position = nodes[i]->position;
+        g_vecGameObjects.push_back(GO);
+    }
+
+
+
     InitPhysics();
 
     GLFWwindow* window;

@@ -11,6 +11,7 @@
 {"Meshes" : 
 [
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply", "type" : 0, "isPersistent" : false},
-{"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply", "type" : 0, "isPersistent" : false}
+{"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply", "type" : 0, "isPersistent" : false},
+{"meshName" : "Sockerball", "meshFile" : "Sockerball.obj", "type" : 2, "isPersistent" : true}
 ]
 }
