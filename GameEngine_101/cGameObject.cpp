@@ -24,6 +24,7 @@ cGameObject::cGameObject()
     this->mGOSound = NULL;
     this->mHasSound = false;
 	this->bIsWireFrame = false;
+    this->renderable = true;
     this->hasColour = false;
     this->hasAlpha = false;
     this->useDiscardAlpha = true;

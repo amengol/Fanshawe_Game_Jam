@@ -116,6 +116,7 @@ int main()
     theNodes.push_back(100);
     theNodes.push_back(200);
     AiManager.loadWalls("Cube", theNodes);
+    AiManager.showDebugGrid(true);
 
     InitPhysics();
 
@@ -629,6 +630,12 @@ void DrawObject(cGameObject* pTheGO)
 
     // Is there a game object? 
     if(pTheGO == 0)
+    {
+        return;
+    }
+
+    // Is the game object renderable?
+    if (!pTheGO->renderable)
     {
         return;
     }

@@ -70,6 +70,7 @@ public:
     void setCollisionGeometry(cMesh);
 
 	bool bIsWireFrame;
+    bool renderable;
     bool hasColour;
     bool hasAlpha;
     bool useDiscardAlpha;
