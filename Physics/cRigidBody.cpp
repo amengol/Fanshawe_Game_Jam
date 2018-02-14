@@ -39,4 +39,19 @@ namespace nPhysics
 	{
 		rotationOut = glm::eulerAngles(mRotation);
 	}
+
+    void cRigidBody::SetVelocityLocal(const glm::vec3& velocity)
+    {
+        // Local X axis
+        glm::vec3 localX = this->mOrientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+        localX = localX * velocity.x;
+        // Local Z axis
+        glm::vec3 localY = this->mOrientation * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+        localY = localY * velocity.y;
+        // Local Z axis
+        glm::vec3 localZ = this->mOrientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+        localZ = localZ * velocity.z;
+
+        this->mVelocity = localX + localY + localZ;
+    }
 }
