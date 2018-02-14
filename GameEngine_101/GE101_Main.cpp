@@ -103,6 +103,8 @@ static void error_callback(int error, const char* description)
 
 int main()
 {
+    InitPhysics();
+
     // Populate all AI nodes
     cSimpleAi_Manager AiManager;
     AiManager.makeGrid(10, 15, 15, glm::vec3(-70.0f, 0.0f, -70.0f));
@@ -123,8 +125,6 @@ int main()
     {
         cout << AiError << endl;
     }
-
-    InitPhysics();
 
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);

@@ -2,8 +2,11 @@
 
 #include "cSimpleDebugRenderer.h"
 #include "cGameObject.h"
+#include <iPhysicsFactory.h>
 extern std::vector< cGameObject* >  g_vecGameObjects;
 extern cSimpleDebugRenderer* g_simpleDebug;
+extern nPhysics::iPhysicsFactory* gPhysicsFactory;
+
 
 cSimpleAi_Manager::~cSimpleAi_Manager()
 {
@@ -147,14 +150,12 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
                                           std::string& error)
 {
     bool foundID = false;
+    glm::vec3 mainPos(0.0f);
     for (size_t i = 0; i < this->mNodes.size(); i++)
     {
         if (this->mNodes[i]->ID == originID)
         {
-            this->mainGO = new cGameObject();
-            this->mainGO->meshName = mainMeshName;
-            this->mainGO->friendlyName = "AiMainGameObject";
-            this->mainGO->position = this->mNodes[i]->position;
+            mainPos = this->mNodes[i]->position;
             foundID = true;
             break;
         }
@@ -167,15 +168,12 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
     }
 
     foundID = false;
-
+    glm::vec3 targetPos(0.0f);
     for (size_t i = 0; i < this->mNodes.size(); i++)
     {
         if (this->mNodes[i]->ID == targetID)
         {
-            this->targetGO = new cGameObject();
-            this->targetGO->meshName = targetMeshName;
-            this->targetGO->friendlyName = "AiTargetGameObject";
-            this->targetGO->position = this->mNodes[i]->position;
+            targetPos = this->mNodes[i]->position;
             foundID = true;
             break;
         }
@@ -184,16 +182,27 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
     if (!foundID)
     {
         error.append("The node ID for the target was not found!\n");
-        if (this->mainGO != NULL)
-        {
-            delete this->mainGO;
-            this->mainGO = NULL;
-        }
         return false;
     }
 
+    // Main GameObject
+    this->mainGO = new cGameObject();
+    this->mainGO->meshName = mainMeshName;
+    this->mainGO->friendlyName = "AiMainGameObject";
+    nPhysics::sRigidBodyDesc desc;
+    desc.Position = mainPos;
+    nPhysics::iShape* shape = gPhysicsFactory->CreateCube(1.0f);
+    nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, shape);
+    this->mainGO->rigidBody = rb;
     g_vecGameObjects.push_back(this->mainGO);
+
+    // Target GameObject
+    this->targetGO = new cGameObject();
+    this->targetGO->meshName = targetMeshName;
+    this->targetGO->friendlyName = "AiTargetGameObject";
+    this->targetGO->position = targetPos;
     g_vecGameObjects.push_back(this->targetGO);
+
     return true;
 }
 
