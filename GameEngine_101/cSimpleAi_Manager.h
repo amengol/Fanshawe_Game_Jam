@@ -11,11 +11,13 @@ class cGameObject;
 class cSimpleAi_Manager
 {
 public:
-    cSimpleAi_Manager() : 
+    cSimpleAi_Manager() :
         debugGridEnable(false),
         mainGO(NULL),
         targetGO(NULL),
-        currentTargetID(1000000)
+        currentTargetID(1000000),
+        curTargetIndex(0),
+        curTargetVel(0.0f)
     { }
     ~cSimpleAi_Manager();
 
@@ -66,8 +68,11 @@ private:
     void loadNodes(std::string meshName);
 
     // Makes the main GameObject go after a target
-    void goToTarget(unsigned int targetID, float velocity);
+    void goToTarget();
     // Used with goToTarget to avoid look for a new target everytime
+    std::vector<unsigned int> pathIDs;
+    size_t curTargetIndex;
+    float curTargetVel;
     unsigned int currentTargetID;
     glm::vec3 curTargetPos;
 

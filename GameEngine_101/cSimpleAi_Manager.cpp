@@ -131,7 +131,7 @@ void cSimpleAi_Manager::updateAi()
         g_simpleDebug->drawCustomLines(this->mEdges, glm::vec3(1.0f, 0.0f, 0.0f));
     }    
 
-    this->goToTarget(808, 5.0f);
+    this->goToTarget();
 }
 
 void cSimpleAi_Manager::showDebugGrid(bool enable)
@@ -205,11 +205,6 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
     this->targetGO->position = targetPos;
     g_vecGameObjects.push_back(this->targetGO);
 
-    return true;
-}
-
-void cSimpleAi_Manager::goToTarget(unsigned int targetID, float velocity)
-{
     // Target position
     if (targetID != this->currentTargetID)
     {
@@ -219,13 +214,46 @@ void cSimpleAi_Manager::goToTarget(unsigned int targetID, float velocity)
             {
                 this->currentTargetID = targetID;
                 this->curTargetPos = this->mNodes[i]->position;
+                this->curTargetVel = 5.0f;
             }
         }
     }
 
-    // Orient the Main GO to the target
+    this->pathIDs.push_back(targetID);
+
+    return true;
+}
+
+void cSimpleAi_Manager::goToTarget()
+{   
+    // Do nothing if we are at the and or no path at all
+    if (this->curTargetIndex == this->pathIDs.size())
+        return;
+
+    // Distance
     glm::vec3 mainGOPos;
     this->mainGO->rigidBody->GetPostion(mainGOPos);
+    float distance = glm::dot(mainGOPos, this->curTargetPos - mainGOPos);
+
+    if (distance <= 0.01)
+    {
+        // Set the next node
+        this->curTargetIndex++;
+        if (this->curTargetIndex == this->pathIDs.size())
+            return;
+
+        this->currentTargetID = this->pathIDs[this->curTargetIndex];
+        for (size_t i = 0; i < this->mNodes.size(); i++)
+        {
+            if (this->mNodes[i]->ID == this->currentTargetID)
+            {
+                this->curTargetPos = this->mNodes[i]->position;
+            }
+        }
+
+    }
+
+    // Orient the Main GO to the target
     glm::vec3 a = glm::vec3(0.0f, 0.0f, 1.0f);
     glm::vec3 b = glm::normalize(this->curTargetPos - mainGOPos);
     float angle = acos(glm::dot(b, a) / (glm::length(b) * glm::length(a)));
@@ -242,7 +270,7 @@ void cSimpleAi_Manager::goToTarget(unsigned int targetID, float velocity)
     
     
     this->mainGO->rigidBody->SetMatOrientation(orientation);
-    this->mainGO->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, velocity));
+    this->mainGO->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, this->curTargetVel));
 }
 
 std::vector<int> cSimpleAi_Manager::findNeighborsIDs(Node* n)
