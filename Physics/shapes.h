@@ -46,4 +46,15 @@ namespace nPhysics
 		float mPlaneConst;
         PlaneType type;
 	};
+
+    class cCubeShape : public iShape
+    {
+    public:
+        cCubeShape(float size);
+        virtual ~cCubeShape();
+
+    private:
+        cCubeShape();
+        float cubeSize;
+    };
 }

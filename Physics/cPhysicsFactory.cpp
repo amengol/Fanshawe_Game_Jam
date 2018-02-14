@@ -26,5 +26,10 @@ namespace nPhysics
 	{
 		return new cPlaneShape(normal, planeConst);
 	}
+
+    iShape * cPhysicsFactory::CreateCube(float size)
+    {
+        return new cCubeShape(size);
+    }
 	
 }

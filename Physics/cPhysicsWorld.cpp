@@ -4,7 +4,7 @@
 #include "shapes.h"
 #include <glm\gtx\transform.hpp>
 
-const glm::vec3 GRAVITY = glm::vec3(0.0f, -10.0f, 0.0f);
+const glm::vec3 GRAVITY = glm::vec3(0.0f, 0.0f, 0.0f);
 
 namespace nPhysics
 {
@@ -202,24 +202,26 @@ namespace nPhysics
                 }//!for (size_t j = 0; j < rbSize; j++)
             }//!case nPhysics::SHAPE_TYPE_SPHERE:
                 break;
+            case nPhysics::SHAPE_TYPE_CUBE:
+                break;
             default:
                 break;
             }//!switch (sh1->GetShapeType()
 
-            // Rotation
-            // Let's consider only the velocity of the object in Z local axis
-            // Also getting rid of pitch information (Y axis)
-            glm::vec3 horizontalDir = rb1->mVelocity - rb1->mPosition;
-            horizontalDir.y = 0.0f;
+            //// Rotation
+            //// Let's consider only the velocity of the object in Z local axis
+            //// Also getting rid of pitch information (Y axis)
+            //glm::vec3 horizontalDir = rb1->mVelocity - rb1->mPosition;
+            //horizontalDir.y = 0.0f;
 
-            // Now the axis of rotation should be:
-            glm::vec3 rotAxis = glm::normalize(glm::cross(horizontalDir, glm::vec3(0.0f, -1.0f, 0.0f)));
+            //// Now the axis of rotation should be:
+            //glm::vec3 rotAxis = glm::normalize(glm::cross(horizontalDir, glm::vec3(0.0f, -1.0f, 0.0f)));
 
-            float angVelocity = glm::length(glm::vec3(rb1->mVelocity.x, 0.0f, rb1->mVelocity.z)) * deltaTime;
+            //float angVelocity = glm::length(glm::vec3(rb1->mVelocity.x, 0.0f, rb1->mVelocity.z)) * deltaTime;
 
-            glm::mat4 finalRotation(1.0f);
-            finalRotation = glm::rotate(finalRotation, angVelocity, rotAxis); //glm::rotate(finalRotation, glm::length(horizontalVel) * deltaTime, rotAxis);
-            rb1->mOrientation *= finalRotation;
+            //glm::mat4 finalRotation(1.0f);
+            //finalRotation = glm::rotate(finalRotation, angVelocity, rotAxis); //glm::rotate(finalRotation, glm::length(horizontalVel) * deltaTime, rotAxis);
+            //rb1->mOrientation *= finalRotation;
 
              //RK4
             rb1->mLastPos = rb1->mPosition; // Save the last position

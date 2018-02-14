@@ -79,4 +79,11 @@ namespace nPhysics
 		planeConstOut = mPlaneConst;
 		return true;
 	}
+    cCubeShape::cCubeShape(float size)
+    {
+        this->cubeSize = size;
+    }
+    cCubeShape::~cCubeShape()
+    {
+    }
 }

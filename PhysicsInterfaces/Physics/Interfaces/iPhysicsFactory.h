@@ -17,5 +17,6 @@ namespace nPhysics
 		
 		virtual iShape* CreateSphere(float radius) = 0;
 		virtual iShape* CreatePlane(const glm::vec3& normal, float planeConst) = 0;
+        virtual iShape* CreateCube(float size) = 0;
 	};
 }
