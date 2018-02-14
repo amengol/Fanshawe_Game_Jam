@@ -14,7 +14,8 @@ public:
     cSimpleAi_Manager() : 
         debugGridEnable(false),
         mainGO(NULL),
-        targetGO(NULL)
+        targetGO(NULL),
+        currentTargetID(1000000)
     { }
     ~cSimpleAi_Manager();
 
@@ -63,6 +64,12 @@ private:
 
     // Loads a mesh to represent a node and create edges to draw them
     void loadNodes(std::string meshName);
+
+    // Makes the main GameObject go after a target
+    void goToTarget(unsigned int targetID, float velocity);
+    // Used with goToTarget to avoid look for a new target everytime
+    unsigned int currentTargetID;
+    glm::vec3 curTargetPos;
 
     std::vector<int> findNeighborsIDs(Node* n);
 

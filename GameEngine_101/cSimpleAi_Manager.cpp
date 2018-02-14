@@ -130,6 +130,8 @@ void cSimpleAi_Manager::updateAi()
     {
         g_simpleDebug->drawCustomLines(this->mEdges, glm::vec3(1.0f, 0.0f, 0.0f));
     }    
+
+    this->goToTarget(808, 5.0f);
 }
 
 void cSimpleAi_Manager::showDebugGrid(bool enable)
@@ -204,6 +206,43 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
     g_vecGameObjects.push_back(this->targetGO);
 
     return true;
+}
+
+void cSimpleAi_Manager::goToTarget(unsigned int targetID, float velocity)
+{
+    // Target position
+    if (targetID != this->currentTargetID)
+    {
+        for (size_t i = 0; i < this->mNodes.size(); i++)
+        {
+            if (this->mNodes[i]->ID == targetID)
+            {
+                this->currentTargetID = targetID;
+                this->curTargetPos = this->mNodes[i]->position;
+            }
+        }
+    }
+
+    // Orient the Main GO to the target
+    glm::vec3 mainGOPos;
+    this->mainGO->rigidBody->GetPostion(mainGOPos);
+    glm::vec3 a = glm::vec3(0.0f, 0.0f, 1.0f);
+    glm::vec3 b = glm::normalize(this->curTargetPos - mainGOPos);
+    float angle = acos(glm::dot(b, a) / (glm::length(b) * glm::length(a)));
+
+    glm::mat4 orientation(1.0f);
+    if (glm::dot(b, a) >= 0.0f)
+    {
+        orientation = glm::rotate(orientation, angle, glm::vec3(0.0f, 1.0f, 0.0f));
+    }
+    else
+    {
+        orientation = glm::rotate(orientation, -angle, glm::vec3(0.0f, 1.0f, 0.0f));
+    }
+    
+    
+    this->mainGO->rigidBody->SetMatOrientation(orientation);
+    this->mainGO->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, velocity));
 }
 
 std::vector<int> cSimpleAi_Manager::findNeighborsIDs(Node* n)
