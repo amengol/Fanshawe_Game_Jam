@@ -214,7 +214,7 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
             {
                 this->currentTargetID = targetID;
                 this->curTargetPos = this->mNodes[i]->position;
-                this->curTargetVel = 5.0f;
+                this->curTargetVel = 10.0f;
             }
         }
     }
@@ -233,14 +233,20 @@ void cSimpleAi_Manager::goToTarget()
     // Distance
     glm::vec3 mainGOPos;
     this->mainGO->rigidBody->GetPostion(mainGOPos);
-    float distance = glm::dot(mainGOPos, this->curTargetPos - mainGOPos);
+    glm::mat4 matOr;
+    this->mainGO->rigidBody->GetMatOrientation(matOr);
+    glm::vec3 mainDirection = matOr * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+    float distance = glm::dot(mainDirection, this->curTargetPos - mainGOPos);
 
     if (distance <= 0.01)
     {
         // Set the next node
         this->curTargetIndex++;
         if (this->curTargetIndex == this->pathIDs.size())
+        {
+            this->mainGO->rigidBody->SetVelocityLocal(glm::vec3(0.0f));
             return;
+        }
 
         this->currentTargetID = this->pathIDs[this->curTargetIndex];
         for (size_t i = 0; i < this->mNodes.size(); i++)
