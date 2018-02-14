@@ -6,12 +6,15 @@
 #include <vector>
 
 struct sVertex;
+class cGameObject;
 
 class cSimpleAi_Manager
 {
 public:
     cSimpleAi_Manager() : 
-        debugGridEnable(false) 
+        debugGridEnable(false),
+        mainGO(NULL),
+        targetGO(NULL)
     { }
     ~cSimpleAi_Manager();
 
@@ -25,7 +28,15 @@ public:
     // Update Ai related stuff
     void updateAi();
 
+    // Enables/Disables the degub grid
     void showDebugGrid(bool enable);
+
+    // Creates main and target objects
+    bool createMainObjects(std::string mainMeshName,
+                           std::string targetMeshName,
+                           unsigned int originID,
+                           unsigned int targetID,
+                           std::string& error);
 
 private:
     struct Node
@@ -59,6 +70,9 @@ private:
     std::vector<Node*> mNodes;
     unsigned int edgeSize;
     bool debugGridEnable;
+
+    cGameObject* mainGO;
+    cGameObject* targetGO;
 };
 
 #endif // !_cSimpleAi_Manager_HG_

@@ -140,6 +140,63 @@ void cSimpleAi_Manager::showDebugGrid(bool enable)
     this->debugGridEnable = enable;
 }
 
+bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName, 
+                                          std::string targetMeshName, 
+                                          unsigned int originID, 
+                                          unsigned int targetID,
+                                          std::string& error)
+{
+    bool foundID = false;
+    for (size_t i = 0; i < this->mNodes.size(); i++)
+    {
+        if (this->mNodes[i]->ID == originID)
+        {
+            this->mainGO = new cGameObject();
+            this->mainGO->meshName = mainMeshName;
+            this->mainGO->friendlyName = "AiMainGameObject";
+            this->mainGO->position = this->mNodes[i]->position;
+            foundID = true;
+            break;
+        }
+    }
+
+    if (!foundID)
+    {
+        error.append("The node ID for the origin was not found!\n");
+        return false;
+    }
+
+    foundID = false;
+
+    for (size_t i = 0; i < this->mNodes.size(); i++)
+    {
+        if (this->mNodes[i]->ID == targetID)
+        {
+            this->targetGO = new cGameObject();
+            this->targetGO->meshName = targetMeshName;
+            this->targetGO->friendlyName = "AiTargetGameObject";
+            this->targetGO->position = this->mNodes[i]->position;
+            foundID = true;
+            break;
+        }
+    }
+
+    if (!foundID)
+    {
+        error.append("The node ID for the target was not found!\n");
+        if (this->mainGO != NULL)
+        {
+            delete this->mainGO;
+            this->mainGO = NULL;
+        }
+        return false;
+    }
+
+    g_vecGameObjects.push_back(this->mainGO);
+    g_vecGameObjects.push_back(this->targetGO);
+    return true;
+}
+
 std::vector<int> cSimpleAi_Manager::findNeighborsIDs(Node* n)
 {
     // Decompose the ID
