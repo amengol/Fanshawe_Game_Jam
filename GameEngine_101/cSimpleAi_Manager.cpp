@@ -5,12 +5,12 @@
 extern std::vector< cGameObject* >  g_vecGameObjects;
 extern cSimpleDebugRenderer* g_simpleDebug;
 
-cSimpleAi_Manager::cSimpleAi_Manager()
-{
-}
-
 cSimpleAi_Manager::~cSimpleAi_Manager()
 {
+    for (size_t i = 0; i < this->mNodes.size(); i++)
+    {
+        delete this->mNodes[i];
+    }
 }
 
 void cSimpleAi_Manager::makeGrid(unsigned int edgeSize, unsigned int rows,
@@ -90,6 +90,8 @@ void cSimpleAi_Manager::loadNodes(std::string meshName)
 
         cGameObject* GO = new cGameObject();
         GO->meshName = meshName;
+        GO->friendlyName = "node";
+        GO->renderable = false;
         GO->scale = this->edgeSize * 0.025f;
         GO->position = this->mNodes[i]->position;
         g_vecGameObjects.push_back(GO);
@@ -121,7 +123,21 @@ void cSimpleAi_Manager::loadWalls(std::string meshName, std::vector<unsigned int
 
 void cSimpleAi_Manager::updateAi()
 {
-    g_simpleDebug->drawCustomLines(this->mEdges, glm::vec3(1.0f, 0.0f, 0.0f));
+    if (this->debugGridEnable)
+    {
+        g_simpleDebug->drawCustomLines(this->mEdges, glm::vec3(1.0f, 0.0f, 0.0f));
+    }    
+}
+
+void cSimpleAi_Manager::showDebugGrid(bool enable)
+{
+    for (size_t i = 0; i < g_vecGameObjects.size(); i++)
+    {
+        if (g_vecGameObjects[i]->friendlyName == "node")
+            g_vecGameObjects[i]->renderable = enable;
+    }
+
+    this->debugGridEnable = enable;
 }
 
 std::vector<int> cSimpleAi_Manager::findNeighborsIDs(Node* n)

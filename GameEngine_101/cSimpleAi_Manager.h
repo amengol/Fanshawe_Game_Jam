@@ -10,7 +10,9 @@ struct sVertex;
 class cSimpleAi_Manager
 {
 public:
-    cSimpleAi_Manager();
+    cSimpleAi_Manager() : 
+        debugGridEnable(false) 
+    { }
     ~cSimpleAi_Manager();
 
     // Makes the grid of the Path system
@@ -22,6 +24,8 @@ public:
 
     // Update Ai related stuff
     void updateAi();
+
+    void showDebugGrid(bool enable);
 
 private:
     struct Node
@@ -54,6 +58,7 @@ private:
     std::vector<sVertex> mEdges;
     std::vector<Node*> mNodes;
     unsigned int edgeSize;
+    bool debugGridEnable;
 };
 
 #endif // !_cSimpleAi_Manager_HG_
