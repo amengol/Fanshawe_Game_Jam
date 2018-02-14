@@ -13,8 +13,8 @@ cSimpleAi_Manager::~cSimpleAi_Manager()
 {
 }
 
-void cSimpleAi_Manager::makeGrid(int edgeSize, unsigned int rows,
-              unsigned int columns, glm::vec3 leftBottom)
+void cSimpleAi_Manager::makeGrid(unsigned int edgeSize, unsigned int rows,
+                                 unsigned int columns, glm::vec3 leftBottom)
 {
     // Our grid has a limit
     if (rows > 99 || columns > 99)
@@ -33,6 +33,8 @@ void cSimpleAi_Manager::makeGrid(int edgeSize, unsigned int rows,
             this->mNodes.push_back(n);
         }
     }
+
+    this->edgeSize = edgeSize;
 }
 
 void cSimpleAi_Manager::loadNodes(std::string meshName)
@@ -88,6 +90,7 @@ void cSimpleAi_Manager::loadNodes(std::string meshName)
 
         cGameObject* GO = new cGameObject();
         GO->meshName = meshName;
+        GO->scale = this->edgeSize * 0.025f;
         GO->position = this->mNodes[i]->position;
         g_vecGameObjects.push_back(GO);
     }
@@ -104,6 +107,7 @@ void cSimpleAi_Manager::loadWalls(std::string meshName, std::vector<unsigned int
                 cGameObject* GO = new cGameObject();
                 GO->meshName = meshName;
                 GO->bIsWireFrame = true;
+                GO->scale = this->edgeSize;
                 GO->position = this->mNodes[j]->position;
                 g_vecGameObjects.push_back(GO);
 
@@ -111,6 +115,8 @@ void cSimpleAi_Manager::loadWalls(std::string meshName, std::vector<unsigned int
             }
         }
     }
+
+    this->loadNodes(meshName);
 }
 
 void cSimpleAi_Manager::updateAi()

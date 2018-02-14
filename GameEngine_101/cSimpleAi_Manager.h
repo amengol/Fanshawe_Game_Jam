@@ -14,14 +14,11 @@ public:
     ~cSimpleAi_Manager();
 
     // Makes the grid of the Path system
-    void makeGrid(int edgeSize, unsigned int rows,
+    void makeGrid(unsigned int edgeSize, unsigned int rows,
                   unsigned int columns, glm::vec3 leftBottom);
 
     // Loads all obstacles of the scene. Must be called before loadNodes()
-    void loadWalls(std::string meshName, std::vector<unsigned int> nodeIDs);
-    
-    // Loads a mesh to represent a node and create edges to draw them
-    void loadNodes(std::string meshName);    
+    void loadWalls(std::string meshName, std::vector<unsigned int> nodeIDs); 
 
     // Update Ai related stuff
     void updateAi();
@@ -49,10 +46,14 @@ private:
         glm::vec3 position;
     };
 
+    // Loads a mesh to represent a node and create edges to draw them
+    void loadNodes(std::string meshName);
+
     std::vector<int> findNeighborsIDs(Node* n);
 
     std::vector<sVertex> mEdges;
     std::vector<Node*> mNodes;
+    unsigned int edgeSize;
 };
 
 #endif // !_cSimpleAi_Manager_HG_

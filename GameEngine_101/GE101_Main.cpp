@@ -115,9 +115,7 @@ int main()
     theNodes.push_back(5);
     theNodes.push_back(100);
     theNodes.push_back(200);
-    AiManager.loadWalls("Cube_10x10", theNodes);
-    AiManager.loadNodes("Sockerball");
-
+    AiManager.loadWalls("Cube", theNodes);
 
     InitPhysics();
 
