@@ -11,8 +11,8 @@ namespace nPhysics
 		, mRotation(desc.Rotation)
 		
 	{
-        this->mOrientation = glm::mat4(1.0f);
 	}
+
 	cRigidBody::~cRigidBody()
 	{
 
@@ -40,16 +40,28 @@ namespace nPhysics
 		rotationOut = glm::eulerAngles(mRotation);
 	}
 
+    void cRigidBody::GetMatOrientation(glm::mat4& orientationOut)
+    {
+        orientationOut = glm::toMat4(this->mRotation);
+    }
+
+    void cRigidBody::SetMatOrientation(const glm::mat4& orientationIn)
+    {
+        this->mRotation = glm::toQuat(orientationIn);
+    }
+
     void cRigidBody::SetVelocityLocal(const glm::vec3& velocity)
     {
+        glm::mat4 orientation = glm::toMat4(this->mRotation);
+
         // Local X axis
-        glm::vec3 localX = this->mOrientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+        glm::vec3 localX = orientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
         localX = localX * velocity.x;
         // Local Z axis
-        glm::vec3 localY = this->mOrientation * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+        glm::vec3 localY = orientation * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
         localY = localY * velocity.y;
         // Local Z axis
-        glm::vec3 localZ = this->mOrientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+        glm::vec3 localZ = orientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
         localZ = localZ * velocity.z;
 
         this->mVelocity = localX + localY + localZ;
