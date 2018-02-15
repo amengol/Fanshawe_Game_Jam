@@ -24,9 +24,9 @@
 "Camera" :
 [
 	{
-		"CameraPosition" : [14.3833, 8.0, 22.3505],
+		"CameraPosition" : [-130, 40.0, 0.0],
 		"CameraOrientationX" : -15.0,
-		"CameraOrientationY" : 35.0,
+		"CameraOrientationY" : -90.0,
 		"CameraOrientationZ" : 0.0
 	}
 ],
