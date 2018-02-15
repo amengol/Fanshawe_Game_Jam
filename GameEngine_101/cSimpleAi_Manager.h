@@ -1,6 +1,10 @@
 #ifndef _cSimpleAi_Manager_HG_
 #define _cSimpleAi_Manager_HG_
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm\gtx\quaternion.hpp>
+
+
 #include <glm\vec3.hpp>
 #include <string>
 #include <vector>
@@ -63,6 +67,8 @@ private:
         std::vector<Node*> connectedNodes;
         glm::vec3 position;
     };
+
+    glm::quat RotationBetweenVectors(glm::vec3 start, glm::vec3 dest);
 
     // Loads a mesh to represent a node and create edges to draw them
     void loadNodes(std::string meshName);
