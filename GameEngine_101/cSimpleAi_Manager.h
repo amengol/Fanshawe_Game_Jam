@@ -8,6 +8,7 @@
 #include <glm\vec3.hpp>
 #include <string>
 #include <vector>
+#include <map>
 
 struct sVertex;
 class cGameObject;
@@ -61,13 +62,26 @@ private:
             this->position.z = iY * edge;
 
             this->position += leftBottom;
+            this->F_Distance = 1000000000;
+            this->cameFrom = NULL;
+            this->distanceSoFar = 1000000000;
         }
 
         int ID;
+        int F_Distance;
+        int distanceSoFar;
+        Node* cameFrom;
         std::vector<Node*> connectedNodes;
         glm::vec3 position;
     };
 
+    // Helper function to be used in the A_StarSearch
+    int calcF_Distance(int current, int destination, int distanceSoFar);
+
+    // A*: Returns a vector of sorted IDs from start to the destination
+    std::vector<int> A_StarSearch(std::vector<Node*>& nodes, int start, int destination);
+
+    // Returns the rotation quaternion between start and dest vector
     glm::quat RotationBetweenVectors(glm::vec3 start, glm::vec3 dest);
 
     // Loads a mesh to represent a node and create edges to draw them
@@ -76,7 +90,7 @@ private:
     // Makes the main GameObject go after a target
     void goToTarget();
     // Used with goToTarget to avoid look for a new target everytime
-    std::vector<unsigned int> pathIDs;
+    std::vector<int> pathIDs;
     size_t curTargetIndex;
     float curTargetVel;
     unsigned int currentTargetID;

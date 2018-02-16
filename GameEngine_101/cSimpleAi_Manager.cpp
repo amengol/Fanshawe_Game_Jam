@@ -244,28 +244,118 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
     g_vecGameObjects.push_back(this->targetGO);
 
     // Target position
-    if (targetID != this->currentTargetID)
+    if (originID != this->currentTargetID)
     {
         for (size_t i = 0; i < this->mNodes.size(); i++)
         {
-            if (this->mNodes[i]->ID == targetID)
+            if (this->mNodes[i]->ID == originID)
             {
-                this->currentTargetID = targetID;
+                this->currentTargetID = originID;
                 this->curTargetPos = this->mNodes[i]->position;
                 this->curTargetVel = 10.0f;
             }
         }
     }
 
-    this->pathIDs.push_back(targetID);
-    this->pathIDs.push_back(708);
-    this->pathIDs.push_back(905);
-    this->pathIDs.push_back(402);
-    this->pathIDs.push_back(403);
-    this->pathIDs.push_back(402);
-    this->pathIDs.push_back(302);
+    this->pathIDs = A_StarSearch(this->mNodes, originID, targetID);
 
     return true;
+}
+
+int cSimpleAi_Manager::calcF_Distance(int current, int destination, int distanceSoFar)
+
+{
+    // Current:
+    int xCur = current / 100;
+    int yCur = current - xCur * 100;
+
+    // Destination:
+    int xDest = destination / 100;
+    int yDest = destination - xDest * 100;
+
+    // Manhatan distance
+    int manhatan = abs(xDest - xCur) + abs(yDest - yCur);
+
+    return manhatan + distanceSoFar;
+}
+
+std::vector<int> cSimpleAi_Manager::A_StarSearch(std::vector<Node*>& nodes, int start, int destination)
+
+{
+    std::map<int, Node*> openList;
+    std::map<int, Node*> closedList;
+
+    Node* current = NULL;
+
+    // Find the start node
+    for (size_t i = 0; i < nodes.size(); i++)
+    {
+        if (nodes[i]->ID == start)
+        {
+            current = nodes[i];
+            current->distanceSoFar = 0;
+            current->F_Distance = calcF_Distance(start, destination, current->distanceSoFar);
+            break;
+        }
+    }
+
+    while (current->ID != destination)
+    {
+        for (size_t i = 0; i < current->connectedNodes.size(); i++)
+        {
+            Node* n = current->connectedNodes[i];
+
+            if (openList.find(n->ID) == openList.end()
+                && closedList.find(n->ID) == closedList.end())
+            {
+                openList[n->ID] = n;
+                n->distanceSoFar = current->distanceSoFar + 1;
+                int newF_Distance = calcF_Distance(n->ID, destination, n->distanceSoFar);
+
+                if (newF_Distance < n->F_Distance)
+                {
+                    n->F_Distance = newF_Distance;
+                    n->cameFrom = current;
+                }// !_if (newF_Distance...
+            }// !_if (openList.find(n->ID)
+        }// !_for (size_t i = 0...
+
+        closedList[current->ID] = current;
+
+        std::map<int, Node*>::iterator it = openList.begin();
+        std::map<int, Node*>::iterator itToErase;
+        int leastF_Distance = 1000000000;
+        for (; it != openList.end(); it++)
+        {
+            if (it->second->F_Distance < leastF_Distance)
+            {
+                leastF_Distance = it->second->F_Distance;
+                current = it->second;
+                itToErase = it;
+            }
+        }
+
+        openList.erase(itToErase);
+
+    }// !_while (current->ID != destination)
+
+     // Now the path back
+    std::vector<int> pathDesc;
+    pathDesc.push_back(current->ID);
+    while (current->cameFrom != NULL)
+    {
+        current = current->cameFrom;
+        pathDesc.push_back(current->ID);
+    }
+
+    // Re-order
+    std::vector<int> pathAsc;
+    for (int i = pathDesc.size() - 1; i >= 0; i--)
+    {
+        pathAsc.push_back(pathDesc[i]);
+    }
+
+    return pathAsc;
 }
 
 void cSimpleAi_Manager::goToTarget()

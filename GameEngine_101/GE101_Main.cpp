@@ -117,10 +117,18 @@ int main()
     theNodes.push_back(5);
     theNodes.push_back(100);
     theNodes.push_back(200);
+    theNodes.push_back(605);
+    theNodes.push_back(606);
+    theNodes.push_back(607);
+    theNodes.push_back(608);
+    theNodes.push_back(609);
+    theNodes.push_back(705);
+    theNodes.push_back(805);
+    theNodes.push_back(905);
     AiManager.loadWalls("Cube", theNodes);
     AiManager.showDebugGrid(true);
     std::string AiError;
-    bool result = AiManager.createMainObjects("Cube", "Cube", 303, 808, AiError);
+    bool result = AiManager.createMainObjects("Cube", "Cube", 808, 303, AiError);
     if (!result)
     {
         cout << AiError << endl;
