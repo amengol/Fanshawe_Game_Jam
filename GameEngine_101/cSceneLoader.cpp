@@ -574,18 +574,25 @@ bool cSceneLoader::loadAiGrid(std::string& error)
         return false;
     }
 
-    
+
     // It is a grid, so the num of collums has to be constant
     std::string::iterator it = aiConf.begin();
-    int twiceNumColumns = 0;
+    int numColumns = 0;
+    bool isCountingColumns = false;
     while (it != aiConf.end())
     {
         if (*it == '|')
-            twiceNumColumns++;
+        {
+            isCountingColumns = !isCountingColumns;
+            if (isCountingColumns == false)
+                break;  // We already have a number of collumns
+            it++;
+            continue;
+        }
+        if (isCountingColumns)
+            numColumns++;
         it++;
     }
-
-    int numColumns = twiceNumColumns / 2;
 
     // The wallss
     std::vector<int> theWalls;
@@ -622,7 +629,7 @@ bool cSceneLoader::loadAiGrid(std::string& error)
         }
 
         // Current ID wiil be
-        int ID = (numColumnsInThisRow - 1) * 100 + numRows -1;
+        int ID = (numColumnsInThisRow - 1) * 100 + numRows - 1;
 
         if (c == '@')
             theWalls.push_back(ID);
@@ -634,7 +641,7 @@ bool cSceneLoader::loadAiGrid(std::string& error)
         indexID++;
     }
 
-    g_AiManager.makeGrid(10, numColumns, numRows, glm::vec3(-70.0f, 0.0f, -70.0f));
+    g_AiManager.makeGrid(10, numRows, numColumns, glm::vec3(-70.0f, 0.0f, -70.0f));
     g_AiManager.loadWalls("Bush", theWalls);
     g_AiManager.showDebugGrid(true);
     bool result = g_AiManager.createMainObjects("Bugs", "Carrot", start, end, error);
