@@ -2,7 +2,7 @@
 *
 *   Game Engine 101
 *   By Jorge Amengol
-*   2017
+*   2018
 *
 */
 
@@ -105,35 +105,6 @@ static void error_callback(int error, const char* description)
 int main()
 {
     InitPhysics();
-
-    // Populate all AI nodes
-    
-    //g_AiManager.makeGrid(10, 15, 15, glm::vec3(-70.0f, 0.0f, -70.0f));
-    //std::vector<int> theNodes;
-    //theNodes.push_back(0);
-    //theNodes.push_back(1);
-    //theNodes.push_back(2);
-    //theNodes.push_back(3);
-    //theNodes.push_back(4);
-    //theNodes.push_back(5);
-    //theNodes.push_back(100);
-    //theNodes.push_back(200);
-    //theNodes.push_back(605);
-    //theNodes.push_back(606);
-    //theNodes.push_back(607);
-    //theNodes.push_back(608);
-    //theNodes.push_back(609);
-    //theNodes.push_back(705);
-    //theNodes.push_back(805);
-    //theNodes.push_back(905);
-    //g_AiManager.loadWalls("Cube", theNodes);
-    //g_AiManager.showDebugGrid(true);
-    //std::string AiError;
-    //bool result = g_AiManager.createMainObjects("Cube", "Cube", 808, 303, AiError);
-    //if (!result)
-    //{
-    //    cout << AiError << endl;
-    //}
 
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
