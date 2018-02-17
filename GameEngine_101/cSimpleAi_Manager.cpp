@@ -139,7 +139,7 @@ void cSimpleAi_Manager::loadNodes(std::string meshName)
     }
 }
 
-void cSimpleAi_Manager::loadWalls(std::string meshName, std::vector<unsigned int> nodeIDs)
+void cSimpleAi_Manager::loadWalls(std::string meshName, std::vector<int> nodeIDs)
 {
     for (size_t i = 0; i < nodeIDs.size(); i++)
     {

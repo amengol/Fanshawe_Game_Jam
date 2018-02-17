@@ -55,6 +55,9 @@ public:
     // Loads all camera parameters from a joson files. Reports back an
     // error via a string
     bool loadCameraParams(cCameraObject*, std::string& error);
+
+    // Loads the AI configuration from the maze.config file
+    bool loadAiGrid(std::string& error);
     
     // Loads limit planes to be used in the Physics Engine
     //bool loadLimitPlanes(std::vector<LimitPlane>& vecLP, std::string& error);

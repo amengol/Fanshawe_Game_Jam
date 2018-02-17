@@ -71,6 +71,7 @@ long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
 float g_FOV = 0.6f;
+cSimpleAi_Manager g_AiManager;
 
 // To deal with sounds
 cSoundManager* g_pSoundManager = NULL;
@@ -106,33 +107,33 @@ int main()
     InitPhysics();
 
     // Populate all AI nodes
-    cSimpleAi_Manager AiManager;
-    AiManager.makeGrid(10, 15, 15, glm::vec3(-70.0f, 0.0f, -70.0f));
-    std::vector<unsigned int> theNodes;
-    theNodes.push_back(0);
-    theNodes.push_back(1);
-    theNodes.push_back(2);
-    theNodes.push_back(3);
-    theNodes.push_back(4);
-    theNodes.push_back(5);
-    theNodes.push_back(100);
-    theNodes.push_back(200);
-    theNodes.push_back(605);
-    theNodes.push_back(606);
-    theNodes.push_back(607);
-    theNodes.push_back(608);
-    theNodes.push_back(609);
-    theNodes.push_back(705);
-    theNodes.push_back(805);
-    theNodes.push_back(905);
-    AiManager.loadWalls("Cube", theNodes);
-    AiManager.showDebugGrid(true);
-    std::string AiError;
-    bool result = AiManager.createMainObjects("Cube", "Cube", 808, 303, AiError);
-    if (!result)
-    {
-        cout << AiError << endl;
-    }
+    
+    //g_AiManager.makeGrid(10, 15, 15, glm::vec3(-70.0f, 0.0f, -70.0f));
+    //std::vector<int> theNodes;
+    //theNodes.push_back(0);
+    //theNodes.push_back(1);
+    //theNodes.push_back(2);
+    //theNodes.push_back(3);
+    //theNodes.push_back(4);
+    //theNodes.push_back(5);
+    //theNodes.push_back(100);
+    //theNodes.push_back(200);
+    //theNodes.push_back(605);
+    //theNodes.push_back(606);
+    //theNodes.push_back(607);
+    //theNodes.push_back(608);
+    //theNodes.push_back(609);
+    //theNodes.push_back(705);
+    //theNodes.push_back(805);
+    //theNodes.push_back(905);
+    //g_AiManager.loadWalls("Cube", theNodes);
+    //g_AiManager.showDebugGrid(true);
+    //std::string AiError;
+    //bool result = g_AiManager.createMainObjects("Cube", "Cube", 808, 303, AiError);
+    //if (!result)
+    //{
+    //    cout << AiError << endl;
+    //}
 
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
@@ -254,6 +255,14 @@ int main()
     }
 
     //-------------------------------------------------------------------------
+    // Load AI parameters
+    if (!sceneLoader.loadAiGrid(error))
+    {
+        std::cout << "The AI configuration was not loaded..." << std::endl;
+        std::cout << error << std::endl;
+    }
+
+    //-------------------------------------------------------------------------
     // Load Rigid Bodies
     for (size_t i = 0; i < g_vecGameObjects.size(); i++)
     {
@@ -369,7 +378,6 @@ int main()
     }
     
     // Camera end
-    
     ////-------------------------------------------------------------------------
     //// Limit planes
     //if (!sceneLoader.loadLimitPlanes(g_vecLimitPlanes, error))
@@ -611,7 +619,7 @@ int main()
         //PhysicsStep(deltaTime);
         lastTimeStep = curTime;
 
-        AiManager.updateAi();
+        g_AiManager.updateAi();
 
         // Move this here before Physics step to be able to print 
         // the SimpleDebugRender

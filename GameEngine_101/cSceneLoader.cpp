@@ -8,6 +8,9 @@
 #include "cCameraObject.h"
 #include "cVAOMeshManager.h"
 #include <iPhysicsFactory.h>
+#include "cSimpleAi_Manager.h"
+
+extern cSimpleAi_Manager g_AiManager;
 
 extern nPhysics::iPhysicsFactory* gPhysicsFactory;
 
@@ -557,6 +560,88 @@ bool cSceneLoader::loadCameraParams(cCameraObject* camera, std::string& error)
         break; // only one camera allowed
         
     }//for(rapidjson::SizeType...
+
+    return true;
+}
+
+bool cSceneLoader::loadAiGrid(std::string& error)
+{
+    std::string aiConf;
+
+    if (!loadFileIntoString(aiConf, "AI//maze.conf"))
+    {
+        error = "Didn't load the maze Scene file!";
+        return false;
+    }
+
+    
+    // It is a grid, so the num of collums has to be constant
+    std::string::iterator it = aiConf.begin();
+    int twiceNumColumns = 0;
+    while (it != aiConf.end())
+    {
+        if (*it == '|')
+            twiceNumColumns++;
+        it++;
+    }
+
+    int numColumns = twiceNumColumns / 2;
+
+    // The wallss
+    std::vector<int> theWalls;
+
+    int numColumnsInThisRow = 0;
+    int numRows = 0;
+    int start = -1;
+    int end = -1;
+    bool isCountingRows = false;
+    int indexID = 0;
+    for (size_t i = 0; i < aiConf.size(); i++)
+    {
+        char c = aiConf[i];
+        if (c == '|')
+        {
+            isCountingRows = !isCountingRows;
+            if (isCountingRows == false)
+            {
+                numColumnsInThisRow = 0;
+            }
+            else
+            {
+                numRows++;
+            }
+            continue;
+        }
+
+        numColumnsInThisRow++;
+        if (numColumnsInThisRow > numColumns)
+        {
+            //error = "The number of columns is inconsistent!\n";
+            //return false;
+            int a = 1;
+        }
+
+        // Current ID wiil be
+        int ID = (numColumnsInThisRow) * 100 + numRows;
+
+        if (c == '@')
+            theWalls.push_back(ID);
+        else if (c == 's' || c == 'S')
+            start = ID;
+        else if (c == 'e' || c == 'E')
+            end = ID;
+
+        indexID++;
+    }
+
+    g_AiManager.makeGrid(10, numColumns, numRows, glm::vec3(-70.0f, 0.0f, -70.0f));
+    g_AiManager.loadWalls("Cube", theWalls);
+    g_AiManager.showDebugGrid(true);
+    bool result = g_AiManager.createMainObjects("Cube", "Cube", start, end, error);
+    if (!result)
+    {
+        return false;
+    }
 
     return true;
 }

@@ -31,7 +31,7 @@ public:
                   unsigned int columns, glm::vec3 leftBottom);
 
     // Loads all obstacles of the scene. Must be called before loadNodes()
-    void loadWalls(std::string meshName, std::vector<unsigned int> nodeIDs); 
+    void loadWalls(std::string meshName, std::vector<int> nodeIDs); 
 
     // Update Ai related stuff
     void updateAi();
