@@ -89,22 +89,24 @@ private:
 
     // Makes the main GameObject go after a target
     void goToTarget();
+    
     // Used with goToTarget to avoid look for a new target everytime
-    std::vector<int> pathIDs;
-    size_t curTargetIndex;
-    float curTargetVel;
-    unsigned int currentTargetID;
-    glm::vec3 curTargetPos;
+    std::vector<int> pathIDs;       // The main container with the final path
+    size_t curTargetIndex;          // The current target index
+    float curTargetVel;             // The current target velocity
+    unsigned int currentTargetID;   // The current target ID
+    glm::vec3 curTargetPos;         // The current target position
 
+    // Returns the IDs of all possible neighbors from a Node
     std::vector<int> findNeighborsIDs(Node* n);
 
-    std::vector<sVertex> mEdges;
-    std::vector<Node*> mNodes;
-    unsigned int edgeSize;
-    bool debugGridEnable;
+    std::vector<sVertex> mEdges;    // Vertices to draw the debug edges
+    std::vector<Node*> mNodes;      // The Nodes of the grid
+    unsigned int edgeSize;          // The length of an edge
+    bool debugGridEnable;           // Flag the debug grid
 
-    cGameObject* mainGO;
-    cGameObject* targetGO;
+    cGameObject* mainGO;            // The main GameObject (The Bunny)
+    cGameObject* targetGO;          // The target GameObject (The carrot)
 };
 
 #endif // !_cSimpleAi_Manager_HG_
