@@ -635,9 +635,9 @@ bool cSceneLoader::loadAiGrid(std::string& error)
     }
 
     g_AiManager.makeGrid(10, numColumns, numRows, glm::vec3(-70.0f, 0.0f, -70.0f));
-    g_AiManager.loadWalls("Cube", theWalls);
-    g_AiManager.showDebugGrid(true);
-    bool result = g_AiManager.createMainObjects("Cube", "Cube", start, end, error);
+    g_AiManager.loadWalls("Bush", theWalls);
+    g_AiManager.showDebugGrid(false);
+    bool result = g_AiManager.createMainObjects("Bugs", "Carrot", start, end, error);
     if (!result)
     {
         return false;

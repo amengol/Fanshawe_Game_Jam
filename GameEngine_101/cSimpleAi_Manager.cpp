@@ -149,7 +149,9 @@ void cSimpleAi_Manager::loadWalls(std::string meshName, std::vector<int> nodeIDs
             {
                 cGameObject* GO = new cGameObject();
                 GO->meshName = meshName;
-                GO->bIsWireFrame = true;
+                GO->textureBlend[0] = 1.0f;
+                GO->textureNames[0] = meshName + ".bmp";
+                GO->bIsWireFrame = false;
                 GO->scale = this->edgeSize;
                 GO->position = this->mNodes[j]->position;
                 g_vecGameObjects.push_back(GO);
@@ -228,6 +230,8 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
     // Main GameObject
     this->mainGO = new cGameObject();
     this->mainGO->meshName = mainMeshName;
+    this->mainGO->textureBlend[0] = 1.0f;
+    this->mainGO->textureNames[0] = mainMeshName + ".bmp";
     this->mainGO->friendlyName = "AiMainGameObject";
     nPhysics::sRigidBodyDesc desc;
     desc.Position = mainPos;
@@ -239,6 +243,7 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
     // Target GameObject
     this->targetGO = new cGameObject();
     this->targetGO->meshName = targetMeshName;
+    this->targetGO->hasColour = true;
     this->targetGO->friendlyName = "AiTargetGameObject";
     this->targetGO->position = targetPos;
     g_vecGameObjects.push_back(this->targetGO);

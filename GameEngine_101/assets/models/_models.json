@@ -12,6 +12,10 @@
 [
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply", "type" : 0, "isPersistent" : false},
 #{"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply", "type" : 0, "isPersistent" : true},
-{"meshName" : "Cube", "meshFile" : "Cube.obj", "type" : 2, "isPersistent" : false}
+{"meshName" : "Cube", "meshFile" : "Cube.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Bush", "meshFile" : "Bush.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Ground", "meshFile" : "Ground.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Bugs", "meshFile" : "Bugs.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Carrot", "meshFile" : "Carrot.ply", "type" : 2, "isPersistent" : false}
 ]
 }
