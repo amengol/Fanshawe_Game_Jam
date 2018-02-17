@@ -144,6 +144,7 @@
     <None Include="assets\shaders\simpleVert.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AI\cSimpleAi_Manager.cpp" />
     <ClCompile Include="cAABB.cpp" />
     <ClCompile Include="cAABBsManager.cpp" />
     <ClCompile Include="cAssimpAssetLoader.cpp" />
@@ -156,7 +157,6 @@
     <ClCompile Include="cSceneLoader.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
-    <ClCompile Include="cSimpleAi_Manager.cpp" />
     <ClCompile Include="cSimpleDebugRenderer.cpp" />
     <ClCompile Include="cSoundManager.cpp" />
     <ClCompile Include="cSoundManager_Imp.cpp" />
@@ -180,6 +180,7 @@
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AI\cSimpleAi_Manager.h" />
     <ClInclude Include="cAssimpAssetLoader.h" />
     <ClInclude Include="cAABB.h" />
     <ClInclude Include="cAABBsManager.h" />
@@ -196,7 +197,6 @@
     <ClInclude Include="cSoundObject.h" />
     <ClInclude Include="OptTriTri.h" />
     <ClInclude Include="sCollisionTriangle.h" />
-    <ClInclude Include="cSimpleAi_Manager.h" />
     <ClInclude Include="cSimpleDebugRenderer.h" />
     <ClInclude Include="cTriangle.h" />
     <ClInclude Include="cVAOMeshManager.h" />

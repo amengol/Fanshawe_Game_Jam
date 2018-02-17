@@ -2,8 +2,8 @@
 
 #include <glm\gtx\vector_angle.hpp>
 
-#include "cSimpleDebugRenderer.h"
-#include "cGameObject.h"
+#include "..\cSimpleDebugRenderer.h"
+#include "..\cGameObject.h"
 #include <iPhysicsFactory.h>
 extern std::vector< cGameObject* >  g_vecGameObjects;
 extern cSimpleDebugRenderer* g_simpleDebug;

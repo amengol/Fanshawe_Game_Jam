@@ -8,7 +8,7 @@
 #include "cCameraObject.h"
 #include "cVAOMeshManager.h"
 #include <iPhysicsFactory.h>
-#include "cSimpleAi_Manager.h"
+#include "AI\cSimpleAi_Manager.h"
 
 extern cSimpleAi_Manager g_AiManager;
 

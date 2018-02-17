@@ -161,7 +161,7 @@
     <ClCompile Include="cAssimpAssetLoader.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
-    <ClCompile Include="cSimpleAi_Manager.cpp">
+    <ClCompile Include="AI\cSimpleAi_Manager.cpp">
       <Filter>AI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -262,7 +262,7 @@
     <ClInclude Include="cAssimpAssetLoader.h">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
-    <ClInclude Include="cSimpleAi_Manager.h">
+    <ClInclude Include="AI\cSimpleAi_Manager.h">
       <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>

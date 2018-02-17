@@ -32,7 +32,7 @@
 #include <cPhysicsWorld.h>
 #include <iPhysicsFactory.h>
 #include <cPhysicsFactory.h>
-#include "cSimpleAi_Manager.h"
+#include "AI\cSimpleAi_Manager.h"
 
 bool gRenderStuffInDebug;
 nPhysics::iPhysicsFactory* gPhysicsFactory;
