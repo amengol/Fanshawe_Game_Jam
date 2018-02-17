@@ -227,6 +227,34 @@ namespace nPhysics
             rb1->mLastPos = rb1->mPosition; // Save the last position
             integrate(rb1->mPosition, rb1->mVelocity, GRAVITY, deltaTime);
 
+            //------------------------------------------------------------------------
+            // Change orientation according to the Rate Of Turn per minute     
+            if (rb1->rateOfTurnX != 0.0f)
+            {
+                float theTurnX = (rb1->rateOfTurnX * deltaTime) / 60.0f;
+                glm::mat4 orientation;
+                rb1->GetMatOrientation(orientation);
+                orientation = glm::rotate(orientation, glm::radians(theTurnX), glm::vec3(1.0f, 0.0f, 0.0f));
+                rb1->SetMatOrientation(orientation);
+            }
+            if (rb1->rateOfTurnY != 0.0f)
+            {
+                float theTurnY = (rb1->rateOfTurnY * deltaTime) / 60.0f;
+                glm::mat4 orientation;
+                rb1->GetMatOrientation(orientation);
+                orientation = glm::rotate(orientation, glm::radians(theTurnY), glm::vec3(0.0f, 1.0f, 0.0f));
+                rb1->SetMatOrientation(orientation);
+            }
+            if (rb1->rateOfTurnZ != 0.0f)
+            {
+                float theTurnZ = (rb1->rateOfTurnZ * deltaTime) / 60.0f;
+                glm::mat4 orientation;
+                rb1->GetMatOrientation(orientation);
+                orientation = glm::rotate(orientation, glm::radians(theTurnZ), glm::vec3(0.0f, 0.0f, 1.0f));
+                rb1->SetMatOrientation(orientation);
+            }
+            //------------------------------------------------------------------------ 
+
         }//!for (size_t i = 0; i < rbSize; i++)
 	}
 

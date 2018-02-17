@@ -24,6 +24,9 @@ namespace nPhysics
         virtual void GetVelocity(glm::vec3& velocity) { velocity = this->mVelocity; }
         virtual void SetVelocity(const glm::vec3& velocity) { this->mVelocity = velocity; }
         virtual void SetVelocityLocal(const glm::vec3& velocity);
+        virtual void SetRateOfTurnX(float rotX) { this->rateOfTurnX = rotX; }
+        virtual void SetRateOfTurnY(float rotY) { this->rateOfTurnY = rotY; }
+        virtual void SetRateOfTurnZ(float rotZ) { this->rateOfTurnZ = rotZ; }
 
         inline void setLastPosition(glm::vec3 lastPos) { this->mLastPos = lastPos; }
         inline glm::vec3 getLastPosition() { return this->mLastPos; }
@@ -36,5 +39,9 @@ namespace nPhysics
 		glm::quat mRotation;
 		float mMass;
         glm::vec3 mLastPos;
+
+        float rateOfTurnX;
+        float rateOfTurnY;
+        float rateOfTurnZ;
 	};
 }

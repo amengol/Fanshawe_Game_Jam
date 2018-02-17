@@ -9,7 +9,9 @@ namespace nPhysics
 		, mVelocity(desc.Velocity)
 		, mMass(desc.Mass)
 		, mRotation(desc.Rotation)
-		
+        , rateOfTurnX(0.0f)
+        , rateOfTurnY(0.0f)
+        , rateOfTurnZ(0.0f)
 	{
 	}
 

@@ -245,7 +245,12 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
     this->targetGO->meshName = targetMeshName;
     this->targetGO->hasColour = true;
     this->targetGO->friendlyName = "AiTargetGameObject";
-    this->targetGO->position = targetPos;
+    desc;
+    desc.Position = targetPos;
+    shape = gPhysicsFactory->CreateCube(1.0f);
+    rb = gPhysicsFactory->CreateRigidBody(desc, shape);
+    rb->SetRateOfTurnY(5760.0f);
+    this->targetGO->rigidBody = rb;
     g_vecGameObjects.push_back(this->targetGO);
 
     // Target position

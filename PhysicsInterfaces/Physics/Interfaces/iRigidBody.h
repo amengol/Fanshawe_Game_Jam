@@ -21,6 +21,8 @@ namespace nPhysics
         virtual void GetVelocity(glm::vec3& velocity) = 0;
         virtual void SetVelocity(const glm::vec3& velocity) = 0;
         virtual void SetVelocityLocal(const glm::vec3& velocity) = 0;
-		
+        virtual void SetRateOfTurnX(float rotX) = 0;
+        virtual void SetRateOfTurnY(float rotY) = 0;
+        virtual void SetRateOfTurnZ(float rotZ) = 0;
 	};
 }
