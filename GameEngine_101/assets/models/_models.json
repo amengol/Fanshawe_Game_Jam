@@ -11,11 +11,14 @@
 {"Meshes" : 
 [
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply", "type" : 0, "isPersistent" : false},
-#{"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply", "type" : 0, "isPersistent" : true},
-{"meshName" : "Cube", "meshFile" : "Cube.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Bush", "meshFile" : "Bush.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Ground", "meshFile" : "Ground.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Bugs", "meshFile" : "Bugs.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Carrot", "meshFile" : "Carrot.ply", "type" : 2, "isPersistent" : false}
+{"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply", "type" : 0, "isPersistent" : false},
+{"meshName" : "Wooden_Elements", "meshFile" : "Wooden_Elements.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Concrete_Elements", "meshFile" : "Concrete_Elements.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Steel", "meshFile" : "Steel.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Basket_Square", "meshFile" : "Basket_Square.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Fence", "meshFile" : "Fence.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Basketball", "meshFile" : "Basketball.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Beachball", "meshFile" : "Beachball.obj", "type" : 2, "isPersistent" : false},
+{"meshName" : "Sockerball", "meshFile" : "Sockerball.obj", "type" : 2, "isPersistent" : false}
 ]
 }

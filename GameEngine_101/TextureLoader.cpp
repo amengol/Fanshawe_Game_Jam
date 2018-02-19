@@ -198,97 +198,7 @@ bool loadTextures()
     //    std::cout << "Texture is loaded!" << std::endl;
     //}
 
-    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Wood.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //}
-    //else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Concrete.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //}
-    //else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Steel.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //}
-    //else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Basket_Square.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //}
-    //else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("fence_alpha.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //}
-    //else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Basketball.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //}
-    //else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Pure.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //}
-    //else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Beachball.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //}
-    //else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Sockerball.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //}
-    //else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Bush.bmp", true))
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Wood.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;
@@ -298,7 +208,7 @@ bool loadTextures()
         std::cout << "Texture is loaded!" << std::endl;
     }
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ground.bmp", true))
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Concrete.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;
@@ -308,7 +218,7 @@ bool loadTextures()
         std::cout << "Texture is loaded!" << std::endl;
     }
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Bugs.bmp", true))
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Steel.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;
@@ -317,6 +227,96 @@ bool loadTextures()
     {
         std::cout << "Texture is loaded!" << std::endl;
     }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Basket_Square.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("fence_alpha.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Basketball.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Pure.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Beachball.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Sockerball.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Bush.bmp", true))
+    //{
+    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
+    //    return false;
+    //}
+    //else
+    //{
+    //    std::cout << "Texture is loaded!" << std::endl;
+    //}
+
+    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ground.bmp", true))
+    //{
+    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
+    //    return false;
+    //}
+    //else
+    //{
+    //    std::cout << "Texture is loaded!" << std::endl;
+    //}
+
+    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Bugs.bmp", true))
+    //{
+    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
+    //    return false;
+    //}
+    //else
+    //{
+    //    std::cout << "Texture is loaded!" << std::endl;
+    //}
 
     return true;
 }
