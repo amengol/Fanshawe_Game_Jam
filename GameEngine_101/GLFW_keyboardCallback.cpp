@@ -1,6 +1,10 @@
 #include "globalOpenGL_GLFW.h"
 #include "globalGameStuff.h"
 #include "cTransparencyManager.h"
+#include "cPhysics_Switcher.h"
+
+extern cPhysics_Switcher gPhysicsSwitcher;
+
 //#include "AI\cSimpleAi_Manager.h"
 
 //extern cSimpleAi_Manager g_AiManager;
@@ -171,6 +175,21 @@ void key_callback(GLFWwindow* window,
         for (size_t i = 0; i < g_vecGameObjects.size() ; i++)
         {
             g_vecGameObjects[i]->bIsWireFrame = !g_vecGameObjects[i]->bIsWireFrame;
+        }
+    }
+
+    if (key == GLFW_KEY_P && action == GLFW_PRESS)
+    {
+        switch (gPhysicsSwitcher.gPhysicsEngine)
+        {
+        case gPhysicsSwitcher.SUPERDUPER:
+            gPhysicsSwitcher.SetBullet();
+            break;
+        case gPhysicsSwitcher.BULLET:
+            gPhysicsSwitcher.SetSuperDuper();
+            break;
+        default:
+            break;
         }
     }
 
