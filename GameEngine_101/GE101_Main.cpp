@@ -29,9 +29,13 @@
 #include "Utilities.h"
 #include "cSceneLoader.h"
 #include "cSoundManager.h"
-#include <cPhysicsWorld.h>
 #include <iPhysicsFactory.h>
+#include <cPhysicsWorld.h>
 #include <cPhysicsFactory.h>
+#include <bt_cPhysicsWorld.h>
+#include <bt_cPhysicsFactory.h>
+#include "cPhysics_Switcher.h"
+
 //#include "AI\cSimpleAi_Manager.h"
 
 bool gRenderStuffInDebug;
@@ -39,10 +43,18 @@ nPhysics::iPhysicsFactory* gPhysicsFactory;
 nPhysics::iPhysicsWorld* gPhysicsWorld;
 std::vector<LimitPlane> g_vecLimitPlanes;
 
+nPhysics::iPhysicsFactory* gbt_PhysicsFactory;
+nPhysics::iPhysicsWorld* gbt_PhysicsWorld;
+
+cPhysics_Switcher gPhysicsSwitcher;
+
 bool InitPhysics()
 {
     gPhysicsFactory = new nPhysics::cPhysicsFactory();
     gPhysicsWorld = gPhysicsFactory->CreateWorld();
+
+    gbt_PhysicsFactory = new nPhysics::bt_cPhysicsFactory();
+    gbt_PhysicsWorld = gbt_PhysicsFactory->CreateWorld();
     return true;
 }
 
@@ -243,6 +255,11 @@ int main()
         {
             gPhysicsWorld->AddRigidBody(GO->rigidBody);
         }
+
+        if (GO->bt_rigidBody != NULL)
+        {
+            gbt_PhysicsWorld->AddRigidBody(GO->bt_rigidBody);
+        }
     }
 
     
@@ -363,23 +380,29 @@ int main()
         LimitPlane lp = g_vecLimitPlanes[i];
 
         nPhysics::iShape* plane = gPhysicsFactory->CreatePlane(glm::vec3(0.0f), 0.0f);
+        nPhysics::iShape* bt_plane = gbt_PhysicsFactory->CreatePlane(glm::vec3(0.0f), 0.0f);
 
         switch (lp.type)
         {
         case FLOOR:             
             plane->setGameType(nPhysics::iShape::PlaneType::FLOOR);
+            bt_plane->setGameType(nPhysics::iShape::PlaneType::FLOOR);
             break;
         case FRONT:
             plane->setGameType(nPhysics::iShape::PlaneType::FRONT);
+            bt_plane->setGameType(nPhysics::iShape::PlaneType::FRONT);
             break;
         case BACK:
             plane->setGameType(nPhysics::iShape::PlaneType::BACK);
+            bt_plane->setGameType(nPhysics::iShape::PlaneType::BACK);
             break;
         case LEFT:
             plane->setGameType(nPhysics::iShape::PlaneType::LEFT);
+            bt_plane->setGameType(nPhysics::iShape::PlaneType::LEFT);
             break;
         case RIGHT:
             plane->setGameType(nPhysics::iShape::PlaneType::RIGHT);
+            bt_plane->setGameType(nPhysics::iShape::PlaneType::RIGHT);
             break;
         default:
             break;
@@ -389,6 +412,8 @@ int main()
         desc.Position = lp.position;
         nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, plane);
         gPhysicsWorld->AddRigidBody(rb);
+        nPhysics::iRigidBody* bt_rb = gbt_PhysicsFactory->CreateRigidBody(desc, bt_plane);
+        gbt_PhysicsWorld->AddRigidBody(bt_rb);
     }
 
 
@@ -586,7 +611,18 @@ int main()
         double deltaTime = curTime - lastTimeStep;
 
         // Physics step
-        gPhysicsWorld->TimeStep(deltaTime);
+        switch (gPhysicsSwitcher.gPhysicsEngine)
+        {
+        case gPhysicsSwitcher.SUPERDUPER:
+            gPhysicsWorld->TimeStep(deltaTime);
+            break;
+        case gPhysicsSwitcher.BULLET:
+            gbt_PhysicsWorld->TimeStep(deltaTime);
+            break;
+        default:
+            break;
+        }
+                
         //PhysicsStep(deltaTime);
         lastTimeStep = curTime;
 
@@ -679,10 +715,16 @@ void DrawObject(cGameObject* pTheGO)
     glm::mat4 trans = glm::mat4x4(1.0f);
     
     // Position by nPhysics?
-    if (pTheGO->rigidBody != NULL)
+    if (pTheGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
     {
         glm::vec3 rbPos;
         pTheGO->rigidBody->GetPostion(rbPos);
+        trans = glm::translate(trans, rbPos);
+    }
+    else if (pTheGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+    {
+        glm::vec3 rbPos;
+        pTheGO->bt_rigidBody->GetPostion(rbPos);
         trans = glm::translate(trans, rbPos);
     }
     else
@@ -693,10 +735,15 @@ void DrawObject(cGameObject* pTheGO)
     mModel = mModel * trans;    
 
     // Orientation by nPhysics?
-    if (pTheGO->rigidBody != NULL)
+    glm::mat4 orientation;
+    if (pTheGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
     {
-        glm::mat4 orientation;
-        pTheGO->rigidBody->GetMatOrientation(orientation);
+        pTheGO->rigidBody->GetMatOrientation(orientation);             
+        mModel = mModel * orientation;
+    }
+    else if (pTheGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+    {
+        pTheGO->bt_rigidBody->GetMatOrientation(orientation);
         mModel = mModel * orientation;
     }
     else
