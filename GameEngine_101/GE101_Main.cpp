@@ -32,7 +32,7 @@
 #include <cPhysicsWorld.h>
 #include <iPhysicsFactory.h>
 #include <cPhysicsFactory.h>
-#include "AI\cSimpleAi_Manager.h"
+//#include "AI\cSimpleAi_Manager.h"
 
 bool gRenderStuffInDebug;
 nPhysics::iPhysicsFactory* gPhysicsFactory;
@@ -71,7 +71,7 @@ long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
 float g_FOV = 0.6f;
-cSimpleAi_Manager g_AiManager;
+//cSimpleAi_Manager g_AiManager;
 
 // To deal with sounds
 cSoundManager* g_pSoundManager = NULL;
@@ -225,13 +225,13 @@ int main()
         exit(-1);
     }
 
-    //-------------------------------------------------------------------------
-    // Load AI parameters
-    if (!sceneLoader.loadAiGrid(error))
-    {
-        std::cout << "The AI configuration was not loaded..." << std::endl;
-        std::cout << error << std::endl;
-    }
+    ////-------------------------------------------------------------------------
+    //// Load AI parameters
+    //if (!sceneLoader.loadAiGrid(error))
+    //{
+    //    std::cout << "The AI configuration was not loaded..." << std::endl;
+    //    std::cout << error << std::endl;
+    //}
 
     //-------------------------------------------------------------------------
     // Load Rigid Bodies
@@ -349,13 +349,13 @@ int main()
     }
     
     // Camera end
-    ////-------------------------------------------------------------------------
-    //// Limit planes
-    //if (!sceneLoader.loadLimitPlanes(g_vecLimitPlanes, error))
-    //{
-    //    std::cout << "The limit planes configuration was not loaded..." << std::endl;
-    //    std::cout << error << std::endl;
-    //}
+    //-------------------------------------------------------------------------
+    // Limit planes
+    if (!sceneLoader.loadLimitPlanes(g_vecLimitPlanes, error))
+    {
+        std::cout << "The limit planes configuration was not loaded..." << std::endl;
+        std::cout << error << std::endl;
+    }
 
     // Limit planes are not being used by local physics anymore, so put them in nPhysics
     for (size_t i = 0; i < g_vecLimitPlanes.size(); i++)
@@ -590,7 +590,7 @@ int main()
         //PhysicsStep(deltaTime);
         lastTimeStep = curTime;
 
-        g_AiManager.updateAi();
+        //g_AiManager.updateAi();
 
         // Move this here before Physics step to be able to print 
         // the SimpleDebugRender

@@ -8,9 +8,9 @@
 #include "cCameraObject.h"
 #include "cVAOMeshManager.h"
 #include <iPhysicsFactory.h>
-#include "AI\cSimpleAi_Manager.h"
+//#include "AI\cSimpleAi_Manager.h"
 
-extern cSimpleAi_Manager g_AiManager;
+//extern cSimpleAi_Manager g_AiManager;
 
 extern nPhysics::iPhysicsFactory* gPhysicsFactory;
 
@@ -564,166 +564,166 @@ bool cSceneLoader::loadCameraParams(cCameraObject* camera, std::string& error)
     return true;
 }
 
-bool cSceneLoader::loadAiGrid(std::string& error)
-{
-    std::string aiConf;
-
-    if (!loadFileIntoString(aiConf, "AI//maze.conf"))
-    {
-        error = "Didn't load the maze Scene file!";
-        return false;
-    }
-
-    
-    // It is a grid, so the num of collums has to be constant
-    std::string::iterator it = aiConf.begin();
-    int numColumns = 0;
-    bool isCountingColumns = false;
-    while (it != aiConf.end())
-    {
-        if (*it == '|')
-        {
-            isCountingColumns = !isCountingColumns;
-            if (isCountingColumns == false)
-                break;  // We already have a number of collumns
-            it++;
-            continue;
-        }
-        if (isCountingColumns)
-            numColumns++;
-        it++;
-    }
-
-    // The wallss
-    std::vector<int> theWalls;
-
-    int numColumnsInThisRow = 0;
-    int numRows = 0;
-    int start = -1;
-    int end = -1;
-    bool isCountingRows = false;
-    int indexID = 0;
-    for (size_t i = 0; i < aiConf.size(); i++)
-    {
-        char c = aiConf[i];
-        if (c == '|')
-        {
-            isCountingRows = !isCountingRows;
-            if (isCountingRows == false)
-            {
-                numColumnsInThisRow = 0;
-            }
-            else
-            {
-                numRows++;
-            }
-            continue;
-        }
-
-        numColumnsInThisRow++;
-
-        // Current ID wiil be
-        int ID = (numColumnsInThisRow - 1) * 100 + numRows -1;
-
-        if (c == '@')
-            theWalls.push_back(ID);
-        else if (c == 's' || c == 'S')
-            start = ID;
-        else if (c == 'e' || c == 'E')
-            end = ID;
-
-        indexID++;
-    }
-
-    g_AiManager.makeGrid(10, numRows, numColumns, glm::vec3(-70.0f, 0.0f, -70.0f));
-    g_AiManager.loadWalls("Bush", theWalls);
-    bool result = g_AiManager.createMainObjects("Bugs", "Carrot", start, end, error);
-    if (!result)
-    {
-        return false;
-    }
-
-    return true;
-}
-
-//bool cSceneLoader::loadLimitPlanes(std::vector<LimitPlane>& vecLP, std::string& error)
+//bool cSceneLoader::loadAiGrid(std::string& error)
 //{
-//    std::string jsonStr;
+//    std::string aiConf;
 //
-//    if (!loadFileIntoString(jsonStr, "_Scene.json"))
+//    if (!loadFileIntoString(aiConf, "AI//maze.conf"))
 //    {
-//        error = "Didn't load the Json Scene file!";
+//        error = "Didn't load the maze Scene file!";
 //        return false;
 //    }
 //
-//    const char* json = new char[jsonStr.size() + 1];
-//    json = jsonStr.c_str();
-//
-//    rapidjson::Document document;
-//
-//    if (document.Parse(json).HasParseError())
+//    
+//    // It is a grid, so the num of collums has to be constant
+//    std::string::iterator it = aiConf.begin();
+//    int numColumns = 0;
+//    bool isCountingColumns = false;
+//    while (it != aiConf.end())
 //    {
-//        error = "There was an error parsing the Json Scene file";
-//        return false;
+//        if (*it == '|')
+//        {
+//            isCountingColumns = !isCountingColumns;
+//            if (isCountingColumns == false)
+//                break;  // We already have a number of collumns
+//            it++;
+//            continue;
+//        }
+//        if (isCountingColumns)
+//            numColumns++;
+//        it++;
 //    }
 //
-//    if (!(document.IsObject()
-//        && document.HasMember("Limit_Planes")
-//        && document["Limit_Planes"].IsArray()))
+//    // The wallss
+//    std::vector<int> theWalls;
+//
+//    int numColumnsInThisRow = 0;
+//    int numRows = 0;
+//    int start = -1;
+//    int end = -1;
+//    bool isCountingRows = false;
+//    int indexID = 0;
+//    for (size_t i = 0; i < aiConf.size(); i++)
 //    {
-//        error = "The Json Scene file had a wrong format";
-//        return false;
+//        char c = aiConf[i];
+//        if (c == '|')
+//        {
+//            isCountingRows = !isCountingRows;
+//            if (isCountingRows == false)
+//            {
+//                numColumnsInThisRow = 0;
+//            }
+//            else
+//            {
+//                numRows++;
+//            }
+//            continue;
+//        }
+//
+//        numColumnsInThisRow++;
+//
+//        // Current ID wiil be
+//        int ID = (numColumnsInThisRow - 1) * 100 + numRows -1;
+//
+//        if (c == '@')
+//            theWalls.push_back(ID);
+//        else if (c == 's' || c == 'S')
+//            start = ID;
+//        else if (c == 'e' || c == 'E')
+//            end = ID;
+//
+//        indexID++;
 //    }
 //
-//
-//    const rapidjson::Value& limitPlanes = document["Limit_Planes"];
-//
-//    for (rapidjson::SizeType i = 0; i < limitPlanes.Size(); i++)
+//    g_AiManager.makeGrid(10, numRows, numColumns, glm::vec3(-70.0f, 0.0f, -70.0f));
+//    g_AiManager.loadWalls("Bush", theWalls);
+//    bool result = g_AiManager.createMainObjects("Bugs", "Carrot", start, end, error);
+//    if (!result)
 //    {
-//        LimitPlane lp;
-//        // Test all variables before reading
-//        if (!(limitPlanes[i]["position"].IsArray()))
-//        {
-//            error = "The Json limit plane parameters are not properly formated!";
-//            return false;
-//        }
-//
-//        if (!(limitPlanes[i]["position"][0].IsNumber()
-//            && limitPlanes[i]["position"][1].IsNumber()
-//            && limitPlanes[i]["position"][2].IsNumber()))
-//        {
-//            error = "The Json limit planes position is not properly formated!";
-//            return false;
-//        }
-//
-//        lp.position.x = limitPlanes[i]["position"][0].GetFloat();
-//        lp.position.y = limitPlanes[i]["position"][1].GetFloat();
-//        lp.position.z = limitPlanes[i]["position"][2].GetFloat();
-//
-//        if (!(limitPlanes[i]["type"].IsString()))
-//        {
-//            error = "The Json limit plane parameters are not properly formated!";
-//            return false;
-//        }
-//
-//        std::string lpType = limitPlanes[i]["type"].GetString();
-//
-//        if (lpType == "floor")
-//            lp.type = FLOOR;
-//        else if (lpType == "front")
-//            lp.type = FRONT;
-//        else if (lpType == "back")
-//            lp.type = BACK;
-//        else if (lpType == "left")
-//            lp.type = LEFT;
-//        else if (lpType == "right")
-//            lp.type = RIGHT;
-//        else
-//            return false;
-//
-//        vecLP.push_back(lp);
-//
-//    }//for(rapidjson::SizeType...
+//        return false;
+//    }
 //
 //    return true;
 //}
+
+bool cSceneLoader::loadLimitPlanes(std::vector<LimitPlane>& vecLP, std::string& error)
+{
+    std::string jsonStr;
+
+    if (!loadFileIntoString(jsonStr, "_Scene.json"))
+    {
+        error = "Didn't load the Json Scene file!";
+        return false;
+    }
+
+    const char* json = new char[jsonStr.size() + 1];
+    json = jsonStr.c_str();
+
+    rapidjson::Document document;
+
+    if (document.Parse(json).HasParseError())
+    {
+        error = "There was an error parsing the Json Scene file";
+        return false;
+    }
+
+    if (!(document.IsObject()
+        && document.HasMember("Limit_Planes")
+        && document["Limit_Planes"].IsArray()))
+    {
+        error = "The Json Scene file had a wrong format";
+        return false;
+    }
+
+
+    const rapidjson::Value& limitPlanes = document["Limit_Planes"];
+
+    for (rapidjson::SizeType i = 0; i < limitPlanes.Size(); i++)
+    {
+        LimitPlane lp;
+        // Test all variables before reading
+        if (!(limitPlanes[i]["position"].IsArray()))
+        {
+            error = "The Json limit plane parameters are not properly formated!";
+            return false;
+        }
+
+        if (!(limitPlanes[i]["position"][0].IsNumber()
+            && limitPlanes[i]["position"][1].IsNumber()
+            && limitPlanes[i]["position"][2].IsNumber()))
+        {
+            error = "The Json limit planes position is not properly formated!";
+            return false;
+        }
+
+        lp.position.x = limitPlanes[i]["position"][0].GetFloat();
+        lp.position.y = limitPlanes[i]["position"][1].GetFloat();
+        lp.position.z = limitPlanes[i]["position"][2].GetFloat();
+
+        if (!(limitPlanes[i]["type"].IsString()))
+        {
+            error = "The Json limit plane parameters are not properly formated!";
+            return false;
+        }
+
+        std::string lpType = limitPlanes[i]["type"].GetString();
+
+        if (lpType == "floor")
+            lp.type = FLOOR;
+        else if (lpType == "front")
+            lp.type = FRONT;
+        else if (lpType == "back")
+            lp.type = BACK;
+        else if (lpType == "left")
+            lp.type = LEFT;
+        else if (lpType == "right")
+            lp.type = RIGHT;
+        else
+            return false;
+
+        vecLP.push_back(lp);
+
+    }//for(rapidjson::SizeType...
+
+    return true;
+}

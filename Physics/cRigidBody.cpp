@@ -12,6 +12,7 @@ namespace nPhysics
         , rateOfTurnX(0.0f)
         , rateOfTurnY(0.0f)
         , rateOfTurnZ(0.0f)
+        , mOrientation(1.0f)
 	{
 	}
 
@@ -42,15 +43,15 @@ namespace nPhysics
 		rotationOut = glm::eulerAngles(mRotation);
 	}
 
-    void cRigidBody::GetMatOrientation(glm::mat4& orientationOut)
-    {
-        orientationOut = glm::toMat4(this->mRotation);
-    }
+    //void cRigidBody::GetMatOrientation(glm::mat4& orientationOut)
+    //{
+    //    orientationOut = glm::toMat4(this->mRotation);
+    //}
 
-    void cRigidBody::SetMatOrientation(const glm::mat4& orientationIn)
-    {
-        this->mRotation = glm::toQuat(orientationIn);
-    }
+    //void cRigidBody::SetMatOrientation(const glm::mat4& orientationIn)
+    //{
+    //    this->mRotation = glm::toQuat(orientationIn);
+    //}
 
     void cRigidBody::SetVelocityLocal(const glm::vec3& velocity)
     {

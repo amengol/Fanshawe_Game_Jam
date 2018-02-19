@@ -1,10 +1,10 @@
 #include "globalOpenGL_GLFW.h"
 #include "globalGameStuff.h"
 #include "cTransparencyManager.h"
-#include "AI\cSimpleAi_Manager.h"
+//#include "AI\cSimpleAi_Manager.h"
 
-extern cSimpleAi_Manager g_AiManager;
-bool enableDebugGrid = false;
+//extern cSimpleAi_Manager g_AiManager;
+//bool enableDebugGrid = false;
 
 extern cTransparencyManager* g_pTranspManager;
 extern float g_FOV;
@@ -166,19 +166,19 @@ void key_callback(GLFWwindow* window,
     //    }
     //}
 
-    //if(key == GLFW_KEY_L && action == GLFW_PRESS)
-    //{
-    //    for (size_t i = 0; i < g_vecGameObjects.size() ; i++)
-    //    {
-    //        g_vecGameObjects[i]->bIsWireFrame = !g_vecGameObjects[i]->bIsWireFrame;
-    //    }
-    //}
-
     if(key == GLFW_KEY_L && action == GLFW_PRESS)
     {
-        enableDebugGrid = !enableDebugGrid;
-        g_AiManager.showDebugGrid(enableDebugGrid);
+        for (size_t i = 0; i < g_vecGameObjects.size() ; i++)
+        {
+            g_vecGameObjects[i]->bIsWireFrame = !g_vecGameObjects[i]->bIsWireFrame;
+        }
     }
+
+    //if(key == GLFW_KEY_L && action == GLFW_PRESS)
+    //{
+    //    enableDebugGrid = !enableDebugGrid;
+    //    g_AiManager.showDebugGrid(enableDebugGrid);
+    //}
 
     switch(::g_pCamera->getCameraMode())
     {
