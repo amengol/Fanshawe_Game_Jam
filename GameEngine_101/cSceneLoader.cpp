@@ -13,6 +13,7 @@
 //extern cSimpleAi_Manager g_AiManager;
 
 extern nPhysics::iPhysicsFactory* gPhysicsFactory;
+extern nPhysics::iPhysicsFactory* gbt_PhysicsFactory;
 
 extern std::vector< cGameObject* >  g_vecGameObjects;
 extern cGameObject* g_pSkyBoxObject;
@@ -217,10 +218,13 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         case SPHERE:
         {
             nPhysics::iShape* shape = gPhysicsFactory->CreateSphere(radius);
+            nPhysics::iShape* bt_shape = gbt_PhysicsFactory->CreateSphere(radius);
             nPhysics::sRigidBodyDesc desc;
             desc.Position = position;
             nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, shape);
             theGO->rigidBody = rb;
+            nPhysics::iRigidBody* bt_rb = gbt_PhysicsFactory->CreateRigidBody(desc, bt_shape);
+            theGO->bt_rigidBody = bt_rb;
         }            
             break;
         case PLANE:
