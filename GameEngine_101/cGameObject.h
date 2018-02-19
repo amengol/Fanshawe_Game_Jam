@@ -120,7 +120,9 @@ public:
 
     // Rigid Body
     nPhysics::iRigidBody* rigidBody;
- 
+    // Rigid Body from bullet 
+    nPhysics::iRigidBody* bt_rigidBody;
+
  private:
      unsigned int m_UniqueID;
      // Used when creating objects

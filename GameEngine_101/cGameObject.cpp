@@ -36,6 +36,7 @@ cGameObject::cGameObject()
     this->hasAI = false;
     this->target = glm::vec3(0.0f);
     this->rigidBody = NULL;
+    this->bt_rigidBody = NULL;
 
 #ifdef _DEBUG
  	//this->m_pTheDR = cDebugRenderer::getInstance();
