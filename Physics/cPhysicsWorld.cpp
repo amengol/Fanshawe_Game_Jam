@@ -125,9 +125,9 @@ namespace nPhysics
 
                             if (normal == glm::vec3(0.0f, 0.0f, -1.0f))
                             {
-                                if (rb1->mPosition.z >= constant - sphere1->getRadius())
+                                if (rb1->mPosition.z >= -constant - sphere1->getRadius())
                                 {
-                                    rb1->mPosition.z = constant - sphere1->getRadius();
+                                    rb1->mPosition.z = -constant - sphere1->getRadius();
                                     rb1->mVelocity.z = -(rb1->mVelocity.z);
                                     rb1->mVelocity.z *= 0.95f;
                                 }
@@ -145,9 +145,9 @@ namespace nPhysics
 
                             if (normal == glm::vec3(-1.0f, 0.0f, 0.0f))
                             {
-                                if (rb1->mPosition.x >= constant - sphere1->getRadius())
+                                if (rb1->mPosition.x >= -constant - sphere1->getRadius())
                                 {
-                                    rb1->mPosition.x = constant - sphere1->getRadius();
+                                    rb1->mPosition.x = -constant - sphere1->getRadius();
                                     rb1->mVelocity.x = -(rb1->mVelocity.x);
                                     rb1->mVelocity.x *= 0.95f;
                                 }
