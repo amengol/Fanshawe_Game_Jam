@@ -5,7 +5,7 @@ class cPhysics_Switcher
 {
 public:
 
-    cPhysics_Switcher() : gPhysicsEngine(SUPERDUPER) { }
+    cPhysics_Switcher() : gPhysicsEngine(BULLET) { }
 
     enum ActivePhysicsEngine
     {

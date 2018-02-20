@@ -46,6 +46,9 @@
     <Filter Include="Sounds Related">
       <UniqueIdentifier>{96237b34-24a7-4a2f-8b1e-131adae2a78a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics Related">
+      <UniqueIdentifier>{7e17368d-5d4f-4d63-9ede-02f61a2b9c8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\simpleVert.glsl">
@@ -99,9 +102,6 @@
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
     <ClCompile Include="cModelAssetLoader.cpp">
-      <Filter>Vertex, Model and Physics Related</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
     <ClCompile Include="GLFW_keyboardCallback.cpp">
@@ -164,8 +164,11 @@
     <ClCompile Include="AI\cSimpleAi_Manager.cpp">
       <Filter>AI</Filter>
     </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Physics Related</Filter>
+    </ClCompile>
     <ClCompile Include="cPhysics_Switcher.cpp">
-      <Filter>Vertex, Model and Physics Related</Filter>
+      <Filter>Physics Related</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -203,9 +206,6 @@
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
     <ClInclude Include="cModelAssetLoader.h">
-      <Filter>Vertex, Model and Physics Related</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics.h">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
     <ClInclude Include="globalGameStuff.h">
@@ -268,8 +268,11 @@
     <ClInclude Include="AI\cSimpleAi_Manager.h">
       <Filter>AI</Filter>
     </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Physics Related</Filter>
+    </ClInclude>
     <ClInclude Include="cPhysics_Switcher.h">
-      <Filter>Vertex, Model and Physics Related</Filter>
+      <Filter>Physics Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
