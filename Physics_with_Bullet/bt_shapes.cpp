@@ -7,7 +7,7 @@ namespace nPhysics
 		: iShape(SHAPE_TYPE_SPHERE)
 		, mRadius(radius)
 	{
-
+        this->fallShape = new btSphereShape(radius);
 	}
 	bt_cSphereShape::bt_cSphereShape()
 		: iShape(SHAPE_TYPE_SPHERE)
@@ -38,7 +38,7 @@ namespace nPhysics
 		, mNormal(normal)
 		, mPlaneConst(planeConst)
 	{
-
+        this->groundShape = new btStaticPlaneShape(btVector3(normal.x, normal.y, normal.z), planeConst);
 	}
 	bt_cPlaneShape::bt_cPlaneShape()
 		: iShape(SHAPE_TYPE_PLANE)

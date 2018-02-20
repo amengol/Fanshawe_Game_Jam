@@ -1,6 +1,7 @@
 #pragma once
 #include <glm\vec3.hpp>
 #include <iShape.h>
+#include <btBulletDynamicsCommon.h>
 
 namespace nPhysics
 {
@@ -21,6 +22,9 @@ namespace nPhysics
 		bt_cSphereShape& operator=(const bt_cSphereShape& other);
 
 		float mRadius;
+
+        // Bullet
+        btCollisionShape* fallShape;
 	};
 
 	class bt_cPlaneShape : public iShape
@@ -41,6 +45,9 @@ namespace nPhysics
 
 		glm::vec3 mNormal;
 		float mPlaneConst;
+
+        // Bullet
+        btCollisionShape* groundShape;
 	};
 
     class bt_cCubeShape : public iShape
