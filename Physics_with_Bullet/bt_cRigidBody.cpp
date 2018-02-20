@@ -112,6 +112,24 @@ namespace nPhysics
         orientationOut = glm::toMat4(glmQuat);
     }
 
+    void bt_cRigidBody::GetVelocity(glm::vec3& velocityOut)
+    {
+        btVector3 bt_Vel = this->bullet_RigidBody->getLinearVelocity();
+        velocityOut.x = bt_Vel.getX();
+        velocityOut.y = bt_Vel.getY();
+        velocityOut.z = bt_Vel.getZ();
+    }
+
+    void bt_cRigidBody::SetVelocity(const glm::vec3 & velocityIn)
+    {
+        btVector3 bt_Vel;
+        bt_Vel.setX(velocityIn.x);
+        bt_Vel.setY(velocityIn.y);
+        bt_Vel.setZ(velocityIn.z);
+        this->bullet_RigidBody->activate();
+        this->bullet_RigidBody->setLinearVelocity(bt_Vel);
+    }
+
     //void bt_cRigidBody::SetMatOrientation(const glm::mat4& orientationIn)
     //{
     //    this->mRotation = glm::toQuat(orientationIn);
