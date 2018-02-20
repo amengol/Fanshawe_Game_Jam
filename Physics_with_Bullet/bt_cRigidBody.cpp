@@ -89,6 +89,17 @@ namespace nPhysics
         positionOut.y = btVec.getY();
         positionOut.z = btVec.getZ();
 	}
+    void bt_cRigidBody::SetPosition(glm::vec3& positionIn)
+    {    
+        btVector3 vec;
+        vec.setX(positionIn.x);
+        vec.setY(positionIn.y);
+        vec.setZ(positionIn.z);
+
+        btTransform trans = this->bullet_RigidBody->getCenterOfMassTransform();
+        trans.setOrigin(vec);
+        this->bullet_RigidBody->setCenterOfMassTransform(trans);
+    }
 	void bt_cRigidBody::GetRotation(glm::vec3& rotationOut)
 	{
 		rotationOut = glm::eulerAngles(mRotation);
