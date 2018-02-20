@@ -2,6 +2,7 @@
 #include <iPhysicsWorld.h>
 #include <vector>
 #include "bt_cRigidBody.h"
+#include <btBulletDynamicsCommon.h> // Bullet
 
 namespace nPhysics
 {
@@ -9,6 +10,7 @@ namespace nPhysics
 	class bt_cPhysicsWorld : public iPhysicsWorld
 	{
 	public:
+        bt_cPhysicsWorld();
 		virtual ~bt_cPhysicsWorld();
 
         struct RK4_State
@@ -41,5 +43,12 @@ namespace nPhysics
 	private:
 		
 		std::vector<bt_cRigidBody*> mRigidBody;
+
+        // Bullet--------------------------------------------------------------
+        btBroadphaseInterface* broadphase;
+        btDefaultCollisionConfiguration* collisionConfiguration;
+        btCollisionDispatcher* dispatcher;
+        btSequentialImpulseConstraintSolver* solver;
+        btDiscreteDynamicsWorld* dynamicsWorld;
 	};
 }

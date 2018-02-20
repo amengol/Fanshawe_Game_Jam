@@ -8,9 +8,30 @@ const glm::vec3 GRAVITY = glm::vec3(0.0f, -30.0f, 0.0f);
 
 namespace nPhysics
 {
-	bt_cPhysicsWorld::~bt_cPhysicsWorld()
-	{
+    bt_cPhysicsWorld::bt_cPhysicsWorld()
+    {
+        // Build the broadphase
+        this->broadphase = new btDbvtBroadphase();
 
+        // Set up the collision configuration and dispatcher
+        this->collisionConfiguration = new btDefaultCollisionConfiguration();
+        this->dispatcher = new btCollisionDispatcher(collisionConfiguration);
+
+        // The actual physics solver
+        this->solver = new btSequentialImpulseConstraintSolver;
+
+        // The world.
+        this->dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
+        this->dynamicsWorld->setGravity(btVector3(0, -10, 0));
+    }
+
+    bt_cPhysicsWorld::~bt_cPhysicsWorld()
+	{
+        delete this->dynamicsWorld;
+        delete this->solver;
+        delete this->dispatcher;
+        delete this->collisionConfiguration;
+        delete this->broadphase;
 	}
 
     bt_cPhysicsWorld::RK4_Derivative bt_cPhysicsWorld::evaluate(const RK4_State& initial,
