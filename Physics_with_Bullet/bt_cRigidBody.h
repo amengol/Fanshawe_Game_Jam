@@ -33,6 +33,9 @@ namespace nPhysics
         inline void setLastPosition(glm::vec3 lastPos) { this->mLastPos = lastPos; }
         inline glm::vec3 getLastPosition() { return this->mLastPos; }
 
+        // Bullet
+        inline btRigidBody* getBulletRigidBody() { return this->bullet_RigidBody; }
+
 	private:
 		friend class bt_cPhysicsWorld;
 		iShape* mShape;
