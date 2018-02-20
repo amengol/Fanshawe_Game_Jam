@@ -112,6 +112,21 @@ namespace nPhysics
         orientationOut = glm::toMat4(glmQuat);
     }
 
+    void bt_cRigidBody::SetMatOrientation(const glm::mat4& orientationIn)
+    {
+        glm::quat qOr = glm::toQuat(orientationIn);
+        btQuaternion btQuat;
+        btQuat.setW(qOr.w);
+        btQuat.setX(qOr.x);
+        btQuat.setY(qOr.y);
+        btQuat.setZ(qOr.z);
+
+        btTransform transf = this->bullet_RigidBody->getCenterOfMassTransform();
+        transf.setRotation(btQuat);
+
+        this->bullet_RigidBody->setCenterOfMassTransform(transf);
+    }
+
     void bt_cRigidBody::GetVelocity(glm::vec3& velocityOut)
     {
         btVector3 bt_Vel = this->bullet_RigidBody->getLinearVelocity();
