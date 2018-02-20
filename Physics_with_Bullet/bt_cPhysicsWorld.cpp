@@ -294,6 +294,11 @@ namespace nPhysics
 		{
 			mRigidBody.push_back(rb);
 		}
+
+        // Bullet
+        bt_cRigidBody* theRB = static_cast<bt_cRigidBody*>(rigidBody);
+        this->dynamicsWorld->addRigidBody(theRB->getBulletRigidBody());
+       
 	}
 
 	void bt_cPhysicsWorld::RemoveRigidBody(iRigidBody* rigidBody)
