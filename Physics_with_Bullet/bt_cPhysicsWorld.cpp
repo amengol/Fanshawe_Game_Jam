@@ -78,6 +78,8 @@ namespace nPhysics
 
 	void bt_cPhysicsWorld::TimeStep(float deltaTime)
 	{
+        this->dynamicsWorld->stepSimulation(deltaTime);
+
         // Maybe faster?
         size_t rbSize = mRigidBody.size();
 

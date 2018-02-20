@@ -84,17 +84,22 @@ namespace nPhysics
 	}
 	void bt_cRigidBody::GetPostion(glm::vec3& positionOut)
 	{
-		positionOut = mPosition;
+        btVector3 btVec = this->bullet_RigidBody->getCenterOfMassPosition();
+        positionOut.x = btVec.getX();
+        positionOut.y = btVec.getY();
+        positionOut.z = btVec.getZ();
 	}
 	void bt_cRigidBody::GetRotation(glm::vec3& rotationOut)
 	{
 		rotationOut = glm::eulerAngles(mRotation);
 	}
 
-    //void bt_cRigidBody::GetMatOrientation(glm::mat4& orientationOut)
-    //{
-    //    orientationOut = glm::toMat4(this->mRotation);
-    //}
+    void bt_cRigidBody::GetMatOrientation(glm::mat4& orientationOut)
+    {
+        btQuaternion btQuat = this->bullet_RigidBody->getOrientation();
+        glm::quat glmQuat(btQuat.getW(), btQuat.getX(), btQuat.getY(), btQuat.getZ());
+        orientationOut = glm::toMat4(glmQuat);
+    }
 
     //void bt_cRigidBody::SetMatOrientation(const glm::mat4& orientationIn)
     //{

@@ -21,7 +21,7 @@ namespace nPhysics
         virtual void SetPosition(glm::vec3& positionIn) { this->mPosition = positionIn; }
 		virtual void GetRotation(glm::vec3& rotationOut);
         virtual void SetRotation(glm::quat& rotationIn) { this->mRotation = rotationIn; }
-        virtual void GetMatOrientation(glm::mat4& orientationOut) { orientationOut = this->mOrientation; }
+        virtual void GetMatOrientation(glm::mat4& orientationOut);
         virtual void SetMatOrientation(const glm::mat4& orientationIn) { this->mOrientation = orientationIn; }
         virtual void GetVelocity(glm::vec3& velocity) { velocity = this->mVelocity; }
         virtual void SetVelocity(const glm::vec3& velocity) { this->mVelocity = velocity; }
