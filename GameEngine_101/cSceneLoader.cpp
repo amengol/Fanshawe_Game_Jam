@@ -14,6 +14,8 @@
 
 extern nPhysics::iPhysicsFactory* gPhysicsFactory;
 extern nPhysics::iPhysicsFactory* gbt_PhysicsFactory;
+extern nPhysics::iPhysicsWorld* gPhysicsWorld;
+extern nPhysics::iPhysicsWorld* gbt_PhysicsWorld;
 
 extern std::vector< cGameObject* >  g_vecGameObjects;
 extern cGameObject* g_pSkyBoxObject;
@@ -650,7 +652,7 @@ bool cSceneLoader::loadCameraParams(cCameraObject* camera, std::string& error)
 //    return true;
 //}
 
-bool cSceneLoader::loadLimitPlanes(std::vector<LimitPlane>& vecLP, std::string& error)
+bool cSceneLoader::loadLimitPlanes(std::string& error)
 {
     std::string jsonStr;
 
@@ -684,48 +686,43 @@ bool cSceneLoader::loadLimitPlanes(std::vector<LimitPlane>& vecLP, std::string& 
 
     for (rapidjson::SizeType i = 0; i < limitPlanes.Size(); i++)
     {
-        LimitPlane lp;
         // Test all variables before reading
-        if (!(limitPlanes[i]["position"].IsArray()))
+        if (!(limitPlanes[i]["normal"].IsArray()))
         {
             error = "The Json limit plane parameters are not properly formated!";
             return false;
         }
 
-        if (!(limitPlanes[i]["position"][0].IsNumber()
-            && limitPlanes[i]["position"][1].IsNumber()
-            && limitPlanes[i]["position"][2].IsNumber()))
+        if (!(limitPlanes[i]["normal"][0].IsNumber()
+            && limitPlanes[i]["normal"][1].IsNumber()
+            && limitPlanes[i]["normal"][2].IsNumber()))
         {
             error = "The Json limit planes position is not properly formated!";
             return false;
         }
 
-        lp.position.x = limitPlanes[i]["position"][0].GetFloat();
-        lp.position.y = limitPlanes[i]["position"][1].GetFloat();
-        lp.position.z = limitPlanes[i]["position"][2].GetFloat();
+        glm::vec3 normal(0.0f);
 
-        if (!(limitPlanes[i]["type"].IsString()))
+        normal.x = limitPlanes[i]["normal"][0].GetFloat();
+        normal.y = limitPlanes[i]["normal"][1].GetFloat();
+        normal.z = limitPlanes[i]["normal"][2].GetFloat();
+
+        if (!(limitPlanes[i]["constant"].IsNumber()))
         {
             error = "The Json limit plane parameters are not properly formated!";
             return false;
         }
 
-        std::string lpType = limitPlanes[i]["type"].GetString();
+        float constant = limitPlanes[i]["constant"].GetFloat();
 
-        if (lpType == "floor")
-            lp.type = FLOOR;
-        else if (lpType == "front")
-            lp.type = FRONT;
-        else if (lpType == "back")
-            lp.type = BACK;
-        else if (lpType == "left")
-            lp.type = LEFT;
-        else if (lpType == "right")
-            lp.type = RIGHT;
-        else
-            return false;
+        nPhysics::iShape* plane = gPhysicsFactory->CreatePlane(normal, constant);
+        nPhysics::iShape* bt_plane = gbt_PhysicsFactory->CreatePlane(normal, constant);
 
-        vecLP.push_back(lp);
+        nPhysics::sRigidBodyDesc desc;
+        nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, plane);
+        gPhysicsWorld->AddRigidBody(rb);
+        nPhysics::iRigidBody* bt_rb = gbt_PhysicsFactory->CreateRigidBody(desc, bt_plane);
+        gbt_PhysicsWorld->AddRigidBody(bt_rb);
 
     }//for(rapidjson::SizeType...
 

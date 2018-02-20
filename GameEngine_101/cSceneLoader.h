@@ -20,22 +20,6 @@ class cModelAssetLoader;
 class cLightManager;
 class cCameraObject;
 
-// Put this and LimitPlane here for now (was in the Physics.cpp)
-enum LimitPlaneType
-{
-    FLOOR,
-    FRONT,
-    BACK,
-    LEFT,
-    RIGHT
-};
-
-struct LimitPlane
-{
-    glm::vec3 position;
-    LimitPlaneType type;
-};
-
 class cSceneLoader
 {
 public:
@@ -60,7 +44,7 @@ public:
     //bool loadAiGrid(std::string& error);
     
     // Loads limit planes to be used in the Physics Engine
-    bool loadLimitPlanes(std::vector<LimitPlane>& vecLP, std::string& error);
+    bool loadLimitPlanes(std::string& error);
 
 private:
 

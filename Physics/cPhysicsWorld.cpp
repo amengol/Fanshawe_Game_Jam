@@ -86,8 +86,10 @@ namespace nPhysics
                         {
                             // SPHERE-PLANE collision
                             cPlaneShape* plane = static_cast<cPlaneShape*>(sh2);
-                            nPhysics::iShape::PlaneType planeType;
-                            plane->getPlaneType(planeType);
+                            glm::vec3 normal;
+                            plane->GetPlaneNormal(normal);
+                            float constant;
+                            plane->GetPlaneConst(constant);
 
                             // If we are just sliding, let make it loose some energy
                             if (rb1->mPosition.y <= sphere1->getRadius() + 0.01)
@@ -100,55 +102,55 @@ namespace nPhysics
                                 }
                             }
 
-                            switch (planeType)
+                            if (normal == glm::vec3(0.0f, 1.0f, 0.0f))
                             {
-                            case nPhysics::iShape::PlaneType::FLOOR:
-                            {
-                                glm::vec3 pos = rb2->mPosition;
                                 float radius = sphere1->getRadius();
-                                if (rb1->mPosition.y <= rb2->mPosition.y + sphere1->getRadius())
+                                if (rb1->mPosition.y <= constant + sphere1->getRadius())
                                 {
-                                    rb1->mPosition.y = rb2->mPosition.y + sphere1->getRadius();// +0.01f;
+                                    rb1->mPosition.y = constant + sphere1->getRadius();
                                     rb1->mVelocity.y = -(rb1->mVelocity.y);
                                     rb1->mVelocity.y *= 0.95f;
                                 }
                             }
-                                
-                                break;
-                            case nPhysics::iShape::PlaneType::FRONT:
-                                if (rb1->mPosition.z <= rb2->mPosition.z + sphere1->getRadius())
+
+                            if (normal == glm::vec3(0.0f, 0.0f, 1.0f))
+                            {
+                                if (rb1->mPosition.z <= constant + sphere1->getRadius())
                                 {
-                                    rb1->mPosition.z = rb2->mPosition.z + sphere1->getRadius();// +0.01f;
+                                    rb1->mPosition.z = constant + sphere1->getRadius();
                                     rb1->mVelocity.z = -(rb1->mVelocity.z);
                                     rb1->mVelocity.z *= 0.95f;
                                 }
-                                break;
-                            case nPhysics::iShape::PlaneType::BACK:
-                                if (rb1->mPosition.z >= rb2->mPosition.z - sphere1->getRadius())
+                            }
+
+                            if (normal == glm::vec3(0.0f, 0.0f, -1.0f))
+                            {
+                                if (rb1->mPosition.z >= constant - sphere1->getRadius())
                                 {
-                                    rb1->mPosition.z = rb2->mPosition.z - sphere1->getRadius();// -0.01f;
+                                    rb1->mPosition.z = constant - sphere1->getRadius();
                                     rb1->mVelocity.z = -(rb1->mVelocity.z);
                                     rb1->mVelocity.z *= 0.95f;
                                 }
-                                break;
-                            case nPhysics::iShape::PlaneType::LEFT:
-                                if (rb1->mPosition.x <= rb2->mPosition.x + sphere1->getRadius())
+                            }
+
+                            if (normal == glm::vec3(1.0f, 0.0f, 0.0f))
+                            {
+                                if (rb1->mPosition.x <= constant + sphere1->getRadius())
                                 {
-                                    rb1->mPosition.x = rb2->mPosition.x + sphere1->getRadius();// +0.01f;
+                                    rb1->mPosition.x = constant + sphere1->getRadius();
                                     rb1->mVelocity.x = -(rb1->mVelocity.x);
                                     rb1->mVelocity.x *= 0.95f;
                                 }
-                                break;
-                            case nPhysics::iShape::PlaneType::RIGHT:
-                                if (rb1->mPosition.x >= rb2->mPosition.x - sphere1->getRadius())
+                            }
+
+                            if (normal == glm::vec3(-1.0f, 0.0f, 0.0f))
+                            {
+                                if (rb1->mPosition.x >= constant - sphere1->getRadius())
                                 {
-                                    rb1->mPosition.x = rb2->mPosition.x - sphere1->getRadius();// -0.01f;
+                                    rb1->mPosition.x = constant - sphere1->getRadius();
                                     rb1->mVelocity.x = -(rb1->mVelocity.x);
                                     rb1->mVelocity.x *= 0.95f;
                                 }
-                                break;
-                            default:
-                                break;
                             }
                         }//!if (sh2->GetShapeType() == SHAPE_TYPE_PLANE)
 

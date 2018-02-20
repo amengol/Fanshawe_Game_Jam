@@ -31,9 +31,6 @@ namespace nPhysics
 		
 		virtual ~cPlaneShape();
 
-        virtual bool getPlaneType(PlaneType& type);
-        virtual bool setGameType(const PlaneType& type);
-
 		virtual bool GetPlaneNormal(glm::vec3& normalOut);
 		virtual bool GetPlaneConst(float& planeConstOut);
 
@@ -44,7 +41,6 @@ namespace nPhysics
 
 		glm::vec3 mNormal;
 		float mPlaneConst;
-        PlaneType type;
 	};
 
     class cCubeShape : public iShape

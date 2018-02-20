@@ -41,7 +41,6 @@
 bool gRenderStuffInDebug;
 nPhysics::iPhysicsFactory* gPhysicsFactory;
 nPhysics::iPhysicsWorld* gPhysicsWorld;
-std::vector<LimitPlane> g_vecLimitPlanes;
 
 nPhysics::iPhysicsFactory* gbt_PhysicsFactory;
 nPhysics::iPhysicsWorld* gbt_PhysicsWorld;
@@ -368,54 +367,11 @@ int main()
     // Camera end
     //-------------------------------------------------------------------------
     // Limit planes
-    if (!sceneLoader.loadLimitPlanes(g_vecLimitPlanes, error))
+    if (!sceneLoader.loadLimitPlanes(error))
     {
         std::cout << "The limit planes configuration was not loaded..." << std::endl;
         std::cout << error << std::endl;
     }
-
-    // Limit planes are not being used by local physics anymore, so put them in nPhysics
-    for (size_t i = 0; i < g_vecLimitPlanes.size(); i++)
-    {
-        LimitPlane lp = g_vecLimitPlanes[i];
-
-        nPhysics::iShape* plane = gPhysicsFactory->CreatePlane(glm::vec3(0.0f), 0.0f);
-        nPhysics::iShape* bt_plane = gbt_PhysicsFactory->CreatePlane(glm::vec3(0.0f), 0.0f);
-
-        switch (lp.type)
-        {
-        case FLOOR:             
-            plane->setGameType(nPhysics::iShape::PlaneType::FLOOR);
-            bt_plane->setGameType(nPhysics::iShape::PlaneType::FLOOR);
-            break;
-        case FRONT:
-            plane->setGameType(nPhysics::iShape::PlaneType::FRONT);
-            bt_plane->setGameType(nPhysics::iShape::PlaneType::FRONT);
-            break;
-        case BACK:
-            plane->setGameType(nPhysics::iShape::PlaneType::BACK);
-            bt_plane->setGameType(nPhysics::iShape::PlaneType::BACK);
-            break;
-        case LEFT:
-            plane->setGameType(nPhysics::iShape::PlaneType::LEFT);
-            bt_plane->setGameType(nPhysics::iShape::PlaneType::LEFT);
-            break;
-        case RIGHT:
-            plane->setGameType(nPhysics::iShape::PlaneType::RIGHT);
-            bt_plane->setGameType(nPhysics::iShape::PlaneType::RIGHT);
-            break;
-        default:
-            break;
-        }
-
-        nPhysics::sRigidBodyDesc desc;
-        desc.Position = lp.position;
-        nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, plane);
-        gPhysicsWorld->AddRigidBody(rb);
-        nPhysics::iRigidBody* bt_rb = gbt_PhysicsFactory->CreateRigidBody(desc, bt_plane);
-        gbt_PhysicsWorld->AddRigidBody(bt_rb);
-    }
-
 
     //-------------------------------------------------------------------------
     // Clouds

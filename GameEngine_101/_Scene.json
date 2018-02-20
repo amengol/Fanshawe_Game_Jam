@@ -735,24 +735,24 @@
 "Limit_Planes":
 [
 	{
-		"position" : [0.0, 0.0, 0.0],
-		"type" : "floor"
+		"normal" : [0.0, 1.0, 0.0],
+		"constant" : 0.0
 	},
 	{
-		"position" : [0.0, 0.0, -13.0],
-		"type" : "front"
+		"normal" : [0.0, 0.0, 1.0],
+		"constant" : -13.0
 	},
 	{
-		"position" : [0.0, 0.0, 13.0],
-		"type" : "back"
+		"normal" : [0.0, 0.0, -1.0],
+		"constant" : 13.0
 	},
 	{
-		"position" : [-9.0, 0.0, 0.0],
-		"type" : "left"
+		"normal" : [1.0, 0.0, 0.0],
+		"constant" : -9.0
 	},
 	{
-		"position" : [9.0, 0.0, 0.0],
-		"type" : "right"
+		"normal" : [-1.0, 0.0, 0.0],
+		"constant" : 9.0
 	}
 ],
 # Lights block. A maximum of 10 light are allowed
