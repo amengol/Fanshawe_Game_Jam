@@ -16,6 +16,8 @@ namespace nPhysics
 
         inline float getRadius() { return this->mRadius; }
 
+        inline btCollisionShape* getBulletShape() { return this->fallShape; }
+
 	private:
 		bt_cSphereShape();
 		bt_cSphereShape(const bt_cSphereShape& other);
@@ -37,6 +39,8 @@ namespace nPhysics
 
 		virtual bool GetPlaneNormal(glm::vec3& normalOut);
 		virtual bool GetPlaneConst(float& planeConstOut);
+
+        inline btCollisionShape* getBulletShape() { return this->groundShape; }
 
 	private:
 		bt_cPlaneShape();

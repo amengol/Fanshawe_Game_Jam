@@ -3,6 +3,7 @@
 #include <sRigidBodyDesc.h>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm\gtx\quaternion.hpp>
+#include <btBulletDynamicsCommon.h>
 
 namespace nPhysics
 {
@@ -46,5 +47,8 @@ namespace nPhysics
         float rateOfTurnZ;
 
         glm::mat4 mOrientation;
+
+        // Bullet
+        btRigidBody* bullet_RigidBody;
 	};
 }

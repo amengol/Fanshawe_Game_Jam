@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "bt_cRigidBody.h"
+#include "bt_shapes.h"
 
 namespace nPhysics
 {
@@ -14,6 +15,53 @@ namespace nPhysics
         , rateOfTurnZ(0.0f)
         , mOrientation(1.0f)
 	{
+        switch (shape->GetShapeType())
+        {
+        case nPhysics::SHAPE_TYPE_PLANE:
+        {
+            btDefaultMotionState* groundMotionState =
+                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), 
+                                         btVector3(desc.Position.x, 
+                                         desc.Position.y, 
+                                         desc.Position.z)));
+
+            bt_cPlaneShape* planeShape = dynamic_cast<bt_cPlaneShape*>(shape);
+
+            btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0, 
+                                                                       groundMotionState, 
+                                                                       planeShape->getBulletShape(),
+                                                                       btVector3(0, 0, 0));
+
+            this->bullet_RigidBody = new btRigidBody(groundRigidBodyCI);
+
+        }
+            break;
+        case nPhysics::SHAPE_TYPE_SPHERE:
+        {
+            btDefaultMotionState* fallMotionState =
+                new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1),
+                                         btVector3(desc.Position.x,
+                                         desc.Position.y,
+                                         desc.Position.z)));
+
+            bt_cSphereShape* sphereShape = dynamic_cast<bt_cSphereShape*>(shape);
+
+            btVector3 fallInertia(0, 0, 0);
+            sphereShape->getBulletShape()->calculateLocalInertia(desc.Mass, fallInertia);
+
+            btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(desc.Mass, 
+                                                                     fallMotionState, 
+                                                                     sphereShape->getBulletShape(), 
+                                                                     fallInertia);
+            
+            this->bullet_RigidBody = new btRigidBody(fallRigidBodyCI);
+        }
+            break;
+        case nPhysics::SHAPE_TYPE_CUBE:
+            break;
+        default:
+            break;
+        }
 	}
 
 	bt_cRigidBody::~bt_cRigidBody()
