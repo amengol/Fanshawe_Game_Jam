@@ -31,6 +31,7 @@ namespace nPhysics
                                                                        groundMotionState, 
                                                                        planeShape->getBulletShape(),
                                                                        btVector3(0, 0, 0));
+            groundRigidBodyCI.m_restitution = 0.9;
 
             this->bullet_RigidBody = new btRigidBody(groundRigidBodyCI);
 
@@ -46,14 +47,19 @@ namespace nPhysics
 
             bt_cSphereShape* sphereShape = dynamic_cast<bt_cSphereShape*>(shape);
 
-            btVector3 fallInertia(0, 0, 0);
-            sphereShape->getBulletShape()->calculateLocalInertia(desc.Mass, fallInertia);
+            // Sphere mass is a factor of its radius
+            btScalar sMass;
+            shape->GetSphereRadius(sMass);
 
-            btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(desc.Mass, 
+            btVector3 fallInertia(0, 0, 0);
+            sphereShape->getBulletShape()->calculateLocalInertia(sMass, fallInertia);
+
+            btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(sMass,
                                                                      fallMotionState, 
                                                                      sphereShape->getBulletShape(), 
                                                                      fallInertia);
-            
+            fallRigidBodyCI.m_restitution = 0.95;
+
             this->bullet_RigidBody = new btRigidBody(fallRigidBodyCI);
         }
             break;
