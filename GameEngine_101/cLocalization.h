@@ -28,8 +28,28 @@ public:
     bool init();
 
     // Draws localization text
-    void draw();
+    void draw(unsigned int width, unsigned int height);
+
 private:
+    enum eSelectedLanguage
+    {
+        ENGLIH,
+        FRENCH,
+        SPANISH,
+        INSTRUCTIONS
+    };
+    
+    struct point
+    {
+        GLfloat x;
+        GLfloat y;
+        GLfloat s;
+        GLfloat t;
+    };
+
+
+    eSelectedLanguage currentLanguage = eSelectedLanguage::INSTRUCTIONS;
+
     std::map<std::string, std::vector<std::string>> mapLanguages;   // Map languages to their IDs
 
     GLuint mvertex_shader, mfragment_shader, mprogramm;
@@ -65,8 +85,14 @@ private:
 
     GLboolean initfreetype();
 
+    void renderSelectedMenu(unsigned int width, unsigned int height);
+    
+    void renderText(const char *text, float x, float y, float sx, float sy);
+
+
     FT_Library mft;
 
     FT_Face mface;
+
 };
 

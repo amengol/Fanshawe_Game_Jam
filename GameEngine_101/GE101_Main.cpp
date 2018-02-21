@@ -434,9 +434,6 @@ int main()
         glEnable(GL_BLEND);	   
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        // Draw localization text ---------------------------------------------
-        loc.draw();
-
         ::g_pShaderManager->useShaderProgram("GE101_Shader");
         GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
 
@@ -560,6 +557,8 @@ int main()
             }
         }
         
+        // Draw localization text ---------------------------------------------
+        loc.draw(width, height);
 
         //::g_pDebugRenderer->RenderDebugObjects(matView, matProjection);
 
