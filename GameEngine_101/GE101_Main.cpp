@@ -558,7 +558,7 @@ int main()
         }
         
         // Draw localization text ---------------------------------------------
-        loc.draw(width, height);
+        loc.draw(window, width, height);
 
         //::g_pDebugRenderer->RenderDebugObjects(matView, matProjection);
 

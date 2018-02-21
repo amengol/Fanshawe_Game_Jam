@@ -28,7 +28,7 @@ public:
     bool init();
 
     // Draws localization text
-    void draw(unsigned int width, unsigned int height);
+    void draw(GLFWwindow* window, unsigned int width, unsigned int height);
 
 private:
     enum eSelectedLanguage
@@ -64,7 +64,7 @@ private:
     GLint uniform_color;
 
     const char* mvs_text =
-        "#version 410\n"
+        "#version 400\n"
         "attribute vec4 coord;"
         "varying vec2 texpos;"
         "void main () {"
@@ -73,7 +73,7 @@ private:
         "}";
 
     const char* mfs_text =
-        "#version 410\n"
+        "#version 400\n"
         "varying vec2 texpos;"
         "uniform sampler2D tex;"
         "uniform vec4 color;"
