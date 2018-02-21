@@ -49,6 +49,9 @@
     <Filter Include="Physics Related">
       <UniqueIdentifier>{7e17368d-5d4f-4d63-9ede-02f61a2b9c8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Localization">
+      <UniqueIdentifier>{85d9b6fd-b80c-42f0-8bd1-f5431f1e9fbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\simpleVert.glsl">
@@ -170,6 +173,12 @@
     <ClCompile Include="cPhysics_Switcher.cpp">
       <Filter>Physics Related</Filter>
     </ClCompile>
+    <ClCompile Include="cLocalization.cpp">
+      <Filter>Localization</Filter>
+    </ClCompile>
+    <ClCompile Include="pugixml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -273,6 +282,9 @@
     </ClInclude>
     <ClInclude Include="cPhysics_Switcher.h">
       <Filter>Physics Related</Filter>
+    </ClInclude>
+    <ClInclude Include="cLocalization.h">
+      <Filter>Localization</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

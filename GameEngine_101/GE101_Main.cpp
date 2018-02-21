@@ -35,6 +35,7 @@
 #include <bt_cPhysicsWorld.h>
 #include <bt_cPhysicsFactory.h>
 #include "cPhysics_Switcher.h"
+#include "cLocalization.h"
 
 //#include "AI\cSimpleAi_Manager.h"
 
@@ -116,6 +117,10 @@ static void error_callback(int error, const char* description)
 int main()
 {
     InitPhysics();
+
+    // Localization -----------------------------------------------------------
+    cLocalization loc;
+    loc.loadLanguageFromXml("assets\\xml\\localization.xml");
 
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);

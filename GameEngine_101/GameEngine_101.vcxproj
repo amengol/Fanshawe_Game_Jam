@@ -156,6 +156,7 @@
     <ClCompile Include="cDebugRenderer.cpp" />
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cLightManager.cpp" />
+    <ClCompile Include="cLocalization.cpp" />
     <ClCompile Include="cMesh.cpp" />
     <ClCompile Include="cModelAssetLoader.cpp" />
     <ClCompile Include="cSceneLoader.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="opttritri.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="cPhysics_Switcher.cpp" />
+    <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="sAABB_Triangle.cpp" />
     <ClCompile Include="sCollisionTriangle.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
@@ -193,6 +195,7 @@
     <ClInclude Include="cDebugRenderer.h" />
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cLightManager.h" />
+    <ClInclude Include="cLocalization.h" />
     <ClInclude Include="cMesh.h" />
     <ClInclude Include="cModelAssetLoader.h" />
     <ClInclude Include="cSceneLoader.h" />
