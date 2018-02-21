@@ -408,6 +408,11 @@ int main()
         float ratio;
         int width, height;        
         glfwGetFramebufferSize(window, &width, &height);
+
+        // Prevent division by zero!
+        if (height == 0)
+            height = 1;
+
         ratio = width / (float)height;
         glViewport(0, 0, width, height);
 
