@@ -118,10 +118,6 @@ int main()
 {
     InitPhysics();
 
-    // Localization -----------------------------------------------------------
-    cLocalization loc;
-    loc.loadLanguageFromXml("assets\\xml\\localization.xml");
-
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
 
@@ -186,6 +182,17 @@ int main()
     glfwMakeContextCurrent(window);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     glfwSwapInterval(1);
+
+    // Localization -----------------------------------------------------------
+    
+    cLocalization loc;
+    if (!loc.init())
+    {
+        std::cout << "There was an error initiating the localization process!" << std::endl;
+    }
+    loc.loadLanguageFromXml("assets\\xml\\localization.xml");
+    
+    //-------------------------------------------------------------------------
 
     // General error string, used for a number of items during start up
     std::string error;
@@ -426,6 +433,9 @@ int main()
 
         glEnable(GL_BLEND);	   
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        // Draw localization text ---------------------------------------------
+        loc.draw();
 
         ::g_pShaderManager->useShaderProgram("GE101_Shader");
         GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");

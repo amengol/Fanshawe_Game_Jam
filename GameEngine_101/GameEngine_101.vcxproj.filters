@@ -54,12 +54,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\simpleVert.glsl">
-      <Filter>Shaders Related</Filter>
-    </None>
-    <None Include="assets\shaders\simpleFrag.glsl">
-      <Filter>Shaders Related</Filter>
-    </None>
     <None Include="assets\shaders\newFrag.glsl">
       <Filter>Shaders Related</Filter>
     </None>
@@ -177,6 +171,9 @@
       <Filter>Localization</Filter>
     </ClCompile>
     <ClCompile Include="pugixml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

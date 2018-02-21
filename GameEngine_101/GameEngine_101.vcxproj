@@ -94,7 +94,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Physics_with_Bullet\bullet_src;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Physics_with_Bullet.lib;Physics.lib;assimp-vc140-mt.lib;fmod_vc.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetyped.lib;Physics_with_Bullet.lib;Physics.lib;assimp-vc140-mt.lib;fmod_vc.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -144,8 +144,6 @@
   <ItemGroup>
     <None Include="assets\shaders\newFrag.glsl" />
     <None Include="assets\shaders\newVert.glsl" />
-    <None Include="assets\shaders\simpleFrag.glsl" />
-    <None Include="assets\shaders\simpleVert.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AI\cSimpleAi_Manager.cpp" />
@@ -180,6 +178,7 @@
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="sAABB_Triangle.cpp" />
     <ClCompile Include="sCollisionTriangle.cpp" />
+    <ClCompile Include="stb_image.c" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="Texture\C24BitBMPpixel.cpp" />
     <ClCompile Include="Texture\cBasicTextureManager.cpp" />
