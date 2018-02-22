@@ -1,9 +1,10 @@
 /**
     cLocalization.h
     Purpose: loads localization files, controls and draws texts
+    Disclaimer: Based on the in-class code from Professor Oscar Lara
 
     @author Jorge Amengol
-    @date February 21th, 2018
+    @date February 22th, 2018
 */
 #pragma once
 #include <string>
@@ -28,9 +29,36 @@ public:
     bool init();
 
     // Draws localization text
-    void draw(GLFWwindow* window, unsigned int width, unsigned int height);
+    void draw(unsigned int width, unsigned int height);
 
 private:
+
+    // Creates the shaders and compile the shader program
+    GLboolean init_gl();
+
+    // Init FreeType stuff
+    GLboolean initfreetype();
+
+    // Renders the selected menu
+    void renderSelectedMenu(unsigned int width, unsigned int height);
+
+    // Render the FreeType text
+    void renderText(const char *text, float x, float y, float sx, float sy);
+
+    GLuint mvertex_shader;              // Vertex Shader name
+    GLuint mfragment_shader;            // Fragment Shader name
+    GLuint mprogramm;                   // The Shader Program    
+    GLuint mvao;                        // Vertex array object    
+    GLuint mdp_vbo;                     // Vertex buffer object
+    GLint attribute_coord;              // Attribute coordinate
+    GLint uniform_tex;                  // Uniform texture
+    GLint uniform_color;                // Unifor color
+    const char* mvs_text;               // Vertex shader text
+    const char* mfs_text;               // Fragment shader text
+    FT_Library mft;                     // The FreeType font
+    FT_Face mface;                      // The FreeType face
+
+    // Languages
     enum eSelectedLanguage
     {
         ENGLIH,
@@ -39,6 +67,7 @@ private:
         INSTRUCTIONS
     };
     
+    // Point struct to draw the box on screen
     struct point
     {
         GLfloat x;
@@ -47,52 +76,7 @@ private:
         GLfloat t;
     };
 
-
-    eSelectedLanguage currentLanguage = eSelectedLanguage::INSTRUCTIONS;
-
     std::map<std::string, std::vector<std::string>> mapLanguages;   // Map languages to their IDs
-
-    GLuint mvertex_shader, mfragment_shader, mprogramm;
-    //vertex array object
-    GLuint mvao;
-    //vertex buffer object
-    GLuint mdp_vbo;
-
-
-    GLint attribute_coord;
-    GLint uniform_tex;
-    GLint uniform_color;
-
-    const char* mvs_text =
-        "#version 400\n"
-        "attribute vec4 coord;"
-        "varying vec2 texpos;"
-        "void main () {"
-        "	gl_Position = vec4(coord.xy, 0, 1);"
-        "	texpos = coord.zw;"
-        "}";
-
-    const char* mfs_text =
-        "#version 400\n"
-        "varying vec2 texpos;"
-        "uniform sampler2D tex;"
-        "uniform vec4 color;"
-        "void main () {"
-        "	gl_FragColor = vec4(1, 1, 1, texture2D(tex, texpos).r) * color;"
-        "}";
-
-    GLboolean init_gl();
-
-    GLboolean initfreetype();
-
-    void renderSelectedMenu(unsigned int width, unsigned int height);
-    
-    void renderText(const char *text, float x, float y, float sx, float sy);
-
-
-    FT_Library mft;
-
-    FT_Face mface;
-
+    eSelectedLanguage currentLanguage;  // Current selected language    
 };
 

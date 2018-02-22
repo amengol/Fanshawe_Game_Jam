@@ -5,6 +5,27 @@
 
 cLocalization::cLocalization()
 {
+    currentLanguage = eSelectedLanguage::INSTRUCTIONS;
+
+    // Vertex shader text
+    mvs_text =
+        "#version 400\n"
+        "attribute vec4 coord;"
+        "varying vec2 texpos;"
+        "void main () {"
+        "	gl_Position = vec4(coord.xy, 0, 1);"
+        "	texpos = coord.zw;"
+        "}";
+
+    // Fragmente shader text
+    mfs_text =
+        "#version 400\n"
+        "varying vec2 texpos;"
+        "uniform sampler2D tex;"
+        "uniform vec4 color;"
+        "void main () {"
+        "	gl_FragColor = vec4(1, 1, 1, texture2D(tex, texpos).r) * color;"
+        "}";
 }
 
 
@@ -45,7 +66,7 @@ bool cLocalization::init()
     return true;
 }
 
-void cLocalization::draw(GLFWwindow* window, unsigned int width, unsigned int height)
+void cLocalization::draw(unsigned int width, unsigned int height)
 {
     GLfloat black[4] = {0, 0, 0, 1};
     GLfloat red[4] = {1, 0, 0, 1};
@@ -163,11 +184,8 @@ void cLocalization::renderSelectedMenu(unsigned int width, unsigned int height)
          it != selected_strngs.end(); it++)
     {
         std::string tmp = *it;
-        //fprintf(stdout, "%s\n", tmp.c_str());
-        //TDO: CALL RENDER TEXT.
         renderText(tmp.c_str(), -1 + xoffset, 1 - yoffset * sy, sx, sy);
         yoffset += 50.0f;
-
     }
 }
 
@@ -217,8 +235,7 @@ void cLocalization::renderText(const char * text, float x, float y, float sx, fl
         float h = g->bitmap.rows * sy;
 
         point box[4] = {
-
-            {x2, -y2, 0, 0},
+        {x2, -y2, 0, 0},
         {x2 + w, -y2, 1, 0},
         {x2, -y2 - h, 0, 1},
         {x2 + w, -y2 - h, 1, 1}

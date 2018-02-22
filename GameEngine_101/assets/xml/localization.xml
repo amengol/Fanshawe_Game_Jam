@@ -1,17 +1,17 @@
 <Localization>
-<Languange LanguageID = "IN">
-<String_1>1 ENGLISH</String_1>
-<String_2>2 SPANISH</String_2>
-<String_3>3 FRENCH</String_3>
-<String_4>PRESS ESC KEY TO EXIT</String_4>
-</Languange>	
-<Languange LanguageID = "EN">
-<String_1>WELCOME</String_1>
-</Languange>	
-<Languange LanguageID = "SP">
-<String_1>BIENVENIDO</String_1>
-</Languange>	
-<Languange LanguageID = "FR">
-<String_1>BIENVENUE</String_1>
-</Languange>
+	<Languange LanguageID = "IN">
+		<String_1>1 ENGLISH</String_1>
+		<String_2>2 SPANISH</String_2>
+		<String_3>3 FRENCH</String_3>
+		<String_4>PRESS ESC KEY TO EXIT</String_4>
+	</Languange>	
+	<Languange LanguageID = "EN">
+		<String_1>WELCOME</String_1>
+	</Languange>	
+	<Languange LanguageID = "SP">
+		<String_1>BIENVENIDO</String_1>
+	</Languange>	
+	<Languange LanguageID = "FR">
+		<String_1>BIENVENUE</String_1>
+	</Languange>
 </Localization>
