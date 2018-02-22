@@ -50,14 +50,7 @@ void cLocalization::draw(GLFWwindow* window, unsigned int width, unsigned int he
     GLfloat black[4] = {0, 0, 0, 1};
     GLfloat red[4] = {1, 0, 0, 1};
 
-    glClearColor(1, 1, 1, 1);
     glUseProgram(mprogramm);
-
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    glDepthMask(GL_TRUE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
     glUniform4fv(uniform_color, 1, black);
@@ -65,11 +58,11 @@ void cLocalization::draw(GLFWwindow* window, unsigned int width, unsigned int he
 
     glBindVertexArray(mvao);
 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glDisable(GL_CULL_FACE);
 
     this->renderSelectedMenu(width, height);
 
-    //glfwSwapBuffers(window);
-    glfwPollEvents();
     glBindVertexArray(0);
 }
 
