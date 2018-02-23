@@ -16,7 +16,7 @@
 		<L1 type="menu">
 			<Description>5. 中文</Description>
 		</L1>
-		<L1 type="menu">
+		<L1 type="esc">
 			<Description>ESC to exit</Description>
 		</L1>	
 	</Languange>

@@ -77,6 +77,7 @@ private:
     };
 
     std::map<std::wstring, std::vector<std::wstring>> mapLanguages;   // Map languages to their IDs
+    std::vector<std::wstring> m_vecMainMenu;
     eSelectedLanguage currentLanguage;  // Current selected language    
 };
 
