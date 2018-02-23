@@ -75,7 +75,7 @@
 	</L1>
 	</Languange>
 	
-	<Languange LanguageID = "PT">
+	<Languange LanguageID = "PTBR">
 	<L1 type="instructions">
 		<Description>1. Instruções</Description>
 		<L2>Instrução linha 1</L2>
