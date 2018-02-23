@@ -22,93 +22,93 @@
 	</Languange>
 	
 	<Languange LanguageID = "EN">
-	<L1 type="instructions">
-		<Description>1. Instructions</Description>
+		<L1 type="instructions">
+			<Description>1. Instructions</Description>
+		</L1>
+		<L1 type="change_language">
+			<Description>2. Change Language</Description>
+		</L1>
+		<L1 type="dismiss">
+			<Description>3. Dismiss this menu</Description>
+			<L2>Active physics Engine: </L2>
+		</L1>
 		<L2>Instruction line 1</L2>
 		<L2>Instruction line 2</L2>
 		<L2>Instruction line 3</L2>
 		<L2>Instruction line 4</L2>
 		<L2>Instruction line 5</L2>
-	</L1>
-	<L1 type="change_language">
-		<Description>2. Change Language</Description>
-	</L1>
-	<L1 type="dismiss">
-		<Description>2. Dismiss this menu</Description>
-		<L2>Active physics Engine: </L2>
-	</L1>
 	</Languange>
 
 	<Languange LanguageID = "FR">
-	<L1 type="instructions">
-		<Description>1. Instructions</Description>
+		<L1 type="instructions">
+			<Description>1. Instructions</Description>
+		</L1>
+		<L1 type="change_language">
+			<Description>2. Changer de langue</Description>
+		</L1>
+		<L1 type="dismiss">
+			<Description>3. Ignorer ce menu</Description>
+			<L2>Moteur de physique active: </L2>
+		</L1>
 		<L2>Ligne d'instruction line 1</L2>
 		<L2>Ligne d'instruction line 2</L2>
 		<L2>Ligne d'instruction line 3</L2>
 		<L2>Ligne d'instruction line 4</L2>
 		<L2>Ligne d'instruction line 5</L2>
-	</L1>
-	<L1 type="change_language">
-		<Description>2. Changer de langue</Description>
-	</L1>
-	<L1 type="dismiss">
-		<Description>2. Ignorer ce menu</Description>
-		<L2>Moteur de physique active: </L2>
-	</L1>
 	</Languange>
 	
 	<Languange LanguageID = "SP">
-	<L1 type="instructions">
-		<Description>1. Instrucciones</Description>
+		<L1 type="instructions">
+			<Description>1. Instrucciones</Description>
+		</L1>
+		<L1 type="change_language">
+			<Description>2. Cambiar idioma</Description>
+		</L1>
+		<L1 type="dismiss">
+			<Description>3. Descartar este menú</Description>
+			<L2>Motor de física activa: </L2>
+		</L1>
 		<L2>Línea de instrucción 1</L2>
 		<L2>Línea de instrucción 2</L2>
 		<L2>Línea de instrucción 3</L2>
 		<L2>Línea de instrucción 4</L2>
 		<L2>Línea de instrucción 5</L2>
-	</L1>
-	<L1 type="change_language">
-		<Description>2. Cambiar idioma</Description>
-	</L1>
-	<L1 type="dismiss">
-		<Description>2. Descartar este menú</Description>
-		<L2>Motor de física activa: </L2>
-	</L1>
 	</Languange>
 	
 	<Languange LanguageID = "PTBR">
-	<L1 type="instructions">
-		<Description>1. Instruções</Description>
+		<L1 type="instructions">
+			<Description>1. Instruções</Description>
+		</L1>
+		<L1 type="change_language">
+			<Description>2. Mudar o Idioma</Description>
+		</L1>
+		<L1 type="dismiss">
+			<Description>3. Inibir este Menu</Description>
+			<L2>Engine de Física ativa: </L2>
+		</L1>
 		<L2>Instrução linha 1</L2>
 		<L2>Instrução linha 2</L2>
 		<L2>Instrução linha 3</L2>
 		<L2>Instrução linha 4</L2>
 		<L2>Instrução linha 5</L2>
-	</L1>
-	<L1 type="change_language">
-		<Description>2. Mudar o Idioma</Description>
-	</L1>
-	<L1 type="dismiss">
-		<Description>2. Dispensar este Menu</Description>
-		<L2>Engine de Física ativa: </L2>
-	</L1>
 	</Languange>
 	
 	<Languange LanguageID = "CH">
-	<L1 type="instructions">
-		<Description>1. 说明</Description>
+		<L1 type="instructions">
+			<Description>1. 说明</Description>
+		</L1>
+		<L1 type="change_language">
+			<Description>2. 改变语言</Description>
+		</L1>
+		<L1 type="dismiss">
+			<Description>3. 关闭此菜单</Description>
+			<L2>主动物理引擎: </L2>
+		</L1>
 		<L2>指令行1</L2>
 		<L2>指令行2</L2>
 		<L2>指令行3</L2>
 		<L2>指令行4</L2>
 		<L2>指令行5</L2>
-	</L1>
-	<L1 type="change_language">
-		<Description>2. 改变语言</Description>
-	</L1>
-	<L1 type="dismiss">
-		<Description>2. 关闭此菜单</Description>
-		<L2>主动物理引擎: </L2>
-	</L1>
 	</Languange>
 	
 </Localization>

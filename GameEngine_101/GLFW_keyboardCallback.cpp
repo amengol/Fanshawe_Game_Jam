@@ -2,8 +2,11 @@
 #include "globalGameStuff.h"
 #include "cTransparencyManager.h"
 #include "cPhysics_Switcher.h"
+#include "cLocalization.h"
 
 extern cPhysics_Switcher gPhysicsSwitcher;
+
+extern cLocalization g_Lococalization;
 
 //#include "AI\cSimpleAi_Manager.h"
 
@@ -83,59 +86,89 @@ void key_callback(GLFWwindow* window,
 
     if (key == GLFW_KEY_1 && action == GLFW_PRESS)
     {
-        if (g_pCamera->getGameObject() != NULL)
-        {
-            cGameObject* curGO = g_pCamera->getGameObject();
-            curGO->textureBlend[0] = 1.0f;
-            curGO->textureBlend[2] = 0.0f;
-
-            itGO++;
-            if (itGO == g_vecGameObjects.end())
-                itGO = g_vecGameObjects.begin();
-
-            for (; itGO != g_vecGameObjects.end(); itGO++)
-            {
-                cGameObject* GO = *itGO;
-                if (GO->typeOfObject == SPHERE)
-                {
-                    GO->textureBlend[0] = 0.0f;
-                    GO->textureBlend[2] = 1.0f;
-                    ::g_pCamera->lockOnGameObject(GO);
-                    break;
-                }
-            }            
-        }
-        else
-        {
-            itGO = g_vecGameObjects.begin();
-            for (; itGO != g_vecGameObjects.end(); itGO++)
-            {
-                cGameObject* GO = *itGO;
-                if (GO->typeOfObject == SPHERE)
-                {
-                    GO->textureBlend[0] = 0.0f;
-                    GO->textureBlend[2] = 1.0f;
-                    ::g_pCamera->lockOnGameObject(GO);
-                    break;
-                }
-            }
-        }        
+        g_Lococalization.setMenu(ENGLIH);
     }
 
     if (key == GLFW_KEY_2 && action == GLFW_PRESS)
     {
-        if (g_pCamera->getGameObject() != NULL)
-        {
-            if (g_pCamera->getCameraMode() != CONTROL_CAMERA_LOCK)
-            {
-                g_pCamera->setCameraMode(CONTROL_CAMERA_LOCK);
-            }
-            else
-            {
-                g_pCamera->setCameraMode(CONTROL_CAMERA);
-            }
-        }
+        g_Lococalization.setMenu(FRENCH);
     }
+
+    if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+    {
+        g_Lococalization.setMenu(SPANISH);
+    }
+
+    if (key == GLFW_KEY_4 && action == GLFW_PRESS)
+    {
+        g_Lococalization.setMenu(PORTUGUESE);
+    }
+
+    if (key == GLFW_KEY_5 && action == GLFW_PRESS)
+    {
+        g_Lococalization.setMenu(CHINESE);
+    }
+
+    if (key == GLFW_KEY_6 && action == GLFW_PRESS)
+    {
+        g_Lococalization.setMenu(INSTRUCTIONS);
+    }
+
+    //if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+    //{
+    //    if (g_pCamera->getGameObject() != NULL)
+    //    {
+    //        cGameObject* curGO = g_pCamera->getGameObject();
+    //        curGO->textureBlend[0] = 1.0f;
+    //        curGO->textureBlend[2] = 0.0f;
+
+    //        itGO++;
+    //        if (itGO == g_vecGameObjects.end())
+    //            itGO = g_vecGameObjects.begin();
+
+    //        for (; itGO != g_vecGameObjects.end(); itGO++)
+    //        {
+    //            cGameObject* GO = *itGO;
+    //            if (GO->typeOfObject == SPHERE)
+    //            {
+    //                GO->textureBlend[0] = 0.0f;
+    //                GO->textureBlend[2] = 1.0f;
+    //                ::g_pCamera->lockOnGameObject(GO);
+    //                break;
+    //            }
+    //        }            
+    //    }
+    //    else
+    //    {
+    //        itGO = g_vecGameObjects.begin();
+    //        for (; itGO != g_vecGameObjects.end(); itGO++)
+    //        {
+    //            cGameObject* GO = *itGO;
+    //            if (GO->typeOfObject == SPHERE)
+    //            {
+    //                GO->textureBlend[0] = 0.0f;
+    //                GO->textureBlend[2] = 1.0f;
+    //                ::g_pCamera->lockOnGameObject(GO);
+    //                break;
+    //            }
+    //        }
+    //    }        
+    //}
+
+    //if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+    //{
+    //    if (g_pCamera->getGameObject() != NULL)
+    //    {
+    //        if (g_pCamera->getCameraMode() != CONTROL_CAMERA_LOCK)
+    //        {
+    //            g_pCamera->setCameraMode(CONTROL_CAMERA_LOCK);
+    //        }
+    //        else
+    //        {
+    //            g_pCamera->setCameraMode(CONTROL_CAMERA);
+    //        }
+    //    }
+    //}
 
     //if(key == GLFW_KEY_2 && action == GLFW_PRESS)
     //{

@@ -84,6 +84,7 @@ long long g_lineID = -1;
 float g_AABBSize = 20.0f;
 float g_FOV = 0.6f;
 //cSimpleAi_Manager g_AiManager;
+cLocalization g_Lococalization;
 
 // To deal with sounds
 cSoundManager* g_pSoundManager = NULL;
@@ -184,13 +185,11 @@ int main()
     glfwSwapInterval(1);
 
     // Localization -----------------------------------------------------------
-    
-    cLocalization loc;
-    if (!loc.init())
+    if (!g_Lococalization.init())
     {
         std::cout << "There was an error initiating the localization process!" << std::endl;
     }
-    loc.loadLanguageFromXml("assets\\xml\\localization.xml");
+    g_Lococalization.loadLanguageFromXml("assets\\xml\\localization.xml");
     
     //-------------------------------------------------------------------------
 
@@ -558,7 +557,7 @@ int main()
         }
         
         // Draw localization text ---------------------------------------------
-        loc.draw(width, height);
+        g_Lococalization.draw(width, height);
 
         //::g_pDebugRenderer->RenderDebugObjects(matView, matProjection);
 
