@@ -43,7 +43,7 @@ private:
     void renderSelectedMenu(unsigned int width, unsigned int height);
 
     // Render the FreeType text
-    void renderText(const char *text, float x, float y, float sx, float sy);
+    void renderText(const wchar_t *text, float x, float y, float sx, float sy);
 
     GLuint mvertex_shader;              // Vertex Shader name
     GLuint mfragment_shader;            // Fragment Shader name
@@ -76,7 +76,7 @@ private:
         GLfloat t;
     };
 
-    std::map<std::string, std::vector<std::string>> mapLanguages;   // Map languages to their IDs
+    std::map<std::wstring, std::vector<std::wstring>> mapLanguages;   // Map languages to their IDs
     eSelectedLanguage currentLanguage;  // Current selected language    
 };
 

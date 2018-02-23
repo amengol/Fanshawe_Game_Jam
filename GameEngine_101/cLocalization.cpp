@@ -1,5 +1,6 @@
 #include "cLocalization.h"
 #include <pugixml\pugixml.hpp>
+#include <iostream>
 
 
 
@@ -132,11 +133,13 @@ GLboolean cLocalization::initfreetype()
         return GL_FALSE;
     }
 
-    if (FT_New_Face(mft, "assets\\fonts\\FreeSans.ttf", 0, &mface))
+    if (FT_New_Face(mft, "assets\\fonts\\ARIALUNI.TTF", 0, &mface))
     {
         fprintf(stderr, "unable to open font\n");
         return GL_FALSE;
     }
+
+    
 
     //set font size
     FT_Set_Pixel_Sizes(mface, 0, 48);
@@ -148,29 +151,30 @@ GLboolean cLocalization::initfreetype()
         return GL_FALSE;
     }
 
+    //FT_Select_Charmap(mface, ft_encoding_unicode);
 
     return GL_TRUE;
 }
 
 void cLocalization::renderSelectedMenu(unsigned int width, unsigned int height)
 {
-    std::map<std::string, std::vector<std::string>>::iterator it = mapLanguages.begin();
+    std::map<std::wstring, std::vector<std::wstring>>::iterator it = mapLanguages.begin();
 
-    std::vector<std::string> selected_strngs;
+    std::vector<std::wstring> selected_strngs;
 
     switch (currentLanguage)
     {
     case ENGLIH:
-        selected_strngs = mapLanguages["EN"];
+        selected_strngs = mapLanguages[(L"EN")];
         break;
     case FRENCH:
-        selected_strngs = mapLanguages["FR"];
+        selected_strngs = mapLanguages[(L"FR")];
         break;
     case SPANISH:
-        selected_strngs = mapLanguages["SP"];
+        selected_strngs = mapLanguages[(L"SP")];
         break;
     case INSTRUCTIONS:
-        selected_strngs = mapLanguages["IN"];
+        selected_strngs = mapLanguages[(L"IN")];
         break;
     default:
         break;
@@ -180,18 +184,18 @@ void cLocalization::renderSelectedMenu(unsigned int width, unsigned int height)
     GLfloat yoffset = 50.0f;
     GLfloat xoffset = 8 * sx;
 
-    for (std::vector<std::string>::iterator it = selected_strngs.begin();
+    for (std::vector<std::wstring>::iterator it = selected_strngs.begin();
          it != selected_strngs.end(); it++)
     {
-        std::string tmp = *it;
+        std::wstring tmp = *it;
         renderText(tmp.c_str(), -1 + xoffset, 1 - yoffset * sy, sx, sy);
         yoffset += 50.0f;
     }
 }
 
-void cLocalization::renderText(const char * text, float x, float y, float sx, float sy)
+void cLocalization::renderText(const wchar_t * text, float x, float y, float sx, float sy)
 {
-    const char *p;
+    const wchar_t *p;
     FT_GlyphSlot g = mface->glyph;
 
     GLuint tex;
