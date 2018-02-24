@@ -1,6 +1,9 @@
 #include "cCameraObject.h"
 #include <glm\gtc\matrix_transform.hpp>
 #include "cGameObject.h"
+#include "cPhysics_Switcher.h"
+
+extern cPhysics_Switcher gPhysicsSwitcher;
 
 cCameraObject::cCameraObject()
 {
@@ -87,10 +90,17 @@ void cCameraObject::update()
     {
         if (this->controlledGameObject != NULL)
         {
-            if (this->controlledGameObject->rigidBody != NULL)
+            if (this->controlledGameObject->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
             {
                 glm::vec3 pos(0.0f);
                 this->controlledGameObject->rigidBody->GetPostion(pos);
+                this->setCameraTarget(pos);
+            }
+
+            if (this->controlledGameObject->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+            {
+                glm::vec3 pos(0.0f);
+                this->controlledGameObject->bt_rigidBody->GetPostion(pos);
                 this->setCameraTarget(pos);
             }
         }            
