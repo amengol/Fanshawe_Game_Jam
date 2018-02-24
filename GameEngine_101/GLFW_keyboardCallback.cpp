@@ -86,89 +86,160 @@ void key_callback(GLFWwindow* window,
 
     if (key == GLFW_KEY_1 && action == GLFW_PRESS)
     {
-        g_Lococalization.setMenu(ENGLIH);
+        if (g_Lococalization.getState() == MAIN)
+        {
+            g_Lococalization.setMenu(ENGLISH);
+            return;
+        }
+
+        if (g_Lococalization.getState() == LANGUAGE)
+        {
+            g_Lococalization.setMainMenu();
+            return;
+        }
+
+        if (g_Lococalization.getState() == INSTRUCTIONS)
+        {
+            eSelectedLanguage lang = g_Lococalization.getLanguage();
+            g_Lococalization.setMenu(lang);
+            return;
+        }
+
+        if (g_Lococalization.getState() == DISMISS)
+        {
+            g_Lococalization.setMainMenu();
+            return;
+        }
     }
 
     if (key == GLFW_KEY_2 && action == GLFW_PRESS)
     {
-        g_Lococalization.setMenu(FRENCH);
+        if (g_Lococalization.getState() == MAIN)
+        {
+            g_Lococalization.setMenu(FRENCH);
+            return;
+        }
+
+        if (g_Lococalization.getState() == LANGUAGE)
+        {
+            eSelectedLanguage lang = g_Lococalization.getLanguage();
+            g_Lococalization.setMenu(lang, true);
+            return;
+        }
+
+        if (g_Lococalization.getState() == DISMISS)
+        {
+            g_Lococalization.setMainMenu();
+            return;
+        }
     }
 
     if (key == GLFW_KEY_3 && action == GLFW_PRESS)
     {
-        g_Lococalization.setMenu(SPANISH);
+        if (g_Lococalization.getState() == MAIN)
+        {
+            g_Lococalization.setMenu(SPANISH);
+            return;
+        }
+
+        if (g_Lococalization.getState() == LANGUAGE)
+        {
+            g_Lococalization.dismiss();
+            return;
+        }
+
+        if (g_Lococalization.getState() == DISMISS)
+        {
+            g_Lococalization.setMainMenu();
+            return;
+        }
     }
 
     if (key == GLFW_KEY_4 && action == GLFW_PRESS)
     {
-        g_Lococalization.setMenu(PORTUGUESE);
+        if (g_Lococalization.getState() == MAIN)
+        {
+            g_Lococalization.setMenu(PORTUGUESE);
+            return;
+        }
+
+        if (g_Lococalization.getState() == DISMISS)
+        {
+            g_Lococalization.setMainMenu();
+            return;
+        }
     }
 
     if (key == GLFW_KEY_5 && action == GLFW_PRESS)
     {
-        g_Lococalization.setMenu(CHINESE);
+        if(g_Lococalization.getState() == MAIN)
+        {
+            g_Lococalization.setMenu(CHINESE);
+            return;
+        }
+
+        if (g_Lococalization.getState() == DISMISS)
+        {
+            g_Lococalization.setMainMenu();
+            return;
+        }
     }
 
-    if (key == GLFW_KEY_6 && action == GLFW_PRESS)
+    if (key == GLFW_KEY_B && action == GLFW_PRESS)
     {
-        g_Lococalization.setMenu(INSTRUCTIONS);
+        if (g_pCamera->getGameObject() != NULL)
+        {
+            cGameObject* curGO = g_pCamera->getGameObject();
+            curGO->textureBlend[0] = 1.0f;
+            curGO->textureBlend[2] = 0.0f;
+
+            itGO++;
+            if (itGO == g_vecGameObjects.end())
+                itGO = g_vecGameObjects.begin();
+
+            for (; itGO != g_vecGameObjects.end(); itGO++)
+            {
+                cGameObject* GO = *itGO;
+                if (GO->typeOfObject == SPHERE)
+                {
+                    GO->textureBlend[0] = 0.0f;
+                    GO->textureBlend[2] = 1.0f;
+                    ::g_pCamera->lockOnGameObject(GO);
+                    break;
+                }
+            }            
+        }
+        else
+        {
+            itGO = g_vecGameObjects.begin();
+            for (; itGO != g_vecGameObjects.end(); itGO++)
+            {
+                cGameObject* GO = *itGO;
+                if (GO->typeOfObject == SPHERE)
+                {
+                    GO->textureBlend[0] = 0.0f;
+                    GO->textureBlend[2] = 1.0f;
+                    ::g_pCamera->lockOnGameObject(GO);
+                    break;
+                }
+            }
+        }        
     }
 
-    //if (key == GLFW_KEY_1 && action == GLFW_PRESS)
-    //{
-    //    if (g_pCamera->getGameObject() != NULL)
-    //    {
-    //        cGameObject* curGO = g_pCamera->getGameObject();
-    //        curGO->textureBlend[0] = 1.0f;
-    //        curGO->textureBlend[2] = 0.0f;
-
-    //        itGO++;
-    //        if (itGO == g_vecGameObjects.end())
-    //            itGO = g_vecGameObjects.begin();
-
-    //        for (; itGO != g_vecGameObjects.end(); itGO++)
-    //        {
-    //            cGameObject* GO = *itGO;
-    //            if (GO->typeOfObject == SPHERE)
-    //            {
-    //                GO->textureBlend[0] = 0.0f;
-    //                GO->textureBlend[2] = 1.0f;
-    //                ::g_pCamera->lockOnGameObject(GO);
-    //                break;
-    //            }
-    //        }            
-    //    }
-    //    else
-    //    {
-    //        itGO = g_vecGameObjects.begin();
-    //        for (; itGO != g_vecGameObjects.end(); itGO++)
-    //        {
-    //            cGameObject* GO = *itGO;
-    //            if (GO->typeOfObject == SPHERE)
-    //            {
-    //                GO->textureBlend[0] = 0.0f;
-    //                GO->textureBlend[2] = 1.0f;
-    //                ::g_pCamera->lockOnGameObject(GO);
-    //                break;
-    //            }
-    //        }
-    //    }        
-    //}
-
-    //if (key == GLFW_KEY_2 && action == GLFW_PRESS)
-    //{
-    //    if (g_pCamera->getGameObject() != NULL)
-    //    {
-    //        if (g_pCamera->getCameraMode() != CONTROL_CAMERA_LOCK)
-    //        {
-    //            g_pCamera->setCameraMode(CONTROL_CAMERA_LOCK);
-    //        }
-    //        else
-    //        {
-    //            g_pCamera->setCameraMode(CONTROL_CAMERA);
-    //        }
-    //    }
-    //}
+    if (key == GLFW_KEY_L && action == GLFW_PRESS)
+    {
+        if (g_pCamera->getGameObject() != NULL)
+        {
+            if (g_pCamera->getCameraMode() != CONTROL_CAMERA_LOCK)
+            {
+                g_pCamera->setCameraMode(CONTROL_CAMERA_LOCK);
+            }
+            else
+            {
+                g_pCamera->setCameraMode(CONTROL_CAMERA);
+            }
+        }
+    }
 
     //if(key == GLFW_KEY_2 && action == GLFW_PRESS)
     //{
@@ -193,7 +264,7 @@ void key_callback(GLFWwindow* window,
     //    }
     //}
 
-    //if(key == GLFW_KEY_L && action == GLFW_PRESS)
+    //if(key == GLFW_KEY_F && action == GLFW_PRESS)
     //{
     //    cGameObject* theGO = NULL;
     //    theGO = g_pCamera->getGameObject();
@@ -203,7 +274,7 @@ void key_callback(GLFWwindow* window,
     //    }
     //}
 
-    if(key == GLFW_KEY_L && action == GLFW_PRESS)
+    if(key == GLFW_KEY_F && action == GLFW_PRESS)
     {
         for (size_t i = 0; i < g_vecGameObjects.size() ; i++)
         {
@@ -226,7 +297,7 @@ void key_callback(GLFWwindow* window,
         }
     }
 
-    //if(key == GLFW_KEY_L && action == GLFW_PRESS)
+    //if(key == GLFW_KEY_F && action == GLFW_PRESS)
     //{
     //    enableDebugGrid = !enableDebugGrid;
     //    g_AiManager.showDebugGrid(enableDebugGrid);
@@ -280,30 +351,30 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_H:        // Increase constant light attenuation
             ::g_pLightManager->vecLights[0].attenuation.x += 0.1f;
             break;
-        case GLFW_KEY_B:        // Decrease constant light attenuation
-            if(::g_pLightManager->vecLights[0].attenuation.x < 0.1f)
-                ::g_pLightManager->vecLights[0].attenuation.x = 0.0f;
-            else
-                ::g_pLightManager->vecLights[0].attenuation.x -= 0.1f;
-            break;
-        case GLFW_KEY_J:        // Increase linear light attenuation
-            ::g_pLightManager->vecLights[0].attenuation.y += 0.01f;
-            break;
-        case GLFW_KEY_N:        // Decrease linear light attenuation
-            if(::g_pLightManager->vecLights[0].attenuation.y < 0.01f)
-                ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;
-            else
-                ::g_pLightManager->vecLights[0].attenuation.y -= 0.01f;
-            break;
-        case GLFW_KEY_K:        // Increase quadratic light attenuation
-            ::g_pLightManager->vecLights[0].attenuation.z += 0.01f;
-            break;
-        case GLFW_KEY_M:        // Decrease quadratic light attenuation
-            if(::g_pLightManager->vecLights[0].attenuation.z < 0.01f)
-                ::g_pLightManager->vecLights[0].attenuation.z = 0.0f;
-            else
-                ::g_pLightManager->vecLights[0].attenuation.z -= 0.01f;
-            break;
+        //case GLFW_KEY_B:        // Decrease constant light attenuation
+        //    if(::g_pLightManager->vecLights[0].attenuation.x < 0.1f)
+        //        ::g_pLightManager->vecLights[0].attenuation.x = 0.0f;
+        //    else
+        //        ::g_pLightManager->vecLights[0].attenuation.x -= 0.1f;
+        //    break;
+        //case GLFW_KEY_J:        // Increase linear light attenuation
+        //    ::g_pLightManager->vecLights[0].attenuation.y += 0.01f;
+        //    break;
+        //case GLFW_KEY_N:        // Decrease linear light attenuation
+        //    if(::g_pLightManager->vecLights[0].attenuation.y < 0.01f)
+        //        ::g_pLightManager->vecLights[0].attenuation.y = 0.0f;
+        //    else
+        //        ::g_pLightManager->vecLights[0].attenuation.y -= 0.01f;
+        //    break;
+        //case GLFW_KEY_K:        // Increase quadratic light attenuation
+        //    ::g_pLightManager->vecLights[0].attenuation.z += 0.01f;
+        //    break;
+        //case GLFW_KEY_M:        // Decrease quadratic light attenuation
+        //    if(::g_pLightManager->vecLights[0].attenuation.z < 0.01f)
+        //        ::g_pLightManager->vecLights[0].attenuation.z = 0.0f;
+        //    else
+        //        ::g_pLightManager->vecLights[0].attenuation.z -= 0.01f;
+        //    break;
         case GLFW_KEY_COMMA:
             g_FOV -= 0.01;
             break;
