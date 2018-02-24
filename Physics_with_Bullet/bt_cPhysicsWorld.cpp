@@ -76,7 +76,7 @@ namespace nPhysics
 
 	void bt_cPhysicsWorld::TimeStep(float deltaTime)
 	{
-        this->dynamicsWorld->stepSimulation(deltaTime);
+        this->dynamicsWorld->stepSimulation(deltaTime, 3);
 	}
 
 	void bt_cPhysicsWorld::AddRigidBody(iRigidBody* rigidBody)
