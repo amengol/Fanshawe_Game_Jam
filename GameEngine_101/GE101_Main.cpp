@@ -36,6 +36,7 @@
 #include <bt_cPhysicsFactory.h>
 #include "cPhysics_Switcher.h"
 #include "cLocalization.h"
+#include "cTextManager.h"
 
 //#include "AI\cSimpleAi_Manager.h"
 
@@ -85,6 +86,7 @@ float g_AABBSize = 20.0f;
 float g_FOV = 0.6f;
 //cSimpleAi_Manager g_AiManager;
 cLocalization g_Lococalization;
+cTextManager g_TextManager;
 
 // To deal with sounds
 cSoundManager* g_pSoundManager = NULL;
@@ -184,13 +186,20 @@ int main()
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     glfwSwapInterval(1);
 
-    // Localization -----------------------------------------------------------
+    // Localization and Text---------------------------------------------------
     if (!g_Lococalization.init())
     {
         std::cout << "There was an error initiating the localization process!" << std::endl;
     }
     g_Lococalization.loadLanguageFromXml("assets\\xml\\localization.xml");
     
+    if (!g_TextManager.init())
+    {
+        std::cout << "There was an error initiating the text manager!" << std::endl;
+    }
+    std::vector<std::wstring> ws;
+    ws.push_back(L"Physics with SuperDuper");
+    g_TextManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));    
     //-------------------------------------------------------------------------
 
     // General error string, used for a number of items during start up
@@ -558,6 +567,7 @@ int main()
         
         // Draw localization text ---------------------------------------------
         g_Lococalization.draw(width, height);
+        g_TextManager.draw(width, height);
 
         //::g_pDebugRenderer->RenderDebugObjects(matView, matProjection);
 

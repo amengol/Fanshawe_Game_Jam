@@ -49,7 +49,7 @@
     <Filter Include="Physics Related">
       <UniqueIdentifier>{7e17368d-5d4f-4d63-9ede-02f61a2b9c8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Localization">
+    <Filter Include="Localization and Text">
       <UniqueIdentifier>{85d9b6fd-b80c-42f0-8bd1-f5431f1e9fbb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -168,13 +168,16 @@
       <Filter>Physics Related</Filter>
     </ClCompile>
     <ClCompile Include="cLocalization.cpp">
-      <Filter>Localization</Filter>
+      <Filter>Localization and Text</Filter>
     </ClCompile>
     <ClCompile Include="pugixml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stb_image.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cTextManager.cpp">
+      <Filter>Localization and Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -281,7 +284,10 @@
       <Filter>Physics Related</Filter>
     </ClInclude>
     <ClInclude Include="cLocalization.h">
-      <Filter>Localization</Filter>
+      <Filter>Localization and Text</Filter>
+    </ClInclude>
+    <ClInclude Include="cTextManager.h">
+      <Filter>Localization and Text</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -164,6 +164,7 @@
     <ClCompile Include="cSoundManager.cpp" />
     <ClCompile Include="cSoundManager_Imp.cpp" />
     <ClCompile Include="cSoundObject.cpp" />
+    <ClCompile Include="cTextManager.cpp" />
     <ClCompile Include="cTransparencyManager.cpp" />
     <ClCompile Include="cTriangle.cpp" />
     <ClCompile Include="cVAOMeshManager.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="cSoundManager.h" />
     <ClInclude Include="cSoundManager_Imp.h" />
     <ClInclude Include="cSoundObject.h" />
+    <ClInclude Include="cTextManager.h" />
     <ClInclude Include="OptTriTri.h" />
     <ClInclude Include="cPhysics_Switcher.h" />
     <ClInclude Include="sCollisionTriangle.h" />
