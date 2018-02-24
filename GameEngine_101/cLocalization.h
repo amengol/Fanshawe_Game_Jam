@@ -19,12 +19,19 @@
 // Languages
 enum eSelectedLanguage
 {
-    ENGLIH,
+    ENGLISH,
     FRENCH,
     SPANISH,
     PORTUGUESE,
     CHINESE,
-    INSTRUCTIONS
+};
+
+enum StateMenu
+{
+    MAIN,
+    LANGUAGE,
+    INSTRUCTIONS,
+    DISMISS
 };
 
 struct sLanguageStrings
@@ -50,7 +57,19 @@ public:
     void draw(unsigned int width, unsigned int height);
 
     // Sets a menu to be drawn
-    void setMenu(eSelectedLanguage lang, bool instr = false);
+    void setMenu(eSelectedLanguage selLang, bool instr = false);
+
+    // Set the main selection language menu
+    void setMainMenu();
+
+    // Dismiss the menu
+    void dismiss();
+
+    // Returns the state of the class
+    inline StateMenu getState() { return m_state; }
+
+    // Returns the selected language
+    inline eSelectedLanguage getLanguage() { return m_currentLanguage; }
 
 private:
 
@@ -81,6 +100,8 @@ private:
     std::vector<std::wstring> m_vecStringsToDraw;       // The strings to be drawn  
     std::vector<std::wstring> m_vecMainMenu;            // The main menu as strings
     std::vector<sLanguageStrings> m_vecLanguageStrings; // Stores all languages strings as structs
+    eSelectedLanguage m_currentLanguage;                // Current selected language 
+    StateMenu m_state;                                  // Current state of the localization
     
     // Point struct to draw the box on screen
     struct point
@@ -90,8 +111,5 @@ private:
         GLfloat s;
         GLfloat t;
     };
-
-    eSelectedLanguage currentLanguage;  // Current selected language  
-    std::map<std::wstring, std::vector<std::wstring>> mapLanguages;   // Map languages to their IDs
 };
 

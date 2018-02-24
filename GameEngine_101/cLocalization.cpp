@@ -6,7 +6,8 @@
 
 cLocalization::cLocalization()
 {
-    currentLanguage = eSelectedLanguage::INSTRUCTIONS;
+    m_currentLanguage = eSelectedLanguage::ENGLISH;
+    m_state = MAIN;
 
     // Vertex shader text
     mvs_text =
@@ -40,7 +41,7 @@ void cLocalization::loadLanguageFromXml(std::string file)
     pugi::xml_parse_result result = doc.load_file(file.c_str());
 
     // Loads the main menu
-    pugi::xml_node mainMenu = doc.child(L"Localization").find_child_by_attribute(L"LanguageID", L"IN");
+    pugi::xml_node mainMenu = doc.child(L"Localization").child(L"LanguangeMenu");
     pugi::xml_node_iterator itMainMenu = mainMenu.children().begin();
     for (itMainMenu; itMainMenu != mainMenu.children().end(); itMainMenu++)
     {
@@ -77,22 +78,6 @@ void cLocalization::loadLanguageFromXml(std::string file)
     }
 
     int a = 0;
-
-    //pugi::xml_node_iterator it = doc.children().begin();
-    //for (it; it != doc.children().end(); it++)
-    //{
-    //    pugi::xml_node_iterator it2 = it->children().begin();
-    //    for (it2; it2 != it->children().end(); it2++)
-    //    {
-    //        //fprintf(stdout, "Node name: %s\n", it2->name());
-    //        pugi::xml_node_iterator it3 = it2->children().begin();
-    //        for (it3; it3 != it2->children().end(); it3++)
-    //        {
-
-    //            this->mapLanguages[it2->first_attribute().value()].push_back(it3->child_value());
-    //        }
-    //    }
-    //}
 }
 
 bool cLocalization::init()
@@ -127,11 +112,11 @@ void cLocalization::draw(unsigned int width, unsigned int height)
     glBindVertexArray(0);
 }
 
-void cLocalization::setMenu(eSelectedLanguage lang, bool instr)
+void cLocalization::setMenu(eSelectedLanguage selLang, bool instr)
 {
-    switch (lang)
+    switch (selLang)
     {
-    case ENGLIH:
+    case ENGLISH:
     {
         for (size_t i = 0; i < m_vecLanguageStrings.size(); i++)
         {
@@ -142,11 +127,14 @@ void cLocalization::setMenu(eSelectedLanguage lang, bool instr)
                 if (instr)
                 {
                     m_vecStringsToDraw = lang.languageInstructions;
+                    m_state = INSTRUCTIONS;
                 }
                 else
                 {
                     m_vecStringsToDraw = lang.languageMenu;
+                    m_state = LANGUAGE;
                 }
+                m_currentLanguage = selLang;
                 return;
             }
         }
@@ -163,11 +151,14 @@ void cLocalization::setMenu(eSelectedLanguage lang, bool instr)
                 if (instr)
                 {
                     m_vecStringsToDraw = lang.languageInstructions;
+                    m_state = INSTRUCTIONS;
                 }
                 else
                 {
                     m_vecStringsToDraw = lang.languageMenu;
+                    m_state = LANGUAGE;
                 }
+                m_currentLanguage = selLang;
                 return;
             }
         }
@@ -184,11 +175,14 @@ void cLocalization::setMenu(eSelectedLanguage lang, bool instr)
                 if (instr)
                 {
                     m_vecStringsToDraw = lang.languageInstructions;
+                    m_state = INSTRUCTIONS;
                 }
                 else
                 {
                     m_vecStringsToDraw = lang.languageMenu;
+                    m_state = LANGUAGE;
                 }
+                m_currentLanguage = selLang;
                 return;
             }
         }
@@ -205,11 +199,14 @@ void cLocalization::setMenu(eSelectedLanguage lang, bool instr)
                 if (instr)
                 {
                     m_vecStringsToDraw = lang.languageInstructions;
+                    m_state = INSTRUCTIONS;
                 }
                 else
                 {
                     m_vecStringsToDraw = lang.languageMenu;
+                    m_state = LANGUAGE;
                 }
+                m_currentLanguage = selLang;
                 return;
             }
         }
@@ -226,32 +223,14 @@ void cLocalization::setMenu(eSelectedLanguage lang, bool instr)
                 if (instr)
                 {
                     m_vecStringsToDraw = lang.languageInstructions;
+                    m_state = INSTRUCTIONS;
                 }
                 else
                 {
                     m_vecStringsToDraw = lang.languageMenu;
+                    m_state = LANGUAGE;
                 }
-                return;
-            }
-        }
-    }
-        break;
-    case INSTRUCTIONS:
-    {
-        for (size_t i = 0; i < m_vecLanguageStrings.size(); i++)
-        {
-            if (m_vecLanguageStrings[i].langID == L"IN")
-            {
-                sLanguageStrings lang = m_vecLanguageStrings[i];
-
-                if (instr)
-                {
-                    m_vecStringsToDraw = lang.languageInstructions;
-                }
-                else
-                {
-                    m_vecStringsToDraw = lang.languageMenu;
-                }
+                m_currentLanguage = selLang;
                 return;
             }
         }
@@ -260,6 +239,18 @@ void cLocalization::setMenu(eSelectedLanguage lang, bool instr)
     default:
         break;
     }
+}
+
+void cLocalization::setMainMenu()
+{
+    m_vecStringsToDraw = m_vecMainMenu;
+    m_state = MAIN;
+}
+
+void cLocalization::dismiss()
+{
+    m_vecStringsToDraw.clear();
+    m_state = DISMISS;
 }
 
 GLboolean cLocalization::init_gl()
@@ -332,31 +323,8 @@ GLboolean cLocalization::initfreetype()
 
 void cLocalization::renderSelectedMenu(unsigned int width, unsigned int height)
 {
-    //std::map<std::wstring, std::vector<std::wstring>>::iterator it = mapLanguages.begin();
-
-    //std::vector<std::wstring> selected_strngs;
-
-    //switch (currentLanguage)
-    //{
-    //case ENGLIH:
-    //    selected_strngs = mapLanguages[(L"EN")];
-    //    break;
-    //case FRENCH:
-    //    selected_strngs = mapLanguages[(L"FR")];
-    //    break;
-    //case SPANISH:
-    //    selected_strngs = mapLanguages[(L"SP")];
-    //    break;
-    //case INSTRUCTIONS:
-    //    selected_strngs = mapLanguages[(L"IN")];
-    //    break;
-    //default:
-    //    break;
-    //}
-
-
-    float sx = 2.0f / width;
-    float sy = 2.0f / height;
+    float sx = 1.0f / width;
+    float sy = 1.0f / height;
     GLfloat yoffset = 50.0f;
     GLfloat xoffset = 8 * sx;
 
