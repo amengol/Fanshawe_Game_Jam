@@ -199,6 +199,7 @@ int main()
     }
     std::vector<std::wstring> ws;
     ws.push_back(L"Physics with SuperDuper");
+    ws.push_back(L"[P] to change");
     g_TextManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));    
     //-------------------------------------------------------------------------
 

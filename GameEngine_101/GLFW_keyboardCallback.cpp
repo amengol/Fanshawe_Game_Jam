@@ -293,6 +293,7 @@ void key_callback(GLFWwindow* window,
             gPhysicsSwitcher.SetBullet();
             std::vector<std::wstring> ws;
             ws.push_back(L"Physics with Bullet");
+            ws.push_back(L"[P] to change");
             g_TextManager.setText(ws, glm::vec3(1.0f, 0.0f, 0.0f));
         }            
             break;
@@ -301,6 +302,7 @@ void key_callback(GLFWwindow* window,
             gPhysicsSwitcher.SetSuperDuper();
             std::vector<std::wstring> ws;
             ws.push_back(L"Physics with SuperDuper");
+            ws.push_back(L"[P] to change");
             g_TextManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));
         }            
             break;
