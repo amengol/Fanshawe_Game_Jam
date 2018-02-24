@@ -62,231 +62,231 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="glad.c">
+    <ClCompile Include="src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GE101_Main.cpp">
+    <ClCompile Include="src\GE101_Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities.cpp">
+    <ClCompile Include="src\Utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cGameObject.cpp">
+    <ClCompile Include="src\cGameObject.cpp">
       <Filter>Game Objects Related</Filter>
     </ClCompile>
-    <ClCompile Include="cLightManager.cpp">
+    <ClCompile Include="src\cLightManager.cpp">
       <Filter>Lights Related</Filter>
     </ClCompile>
-    <ClCompile Include="cShader.cpp">
+    <ClCompile Include="src\cShader.cpp">
       <Filter>Shaders Related</Filter>
     </ClCompile>
-    <ClCompile Include="cShaderManager.cpp">
+    <ClCompile Include="src\cShaderManager.cpp">
       <Filter>Shaders Related</Filter>
     </ClCompile>
-    <ClCompile Include="cMesh.cpp">
+    <ClCompile Include="src\cMesh.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
-    <ClCompile Include="cTriangle.cpp">
+    <ClCompile Include="src\cTriangle.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
-    <ClCompile Include="cVAOMeshManager.cpp">
+    <ClCompile Include="src\cVAOMeshManager.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
-    <ClCompile Include="cCameraObject.cpp">
+    <ClCompile Include="src\cCameraObject.cpp">
       <Filter>Cameras Related</Filter>
     </ClCompile>
-    <ClCompile Include="ModelUtilities.cpp">
+    <ClCompile Include="src\ModelUtilities.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
-    <ClCompile Include="cModelAssetLoader.cpp">
+    <ClCompile Include="src\cModelAssetLoader.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
-    <ClCompile Include="GLFW_keyboardCallback.cpp">
+    <ClCompile Include="src\GLFW_keyboardCallback.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="cDebugRenderer.cpp">
+    <ClCompile Include="src\cDebugRenderer.cpp">
       <Filter>DebugRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="generalGLStuff.cpp">
+    <ClCompile Include="src\generalGLStuff.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="cAABBsManager.cpp">
+    <ClCompile Include="src\cAABBsManager.cpp">
       <Filter>AABB</Filter>
     </ClCompile>
-    <ClCompile Include="cAABB.cpp">
+    <ClCompile Include="src\cAABB.cpp">
       <Filter>AABB</Filter>
     </ClCompile>
-    <ClCompile Include="sAABB_Triangle.cpp">
+    <ClCompile Include="src\sAABB_Triangle.cpp">
       <Filter>AABB</Filter>
     </ClCompile>
-    <ClCompile Include="Texture\C24BitBMPpixel.cpp">
+    <ClCompile Include="src\Texture\C24BitBMPpixel.cpp">
       <Filter>Textures Related</Filter>
     </ClCompile>
-    <ClCompile Include="Texture\cBasicTextureManager.cpp">
+    <ClCompile Include="src\Texture\cBasicTextureManager.cpp">
       <Filter>Textures Related</Filter>
     </ClCompile>
-    <ClCompile Include="Texture\CTextureFromBMP.cpp">
+    <ClCompile Include="src\Texture\CTextureFromBMP.cpp">
       <Filter>Textures Related</Filter>
     </ClCompile>
-    <ClCompile Include="cSimpleDebugRenderer.cpp">
+    <ClCompile Include="src\cSimpleDebugRenderer.cpp">
       <Filter>DebugRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="TextureLoader.cpp">
+    <ClCompile Include="src\TextureLoader.cpp">
       <Filter>Textures Related</Filter>
     </ClCompile>
-    <ClCompile Include="cTransparencyManager.cpp">
+    <ClCompile Include="src\cTransparencyManager.cpp">
       <Filter>Game Objects Related</Filter>
     </ClCompile>
-    <ClCompile Include="cSceneLoader.cpp">
+    <ClCompile Include="src\cSceneLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sCollisionTriangle.cpp">
+    <ClCompile Include="src\sCollisionTriangle.cpp">
       <Filter>Game Objects Related</Filter>
     </ClCompile>
-    <ClCompile Include="opttritri.cpp">
+    <ClCompile Include="src\opttritri.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
-    <ClCompile Include="cSoundManager.cpp">
+    <ClCompile Include="src\cSoundManager.cpp">
       <Filter>Sounds Related</Filter>
     </ClCompile>
-    <ClCompile Include="cSoundManager_Imp.cpp">
+    <ClCompile Include="src\cSoundManager_Imp.cpp">
       <Filter>Sounds Related</Filter>
     </ClCompile>
-    <ClCompile Include="cSoundObject.cpp">
+    <ClCompile Include="src\cSoundObject.cpp">
       <Filter>Sounds Related</Filter>
     </ClCompile>
-    <ClCompile Include="cAssimpAssetLoader.cpp">
+    <ClCompile Include="src\cAssimpAssetLoader.cpp">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClCompile>
-    <ClCompile Include="AI\cSimpleAi_Manager.cpp">
+    <ClCompile Include="src\AI\cSimpleAi_Manager.cpp">
       <Filter>AI</Filter>
     </ClCompile>
-    <ClCompile Include="Physics.cpp">
+    <ClCompile Include="src\Physics.cpp">
       <Filter>Physics Related</Filter>
     </ClCompile>
-    <ClCompile Include="cPhysics_Switcher.cpp">
+    <ClCompile Include="src\cPhysics_Switcher.cpp">
       <Filter>Physics Related</Filter>
     </ClCompile>
-    <ClCompile Include="cLocalization.cpp">
+    <ClCompile Include="src\cLocalization.cpp">
       <Filter>Localization and Text</Filter>
     </ClCompile>
-    <ClCompile Include="pugixml.cpp">
+    <ClCompile Include="src\pugixml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stb_image.c">
+    <ClCompile Include="src\stb_image.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cTextManager.cpp">
+    <ClCompile Include="src\cTextManager.cpp">
       <Filter>Localization and Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utilities.h">
+    <ClInclude Include="src\Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cLightManager.h">
+    <ClInclude Include="src\cLightManager.h">
       <Filter>Lights Related</Filter>
     </ClInclude>
-    <ClInclude Include="cShaderManager.h">
+    <ClInclude Include="src\cShaderManager.h">
       <Filter>Shaders Related</Filter>
     </ClInclude>
-    <ClInclude Include="cGameObject.h">
+    <ClInclude Include="src\cGameObject.h">
       <Filter>Game Objects Related</Filter>
     </ClInclude>
-    <ClInclude Include="sVAOInfo.h">
+    <ClInclude Include="src\sVAOInfo.h">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
-    <ClInclude Include="cVAOMeshManager.h">
+    <ClInclude Include="src\cVAOMeshManager.h">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
-    <ClInclude Include="cTriangle.h">
+    <ClInclude Include="src\cTriangle.h">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
-    <ClInclude Include="cMesh.h">
+    <ClInclude Include="src\cMesh.h">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
-    <ClInclude Include="cCameraObject.h">
+    <ClInclude Include="src\cCameraObject.h">
       <Filter>Cameras Related</Filter>
     </ClInclude>
-    <ClInclude Include="sVertex.h">
+    <ClInclude Include="src\sVertex.h">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
-    <ClInclude Include="ModelUtilities.h">
+    <ClInclude Include="src\ModelUtilities.h">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
-    <ClInclude Include="cModelAssetLoader.h">
+    <ClInclude Include="src\cModelAssetLoader.h">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
-    <ClInclude Include="globalGameStuff.h">
+    <ClInclude Include="src\globalGameStuff.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="globalOpenGL_GLFW.h">
+    <ClInclude Include="src\globalOpenGL_GLFW.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="cDebugRenderer.h">
+    <ClInclude Include="src\cDebugRenderer.h">
       <Filter>DebugRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="cAABBsManager.h">
+    <ClInclude Include="src\cAABBsManager.h">
       <Filter>AABB</Filter>
     </ClInclude>
-    <ClInclude Include="sAABB_Triangle.h">
+    <ClInclude Include="src\sAABB_Triangle.h">
       <Filter>AABB</Filter>
     </ClInclude>
-    <ClInclude Include="cAABB.h">
+    <ClInclude Include="src\cAABB.h">
       <Filter>AABB</Filter>
     </ClInclude>
-    <ClInclude Include="Texture\C24BitBMPpixel.h">
+    <ClInclude Include="src\Texture\C24BitBMPpixel.h">
       <Filter>Textures Related</Filter>
     </ClInclude>
-    <ClInclude Include="Texture\cBasicTextureManager.h">
+    <ClInclude Include="src\Texture\cBasicTextureManager.h">
       <Filter>Textures Related</Filter>
     </ClInclude>
-    <ClInclude Include="Texture\CTextureFromBMP.h">
+    <ClInclude Include="src\Texture\CTextureFromBMP.h">
       <Filter>Textures Related</Filter>
     </ClInclude>
-    <ClInclude Include="cSimpleDebugRenderer.h">
+    <ClInclude Include="src\cSimpleDebugRenderer.h">
       <Filter>DebugRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="TextureLoader.h">
+    <ClInclude Include="src\TextureLoader.h">
       <Filter>Textures Related</Filter>
     </ClInclude>
-    <ClInclude Include="cTransparencyManager.h">
+    <ClInclude Include="src\cTransparencyManager.h">
       <Filter>Game Objects Related</Filter>
     </ClInclude>
-    <ClInclude Include="cSceneLoader.h">
+    <ClInclude Include="src\cSceneLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sCollisionTriangle.h">
+    <ClInclude Include="src\sCollisionTriangle.h">
       <Filter>Game Objects Related</Filter>
     </ClInclude>
-    <ClInclude Include="OptTriTri.h">
+    <ClInclude Include="src\OptTriTri.h">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
-    <ClInclude Include="cSoundManager.h">
+    <ClInclude Include="src\cSoundManager.h">
       <Filter>Sounds Related</Filter>
     </ClInclude>
-    <ClInclude Include="cSoundManager_Imp.h">
+    <ClInclude Include="src\cSoundManager_Imp.h">
       <Filter>Sounds Related</Filter>
     </ClInclude>
-    <ClInclude Include="cSoundObject.h">
+    <ClInclude Include="src\cSoundObject.h">
       <Filter>Sounds Related</Filter>
     </ClInclude>
-    <ClInclude Include="cAssimpAssetLoader.h">
+    <ClInclude Include="src\cAssimpAssetLoader.h">
       <Filter>Vertex, Model and Physics Related</Filter>
     </ClInclude>
-    <ClInclude Include="AI\cSimpleAi_Manager.h">
+    <ClInclude Include="src\AI\cSimpleAi_Manager.h">
       <Filter>AI</Filter>
     </ClInclude>
-    <ClInclude Include="Physics.h">
+    <ClInclude Include="src\Physics.h">
       <Filter>Physics Related</Filter>
     </ClInclude>
-    <ClInclude Include="cPhysics_Switcher.h">
+    <ClInclude Include="src\cPhysics_Switcher.h">
       <Filter>Physics Related</Filter>
     </ClInclude>
-    <ClInclude Include="cLocalization.h">
+    <ClInclude Include="src\cLocalization.h">
       <Filter>Localization and Text</Filter>
     </ClInclude>
-    <ClInclude Include="cTextManager.h">
+    <ClInclude Include="src\cTextManager.h">
       <Filter>Localization and Text</Filter>
     </ClInclude>
   </ItemGroup>
