@@ -1,6 +1,6 @@
 <Localization>
 	
-	<Languange LanguageID = "IN">
+	<LanguangeMenu>
 		<L1 type="menu">
 			<Description>1. English</Description>
 		</L1>
@@ -19,37 +19,51 @@
 		<L1 type="esc">
 			<Description>ESC to exit</Description>
 		</L1>	
-	</Languange>
+	</LanguangeMenu>
 	
 	<Languange LanguageID = "EN">
-		<L1 type="instructions">
-			<Description>1. Instructions</Description>
-		</L1>
 		<L1 type="change_language">
-			<Description>2. Change Language</Description>
+			<Description>1. Change Language</Description>
+		</L1>
+		<L1 type="instructions">
+			<Description>2. Instructions</Description>
 		</L1>
 		<L1 type="dismiss">
 			<Description>3. Dismiss this menu</Description>
 			<L2>Active physics Engine: </L2>
 		</L1>
-		<L2>Instruction line 1</L2>
-		<L2>Instruction line 2</L2>
-		<L2>Instruction line 3</L2>
-		<L2>Instruction line 4</L2>
-		<L2>Instruction line 5</L2>
+		<L2>1. Go back</L2>
+		<L2></L2>
+		<L2>Camera controls:</L2>
+		<L2>W/S - Move camera back and forth</L2>
+		<L2>A/D - Move camera left and right</L2>
+		<L2>Q/E - Move camera up and down</L2>
+		<L2>Arrows Up/Down - Set orientation of the camera along its X axis (up and down)</L2>
+		<L2>Arrows Left/Right - Set orientation of the camera along global Y axis (Left and Right)</L2>
+		<L2>Key Minus (-) and Key Equal (=) - Set the zoom (FOV) level up and down</L2>
+		<L2>F - Set wire-frame mode on/off</L2>
+		<L2></L2>
+		<L2>Balls controls:</L2>
+		<L2>They are similar to the camera controls, except for the arrows</L2>
+		<L2>B - cycles through the balls</L2>
+		<L2>Once you select a ball with B you are in "Control Mode". To release the ball press "0"</L2>
+		<L2>L - Lock-on mode. To release the ball, also press "0"</L2>
+		<L2></L2>
+		<L2>P - changes the current physics engine</L2>
 	</Languange>
 
 	<Languange LanguageID = "FR">
-		<L1 type="instructions">
-			<Description>1. Instructions</Description>
-		</L1>
 		<L1 type="change_language">
-			<Description>2. Changer de langue</Description>
+			<Description>1. Changer de langue</Description>
+		</L1>
+		<L1 type="instructions">
+			<Description>2. Instructions</Description>
 		</L1>
 		<L1 type="dismiss">
 			<Description>3. Ignorer ce menu</Description>
 			<L2>Moteur de physique active: </L2>
 		</L1>
+		<L2>1. Retourner</L2>
 		<L2>Ligne d'instruction line 1</L2>
 		<L2>Ligne d'instruction line 2</L2>
 		<L2>Ligne d'instruction line 3</L2>
@@ -58,16 +72,17 @@
 	</Languange>
 	
 	<Languange LanguageID = "SP">
-		<L1 type="instructions">
-			<Description>1. Instrucciones</Description>
-		</L1>
 		<L1 type="change_language">
-			<Description>2. Cambiar idioma</Description>
+			<Description>1. Cambiar idioma</Description>
+		</L1>
+		<L1 type="instructions">
+			<Description>2. Instrucciones</Description>
 		</L1>
 		<L1 type="dismiss">
 			<Description>3. Descartar este menú</Description>
 			<L2>Motor de física activa: </L2>
 		</L1>
+		<L2>1. Volver</L2>
 		<L2>Línea de instrucción 1</L2>
 		<L2>Línea de instrucción 2</L2>
 		<L2>Línea de instrucción 3</L2>
@@ -76,16 +91,17 @@
 	</Languange>
 	
 	<Languange LanguageID = "PTBR">
-		<L1 type="instructions">
-			<Description>1. Instruções</Description>
-		</L1>
 		<L1 type="change_language">
-			<Description>2. Mudar o Idioma</Description>
+			<Description>1. Mudar o Idioma</Description>
+		</L1>
+		<L1 type="instructions">
+			<Description>2. Instruções</Description>
 		</L1>
 		<L1 type="dismiss">
 			<Description>3. Inibir este Menu</Description>
 			<L2>Engine de Física ativa: </L2>
 		</L1>
+		<L2>1. Voltar</L2>
 		<L2>Instrução linha 1</L2>
 		<L2>Instrução linha 2</L2>
 		<L2>Instrução linha 3</L2>
@@ -94,16 +110,17 @@
 	</Languange>
 	
 	<Languange LanguageID = "CH">
-		<L1 type="instructions">
-			<Description>1. 说明</Description>
-		</L1>
 		<L1 type="change_language">
-			<Description>2. 改变语言</Description>
+			<Description>1. 改变语言</Description>
+		</L1>
+		<L1 type="instructions">
+			<Description>2. 说明</Description>
 		</L1>
 		<L1 type="dismiss">
 			<Description>3. 关闭此菜单</Description>
 			<L2>主动物理引擎: </L2>
 		</L1>
+		<L2>1. 回去</L2>
 		<L2>指令行1</L2>
 		<L2>指令行2</L2>
 		<L2>指令行3</L2>
