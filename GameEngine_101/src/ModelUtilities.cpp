@@ -105,7 +105,7 @@ bool Load3DModelsIntoMeshManager(int shaderID,
         bool isPersistent = a[i]["isPersistent"].GetBool();
 
         // Assimp
-        cAssimAssetLoader ail;
+        cAssimpAssetLoader ail;
 
         // Load the models
         if (!ail.Import3DFromFile(filePath + meshFile))
@@ -130,70 +130,6 @@ bool Load3DModelsIntoMeshManager(int shaderID,
         {
             std::cout << "Meshes loaded into the VAO manager.\n";
         }
-
-        //switch(type)
-        //{
-        //case 0:
-        //{
-        //    cMesh mesh;
-        //    mesh.name = meshName;
-        //    if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals(meshFile, mesh))
-        //    {
-        //        //std::cout << "Didn't load model" << std::endl;
-        //        ssError << "Didn't load model >" << mesh.name << "<" << std::endl;
-        //        bAllGood = false;
-        //    }
-
-        //    if(!pVAOManager->loadMeshIntoVAO(mesh, shaderID, isPersistent))
-        //    {
-        //        //std::cout << "Could not load mesh into VAO" << std::endl;
-        //        ssError << "Could not load mesh >" << mesh.name << "< into VAO" << std::endl;
-        //        bAllGood = false;
-        //    }
-        //}
-        //    break;
-        //case 1:
-        //{
-        //    cMesh mesh;
-        //    mesh.name = meshName;
-        //    if(!pModelAssetLoader->LoadPlyFileIntoMeshWithNormals_and_colours(meshFile, mesh))
-        //    {
-        //        //std::cout << "Didn't load model" << std::endl;
-        //        ssError << "Didn't load model >" << mesh.name << "<" << std::endl;
-        //        bAllGood = false;
-        //    }
-
-        //    if(!pVAOManager->loadMeshIntoVAO(mesh, shaderID, isPersistent))
-        //    {
-        //        //std::cout << "Could not load mesh into VAO" << std::endl;
-        //        ssError << "Could not load mesh >" << mesh.name << "< into VAO" << std::endl;
-        //        bAllGood = false;
-        //    }
-        //}
-        //break;
-        //case 2:
-        //{
-        //    cMesh mesh;
-        //    mesh.name = meshName;
-        //    if(!pModelAssetLoader->LoadPlyFileIntoMeshWith_Normals_and_UV(meshFile, mesh))
-        //    {
-        //        //std::cout << "Didn't load model" << std::endl;
-        //        ssError << "Didn't load model >" << mesh.name << "<" << std::endl;
-        //        bAllGood = false;
-        //    }
-
-        //    if(!pVAOManager->loadMeshIntoVAO(mesh, shaderID, isPersistent))
-        //    {
-        //        //std::cout << "Could not load mesh into VAO" << std::endl;
-        //        ssError << "Could not load mesh >" << mesh.name << "< into VAO" << std::endl;
-        //        bAllGood = false;
-        //    }
-        //}
-        //break;
-        //default:
-        //    break;
-        //}    
-
     }
 
     if (!bAllGood)

@@ -1,5 +1,5 @@
-#ifndef _cAssimAssetLoader_HG_
-#define _cAssimAssetLoader_HG_
+#ifndef _cAssimpAssetLoader_HG_
+#define _cAssimpAssetLoader_HG_
 #include <string>
 
 // assimp include files.
@@ -8,11 +8,11 @@
 
 class cVAOMeshManager;
 
-class cAssimAssetLoader
+class cAssimpAssetLoader
 {
 public:
-    cAssimAssetLoader();
-    ~cAssimAssetLoader();
+    cAssimpAssetLoader();
+    ~cAssimpAssetLoader();
 
     // Creates the logger
     void createAILogger();
@@ -46,5 +46,5 @@ private:
     // Create an instance of the Importer class
     Assimp::Importer importer;
 };
-#endif // !_assimAssetLoader_HG_
+#endif // !_assimpAssetLoader_HG_
 

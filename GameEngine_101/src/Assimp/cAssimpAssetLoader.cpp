@@ -10,24 +10,24 @@
 #include "assimp/DefaultLogger.hpp"
 #include "assimp/LogStream.hpp"
 
-cAssimAssetLoader::cAssimAssetLoader()
+cAssimpAssetLoader::cAssimpAssetLoader()
 {
     // To enable loggin, uncoment the next line and all "logInfo" ones
     //this->createAILogger();
     this->scene = NULL;
 }
 
-cAssimAssetLoader::~cAssimAssetLoader()
+cAssimpAssetLoader::~cAssimpAssetLoader()
 {
 }
 
-void cAssimAssetLoader::logInfo(std::string logString)
+void cAssimpAssetLoader::logInfo(std::string logString)
 {
     // Will add message to File with "info" Tag
     Assimp::DefaultLogger::get()->info(logString.c_str());
 }
 
-bool cAssimAssetLoader::Import3DFromFile(const std::string & pFile)
+bool cAssimpAssetLoader::Import3DFromFile(const std::string & pFile)
 {
     // Check if file exists
     std::ifstream fin(pFile.c_str());
@@ -58,7 +58,7 @@ bool cAssimAssetLoader::Import3DFromFile(const std::string & pFile)
     return true;
 }
 
-bool cAssimAssetLoader::loadMeshesIntoVAO(cVAOMeshManager* pVAO,
+bool cAssimpAssetLoader::loadMeshesIntoVAO(cVAOMeshManager* pVAO,
                                           int shaderID,
                                           std::string meshName, 
                                           bool isPersistent)
@@ -78,7 +78,7 @@ bool cAssimAssetLoader::loadMeshesIntoVAO(cVAOMeshManager* pVAO,
     return true;
 }
 
-bool cAssimAssetLoader::recursiveVAOMeshLoader(cVAOMeshManager* pVAO,
+bool cAssimpAssetLoader::recursiveVAOMeshLoader(cVAOMeshManager* pVAO,
                                                int shaderID,
                                                std::string meshName,
                                                const struct aiScene* sc, 
@@ -164,7 +164,7 @@ bool cAssimAssetLoader::recursiveVAOMeshLoader(cVAOMeshManager* pVAO,
     return true;
 }
 
-void cAssimAssetLoader::createAILogger()
+void cAssimpAssetLoader::createAILogger()
 {
     // Change this line to normal if not wanting to analyse the import process
     //Assimp::Logger::LogSeverity severity = Assimp::Logger::NORMAL;
