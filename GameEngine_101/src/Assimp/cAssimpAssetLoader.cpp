@@ -10,13 +10,8 @@
 #include "assimp/DefaultLogger.hpp"
 #include "assimp/LogStream.hpp"
 
-glm::mat4 AIMatrixToGLMMatrix(const aiMatrix4x4 &mat)
-{
-    return glm::mat4(mat.a1, mat.b1, mat.c1, mat.d1,
-                     mat.a2, mat.b2, mat.c2, mat.d2,
-                     mat.a3, mat.b3, mat.c3, mat.d3,
-                     mat.a4, mat.b4, mat.c4, mat.d4);
-}
+#include "animHelper.h"
+#include "cSkinnedMesh.h"
 
 cAssimpAssetLoader::cAssimpAssetLoader()
 {
@@ -59,19 +54,25 @@ bool cAssimpAssetLoader::Import3DFromFile(const std::string & pFile)
         return false;
     }
     else
-    {
-        this->fileName = pFile;
-        // Assume the friendlyName is the same as the file, for now
-        this->friendlyName = pFile;
+    {       
 
-        this->mGlobalInverseTransformation = AIMatrixToGLMMatrix(this->scene->mRootNode->mTransformation);
-        this->mGlobalInverseTransformation = glm::inverse(this->mGlobalInverseTransformation);
+        for (size_t i = 0; i < this->scene->mNumMeshes; i++)
+        {
+            aiMesh* mesh = this->scene->mMeshes[i];
 
-        // Calcualte all the bone things
-        if (!this->Initialize())
-        {	// There was an issue doing this calculation
-            return false;
+            if (mesh->HasBones())
+            {
+                // Skinned mesh
+                glm::mat4 globalInverseTransformation = AIMatrixToGLMMatrix(this->scene->mRootNode->mTransformation);
+                globalInverseTransformation = glm::inverse(globalInverseTransformation);
+
+                // TODO
+                cSkinnedMesh* sMesh = new cSkinnedMesh(pFile, pFile, this->scene->mMeshes[0], globalInverseTransformation);
+            }
         }
+
+       
+
     }
 
     // Now we can access the file's contents.
@@ -99,54 +100,6 @@ bool cAssimpAssetLoader::loadMeshesIntoVAO(cVAOMeshManager* pVAO,
 
     //this->logInfo("========= loadMeshesIntoVAO Succeeded ==============");
     return true;
-}
-
-bool cAssimpAssetLoader::Initialize(void)
-{
-    this->m_numberOfVertices = this->scene->mMeshes[0]->mNumVertices;
-
-    // This is the vertex information for JUST the bone stuff
-    this->vecVertexBoneData.resize(this->m_numberOfVertices);
-
-    this->LoadBones(this->scene->mMeshes[0], this->vecVertexBoneData);
-
-    return true;
-}
-
-void cAssimpAssetLoader::LoadBones(const aiMesh * Mesh, std::vector<sVertexBoneData>& vertexBoneData)
-{
-    for (unsigned int boneIndex = 0; boneIndex != Mesh->mNumBones; boneIndex++)
-    {
-        unsigned int BoneIndex = 0;
-        std::string BoneName(Mesh->mBones[boneIndex]->mName.data);
-
-        //	std::map<std::string /*BoneName*/, unsigned int /*BoneIndex*/> mMapping;
-        // 	std::vector<sBoneInfo> mInfo;
-
-        std::map<std::string, unsigned int>::iterator it = this->m_mapBoneNameToBoneIndex.find(BoneName);
-        if (it == this->m_mapBoneNameToBoneIndex.end())
-        {
-            BoneIndex = this->mNumBones;
-            this->mNumBones++;
-            sBoneInfo bi;
-            this->mBoneInfo.push_back(bi);
-
-            this->mBoneInfo[BoneIndex].BoneOffset = AIMatrixToGLMMatrix(Mesh->mBones[boneIndex]->mOffsetMatrix);
-            this->m_mapBoneNameToBoneIndex[BoneName] = BoneIndex;
-        }
-        else
-        {
-            BoneIndex = it->second;
-        }
-
-        for (unsigned int WeightIndex = 0; WeightIndex != Mesh->mBones[boneIndex]->mNumWeights; WeightIndex++)
-        {
-            unsigned int VertexID = /*mMeshEntries[MeshIndex].BaseVertex +*/ Mesh->mBones[boneIndex]->mWeights[WeightIndex].mVertexId;
-            float Weight = Mesh->mBones[boneIndex]->mWeights[WeightIndex].mWeight;
-            vertexBoneData[VertexID].AddBoneData(BoneIndex, Weight);
-        }
-    }
-    return;
 }
 
 bool cAssimpAssetLoader::recursiveVAOMeshLoader(cVAOMeshManager* pVAO,
@@ -249,17 +202,4 @@ void cAssimpAssetLoader::createAILogger()
 
     // Now I am ready for logging my stuff
     Assimp::DefaultLogger::get()->info("Starting the Assimp Logger");
-}
-
-void cAssimpAssetLoader::sVertexBoneData::AddBoneData(unsigned int BoneID, float Weight)
-{
-    for (unsigned int Index = 0; Index < sizeof(this->ids) / sizeof(this->ids[0]); Index++)
-    {
-        if (this->weights[Index] == 0.0f)
-        {
-            this->ids[Index] = (float)BoneID;
-            this->weights[Index] = Weight;
-            return;
-        }
-    }
 }

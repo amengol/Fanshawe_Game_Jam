@@ -203,6 +203,15 @@
     <ClCompile Include="src\Assimp\cAssimpAssetLoader.cpp">
       <Filter>Assimp</Filter>
     </ClCompile>
+    <ClCompile Include="src\Assimp\animHelper.cpp">
+      <Filter>Assimp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assimp\cAnimationCollection.cpp">
+      <Filter>Assimp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assimp\cSkinnedMesh.cpp">
+      <Filter>Assimp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utilities.h">
@@ -323,6 +332,15 @@
       <Filter>Textures Related</Filter>
     </ClInclude>
     <ClInclude Include="src\Assimp\cAssimpAssetLoader.h">
+      <Filter>Assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assimp\animHelper.h">
+      <Filter>Assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assimp\cAnimationCollection.h">
+      <Filter>Assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assimp\cSkinnedMesh.h">
       <Filter>Assimp</Filter>
     </ClInclude>
   </ItemGroup>

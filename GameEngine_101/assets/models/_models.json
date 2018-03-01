@@ -10,6 +10,8 @@
 
 {"Meshes" : 
 [
+{"meshName" : "RPG", "meshFile" : "RPG-Character(FBX2013).FBX", "type" : 1, "isPersistent" : false},
+{"meshName" : "RPG-Anim1", "meshFile" : "RPG-Character_Unarmed-Attack-Kick-L1(FBX2013).FBX", "type" : 1, "isPersistent" : false},
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply", "type" : 0, "isPersistent" : false},
 {"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply", "type" : 0, "isPersistent" : false},
 {"meshName" : "Wooden_Elements", "meshFile" : "Wooden_Elements.obj", "type" : 2, "isPersistent" : false},

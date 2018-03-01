@@ -79,6 +79,37 @@
 
 "GameObject" :
 [	
+#{ 
+#		"meshName" : "RPG",
+#		"friendlyName" : "",
+#		"typeOfObject" : 3,
+#		"radius" : 0.0,
+#		"position" : [0.0, 0.0, 0.0], 
+#		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
+#		"hasMaterialColour" : true,
+#		"specular" : [0.0, 0.0, 0.0, 1.0],		
+#		"scale" : 0.1,
+#		"bIsUpdatedInPhysics" : false,
+#		"bIsWireFrame" : false,
+#		"isDebugAABBActive" : false,
+#		"textureBlend[0]" : 1.0,
+#		"textureNames[0]" : "",
+#		"textureBlend[1]" : 0.0,
+#		"textureNames[1]" : "",
+#		"textureBlend[2]" : 0.0,
+#		"textureNames[2]" : "",
+#		"hasAlpha" : false,
+#		"useDiscardAlpha" : false,
+#		"cullFace" : true,
+#		"hasReflection" : false,
+#		"rotateX" : 0.0,
+#		"rotateY" : 0.0,
+#		"rotateZ" : 0.0,
+#		"hasToBeSorted" : false,
+#		"hasCollisionMesh" : false,
+#		"numCollisionMeshes" : 0,
+#		"collisionMeshesNames" : []	
+#	},
 	{ 
 		"meshName" : "SkyBox",
 		"friendlyName" : "",

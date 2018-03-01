@@ -150,7 +150,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AI\cSimpleAi_Manager.cpp" />
+    <ClCompile Include="src\Assimp\animHelper.cpp" />
+    <ClCompile Include="src\Assimp\cAnimationCollection.cpp" />
     <ClCompile Include="src\Assimp\cAssimpAssetLoader.cpp" />
+    <ClCompile Include="src\Assimp\cSkinnedMesh.cpp" />
     <ClCompile Include="src\cAABB.cpp" />
     <ClCompile Include="src\cAABBsManager.cpp" />
     <ClCompile Include="src\cCameraObject.cpp" />
@@ -194,7 +197,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AI\cSimpleAi_Manager.h" />
+    <ClInclude Include="src\Assimp\animHelper.h" />
+    <ClInclude Include="src\Assimp\cAnimationCollection.h" />
     <ClInclude Include="src\Assimp\cAssimpAssetLoader.h" />
+    <ClInclude Include="src\Assimp\cSkinnedMesh.h" />
     <ClInclude Include="src\cAABB.h" />
     <ClInclude Include="src\cAABBsManager.h" />
     <ClInclude Include="src\cCameraObject.h" />
