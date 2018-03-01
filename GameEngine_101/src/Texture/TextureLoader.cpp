@@ -1,12 +1,12 @@
 #include "TextureLoader.h"
-#include "Texture\cBasicTextureManager.h"
+#include "CTextureManager.h"
 #include <iostream>
 
-extern cBasicTextureManager* g_pTextureManager;
+extern CTextureManager* g_pTextureManager;
 
 bool loadTextures()
 {
-    ::g_pTextureManager = new cBasicTextureManager();
+    ::g_pTextureManager = new CTextureManager();
 
     //::g_pTextureManager->SetBasePath("assets/textures/skybox");
     //if(!::g_pTextureManager->CreateCubeTextureFromBMPFiles(
@@ -21,7 +21,7 @@ bool loadTextures()
     //    std::cout << "Didn't load skybox" << std::endl;
     //}
 
-    ::g_pTextureManager->SetBasePath("assets/textures/skybox");
+    ::g_pTextureManager->setBasePath("assets/textures/skybox");
     if (!::g_pTextureManager->CreateCubeTextureFromBMPFiles(
         "space",
         "DaySky_Right.bmp",
@@ -34,7 +34,7 @@ bool loadTextures()
         std::cout << "Didn't load skybox" << std::endl;
     }
 
-    ::g_pTextureManager->SetBasePath("assets/textures");
+    ::g_pTextureManager->setBasePath("assets/textures");
 
     //if (!::g_pTextureManager->Create2DTextureFromBMPFile("delorean.bmp", true))
     //{

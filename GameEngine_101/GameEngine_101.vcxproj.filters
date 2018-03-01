@@ -52,12 +52,24 @@
     <Filter Include="Localization and Text">
       <UniqueIdentifier>{85d9b6fd-b80c-42f0-8bd1-f5431f1e9fbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Error">
+      <UniqueIdentifier>{8708b02f-f7bf-434b-8f41-e608f68b2798}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\newFrag.glsl">
       <Filter>Shaders Related</Filter>
     </None>
     <None Include="assets\shaders\newVert.glsl">
+      <Filter>Shaders Related</Filter>
+    </None>
+    <None Include="assets\shaders\debugFrag.glsl">
+      <Filter>Shaders Related</Filter>
+    </None>
+    <None Include="assets\shaders\debugGeom.glsl">
+      <Filter>Shaders Related</Filter>
+    </None>
+    <None Include="assets\shaders\debugVert.glsl">
       <Filter>Shaders Related</Filter>
     </None>
   </ItemGroup>
@@ -119,20 +131,8 @@
     <ClCompile Include="src\sAABB_Triangle.cpp">
       <Filter>AABB</Filter>
     </ClCompile>
-    <ClCompile Include="src\Texture\C24BitBMPpixel.cpp">
-      <Filter>Textures Related</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Texture\cBasicTextureManager.cpp">
-      <Filter>Textures Related</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Texture\CTextureFromBMP.cpp">
-      <Filter>Textures Related</Filter>
-    </ClCompile>
     <ClCompile Include="src\cSimpleDebugRenderer.cpp">
       <Filter>DebugRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TextureLoader.cpp">
-      <Filter>Textures Related</Filter>
     </ClCompile>
     <ClCompile Include="src\cTransparencyManager.cpp">
       <Filter>Game Objects Related</Filter>
@@ -178,6 +178,27 @@
     </ClCompile>
     <ClCompile Include="src\cTextManager.cpp">
       <Filter>Localization and Text</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Error\CErrorLog.cpp">
+      <Filter>Error</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Error\COpenGLError.cpp">
+      <Filter>Error</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture\C24BitBMPpixel.cpp">
+      <Filter>Textures Related</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture\CTextureFromBMP.cpp">
+      <Filter>Textures Related</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture\CTextureManager.cpp">
+      <Filter>Textures Related</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture\TextureLoader.cpp">
+      <Filter>Textures Related</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cDebugRenderer_BuiltInShapes.cpp">
+      <Filter>DebugRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,20 +256,8 @@
     <ClInclude Include="src\cAABB.h">
       <Filter>AABB</Filter>
     </ClInclude>
-    <ClInclude Include="src\Texture\C24BitBMPpixel.h">
-      <Filter>Textures Related</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Texture\cBasicTextureManager.h">
-      <Filter>Textures Related</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Texture\CTextureFromBMP.h">
-      <Filter>Textures Related</Filter>
-    </ClInclude>
     <ClInclude Include="src\cSimpleDebugRenderer.h">
       <Filter>DebugRenderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\TextureLoader.h">
-      <Filter>Textures Related</Filter>
     </ClInclude>
     <ClInclude Include="src\cTransparencyManager.h">
       <Filter>Game Objects Related</Filter>
@@ -288,6 +297,30 @@
     </ClInclude>
     <ClInclude Include="src\cTextManager.h">
       <Filter>Localization and Text</Filter>
+    </ClInclude>
+    <ClInclude Include="src\iDebugRenderer.h">
+      <Filter>DebugRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Error\CErrorLog.h">
+      <Filter>Error</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Error\COpenGLError.h">
+      <Filter>Error</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture\C24BitBMPpixel.h">
+      <Filter>Textures Related</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture\CTextureFromBMP.h">
+      <Filter>Textures Related</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture\CTextureManager.h">
+      <Filter>Textures Related</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture\CTexUnitInfoBrief.h">
+      <Filter>Textures Related</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture\TextureLoader.h">
+      <Filter>Textures Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

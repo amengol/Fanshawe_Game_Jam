@@ -1,48 +1,15 @@
 #include "cDebugRenderer.h"
-
 #include "globalOpenGL_GLFW.h"
-
 #include "cShaderManager.h"
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <sstream>		
+#include <fstream>
 
-#include <glm/mat4x4.hpp> // glm::mat4
-#include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
-#include <glm/gtc/type_ptr.hpp> // glm::value_ptr
-
-
-/*static*/ 
-const std::string cDebugRenderer::DEFAULT_VERT_SHADER_SOURCE = "\
-        #version 420                                    \n \
-		                                                \n \
-        uniform mat4 mModel;                            \n \
-        uniform mat4 mView;                             \n \
-        uniform mat4 mProjection;                       \n \
-		                                                \n \
-        in vec4 vPosition;                              \n \
-        in vec4 vColour;                                \n \
-		                                                \n \
-        out vec4 vertColour;                            \n \
-		                                                \n \
-        void main()                                     \n \
-        {                                               \n \
-            mat4 MVP = mProjection * mView * mModel;    \n \
-            gl_Position = MVP * vPosition;              \n \
-		                                                \n \
-            vertColour = vColour;                       \n \
-        }\n";
-
-/*static*/ 
-const std::string cDebugRenderer::DEFAULT_FRAG_SHADER_SOURCE = "\
-        #version 420                                \n \
-                                                    \n \
-        in vec4 vertColour;                         \n \
-                                                    \n \
-        void main()                                 \n \
-        {                                           \n \
-            gl_FragColor.rgb = vertColour.rgb;      \n \
-            gl_FragColor.a = vertColour.a;          \n \
-        }\n	";
-
-
+// Used to hold the default sphere shape
+extern float default_sphere_array [];
+extern unsigned int default_sphere_array_size;
 
 
 class cDebugRenderer::cShaderProgramInfo
@@ -56,6 +23,7 @@ public:
 	{};
 	cShaderManager::cShader vertShader;
 	cShaderManager::cShader fragShader;
+	cShaderManager::cShader geomShader;
 	unsigned int shaderProgramID;
 	// Uniforms in the shader
 	int matProjectionUniformLoc;
@@ -68,14 +36,18 @@ bool cDebugRenderer::initialize(std::string &error)
 {
 	cShaderManager shaderManager;
 
-	this->m_pShaderProg->vertShader.parseStringIntoMultiLine(this->m_vertexShaderSource);
-	this->m_pShaderProg->fragShader.parseStringIntoMultiLine(this->m_fragmentShaderSource);
+	shaderManager.setBasePath( "assets/shaders/" );
+	this->m_pShaderProg->vertShader.fileName = "debugVert.glsl";
+	this->m_pShaderProg->geomShader.fileName = "debugGeom.glsl";
+	this->m_pShaderProg->fragShader.fileName = "debugFrag.glsl";
 
-	if ( ! shaderManager.createProgramFromSource( "debugShader", 
-												  this->m_pShaderProg->vertShader, 
-												  this->m_pShaderProg->fragShader ) )
+	if ( ! shaderManager.createProgramFromFile( "debugShader", 
+												this->m_pShaderProg->vertShader,
+												this->m_pShaderProg->geomShader,
+												this->m_pShaderProg->fragShader) )
 	{
 		error = "Could not create the debug shader program.\n" + shaderManager.getLastError();
+		this->m_lastError = error;
 		return false;
 	}
 	// The shader was compiled, so get the shader program number
@@ -101,6 +73,11 @@ bool cDebugRenderer::initialize(std::string &error)
 	{
 		return false;
 	}
+	
+	// Load the default sphere
+	std::vector<sDebugTri> vecSphereTris;
+	this->QnD_loadHeaderArrayInto_vecTri( default_sphere_array, default_sphere_array_size, vecSphereTris);
+	this->loadDebugMesh("sphere", vecSphereTris);
 
 	return true;
 }
@@ -113,24 +90,25 @@ bool cDebugRenderer::resizeBufferForPoints(unsigned int newNumberOfPoints)
 
 bool cDebugRenderer::resizeBufferForLines(unsigned int newNumberOfLines)
 {
-    // ***********************************************************
-    // TODO: Erase the old array and buffer if present
-    // ***********************************************************
-
-    this->m_VAOBufferInfoLines.bufferSizeObjects = newNumberOfLines;
-    this->m_VAOBufferInfoLines.bufferSizeVertices = newNumberOfLines * 2;
-    this->m_VAOBufferInfoLines.bufferSizeBytes = 0;
-    this->m_VAOBufferInfoLines.numberOfObjectsToDraw = 0;
-    this->m_VAOBufferInfoLines.numberOfVerticesToDraw = 0;
-    this->m_VAOBufferInfoLines.shaderID = this->m_pShaderProg->shaderProgramID;
-    return this->m_InitBuffer(this->m_VAOBufferInfoLines);
+	//TODO
+	return true;
 }
 
 bool cDebugRenderer::resizeBufferForTriangles(unsigned int newNumberOfTriangles)
 {
-	// ***********************************************************
-	// TODO: Erase the old array and buffer if present
-	// ***********************************************************
+	// Erase any exisiting buffers 
+	if ( this->m_VAOBufferInfoTriangles.bIsValid )
+	{	// Assume it exists, so delete it
+		delete [] this->m_VAOBufferInfoTriangles.pLocalVertexArray;
+
+		glDeleteBuffers(1, &(this->m_VAOBufferInfoTriangles.vertex_buffer_ID) );
+
+		glDeleteVertexArrays( 1, &(this->m_VAOBufferInfoTriangles.VAO_ID) );
+	}//if...
+
+	// Add a buffer of 10% to the size, because I'm a pessimist...
+	// (Written this way to avoid a type conversion warning)
+	newNumberOfTriangles = (unsigned int)(newNumberOfTriangles * 1.1);	
 
 	this->m_VAOBufferInfoTriangles.bufferSizeObjects = newNumberOfTriangles;
 	this->m_VAOBufferInfoTriangles.bufferSizeVertices = newNumberOfTriangles * 3;
@@ -201,6 +179,8 @@ bool cDebugRenderer::m_InitBuffer(sVAOInfoDebug &VAOInfo)
 						  reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_R_IN_CVERTEX)) );	// 64-bit
 	// *******************************************************************
 
+	VAOInfo.bIsValid = true;
+
 	// CRITICAL 
 	// Unbind the VAO first!!!!
 	glBindVertexArray( 0 );	// 
@@ -225,9 +205,6 @@ bool cDebugRenderer::IsOK(void)
 
 cDebugRenderer::cDebugRenderer()
 {
-	this->m_vertexShaderSource = cDebugRenderer::DEFAULT_VERT_SHADER_SOURCE;
-	this->m_fragmentShaderSource = cDebugRenderer::DEFAULT_FRAG_SHADER_SOURCE;
-
 	this->m_pShaderProg = new cShaderProgramInfo();
 	return;
 }
@@ -242,12 +219,23 @@ cDebugRenderer::~cDebugRenderer()
 }
 
 
-void cDebugRenderer::RenderDebugObjects(glm::mat4 matCameraView, glm::mat4 matProjection)
+void cDebugRenderer::RenderDebugObjects(glm::mat4 matCameraView, glm::mat4 matProjection, double deltaTime)
 {
-	this->m_copyTrianglesIntoRenderBuffer();
-	this->m_copyLinesIntoRenderBuffer();
-//	this->m_copyPointsIntoRenderBuffer();
+	this->m_copyTrianglesIntoRenderBuffer(deltaTime);
+	this->m_RenderDebugTriangles(matCameraView, matProjection, deltaTime);
 
+	this->m_copyLinesIntoRenderBuffer(deltaTime);
+	this->m_RenderDebugLines(matCameraView, matProjection, deltaTime);
+
+	this->m_copyPointsIntoRenderBuffer(deltaTime);
+	this->m_RenderDebugPoints(matCameraView, matProjection, deltaTime);
+
+	return;
+}
+
+
+void cDebugRenderer::m_RenderDebugTriangles(glm::mat4 matCameraView, glm::mat4 matProjection, double deltaTime)
+{
 	// Start rendering 
 	glUseProgram(this->m_pShaderProg->shaderProgramID);
 
@@ -280,11 +268,6 @@ void cDebugRenderer::RenderDebugObjects(glm::mat4 matCameraView, glm::mat4 matPr
 	glBindVertexArray( 0 );
 
 	// Draw lines
-    glBindVertexArray(this->m_VAOBufferInfoLines.VAO_ID);
-    glDrawArrays(GL_LINES,
-        0,		// 1st vertex
-        this->m_VAOBufferInfoLines.numberOfVerticesToDraw);
-    glBindVertexArray(0);
 
 	// Draw points
 
@@ -299,12 +282,34 @@ void cDebugRenderer::RenderDebugObjects(glm::mat4 matCameraView, glm::mat4 matPr
 	return;
 }
 
-void cDebugRenderer::m_copyTrianglesIntoRenderBuffer(void)
+void cDebugRenderer::m_RenderDebugLines(glm::mat4 matCameraView, glm::mat4 matProjection, double deltaTime)
+{
+	// TODO: 
+
+	return;
+}
+
+void cDebugRenderer::m_RenderDebugPoints(glm::mat4 matCameraView, glm::mat4 matProjection, double deltaTime)
+{
+	// TODO:
+	
+	return;
+}
+
+
+void cDebugRenderer::m_copyTrianglesIntoRenderBuffer(double deltaTime)
 {
 	// Used to keep the "persistent" ones...
-	std::vector<sDebugTri> vecTriTemp;
+	std::vector<drTri> vecTriTemp;
 
 	this->m_VAOBufferInfoTriangles.numberOfObjectsToDraw = (unsigned int)this->m_vecTriangles.size();
+
+	// Is the draw buffer big enough? 
+	if ( this->m_VAOBufferInfoTriangles.bufferSizeObjects < this->m_VAOBufferInfoTriangles.numberOfObjectsToDraw )
+	{
+		// Resize the buffer
+		this->resizeBufferForTriangles( this->m_VAOBufferInfoTriangles.numberOfObjectsToDraw );
+	}
 
 	this->m_VAOBufferInfoTriangles.numberOfVerticesToDraw
 		= this->m_VAOBufferInfoTriangles.numberOfObjectsToDraw * 3;	// Triangles
@@ -312,9 +317,9 @@ void cDebugRenderer::m_copyTrianglesIntoRenderBuffer(void)
 	unsigned int vertexIndex = 0;	// index of the vertex buffer to copy into 
 	unsigned int triIndex = 0;		// index of the triangle buffer
 	for (; triIndex != this->m_VAOBufferInfoTriangles.numberOfObjectsToDraw; 
-		   triIndex++)
+		   triIndex++, vertexIndex += 3)
 	{
-		sDebugTri& curTri = this->m_vecTriangles[triIndex];
+		drTri& curTri = this->m_vecTriangles[triIndex];
 		this->m_VAOBufferInfoTriangles.pLocalVertexArray[vertexIndex+0].x = curTri.v[0].x;
 		this->m_VAOBufferInfoTriangles.pLocalVertexArray[vertexIndex+0].y = curTri.v[0].y;
 		this->m_VAOBufferInfoTriangles.pLocalVertexArray[vertexIndex+0].z = curTri.v[0].z;
@@ -342,10 +347,10 @@ void cDebugRenderer::m_copyTrianglesIntoRenderBuffer(void)
 		this->m_VAOBufferInfoTriangles.pLocalVertexArray[vertexIndex+2].b = curTri.colour.b;
 		this->m_VAOBufferInfoTriangles.pLocalVertexArray[vertexIndex+2].a = 1.0f;
 
-        vertexIndex += 3;
+		curTri.lifeTime -= static_cast<float>(deltaTime);
 
 		// Keep this one? (i.e. is persistent?)
-		if (curTri.bPersist)
+		if (curTri.lifeTime > 0.0f)
 		{
 			vecTriTemp.push_back(curTri);
 		}
@@ -354,7 +359,7 @@ void cDebugRenderer::m_copyTrianglesIntoRenderBuffer(void)
 
 	// Clear the triangle list and push back the persistent ones
 	this->m_vecTriangles.clear();
-	for (std::vector<sDebugTri>::iterator itTri = vecTriTemp.begin(); itTri != vecTriTemp.end(); itTri++)
+	for (std::vector<drTri>::iterator itTri = vecTriTemp.begin(); itTri != vecTriTemp.end(); itTri++)
 	{
 		this->m_vecTriangles.push_back(*itTri);
 	}
@@ -379,177 +384,162 @@ void cDebugRenderer::m_copyTrianglesIntoRenderBuffer(void)
 	std::string errDetails;
 	if (err != GL_NO_ERROR)
 	{
-		error = decodeGLErrorFromEnum(err, errDetails);
+		error = COpenGLError::TranslateErrorEnum(err);
 	}
 
-	//	numberOfBytesToCopy,
-	//	this->m_VAOBufferInfoTriangles.pLocalVertexArray,
-	//	GL_DYNAMIC_DRAW);
-	
-	//	void* pGPUBuff = glMapBuffer( this->m_VAOBufferInfoTriangles.vertex_buffer_ID,
-     //                             GL_COPY_WRITE_BUFFER);
-	//memcpy(
-	//	this->m_VAOBufferInfoTriangles.pLocalVertexArray,
-	//	pGPUBuff,
-	//	numberOfBytesToCopy);
 
-
-
-//	glUnmapBuffer(this->m_VAOBufferInfoTriangles.vertex_buffer_ID);
 
 	return;
 }
 
-void cDebugRenderer::m_copyLinesIntoRenderBuffer(void)
+
+void cDebugRenderer::m_copyLinesIntoRenderBuffer(double deltaTime)
 {
-    // Used to keep the "persistent" ones...
-    std::vector<sDebugLine> vecLineTemp;
+	//TODO:
 
-    this->m_VAOBufferInfoLines.numberOfObjectsToDraw = (unsigned int)this->m_vecLines.size();
+	return;
+}
 
-    this->m_VAOBufferInfoLines.numberOfVerticesToDraw
-        = this->m_VAOBufferInfoLines.numberOfObjectsToDraw * 2;	// Lines
+void cDebugRenderer::m_copyPointsIntoRenderBuffer(double deltaTime)
+{
+	// TODO: 
 
-    unsigned int vertexIndex = 0;	// index of the vertex buffer to copy into 
-    unsigned int LineIndex = 0;		// index of the line buffer
-    for (; LineIndex != this->m_VAOBufferInfoLines.numberOfObjectsToDraw;
-        LineIndex++)
-    {
-        sDebugLine& curLine = this->m_vecLines[LineIndex];
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].x = curLine.points[0].x;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].y = curLine.points[0].y;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].z = curLine.points[0].z;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].w = 1.0f;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].r = curLine.colour.r;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].g = curLine.colour.g;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].b = curLine.colour.b;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 0].a = 1.0f;
+	return;
+}
 
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].x = curLine.points[1].x;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].y = curLine.points[1].y;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].z = curLine.points[1].z;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].w = 1.0f;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].r = curLine.colour.r;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].g = curLine.colour.g;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].b = curLine.colour.b;
-        this->m_VAOBufferInfoLines.pLocalVertexArray[vertexIndex + 1].a = 1.0f;
-
-        vertexIndex += 2;
-
-        // Keep this one? (i.e. is persistent?)
-        if (curLine.bPersist)
-        {
-            vecLineTemp.push_back(curLine);
-        }
-    }//for (; 
-
-
-     // Clear the line list and push back the persistent ones
-    this->m_vecLines.clear();
-    for (std::vector<sDebugLine>::iterator itLine = vecLineTemp.begin(); itLine != vecLineTemp.end(); itLine++)
-    {
-        this->m_vecLines.push_back(*itLine);
-    }
-
-    // Copy the new vertex information to the vertex buffer
-    // Copy the local vertex array into the GPUs memory
-    unsigned int numberOfBytesToCopy =
-        this->m_VAOBufferInfoLines.numberOfVerticesToDraw *
-        sizeof(sVertex_xyzw_rgba);
-
-    GLenum err = glGetError();
-
-    glBindBuffer(GL_ARRAY_BUFFER, this->m_VAOBufferInfoLines.vertex_buffer_ID);
-    glBufferData(GL_ARRAY_BUFFER,
-        numberOfBytesToCopy,
-        this->m_VAOBufferInfoLines.pLocalVertexArray,
-        GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    err = glGetError();
-    std::string error;
-    std::string errDetails;
-    if (err != GL_NO_ERROR)
-    {
-        error = decodeGLErrorFromEnum(err, errDetails);
-    }
-
-    //	numberOfBytesToCopy,
-    //	this->m_VAOBufferInfoTriangles.pLocalVertexArray,
-    //	GL_DYNAMIC_DRAW);
-
-    //	void* pGPUBuff = glMapBuffer( this->m_VAOBufferInfoTriangles.vertex_buffer_ID,
-    //                             GL_COPY_WRITE_BUFFER);
-    //memcpy(
-    //	this->m_VAOBufferInfoTriangles.pLocalVertexArray,
-    //	pGPUBuff,
-    //	numberOfBytesToCopy);
-
-
-
-    //	glUnmapBuffer(this->m_VAOBufferInfoTriangles.vertex_buffer_ID);
-
-    return;
+void cDebugRenderer::addTriangle(glm::vec3 v1XYZ, glm::vec3 v2XYZ, glm::vec3 v3XYZ, glm::vec3 colour, float lifeTime/*=0.0f*/)
+{
+	drTri tempTri(v1XYZ, v2XYZ, v3XYZ, colour, lifeTime);
+	this->addTriangle(tempTri);
+	return;
 }
 
 
-cDebugRenderer::sDebugTri::sDebugTri()
+void cDebugRenderer::addTriangle(drTri &tri)
+{
+	this->m_vecTriangles.push_back(tri);
+	return;
+}
+
+void cDebugRenderer::addLine(glm::vec3 startXYZ, glm::vec3 endXYZ, glm::vec3 colour, float lifeTime/*=0.0f*/)
+{
+	drLine tempLine(startXYZ, endXYZ, colour, lifeTime);
+	this->addLine(tempLine);
+	return;
+}
+
+void cDebugRenderer::addLine(drLine &line)
+{
+	this->m_vecLines.push_back(line);
+	return;
+}
+
+void cDebugRenderer::addPoint(glm::vec3 xyz, glm::vec3 colour, float lifeTime/*=0.0f*/, float pointSize/*=1.0f*/)
+{
+	drPoint tempPoint(xyz, colour, lifeTime, pointSize);
+	this->addPoint(tempPoint);
+	return;
+}
+
+void cDebugRenderer::addPoint(drPoint &point)
+{
+	this->m_vecPoints.push_back(point);
+	return;
+}
+
+// Replaces the DrawDebugSphere
+void cDebugRenderer::addDebugSphere(glm::vec3 xyz, glm::vec3 colour, float scale, float lifeTime/*=0.0f*/)
+{
+	iDebugRenderer::sDebugMesh sphereMesh;
+	sphereMesh.name = iDebugRenderer::DEFAULT_DEBUG_SPHERE_MESH_NAME;
+	sphereMesh.scale = scale;
+	sphereMesh.xyz = xyz;
+	sphereMesh.colour = colour;
+	sphereMesh.lifeTime = lifeTime;
+	this->m_vecMeshes.push_back(sphereMesh);
+	return;
+}
+
+std::string cDebugRenderer::getLastError(bool bClearError /*=true*/)
+{
+	std::string theLastError = this->m_lastError;
+	if ( bClearError )
+	{
+		this->m_lastError = "";
+	}
+	return theLastError;
+}
+
+
+
+// *********************************************************
+//	 ___      _                ___ _                      
+//	|   \ ___| |__ _  _ __ _  / __| |_  __ _ _ __  ___ ___
+//	| |) / -_) '_ \ || / _` | \__ \ ' \/ _` | '_ \/ -_|_-<
+//	|___/\___|_.__/\_,_\__, | |___/_||_\__,_| .__/\___/__/
+//	                   |___/                |_|           
+//
+
+//static 
+const std::string iDebugRenderer::DEFAULT_DEBUG_SPHERE_MESH_NAME = "DSPHERE";
+
+iDebugRenderer::sDebugTri::sDebugTri()
 {
 	this->v[0] = glm::vec3(0.0f); this->v[1] = glm::vec3(0.0f); this->v[2] = glm::vec3(0.0f);
 	this->colour = glm::vec3(1.0f);	// white
-	this->bPersist = false;
+	this->lifeTime = 0.0f;
 	this->bIgnorDepthBuffer = false;
 	return;
 }
 
-cDebugRenderer::sDebugTri::sDebugTri(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3, glm::vec3 colour, bool bPersist/*=false*/)
+iDebugRenderer::sDebugTri::sDebugTri(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3, glm::vec3 colour, float lifeTime/*=0.0f*/)
 {
 	this->v[0] = v1;
 	this->v[1] = v2;
 	this->v[2] = v3;
 	this->colour = colour;
-	this->bPersist = bPersist;
+	this->lifeTime = lifeTime;
 	this->bIgnorDepthBuffer = false;
 	return;
 }
 
-cDebugRenderer::sDebugTri::sDebugTri(glm::vec3 v[3], glm::vec3 colour, bool /*bPersist=false*/)
+iDebugRenderer::sDebugTri::sDebugTri(glm::vec3 v[3], glm::vec3 colour, float lifeTime/*=0.0f*/)
 {
 	this->v[0] = v[0];
 	this->v[1] = v[1];
 	this->v[2] = v[2];
 	this->colour = colour;
-	this->bPersist = bPersist;
+	this->lifeTime = lifeTime;
 	this->bIgnorDepthBuffer = false;
 	return;
 }
 
-cDebugRenderer::sDebugLine::sDebugLine()
+iDebugRenderer::sDebugLine::sDebugLine()
 {
 	this->points[0] = glm::vec3(0.0f);
 	this->points[0] = glm::vec3(0.0f);
 	this->colour = glm::vec3(1.0f);		// white
-	this->bPersist = false;
+	this->lifeTime = 0.0f;
 	this->bIgnorDepthBuffer = false;
 	return;
 }
 
-cDebugRenderer::sDebugLine::sDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 colour, bool /*bPersist=false*/)
+iDebugRenderer::sDebugLine::sDebugLine(glm::vec3 start, glm::vec3 end, glm::vec3 colour, float lifeTime/*=0.0f*/)
 {
 	this->points[0] = start;
 	this->points[1] = end;
 	this->colour = colour;
-	this->bPersist = bPersist;
+	this->lifeTime = lifeTime;
 	this->bIgnorDepthBuffer = false;
 	return;
 }
 
-cDebugRenderer::sDebugLine::sDebugLine(glm::vec3 points[2], glm::vec3 colour, bool /*bPersist=false*/)
+iDebugRenderer::sDebugLine::sDebugLine(glm::vec3 points[2], glm::vec3 colour, float lifeTime/*=0.0f*/)
 {
 	this->points[0] = points[0];
 	this->points[1] = points[1];
 	this->colour = colour;
-	this->bPersist = bPersist;
+	this->lifeTime = lifeTime;
 	this->bIgnorDepthBuffer = false;
 	return;
 }
@@ -558,88 +548,91 @@ cDebugRenderer::sDebugLine::sDebugLine(glm::vec3 points[2], glm::vec3 colour, bo
 const float cDebugRendererDEFAULT_POINT_SIZE = 1.0f;
 
 
-cDebugRenderer::sDebugPoint::sDebugPoint()
+iDebugRenderer::sDebugPoint::sDebugPoint()
 {
 	this->xyz = glm::vec3(0.0f);
 	this->colour = glm::vec3(1.0f);	// white
-	this->bPersist = false;
+	this->lifeTime = 0.0f;
 	this->pointSize = cDebugRendererDEFAULT_POINT_SIZE;
 	this->bIgnorDepthBuffer = false;
 	return;
 }
 
-cDebugRenderer::sDebugPoint::sDebugPoint(glm::vec3 xyz, glm::vec3 colour, bool bPersist/*=false*/)
-{
-	this->xyz = xyz;
-	this->colour = colour;
-	this->bPersist = bPersist;
-	this->pointSize = cDebugRendererDEFAULT_POINT_SIZE;
-	this->bIgnorDepthBuffer = false;
-	return;
-}
-
-cDebugRenderer::sDebugPoint::sDebugPoint(glm::vec3 xyz, glm::vec3 colour, float pointSize, bool bPersist/*=false*/)
+iDebugRenderer::sDebugPoint::sDebugPoint(glm::vec3 xyz, glm::vec3 colour, float lifeTime/*=0.0f*/, float pointSize/*=1.0f*/)
 {
 	this->xyz = xyz;
 	this->colour = colour;
 	this->pointSize = pointSize;
-	this->bPersist = bPersist;
+	this->lifeTime = lifeTime;
 	this->bIgnorDepthBuffer = false;
 	return;
 }
 
-
-void cDebugRenderer::addTriangle(glm::vec3 v1XYZ, glm::vec3 v2XYZ, glm::vec3 v3XYZ, glm::vec3 colour, bool bPersist /*=false*/)
+iDebugRenderer::sDebugMesh::sDebugMesh()
 {
-	cDebugRenderer::sDebugTri tempTri(v1XYZ, v2XYZ, v3XYZ, colour, bPersist);
-	this->addTriangle(tempTri);
+	this->name = iDebugRenderer::DEFAULT_DEBUG_SPHERE_MESH_NAME;	// = "DSPHERE";
+	this->xyz = glm::vec3(0.0f,0.0f,0.0f);
+	this->qOrientation = glm::quat(glm::vec3(0.0f,0.0f,0.0f));
+	this->scale = 1.0f;
+	this->colour = glm::vec3(1.0f,1.0f,1.0f);
+	this->lifeTime = 0.0f;
 	return;
 }
 
-
-void cDebugRenderer::addTriangle(sDebugTri &tri)
+// Assumes a size of 1, colour white
+iDebugRenderer::sDebugMesh::sDebugMesh(std::string name)
 {
-	this->m_vecTriangles.push_back(tri);
+	this->name = name;
+	this->xyz = glm::vec3(0.0f,0.0f,0.0f);
+	this->qOrientation = glm::quat(glm::vec3(0.0f,0.0f,0.0f));
+	this->scale = 1.0f;
+	this->colour = glm::vec3(1.0f,1.0f,1.0f);
+	this->lifeTime = 0.0f;
 	return;
 }
 
-void cDebugRenderer::addLine(glm::vec3 startXYZ, glm::vec3 endXYZ, glm::vec3 colour, bool bPersist /*=false*/)
+iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, float lifeTime/*=0.0f*/)
 {
-	cDebugRenderer::sDebugLine tempLine(startXYZ, endXYZ, colour, bPersist);
-	this->addLine(tempLine);
+	this->name = name;
+	this->xyz = xyz;
+	this->lifeTime = lifeTime;
+	this->qOrientation = glm::quat(glm::vec3(0.0f,0.0f,0.0f));
+	this->scale = 1.0f;
+	this->colour = glm::vec3(1.0f,1.0f,1.0f);
 	return;
 }
 
-void cDebugRenderer::addLine(sDebugLine &line)
+iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, glm::vec3 colour, float scale, float lifeTime/*=0.0f*/)
 {
-	this->m_vecLines.push_back(line);
+	this->name = name;
+	this->xyz = xyz;
+	this->lifeTime = lifeTime;
+	this->qOrientation = glm::quat(glm::vec3(0.0f,0.0f,0.0f));
+	this->scale = 1.0f;
+	this->colour = glm::vec3(1.0f,1.0f,1.0f);
 	return;
 }
 
-void cDebugRenderer::addPoint(glm::vec3 xyz, glm::vec3 colour, bool bPersist /*=false*/)
+iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, glm::vec3 EulerOrientation, glm::vec3 colour, 
+                                       float scale, float lifeTime/*=0.0f*/)
 {
-	cDebugRenderer::sDebugPoint tempPoint(xyz, colour, bPersist);
-	this->addPoint(tempPoint);
+	this->name = name;
+	this->xyz = xyz;
+	this->lifeTime = lifeTime;
+	this->qOrientation = glm::quat(EulerOrientation);
+	this->scale = scale;
+	this->colour = colour;
 	return;
 }
 
-void cDebugRenderer::addPoint(sDebugPoint &point)
+iDebugRenderer::sDebugMesh::sDebugMesh(std::string name, glm::vec3 xyz, glm::quat qOrientation, glm::vec3 colour, 
+                                       float scale, float lifeTime/*=0.0f*/)
 {
-	this->m_vecPoints.push_back(point);
+	this->name = name;
+	this->xyz = xyz;
+	this->lifeTime = lifeTime;
+	this->qOrientation = qOrientation;
+	this->scale = scale;
+	this->colour = colour;
 	return;
 }
-
-void cDebugRenderer::addPoint(glm::vec3 xyz, glm::vec3 colour, float pointSize, bool bPersist /*=false*/)
-{
-	cDebugRenderer::sDebugPoint tempPoint(xyz, colour, pointSize, bPersist);
-	this->addPoint(tempPoint);
-	return;
-}
-
-
-
-
-
-
-
-
