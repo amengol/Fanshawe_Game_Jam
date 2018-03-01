@@ -647,6 +647,7 @@ int main()
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
     delete ::g_simpleDebug;
+    delete ::g_pDebugRenderer;
     delete ::g_pAABBsManager;
     delete ::g_pSoundManager;
     delete ::g_pTranspManager;
