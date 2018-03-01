@@ -55,6 +55,9 @@
     <Filter Include="Error">
       <UniqueIdentifier>{8708b02f-f7bf-434b-8f41-e608f68b2798}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assimp">
+      <UniqueIdentifier>{ab3b5775-1310-42b5-9b84-ad465c42d265}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\newFrag.glsl">
@@ -155,9 +158,6 @@
     <ClCompile Include="src\cSoundObject.cpp">
       <Filter>Sounds Related</Filter>
     </ClCompile>
-    <ClCompile Include="src\cAssimpAssetLoader.cpp">
-      <Filter>Vertex, Model and Physics Related</Filter>
-    </ClCompile>
     <ClCompile Include="src\AI\cSimpleAi_Manager.cpp">
       <Filter>AI</Filter>
     </ClCompile>
@@ -199,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="src\cDebugRenderer_BuiltInShapes.cpp">
       <Filter>DebugRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assimp\cAssimpAssetLoader.cpp">
+      <Filter>Assimp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -280,9 +283,6 @@
     <ClInclude Include="src\cSoundObject.h">
       <Filter>Sounds Related</Filter>
     </ClInclude>
-    <ClInclude Include="src\cAssimpAssetLoader.h">
-      <Filter>Vertex, Model and Physics Related</Filter>
-    </ClInclude>
     <ClInclude Include="src\AI\cSimpleAi_Manager.h">
       <Filter>AI</Filter>
     </ClInclude>
@@ -321,6 +321,9 @@
     </ClInclude>
     <ClInclude Include="src\Texture\TextureLoader.h">
       <Filter>Textures Related</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assimp\cAssimpAssetLoader.h">
+      <Filter>Assimp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 #include "cGameObject.h"
 #include "Utilities.h"
 #include <rapidjson\document.h>
-#include "cAssimpAssetLoader.h"
+#include "Assimp\cAssimpAssetLoader.h"
 #include <iostream>
 
 cModelAssetLoader* g_pModelAssetLoader = NULL;

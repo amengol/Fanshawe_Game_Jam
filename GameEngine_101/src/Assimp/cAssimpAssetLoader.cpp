@@ -2,8 +2,8 @@
 
 #include <fstream>
 #include <iostream>
-#include "cMesh.h"
-#include "cVAOMeshManager.h"
+#include "..\cMesh.h"
+#include "..\cVAOMeshManager.h"
 
 // assimp include files.
 #include "assimp/postprocess.h"

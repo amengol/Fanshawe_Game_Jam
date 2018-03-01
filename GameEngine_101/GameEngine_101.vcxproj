@@ -150,9 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AI\cSimpleAi_Manager.cpp" />
+    <ClCompile Include="src\Assimp\cAssimpAssetLoader.cpp" />
     <ClCompile Include="src\cAABB.cpp" />
     <ClCompile Include="src\cAABBsManager.cpp" />
-    <ClCompile Include="src\cAssimpAssetLoader.cpp" />
     <ClCompile Include="src\cCameraObject.cpp" />
     <ClCompile Include="src\cDebugRenderer.cpp" />
     <ClCompile Include="src\cDebugRenderer_BuiltInShapes.cpp" />
@@ -194,7 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AI\cSimpleAi_Manager.h" />
-    <ClInclude Include="src\cAssimpAssetLoader.h" />
+    <ClInclude Include="src\Assimp\cAssimpAssetLoader.h" />
     <ClInclude Include="src\cAABB.h" />
     <ClInclude Include="src\cAABBsManager.h" />
     <ClInclude Include="src\cCameraObject.h" />
