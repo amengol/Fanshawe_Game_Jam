@@ -73,11 +73,11 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
     for (rapidjson::SizeType jsIndex = 0; jsIndex < gameObject.Size(); jsIndex++)
     {
         // Test all variables before reading
-        if(!(gameObject[jsIndex]["meshName"].IsString()
-           && gameObject[jsIndex]["friendlyName"].IsString()
+        if(!(/*gameObject[jsIndex]["meshName"].IsString()
+           && */gameObject[jsIndex]["friendlyName"].IsString()
            && gameObject[jsIndex]["typeOfObject"].IsNumber()
            && gameObject[jsIndex]["radius"].IsNumber()
-           && gameObject[jsIndex]["position"].IsArray()
+           /*&& gameObject[jsIndex]["position"].IsArray()*/
            && gameObject[jsIndex]["diffuseColour"].IsArray()
            && gameObject[jsIndex]["hasMaterialColour"].IsBool()
            && gameObject[jsIndex]["specular"].IsArray()
@@ -108,7 +108,16 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             return false;
         }
 
-        std::string meshName = gameObject[jsIndex]["meshName"].GetString();
+        // Mesh Name
+        std::string meshName;
+        if (gameObject[jsIndex].HasMember("meshName"))
+        {
+            if (gameObject[jsIndex]["meshName"].IsString())
+            {
+                meshName = gameObject[jsIndex]["meshName"].GetString();
+            }
+        }
+        
         std::string friendlyName = gameObject[jsIndex]["friendlyName"].GetString();
         unsigned int typeOfObject = gameObject[jsIndex]["typeOfObject"].GetUint();
         float radius = gameObject[jsIndex]["radius"].GetFloat();
@@ -136,6 +145,9 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 " is not properly formated for its \"diffuseColour\" array!";
             return false;
         }
+
+        // Position
+        // TODO
 
         glm::vec4 diffuseColour;
         diffuseColour.x = gameObject[jsIndex]["diffuseColour"][0].GetFloat();
