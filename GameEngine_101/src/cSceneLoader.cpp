@@ -71,43 +71,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
     const rapidjson::Value& gameObject = document["GameObject"];
 
     for (rapidjson::SizeType jsIndex = 0; jsIndex < gameObject.Size(); jsIndex++)
-    {
-        // Test all variables before reading
-        if(!(/*gameObject[jsIndex]["meshName"].IsString()
-           && */gameObject[jsIndex]["friendlyName"].IsString()
-           && gameObject[jsIndex]["typeOfObject"].IsNumber()
-           && gameObject[jsIndex]["radius"].IsNumber()
-           /*&& gameObject[jsIndex]["position"].IsArray()*/
-           && gameObject[jsIndex]["diffuseColour"].IsArray()
-           && gameObject[jsIndex]["hasMaterialColour"].IsBool()
-           && gameObject[jsIndex]["specular"].IsArray()
-           && gameObject[jsIndex]["scale"].IsNumber()
-           && gameObject[jsIndex]["bIsUpdatedInPhysics"].IsBool()
-           && gameObject[jsIndex]["bIsWireFrame"].IsBool()
-           && gameObject[jsIndex]["isDebugAABBActive"].IsBool()
-           && gameObject[jsIndex]["textureBlend[0]"].IsNumber()
-           && gameObject[jsIndex]["textureNames[0]"].IsString()
-           && gameObject[jsIndex]["textureBlend[1]"].IsNumber()
-           && gameObject[jsIndex]["textureNames[1]"].IsString()
-           && gameObject[jsIndex]["textureBlend[2]"].IsNumber()
-           && gameObject[jsIndex]["textureNames[2]"].IsString()
-           && gameObject[jsIndex]["hasAlpha"].IsBool()
-           && gameObject[jsIndex]["useDiscardAlpha"].IsBool()
-           && gameObject[jsIndex]["cullFace"].IsBool()
-           && gameObject[jsIndex]["hasReflection"].IsBool()
-           && gameObject[jsIndex]["rotateX"].IsNumber()
-           && gameObject[jsIndex]["rotateY"].IsNumber()
-           && gameObject[jsIndex]["rotateZ"].IsNumber()
-           && gameObject[jsIndex]["hasToBeSorted"].IsBool()
-           && gameObject[jsIndex]["hasCollisionMesh"].IsBool()
-           && gameObject[jsIndex]["numCollisionMeshes"].IsNumber()
-           && gameObject[jsIndex]["collisionMeshesNames"].IsArray()
-           ))
-        {
-            error = "The Json Gameobject number " + std::to_string(jsIndex + 1) + " is not properly formated!";
-            return false;
-        }
-
+    {        
         // Mesh Name
         std::string meshName;
         if (gameObject[jsIndex].HasMember("meshName"))
@@ -116,110 +80,466 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             {
                 meshName = gameObject[jsIndex]["meshName"].GetString();
             }
-        }
-        
-        std::string friendlyName = gameObject[jsIndex]["friendlyName"].GetString();
-        unsigned int typeOfObject = gameObject[jsIndex]["typeOfObject"].GetUint();
-        float radius = gameObject[jsIndex]["radius"].GetFloat();
-        
-        if(!(gameObject[jsIndex]["position"][0].IsNumber()
-           && gameObject[jsIndex]["position"][1].IsNumber()
-           && gameObject[jsIndex]["position"][2].IsNumber()))
-        {
-            error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                " is not properly formated for its \"position\" array!";
-            return false;
-        }
-
-        glm::vec3 position;
-        position.x = gameObject[jsIndex]["position"][0].GetFloat();
-        position.y = gameObject[jsIndex]["position"][1].GetFloat();
-        position.z = gameObject[jsIndex]["position"][2].GetFloat();
-        
-        if(!(gameObject[jsIndex]["diffuseColour"][0].IsNumber()
-           && gameObject[jsIndex]["diffuseColour"][1].IsNumber()
-           && gameObject[jsIndex]["diffuseColour"][2].IsNumber()
-           && gameObject[jsIndex]["diffuseColour"][3].IsNumber()))
-        {
-            error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                " is not properly formated for its \"diffuseColour\" array!";
-            return false;
-        }
-
-        // Position
-        // TODO
-
-        glm::vec4 diffuseColour;
-        diffuseColour.x = gameObject[jsIndex]["diffuseColour"][0].GetFloat();
-        diffuseColour.y = gameObject[jsIndex]["diffuseColour"][1].GetFloat();
-        diffuseColour.z = gameObject[jsIndex]["diffuseColour"][2].GetFloat();
-        diffuseColour.w = gameObject[jsIndex]["diffuseColour"][3].GetFloat();
-
-        bool hasMaterialColour = gameObject[jsIndex]["hasMaterialColour"].GetBool();
-
-        if(!(gameObject[jsIndex]["specular"][0].IsNumber()
-           && gameObject[jsIndex]["specular"][1].IsNumber()
-           && gameObject[jsIndex]["specular"][2].IsNumber()
-           && gameObject[jsIndex]["specular"][3].IsNumber()))
-        {
-            error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                " is not properly formated for its \"specular\" array!";
-            return false;
-        }
-
-        glm::vec4 specular;
-        specular.x = gameObject[jsIndex]["specular"][0].GetFloat();
-        specular.y = gameObject[jsIndex]["specular"][1].GetFloat();
-        specular.z = gameObject[jsIndex]["specular"][2].GetFloat();
-        specular.w = gameObject[jsIndex]["specular"][3].GetFloat();
-
-        float scale = gameObject[jsIndex]["scale"].GetFloat();
-        bool bIsUpdatedInPhysics = gameObject[jsIndex]["bIsUpdatedInPhysics"].GetBool();
-        bool bIsWireFrame = gameObject[jsIndex]["bIsWireFrame"].GetBool();
-        bool isDebugAABBActive = gameObject[jsIndex]["isDebugAABBActive"].GetBool();
-        float textureBlend_0 = gameObject[jsIndex]["textureBlend[0]"].GetFloat();
-        std::string textureNames_0 = gameObject[jsIndex]["textureNames[0]"].GetString();
-        float textureBlend_1 = gameObject[jsIndex]["textureBlend[1]"].GetFloat();
-        std::string textureNames_1 = gameObject[jsIndex]["textureNames[1]"].GetString();
-        float textureBlend_2 = gameObject[jsIndex]["textureBlend[2]"].GetFloat();
-        std::string textureNames_2 = gameObject[jsIndex]["textureNames[2]"].GetString();
-        bool hasAlpha = gameObject[jsIndex]["hasAlpha"].GetBool();
-        bool useDiscardAlpha = gameObject[jsIndex]["useDiscardAlpha"].GetBool();
-        bool cullFace = gameObject[jsIndex]["cullFace"].GetBool();
-        bool hasReflection = gameObject[jsIndex]["hasReflection"].GetBool();
-        float rotateX = gameObject[jsIndex]["rotateX"].GetFloat();
-        float rotateY = gameObject[jsIndex]["rotateY"].GetFloat();
-        float rotateZ = gameObject[jsIndex]["rotateZ"].GetFloat();
-        bool hasToBeSorted = gameObject[jsIndex]["hasToBeSorted"].GetBool();
-        bool hasCollisionMesh = gameObject[jsIndex]["hasCollisionMesh"].GetBool();
-
-        std::vector<std::string> conllisionMeshesNames;
-
-        if (hasCollisionMesh)
-        {
-            if(!(gameObject[jsIndex]["collisionMeshesNames"].IsArray()))
+            else
             {
                 error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                    " is not properly formated for its \"collisionMeshesNames\" array!";
+                    " is not properly formated for its \"meshName\" member!";
                 return false;
-            }
-            
-            unsigned int numCollisionMeshes = gameObject[jsIndex]["numCollisionMeshes"].GetUint();
-
-            for(int i = 0; i < numCollisionMeshes; i++)
-            {
-                if(!(gameObject[jsIndex]["collisionMeshesNames"][i].IsString()))
-                {
-                    error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                        " is not properly formated for its \"collisionMeshesNames\" array!";
-                    return false;
-                }
-
-                conllisionMeshesNames.push_back(gameObject[jsIndex]["collisionMeshesNames"][i].GetString());
             }
         }
         
-             
+        // friendlyName
+        std::string friendlyName;
+        if (gameObject[jsIndex].HasMember("friendlyName"))
+        {
+            if (gameObject[jsIndex]["friendlyName"].IsString())
+            {
+                friendlyName = gameObject[jsIndex]["friendlyName"].GetString();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"friendlyName\" member!";
+                return false;;
+            }
+        }
+        
+        // typeOfObject
+        unsigned int typeOfObject = 99;
+        if (gameObject[jsIndex].HasMember("typeOfObject"))
+        {
+            if (gameObject[jsIndex]["typeOfObject"].IsNumber())
+            {
+                typeOfObject = gameObject[jsIndex]["typeOfObject"].GetUint();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"typeOfObject\" member!";
+                return false;
+            }
+        }
+        
+        // radius
+        float radius = 0.0f;
+        if (gameObject[jsIndex].HasMember("radius"))
+        {
+            if (gameObject[jsIndex]["radius"].IsNumber())
+            {
+                radius = gameObject[jsIndex]["radius"].GetFloat();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"radius\" member!";
+                return false;
+            }
+        }        
+        
+        // Position
+        glm::vec3 position(0.0f, 0.0f, 0.0f);
+        if (gameObject[jsIndex].HasMember("position"))
+        {
+            if (!(gameObject[jsIndex]["position"][0].IsNumber()
+                && gameObject[jsIndex]["position"][1].IsNumber()
+                && gameObject[jsIndex]["position"][2].IsNumber()))
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"position\" member!";
+                return false;
+            }
+
+            position.x = gameObject[jsIndex]["position"][0].GetFloat();
+            position.y = gameObject[jsIndex]["position"][1].GetFloat();
+            position.z = gameObject[jsIndex]["position"][2].GetFloat();
+        }
+        
+        // Diffuse Colour
+        glm::vec4 diffuseColour(0.0f, 0.0f, 0.0f, 1.0f);
+        if (gameObject[jsIndex].HasMember("diffuseColour"))
+        {
+            if (!(gameObject[jsIndex]["diffuseColour"][0].IsNumber()
+                && gameObject[jsIndex]["diffuseColour"][1].IsNumber()
+                && gameObject[jsIndex]["diffuseColour"][2].IsNumber()
+                && gameObject[jsIndex]["diffuseColour"][3].IsNumber()))
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"diffuseColour\" member!";
+                return false;
+            }
+
+            diffuseColour.x = gameObject[jsIndex]["diffuseColour"][0].GetFloat();
+            diffuseColour.y = gameObject[jsIndex]["diffuseColour"][1].GetFloat();
+            diffuseColour.z = gameObject[jsIndex]["diffuseColour"][2].GetFloat();
+            diffuseColour.w = gameObject[jsIndex]["diffuseColour"][3].GetFloat();
+        }
+
+        // Has Material Colour?
+        bool hasMaterialColour = false;
+        if (gameObject[jsIndex].HasMember("hasMaterialColour"))
+        {
+            if (gameObject[jsIndex]["hasMaterialColour"].IsBool())
+            {
+                hasMaterialColour = gameObject[jsIndex]["hasMaterialColour"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"hasMaterialColour\" member!";
+                return false;
+            }
+        }
+        
+        // Specular
+        glm::vec4 specular(0.0f, 0.0f, 0.0f, 1.0f);
+        if (gameObject[jsIndex].HasMember("specular"))
+        {
+            if (!(gameObject[jsIndex]["specular"][0].IsNumber()
+                && gameObject[jsIndex]["specular"][1].IsNumber()
+                && gameObject[jsIndex]["specular"][2].IsNumber()
+                && gameObject[jsIndex]["specular"][3].IsNumber()))
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"specular\" member!";
+                return false;
+            }
+
+            specular.x = gameObject[jsIndex]["specular"][0].GetFloat();
+            specular.y = gameObject[jsIndex]["specular"][1].GetFloat();
+            specular.z = gameObject[jsIndex]["specular"][2].GetFloat();
+            specular.w = gameObject[jsIndex]["specular"][3].GetFloat();
+        }
+
+        // Scale
+        float scale = 1.0f;
+        if (gameObject[jsIndex].HasMember("scale"))
+        {
+            if (gameObject[jsIndex]["scale"].IsNumber())
+            {
+                scale = gameObject[jsIndex]["scale"].GetFloat();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"scale\" member!";
+                return false;
+            }
+        }
+
+        // Is Updated In Physics
+        bool bIsUpdatedInPhysics = false;
+        if (gameObject[jsIndex].HasMember("bIsUpdatedInPhysics"))
+        {
+            if (gameObject[jsIndex]["bIsUpdatedInPhysics"].IsBool())
+            {
+                bIsUpdatedInPhysics = gameObject[jsIndex]["bIsUpdatedInPhysics"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"bIsUpdatedInPhysics\" member!";
+                return false;
+            }
+        }
+
+        // Is Wire Frame
+        bool bIsWireFrame = false;
+        if (gameObject[jsIndex].HasMember("bIsWireFrame"))
+        {
+            if (gameObject[jsIndex]["bIsWireFrame"].IsBool())
+            {
+                bIsWireFrame = gameObject[jsIndex]["bIsWireFrame"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"bIsWireFrame\" member!";
+                return false;
+            }
+        }
+       
+        // Is Debug AABB Active
+        bool isDebugAABBActive = false;
+        if (gameObject[jsIndex].HasMember("isDebugAABBActive"))
+        {
+            if (gameObject[jsIndex]["isDebugAABBActive"].IsBool())
+            {
+                isDebugAABBActive = gameObject[jsIndex]["isDebugAABBActive"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"isDebugAABBActive\" member!";
+                return false;
+            }
+        }
+       
+        // textureBlend_0
+        float textureBlend_0 = 1.0f;
+        if (gameObject[jsIndex].HasMember("textureBlend[0]"))
+        {
+            if (gameObject[jsIndex]["textureBlend[0]"].IsNumber())
+            {
+                textureBlend_0 = gameObject[jsIndex]["textureBlend[0]"].GetFloat();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"textureBlend[0]\" member!";
+                return false;
+            }
+        }
+
+        // textureNames_0
+        std::string textureNames_0;
+        if (gameObject[jsIndex].HasMember("textureNames[0]"))
+        {
+            if (gameObject[jsIndex]["textureNames[0]"].IsString())
+            {
+                textureNames_0 = gameObject[jsIndex]["textureNames[0]"].GetString();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"textureNames[0]\" member!";
+                return false;
+            }
+        }
+        
+        // textureBlend_1
+        float textureBlend_1 = 0.0f;
+        if (gameObject[jsIndex].HasMember("textureBlend[1]"))
+        {
+            if (gameObject[jsIndex]["textureBlend[1]"].IsNumber())
+            {
+                textureBlend_1 = gameObject[jsIndex]["textureBlend[1]"].GetFloat();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"textureBlend[1]\" member!";
+                return false;
+            }
+        }
+        
+        // textureNames_1
+        std::string textureNames_1;
+        if (gameObject[jsIndex].HasMember("textureNames[1]"))
+        {
+            if (gameObject[jsIndex]["textureNames[1]"].IsString())
+            {
+                textureNames_1 = gameObject[jsIndex]["textureNames[1]"].GetString();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"textureNames[1]\" member!";
+                return false;
+            }
+        }
+        
+        // textureBlend_2
+        float textureBlend_2 = 0.0f;
+        if (gameObject[jsIndex].HasMember("textureBlend[2]"))
+        {
+            if (gameObject[jsIndex]["textureBlend[2]"].IsNumber())
+            {
+                textureBlend_2 = gameObject[jsIndex]["textureBlend[2]"].GetFloat();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"textureBlend[2]\" member!";
+                return false;
+            }
+        }
+
+        // textureNames_2
+        std::string textureNames_2;
+        if (gameObject[jsIndex].HasMember("textureNames[2]"))
+        {
+            if (gameObject[jsIndex]["textureNames[2]"].IsString())
+            {
+                textureNames_2 = gameObject[jsIndex]["textureNames[2]"].GetString();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"textureNames[2]\" member!";
+                return false;
+            }
+        }
+
+        // Has Alpha?
+        bool hasAlpha = false;
+        if (gameObject[jsIndex].HasMember("hasAlpha"))
+        {
+            if (gameObject[jsIndex]["hasAlpha"].IsBool())
+            {
+                hasAlpha = gameObject[jsIndex]["hasAlpha"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"hasAlpha\" member!";
+                return false;
+            }
+        }
+
+        // Use Discard Alpha?
+        bool useDiscardAlpha = false;
+        if (gameObject[jsIndex].HasMember("useDiscardAlpha"))
+        {
+            if (gameObject[jsIndex]["useDiscardAlpha"].IsBool())
+            {
+                useDiscardAlpha = gameObject[jsIndex]["useDiscardAlpha"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"useDiscardAlpha\" member!";
+                return false;
+            }
+        }
+
+        // CullFace?
+        bool cullFace = true;
+        if (gameObject[jsIndex].HasMember("cullFace"))
+        {
+            if (gameObject[jsIndex]["cullFace"].IsBool())
+            {
+                cullFace = gameObject[jsIndex]["cullFace"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"cullFace\" member!";
+                return false;
+            }
+        }
+        
+        // Has Reflection?
+        bool hasReflection = false;
+        if (gameObject[jsIndex].HasMember("hasReflection"))
+        {
+            if (gameObject[jsIndex]["hasReflection"].IsBool())
+            {
+                hasReflection = gameObject[jsIndex]["hasReflection"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"hasReflection\" member!";
+                return false;
+            }
+        }
+        
+        // Rotate X
+        float rotateX = 0.0f;
+        if (gameObject[jsIndex].HasMember("rotateX"))
+        {
+            if (gameObject[jsIndex]["rotateX"].IsNumber())
+            {
+                rotateX = gameObject[jsIndex]["rotateX"].GetFloat();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"rotateX\" member!";
+                return false;
+            }
+        }
+
+        // Rotate Y
+        float rotateY = 0.0f;
+        if (gameObject[jsIndex].HasMember("rotateY"))
+        {
+            if (gameObject[jsIndex]["rotateY"].IsNumber())
+            {
+                rotateY = gameObject[jsIndex]["rotateY"].GetFloat();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"rotateY\" member!";
+                return false;
+            }
+        }
+        
+        // Rotate Z
+        float rotateZ = 0.0f;
+        if (gameObject[jsIndex].HasMember("rotateZ"))
+        {
+            if (gameObject[jsIndex]["rotateZ"].IsNumber())
+            {
+                rotateZ = gameObject[jsIndex]["rotateZ"].GetFloat();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"rotateZ\" member!";
+                return false;
+            }
+        }
+
+        // Has to be Sorted?
+        bool hasToBeSorted = false;
+        if (gameObject[jsIndex].HasMember("hasToBeSorted"))
+        {
+            if (gameObject[jsIndex]["hasToBeSorted"].IsBool())
+            {
+                hasToBeSorted = gameObject[jsIndex]["hasToBeSorted"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"hasToBeSorted\" member!";
+                return false;
+            }
+        }
+
+        // Has Collision Mesh?
+        bool hasCollisionMesh = false;
+        std::vector<std::string> conllisionMeshesNames;
+        unsigned int numCollisionMeshes = 0;
+        if (gameObject[jsIndex].HasMember("hasCollisionMesh"))
+        {
+            if (gameObject[jsIndex]["hasCollisionMesh"].IsBool())
+            {
+                hasCollisionMesh = gameObject[jsIndex]["hasCollisionMesh"].GetBool();
+
+                if (hasCollisionMesh)
+                {
+                    if (!(gameObject[jsIndex]["collisionMeshesNames"].IsArray()))
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"collisionMeshesNames\" array!";
+                        return false;
+                    }
+
+                    numCollisionMeshes = gameObject[jsIndex]["numCollisionMeshes"].GetUint();
+
+                    for (int i = 0; i < numCollisionMeshes; i++)
+                    {
+                        if (!(gameObject[jsIndex]["collisionMeshesNames"][i].IsString()))
+                        {
+                            error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                                " is not properly formated for its \"collisionMeshesNames\" array!";
+                            return false;
+                        }
+
+                        conllisionMeshesNames.push_back(gameObject[jsIndex]["collisionMeshesNames"][i].GetString());
+                    }
+                }
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"hasCollisionMesh\" member!";
+                return false;
+            }
+        }
+            
 
         cGameObject* theGO = new cGameObject();
         theGO->meshName = meshName;
