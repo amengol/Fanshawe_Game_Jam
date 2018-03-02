@@ -1,17 +1,21 @@
 #include "cAnimationCollection.h"
 
-
-
-cAnimationCollection::cAnimationCollection()
+void cAnimationCollection::addAnimationCollection(std::string name, std::vector<aiAnimation*> vecAnim)
 {
+    this->mMapNameToVecAnimations[name] = vecAnim;
 }
 
-
-cAnimationCollection::~cAnimationCollection()
+void cAnimationCollection::addSkinnedMesh(std::string name, std::vector<cSkinnedMesh*> vecSkinnedMesh)
 {
+    this->mMapNameToVecSkinnedMesh[name] = vecSkinnedMesh;
 }
 
-void cAnimationCollection::addAnimationCollection(std::string name, std::vector<aiAnimation*> collection)
+std::vector<aiAnimation*> cAnimationCollection::getAnimations(std::string name)
 {
-    mMapNameToVecAnimations[name] = collection;
+    return this->mMapNameToVecAnimations[name];
+}
+
+std::vector<cSkinnedMesh*> cAnimationCollection::getSkinnedMeshes(std::string name)
+{
+    return this->mMapNameToVecSkinnedMesh[name];
 }
