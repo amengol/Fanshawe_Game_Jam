@@ -117,6 +117,10 @@ bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID, bool bKeepM
     GLuint vcol_location = glGetAttribLocation(shaderID, "vCol");
 	GLuint vnorm_location = glGetAttribLocation(shaderID, "vNorm");
     GLuint vUVx2_location = glGetAttribLocation(shaderID, "uvX2");
+    GLuint vTangent_location = glGetAttribLocation(shaderID, "vTangent");				
+    GLuint vBitangent_location = glGetAttribLocation(shaderID, "vBitangent");			
+    GLuint vBoneIDs_x4_location = glGetAttribLocation(shaderID, "vBoneIDs_x4");			
+    GLuint vBoneWeights_x4_location = glGetAttribLocation(shaderID, "vBoneWeights_x4");	
 
     // Size of the vertex we are using in the array.
     // This is called the "stride" of the vertices in the vertex buffer
@@ -150,6 +154,42 @@ bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID, bool bKeepM
 		                  VERTEX_STRIDE, 
                           reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_UVs)));
 
+    glEnableVertexAttribArray(vTangent_location);
+    const unsigned int OFFSET_TO_vTangent = offsetof(sVertex, tx);
+    glVertexAttribPointer(vTangent_location,
+                          3,				
+                          GL_FLOAT,			
+                          GL_FALSE,			
+                          VERTEX_STRIDE,
+                          reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_vTangent)));
+
+    glEnableVertexAttribArray(vBitangent_location);
+    const unsigned int OFFSET_TO_vBitangent = offsetof(sVertex, bx);
+    glVertexAttribPointer(vBitangent_location,
+                          3,				
+                          GL_FLOAT,			
+                          GL_FALSE,			
+                          VERTEX_STRIDE,
+                          reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_vBitangent)));
+
+    glEnableVertexAttribArray(vBoneIDs_x4_location);
+    const unsigned int OFFSET_TO_vBoneIDs = (unsigned int)offsetof(sVertex, boneID[0]);
+    glVertexAttribPointer(vBoneIDs_x4_location,
+                          4,				
+                          GL_FLOAT,			
+                          GL_FALSE,			
+                          VERTEX_STRIDE,
+                          reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_vBoneIDs)));
+
+    glEnableVertexAttribArray(vBoneWeights_x4_location);
+    const unsigned int OFFSET_TO_vBoneWeights_x4 = (unsigned int)offsetof(sVertex, boneWeights[0]);
+    glVertexAttribPointer(vBoneWeights_x4_location,
+                          4,				
+                          GL_FLOAT,			
+                          GL_FALSE,			
+                          VERTEX_STRIDE,
+                          reinterpret_cast<void*>(static_cast<uintptr_t>(OFFSET_TO_vBoneWeights_x4)));
+
 	// Copy the information into the VAOInfo structure
 	theVAOInfo.numberOfIndices   = theMesh.numberOfTriangles * 3;
 	theVAOInfo.numberOfTriangles = theMesh.numberOfTriangles;
@@ -174,6 +214,10 @@ bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID, bool bKeepM
 	glDisableVertexAttribArray(vpos_location);
     glDisableVertexAttribArray(vnorm_location);
     glDisableVertexAttribArray(vUVx2_location);
+    glDisableVertexAttribArray(vTangent_location);				// in vec3 vTangent;
+    glDisableVertexAttribArray(vBitangent_location);			// in vec3 vBitangent;
+    glDisableVertexAttribArray(vBoneIDs_x4_location);			// in vec4 vBoneIDs_x4;		
+    glDisableVertexAttribArray(vBoneWeights_x4_location);		// 	in vec4 vBoneWeights_x4;	
 
     // Save this mesh? 
     if (bKeepMesh)

@@ -930,6 +930,29 @@ void DrawObject(cGameObject* pTheGO)
 
     glCullFace(GL_BACK);
 
+    //// ***************************************************
+    ////    ___  _    _                      _  __  __           _     
+    ////   / __|| |__(_) _ _   _ _   ___  __| ||  \/  | ___  ___| |_   
+    ////   \__ \| / /| || ' \ | ' \ / -_)/ _` || |\/| |/ -_)(_-<| ' \  
+    ////   |___/|_\_\|_||_||_||_||_|\___|\__,_||_|  |_|\___|/__/|_||_| 
+    ////                                                               
+    GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
+
+    //if (pTheGO->pSimpleSkinnedMesh)
+    //{
+    //    // Calculate the pose and load the skinned mesh stuff into the shader, too
+    //    GLint UniLoc_NumBonesUsed = glGetUniformLocation(curShaderProgID, "numBonesUsed");
+    //    GLint UniLoc_BoneIDArray = glGetUniformLocation(curShaderProgID, "bones");
+    //    CalculateSkinnedMeshBonesAndLoad(theMesh, pTheGO, UniLoc_NumBonesUsed, UniLoc_BoneIDArray);
+
+    //    glUniform1f(UniLoc_IsSkinnedMesh, GL_TRUE);
+    //}
+    //else
+    //{
+        glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
+    //}
+
+    //// ***************************************************
 
     glBindVertexArray(VAODrawInfo.VAO_ID);
 

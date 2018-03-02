@@ -5,6 +5,10 @@
 // It's also the vertex representation used in cMesh
 // (it replaces the cVertex in the cVAOMeshManager and the cVertex_xyz_rgb_n structures)
 
+#include <cstring>		// for memset
+
+static const unsigned int NUMBEROFBONES = 4;
+
 struct sVertex
 {
 	sVertex() :
@@ -14,8 +18,13 @@ struct sVertex
 		u1(0.0f), v1(0.0f), 
 		u2(0.0f), v2(0.0f),
 		tx(0.0f), ty(0.0f), tz(0.0f),
-		bx(0.0f), by(0.0f), bz(0.0f) {};
-	//~sVertex_xyz_rgba_n_uv2_bt();	// Destructor
+		bx(0.0f), by(0.0f), bz(0.0f)
+    {
+//#ifdef _DEBUG
+        memset(this->boneID, 0, sizeof(unsigned int) * NUMBEROFBONES);
+        memset(this->boneWeights, 0, sizeof(float) * NUMBEROFBONES);
+//#endif // DEBUG
+    };
 
 	float x, y, z;
 	float r, g, b, a;
@@ -24,6 +33,9 @@ struct sVertex
 	float u2, v2;		
 	float tx, ty, tz;	// tangent
 	float bx, by, bz;	// bi-normal
+    // For the 4 bone skinned mesh information
+	float boneID[NUMBEROFBONES]; 		// New		// starts at 80
+	float boneWeights[NUMBEROFBONES];	// New		// starts at 96
 };
 
 

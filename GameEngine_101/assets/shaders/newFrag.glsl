@@ -1,10 +1,14 @@
 // Fragment shader
 #version 400
 
-in vec4 color;			
-in vec3 vertNormal;
-in vec3 vecWorldPosition;		
-in vec4 uvX2out;		
+in vec4 fColor;					
+in vec3 fVertNormal;			// Also in "world" (no view or projection)
+in vec3 fVecWorldPosition;		// 
+in vec4 fUV_X2;					// Added: UV 1 and 2 to fragment
+								// UV #1 is .xy 
+								// UV #2 is .zw
+in vec3 fTangent;		// For bump (or normal) mapping
+in vec3 fBitangent;		// For bump (or normal) mapping	
 						
 						
 // gl_FragColor is deprecated after version 120
@@ -84,8 +88,8 @@ const int NUMBEROFLIGHTS = 20;
 uniform sLightDesc myLight[NUMBEROFLIGHTS];
 
 // Calculate the contribution of a light at a vertex
-vec3 calcLightColour( in vec3 vecNormal, 
-                      in vec3 vecWorldPosition, 
+vec3 calcLightColour( in vec3 fVertNormal, 
+                      in vec3 fVecWorldPosition, 
                       in int lightID, 
 					  in vec3 matDiffuse, 
                       in vec4 matSpecular );
@@ -103,8 +107,8 @@ void main()
 	{
 		if (hasColour)
 		{
-			fragColourOut.rgb = color.rgb;
-			fragColourOut.a = color.a;
+			fragColourOut.rgb = fColor.rgb;
+			fragColourOut.a = fColor.a;
 			return;		// Immediate return
 		}
 		else
@@ -122,7 +126,7 @@ void main()
 		//	returning a colour (at that point in the texture)
 		// Note we are using the normals of our skybox object
 		//	to determine the point on the inside of the box
-		vec4 skyRGBA = texture( texSampCube00, vertNormal.xyz );
+		vec4 skyRGBA = texture( texSampCube00, fVertNormal.xyz );
 		
 		fragColourOut = vec4(skyRGBA.rgb, 1.0f);		//gl_FragColor = skyRGBA;
 		return;	
@@ -133,21 +137,21 @@ void main()
 		// Have "eyePosition" (camera eye) in WORLD space
 		
 		// reFLECTion value 
-		vec3 vecReflectEyeToVertex = vecWorldPosition - eyePosition;
+		vec3 vecReflectEyeToVertex = fVecWorldPosition - eyePosition;
 		//vec3 vecReflectEyeToVertex = eyePosition - vecWorldPosition;
 		vecReflectEyeToVertex = normalize(vecReflectEyeToVertex);
-		vec3 vecReflect = reflect( vecReflectEyeToVertex, vertNormal.xyz );
+		vec3 vecReflect = reflect( vecReflectEyeToVertex, fVertNormal.xyz );
 		// Look up colour for reflection
-		vec4 rgbReflection = texture( texSampCube00, vertNormal.xyz );
+		vec4 rgbReflection = texture( texSampCube00, fVertNormal.xyz );
 
 		rgbReflection = texture( texSampCube00, vecReflect );
 		rgbReflection.rgb * 0.01f;
-		rgbReflection.rgb += normalize(vertNormal.xyz);
+		rgbReflection.rgb += normalize(fVertNormal.xyz);
 		
 		
-		vec3 vecReFRACT_EyeToVertex = eyePosition - vecWorldPosition;
+		vec3 vecReFRACT_EyeToVertex = eyePosition - fVecWorldPosition;
 		vecReFRACT_EyeToVertex = normalize(vecReFRACT_EyeToVertex);				
-		vec3 vecRefract = refract( vecReFRACT_EyeToVertex, vertNormal.xyz, 
+		vec3 vecRefract = refract( vecReFRACT_EyeToVertex, fVertNormal.xyz, 
                                    coefficientRefract );
 		// Look up colour for reflection
 		vec4 rgbRefraction = texture( texSampCube00, vecRefract );
@@ -165,7 +169,7 @@ void main()
 	vec3 matDiffuse = vec3(0.0f, 0.0f, 0.0f);
 	
 	// ****************************************************************/
-	vec2 theUVCoords = uvX2out.xy;		// use UV #1 of vertex
+	vec2 theUVCoords = fUV_X2.xy;		// use UV #1 of vertex
 		
 	vec4 texCol00 = texture( texSamp2D00, theUVCoords.xy );
 	vec4 texCol01 = texture( texSamp2D01, theUVCoords.xy );
@@ -191,8 +195,8 @@ void main()
 	//****************************************************************/	
 	for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
 	{
-		fragColourOut.rgb += calcLightColour( vertNormal, 					
-		                                      vecWorldPosition, 
+		fragColourOut.rgb += calcLightColour( fVertNormal, 					
+		                                      fVecWorldPosition, 
 											  index, 
 		                                      matDiffuse, 
 											  materialSpecular );
@@ -204,8 +208,8 @@ void main()
 	
 	if ( hasReflection )
 	{
-		vec3 eyeDir = vecWorldPosition - eyePosition;		
-		vec3 reflectedDirection = normalize(reflect(eyeDir, normalize(vertNormal)));
+		vec3 eyeDir = fVecWorldPosition - eyePosition;		
+		vec3 reflectedDirection = normalize(reflect(eyeDir, normalize(fVertNormal)));
 		vec4 fragColor = texture(texSampCube00, reflectedDirection);
 		vec4 matReflect = texCol02;
 		fragColourOut += fragColor * matReflect;
@@ -232,7 +236,7 @@ void main()
 
 // Calcualte the contribution of a light at a vertex
 vec3 calcLightColour( in vec3 vecNormal, 
-                      in vec3 vecWorldPosition, 
+                      in vec3 fVecWorldPosition, 
                       in int lightID, 
                       in vec3 matDiffuse, 	
                       in vec4 matSpecular )	
@@ -242,7 +246,7 @@ vec3 calcLightColour( in vec3 vecNormal,
 	vec3 outSpecular = vec3( 0.0f, 0.0f, 0.0f );	
 
 	// Distance between light and vertex (in world)
-	vec3 vecToLight = myLight[lightID].position.xyz - vecWorldPosition;
+	vec3 vecToLight = myLight[lightID].position.xyz - fVecWorldPosition;
 	// How long is this vector?
 	float lightDistance = length(vecToLight);
 	// Short circuit distance
@@ -264,7 +268,7 @@ vec3 calcLightColour( in vec3 vecNormal,
 	if (hasColour)
 	{
 		outDiffuse.rgb = ((myLight[lightID].diffuse.rgb 		
-			              * color.rgb) +					
+			              * fColor.rgb) +					
 						  (myLight[lightID].diffuse.rgb 	
 						   * materialDiffuse.rgb)) * diffFactor;				
 	}
@@ -285,7 +289,7 @@ vec3 calcLightColour( in vec3 vecNormal,
 
 	
 	// Vector from vertex to eye 
-	vec3 viewVector = normalize( eyePosition - vecWorldPosition );
+	vec3 viewVector = normalize( eyePosition - fVecWorldPosition );
 	vec3 vecLightReflection = reflect( normalize(lightVector), vecNormal );
 	
 	float specularShininess = matSpecular.w;	
@@ -310,7 +314,7 @@ vec3 calcLightColour( in vec3 vecNormal,
 	    // z angle1, w = angle2		- only for spot
 		
 		// Vector from the vertex to the light... 
-		vec3 vecVertexToLight = vecWorldPosition - myLight[lightID].position.xyz;
+		vec3 vecVertexToLight = fVecWorldPosition - myLight[lightID].position.xyz;
 		// Normalize to unit length vector
 		vec3 vecVtoLDirection = normalize(vecVertexToLight);
 		
