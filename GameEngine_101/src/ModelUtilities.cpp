@@ -134,9 +134,9 @@ bool Load3DModelsIntoMeshManager(int shaderID,
        
         switch (type)
         {
-        case 0:
+        case 0: // REGULAR
             break;
-        case 1:
+        case 1: // SKINNED
         {
             if (a[i]["defaultAnimation"].IsString())
             {
@@ -150,11 +150,12 @@ bool Load3DModelsIntoMeshManager(int shaderID,
             }
             else
             {
+                // We can't have a skinned without a default animation for now
                 return false;
             }            
         }
             break;
-        case 2:
+        case 2: // ANIMATIONS
         {
 
         }
