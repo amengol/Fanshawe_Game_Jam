@@ -105,7 +105,7 @@ float cSimpleAssimpSkinnedMesh::FindAnimationTotalTime(std::string animationName
 }
 
 
-bool cSimpleAssimpSkinnedMesh::LoadMeshAnimation(const std::string &filename)	// Only want animations
+bool cSimpleAssimpSkinnedMesh::LoadMeshAnimation(const std::string &path, const std::string &filename)	// Only want animations
 {
 //	std::map< std::string /*animationfile*/,
 //		      const aiScene* > mapAnimationNameTo_pScene;		// Animations
@@ -113,7 +113,8 @@ bool cSimpleAssimpSkinnedMesh::LoadMeshAnimation(const std::string &filename)	//
 	unsigned int Flags = aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph | aiProcess_JoinIdenticalVertices;
 
 	Assimp::Importer* pImporter = new Assimp::Importer();
-	const aiScene* pAniScene = pImporter->ReadFile(filename.c_str(), Flags);
+    std::string file = path + filename;
+	const aiScene* pAniScene = pImporter->ReadFile(file.c_str(), Flags);
 	
 	if ( ! pAniScene )
 	{
@@ -533,100 +534,167 @@ cMesh* cSimpleAssimpSkinnedMesh::CreateMeshObjectFromCurrentModel( unsigned int 
 		return NULL;
 	}
 
-	// Assume there is a valid mesh there
-	cMesh* pTheMesh = new cMesh();
+    cMesh* engMesh = new cMesh();  // The Engine Mesh
+    const struct aiMesh* mesh = NULL; // Assim mesh
 
-	aiMesh* pAIMesh = this->pScene->mMeshes[meshIndex];
+    mesh = this->pScene->mMeshes[meshIndex];
 
-	pTheMesh->numberOfVertices = pAIMesh->mNumVertices;
+    engMesh->numberOfVertices = mesh->mNumVertices;
+    engMesh->numberOfTriangles = mesh->mNumFaces;
+    engMesh->pVertices = new sVertex[mesh->mNumVertices];
+    engMesh->pTriangles = new cTriangle[mesh->mNumFaces];
 
-	pTheMesh->pVertices = new sVertex[ pTheMesh->numberOfVertices ];
+    // Load the vertices into Engine Mesh
+    for (size_t vertexIndex = 0; vertexIndex < mesh->mNumVertices; ++vertexIndex)
+    {
+        engMesh->pVertices[vertexIndex].x = mesh->mVertices[vertexIndex].x;
+        engMesh->pVertices[vertexIndex].y = mesh->mVertices[vertexIndex].y;
+        engMesh->pVertices[vertexIndex].z = mesh->mVertices[vertexIndex].z;
 
-	for ( int vertIndex = 0; vertIndex != pTheMesh->numberOfVertices; vertIndex++ )
-	{
-        sVertex* pCurVert = &( pTheMesh->pVertices[vertIndex] );
+        if (mesh->mColors[0] != NULL)
+        {
+            engMesh->pVertices[vertexIndex].r = mesh->mColors[0][vertexIndex].r;
+            engMesh->pVertices[vertexIndex].g = mesh->mColors[0][vertexIndex].g;
+            engMesh->pVertices[vertexIndex].b = mesh->mColors[0][vertexIndex].b;
+            engMesh->pVertices[vertexIndex].a = mesh->mColors[0][vertexIndex].a;
+        }
 
-		aiVector3D* pAIVert =&(pAIMesh->mVertices[vertIndex]);
+        if (mesh->mNormals != NULL)
+        {
+            engMesh->pVertices[vertexIndex].nx = mesh->mNormals[vertexIndex].x;
+            engMesh->pVertices[vertexIndex].ny = mesh->mNormals[vertexIndex].y;
+            engMesh->pVertices[vertexIndex].nz = mesh->mNormals[vertexIndex].z;
+        }
 
-		pCurVert->x = pAIVert->x;
-		pCurVert->y = pAIVert->y;
-		pCurVert->z = pAIVert->z;
+        if (mesh->HasTextureCoords(0))
+        {
+            engMesh->pVertices[vertexIndex].u1 = mesh->mTextureCoords[0][vertexIndex].x;
+            engMesh->pVertices[vertexIndex].v1 = mesh->mTextureCoords[0][vertexIndex].y;
+        }
 
-		// Colours
-		if ( pAIMesh->GetNumColorChannels() > 0 )
-		{
-			pCurVert->r = this->pScene->mMeshes[0]->mColors[vertIndex]->r;
-			pCurVert->g = this->pScene->mMeshes[0]->mColors[vertIndex]->g;
-			pCurVert->b = this->pScene->mMeshes[0]->mColors[vertIndex]->b;
-			pCurVert->a = this->pScene->mMeshes[0]->mColors[vertIndex]->a;
-		}
-		else
-		{
-			pCurVert->r = pCurVert->g = pCurVert->b = pCurVert->a = 1.0f;
-		}
+        // Bone IDs are being passed OK
+        engMesh->pVertices[vertexIndex].boneID[0] = this->vecVertexBoneData[vertexIndex].ids[0];
+        engMesh->pVertices[vertexIndex].boneID[1] = this->vecVertexBoneData[vertexIndex].ids[1];
+        engMesh->pVertices[vertexIndex].boneID[2] = this->vecVertexBoneData[vertexIndex].ids[2];
+        engMesh->pVertices[vertexIndex].boneID[3] = this->vecVertexBoneData[vertexIndex].ids[3];
 
-		// Normals
-		if ( pAIMesh->HasNormals() )
-		{
-			pCurVert->nx = pAIMesh->mNormals[vertIndex].x;
-			pCurVert->ny = pAIMesh->mNormals[vertIndex].y;
-			pCurVert->nx = pAIMesh->mNormals[vertIndex].z;
-		}
+        // Weights are being passed OK
+        engMesh->pVertices[vertexIndex].boneWeights[0] = this->vecVertexBoneData[vertexIndex].weights[0];
+        engMesh->pVertices[vertexIndex].boneWeights[1] = this->vecVertexBoneData[vertexIndex].weights[1];
+        engMesh->pVertices[vertexIndex].boneWeights[2] = this->vecVertexBoneData[vertexIndex].weights[2];
+        engMesh->pVertices[vertexIndex].boneWeights[3] = this->vecVertexBoneData[vertexIndex].weights[3];
+    }
 
-		// UVs
-		if ( pAIMesh->GetNumUVChannels() > 0 )
-		{	// Assume 1st channel is the 2D UV coordinates
-			pCurVert->u1 = pAIMesh->mTextureCoords[0][vertIndex].x;
-			pCurVert->v2 = pAIMesh->mTextureCoords[0][vertIndex].y;
-		}
+    // Load the indeces into Engine Mesh
+    for (size_t faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
+    {
+        const struct aiFace* face = &mesh->mFaces[faceIndex];
 
-		// Tangents and Bitangents (bi-normals)
-		if ( pAIMesh->HasTangentsAndBitangents() )
-		{
-			pCurVert->tx = pAIMesh->mTangents[vertIndex].x;
-			pCurVert->ty = pAIMesh->mTangents[vertIndex].y;
-			pCurVert->tz = pAIMesh->mTangents[vertIndex].z;
+        engMesh->pTriangles[faceIndex].vertex_ID_0 = face->mIndices[0];
+        engMesh->pTriangles[faceIndex].vertex_ID_1 = face->mIndices[1];
+        engMesh->pTriangles[faceIndex].vertex_ID_2 = face->mIndices[2];
+    }
 
-			pCurVert->bx = pAIMesh->mBitangents[vertIndex].x;
-			pCurVert->by = pAIMesh->mBitangents[vertIndex].y;
-			pCurVert->bz = pAIMesh->mBitangents[vertIndex].z;
-		}
+    engMesh->name = this->friendlyName;
+    engMesh->CalculateExtents();
 
-		// Bone IDs are being passed OK
-		pCurVert->boneID[0] = this->vecVertexBoneData[vertIndex].ids[0];
-		pCurVert->boneID[1] = this->vecVertexBoneData[vertIndex].ids[1];
-		pCurVert->boneID[2] = this->vecVertexBoneData[vertIndex].ids[2];
-		pCurVert->boneID[3] = this->vecVertexBoneData[vertIndex].ids[3];
-
-		// Weights are being passed OK
-		pCurVert->boneWeights[0] = this->vecVertexBoneData[vertIndex].weights[0];
-		pCurVert->boneWeights[1] = this->vecVertexBoneData[vertIndex].weights[1];
-		pCurVert->boneWeights[2] = this->vecVertexBoneData[vertIndex].weights[2];
-		pCurVert->boneWeights[3] = this->vecVertexBoneData[vertIndex].weights[3];
+    return engMesh;
 
 
-	}//for ( int vertIndex
+    //// Assume there is a valid mesh there
+	//cMesh* pTheMesh = new cMesh();
 
-	// Triangles
-	pTheMesh->numberOfTriangles = pAIMesh->mNumFaces;
+	//aiMesh* pAIMesh = this->pScene->mMeshes[meshIndex];
 
-	pTheMesh->pTriangles = new cTriangle[pTheMesh->numberOfTriangles];
+	//pTheMesh->numberOfVertices = pAIMesh->mNumVertices;
 
-	for ( unsigned int triIndex = 0; triIndex != pTheMesh->numberOfTriangles; triIndex++ )
-	{
-		aiFace* pAIFace = &(pAIMesh->mFaces[triIndex]);
+	//pTheMesh->pVertices = new sVertex[ pTheMesh->numberOfVertices ];
 
-		pTheMesh->pTriangles[triIndex].vertex_ID_0 = pAIFace->mIndices[0];
-		pTheMesh->pTriangles[triIndex].vertex_ID_1 = pAIFace->mIndices[1];
-		pTheMesh->pTriangles[triIndex].vertex_ID_2 = pAIFace->mIndices[2];
+	//for ( int vertIndex = 0; vertIndex != pTheMesh->numberOfVertices; vertIndex++ )
+	//{
+ //       sVertex* pCurVert = &( pTheMesh->pVertices[vertIndex] );
 
-	}//for ( unsigned int triIndex...
+	//	aiVector3D* pAIVert =&(pAIMesh->mVertices[vertIndex]);
 
-	pTheMesh->name = this->friendlyName;
+	//	pCurVert->x = pAIVert->x;
+	//	pCurVert->y = pAIVert->y;
+	//	pCurVert->z = pAIVert->z;
 
-	pTheMesh->CalculateExtents();
+	//	// Colours
+	//	if ( pAIMesh->GetNumColorChannels() > 0 )
+	//	{
+	//		pCurVert->r = this->pScene->mMeshes[0]->mColors[vertIndex]->r;
+	//		pCurVert->g = this->pScene->mMeshes[0]->mColors[vertIndex]->g;
+	//		pCurVert->b = this->pScene->mMeshes[0]->mColors[vertIndex]->b;
+	//		pCurVert->a = this->pScene->mMeshes[0]->mColors[vertIndex]->a;
+	//	}
+	//	else
+	//	{
+	//		pCurVert->r = pCurVert->g = pCurVert->b = pCurVert->a = 1.0f;
+	//	}
 
-	return pTheMesh;
+	//	// Normals
+	//	if ( pAIMesh->HasNormals() )
+	//	{
+	//		pCurVert->nx = pAIMesh->mNormals[vertIndex].x;
+	//		pCurVert->ny = pAIMesh->mNormals[vertIndex].y;
+	//		pCurVert->nx = pAIMesh->mNormals[vertIndex].z;
+	//	}
+
+	//	// UVs
+	//	if ( pAIMesh->GetNumUVChannels() > 0 )
+	//	{	// Assume 1st channel is the 2D UV coordinates
+	//		pCurVert->u1 = pAIMesh->mTextureCoords[0][vertIndex].x;
+	//		pCurVert->v1 = pAIMesh->mTextureCoords[0][vertIndex].y;
+	//	}
+
+	//	// Tangents and Bitangents (bi-normals)
+	//	if ( pAIMesh->HasTangentsAndBitangents() )
+	//	{
+	//		pCurVert->tx = pAIMesh->mTangents[vertIndex].x;
+	//		pCurVert->ty = pAIMesh->mTangents[vertIndex].y;
+	//		pCurVert->tz = pAIMesh->mTangents[vertIndex].z;
+
+	//		pCurVert->bx = pAIMesh->mBitangents[vertIndex].x;
+	//		pCurVert->by = pAIMesh->mBitangents[vertIndex].y;
+	//		pCurVert->bz = pAIMesh->mBitangents[vertIndex].z;
+	//	}
+
+	//	// Bone IDs are being passed OK
+	//	pCurVert->boneID[0] = this->vecVertexBoneData[vertIndex].ids[0];
+	//	pCurVert->boneID[1] = this->vecVertexBoneData[vertIndex].ids[1];
+	//	pCurVert->boneID[2] = this->vecVertexBoneData[vertIndex].ids[2];
+	//	pCurVert->boneID[3] = this->vecVertexBoneData[vertIndex].ids[3];
+
+	//	// Weights are being passed OK
+	//	pCurVert->boneWeights[0] = this->vecVertexBoneData[vertIndex].weights[0];
+	//	pCurVert->boneWeights[1] = this->vecVertexBoneData[vertIndex].weights[1];
+	//	pCurVert->boneWeights[2] = this->vecVertexBoneData[vertIndex].weights[2];
+	//	pCurVert->boneWeights[3] = this->vecVertexBoneData[vertIndex].weights[3];
+
+
+	//}//for ( int vertIndex
+
+	//// Triangles
+	//pTheMesh->numberOfTriangles = pAIMesh->mNumFaces;
+
+	//pTheMesh->pTriangles = new cTriangle[pTheMesh->numberOfTriangles];
+
+	//for ( unsigned int triIndex = 0; triIndex != pTheMesh->numberOfTriangles; triIndex++ )
+	//{
+	//	aiFace* pAIFace = &(pAIMesh->mFaces[triIndex]);
+
+	//	pTheMesh->pTriangles[triIndex].vertex_ID_0 = pAIFace->mIndices[0];
+	//	pTheMesh->pTriangles[triIndex].vertex_ID_1 = pAIFace->mIndices[1];
+	//	pTheMesh->pTriangles[triIndex].vertex_ID_2 = pAIFace->mIndices[2];
+
+	//}//for ( unsigned int triIndex...
+
+	//pTheMesh->name = this->friendlyName;
+
+	//pTheMesh->CalculateExtents();
+
+	//return pTheMesh;
 }
 
 

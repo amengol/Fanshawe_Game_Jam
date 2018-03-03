@@ -63,7 +63,7 @@ public:
 	virtual ~cSimpleAssimpSkinnedMesh(void);
 
 	bool LoadMeshFromFile(const std::string &filename);		// mesh we draw
-	bool LoadMeshAnimation(const std::string &filename);	// Only want animations
+	bool LoadMeshAnimation(const std::string &path, const std::string &filename);	// Only want animations
 
 	std::string fileName;
 	std::string friendlyName;
