@@ -8,6 +8,7 @@
 #include "cCameraObject.h"
 #include "cVAOMeshManager.h"
 #include <iPhysicsFactory.h>
+#include "globalGameStuff.h"
 //#include "AI\cSimpleAi_Manager.h"
 
 //extern cSimpleAi_Manager g_AiManager;
@@ -626,7 +627,48 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
 
         g_vecGameObjects.push_back(theGO);
 
+    }// !for (rapidjson::SizeType jsIndex = 0...
+
+    cSimpleAssimpSkinnedMesh* RPGSkinnedMesh = new cSimpleAssimpSkinnedMesh();
+    RPGSkinnedMesh->LoadMeshFromFile("assets//models//RPG-Character(FBX2013).FBX");
+    RPGSkinnedMesh->LoadMeshAnimation("assets//models//RPG-Character_Unarmed-Attack-Kick-L1(FBX2013).FBX");
+    RPGSkinnedMesh->friendlyName = "RPG-Character";
+
+    cMesh* pTheMesh = RPGSkinnedMesh->CreateMeshObjectFromCurrentModel();
+    pTheMesh->name = "RPG-Character";
+
+    if (pTheMesh)
+    {
+        if (!g_pVAOManager->loadMeshIntoVAO(*pTheMesh, shaderID, false))
+        {
+            //std::cout << "Could not load skinned mesh model into new VAO" << std::endl;
+        }
     }
+    else
+    {
+        //std::cout << "Could not create a cMesh object from skinned mesh file" << std::endl;
+    }
+    // Delete temporary mesh if still around
+    if (pTheMesh)
+    {
+        delete pTheMesh;
+    }
+
+    // Test Object
+    cGameObject* pTempGO = new cGameObject();
+    pTempGO->meshName = "RPG-Character";
+    pTempGO->friendlyName = "Justin";
+    // This assigns the game object to the particular skinned mesh type 
+    pTempGO->pSimpleSkinnedMesh = RPGSkinnedMesh;
+    // Add a default animation 
+    pTempGO->pAniState = new cAnimationState();
+    pTempGO->pAniState->defaultAnimation.name = "assets//models//RPG-Character_Unarmed-Attack-Kick-L1(FBX2013).FBX";
+    pTempGO->pAniState->defaultAnimation.frameStepTime = 0.005f;
+    // Get the total time of the entire animation
+    pTempGO->pAniState->defaultAnimation.totalTime = pTempGO->pSimpleSkinnedMesh->GetDuration();
+    pTempGO->scale = 0.1;
+    pTempGO->hasColour = true;
+    g_vecGameObjects.push_back(pTempGO);
 
     return true;
 }

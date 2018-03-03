@@ -8,6 +8,8 @@
 #include <vector>
 #include "sCollisionTriangle.h"
 #include <iRigidBody.h>
+#include "Assimp\cAnimationState.h"
+#include "Assimp\cSimpleAssimpSkinnedMeshLoader_OneMesh.h"
 
 class cMesh;
 class cSoudObject;
@@ -122,6 +124,10 @@ public:
     nPhysics::iRigidBody* rigidBody;
     // Rigid Body from bullet 
     nPhysics::iRigidBody* bt_rigidBody;
+
+    // If NULL, then object ISN'T a skinned mesh
+    cSimpleAssimpSkinnedMesh*	pSimpleSkinnedMesh;
+    cAnimationState*			pAniState;
 
  private:
      unsigned int m_UniqueID;

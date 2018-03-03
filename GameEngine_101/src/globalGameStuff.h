@@ -11,6 +11,7 @@
 #include "cLightManager.h"
 #include "cModelAssetLoader.h"
 #include "cCameraObject.h"
+#include "Assimp\cAnimationCollection.h"
 
 // Remember to #include <vector>...
 extern std::vector< cGameObject* >  g_vecGameObjects;
@@ -28,6 +29,8 @@ extern cLightManager*	g_pLightManager;	// (GE101_Main.cpp)
 void PhysicsStep( double deltaTime );
 
 extern cModelAssetLoader* g_pModelAssetLoader;	// (ModelUtilies.cpp)
+
+extern cAnimationCollection gAnimationCollection;   // cAssimAssetLoader.cpp
 
 // The teapots
 extern cGameObject* pTP0;

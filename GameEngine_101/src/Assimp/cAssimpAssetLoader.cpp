@@ -11,7 +11,6 @@
 #include "assimp/LogStream.hpp"
 
 #include "animHelper.h"
-#include "cSkinnedMesh.h"
 #include "cAnimationCollection.h"
 
 cAnimationCollection gAnimationCollection;
@@ -58,7 +57,7 @@ bool cAssimpAssetLoader::Import3DFromFile(const std::string & pFile)
     }
     else
     {       
-        std::vector<cSkinnedMesh*> vecSkinnedMeshes;
+        std::vector<cSimpleAssimpSkinnedMesh*> vecSkinnedMeshes;
         for (size_t i = 0; i < this->scene->mNumMeshes; i++)
         {
             aiMesh* mesh = this->scene->mMeshes[i];
@@ -69,7 +68,9 @@ bool cAssimpAssetLoader::Import3DFromFile(const std::string & pFile)
                 glm::mat4 globalInverseTransformation = AIMatrixToGLMMatrix(this->scene->mRootNode->mTransformation);
                 globalInverseTransformation = glm::inverse(globalInverseTransformation);
 
-                cSkinnedMesh* sMesh = new cSkinnedMesh(pFile, pFile, mesh, globalInverseTransformation);
+                cSimpleAssimpSkinnedMesh* sMesh = new cSimpleAssimpSkinnedMesh();//cSkinnedMesh(pFile, pFile, mesh, globalInverseTransformation);
+                sMesh->fileName = pFile;
+                sMesh->friendlyName = pFile;
                 vecSkinnedMeshes.push_back(sMesh);
             }
         }

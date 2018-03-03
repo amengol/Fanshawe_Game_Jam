@@ -212,6 +212,12 @@
     <ClCompile Include="src\Assimp\cSkinnedMesh.cpp">
       <Filter>Assimp</Filter>
     </ClCompile>
+    <ClCompile Include="src\Assimp\cAnimationState.cpp">
+      <Filter>Assimp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Assimp\cSimpleAssimpSkinnedMeshLoader_OneMesh.cpp">
+      <Filter>Assimp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utilities.h">
@@ -341,6 +347,12 @@
       <Filter>Assimp</Filter>
     </ClInclude>
     <ClInclude Include="src\Assimp\cSkinnedMesh.h">
+      <Filter>Assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assimp\cAnimationState.h">
+      <Filter>Assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assimp\cSimpleAssimpSkinnedMeshLoader_OneMesh.h">
       <Filter>Assimp</Filter>
     </ClInclude>
   </ItemGroup>

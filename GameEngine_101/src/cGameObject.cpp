@@ -37,6 +37,8 @@ cGameObject::cGameObject()
     this->target = glm::vec3(0.0f);
     this->rigidBody = NULL;
     this->bt_rigidBody = NULL;
+    this->pSimpleSkinnedMesh = NULL;
+    this->pAniState = NULL;			
 
 #ifdef _DEBUG
  	//this->m_pTheDR = cDebugRenderer::getInstance();
