@@ -36,169 +36,17 @@ bool loadTextures()
 
     ::g_pTextureManager->setBasePath("assets/textures");
 
-    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("delorean.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Marshaller_Male_color.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
 
-    //::g_pTextureManager->SetBasePath("assets/textures");
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("Marty.bmp", true)) {
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else {
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("delorean_reflection.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("FacadeSets01.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("RoofsEtc.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("Asphalt_rue.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("trottoir.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("curb.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("herbe1.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-    //
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("sol8.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("StreetPart.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("tree15.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("tree15_alpha.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("heli_green.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("heli_green_alpha.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("heli_green_reflection.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("clouds.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    //if(!::g_pTextureManager->Create2DTextureFromBMPFile("clouds_alpha.bmp", true))
-    //{
-    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
-    //    return false;
-    //} else
-    //{
-    //    std::cout << "Texture is loaded!" << std::endl;
-    //}
-
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Wood.bmp", true))
+     if (!::g_pTextureManager->Create2DTextureFromBMPFile("Wood.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;

@@ -1,26 +1,28 @@
 # Mesh loader
-# Authored by Jorge Amengol - Janyary 2018
+# Authored by Jorge Amengol - March 2018
 
 # You can comment a line placing a '#' as the first character
 # You have to use all given variables to be able to load the mesh. Don't delete them
 # Type of mesh are:
-# 0 -> Only normals information
-# 1 -> Normals and colours
-# 2 -> Normals and textures
+# 0 -> Regular Mesh
+# 1 -> Skinned Mesh ("defaultAnimation" member is mandatory for type 1)
+# 2 -> Animations
 
 {"Meshes" : 
 [
-{"meshName" : "RPG", "meshFile" : "RPG-Character(FBX2013).FBX", "type" : 1, "isPersistent" : false},
-{"meshName" : "RPG-Anim1", "meshFile" : "RPG-Character_Unarmed-Attack-Kick-L1(FBX2013).FBX", "type" : 1, "isPersistent" : false},
-{"meshName" : "SkyBox", "meshFile" : "SkyBox.ply", "type" : 0, "isPersistent" : false},
-{"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply", "type" : 0, "isPersistent" : false},
-{"meshName" : "Wooden_Elements", "meshFile" : "Wooden_Elements.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Concrete_Elements", "meshFile" : "Concrete_Elements.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Steel", "meshFile" : "Steel.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Basket_Square", "meshFile" : "Basket_Square.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Fence", "meshFile" : "Fence.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Basketball", "meshFile" : "Basketball.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Beachball", "meshFile" : "Beachball.obj", "type" : 2, "isPersistent" : false},
-{"meshName" : "Sockerball", "meshFile" : "Sockerball.obj", "type" : 2, "isPersistent" : false}
+{"meshName" : "SkyBox", "meshFile" : "SkyBox.ply"},
+{"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply"},
+{"meshName" : "Wooden_Elements", "meshFile" : "Wooden_Elements.obj"},
+{"meshName" : "Concrete_Elements", "meshFile" : "Concrete_Elements.obj"},
+{"meshName" : "Steel", "meshFile" : "Steel.obj"},
+{"meshName" : "Basket_Square", "meshFile" : "Basket_Square.obj"},
+{"meshName" : "Fence", "meshFile" : "Fence.obj"},
+{"meshName" : "Basketball", "meshFile" : "Basketball.obj"},
+{"meshName" : "Beachball", "meshFile" : "Beachball.obj"},
+{"meshName" : "Sockerball", "meshFile" : "Sockerball.obj"},
+{"meshName" : "RPG",
+    "type" : 1,
+     "meshFile" : "01_Walk_Cycle.fbx", 
+     "defaultAnimation" : "01_Walk_Cycle.fbx"}
 ]
 }

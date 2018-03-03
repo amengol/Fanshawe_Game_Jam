@@ -629,13 +629,18 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
 
     }// !for (rapidjson::SizeType jsIndex = 0...
 
-    cSimpleAssimpSkinnedMesh* RPGSkinnedMesh = new cSimpleAssimpSkinnedMesh();
-    RPGSkinnedMesh->LoadMeshFromFile("assets//models//RPG-Character(FBX2013).FBX");
-    RPGSkinnedMesh->LoadMeshAnimation("assets//models//RPG-Character_Unarmed-Attack-Kick-L1(FBX2013).FBX");
-    RPGSkinnedMesh->friendlyName = "RPG-Character";
-
+    // Test Object
+    cGameObject* pTempGO = new cGameObject();
+    pTempGO->meshName = "RPG";
+    pTempGO->friendlyName = "Justin";
+    // This assigns the game object to the particular skinned mesh type 
+    std::vector<cSimpleAssimpSkinnedMesh*> vsm = ::gAnimationCollection.getSkinnedMeshes("RPG");
+    cSimpleAssimpSkinnedMesh* RPGSkinnedMesh = vsm[0];
+    
     cMesh* pTheMesh = RPGSkinnedMesh->CreateMeshObjectFromCurrentModel();
-    pTheMesh->name = "RPG-Character";
+    pTheMesh->name = "RPG";
+
+    
 
     if (pTheMesh)
     {
@@ -654,20 +659,25 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         delete pTheMesh;
     }
 
-    // Test Object
-    cGameObject* pTempGO = new cGameObject();
-    pTempGO->meshName = "RPG-Character";
-    pTempGO->friendlyName = "Justin";
-    // This assigns the game object to the particular skinned mesh type 
     pTempGO->pSimpleSkinnedMesh = RPGSkinnedMesh;
     // Add a default animation 
     pTempGO->pAniState = new cAnimationState();
-    pTempGO->pAniState->defaultAnimation.name = "assets//models//RPG-Character_Unarmed-Attack-Kick-L1(FBX2013).FBX";
-    pTempGO->pAniState->defaultAnimation.frameStepTime = 0.005f;
+    pTempGO->pAniState->defaultAnimation.name = "01_Walk_Cycle.fbx";
+    pTempGO->pAniState->defaultAnimation.frameStepTime = 0.035f;
     // Get the total time of the entire animation
     pTempGO->pAniState->defaultAnimation.totalTime = pTempGO->pSimpleSkinnedMesh->GetDuration();
-    pTempGO->scale = 0.1;
-    pTempGO->hasColour = true;
+    pTempGO->scale = 0.025;
+    pTempGO->rotateY(180.0f);
+    pTempGO->textureNames[0] = "Marshaller_Male_color.bmp";
+    pTempGO->textureBlend[0] = 1.0f;
+    pTempGO->textureBlend[1] = 0.0f;
+    pTempGO->textureBlend[2] = 0.0f;
+    pTempGO->hasAlpha = false;
+    pTempGO->useDiscardAlpha = false;
+    pTempGO->cullFace = true;
+    pTempGO->typeOfObject = UNKNOWN;
+    pTempGO->diffuseColour = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    pTempGO->specular = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
     g_vecGameObjects.push_back(pTempGO);
 
     return true;

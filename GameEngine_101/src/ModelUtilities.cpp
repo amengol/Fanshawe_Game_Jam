@@ -8,6 +8,7 @@
 #include <rapidjson\document.h>
 #include "Assimp\cAssimpAssetLoader.h"
 #include <iostream>
+#include "globalGameStuff.h"
 
 cModelAssetLoader* g_pModelAssetLoader = NULL;
 
@@ -131,6 +132,37 @@ bool Load3DModelsIntoMeshManager(int shaderID,
             }
         }
        
+        switch (type)
+        {
+        case 0:
+            break;
+        case 1:
+        {
+            if (a[i]["defaultAnimation"].IsString())
+            {
+                cSimpleAssimpSkinnedMesh* RPGSkinnedMesh = new cSimpleAssimpSkinnedMesh();
+                RPGSkinnedMesh->LoadMeshFromFile(filePath + meshFile);
+                RPGSkinnedMesh->LoadMeshAnimation(filePath, a[i]["defaultAnimation"].GetString());
+                RPGSkinnedMesh->friendlyName = meshName;
+                std::vector<cSimpleAssimpSkinnedMesh*> vecSkinnedMeshes;
+                vecSkinnedMeshes.push_back(RPGSkinnedMesh);
+                gAnimationCollection.addSkinnedMesh(meshName, vecSkinnedMeshes);
+            }
+            else
+            {
+                return false;
+            }            
+        }
+            break;
+        case 2:
+        {
+
+        }
+            break;
+        default:
+            break;
+        }
+
         // isPersistent
         bool isPersistent = false;
         if (a[i].HasMember("isPersistent"))
