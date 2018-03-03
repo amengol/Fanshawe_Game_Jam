@@ -83,26 +83,69 @@ bool Load3DModelsIntoMeshManager(int shaderID,
     const rapidjson::Value& a = document["Meshes"];
     for(rapidjson::SizeType i = 0; i < a.Size(); i++)
     {
-        // Test all variables before reading
-        if(!(a[i].IsObject()
-           && a[i].HasMember("meshName")
-           && a[i]["meshName"].IsString()
-           && a[i].HasMember("meshFile")
-           && a[i]["meshFile"].IsString()
-           && a[i].HasMember("type")
-           && a[i]["type"].IsNumber()
-           && a[i].HasMember("isPersistent")
-           && a[i]["isPersistent"].IsBool()))
+        // meshName
+        std::string meshName;
+        if (a[i].HasMember("meshName"))
         {
-            ssError << "The Json object number "<< i+1 << " is not properly formated!" << std::endl;
-            error = ssError.str();
-            return false;
+            if (a[i]["meshName"].IsString())
+            {
+                meshName = a[i]["meshName"].GetString();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(i + 1) +
+                    " is not properly formated for its \"meshName\" member!";
+                return false;
+            }
         }
 
-        std::string meshName = a[i]["meshName"].GetString();
-        std::string meshFile = a[i]["meshFile"].GetString();
-        unsigned int type = a[i]["type"].GetUint();
-        bool isPersistent = a[i]["isPersistent"].GetBool();
+        // meshFile
+        std::string meshFile;
+        if (a[i].HasMember("meshFile"))
+        {
+            if (a[i]["meshFile"].IsString())
+            {
+                meshFile = a[i]["meshFile"].GetString();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(i + 1) +
+                    " is not properly formated for its \"meshFile\" member!";
+                return false;
+            }
+        }
+
+        // type
+        unsigned int type = 0;
+        if (a[i].HasMember("type"))
+        {
+            if (a[i]["type"].IsNumber())
+            {
+                type = a[i]["type"].GetUint();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(i + 1) +
+                    " is not properly formated for its \"type\" member!";
+                return false;
+            }
+        }
+       
+        // isPersistent
+        bool isPersistent = false;
+        if (a[i].HasMember("isPersistent"))
+        {
+            if (a[i]["isPersistent"].IsBool())
+            {
+                isPersistent = a[i]["isPersistent"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(i + 1) +
+                    " is not properly formated for its \"isPersistent\" member!";
+                return false;
+            }
+        }
 
         // Assimp
         cAssimpAssetLoader ail;
