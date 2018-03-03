@@ -32,22 +32,23 @@ void cAssimpAssetLoader::logInfo(std::string logString)
     Assimp::DefaultLogger::get()->info(logString.c_str());
 }
 
-bool cAssimpAssetLoader::Import3DFromFile(const std::string & pFile)
+bool cAssimpAssetLoader::Import3DFromFile(const std::string& pPath, const std::string & pFile)
 {
     // Check if file exists
-    std::ifstream fin(pFile.c_str());
+    std::string file = pPath + pFile;
+    std::ifstream fin(file.c_str());
     if (!fin.fail())
     {
         fin.close();
     }
     else
     {
-        std::cout << "Couldn't open file: " + pFile;
+        std::cout << "Couldn't open file: " + file;
         //this->logInfo(importer.GetErrorString());
         return false;
     }
 
-    this->scene = importer.ReadFile(pFile, aiProcessPreset_TargetRealtime_Quality);
+    this->scene = importer.ReadFile(pPath + pFile, aiProcessPreset_TargetRealtime_Quality);
 
     // If the import failed, report it
     if (!this->scene)

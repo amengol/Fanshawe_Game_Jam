@@ -108,7 +108,7 @@ bool Load3DModelsIntoMeshManager(int shaderID,
         cAssimpAssetLoader ail;
 
         // Load the models
-        if (!ail.Import3DFromFile(filePath + meshFile))
+        if (!ail.Import3DFromFile(filePath, meshFile))
         {
             std::cout << "There was an error importing the assimp model. "
                       << "See \"assimp_log.txt\" for details.\n";
