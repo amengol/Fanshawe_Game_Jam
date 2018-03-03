@@ -1042,19 +1042,19 @@ void DrawObject(cGameObject* pTheGO)
     //                                                               
     GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
 
-    //if (pTheGO->pSimpleSkinnedMesh)
-    //{
-    //    // Calculate the pose and load the skinned mesh stuff into the shader, too
-    //    GLint UniLoc_NumBonesUsed = glGetUniformLocation(curShaderID, "numBonesUsed");
-    //    GLint UniLoc_BoneIDArray = glGetUniformLocation(curShaderID, "bones");
-    //    CalculateSkinnedMeshBonesAndLoad(pTheGO, UniLoc_NumBonesUsed, UniLoc_BoneIDArray);
+    if (pTheGO->pSimpleSkinnedMesh)
+    {
+        // Calculate the pose and load the skinned mesh stuff into the shader, too
+        GLint UniLoc_NumBonesUsed = glGetUniformLocation(curShaderID, "numBonesUsed");
+        GLint UniLoc_BoneIDArray = glGetUniformLocation(curShaderID, "bones");
+        CalculateSkinnedMeshBonesAndLoad(pTheGO, UniLoc_NumBonesUsed, UniLoc_BoneIDArray);
 
-    //    glUniform1f(UniLoc_IsSkinnedMesh, GL_TRUE);
-    //}
-    //else
-    //{
+        glUniform1f(UniLoc_IsSkinnedMesh, GL_TRUE);
+    }
+    else
+    {
         glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
-    //}
+    }
 
     // ***************************************************
 

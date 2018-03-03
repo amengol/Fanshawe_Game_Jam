@@ -65,6 +65,16 @@ bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID, bool bKeepM
         pVertices[index].tx = theMesh.pVertices[index].tx;
         pVertices[index].ty = theMesh.pVertices[index].ty;
         pVertices[index].tz = theMesh.pVertices[index].tz;
+
+        pVertices[index].boneID[0] = theMesh.pVertices[index].boneID[0];
+        pVertices[index].boneID[1] = theMesh.pVertices[index].boneID[1];
+        pVertices[index].boneID[2] = theMesh.pVertices[index].boneID[2];
+        pVertices[index].boneID[3] = theMesh.pVertices[index].boneID[3];
+
+        pVertices[index].boneWeights[0] = theMesh.pVertices[index].boneWeights[0];
+        pVertices[index].boneWeights[1] = theMesh.pVertices[index].boneWeights[1];
+        pVertices[index].boneWeights[2] = theMesh.pVertices[index].boneWeights[2];
+        pVertices[index].boneWeights[3] = theMesh.pVertices[index].boneWeights[3];
 	}
 
 	// Copy the local vertex array into the GPUs memory
