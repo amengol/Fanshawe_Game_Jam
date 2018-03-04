@@ -59,6 +59,40 @@ bool cAssimpAssetLoader::Import3DFromFile(const std::string& pPath, const std::s
     return true;
 }
 
+const aiScene* cAssimpAssetLoader::GetAiSceneFromFile(const std::string& pPath, const std::string& pFile)
+{
+    // Check if file exists
+    std::string file = pPath + pFile;
+    std::ifstream fin(file.c_str());
+    if (!fin.fail())
+    {
+        fin.close();
+    }
+    else
+    {
+        std::cout << "Couldn't open file: " + file;
+        //this->logInfo(importer.GetErrorString());
+        return nullptr;
+    }
+
+    Assimp::Importer* pImporter = new Assimp::Importer();
+    unsigned int Flags = aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph | aiProcess_JoinIdenticalVertices;
+    const aiScene* pScene = pImporter->ReadFile(pPath + pFile, Flags);
+
+    // If the import failed, report it
+    if (!pScene)
+    {
+        //this->logInfo(importer.GetErrorString());
+        return nullptr;
+    }
+
+    // Now we can access the file's contents.
+    //this->logInfo("Import of scene " + pFile + " succeeded.");
+
+    // We're done. Everything will be cleaned up by the importer destructor
+    return pScene;
+}
+
 bool cAssimpAssetLoader::loadMeshesIntoVAO(cVAOMeshManager* pVAO,
                                           int shaderID,
                                           std::string meshName, 

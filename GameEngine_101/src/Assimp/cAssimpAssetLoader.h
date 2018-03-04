@@ -24,6 +24,9 @@ public:
     // Imports  the 3D scene from a file
     bool Import3DFromFile(const std::string& pPath, const std::string& pFile);
 
+    // Imports an aiScene from a file
+    const aiScene* GetAiSceneFromFile(const std::string& pPath, const std::string& pFile);
+
     // Loads all meshes into the VAO manager. If there is more than one mesh in
     // the Assimp Scene, all of them will have the friendlyName and persistence
     bool loadMeshesIntoVAO(cVAOMeshManager*, 
