@@ -64,7 +64,7 @@ public:
 
 	bool LoadMeshFromFile(const std::string &filename);		// mesh we draw
 	bool LoadMeshAnimation(const std::string &path, const std::string &filename);	// Only want animations
-    void SetAnimScene(const aiScene* scene, const std::string &animName);
+    void AddAnimationScene(const aiScene* scene, const std::string &animName);
 
 	std::string fileName;
 	std::string friendlyName;

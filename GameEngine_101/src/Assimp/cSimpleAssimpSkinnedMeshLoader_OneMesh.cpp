@@ -154,7 +154,7 @@ bool cSimpleAssimpSkinnedMesh::LoadMeshAnimation(const std::string &path, const 
 	return true;
 }
 
-void cSimpleAssimpSkinnedMesh::SetAnimScene(const aiScene* scene, const std::string & animName)
+void cSimpleAssimpSkinnedMesh::AddAnimationScene(const aiScene* scene, const std::string & animName)
 {
     if (!scene)
     {
