@@ -8,6 +8,7 @@
 #include <glad/glad.h>
 
 #include <sstream>
+#include <iostream>
 
 
 //#define OUTPUT_STUFF 1
@@ -70,6 +71,16 @@ bool cSimpleAssimpSkinnedMesh::LoadMeshFromFile(const std::string &filename)
 	////aiMesh* pM3 = this->mpScene->mMeshes[3];
 	if ( this->pScene )
 	{
+        // Sanity check
+        if (!this->pScene->HasAnimations())
+        {
+            std::cout << "The skinned mesh must have at least a dummy animation! Mesh file ";
+            if (this->pScene->mNumMeshes > 0)
+                std::cout << this->pScene->mMeshes[0];
+            std::cout << " not loaded!\n";
+            return false;
+        }
+
 		this->fileName = filename;
 		// Assume the friendlyName is the same as the file, for now
 		this->friendlyName = filename;
