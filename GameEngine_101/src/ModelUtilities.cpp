@@ -9,6 +9,9 @@
 #include "Assimp\cAssimpAssetLoader.h"
 #include <iostream>
 #include "globalGameStuff.h"
+#include "Assimp\cAnimationCollection.h"
+
+cAnimationCollection gAnimationCollection;
 
 cModelAssetLoader* g_pModelAssetLoader = NULL;
 
