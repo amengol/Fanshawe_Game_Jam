@@ -64,6 +64,7 @@ public:
 
 	bool LoadMeshFromFile(const std::string &filename);		// mesh we draw
 	bool LoadMeshAnimation(const std::string &path, const std::string &filename);	// Only want animations
+    void SetAnimScene(const aiScene* scene, const std::string &animName);
 
 	std::string fileName;
 	std::string friendlyName;
@@ -76,6 +77,9 @@ public:
 
 	// Looks in the animation map and returns the total time
 	float FindAnimationTotalTime( std::string animationName );
+
+    // Looks in the animation map and returns the duration of an animation
+    float GetAnimationDuration(const std::string animName);
 
 	// Creates a VBO, loads the current mesh, then creates a VAO for the current VBO+shader
 //	bool CreateVBOfromCurrentMesh(void);

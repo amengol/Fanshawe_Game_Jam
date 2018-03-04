@@ -115,6 +115,22 @@ float cSimpleAssimpSkinnedMesh::FindAnimationTotalTime(std::string animationName
 	return itAnimation->second->mAnimations[0]->mDuration;
 }
 
+float cSimpleAssimpSkinnedMesh::GetAnimationDuration(const std::string animName)
+{
+    std::map< std::string /*animationfile*/,
+        const aiScene* >::iterator itAnimation = this->mapAnimationNameTo_pScene.find(animName);
+
+    // Found it? 
+    if (itAnimation == this->mapAnimationNameTo_pScene.end())
+    {	// Nope.
+        return 0.0f;
+    }
+
+    float duration = (float)(itAnimation->second->mAnimations[0]->mDuration / itAnimation->second->mAnimations[0]->mTicksPerSecond);
+
+    return duration;
+}
+
 
 bool cSimpleAssimpSkinnedMesh::LoadMeshAnimation(const std::string &path, const std::string &filename)	// Only want animations
 {
@@ -136,6 +152,16 @@ bool cSimpleAssimpSkinnedMesh::LoadMeshAnimation(const std::string &path, const 
 	this->mapAnimationNameTo_pScene[filename] = pAniScene;
 
 	return true;
+}
+
+void cSimpleAssimpSkinnedMesh::SetAnimScene(const aiScene* scene, const std::string & animName)
+{
+    if (!scene)
+    {
+        return;
+    }
+
+    this->mapAnimationNameTo_pScene[animName] = scene;
 }
 
 	//const aiScene* pScene;		// "pretty" mesh we update and draw
