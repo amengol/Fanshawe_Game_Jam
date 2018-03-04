@@ -141,8 +141,8 @@ bool Load3DModelsIntoMeshManager(int shaderID,
             if (a[i]["defaultAnimation"].IsString())
             {
                 cSimpleAssimpSkinnedMesh* RPGSkinnedMesh = new cSimpleAssimpSkinnedMesh();
-                RPGSkinnedMesh->LoadMeshFromFile(filePath + meshFile);
-                RPGSkinnedMesh->LoadMeshAnimation(filePath, a[i]["defaultAnimation"].GetString());
+                if (!RPGSkinnedMesh->LoadMeshFromFile(filePath + meshFile))
+                    break;
                 RPGSkinnedMesh->friendlyName = meshName;
                 std::vector<cSimpleAssimpSkinnedMesh*> vecSkinnedMeshes;
                 vecSkinnedMeshes.push_back(RPGSkinnedMesh);
