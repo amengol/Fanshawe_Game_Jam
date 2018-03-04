@@ -9,22 +9,22 @@ class cAnimationCollection
 {
 public:
     // Maps a vector of animations to a name
-    void addAnimationCollection(std::string name, std::vector<aiAnimation*> vecAnim);
+    void addAnimationCollection(std::string name, aiScene* anim);
 
     // Maps a vector of skinned meshes to a name
-    void addSkinnedMesh(std::string name, std::vector<cSimpleAssimpSkinnedMesh*> vecSkinnedMesh);
+    void addSkinnedMesh(std::string name, cSimpleAssimpSkinnedMesh* skinnedMesh);
 
     // Returns all animations associated with the name
-    std::vector<aiAnimation*> getAnimations(std::string name);
+    aiScene* getAnimation(std::string name);
 
     // Returns all skinned meshes associated with the name
-    std::vector<cSimpleAssimpSkinnedMesh*> getSkinnedMeshes(std::string name);
+    cSimpleAssimpSkinnedMesh* getSkinnedMeshes(std::string name);
 
 private:
     // Animation collection
-    std::map <std::string, std::vector<aiAnimation*>> mMapNameToVecAnimations;
+    std::map <std::string, aiScene*> mMapNameToAnimations;
 
     // Skinned Meshes collection
-    std::map <std::string, std::vector<cSimpleAssimpSkinnedMesh*>> mMapNameToVecSkinnedMesh;
+    std::map <std::string, cSimpleAssimpSkinnedMesh*> mMapNameToVecSkinnedMesh;
 };
 

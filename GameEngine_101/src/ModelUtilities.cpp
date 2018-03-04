@@ -138,21 +138,20 @@ bool Load3DModelsIntoMeshManager(int shaderID,
             break;
         case 1: // SKINNED
         {
-            cSimpleAssimpSkinnedMesh* RPGSkinnedMesh = new cSimpleAssimpSkinnedMesh();
-            if (!RPGSkinnedMesh->LoadMeshFromFile(filePath + meshFile))
+            cSimpleAssimpSkinnedMesh* skinnedMesh = new cSimpleAssimpSkinnedMesh();
+            if (!skinnedMesh->LoadMeshFromFile(filePath + meshFile))
             {
-                delete RPGSkinnedMesh;
+                delete skinnedMesh;
                 break;
             }                
-            RPGSkinnedMesh->friendlyName = meshName;
-            std::vector<cSimpleAssimpSkinnedMesh*> vecSkinnedMeshes;
-            vecSkinnedMeshes.push_back(RPGSkinnedMesh);
-            gAnimationCollection.addSkinnedMesh(meshName, vecSkinnedMeshes);         
+            skinnedMesh->friendlyName = meshName;
+            gAnimationCollection.addSkinnedMesh(meshName, skinnedMesh);
+            continue;
         }
             break;
         case 2: // ANIMATIONS
         {
-
+            continue;
         }
             break;
         default:
