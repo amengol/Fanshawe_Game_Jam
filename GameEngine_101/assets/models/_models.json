@@ -4,7 +4,7 @@
 # You can comment a line placing a '#' as the first character
 # You have to use all given variables to be able to load the mesh. Don't delete them
 # Type of mesh are:
-# 0 -> Regular Mesh
+# 0 -> Regular Mesh (Default)
 # 1 -> Skinned Mesh ("defaultAnimation" member is mandatory for type 1)
 # 2 -> Animations
 
@@ -20,9 +20,7 @@
 {"meshName" : "Basketball", "meshFile" : "Basketball.obj"},
 {"meshName" : "Beachball", "meshFile" : "Beachball.obj"},
 {"meshName" : "Sockerball", "meshFile" : "Sockerball.obj"},
-{"meshName" : "RPG",
-    "type" : 1,
-     "meshFile" : "01_Walk_Cycle.fbx", 
-     "defaultAnimation" : "01_Walk_Cycle.fbx"}
+{"meshName" : "Marshaller", "type" : 1, "meshFile" : "T-pose.fbx"},
+{"animName" : "01_Walk_Cycle", "type" : 2, "animFile" : "01_Walk_Cycle.fbx"}
 ]
 }

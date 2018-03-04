@@ -154,7 +154,47 @@ bool Load3DModelsIntoMeshManager(int shaderID,
             break;
         case 2: // ANIMATIONS
         {
-            continue;
+            if (a[i]["animName"].IsString() && a[i]["animFile"].IsString())
+            {
+                std::string animName = a[i]["animName"].GetString();
+                if (animName == "")
+                {
+                    std::cout << "The animName must have a value!\n";
+                    return false;
+                }
+
+                std::string animFile = a[i]["animFile"].GetString();
+                if (animFile == "")
+                {
+                    std::cout << "The animFile must have a value!\n";
+                    return false;
+                }
+
+                // Assimp
+                cAssimpAssetLoader ail;
+                const aiScene* pScene = ail.GetAiSceneFromFile(filePath, animFile);
+                // Load the models
+                if (pScene == nullptr)
+                {
+                    std::cout << "There was an error importing the aiScene from file. "
+                        << "See \"assimp_log.txt\" for details.\n";
+                    return false;
+                }
+                else
+                {
+                    std::cout << "Assimp Animation Scene created.\n";
+                }
+
+                gAnimationCollection.addAnimationCollection(animName, pScene);
+
+                continue;
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(i + 1) +
+                    " is not properly formated for its \"animName\" or \"animFile\" member!";
+                return false;
+            }
         }
             break;
         default:
