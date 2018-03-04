@@ -142,12 +142,12 @@ bool Load3DModelsIntoMeshManager(int shaderID,
         case 1: // SKINNED
         {
             cSkinnedMesh* skinnedMesh = new cSkinnedMesh();
-            if (!skinnedMesh->LoadMeshFromFile(filePath + meshFile))
+            if (!skinnedMesh->LoadMeshFromFile(filePath, meshFile))
             {
                 delete skinnedMesh;
-                break;
+                continue;
             }                
-            skinnedMesh->friendlyName = meshName;
+            skinnedMesh->SetFriendlyName(meshName);
             gAnimationCollection.addSkinnedMesh(meshName, skinnedMesh);
             continue;
         }

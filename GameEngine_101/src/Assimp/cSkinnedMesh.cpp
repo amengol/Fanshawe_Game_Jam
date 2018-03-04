@@ -1,74 +1,28 @@
 #include "cSkinnedMesh.h"
-
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
-
 #include <glad/glad.h>
-
 #include <sstream>
 #include <iostream>
-
-
-//#define OUTPUT_STUFF 1
-
-
-glm::mat4 AIMatrixToGLMMatrix(const aiMatrix4x4 &mat);
-
+#include <../src/Assimp/animHelper.h>
 
 cSkinnedMesh::cSkinnedMesh(void)
 {
 	this->pScene = 0;
 	this->mNumBones = 0;
-
-	//this->m_VBO_ID = 0;				// Vertex buffer object 
 	this->m_numberOfVertices = 0;
-	//this->m_indexBuf_ID = 0;		// Index buffer referring to VBO
 	this->m_numberOfIndices = 0;
 	this->m_numberOfTriangles = 0;
-	//this->m_bVBO_created = false;
-
-	//this->m_VAO_ID = 0;				// Vertex Array Object
-	//this->m_bVAO_created = false;
-	//this->m_shaderIDMatchingVAO = 0;
-
-
-	return;
 }
 
-///*static*/ 
-//const int cSkinnedMesh::MAX_BONES_PER_VERTEX = 4;
-
-
-cSkinnedMesh::~cSkinnedMesh(void)
-{
-	this->ShutErDown();
-
-	return;
-}
-
-void cSkinnedMesh::ShutErDown(void)
-{
-	//if ( this->m_pVertexData )
-	//{
-	//	delete [] this->m_pVertexData;
-	//}
-	// TODO: Delete the OpenGL buffers, too??
-
-	return;
-}
-
-bool cSkinnedMesh::LoadMeshFromFile(const std::string &filename)
+bool cSkinnedMesh::LoadMeshFromFile(const std::string &path, const std::string &filename)
 {
 	unsigned int Flags = aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph | aiProcess_JoinIdenticalVertices;
 
-	this->pScene = this->mImporter.ReadFile(filename.c_str(), Flags);
+	this->pScene = this->mImporter.ReadFile((path + filename).c_str(), Flags);
 
-	//aiMesh* pM0 = this->pScene->mMeshes[0];
-	////aiMesh* pM1 = this->mpScene->mMeshes[1];
-	////aiMesh* pM2 = this->mpScene->mMeshes[2];
-	////aiMesh* pM3 = this->mpScene->mMeshes[3];
 	if ( this->pScene )
 	{
         // Sanity check
@@ -82,8 +36,9 @@ bool cSkinnedMesh::LoadMeshFromFile(const std::string &filename)
         }
 
 		this->fileName = filename;
-		// Assume the friendlyName is the same as the file, for now
-		this->friendlyName = filename;
+		
+        // Get s substring for the friendly name
+		this->friendlyName = filename.substr(0, filename.size() - 4);
 
 		this->mGlobalInverseTransformation = AIMatrixToGLMMatrix( pScene->mRootNode->mTransformation );
 		this->mGlobalInverseTransformation = glm::inverse(this->mGlobalInverseTransformation);
@@ -94,12 +49,15 @@ bool cSkinnedMesh::LoadMeshFromFile(const std::string &filename)
 			return false;
 		}
 	}//if ( this->pScene )
+    else
+    {
+        std::cout << "The skinned mesh " << filename << " was not found\n";
+        return false;
+    }
 
 	return true;
 }
 
-
-													// Looks in the animation map and returns the total time
 float cSkinnedMesh::FindAnimationTotalTime(std::string animationName)
 {
 	std::map< std::string /*animationfile*/,
@@ -131,11 +89,8 @@ float cSkinnedMesh::GetAnimationDuration(const std::string animName)
     return duration;
 }
 
-
-bool cSkinnedMesh::LoadMeshAnimation(const std::string &path, const std::string &filename)	// Only want animations
+bool cSkinnedMesh::LoadMeshAnimation(const std::string &path, const std::string &filename)
 {
-//	std::map< std::string /*animationfile*/,
-//		      const aiScene* > mapAnimationNameTo_pScene;		// Animations
 
 	unsigned int Flags = aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph | aiProcess_JoinIdenticalVertices;
 
@@ -164,13 +119,6 @@ void cSkinnedMesh::AddAnimationScene(const aiScene* scene, const std::string & a
     this->mapAnimationNameTo_pScene[animName] = scene;
 }
 
-	//const aiScene* pScene;		// "pretty" mesh we update and draw
-	//Assimp::Importer mImporter;
-
-	//std::map< std::string /*animationfile*/,
-	//	      const aiScene* > mapAnimationNameTo_pScene;		// Animations
-
-
 bool cSkinnedMesh::Initialize(void)
 {
 	this->m_numberOfVertices = this->pScene->mMeshes[0]->mNumVertices;
@@ -182,7 +130,6 @@ bool cSkinnedMesh::Initialize(void)
 
 	return true;
 }
-
 
 void cSkinnedMesh::sVertexBoneData::AddBoneData(unsigned int BoneID, float Weight)
 {
@@ -197,14 +144,8 @@ void cSkinnedMesh::sVertexBoneData::AddBoneData(unsigned int BoneID, float Weigh
 	}
 }
 
-// In the original code, these vectors are being passed out into the "character" object.
-// It's unclear what the Globals matrices are actually for...
-//void cSkinnedMesh::BoneTransform( float TimeInSeconds, 
-//                                              std::vector<glm::mat4> &FinalTransformation, 
-//								              std::vector<glm::mat4> &Globals, 
-//								              std::vector<glm::mat4> &Offsets)
 void cSkinnedMesh::BoneTransform( float TimeInSeconds, 
-											  std::string animationName,		// Now we can pick the animation
+											  std::string animationName,
                                               std::vector<glm::mat4> &FinalTransformation, 
 								              std::vector<glm::mat4> &Globals, 
 								              std::vector<glm::mat4> &Offsets)
@@ -219,7 +160,7 @@ void cSkinnedMesh::BoneTransform( float TimeInSeconds,
 	
 	// use the "animation" file to look up these nodes
 	// (need the matOffset information from the animation file)
-	this->ReadNodeHeirarchy(AnimationTime, animationName, this->pScene->mRootNode, Identity);
+	this->ReadNodeHierarchy(AnimationTime, animationName, this->pScene->mRootNode, Identity);
 
 	FinalTransformation.resize(this->mNumBones);
 	Globals.resize(this->mNumBones);
@@ -240,9 +181,6 @@ void cSkinnedMesh::LoadBones(const aiMesh* Mesh, std::vector<sVertexBoneData> &v
 		unsigned int BoneIndex = 0;
 		std::string BoneName(Mesh->mBones[boneIndex]->mName.data);
 
-		//	std::map<std::string /*BoneName*/, unsigned int /*BoneIndex*/> mMapping;
-		// 	std::vector<sBoneInfo> mInfo;
-
 		std::map<std::string, unsigned int>::iterator it = this->m_mapBoneNameToBoneIndex.find(BoneName);
 		if ( it == this->m_mapBoneNameToBoneIndex.end() )
 		{
@@ -261,7 +199,7 @@ void cSkinnedMesh::LoadBones(const aiMesh* Mesh, std::vector<sVertexBoneData> &v
 
 		for ( unsigned int WeightIndex = 0; WeightIndex != Mesh->mBones[boneIndex]->mNumWeights; WeightIndex++ )
 		{
-			unsigned int VertexID = /*mMeshEntries[MeshIndex].BaseVertex +*/ Mesh->mBones[boneIndex]->mWeights[WeightIndex].mVertexId;
+			unsigned int VertexID = Mesh->mBones[boneIndex]->mWeights[WeightIndex].mVertexId;
 			float Weight = Mesh->mBones[boneIndex]->mWeights[WeightIndex].mWeight;
 			vertexBoneData[VertexID].AddBoneData(BoneIndex, Weight);
 		}
@@ -280,7 +218,6 @@ const aiNodeAnim* cSkinnedMesh::FindNodeAnimationChannel(const aiAnimation* pAni
 	}
 	return 0;
 }
-
 
 unsigned int cSkinnedMesh::FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim)
 {
@@ -321,14 +258,13 @@ unsigned int cSkinnedMesh::FindScaling(float AnimationTime, const aiNodeAnim* pN
 	return 0;
 }
 
-void cSkinnedMesh::ReadNodeHeirarchy(float AnimationTime, 
+void cSkinnedMesh::ReadNodeHierarchy(float AnimationTime, 
 												 std::string animationName, 
 												 const aiNode* pNode,
 												 const glm::mat4 &ParentTransformMatrix)
 {
 	aiString NodeName(pNode->mName.data);
 
-// Original version picked the "main scene" animation...
 	const aiAnimation* pAnimation = this->pScene->mAnimations[0];
 
 	// Search for the animation we want... 
@@ -342,9 +278,6 @@ void cSkinnedMesh::ReadNodeHeirarchy(float AnimationTime,
 		// ...replace the animation with the one we found
 		pAnimation = reinterpret_cast<const aiAnimation*>( itAnimation->second->mAnimations[0] );
 	}
-
-
-	//aiMatrix4x4 NodeTransformation;
 
 	// Transformation of the node in bind pose
 	glm::mat4 NodeTransformation = AIMatrixToGLMMatrix( pNode->mTransformation );
@@ -390,9 +323,6 @@ void cSkinnedMesh::ReadNodeHeirarchy(float AnimationTime,
 		this->mBoneInfo[BoneIndex].FinalTransformation = this->mGlobalInverseTransformation 
 		                                                 * ObjectBoneTransformation 
 			                                             * this->mBoneInfo[BoneIndex].BoneOffset;
-		//this->mBoneInfo[BoneIndex].FinalTransformation = GlobalTransformation 
-		//	                                             * this->mBoneInfo[BoneIndex].BoneOffset;
-
 	}
 	else
 	{
@@ -401,7 +331,7 @@ void cSkinnedMesh::ReadNodeHeirarchy(float AnimationTime,
 
 	for ( unsigned int ChildIndex = 0; ChildIndex != pNode->mNumChildren; ChildIndex++ )
 	{
-		this->ReadNodeHeirarchy( AnimationTime, animationName,
+		this->ReadNodeHierarchy( AnimationTime, animationName,
 								 pNode->mChildren[ChildIndex], ObjectBoneTransformation);
 	}
 
@@ -555,15 +485,13 @@ void cSkinnedMesh::CalcGLMInterpolatedScaling(float AnimationTime, const aiNodeA
 	return;
 }
 
-float cSkinnedMesh::GetDuration(void)
+float cSkinnedMesh::GetDefaultAnimationDuration(void)
 {
 	float duration = (float)(this->pScene->mAnimations[0]->mDuration / this->pScene->mAnimations[0]->mTicksPerSecond);
 
 	return duration; 
 }
 
-
-// Returns NULL (0) if there is no mesh at that index
 cMesh* cSkinnedMesh::CreateMeshObjectFromCurrentModel( unsigned int meshIndex /*=0*/)
 {
 	if ( this->pScene->mNumMeshes < meshIndex )
@@ -637,6 +565,7 @@ cMesh* cSkinnedMesh::CreateMeshObjectFromCurrentModel( unsigned int meshIndex /*
 
     return engMesh;
 
+    //==============  OLD FEENEY's CODE for this function =====================
 
     //// Assume there is a valid mesh there
 	//cMesh* pTheMesh = new cMesh();
@@ -733,218 +662,3 @@ cMesh* cSkinnedMesh::CreateMeshObjectFromCurrentModel( unsigned int meshIndex /*
 
 	//return pTheMesh;
 }
-
-
-
-//// Creates a VBO, loads the current mesh, then creates a VAO for the current VBO+shader
-////bool cAssimpMesh::CreateVBOandVOAfromCurrentMesh(int shaderID, unsigned int &VBO_ID, unsigned int &VAO_ID )
-//bool cSkinnedMesh::CreateVBOfromCurrentMesh(/* unsigned int &VBO_ID, unsigned int &numVertices,
-//                                            unsigned int &indexBufferID, unsigned int &numIndices*/ )
-//{
-//	this->m_numberOfVertices = this->pScene->mMeshes[0]->mNumVertices;
-//
-//	this->m_pVertexData = new vert_XYZ_RGBA_N_STU_TanBi_4Bones[this->m_numberOfVertices];
-//
-//	for ( unsigned int vertexID = 0; vertexID != this->m_numberOfVertices; vertexID++ )
-//	{
-//		vert_XYZ_RGBA_N_STU_TanBi_4Bones* pCurVert = &(this->m_pVertexData[vertexID]);
-//		aiVector3D* pCurAIVert = &(this->pScene->mMeshes[0]->mVertices[vertexID]);
-//		
-//		pCurVert->x = pCurAIVert->x;
-//		pCurVert->y = pCurAIVert->y;
-//		pCurVert->z = pCurAIVert->z;
-//
-//		// Bone IDs are being passed OK
-//		pCurVert->boneID[0] = this->vecVertexBoneData[vertexID].ids[0];
-//		pCurVert->boneID[1] = this->vecVertexBoneData[vertexID].ids[1];
-//		pCurVert->boneID[2] = this->vecVertexBoneData[vertexID].ids[2];
-//		pCurVert->boneID[3] = this->vecVertexBoneData[vertexID].ids[3];
-//
-//		// Weights are being passed OK
-//		pCurVert->boneWeights[0] = this->vecVertexBoneData[vertexID].weights[0];
-//		pCurVert->boneWeights[1] = this->vecVertexBoneData[vertexID].weights[1];
-//		pCurVert->boneWeights[2] = this->vecVertexBoneData[vertexID].weights[2];
-//		pCurVert->boneWeights[3] = this->vecVertexBoneData[vertexID].weights[3];
-//
-//		pCurVert->r = 1.0f;
-//		pCurVert->g = 1.0f;
-//		pCurVert->b = 1.0f;
-//		pCurVert->a = 1.0f;
-//
-//
-//	}//for ( unsigned int vertexID;
-//
-//	// Create a vertex buffer
-//	glGenBuffers(1, &(this->m_VBO_ID) );  
-//	// Brings the particular vertex buffer into context
-//	glBindBuffer(GL_ARRAY_BUFFER, this->m_VBO_ID);
-//
-//	int vertexBufferSizeInBytes = sizeof( vert_XYZ_RGBA_N_STU_TanBi_4Bones ) * this->m_numberOfVertices;
-//
-//	glBufferData(GL_ARRAY_BUFFER, 
-//					vertexBufferSizeInBytes, 
-//					this->m_pVertexData,		// Pointer to vertex array
-//					GL_STATIC_DRAW);
-//
-//	// Now the index buffer...
-//	this->m_numberOfTriangles = this->pScene->mMeshes[0]->mNumFaces;
-//	unsigned int numIndicesPerFace = this->pScene->mMeshes[0]->mFaces->mNumIndices;	// Will ALWAYS be 3 if we are using "triangulate"
-//
-//	std::vector< unsigned int > vecTriIndices;
-//	this->m_numberOfIndices = this->m_numberOfTriangles * numIndicesPerFace; /*'always' 3*/
-//	vecTriIndices.reserve( this->m_numberOfIndices );
-//
-//	for ( int faceIndex = 0; faceIndex != this->m_numberOfTriangles; faceIndex++ )
-//	{	// Lines have 2 indices
-//		aiFace* pCurAIFace = &(this->pScene->mMeshes[0]->mFaces[faceIndex]);
-//
-//		vecTriIndices.push_back( pCurAIFace->mIndices[0] );
-//		vecTriIndices.push_back( pCurAIFace->mIndices[1] );
-//		vecTriIndices.push_back( pCurAIFace->mIndices[2] );
-//	}
-//
-//	glGenBuffers( 1, &(this->m_indexBuf_ID) );
-//	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, this->m_indexBuf_ID );
-//
-//	unsigned int sizeOfIndexArrayInBytes = static_cast<unsigned int>(vecTriIndices.size()) * sizeof( GLuint );
-//
-//	unsigned int* pStartOfIndexBuffer = &(vecTriIndices[0]);
-//	glBufferData ( GL_ELEMENT_ARRAY_BUFFER, sizeOfIndexArrayInBytes, pStartOfIndexBuffer, GL_STATIC_DRAW);
-//
-//	this->m_bVBO_created = true;
-//
-//	glBindBuffer(GL_ARRAY_BUFFER, 0);
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-//
-//
-//	return true;
-//}
-//
-//bool cSkinnedMesh::CreateVBOandVOAfromCurrentMesh( int shaderProgID, std::string &error )
-//{
-//	this->m_shaderIDMatchingVAO = shaderProgID;
-//
-//	glUseProgram( this->m_shaderIDMatchingVAO );
-//
-//	glGenVertexArrays(1, &(this->m_VAO_ID) );	
-//	glBindVertexArray( this->m_VAO_ID );
-//	
-//	// Associate a particular VBO to this VAO...
-//	glBindBuffer( GL_ARRAY_BUFFER, this->m_VBO_ID );
-//	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, this->m_indexBuf_ID );
-//
-//	unsigned int sizeOfVertexInBytes = sizeof(vert_XYZ_RGBA_N_STU_TanBi_4Bones);
-//
-//	{// vPosition
-//		GLint vPosition_location = glGetAttribLocation(this->m_shaderIDMatchingVAO, "vPosition");	
-//		if ( vPosition_location < 0 )	
-//		{ error = "Error: can't find vPosition vertex attrib."; return false; }
-//
-//		glEnableVertexAttribArray(vPosition_location);
-//		int offsetInBytesToPosition = offsetof( vert_XYZ_RGBA_N_STU_TanBi_4Bones, x );
-//		glVertexAttribPointer( vPosition_location, 3, 
-//								GL_FLOAT, GL_FALSE,
-//								sizeOfVertexInBytes,	 
-//								reinterpret_cast<void*>(static_cast<uintptr_t>(offsetInBytesToPosition)) );	// For 64 bit issues
-//	}// vPosition
-//
-//	{// vColour
-//		GLint vColour_location = glGetAttribLocation(this->m_shaderIDMatchingVAO, "vColour");	
-//		if ( vColour_location < 0 )	
-//		{ error = "Error: can't find vColour vertex attrib."; return false; }
-//
-//		glEnableVertexAttribArray(vColour_location);
-//		int offsetInBytesToColour = offsetof( vert_XYZ_RGBA_N_STU_TanBi_4Bones, r );
-//		glVertexAttribPointer( vColour_location, 4, GL_FLOAT, GL_FALSE,
-//								sizeOfVertexInBytes,	
-//								reinterpret_cast<void*>(static_cast<uintptr_t>(offsetInBytesToColour)) );	// For 64 bit issues
-//	}// vColour
-//
-//	{// vNormal
-//		GLint vNormal_location = glGetAttribLocation(this->m_shaderIDMatchingVAO, "vNormal");	
-//		if ( vNormal_location < 0 )	
-//		{ error = "Error: can't find vNormal vertex attrib."; return false; }
-//
-//		glEnableVertexAttribArray(vNormal_location);
-// 		int offsetInBytesToNormal = offsetof( vert_XYZ_RGBA_N_STU_TanBi_4Bones, nX );
-//		glVertexAttribPointer( vNormal_location, 3, GL_FLOAT, GL_TRUE,
-//								sizeOfVertexInBytes,	 
-//								reinterpret_cast<void*>(static_cast<uintptr_t>(offsetInBytesToNormal)) );		// For 64 bit issues
-//	}// vNormal
-//
-//
-//	{// vTexSTU
-//		GLint vTexSTU_location = glGetAttribLocation(this->m_shaderIDMatchingVAO, "vTexSTU");	
-//		if ( vTexSTU_location < 0 )	
-//		{ error = "Error: can't find vTexSTU vertex attrib."; return false; }
-//
-//		glEnableVertexAttribArray(vTexSTU_location);
-// 		int offsetInBytesToSTU = offsetof( vert_XYZ_RGBA_N_STU_TanBi_4Bones, s );
-//		glVertexAttribPointer( vTexSTU_location, 3, GL_FLOAT, GL_TRUE,
-//								sizeOfVertexInBytes,	
-//								reinterpret_cast<void*>(static_cast<uintptr_t>(offsetInBytesToSTU)) );		// For 64 bit issues
-//	}// vTexSTU
-//
-//	{// vTangent
-//		GLint vTangent_location = glGetAttribLocation(this->m_shaderIDMatchingVAO, "vTangent");	
-//		if ( vTangent_location < 0 )	
-//		{ error = "Error: can't find vTangent vertex attrib."; return false; }
-//
-//		glEnableVertexAttribArray(vTangent_location);
-// 		int offsetInBytesToTangent = offsetof( vert_XYZ_RGBA_N_STU_TanBi_4Bones, tanX );
-//		glVertexAttribPointer( vTangent_location, 3, GL_FLOAT, GL_TRUE,
-//								sizeOfVertexInBytes,	
-//								reinterpret_cast<void*>(static_cast<uintptr_t>(offsetInBytesToTangent)) );		// For 64 bit issues
-//	}// vTangent
-//
-//	{//vBitangent
-//		GLint vBitangent_location = glGetAttribLocation(this->m_shaderIDMatchingVAO, "vBitangent");	
-//		if ( vBitangent_location < 0 )	
-//		{ error = "Error: can't find vBitangent vertex attrib."; return false; }
-//
-//		glEnableVertexAttribArray(vBitangent_location);
-//		int offsetInBytesToBiTangent = offsetof( vert_XYZ_RGBA_N_STU_TanBi_4Bones, bitanX );
-//		glVertexAttribPointer( vBitangent_location, 3, GL_FLOAT, GL_TRUE,
-//								sizeOfVertexInBytes,	
-//								reinterpret_cast<void*>(static_cast<uintptr_t>(offsetInBytesToBiTangent)) );		// For 64 bit issues
-//	}//vBitangent
-//
-//	{//vBoneIDs_x4
-//		GLint vBoneIDs_location = glGetAttribLocation(this->m_shaderIDMatchingVAO, "vBoneIDs_x4");	
-//		if ( vBoneIDs_location < 0 )	
-//		{ error = "Error: can't find vBoneIDs_x4 vertex attrib."; return false; }
-//
-//		glEnableVertexAttribArray(vBoneIDs_location);
-//		int offsetInBytesToBoneIDs = (int)offsetof( vert_XYZ_RGBA_N_STU_TanBi_4Bones, boneID[0] );
-//		//glVertexAttribPointer( vBoneIDs_location, 4, GL_INT, GL_FALSE,
-//		glVertexAttribPointer( vBoneIDs_location, 4, GL_FLOAT, GL_FALSE,
-//								sizeOfVertexInBytes,	
-//								reinterpret_cast<void*>(static_cast<uintptr_t>(offsetInBytesToBoneIDs)) );		// For 64 bit issues
-//	}//vBoneIDs_x4
-//
-//	{//vBoneWeights_x4
-//		GLint vBoneWeights_location = glGetAttribLocation(this->m_shaderIDMatchingVAO, "vBoneWeights_x4");	
-//		if ( vBoneWeights_location < 0 )	
-//		{ error = "Error: can't find vBoneWeights_x4 vertex attrib."; return false; }
-//
-//		glEnableVertexAttribArray(vBoneWeights_location);
-//		int offsetInBytesToBoneWeights = (int)offsetof( vert_XYZ_RGBA_N_STU_TanBi_4Bones, boneWeights[0] );
-//		glVertexAttribPointer( vBoneWeights_location, 4, GL_FLOAT, GL_TRUE,
-//								sizeOfVertexInBytes,	
-//								reinterpret_cast<void*>(static_cast<uintptr_t>(offsetInBytesToBoneWeights)) );		// For 64 bit issues
-//	}//vBoneWeights_x4
-//
-//	this->m_bVAO_created = true;
-//
-//	// Unbind everything
-//	glBindVertexArray(0);
-//	glBindBuffer(GL_ARRAY_BUFFER, 0);
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-//	glUseProgram(0);
-//
-//
-//	return true;
-//}
-//
-//
-

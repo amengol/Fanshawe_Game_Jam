@@ -55,7 +55,7 @@
     <Filter Include="Error">
       <UniqueIdentifier>{8708b02f-f7bf-434b-8f41-e608f68b2798}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assimp">
+    <Filter Include="Assimp and Animation">
       <UniqueIdentifier>{ab3b5775-1310-42b5-9b84-ad465c42d265}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -201,19 +201,19 @@
       <Filter>DebugRenderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Assimp\cAssimpAssetLoader.cpp">
-      <Filter>Assimp</Filter>
+      <Filter>Assimp and Animation</Filter>
     </ClCompile>
     <ClCompile Include="src\Assimp\animHelper.cpp">
-      <Filter>Assimp</Filter>
+      <Filter>Assimp and Animation</Filter>
     </ClCompile>
     <ClCompile Include="src\Assimp\cAnimationCollection.cpp">
-      <Filter>Assimp</Filter>
+      <Filter>Assimp and Animation</Filter>
     </ClCompile>
     <ClCompile Include="src\Assimp\cAnimationState.cpp">
-      <Filter>Assimp</Filter>
+      <Filter>Assimp and Animation</Filter>
     </ClCompile>
     <ClCompile Include="src\Assimp\cSkinnedMesh.cpp">
-      <Filter>Assimp</Filter>
+      <Filter>Assimp and Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,19 +335,19 @@
       <Filter>Textures Related</Filter>
     </ClInclude>
     <ClInclude Include="src\Assimp\cAssimpAssetLoader.h">
-      <Filter>Assimp</Filter>
+      <Filter>Assimp and Animation</Filter>
     </ClInclude>
     <ClInclude Include="src\Assimp\animHelper.h">
-      <Filter>Assimp</Filter>
+      <Filter>Assimp and Animation</Filter>
     </ClInclude>
     <ClInclude Include="src\Assimp\cAnimationCollection.h">
-      <Filter>Assimp</Filter>
+      <Filter>Assimp and Animation</Filter>
     </ClInclude>
     <ClInclude Include="src\Assimp\cAnimationState.h">
-      <Filter>Assimp</Filter>
+      <Filter>Assimp and Animation</Filter>
     </ClInclude>
     <ClInclude Include="src\Assimp\cSkinnedMesh.h">
-      <Filter>Assimp</Filter>
+      <Filter>Assimp and Animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
