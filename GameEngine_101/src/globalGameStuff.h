@@ -30,7 +30,7 @@ void PhysicsStep( double deltaTime );
 
 extern cModelAssetLoader* g_pModelAssetLoader;	// (ModelUtilies.cpp)
 
-extern cAnimationCollection gAnimationCollection;   // cAssimAssetLoader.cpp
+extern cAnimationCollection gAnimationCollection;   // ModelUtilities.cpp
 
 // The teapots
 extern cGameObject* pTP0;

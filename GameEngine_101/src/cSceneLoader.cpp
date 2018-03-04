@@ -631,14 +631,14 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
 
     // Test Object
     cGameObject* pTempGO = new cGameObject();
-    pTempGO->meshName = "RPG";
+    pTempGO->meshName = "Marshaller";
     pTempGO->friendlyName = "Justin";
     // This assigns the game object to the particular skinned mesh type 
-    std::vector<cSimpleAssimpSkinnedMesh*> vsm = ::gAnimationCollection.getSkinnedMeshes("RPG");
-    cSimpleAssimpSkinnedMesh* RPGSkinnedMesh = vsm[0];
+    cSimpleAssimpSkinnedMesh* RPGSkinnedMesh = ::gAnimationCollection.getSkinnedMeshes("Marshaller");
+    RPGSkinnedMesh->AddAnimationScene(::gAnimationCollection.getAnimation("01_Walk_Cycle"), "01_Walk_Cycle");
     
     cMesh* pTheMesh = RPGSkinnedMesh->CreateMeshObjectFromCurrentModel();
-    pTheMesh->name = "RPG";
+    pTheMesh->name = "Marshaller";
 
     
 
@@ -662,10 +662,10 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
     pTempGO->pSimpleSkinnedMesh = RPGSkinnedMesh;
     // Add a default animation 
     pTempGO->pAniState = new cAnimationState();
-    pTempGO->pAniState->defaultAnimation.name = "01_Walk_Cycle.fbx";
+    pTempGO->pAniState->defaultAnimation.name = "01_Walk_Cycle";
     pTempGO->pAniState->defaultAnimation.frameStepTime = 0.035f;
     // Get the total time of the entire animation
-    pTempGO->pAniState->defaultAnimation.totalTime = pTempGO->pSimpleSkinnedMesh->GetDuration();
+    pTempGO->pAniState->defaultAnimation.totalTime = pTempGO->pSimpleSkinnedMesh->GetAnimationDuration("01_Walk_Cycle");
     pTempGO->scale = 0.025;
     pTempGO->rotateY(180.0f);
     pTempGO->textureNames[0] = "Marshaller_Male_color.bmp";
