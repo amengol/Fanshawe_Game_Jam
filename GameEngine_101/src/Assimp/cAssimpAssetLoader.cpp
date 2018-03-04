@@ -10,11 +10,6 @@
 #include "assimp/DefaultLogger.hpp"
 #include "assimp/LogStream.hpp"
 
-#include "animHelper.h"
-#include "cAnimationCollection.h"
-
-cAnimationCollection gAnimationCollection;
-
 cAssimpAssetLoader::cAssimpAssetLoader()
 {
     // To enable loggin, uncoment the next line and all "logInfo" ones
@@ -55,40 +50,6 @@ bool cAssimpAssetLoader::Import3DFromFile(const std::string& pPath, const std::s
     {
         //this->logInfo(importer.GetErrorString());
         return false;
-    }
-    else
-    {       
-        std::vector<cSimpleAssimpSkinnedMesh*> vecSkinnedMeshes;
-        for (size_t i = 0; i < this->scene->mNumMeshes; i++)
-        {
-            aiMesh* mesh = this->scene->mMeshes[i];
-
-            if (mesh->HasBones())
-            {
-                // Skinned mesh
-                glm::mat4 globalInverseTransformation = AIMatrixToGLMMatrix(this->scene->mRootNode->mTransformation);
-                globalInverseTransformation = glm::inverse(globalInverseTransformation);
-
-                cSimpleAssimpSkinnedMesh* sMesh = new cSimpleAssimpSkinnedMesh();//cSkinnedMesh(pFile, pFile, mesh, globalInverseTransformation);
-                sMesh->fileName = pFile;
-                sMesh->friendlyName = pFile;
-                vecSkinnedMeshes.push_back(sMesh);
-            }
-        }
-
-        // Do we have a skinned mesh?
-        if (vecSkinnedMeshes.size() != 0)
-            gAnimationCollection.addSkinnedMesh(pFile, vecSkinnedMeshes);     
-
-        std::vector<aiAnimation*> vecAnimations;
-        for (size_t i = 0; i < this->scene->mNumAnimations; i++)
-        {
-            vecAnimations.push_back(this->scene->mAnimations[i]);
-        }
-        
-        // Do we have an animation
-        if (vecAnimations.size() != 0)
-            gAnimationCollection.addAnimationCollection(pFile, vecAnimations);
     }
 
     // Now we can access the file's contents.
