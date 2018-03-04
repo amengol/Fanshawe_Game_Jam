@@ -9,7 +9,7 @@
 #include "sCollisionTriangle.h"
 #include <iRigidBody.h>
 #include "Assimp\cAnimationState.h"
-#include "Assimp\cSimpleAssimpSkinnedMeshLoader_OneMesh.h"
+#include "Assimp\cSkinnedMesh.h"
 
 class cMesh;
 class cSoudObject;
@@ -126,7 +126,7 @@ public:
     nPhysics::iRigidBody* bt_rigidBody;
 
     // If NULL, then object ISN'T a skinned mesh
-    cSimpleAssimpSkinnedMesh*	pSimpleSkinnedMesh;
+    cSkinnedMesh*	pSimpleSkinnedMesh;
     cAnimationState*			pAniState;
 
  private:

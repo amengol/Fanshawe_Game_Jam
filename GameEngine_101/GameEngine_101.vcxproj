@@ -158,7 +158,6 @@
     <ClCompile Include="src\Assimp\cAnimationCollection.cpp" />
     <ClCompile Include="src\Assimp\cAnimationState.cpp" />
     <ClCompile Include="src\Assimp\cAssimpAssetLoader.cpp" />
-    <ClCompile Include="src\Assimp\cSimpleAssimpSkinnedMeshLoader_OneMesh.cpp" />
     <ClCompile Include="src\Assimp\cSkinnedMesh.cpp" />
     <ClCompile Include="src\cAABB.cpp" />
     <ClCompile Include="src\cAABBsManager.cpp" />
@@ -207,7 +206,6 @@
     <ClInclude Include="src\Assimp\cAnimationCollection.h" />
     <ClInclude Include="src\Assimp\cAnimationState.h" />
     <ClInclude Include="src\Assimp\cAssimpAssetLoader.h" />
-    <ClInclude Include="src\Assimp\cSimpleAssimpSkinnedMeshLoader_OneMesh.h" />
     <ClInclude Include="src\Assimp\cSkinnedMesh.h" />
     <ClInclude Include="src\cAABB.h" />
     <ClInclude Include="src\cAABBsManager.h" />

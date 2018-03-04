@@ -634,7 +634,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
     pTempGO->meshName = "Marshaller";
     pTempGO->friendlyName = "Justin";
     // This assigns the game object to the particular skinned mesh type 
-    cSimpleAssimpSkinnedMesh* RPGSkinnedMesh = ::gAnimationCollection.getSkinnedMeshes("Marshaller");
+    cSkinnedMesh* RPGSkinnedMesh = ::gAnimationCollection.getSkinnedMeshes("Marshaller");
     RPGSkinnedMesh->AddAnimationScene(::gAnimationCollection.getAnimation("01_Walk_Cycle"), "01_Walk_Cycle");
     
     cMesh* pTheMesh = RPGSkinnedMesh->CreateMeshObjectFromCurrentModel();

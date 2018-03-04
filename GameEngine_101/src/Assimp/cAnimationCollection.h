@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include "assimp/scene.h"
-#include "cSimpleAssimpSkinnedMeshLoader_OneMesh.h"
+#include "cSkinnedMesh.h"
 
 class cAnimationCollection
 {
@@ -12,19 +12,19 @@ public:
     void addAnimationCollection(std::string name, const aiScene* anim);
 
     // Maps a vector of skinned meshes to a name
-    void addSkinnedMesh(std::string name, cSimpleAssimpSkinnedMesh* skinnedMesh);
+    void addSkinnedMesh(std::string name, cSkinnedMesh* skinnedMesh);
 
     // Returns all animations associated with the name
     const aiScene* getAnimation(std::string name);
 
     // Returns all skinned meshes associated with the name
-    cSimpleAssimpSkinnedMesh* getSkinnedMeshes(std::string name);
+    cSkinnedMesh* getSkinnedMeshes(std::string name);
 
 private:
     // Animation collection
     std::map <std::string, const aiScene*> mMapNameToAnimations;
 
     // Skinned Meshes collection
-    std::map <std::string, cSimpleAssimpSkinnedMesh*> mMapNameToVecSkinnedMesh;
+    std::map <std::string, cSkinnedMesh*> mMapNameToVecSkinnedMesh;
 };
 

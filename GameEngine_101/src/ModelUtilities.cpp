@@ -141,7 +141,7 @@ bool Load3DModelsIntoMeshManager(int shaderID,
             break;
         case 1: // SKINNED
         {
-            cSimpleAssimpSkinnedMesh* skinnedMesh = new cSimpleAssimpSkinnedMesh();
+            cSkinnedMesh* skinnedMesh = new cSkinnedMesh();
             if (!skinnedMesh->LoadMeshFromFile(filePath + meshFile))
             {
                 delete skinnedMesh;
