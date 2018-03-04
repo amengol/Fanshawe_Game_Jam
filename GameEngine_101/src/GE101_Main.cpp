@@ -680,9 +680,10 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
         // Play the "1st" animation in the queue 
         animationToPlay = pAniState->vecAnimationQueue[0].name;
         curFrameTime = pAniState->vecAnimationQueue[0].currentTime;
+        float deltaTime = glfwGetTime() - pAniState->vecAnimationQueue[0].currentClockTime;
 
         // Increment the top animation in the queue
-        if (pAniState->vecAnimationQueue[0].IncrementTime())
+        if (pAniState->vecAnimationQueue[0].IncrementTime(deltaTime))
         {
             // The animation reset to zero on increment...
             // ...meaning that the 1st animation is done
@@ -690,13 +691,17 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
             pAniState->vecAnimationQueue.erase(pAniState->vecAnimationQueue.begin());
 
         }//vecAnimationQueue[0].IncrementTime()
+
+        pAniState->vecAnimationQueue[0].currentClockTime = glfwGetTime();
     }
     else
     {	// Use the default animation.
-        pAniState->defaultAnimation.IncrementTime();
+        float deltaTime = glfwGetTime() - pAniState->defaultAnimation.currentClockTime;
+        pAniState->defaultAnimation.IncrementTime(deltaTime);
 
         animationToPlay = pAniState->defaultAnimation.name;
         curFrameTime = pAniState->defaultAnimation.currentTime;
+        pAniState->defaultAnimation.currentClockTime = glfwGetTime();
 
     }//if ( pAniState->vecAnimationQueue.empty()
 
