@@ -7,8 +7,8 @@
 
 extern cPhysics_Switcher gPhysicsSwitcher;
 
-extern cLocalization g_Lococalization;
-extern cTextManager g_TextManager;
+//extern cLocalization g_Lococalization;
+//extern cTextManager g_TextManager;
 
 //#include "AI\cSimpleAi_Manager.h"
 
@@ -86,106 +86,106 @@ void key_callback(GLFWwindow* window,
     //    }        
     //}
 
-    if (key == GLFW_KEY_1 && action == GLFW_PRESS)
-    {
-        if (g_Lococalization.getState() == MAIN)
-        {
-            g_Lococalization.setMenu(ENGLISH);
-            return;
-        }
+    //if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+    //{
+    //    if (g_Lococalization.getState() == MAIN)
+    //    {
+    //        g_Lococalization.setMenu(ENGLISH);
+    //        return;
+    //    }
 
-        if (g_Lococalization.getState() == LANGUAGE)
-        {
-            g_Lococalization.setMainMenu();
-            return;
-        }
+    //    if (g_Lococalization.getState() == LANGUAGE)
+    //    {
+    //        g_Lococalization.setMainMenu();
+    //        return;
+    //    }
 
-        if (g_Lococalization.getState() == INSTRUCTIONS)
-        {
-            eSelectedLanguage lang = g_Lococalization.getLanguage();
-            g_Lococalization.setMenu(lang);
-            return;
-        }
+    //    if (g_Lococalization.getState() == INSTRUCTIONS)
+    //    {
+    //        eSelectedLanguage lang = g_Lococalization.getLanguage();
+    //        g_Lococalization.setMenu(lang);
+    //        return;
+    //    }
 
-        if (g_Lococalization.getState() == DISMISS)
-        {
-            g_Lococalization.setMainMenu();
-            return;
-        }
-    }
+    //    if (g_Lococalization.getState() == DISMISS)
+    //    {
+    //        g_Lococalization.setMainMenu();
+    //        return;
+    //    }
+    //}
 
-    if (key == GLFW_KEY_2 && action == GLFW_PRESS)
-    {
-        if (g_Lococalization.getState() == MAIN)
-        {
-            g_Lococalization.setMenu(FRENCH);
-            return;
-        }
+    //if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+    //{
+    //    if (g_Lococalization.getState() == MAIN)
+    //    {
+    //        g_Lococalization.setMenu(FRENCH);
+    //        return;
+    //    }
 
-        if (g_Lococalization.getState() == LANGUAGE)
-        {
-            eSelectedLanguage lang = g_Lococalization.getLanguage();
-            g_Lococalization.setMenu(lang, true);
-            return;
-        }
+    //    if (g_Lococalization.getState() == LANGUAGE)
+    //    {
+    //        eSelectedLanguage lang = g_Lococalization.getLanguage();
+    //        g_Lococalization.setMenu(lang, true);
+    //        return;
+    //    }
 
-        if (g_Lococalization.getState() == DISMISS)
-        {
-            g_Lococalization.setMainMenu();
-            return;
-        }
-    }
+    //    if (g_Lococalization.getState() == DISMISS)
+    //    {
+    //        g_Lococalization.setMainMenu();
+    //        return;
+    //    }
+    //}
 
-    if (key == GLFW_KEY_3 && action == GLFW_PRESS)
-    {
-        if (g_Lococalization.getState() == MAIN)
-        {
-            g_Lococalization.setMenu(SPANISH);
-            return;
-        }
+    //if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+    //{
+    //    if (g_Lococalization.getState() == MAIN)
+    //    {
+    //        g_Lococalization.setMenu(SPANISH);
+    //        return;
+    //    }
 
-        if (g_Lococalization.getState() == LANGUAGE)
-        {
-            g_Lococalization.dismiss();
-            return;
-        }
+    //    if (g_Lococalization.getState() == LANGUAGE)
+    //    {
+    //        g_Lococalization.dismiss();
+    //        return;
+    //    }
 
-        if (g_Lococalization.getState() == DISMISS)
-        {
-            g_Lococalization.setMainMenu();
-            return;
-        }
-    }
+    //    if (g_Lococalization.getState() == DISMISS)
+    //    {
+    //        g_Lococalization.setMainMenu();
+    //        return;
+    //    }
+    //}
 
-    if (key == GLFW_KEY_4 && action == GLFW_PRESS)
-    {
-        if (g_Lococalization.getState() == MAIN)
-        {
-            g_Lococalization.setMenu(PORTUGUESE);
-            return;
-        }
+    //if (key == GLFW_KEY_4 && action == GLFW_PRESS)
+    //{
+    //    if (g_Lococalization.getState() == MAIN)
+    //    {
+    //        g_Lococalization.setMenu(PORTUGUESE);
+    //        return;
+    //    }
 
-        if (g_Lococalization.getState() == DISMISS)
-        {
-            g_Lococalization.setMainMenu();
-            return;
-        }
-    }
+    //    if (g_Lococalization.getState() == DISMISS)
+    //    {
+    //        g_Lococalization.setMainMenu();
+    //        return;
+    //    }
+    //}
 
-    if (key == GLFW_KEY_5 && action == GLFW_PRESS)
-    {
-        if(g_Lococalization.getState() == MAIN)
-        {
-            g_Lococalization.setMenu(CHINESE);
-            return;
-        }
+    //if (key == GLFW_KEY_5 && action == GLFW_PRESS)
+    //{
+    //    if(g_Lococalization.getState() == MAIN)
+    //    {
+    //        g_Lococalization.setMenu(CHINESE);
+    //        return;
+    //    }
 
-        if (g_Lococalization.getState() == DISMISS)
-        {
-            g_Lococalization.setMainMenu();
-            return;
-        }
-    }
+    //    if (g_Lococalization.getState() == DISMISS)
+    //    {
+    //        g_Lococalization.setMainMenu();
+    //        return;
+    //    }
+    //}
 
     if (key == GLFW_KEY_B && action == GLFW_PRESS)
     {
@@ -284,32 +284,32 @@ void key_callback(GLFWwindow* window,
         }
     }
 
-    if (key == GLFW_KEY_P && action == GLFW_PRESS)
-    {
-        switch (gPhysicsSwitcher.gPhysicsEngine)
-        {
-        case gPhysicsSwitcher.SUPERDUPER:
-        {
-            gPhysicsSwitcher.SetBullet();
-            std::vector<std::wstring> ws;
-            ws.push_back(L"Physics with Bullet");
-            ws.push_back(L"[P] to change");
-            g_TextManager.setText(ws, glm::vec3(1.0f, 0.0f, 0.0f));
-        }            
-            break;
-        case gPhysicsSwitcher.BULLET:
-        {
-            gPhysicsSwitcher.SetSuperDuper();
-            std::vector<std::wstring> ws;
-            ws.push_back(L"Physics with SuperDuper");
-            ws.push_back(L"[P] to change");
-            g_TextManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));
-        }            
-            break;
-        default:
-            break;
-        }
-    }
+    //if (key == GLFW_KEY_P && action == GLFW_PRESS)
+    //{
+    //    switch (gPhysicsSwitcher.gPhysicsEngine)
+    //    {
+    //    case gPhysicsSwitcher.SUPERDUPER:
+    //    {
+    //        gPhysicsSwitcher.SetBullet();
+    //        std::vector<std::wstring> ws;
+    //        ws.push_back(L"Physics with Bullet");
+    //        ws.push_back(L"[P] to change");
+    //        g_TextManager.setText(ws, glm::vec3(1.0f, 0.0f, 0.0f));
+    //    }            
+    //        break;
+    //    case gPhysicsSwitcher.BULLET:
+    //    {
+    //        gPhysicsSwitcher.SetSuperDuper();
+    //        std::vector<std::wstring> ws;
+    //        ws.push_back(L"Physics with SuperDuper");
+    //        ws.push_back(L"[P] to change");
+    //        g_TextManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));
+    //    }            
+    //        break;
+    //    default:
+    //        break;
+    //    }
+    //}
 
     //if(key == GLFW_KEY_F && action == GLFW_PRESS)
     //{

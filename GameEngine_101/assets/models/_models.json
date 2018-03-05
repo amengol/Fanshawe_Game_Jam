@@ -19,8 +19,8 @@
 {"meshName" : "Fence", "meshFile" : "Fence.obj"},
 {"meshName" : "Basketball", "meshFile" : "Basketball.obj"},
 {"meshName" : "Beachball", "meshFile" : "Beachball.obj"},
-{"meshName" : "Sockerball", "meshFile" : "Sockerball.obj"},
-{"meshName" : "RPG", "type" : 1, "meshFile" : "RPG-Character(FBX2013).FBX"},
-{"animName" : "RPG-Character_Unarmed-Attack-Kick-L1(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Attack-Kick-L1(FBX2013).FBX"}
+{"meshName" : "Sockerball", "meshFile" : "Sockerball.obj"}
+#{"meshName" : "RPG", "type" : 1, "meshFile" : "RPG-Character(FBX2013).FBX"},
+#{"animName" : "RPG-Character_Unarmed-Attack-Kick-L1(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Attack-Kick-L1(FBX2013).FBX"}
 ]
 }

@@ -44,8 +44,8 @@ bool gRenderStuffInDebug;
 nPhysics::iPhysicsFactory* gPhysicsFactory;
 nPhysics::iPhysicsWorld* gPhysicsWorld;
 
-nPhysics::iPhysicsFactory* gbt_PhysicsFactory;
-nPhysics::iPhysicsWorld* gbt_PhysicsWorld;
+//nPhysics::iPhysicsFactory* gbt_PhysicsFactory;
+//nPhysics::iPhysicsWorld* gbt_PhysicsWorld;
 
 cPhysics_Switcher gPhysicsSwitcher;
 
@@ -54,8 +54,8 @@ bool InitPhysics()
     gPhysicsFactory = new nPhysics::cPhysicsFactory();
     gPhysicsWorld = gPhysicsFactory->CreateWorld();
 
-    gbt_PhysicsFactory = new nPhysics::bt_cPhysicsFactory();
-    gbt_PhysicsWorld = gbt_PhysicsFactory->CreateWorld();
+    //gbt_PhysicsFactory = new nPhysics::bt_cPhysicsFactory();
+    //gbt_PhysicsWorld = gbt_PhysicsFactory->CreateWorld();
     return true;
 }
 
@@ -63,8 +63,8 @@ using namespace std;
 
 // Function Prototypes
 void DrawObject(cGameObject* pTheGO);
-void DrawAABB(cGameObject* pTheGO, float size);
-void DrawAABBforPoints(std::vector<glm::vec3> vertices, float AABBSize);
+//void DrawAABB(cGameObject* pTheGO, float size);
+//void DrawAABBforPoints(std::vector<glm::vec3> vertices, float AABBSize);
 bool compare(cGameObject* i, cGameObject* j);
 
 // Global variables
@@ -73,7 +73,7 @@ cCameraObject* g_pCamera = NULL;
 cGameObject* g_pSkyBoxObject = NULL;
 cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
-cDebugRenderer*	g_pDebugRenderer = NULL;
+//cDebugRenderer*	g_pDebugRenderer = NULL;
 cSimpleDebugRenderer* g_simpleDebug = NULL;
 cAABBsManager* g_pAABBsManager = NULL;
 CTextureManager* g_pTextureManager = NULL;
@@ -85,11 +85,11 @@ long long g_lineID = -1;
 float g_AABBSize = 20.0f;
 float g_FOV = 0.6f;
 //cSimpleAi_Manager g_AiManager;
-cLocalization g_Lococalization;
-cTextManager g_TextManager;
+//cLocalization g_Lococalization;
+//cTextManager g_TextManager;
 
 // To deal with sounds
-cSoundManager* g_pSoundManager = NULL;
+//cSoundManager* g_pSoundManager = NULL;
 
 
 // Other uniforms:
@@ -186,22 +186,22 @@ int main()
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     glfwSwapInterval(1);
 
-    // Localization and Text---------------------------------------------------
-    if (!g_Lococalization.init())
-    {
-        std::cout << "There was an error initiating the localization process!" << std::endl;
-    }
-    g_Lococalization.loadLanguageFromXml("assets\\xml\\localization.xml");
-    
-    if (!g_TextManager.init())
-    {
-        std::cout << "There was an error initiating the text manager!" << std::endl;
-    }
-    std::vector<std::wstring> ws;
-    ws.push_back(L"Physics with SuperDuper");
-    ws.push_back(L"[P] to change");
-    g_TextManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));    
-    //-------------------------------------------------------------------------
+    //// Localization and Text---------------------------------------------------
+    //if (!g_Lococalization.init())
+    //{
+    //    std::cout << "There was an error initiating the localization process!" << std::endl;
+    //}
+    //g_Lococalization.loadLanguageFromXml("assets\\xml\\localization.xml");
+    //
+    //if (!g_TextManager.init())
+    //{
+    //    std::cout << "There was an error initiating the text manager!" << std::endl;
+    //}
+    //std::vector<std::wstring> ws;
+    //ws.push_back(L"Physics with SuperDuper");
+    //ws.push_back(L"[P] to change");
+    //g_TextManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));    
+    ////-------------------------------------------------------------------------
 
     // General error string, used for a number of items during start up
     std::string error;
@@ -278,7 +278,7 @@ int main()
 
         if (GO->bt_rigidBody != NULL)
         {
-            gbt_PhysicsWorld->AddRigidBody(GO->bt_rigidBody);
+            //gbt_PhysicsWorld->AddRigidBody(GO->bt_rigidBody);
         }
     }
 
@@ -307,22 +307,15 @@ int main()
     //-------------------------------------------------------------------------
     // Simple Debug Renderer
     ::g_simpleDebug = new cSimpleDebugRenderer();
-    if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
-    {
-        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    }
-    if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
-    {
-        std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    }
+    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
+    //{
+    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    //}
+    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
+    //{
+    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
+    //}
 
-    // Hack for cosmetics while presenting the project
-    // Remove later...
-    for(int i = 0; i < g_pTranspManager->transpObjects.size(); i++)
-    {
-        if(g_pTranspManager->transpObjects[i]->friendlyName == "Helicopter01")
-            g_pTranspManager->transpObjects[i]->rateOfTurnY = 1350.0f;
-    }
     //for(int i = 0; i < g_vecGameObjects.size(); i++)
     //{
     //    if(g_vecGameObjects[i]->friendlyName == "Delorean")
@@ -330,8 +323,8 @@ int main()
     //}
     //=========================================================================
     // Sound things
-     g_pSoundManager = new cSoundManager();
-     g_pSoundManager->initSoundScene();
+     //g_pSoundManager = new cSoundManager();
+     //g_pSoundManager->initSoundScene();
     //=========================================================================
 
     // End of loading models
@@ -394,20 +387,20 @@ int main()
         std::cout << error << std::endl;
     }
 
-    // Debug Render
-    //-------------------------------------------------------------------------
-    // Triangle debug renderer test...
-    ::g_pDebugRenderer = new cDebugRenderer();
-    if (!::g_pDebugRenderer->initialize(error))
-    {
-        std::cout << "Warning: couldn't init the debug renderer." << std::endl;
-        std::cout << "\t" << ::g_pDebugRenderer->getLastError() << std::endl;
-    }
+    //// Debug Render
+    ////-------------------------------------------------------------------------
+    //// Triangle debug renderer test...
+    //::g_pDebugRenderer = new cDebugRenderer();
+    //if (!::g_pDebugRenderer->initialize(error))
+    //{
+    //    std::cout << "Warning: couldn't init the debug renderer." << std::endl;
+    //    std::cout << "\t" << ::g_pDebugRenderer->getLastError() << std::endl;
+    //}
 
-    ::g_pDebugRenderer->addTriangle( glm::vec3( -50.0f, -25.0f, 0.0f ),
-									 glm::vec3( 0.0, 50.0f, 100.0f ),
-									 glm::vec3( 50.0f, -25.0, 0.0f),
-									 glm::vec3( 1.0f, 1.0f, 0.0f ), 1000.0f );
+    //::g_pDebugRenderer->addTriangle( glm::vec3( -50.0f, -25.0f, 0.0f ),
+				//					 glm::vec3( 0.0, 50.0f, 100.0f ),
+				//					 glm::vec3( 50.0f, -25.0, 0.0f),
+				//					 glm::vec3( 1.0f, 1.0f, 0.0f ), 1000.0f );
 
     //-------------------------------------------------------------------------
     // Clouds
@@ -438,7 +431,7 @@ int main()
     {
         //=====================================================================
         //Sound
-        g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
+        //g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
         //=====================================================================
 
         float ratio;
@@ -501,93 +494,93 @@ int main()
             DrawObject(pTheGO);
             
             // For the AABBs
-            if(pTheGO->isDebugAABBActive)
-            {
-                if(pTheGO->typeOfObject == SPHERE)
-                {
-                    // Calculate all AABBs for the sphere
-                    // Put the sphere inside an axis-aligned box
+            //if(pTheGO->isDebugAABBActive)
+            //{
+            //    if(pTheGO->typeOfObject == SPHERE)
+            //    {
+            //        // Calculate all AABBs for the sphere
+            //        // Put the sphere inside an axis-aligned box
 
-                    // Vertices
-                    float diameter = pTheGO->radius * 2;
-                    std::vector<glm::vec3> vertices;
-                    glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
-                    vertices.push_back(vertex0);
-                    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
-                    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
-                    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
-                    vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
-                    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
-                    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
-                    vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
+            //        // Vertices
+            //        float diameter = pTheGO->radius * 2;
+            //        std::vector<glm::vec3> vertices;
+            //        glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
+            //        vertices.push_back(vertex0);
+            //        vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
+            //        vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
+            //        vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
+            //        vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
+            //        vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
+            //        vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
+            //        vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
 
-                    DrawAABBforPoints(vertices, g_AABBSize);
-                } 
-                else if(pTheGO->typeOfObject == MESH)
-                {
-                    // Calculate all AABBs for the mesh
-                    // Put the mesh inside an axis-aligned box
+            //        DrawAABBforPoints(vertices, g_AABBSize);
+            //    } 
+            //    else if(pTheGO->typeOfObject == MESH)
+            //    {
+            //        // Calculate all AABBs for the mesh
+            //        // Put the mesh inside an axis-aligned box
 
-                    // Take the mesh extents
-                    cMesh theMesh;
-                    if (!g_pVAOManager->lookupMeshFromName(pTheGO->meshName, theMesh))
-                    {
-                        // Can't find the mesh
-                        continue;
-                    }
+            //        // Take the mesh extents
+            //        cMesh theMesh;
+            //        if (!g_pVAOManager->lookupMeshFromName(pTheGO->meshName, theMesh))
+            //        {
+            //            // Can't find the mesh
+            //            continue;
+            //        }
 
-                    float extent = theMesh.maxExtent;
+            //        float extent = theMesh.maxExtent;
 
-                    // Vertices
-                    std::vector<glm::vec3> vertices;
-                    glm::vec3 vertex0(0.0f);
-                    vertex0 = pTheGO->position - (extent / 2.0f);
-                    vertices.push_back(vertex0);
-                    vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y, vertex0.z));
-                    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + extent, vertex0.z));
-                    vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y + extent, vertex0.z));
-                    vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + extent));
-                    vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y, vertex0.z + extent));
-                    vertices.push_back(glm::vec3(vertex0.x, vertex0.y + extent, vertex0.z + extent));
-                    vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y + extent, vertex0.z + extent));
+            //        // Vertices
+            //        std::vector<glm::vec3> vertices;
+            //        glm::vec3 vertex0(0.0f);
+            //        vertex0 = pTheGO->position - (extent / 2.0f);
+            //        vertices.push_back(vertex0);
+            //        vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y, vertex0.z));
+            //        vertices.push_back(glm::vec3(vertex0.x, vertex0.y + extent, vertex0.z));
+            //        vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y + extent, vertex0.z));
+            //        vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + extent));
+            //        vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y, vertex0.z + extent));
+            //        vertices.push_back(glm::vec3(vertex0.x, vertex0.y + extent, vertex0.z + extent));
+            //        vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y + extent, vertex0.z + extent));
 
-                    DrawAABBforPoints(vertices, g_AABBSize);
-                }
-                else
-                {
-                    DrawAABB(pTheGO, g_AABBSize);
-                }
-            }
+            //        DrawAABBforPoints(vertices, g_AABBSize);
+            //    }
+            //    else
+            //    {
+            //        DrawAABB(pTheGO, g_AABBSize);
+            //    }
+            //}
           
         }
 
-        // Now Draw the transparent objects
-        ::g_pTranspManager->sortObjects();
-        int numTransObjects = ::g_pTranspManager->transpObjects.size();
-        for(int i = 0; i < numTransObjects; i++)
-        {
-            if(::g_pTranspManager->transpObjects[i]->rotateToCamera)
-            {
-                // Orient the cloud to the camera
-                turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], g_pCamera->getCameraPosition());
-            }
-            
-            DrawObject(::g_pTranspManager->transpObjects[i]);
+        //// Now Draw the transparent objects
+        //::g_pTranspManager->sortObjects();
+        //int numTransObjects = ::g_pTranspManager->transpObjects.size();
+        //for(int i = 0; i < numTransObjects; i++)
+        //{
+        //    if(::g_pTranspManager->transpObjects[i]->rotateToCamera)
+        //    {
+        //        // Orient the cloud to the camera
+        //        turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], g_pCamera->getCameraPosition());
+        //    }
+        //    
+        //    DrawObject(::g_pTranspManager->transpObjects[i]);
 
-            // For the AABBs
-            if(::g_pTranspManager->transpObjects[i]->isDebugAABBActive)
-            {
-                DrawAABB(::g_pTranspManager->transpObjects[i], g_AABBSize);
-            }
-        }
+        //    // For the AABBs
+        //    if(::g_pTranspManager->transpObjects[i]->isDebugAABBActive)
+        //    {
+        //        DrawAABB(::g_pTranspManager->transpObjects[i], g_AABBSize);
+        //    }
+        //}
         
-        // Draw localization text ---------------------------------------------
-        g_Lococalization.draw(width, height);
-        g_TextManager.draw(width, height);
+        //// Draw localization text ---------------------------------------------
+        //g_Lococalization.draw(width, height);
+        //g_TextManager.draw(width, height);
 
         double timeForDebugRender = glfwGetTime() - lastTimeStep;
 
-        ::g_pDebugRenderer->RenderDebugObjects(matView, matProjection, timeForDebugRender);
+        //::g_pDebugRenderer->RenderDebugObjects(matView, matProjection, timeForDebugRender);
 
         // "Draw scene" loop end
         //---------------------------------------------------------------------
@@ -619,7 +612,7 @@ int main()
             gPhysicsWorld->TimeStep(deltaTime);
             break;
         case gPhysicsSwitcher.BULLET:
-            gbt_PhysicsWorld->TimeStep(deltaTime);
+            //gbt_PhysicsWorld->TimeStep(deltaTime);
             break;
         default:
             break;
@@ -647,9 +640,9 @@ int main()
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
     delete ::g_simpleDebug;
-    delete ::g_pDebugRenderer;
+    //delete ::g_pDebugRenderer;
     delete ::g_pAABBsManager;
-    delete ::g_pSoundManager;
+    //delete ::g_pSoundManager;
     delete ::g_pTranspManager;
 
     return 0;
@@ -1073,95 +1066,95 @@ void DrawObject(cGameObject* pTheGO)
     return;
 }
 
-// Helper function to draw a debug cube at an AABB location
-void DrawAABB(cGameObject* pTheGO, float size)
-{
-    if(!pTheGO->isDebugAABBActive)
-    {
-        return;
-    }
-    
-    // Calculate the ID of the GameObject
-    long long GO_ID = -999;
-
-    if(!g_pAABBsManager->calcID(pTheGO->position, GO_ID, size))
-    {
-        std::cout << "Problem generating AABB ID during DrawAABB() function!\n";
-        return;
-    }
-
-    // Check if the ID exists
-    if(!g_pAABBsManager->findAABB(GO_ID))
-    {
-        return;
-    }
-
-    glm::vec3 min = g_pAABBsManager->genVecFromID(GO_ID, size);
-
-    glm::vec3 cubeColor = glm::vec3(1.0f, 0.0f, 0.0f);
-    g_simpleDebug->drawDebugGeometry(min, g_cubeID, cubeColor, glm::mat4(1.0f));
-
-    // Print the normals
-    cAABB theAABB(0, 0.0f);
-    if(!g_pAABBsManager->getAABB(GO_ID, theAABB))
-    {
-        //error
-        return;
-    }
-
-    for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
-    {
-        glm::vec3 fn = theAABB.AABBsTriangles[i]->faceNormal;
-        glm::vec3 cn = theAABB.AABBsTriangles[i]->Centroid;
-        glm::quat qNormal = glm::rotation(glm::vec3(0.0f, 1.0f, 0.0f), fn);
-        glm::mat4 matNormal = glm::toMat4(qNormal);
-        glm::vec3 normalColor = glm::vec3(0.0f, 0.0f, 1.0f);
-        g_simpleDebug->drawDebugGeometry(cn, g_lineID, normalColor, matNormal);
-    }
-
-}
-
-void DrawAABBforPoints(std::vector<glm::vec3> vertices, float size)
-{
-    for(int i = 0; i < vertices.size(); i++)
-    {
-        // Calculate the ID of the GameObject
-        long long GO_ID = -999;
-
-        if(!g_pAABBsManager->calcID(vertices[i], GO_ID, size))
-        {
-            std::cout << "Problem generating AABB ID during DrawAABB() function!\n";
-            return;
-        }
-
-        // Check if the ID exists
-        if(!g_pAABBsManager->findAABB(GO_ID))
-        {
-            continue;
-        }
-
-        glm::vec3 min = g_pAABBsManager->genVecFromID(GO_ID, size);
-
-        glm::vec3 cubeColor = glm::vec3(1.0f, 0.0f, 0.0f);
-        g_simpleDebug->drawDebugGeometry(min, g_cubeID, cubeColor, glm::mat4(1.0f));
-
-        // Print the normals
-        cAABB theAABB(0, 0.0f);
-        if(!g_pAABBsManager->getAABB(GO_ID, theAABB))
-        {
-            //error
-            return;
-        }
-
-        for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
-        {
-            glm::vec3 fn = theAABB.AABBsTriangles[i]->faceNormal;
-            glm::vec3 cn = theAABB.AABBsTriangles[i]->Centroid;
-            glm::quat qNormal = glm::rotation(glm::vec3(0.0f, 1.0f, 0.0f), fn);
-            glm::mat4 matNormal = glm::toMat4(qNormal);
-            glm::vec3 normalColor = glm::vec3(0.0f, 0.0f, 1.0f);
-            g_simpleDebug->drawDebugGeometry(cn, g_lineID, normalColor, matNormal);
-        }
-    }
-
-}
+//// Helper function to draw a debug cube at an AABB location
+//void DrawAABB(cGameObject* pTheGO, float size)
+//{
+//    if(!pTheGO->isDebugAABBActive)
+//    {
+//        return;
+//    }
+//    
+//    // Calculate the ID of the GameObject
+//    long long GO_ID = -999;
+//
+//    if(!g_pAABBsManager->calcID(pTheGO->position, GO_ID, size))
+//    {
+//        std::cout << "Problem generating AABB ID during DrawAABB() function!\n";
+//        return;
+//    }
+//
+//    // Check if the ID exists
+//    if(!g_pAABBsManager->findAABB(GO_ID))
+//    {
+//        return;
+//    }
+//
+//    glm::vec3 min = g_pAABBsManager->genVecFromID(GO_ID, size);
+//
+//    glm::vec3 cubeColor = glm::vec3(1.0f, 0.0f, 0.0f);
+//    g_simpleDebug->drawDebugGeometry(min, g_cubeID, cubeColor, glm::mat4(1.0f));
+//
+//    // Print the normals
+//    cAABB theAABB(0, 0.0f);
+//    if(!g_pAABBsManager->getAABB(GO_ID, theAABB))
+//    {
+//        //error
+//        return;
+//    }
+//
+//    for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
+//    {
+//        glm::vec3 fn = theAABB.AABBsTriangles[i]->faceNormal;
+//        glm::vec3 cn = theAABB.AABBsTriangles[i]->Centroid;
+//        glm::quat qNormal = glm::rotation(glm::vec3(0.0f, 1.0f, 0.0f), fn);
+//        glm::mat4 matNormal = glm::toMat4(qNormal);
+//        glm::vec3 normalColor = glm::vec3(0.0f, 0.0f, 1.0f);
+//        g_simpleDebug->drawDebugGeometry(cn, g_lineID, normalColor, matNormal);
+//    }
+//
+//}
+//
+//void DrawAABBforPoints(std::vector<glm::vec3> vertices, float size)
+//{
+//    for(int i = 0; i < vertices.size(); i++)
+//    {
+//        // Calculate the ID of the GameObject
+//        long long GO_ID = -999;
+//
+//        if(!g_pAABBsManager->calcID(vertices[i], GO_ID, size))
+//        {
+//            std::cout << "Problem generating AABB ID during DrawAABB() function!\n";
+//            return;
+//        }
+//
+//        // Check if the ID exists
+//        if(!g_pAABBsManager->findAABB(GO_ID))
+//        {
+//            continue;
+//        }
+//
+//        glm::vec3 min = g_pAABBsManager->genVecFromID(GO_ID, size);
+//
+//        glm::vec3 cubeColor = glm::vec3(1.0f, 0.0f, 0.0f);
+//        g_simpleDebug->drawDebugGeometry(min, g_cubeID, cubeColor, glm::mat4(1.0f));
+//
+//        // Print the normals
+//        cAABB theAABB(0, 0.0f);
+//        if(!g_pAABBsManager->getAABB(GO_ID, theAABB))
+//        {
+//            //error
+//            return;
+//        }
+//
+//        for(int i = 0; i < theAABB.AABBsTriangles.size(); i++)
+//        {
+//            glm::vec3 fn = theAABB.AABBsTriangles[i]->faceNormal;
+//            glm::vec3 cn = theAABB.AABBsTriangles[i]->Centroid;
+//            glm::quat qNormal = glm::rotation(glm::vec3(0.0f, 1.0f, 0.0f), fn);
+//            glm::mat4 matNormal = glm::toMat4(qNormal);
+//            glm::vec3 normalColor = glm::vec3(0.0f, 0.0f, 1.0f);
+//            g_simpleDebug->drawDebugGeometry(cn, g_lineID, normalColor, matNormal);
+//        }
+//    }
+//
+//}

@@ -86,14 +86,14 @@
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],	
 		"scale" : 100000.0
 	},
-	{ 
-		"meshName" : "RPG",		
-		"typeOfObject" : 7,
-		"defaultAnimation" : "RPG-Character_Unarmed-Attack-Kick-L1(FBX2013)",
-		"hasMaterialColour" : true,
-		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
-		"scale" : 0.025
-	},
+#	{ 
+#		"meshName" : "RPG",		
+#		"typeOfObject" : 7,
+#		"defaultAnimation" : "RPG-Character_Unarmed-Attack-Kick-L1(FBX2013)",
+#		"hasMaterialColour" : true,
+#		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
+#		"scale" : 0.025
+#	},
 	{ 
 		"meshName" : "Reference_Plane",
 		"friendlyName" : "Reference_Plane",

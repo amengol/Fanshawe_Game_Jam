@@ -27,7 +27,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 extern cVAOMeshManager*			g_pVAOManager;		// (theMain.cpp)
 extern cShaderManager*			g_pShaderManager;	// (theMain.cpp)
 extern CTextureManager*	g_pTextureManager;	// (theMain.cpp)
-extern cDebugRenderer*			g_pDebugRenderer;	// (theMain.cpp)
+//extern cDebugRenderer*			g_pDebugRenderer;	// (theMain.cpp)
 
 std::string decodeGLErrorFromEnum(GLenum error, std::string &details);
 

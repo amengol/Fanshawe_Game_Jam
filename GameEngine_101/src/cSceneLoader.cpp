@@ -14,9 +14,9 @@
 //extern cSimpleAi_Manager g_AiManager;
 
 extern nPhysics::iPhysicsFactory* gPhysicsFactory;
-extern nPhysics::iPhysicsFactory* gbt_PhysicsFactory;
+//extern nPhysics::iPhysicsFactory* gbt_PhysicsFactory;
 extern nPhysics::iPhysicsWorld* gPhysicsWorld;
-extern nPhysics::iPhysicsWorld* gbt_PhysicsWorld;
+//extern nPhysics::iPhysicsWorld* gbt_PhysicsWorld;
 
 extern std::vector< cGameObject* >  g_vecGameObjects;
 extern cGameObject* g_pSkyBoxObject;
@@ -553,13 +553,13 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         case SPHERE:
         {
             nPhysics::iShape* shape = gPhysicsFactory->CreateSphere(radius);
-            nPhysics::iShape* bt_shape = gbt_PhysicsFactory->CreateSphere(radius);
+            //nPhysics::iShape* bt_shape = gbt_PhysicsFactory->CreateSphere(radius);
             nPhysics::sRigidBodyDesc desc;
             desc.Position = position;
             nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, shape);
             theGO->rigidBody = rb;
-            nPhysics::iRigidBody* bt_rb = gbt_PhysicsFactory->CreateRigidBody(desc, bt_shape);
-            theGO->bt_rigidBody = bt_rb;
+            //nPhysics::iRigidBody* bt_rb = gbt_PhysicsFactory->CreateRigidBody(desc, bt_shape);
+            //theGO->bt_rigidBody = bt_rb;
         }            
             break;
         case PLANE:
@@ -1115,13 +1115,13 @@ bool cSceneLoader::loadLimitPlanes(std::string& error)
         float constant = limitPlanes[i]["constant"].GetFloat();
 
         nPhysics::iShape* plane = gPhysicsFactory->CreatePlane(normal, constant);
-        nPhysics::iShape* bt_plane = gbt_PhysicsFactory->CreatePlane(normal, constant);
+        //nPhysics::iShape* bt_plane = gbt_PhysicsFactory->CreatePlane(normal, constant);
 
         nPhysics::sRigidBodyDesc desc;
         nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, plane);
         gPhysicsWorld->AddRigidBody(rb);
-        nPhysics::iRigidBody* bt_rb = gbt_PhysicsFactory->CreateRigidBody(desc, bt_plane);
-        gbt_PhysicsWorld->AddRigidBody(bt_rb);
+        //nPhysics::iRigidBody* bt_rb = gbt_PhysicsFactory->CreateRigidBody(desc, bt_plane);
+        //gbt_PhysicsWorld->AddRigidBody(bt_rb);
 
     }//for(rapidjson::SizeType...
 
