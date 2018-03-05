@@ -576,6 +576,72 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             break;
         case UNKNOWN:
             break;
+        case SKINNED_MESH:
+        {
+            // This assigns the game object to the particular skinned mesh type 
+            theGO->pSimpleSkinnedMesh = ::gAnimationCollection.getSkinnedMeshes(meshName);
+
+            if (theGO->pSimpleSkinnedMesh == NULL)
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " has an error in its meshName element!";
+                return false;
+            }
+
+            cMesh* pTheMesh = theGO->pSimpleSkinnedMesh->CreateMeshObjectFromCurrentModel();
+            pTheMesh->name = meshName;
+
+            if (pTheMesh)
+            {
+                if (!g_pVAOManager->loadMeshIntoVAO(*pTheMesh, shaderID, false))
+                {
+                    error =  "Could not load skinned mesh model into new VAO";
+                }
+            }
+            else
+            {
+                error = "Could not create a cMesh object from skinned mesh file";
+            }
+            // Delete temporary mesh if still around
+            if (pTheMesh)
+            {
+                delete pTheMesh;
+            }
+                        
+            if (gameObject[jsIndex].HasMember("defaultAnimation"))
+            {
+                if (gameObject[jsIndex]["defaultAnimation"].IsString())
+                {
+                    std::string defaultAnimation = gameObject[jsIndex]["defaultAnimation"].GetString();
+                    const aiScene* animScene = ::gAnimationCollection.getAnimation(defaultAnimation);
+                    if (animScene == NULL)
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " has an error in its defaultAnimation element!";
+                        return false;
+                    }
+                    theGO->pSimpleSkinnedMesh->AddAnimationScene(animScene, defaultAnimation);
+                    theGO->pAniState = new cAnimationState();
+                    theGO->pAniState->defaultAnimation.name = defaultAnimation;
+                    theGO->pAniState->defaultAnimation.totalTime = 
+                        theGO->pSimpleSkinnedMesh->GetAnimationDuration(defaultAnimation);
+                }
+                else
+                {
+                    error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                        " is not properly formated for its \"defaultAnimation\" member!";
+                    return false;
+                }
+                
+            }
+            else
+            {
+                theGO->pAniState = new cAnimationState();
+                theGO->pAniState->defaultAnimation.totalTime = 
+                    theGO->pSimpleSkinnedMesh->GetDefaultAnimationDuration();
+            }
+        }
+            break;
         default:
             break;
         }
@@ -628,57 +694,6 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         g_vecGameObjects.push_back(theGO);
 
     }// !for (rapidjson::SizeType jsIndex = 0...
-
-    // Test Object
-    cGameObject* pTempGO = new cGameObject();
-    pTempGO->meshName = "Marshaller";
-    pTempGO->friendlyName = "Justin";
-    // This assigns the game object to the particular skinned mesh type 
-    cSkinnedMesh* RPGSkinnedMesh = ::gAnimationCollection.getSkinnedMeshes("Marshaller");
-    RPGSkinnedMesh->AddAnimationScene(::gAnimationCollection.getAnimation("01_Walk_Cycle"), "01_Walk_Cycle");
-    
-    cMesh* pTheMesh = RPGSkinnedMesh->CreateMeshObjectFromCurrentModel();
-    pTheMesh->name = "Marshaller";
-
-    
-
-    if (pTheMesh)
-    {
-        if (!g_pVAOManager->loadMeshIntoVAO(*pTheMesh, shaderID, false))
-        {
-            //std::cout << "Could not load skinned mesh model into new VAO" << std::endl;
-        }
-    }
-    else
-    {
-        //std::cout << "Could not create a cMesh object from skinned mesh file" << std::endl;
-    }
-    // Delete temporary mesh if still around
-    if (pTheMesh)
-    {
-        delete pTheMesh;
-    }
-
-    pTempGO->pSimpleSkinnedMesh = RPGSkinnedMesh;
-    // Add a default animation 
-    pTempGO->pAniState = new cAnimationState();
-    pTempGO->pAniState->defaultAnimation.name = "01_Walk_Cycle";
-    pTempGO->pAniState->defaultAnimation.frameStepTime = 0.035f;
-    // Get the total time of the entire animation
-    pTempGO->pAniState->defaultAnimation.totalTime = pTempGO->pSimpleSkinnedMesh->GetAnimationDuration("01_Walk_Cycle");
-    pTempGO->scale = 0.025;
-    pTempGO->rotateY(180.0f);
-    pTempGO->textureNames[0] = "Marshaller_Male_color.bmp";
-    pTempGO->textureBlend[0] = 1.0f;
-    pTempGO->textureBlend[1] = 0.0f;
-    pTempGO->textureBlend[2] = 0.0f;
-    pTempGO->hasAlpha = false;
-    pTempGO->useDiscardAlpha = false;
-    pTempGO->cullFace = true;
-    pTempGO->typeOfObject = UNKNOWN;
-    pTempGO->diffuseColour = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    pTempGO->specular = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    g_vecGameObjects.push_back(pTempGO);
 
     return true;
 }

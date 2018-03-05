@@ -23,6 +23,7 @@ enum eTypeOfObject
     TERRAIN = 4,
     CONTACT_POINTS = 5,
     SKYBOX = 6,
+    SKINNED_MESH = 7,
 	UNKNOWN = 99
 };
 
