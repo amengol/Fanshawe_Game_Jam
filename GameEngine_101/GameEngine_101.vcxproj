@@ -201,6 +201,7 @@
     <ClCompile Include="src\Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cloth.h" />
     <ClInclude Include="src\AI\cSimpleAi_Manager.h" />
     <ClInclude Include="src\Assimp\animHelper.h" />
     <ClInclude Include="src\Assimp\cAnimationCollection.h" />

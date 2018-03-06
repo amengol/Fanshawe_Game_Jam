@@ -261,6 +261,11 @@ int main()
     ::g_pVAOManager = new cVAOMeshManager();
     GLint ShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
     
+    //=========================================================================
+    // Cloth
+    ::g_pVAOManager->genDynamicVAO("Cloth", ShaderID);
+    //=========================================================================
+
     cSceneLoader sceneLoader;
     if(!sceneLoader.loadModelsIntoScene(ShaderID, g_pVAOManager, g_pModelAssetLoader, error))
     {
@@ -777,13 +782,13 @@ void ClothDraw()
 {
     // calculating positions
 
-    //ball_time++;
-    //ball_pos.f[2] = cos(ball_time / 50.0) * 7;
+    ball_time++;
+    ball_pos.f[2] = cos(ball_time / 50.0) * 7;
 
     cloth1.addForce(Vec3(0.0f, -0.2f, 0.0f)*TIME_STEPSIZE2); // add gravity each frame, pointing down
     cloth1.windForce(Vec3(0.5f, 0.0f, 0.2f)*TIME_STEPSIZE2); // generate some wind each frame
     cloth1.timeStep(); // calculate the particle positions of the next frame
-    //cloth1.ballCollision(ball_pos, ball_radius); // resolve collision with the ball
+    cloth1.ballCollision(ball_pos, ball_radius); // resolve collision with the ball
 
 
     // drawing
@@ -829,12 +834,24 @@ void ClothDraw()
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
-    GLint UniLoc_IsCloth = glGetUniformLocation(curShaderID, "isCloth");
-    glUniform1f(UniLoc_IsCloth, GL_TRUE);
+    //GLint UniLoc_IsCloth = glGetUniformLocation(curShaderID, "isCloth");
+    //glUniform1f(UniLoc_IsCloth, GL_TRUE);
 
 	cloth1.drawShaded(); // finally draw the cloth with smooth shading
                          // Unbind that VAO
-    glUniform1f(UniLoc_IsCloth, GL_FALSE);
+
+
+    sVAOInfo VAODrawInfo;
+    ::g_pVAOManager->lookupDynamicVAOFromName("Cloth", VAODrawInfo);
+
+    glBindVertexArray(VAODrawInfo.VAO_ID);
+
+    glDrawElements(GL_TRIANGLES, VAODrawInfo.numberOfIndices, GL_UNSIGNED_INT, 0);
+
+    // Unbind that VAO
+    glBindVertexArray(0);
+
+    //glUniform1f(UniLoc_IsCloth, GL_FALSE);
 }
 
 // Draw a single object
