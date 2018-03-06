@@ -42,9 +42,9 @@
 //=============================================================================
 // Cloth thingy for now
 // Just below are three global variables holding the actual animated stuff; Cloth and Ball 
-Cloth cloth1(14, 10, 55, 45); // one Cloth object of the Cloth class
-Vec3 ball_pos(7, -5, 0); // the center of our one ball
-float ball_radius = 2; // the radius of our one ball
+Cloth cloth1(14.0f, 10.f, 55, 45); // one Cloth object of the Cloth class
+glm::vec3 ball_pos(7.0f, -5.0f, 0.0f); // the center of our one ball
+float ball_radius = 2.0f; // the radius of our one ball
 
 float ball_time = 0; // counter for used to calculate the z position of the ball below
 
@@ -783,10 +783,10 @@ void ClothDraw()
     // calculating positions
 
     ball_time++;
-    ball_pos.f[2] = cos(ball_time / 50.0) * 7;
+    ball_pos.z = cos(ball_time / 50.0) * 7.0;
 
-    cloth1.addForce(Vec3(0.0f, -0.2f, 0.0f)*TIME_STEPSIZE2); // add gravity each frame, pointing down
-    cloth1.windForce(Vec3(0.5f, 0.0f, 0.2f)*TIME_STEPSIZE2); // generate some wind each frame
+    cloth1.addForce(glm::vec3(0.0f, -0.2f, 0.0f)*TIME_STEPSIZE2); // add gravity each frame, pointing down
+    cloth1.windForce(glm::vec3(0.5f, 0.0f, 0.2f)*TIME_STEPSIZE2); // generate some wind each frame
     cloth1.timeStep(); // calculate the particle positions of the next frame
     cloth1.ballCollision(ball_pos, ball_radius); // resolve collision with the ball
 
