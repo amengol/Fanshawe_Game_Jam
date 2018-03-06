@@ -37,6 +37,19 @@
 #include "cPhysics_Switcher.h"
 #include "cLocalization.h"
 #include "cTextManager.h"
+#include "../Cloth.h"
+
+//=============================================================================
+// Cloth thingy for now
+// Just below are three global variables holding the actual animated stuff; Cloth and Ball 
+Cloth cloth1(14, 10, 55, 45); // one Cloth object of the Cloth class
+Vec3 ball_pos(7, -5, 0); // the center of our one ball
+float ball_radius = 2; // the radius of our one ball
+
+float ball_time = 0; // counter for used to calculate the z position of the ball below
+
+void ClothDraw();
+//=============================================================================
 
 //#include "AI\cSimpleAi_Manager.h"
 
@@ -486,6 +499,8 @@ int main()
         //---------------------------------------------------------------------
         // "Draw scene" loop
 
+        ClothDraw();
+
         unsigned int sizeOfVector = (unsigned int)::g_vecGameObjects.size();
         for (int index = 0; index != sizeOfVector; index++)
         {
@@ -578,7 +593,7 @@ int main()
         //g_Lococalization.draw(width, height);
         //g_TextManager.draw(width, height);
 
-        double timeForDebugRender = glfwGetTime() - lastTimeStep;
+        //double timeForDebugRender = glfwGetTime() - lastTimeStep;
 
         //::g_pDebugRenderer->RenderDebugObjects(matView, matProjection, timeForDebugRender);
 
@@ -758,6 +773,70 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
     return;
 }
 
+void ClothDraw()
+{
+    // calculating positions
+
+    //ball_time++;
+    //ball_pos.f[2] = cos(ball_time / 50.0) * 7;
+
+    cloth1.addForce(Vec3(0.0f, -0.2f, 0.0f)*TIME_STEPSIZE2); // add gravity each frame, pointing down
+    cloth1.windForce(Vec3(0.5f, 0.0f, 0.2f)*TIME_STEPSIZE2); // generate some wind each frame
+    cloth1.timeStep(); // calculate the particle positions of the next frame
+    //cloth1.ballCollision(ball_pos, ball_radius); // resolve collision with the ball
+
+
+    // drawing
+    glm::mat4x4 mModel = glm::mat4x4(1.0f);
+    float finalScale = 1.0f;
+
+    glm::mat4 matScale = glm::mat4x4(1.0f);
+    matScale = glm::scale(matScale, glm::vec3(finalScale, finalScale, finalScale));
+    mModel = mModel * matScale;
+
+    glUniformMatrix4fv(uniLoc_mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
+
+    glm::mat4 mWorldInvTranpose = glm::inverse(glm::transpose(mModel));
+    glUniformMatrix4fv(uniLoc_mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
+
+    // Diffuse is often 0.2-0.3 the value of the diffuse
+    glUniform1f(uniLoc_ambientToDiffuseRatio, 0.2f);
+
+    // Specular: For now, set this colour to white, and the shininess to something high 
+    //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
+    glUniform4f(uniLoc_materialSpecular,
+                0.0f,
+                0.0f,
+                0.0f,
+                1.0f);
+
+
+    glUniform4f(uniLoc_materialDiffuse,
+                1.0f,
+                0.0f,
+                0.0f,
+                1.0f);
+
+    glUniform1f(uniLoc_HasColour, 1.0f);
+    glUniform1f(uniLoc_HasAlpha, 0.0f);
+    glUniform1f(uniLoc_UseDiscardAlpha, 0.0f);
+    glUniform1f(uniLoc_bIsDebugWireFrameObject, 0.0f);	// FALSE
+    glUniform1f(uniLoc_bIsSkyBoxObject, GL_FALSE);
+    glUniform1f(uniLoc_HasReflection, 0.0f);
+    GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+    GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
+    glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    GLint UniLoc_IsCloth = glGetUniformLocation(curShaderID, "isCloth");
+    glUniform1f(UniLoc_IsCloth, GL_TRUE);
+
+	cloth1.drawShaded(); // finally draw the cloth with smooth shading
+                         // Unbind that VAO
+    glUniform1f(UniLoc_IsCloth, GL_FALSE);
+}
+
 // Draw a single object
 void DrawObject(cGameObject* pTheGO)
 {
@@ -806,7 +885,7 @@ void DrawObject(cGameObject* pTheGO)
     std::string meshToDraw = pTheGO->meshName;
 
     sVAOInfo VAODrawInfo;
-    if (::g_pVAOManager->lookupVAOFromName(meshToDraw, VAODrawInfo) == false)
+    if (::g_pVAOManager->lookupStaticVAOFromName(meshToDraw, VAODrawInfo) == false)
     {	// Didn't find mesh
         return;
     }

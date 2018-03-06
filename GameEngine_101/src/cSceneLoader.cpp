@@ -593,7 +593,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
 
             if (pTheMesh)
             {
-                if (!g_pVAOManager->loadMeshIntoVAO(*pTheMesh, shaderID, false))
+                if (!g_pVAOManager->loadMeshIntoStaticVAO(*pTheMesh, shaderID, false))
                 {
                     error =  "Could not load skinned mesh model into new VAO";
                 }

@@ -178,7 +178,7 @@ bool cAssimpAssetLoader::recursiveVAOMeshLoader(cVAOMeshManager* pVAO,
         }
 
         // Now send the Engine Mesh to the VAO
-        if (!pVAO->loadMeshIntoVAO(engMesh, shaderID, isPersistent))
+        if (!pVAO->loadMeshIntoStaticVAO(engMesh, shaderID, isPersistent))
         {
             //this->logInfo("Some went wrong during the \"loadMeshIntoVAO\" of the cVAOMeshManager!\n");
             return false;

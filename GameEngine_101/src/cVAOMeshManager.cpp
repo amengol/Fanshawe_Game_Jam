@@ -14,7 +14,7 @@ cVAOMeshManager::~cVAOMeshManager()
 	return;
 }
 
-bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID, bool bKeepMesh /*=false*/)
+bool cVAOMeshManager::loadMeshIntoStaticVAO( cMesh &theMesh, int shaderID, bool bKeepMesh /*=false*/)
 {
 // ******************************************************************************
 //__      __       _              ____         __  __          
@@ -211,7 +211,7 @@ bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID, bool bKeepM
 	theVAOInfo.scaleForUnitBox = theMesh.scaleForUnitBox;
 
 	// Store the VAO info by mesh name
-	this->m_mapNameToVAO[ theMesh.name ] = theVAOInfo;
+	this->m_mapNameToStaticVAO[ theMesh.name ] = theVAOInfo;
 
 	// CRITICAL 
 	// Unbind the VAO first!
@@ -239,14 +239,14 @@ bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID, bool bKeepM
 	return true;
 }
 
-bool cVAOMeshManager::lookupVAOFromName( std::string name, sVAOInfo &theVAOInfo )
+bool cVAOMeshManager::lookupStaticVAOFromName( std::string name, sVAOInfo &theVAOInfo )
 {
 	// look up in map for the name of the mesh we want to draw
 	std::map< std::string, sVAOInfo >::iterator itVAO 
-					= this->m_mapNameToVAO.find( name );
+					= this->m_mapNameToStaticVAO.find( name );
 
 	// Did I find something?
-	if ( itVAO == this->m_mapNameToVAO.end() )
+	if ( itVAO == this->m_mapNameToStaticVAO.end() )
 	{
 		return false;
 	}
