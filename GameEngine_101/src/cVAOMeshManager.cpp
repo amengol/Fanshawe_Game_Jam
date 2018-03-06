@@ -112,7 +112,7 @@ bool cVAOMeshManager::loadMeshIntoVAO( cMesh &theMesh, int shaderID, bool bKeepM
 	}
 	int sizeOfIndexArrayInBytes = sizeof(unsigned int) * numberOfIndices;
 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeOfIndexArrayInBytes, indexArray, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeOfIndexArrayInBytes, indexArray, GL_STATIC_DRAW);
 
 	// Don't need local array anymore
 	delete [] indexArray;
