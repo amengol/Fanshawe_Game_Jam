@@ -38,6 +38,9 @@ namespace nPhysics
 		virtual void AddRigidBody(iRigidBody* rigidBody);
 		virtual void RemoveRigidBody(iRigidBody* rigidBody);
 
+        virtual void AddSoftBody(iSoftBody* softBody) { return; }
+        virtual void RemoveSoftBody(iSoftBody* softBody) { return; }
+
 	private:
 		
 		std::vector<cRigidBody*> mRigidBody;

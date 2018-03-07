@@ -24,13 +24,22 @@
     <ClInclude Include="Physics\Interfaces\sRigidBodyDesc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Physics\Interfaces\iShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Physics\Interfaces\eShapeType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Physics\Interfaces\iPhysicsWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Interfaces\iCollisionBody.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Interfaces\iSoftBody.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Interfaces\sSoftBodyDesc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Interfaces\iShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
