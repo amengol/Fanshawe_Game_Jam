@@ -3,6 +3,9 @@
 #include "sRigidBodyDesc.h"
 #include "iShape.h"
 #include "iPhysicsWorld.h"
+#include "iSoftBody.h"
+#include "iForm.h"
+#include "sSoftBodyDesc.h"
 
 namespace nPhysics
 {
@@ -18,5 +21,16 @@ namespace nPhysics
 		virtual iShape* CreateSphere(float radius) = 0;
 		virtual iShape* CreatePlane(const glm::vec3& normal, float planeConst) = 0;
         virtual iShape* CreateCube(float size) = 0;
+
+        virtual iSoftBody* CreateSoftBody(const sSoftBodyDesc& desc, iForm* shape) = 0;
+
+        virtual iForm* CreateCloth(glm::vec3 upperLeftCornerPostion, 
+                                   float width, 
+                                   float height, 
+                                   int numNodesWidth, 
+                                   int numNodesHeight) = 0;
+
+        virtual iForm* CreateRubber() = 0;
+        virtual iForm* Water() = 0;
 	};
 }

@@ -6,12 +6,10 @@ namespace nPhysics
 	struct sSoftBodyDesc
 	{
         sSoftBodyDesc()
-			: UpperLeftPosition(0.f, 0.f, 0.f)
-			, nodeMass(1.f)
+			: position(0.f, 0.f, 0.f)
 		{
 
 		}
-		glm::vec3 UpperLeftPosition;
-		float nodeMass;
+		glm::vec3 position;
 	};
 }

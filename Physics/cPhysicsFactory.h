@@ -15,5 +15,16 @@ namespace nPhysics
 		virtual iShape* CreateSphere(float radius);
 		virtual iShape* CreatePlane(const glm::vec3& normal, float planeConst);
         virtual iShape* CreateCube(float size);
+
+        virtual iSoftBody* CreateSoftBody(const sSoftBodyDesc& desc, iForm* shape) { return NULL; }
+
+        virtual iForm* CreateCloth(glm::vec3 upperLeftCornerPostion,
+                                   float width,
+                                   float height,
+                                   int numNodesWidth,
+                                   int numNodesHeight) { return NULL; }
+
+        virtual iForm* CreateRubber() { return NULL; }
+        virtual iForm* Water() { return NULL; }
 	};
 }

@@ -149,7 +149,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Physics\Interfaces\eShapeType.h" />
+    <ClInclude Include="Physics\Interfaces\eSoftBodyType.h" />
     <ClInclude Include="Physics\Interfaces\iCollisionBody.h" />
+    <ClInclude Include="Physics\Interfaces\iForm.h" />
     <ClInclude Include="Physics\Interfaces\iPhysicsFactory.h" />
     <ClInclude Include="Physics\Interfaces\iPhysicsWorld.h" />
     <ClInclude Include="Physics\Interfaces\iRigidBody.h" />
