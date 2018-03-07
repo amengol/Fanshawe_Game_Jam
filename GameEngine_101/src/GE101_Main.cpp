@@ -822,13 +822,45 @@ void ClothDraw()
                 0.0f,
                 1.0f);
 
-    glUniform1f(uniLoc_HasColour, 1.0f);
+    glUniform1f(uniLoc_HasColour, 0.0f);
     glUniform1f(uniLoc_HasAlpha, 0.0f);
     glUniform1f(uniLoc_UseDiscardAlpha, 0.0f);
     glUniform1f(uniLoc_bIsDebugWireFrameObject, 0.0f);	// FALSE
     glUniform1f(uniLoc_bIsSkyBoxObject, GL_FALSE);
     glUniform1f(uniLoc_HasReflection, 0.0f);
+
+    // Set up the textures
+    std::string textureName = "Fanshawe.bmp";
+    GLuint texture00Number
+        = ::g_pTextureManager->getTextureIDFromTextureName(textureName);
+    //// Texture binding... (i.e. set the 'active' texture
+    //GLuint texture00Unit = 0;							// Texture units go from 0 to 79 (at least)
+    //glActiveTexture(texture00Unit + GL_TEXTURE0);		// GL_TEXTURE0 = 33984
+    //glBindTexture(GL_TEXTURE_2D, texture00Number);
+
+    // 0 
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D,
+                  ::g_pTextureManager->getTextureIDFromTextureName(textureName));
+
+
+    // Set sampler in the shader
+    // NOTE: You shouldn't be doing this during the draw call...
     GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+    GLint textSampler00_ID = glGetUniformLocation(curShaderID, "texSamp2D00");
+
+    GLint textBlend00_ID = glGetUniformLocation(curShaderID, "texBlend00");
+
+
+    // This connects the texture sampler to the texture units... 
+    glUniform1i(textSampler00_ID, 0);
+
+    // .. and so on
+
+    // And the blending values
+    glUniform1f(textBlend00_ID, 1.0f);
+
+
     GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
     glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

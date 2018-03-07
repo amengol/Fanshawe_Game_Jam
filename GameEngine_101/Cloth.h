@@ -217,8 +217,8 @@ public:
     The cloth is seen as consisting of triangles for four particles in the grid as follows:
 
     (x,y)   *--* (x+1,y)
-    | /|
-    |/ |
+            | /|
+            |/ |
     (x,y+1) *--* (x+1,y+1)
 
     */
@@ -257,6 +257,10 @@ public:
         int vertexIndex = 0;
         int triangleIndex = 0;
         int numOfIterations = 0;
+        int textCoordIndex_U = 0;
+        int maxNum_U = num_particles_width - 1;        
+        int maxNum_V = num_particles_height - 1;
+        int textCoordIndex_V = maxNum_V;
 
         for (int x = 0; x < num_particles_width - 1; x++)
         {
@@ -287,6 +291,9 @@ public:
                 pVertices[vertexIndex + 0].b = color.z;
                 pVertices[vertexIndex + 0].a = 1.0f;
 
+                pVertices[vertexIndex + 0].u1 = (textCoordIndex_U + 1) / (float)maxNum_U;
+                pVertices[vertexIndex + 0].v1 = (textCoordIndex_V + 1) / (float)maxNum_V;
+
                 pTriangles[triangleIndex + 0].vertex_ID_0 = vertexIndex + 0;
 
                 // Second vertice                
@@ -305,6 +312,9 @@ public:
                 pVertices[vertexIndex + 1].b = color.z;
                 pVertices[vertexIndex + 1].a = 1.0f;
 
+                pVertices[vertexIndex + 1].u1 = (textCoordIndex_U + 0) / (float)maxNum_U;
+                pVertices[vertexIndex + 1].v1 = (textCoordIndex_V + 1) / (float)maxNum_V;
+
                 pTriangles[triangleIndex + 0].vertex_ID_1 = vertexIndex + 1;
 
                 // Third vertice                
@@ -322,6 +332,9 @@ public:
                 pVertices[vertexIndex + 2].g = color.y;
                 pVertices[vertexIndex + 2].b = color.z;
                 pVertices[vertexIndex + 2].a = 1.0f;
+
+                pVertices[vertexIndex + 2].u1 = (textCoordIndex_U + 0) / (float)maxNum_U;
+                pVertices[vertexIndex + 2].v1 = (textCoordIndex_V + 0) / (float)maxNum_V;
 
                 pTriangles[triangleIndex + 0].vertex_ID_2 = vertexIndex + 2;
 
@@ -343,6 +356,9 @@ public:
                 pVertices[vertexIndex + 3].b = color.z;
                 pVertices[vertexIndex + 3].a = 1.0f;
 
+                pVertices[vertexIndex + 3].u1 = (textCoordIndex_U + 1) / (float)maxNum_U;
+                pVertices[vertexIndex + 3].v1 = (textCoordIndex_V + 0) / (float)maxNum_V;
+
                 pTriangles[triangleIndex + 1].vertex_ID_0 = vertexIndex + 3;
 
                 // Second vertice                
@@ -360,6 +376,9 @@ public:
                 pVertices[vertexIndex + 4].g = color.y;
                 pVertices[vertexIndex + 4].b = color.z;
                 pVertices[vertexIndex + 4].a = 1.0f;
+
+                pVertices[vertexIndex + 4].u1 = (textCoordIndex_U + 1) / (float)maxNum_U;
+                pVertices[vertexIndex + 4].v1 = (textCoordIndex_V + 1) / (float)maxNum_V;
 
                 pTriangles[triangleIndex + 1].vertex_ID_1 = vertexIndex + 4;
 
@@ -379,10 +398,14 @@ public:
                 pVertices[vertexIndex + 5].b = color.z;
                 pVertices[vertexIndex + 5].a = 1.0f;
 
+                pVertices[vertexIndex + 5].u1 = (textCoordIndex_U + 0) / (float)maxNum_U;
+                pVertices[vertexIndex + 5].v1 = (textCoordIndex_V + 0) / (float)maxNum_V;
+
                 pTriangles[triangleIndex + 1].vertex_ID_2 = vertexIndex + 5;
 
                 vertexIndex += 6;
                 triangleIndex += 2;
+                textCoordIndex_V--;
 
                 //glColor3fv((GLfloat*)&color);
 
@@ -398,6 +421,7 @@ public:
                 //drawTriangle(getParticle(x+1,y),getParticle(x,y),getParticle(x,y+1),color);
                 //drawTriangle(getParticle(x+1,y+1),getParticle(x+1,y),getParticle(x,y+1),color);
             }
+            textCoordIndex_U++;
         }
         theMesh.pVertices = pVertices;
         theMesh.pTriangles = pTriangles;

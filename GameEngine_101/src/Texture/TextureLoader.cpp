@@ -36,6 +36,16 @@ bool loadTextures()
 
     ::g_pTextureManager->setBasePath("assets/textures");
 
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Fanshawe.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
     if (!::g_pTextureManager->Create2DTextureFromBMPFile("Marshaller_Male_color.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
