@@ -504,7 +504,7 @@ int main()
         //---------------------------------------------------------------------
         // "Draw scene" loop
 
-        ClothDraw();
+        //ClothDraw();
 
         unsigned int sizeOfVector = (unsigned int)::g_vecGameObjects.size();
         for (int index = 0; index != sizeOfVector; index++)
