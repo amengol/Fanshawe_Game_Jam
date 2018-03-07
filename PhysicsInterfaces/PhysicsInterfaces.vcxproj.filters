@@ -45,5 +45,8 @@
     <ClInclude Include="Physics\Interfaces\iForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\Interfaces\iNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
