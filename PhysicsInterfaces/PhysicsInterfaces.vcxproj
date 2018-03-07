@@ -158,7 +158,6 @@
     <ClInclude Include="Physics\Interfaces\iShape.h" />
     <ClInclude Include="Physics\Interfaces\iSoftBody.h" />
     <ClInclude Include="Physics\Interfaces\sRigidBodyDesc.h" />
-    <ClInclude Include="Physics\Interfaces\sSoftBodyDesc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

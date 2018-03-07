@@ -9,7 +9,7 @@ namespace nPhysics
 	public:
 		virtual ~iForm() {}
 
-        eSoftBodyType GetShapeType() { return mSoftBodyType; }
+        eSoftBodyType GetSoftBodyType() { return mSoftBodyType; }
 
 		virtual bool SetWind(glm::vec3& wind) { return false; }
 

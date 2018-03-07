@@ -36,9 +36,6 @@
     <ClInclude Include="Physics\Interfaces\iSoftBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Physics\Interfaces\sSoftBodyDesc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Physics\Interfaces\iShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>

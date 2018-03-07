@@ -5,7 +5,6 @@
 #include "iPhysicsWorld.h"
 #include "iSoftBody.h"
 #include "iForm.h"
-#include "sSoftBodyDesc.h"
 
 namespace nPhysics
 {
@@ -22,9 +21,10 @@ namespace nPhysics
 		virtual iShape* CreatePlane(const glm::vec3& normal, float planeConst) = 0;
         virtual iShape* CreateCube(float size) = 0;
 
-        virtual iSoftBody* CreateSoftBody(const sSoftBodyDesc& desc, iForm* shape) = 0;
+        virtual iSoftBody* CreateSoftBody(iForm* shape) = 0;
 
-        virtual iForm* CreateCloth(glm::vec3 upperLeftCornerPostion, 
+        virtual iForm* CreateCloth(glm::vec3 upperLeftCornerPostion,
+                                   float nodeMass,
                                    float width, 
                                    float height, 
                                    int numNodesWidth, 

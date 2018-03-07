@@ -8,6 +8,7 @@
 #include <vector>
 #include "sCollisionTriangle.h"
 #include <iRigidBody.h>
+#include <iSoftBody.h>
 #include "Assimp\cAnimationState.h"
 #include "Assimp\cSkinnedMesh.h"
 
@@ -15,15 +16,16 @@ class cMesh;
 class cSoudObject;
 
 enum eTypeOfObject
-{	
-	SPHERE  = 0,
-	PLANE   = 1,
-	CAPSULE = 2,
-	MESH    = 3,
-    TERRAIN = 4,
-    CONTACT_POINTS = 5,
-    SKYBOX = 6,
-    SKINNED_MESH = 7,
+{
+    SPHERE,
+    PLANE,
+    CAPSULE,
+    MESH,
+    TERRAIN,
+    CONTACT_POINTS,
+    SKYBOX,
+    SKINNED_MESH,
+    CLOTH,
 	UNKNOWN = 99
 };
 
@@ -123,6 +125,8 @@ public:
 
     // Rigid Body
     nPhysics::iRigidBody* rigidBody;
+    // Soft Body
+    nPhysics::iSoftBody* softBody;
     // Rigid Body from bullet 
     nPhysics::iRigidBody* bt_rigidBody;
 

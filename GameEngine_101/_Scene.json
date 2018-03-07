@@ -76,6 +76,7 @@
 #   CONTACT_POINTS = 5,
 #   SKYBOX = 6,
 #	SKINNED_MESH = 7,
+#	CLOTH = 8,
 #	UNKNOWN = 99
 
 "GameObject" :
@@ -94,6 +95,17 @@
 #		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
 #		"scale" : 0.025
 #	},
+	{ 
+		"softBodyName" : "Fanshawe",
+		"typeOfObject" : 8,
+		"upperLeftCornerPostion" : [-4.0, 6.0, 0.0],
+		"nodeMass" : 1.0,
+		"width": 8.0,
+		"height" : 5.0,
+		"numNodesWidth" : 20,
+		"numNodesHeight" : 20,
+		"textureNames[0]" : "Fanshawe.bmp"
+	},
 	{ 
 		"meshName" : "Reference_Plane",
 		"friendlyName" : "Reference_Plane",

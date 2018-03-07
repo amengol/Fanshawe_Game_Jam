@@ -574,6 +574,75 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             break;
         case SKYBOX:
             break;
+        case CLOTH:
+        {
+            // Check for cloth parameters consistence
+            bool clothIsOk = true;
+
+            if (gameObject[jsIndex].HasMember("softBodyName")
+                && gameObject[jsIndex].HasMember("upperLeftCornerPostion")
+                && gameObject[jsIndex].HasMember("nodeMass")
+                && gameObject[jsIndex].HasMember("width")
+                && gameObject[jsIndex].HasMember("height")
+                && gameObject[jsIndex].HasMember("numNodesWidth")
+                && gameObject[jsIndex].HasMember("numNodesHeight"))
+            {
+                if (gameObject[jsIndex]["softBodyName"].IsString()
+                    && gameObject[jsIndex]["upperLeftCornerPostion"].IsArray()
+                    && gameObject[jsIndex]["nodeMass"].IsNumber()
+                    && gameObject[jsIndex]["width"].IsNumber()
+                    && gameObject[jsIndex]["height"].IsNumber()
+                    && gameObject[jsIndex]["numNodesWidth"].IsNumber()
+                    && gameObject[jsIndex]["numNodesHeight"].IsNumber())
+                {
+                    if (gameObject[jsIndex]["upperLeftCornerPostion"][0].IsNumber()
+                        && gameObject[jsIndex]["upperLeftCornerPostion"][1].IsNumber()
+                        && gameObject[jsIndex]["upperLeftCornerPostion"][2].IsNumber())
+                    {
+                        theGO->friendlyName = gameObject[jsIndex]["softBodyName"].GetString();
+                        if (theGO->friendlyName == "")
+                            clothIsOk = false;
+
+                        float xPos = gameObject[jsIndex]["upperLeftCornerPostion"][0].GetFloat();
+                        float yPos = gameObject[jsIndex]["upperLeftCornerPostion"][1].GetFloat();
+                        float zPos = gameObject[jsIndex]["upperLeftCornerPostion"][2].GetFloat();
+                        float nodeMass = gameObject[jsIndex]["nodeMass"].GetFloat();
+                        float width = gameObject[jsIndex]["width"].GetFloat();
+                        float height = gameObject[jsIndex]["height"].GetFloat();
+                        int numNodesWidth = gameObject[jsIndex]["numNodesWidth"].GetInt();
+                        int numNodesHeight = gameObject[jsIndex]["numNodesHeight"].GetInt();
+
+                        glm::vec3 ulcPos(xPos, yPos, zPos);
+
+                        nPhysics::iForm* cloth = gPhysicsFactory->CreateCloth(ulcPos,
+                                                                              nodeMass, 
+                                                                              width, 
+                                                                              height, 
+                                                                              numNodesWidth, 
+                                                                              numNodesHeight);
+
+                        nPhysics::iSoftBody* sbCloth = gPhysicsFactory->CreateSoftBody(cloth);
+
+                        theGO->softBody = sbCloth;
+                    }
+                    else
+                        clothIsOk = false;
+                }
+                else                    
+                    clothIsOk = false;
+            }
+            else
+                clothIsOk = false;
+
+            if (!clothIsOk)
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"Cloth\" members!";
+                return false;
+            }
+            
+        }
+            break;
         case UNKNOWN:
             break;
         case SKINNED_MESH:
