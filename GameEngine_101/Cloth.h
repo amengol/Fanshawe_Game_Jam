@@ -159,7 +159,7 @@ private:
 public:
 
     /* This is a important constructor for the entire system of particles and constraints*/
-    Cloth(float width, float height, int num_particles_width, int num_particles_height) : num_particles_width(num_particles_width), num_particles_height(num_particles_height)
+    Cloth(glm::vec3 upLeftPostion, float width, float height, int num_particles_width, int num_particles_height) : num_particles_width(num_particles_width), num_particles_height(num_particles_height)
     {
         particles.resize(num_particles_width*num_particles_height); //I am essentially using this vector as an array with room for num_particles_width*num_particles_height particles
 
@@ -170,7 +170,7 @@ public:
             {
                 glm::vec3 pos = glm::vec3(width * (x / (float)num_particles_width),
                                           -height * (y / (float)num_particles_height),
-                                          0);
+                                          0) + upLeftPostion;
                 particles[y*num_particles_width + x] = Particle(pos); // insert particle in column x at y'th row
             }
         }

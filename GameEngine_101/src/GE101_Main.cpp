@@ -42,7 +42,7 @@
 //=============================================================================
 // Cloth thingy for now
 // Just below are three global variables holding the actual animated stuff; Cloth and Ball 
-Cloth cloth1(14.0f, 10.f, 55, 45); // one Cloth object of the Cloth class
+Cloth cloth1(glm::vec3(-4.0f, 6.0f, 0.0f), 8.0f, 5.0f, 55, 45); // one Cloth object of the Cloth class
 glm::vec3 ball_pos(7.0f, -5.0f, 0.0f); // the center of our one ball
 float ball_radius = 2.0f; // the radius of our one ball
 
