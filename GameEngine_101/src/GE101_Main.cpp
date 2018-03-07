@@ -42,8 +42,8 @@
 //=============================================================================
 // Cloth thingy for now
 // Just below are three global variables holding the actual animated stuff; Cloth and Ball 
-Cloth cloth1(glm::vec3(-4.0f, 6.0f, 0.0f), 8.0f, 5.0f, 55, 45); // one Cloth object of the Cloth class
-glm::vec3 ball_pos(7.0f, -5.0f, 0.0f); // the center of our one ball
+Cloth cloth1(glm::vec3(-4.0f, 6.0f, 0.0f), 8.0f, 5.0f, 20, 20); // one Cloth object of the Cloth class
+glm::vec3 ball_pos(-2.0f, 4.0f, 0.0f); // the center of our one ball
 float ball_radius = 2.0f; // the radius of our one ball
 
 float ball_time = 0; // counter for used to calculate the z position of the ball below
@@ -504,7 +504,7 @@ int main()
         //---------------------------------------------------------------------
         // "Draw scene" loop
 
-        //ClothDraw();
+        ClothDraw();
 
         unsigned int sizeOfVector = (unsigned int)::g_vecGameObjects.size();
         for (int index = 0; index != sizeOfVector; index++)
