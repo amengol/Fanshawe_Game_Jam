@@ -647,6 +647,8 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
 
             if (gameObject[jsIndex].HasMember("softBodyName")
                 && gameObject[jsIndex].HasMember("upperLeftCornerPostion")
+                && gameObject[jsIndex].HasMember("gravity")
+                && gameObject[jsIndex].HasMember("wind")
                 && gameObject[jsIndex].HasMember("nodeMass")
                 && gameObject[jsIndex].HasMember("damping")
                 && gameObject[jsIndex].HasMember("width")
@@ -656,6 +658,8 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             {
                 if (gameObject[jsIndex]["softBodyName"].IsString()
                     && gameObject[jsIndex]["upperLeftCornerPostion"].IsArray()
+                    && gameObject[jsIndex]["gravity"].IsArray()
+                    && gameObject[jsIndex]["wind"].IsArray()
                     && gameObject[jsIndex]["nodeMass"].IsNumber()
                     && gameObject[jsIndex]["damping"].IsNumber()
                     && gameObject[jsIndex]["width"].IsNumber()
@@ -665,7 +669,13 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 {
                     if (gameObject[jsIndex]["upperLeftCornerPostion"][0].IsNumber()
                         && gameObject[jsIndex]["upperLeftCornerPostion"][1].IsNumber()
-                        && gameObject[jsIndex]["upperLeftCornerPostion"][2].IsNumber())
+                        && gameObject[jsIndex]["upperLeftCornerPostion"][2].IsNumber()
+                        && gameObject[jsIndex]["gravity"][0].IsNumber()
+                        && gameObject[jsIndex]["gravity"][1].IsNumber()
+                        && gameObject[jsIndex]["gravity"][2].IsNumber()
+                        && gameObject[jsIndex]["wind"][0].IsNumber()
+                        && gameObject[jsIndex]["wind"][1].IsNumber()
+                        && gameObject[jsIndex]["wind"][2].IsNumber())
                     {
                         theGO->friendlyName = gameObject[jsIndex]["softBodyName"].GetString();
                         if (theGO->friendlyName == "")
@@ -674,6 +684,12 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                         float xPos = gameObject[jsIndex]["upperLeftCornerPostion"][0].GetFloat();
                         float yPos = gameObject[jsIndex]["upperLeftCornerPostion"][1].GetFloat();
                         float zPos = gameObject[jsIndex]["upperLeftCornerPostion"][2].GetFloat();
+                        float gravityX = gameObject[jsIndex]["gravity"][0].GetFloat();
+                        float gravityY = gameObject[jsIndex]["gravity"][1].GetFloat();
+                        float gravityZ = gameObject[jsIndex]["gravity"][2].GetFloat();
+                        float windX = gameObject[jsIndex]["wind"][0].GetFloat();
+                        float windY = gameObject[jsIndex]["wind"][1].GetFloat();
+                        float windZ = gameObject[jsIndex]["wind"][2].GetFloat();
                         float nodeMass = gameObject[jsIndex]["nodeMass"].GetFloat();
                         float damping = gameObject[jsIndex]["damping"].GetFloat();
                         float width = gameObject[jsIndex]["width"].GetFloat();
@@ -690,6 +706,12 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                                                                               height, 
                                                                               numNodesWidth, 
                                                                               numNodesHeight);
+
+                        glm::vec3 gravity(gravityX, gravityY, gravityZ);
+                        glm::vec3 wind(windX, windY, windZ);
+
+                        cloth->SetGravity(gravity);
+                        cloth->SetWind(wind);
 
                         nPhysics::iSoftBody* sbCloth = gPhysicsFactory->CreateSoftBody(cloth);
 
