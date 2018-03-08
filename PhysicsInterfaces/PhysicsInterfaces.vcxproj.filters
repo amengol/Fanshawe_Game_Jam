@@ -48,5 +48,8 @@
     <ClInclude Include="Physics\Interfaces\iNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\Interfaces\iSpring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
