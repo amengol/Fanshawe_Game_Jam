@@ -70,9 +70,12 @@ nPhysics::cCloth::cCloth(glm::vec3 upLeftPostion,
         }
     }
     
-    // making the upper left right nodes unmovable
-    getNode(0, 0)->makeUnmovable();
-    getNode(numNodesWidth - 1, 0)->makeUnmovable();
+    // making the upper left and right most two particles unmovable
+    for (int i = 0; i < 2; i++)
+    {
+        getNode(0 + i, 0)->makeUnmovable();
+        getNode(mNumNodesWidth - 1 - i, 0)->makeUnmovable();
+    }
 }
 
 void nPhysics::cCloth::SetWind(glm::vec3& wind)
