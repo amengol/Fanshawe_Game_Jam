@@ -155,6 +155,7 @@
     <ClInclude Include="cPhysicsFactory.h" />
     <ClInclude Include="cPhysicsWorld.h" />
     <ClInclude Include="cRigidBody.h" />
+    <ClInclude Include="cSpring.h" />
     <ClInclude Include="shapes.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="cPhysicsFactory.cpp" />
     <ClCompile Include="cPhysicsWorld.cpp" />
     <ClCompile Include="cRigidBody.cpp" />
+    <ClCompile Include="cSpring.cpp" />
     <ClCompile Include="shapes.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "cSpring.h"
 
 void nPhysics::cSpring::restoreSpring()
