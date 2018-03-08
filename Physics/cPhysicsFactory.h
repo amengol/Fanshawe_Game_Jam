@@ -19,11 +19,12 @@ namespace nPhysics
         virtual iSoftBody* CreateSoftBody(iForm* shape) { return NULL; }
 
         virtual iForm* CreateCloth(glm::vec3 upperLeftCornerPostion,
+                                   float damping,
                                    float nodeMass,
                                    float width,
                                    float height,
                                    int numNodesWidth,
-                                   int numNodesHeight) { return NULL; }
+                                   int numNodesHeight);
 
         virtual iForm* CreateRubber() { return NULL; }
         virtual iForm* Water() { return NULL; }

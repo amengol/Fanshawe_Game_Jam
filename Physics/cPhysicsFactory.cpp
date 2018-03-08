@@ -3,6 +3,7 @@
 #include "cRigidBody.h"
 #include "shapes.h"
 #include "cPhysicsWorld.h"
+#include "cCloth.h"
 
 namespace nPhysics
 {
@@ -27,9 +28,26 @@ namespace nPhysics
 		return new cPlaneShape(normal, planeConst);
 	}
 
-    iShape * cPhysicsFactory::CreateCube(float size)
+    iShape* cPhysicsFactory::CreateCube(float size)
     {
         return new cCubeShape(size);
+    }
+
+    iForm* cPhysicsFactory::CreateCloth(glm::vec3 upperLeftCornerPostion,
+                                        float damping,
+                                        float nodeMass,
+                                        float width,
+                                        float height,
+                                        int numNodesWidth,
+                                        int numNodesHeight)
+    {
+        return new cCloth(upperLeftCornerPostion,
+                          damping,
+                          nodeMass,
+                          width,
+                          height,
+                          numNodesWidth,
+                          numNodesHeight);
     }
 	
 }
