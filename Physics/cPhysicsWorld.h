@@ -2,6 +2,7 @@
 #include <iPhysicsWorld.h>
 #include <vector>
 #include "cRigidBody.h"
+#include "cSoftBody.h"
 
 namespace nPhysics
 {
@@ -38,11 +39,12 @@ namespace nPhysics
 		virtual void AddRigidBody(iRigidBody* rigidBody);
 		virtual void RemoveRigidBody(iRigidBody* rigidBody);
 
-        virtual void AddSoftBody(iSoftBody* softBody) { return; }
-        virtual void RemoveSoftBody(iSoftBody* softBody) { return; }
+        virtual void AddSoftBody(iSoftBody* softBody);
+        virtual void RemoveSoftBody(iSoftBody* softBody);
 
 	private:
 		
 		std::vector<cRigidBody*> mRigidBody;
+        std::vector<cSoftBody*> mSoftBody;
 	};
 }

@@ -694,6 +694,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                         nPhysics::iSoftBody* sbCloth = gPhysicsFactory->CreateSoftBody(cloth);
 
                         theGO->softBody = sbCloth;
+                        gPhysicsWorld->AddSoftBody(sbCloth);
                     }
                     else
                         clothIsOk = false;

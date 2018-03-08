@@ -291,4 +291,35 @@ namespace nPhysics
 		}
 	}
 
+    void cPhysicsWorld::AddSoftBody(iSoftBody* softBody)
+    {
+        cSoftBody* sb = dynamic_cast<cSoftBody*>(softBody);
+        if (!sb)
+        {
+            return;
+        }
+        std::vector<cSoftBody*>::iterator itSoftBody;
+        itSoftBody = std::find(mSoftBody.begin(), mSoftBody.end(), sb);
+        if (itSoftBody == mSoftBody.end())
+        {
+            mSoftBody.push_back(sb);
+        }
+    }
+
+    void cPhysicsWorld::RemoveSoftBody(iSoftBody* softBody)
+    {
+        cSoftBody* sb = dynamic_cast<cSoftBody*>(softBody);
+        if (!sb)
+        {
+            return;
+        }
+        std::vector<cSoftBody*>::iterator itSoftBody;
+
+        itSoftBody = std::remove(mSoftBody.begin(), mSoftBody.end(), sb);
+        if (itSoftBody != mSoftBody.end())
+        {
+            mSoftBody.resize(mSoftBody.size() - 1);
+        }
+    }
+
 }
