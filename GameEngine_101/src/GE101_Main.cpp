@@ -37,19 +37,20 @@
 #include "cPhysics_Switcher.h"
 #include "cLocalization.h"
 #include "cTextManager.h"
-#include "../Cloth.h"
-
-//=============================================================================
-// Cloth thingy for now
-// Just below are three global variables holding the actual animated stuff; Cloth and Ball 
-Cloth cloth1(glm::vec3(-4.0f, 6.0f, 0.0f), 8.0f, 5.0f, 20, 20); // one Cloth object of the Cloth class
-glm::vec3 ball_pos(-2.0f, 4.0f, 0.0f); // the center of our one ball
-float ball_radius = 2.0f; // the radius of our one ball
-
-float ball_time = 0; // counter for used to calculate the z position of the ball below
-
-void ClothDraw();
-//=============================================================================
+#include <cCloth.h>
+//#include "../Cloth.h"
+//
+////=============================================================================
+//// Cloth thingy for now
+//// Just below are three global variables holding the actual animated stuff; Cloth and Ball 
+//Cloth cloth1(glm::vec3(-4.0f, 6.0f, 0.0f), 8.0f, 5.0f, 20, 20); // one Cloth object of the Cloth class
+//glm::vec3 ball_pos(-2.0f, 4.0f, 0.0f); // the center of our one ball
+//float ball_radius = 2.0f; // the radius of our one ball
+//
+//float ball_time = 0; // counter for used to calculate the z position of the ball below
+//
+void ClothDraw(cGameObject*);
+////=============================================================================
 
 //#include "AI\cSimpleAi_Manager.h"
 
@@ -504,14 +505,19 @@ int main()
         //---------------------------------------------------------------------
         // "Draw scene" loop
 
-        ClothDraw();
-
         unsigned int sizeOfVector = (unsigned int)::g_vecGameObjects.size();
         for (int index = 0; index != sizeOfVector; index++)
         {
             cGameObject* pTheGO = ::g_vecGameObjects[index];
 
-            DrawObject(pTheGO);
+            if (pTheGO->typeOfObject == CLOTH)
+            {
+                ClothDraw(pTheGO);
+            }
+            else
+            {
+                DrawObject(pTheGO);
+            }
             
             // For the AABBs
             //if(pTheGO->isDebugAABBActive)
@@ -778,18 +784,70 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
     return;
 }
 
-void ClothDraw()
+void ClothDraw(cGameObject* pTheGO)
 {
-    // calculating positions
+    nPhysics::cSoftBody* sb = static_cast<nPhysics::cSoftBody*>(pTheGO->softBody);
 
-    ball_time++;
-    ball_pos.z = cos(ball_time / 50.0) * 7.0;
+    if (sb == NULL)
+        return;
 
-    cloth1.addForce(glm::vec3(0.0f, -0.2f, 0.0f)*TIME_STEPSIZE2); // add gravity each frame, pointing down
-    cloth1.windForce(glm::vec3(0.5f, 0.0f, 0.2f)*TIME_STEPSIZE2); // generate some wind each frame
-    cloth1.timeStep(); // calculate the particle positions of the next frame
-    cloth1.ballCollision(ball_pos, ball_radius); // resolve collision with the ball
+    nPhysics::cCloth* cloth = static_cast<nPhysics::cCloth*>(sb->GetForm());
 
+    if (cloth == NULL)
+        return;
+
+    nPhysics::cClothMesh clothMesh;
+    
+    cloth->GetClothMesh(clothMesh);
+
+    cMesh theMesh;
+    theMesh.name = clothMesh.name;
+    theMesh.scaleForUnitBox = clothMesh.scaleForUnitBox;
+    theMesh.maxExtent = clothMesh.maxExtent;
+    theMesh.maxExtentXYZ = clothMesh.maxExtentXYZ;
+    theMesh.maxXYZ = clothMesh.maxXYZ;
+
+    theMesh.numberOfVertices = clothMesh.numberOfVertices;
+    sVertex* pVertices = new sVertex[theMesh.numberOfVertices];
+    for (size_t i = 0; i < theMesh.numberOfVertices; i++)
+    {
+        pVertices[i].x = clothMesh.pVertices[i].x;
+        pVertices[i].y = clothMesh.pVertices[i].y;
+        pVertices[i].z = clothMesh.pVertices[i].z;
+
+        pVertices[i].r = clothMesh.pVertices[i].r;
+        pVertices[i].g = clothMesh.pVertices[i].g;
+        pVertices[i].b = clothMesh.pVertices[i].b;
+        pVertices[i].a = clothMesh.pVertices[i].a;
+
+        pVertices[i].nx = clothMesh.pVertices[i].nx;
+        pVertices[i].ny = clothMesh.pVertices[i].ny;
+        pVertices[i].nz = clothMesh.pVertices[i].nz;
+
+        pVertices[i].u1 = clothMesh.pVertices[i].u1;
+        pVertices[i].v1 = clothMesh.pVertices[i].v1;
+    }
+    delete[] clothMesh.pVertices;
+
+
+    theMesh.numberOfTriangles = clothMesh.numberOfTriangles;
+    cTriangle* pTriangles = new cTriangle[theMesh.numberOfTriangles];
+    for (size_t i = 0; i < theMesh.numberOfTriangles; i++)
+    {
+        pTriangles[i].vertex_ID_0 = clothMesh.pTriangles[i].vertex_ID_0;
+        pTriangles[i].vertex_ID_1 = clothMesh.pTriangles[i].vertex_ID_1;
+        pTriangles[i].vertex_ID_2 = clothMesh.pTriangles[i].vertex_ID_2;
+
+    }
+    delete[] clothMesh.pTriangles;
+
+
+    theMesh.pVertices = pVertices;
+    theMesh.pTriangles = pTriangles;
+    ::g_pVAOManager->loadMeshIntoDynamicVAO(theMesh, "Cloth");
+
+    delete[] pTriangles;
+    delete[] pVertices;
 
     // drawing
     glm::mat4x4 mModel = glm::mat4x4(1.0f);
@@ -868,10 +926,6 @@ void ClothDraw()
     glDisable(GL_CULL_FACE);
     //GLint UniLoc_IsCloth = glGetUniformLocation(curShaderID, "isCloth");
     //glUniform1f(UniLoc_IsCloth, GL_TRUE);
-
-	cloth1.drawShaded(); // finally draw the cloth with smooth shading
-                         // Unbind that VAO
-
 
     sVAOInfo VAODrawInfo;
     ::g_pVAOManager->lookupDynamicVAOFromName("Cloth", VAODrawInfo);
