@@ -21,7 +21,7 @@ namespace nPhysics
 		virtual iShape* CreatePlane(const glm::vec3& normal, float planeConst) = 0;
         virtual iShape* CreateCube(float size) = 0;
 
-        virtual iSoftBody* CreateSoftBody(iForm* shape) = 0;
+        virtual iSoftBody* CreateSoftBody(iForm* form) = 0;
 
         virtual iForm* CreateCloth(glm::vec3 upperLeftCornerPostion,
                                    float damping,
