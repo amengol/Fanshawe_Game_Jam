@@ -806,7 +806,7 @@ void ClothDraw(cGameObject* pTheGO)
     if (cloth == NULL)
         return;
 
-    cloth->TimeStep(0.5f * 0.5f, 15);
+    //cloth->TimeStep(0.5f * 0.5f, 15);
 
     nPhysics::cClothMesh clothMesh;
     

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "shapes.h"
 #include <glm\gtx\transform.hpp>
+#include "cCloth.h"
 
 const glm::vec3 GRAVITY = glm::vec3(0.0f, -10.0f, 0.0f);
 
@@ -57,207 +58,217 @@ namespace nPhysics
 
 	void cPhysicsWorld::TimeStep(float deltaTime)
 	{
-        // Maybe faster?
-        size_t rbSize = mRigidBody.size();
-
-        for (size_t i = 0; i < rbSize; i++)
+        for (size_t i = 0; i < mSoftBody.size(); i++)
         {
-            cRigidBody* rb1 = mRigidBody[i];
-            iShape* sh1 = rb1->GetShape();
-            eShapeType shapeType = sh1->GetShapeType();
+            cCloth* cloth = dynamic_cast<cCloth*>(mSoftBody[i]->GetForm());            
 
-            switch (shapeType)
+            // Maybe faster?
+            size_t rbSize = mRigidBody.size();
+
+            for (size_t i = 0; i < rbSize; i++)
             {
-            case nPhysics::SHAPE_TYPE_PLANE:
-                continue;   // Do not update physics to planes
-                break;
-            case nPhysics::SHAPE_TYPE_SPHERE:
-            {
-                for (size_t j = 0; j < rbSize; j++)
+                cRigidBody* rb1 = mRigidBody[i];
+                iShape* sh1 = rb1->GetShape();
+                eShapeType shapeType = sh1->GetShapeType();
+
+                switch (shapeType)
                 {
-                    cRigidBody* rb2 = mRigidBody[j];
-                    cSphereShape* sphere1 = static_cast<cSphereShape*>(sh1);
-
-                    if (rb1 != rb2)
+                case nPhysics::SHAPE_TYPE_PLANE:
+                    continue;   // Do not update physics to planes
+                    break;
+                case nPhysics::SHAPE_TYPE_SPHERE:
+                {
+                    for (size_t j = 0; j < rbSize; j++)
                     {
-                        iShape* sh2 = rb2->GetShape();
+                        float radius = 0.0f;
+                        sh1->GetSphereRadius(radius);
+                        cloth->SphereCollision(rb1->mPosition, radius);
+                        cRigidBody* rb2 = mRigidBody[j];
+                        cSphereShape* sphere1 = static_cast<cSphereShape*>(sh1);
 
-                        if (sh2->GetShapeType() == SHAPE_TYPE_PLANE)
+                        if (rb1 != rb2)
                         {
-                            // SPHERE-PLANE collision
-                            cPlaneShape* plane = static_cast<cPlaneShape*>(sh2);
-                            glm::vec3 normal;
-                            plane->GetPlaneNormal(normal);
-                            float constant;
-                            plane->GetPlaneConst(constant);
+                            iShape* sh2 = rb2->GetShape();
 
-                            // If we are just sliding, let make it loose some energy
-                            if (rb1->mPosition.y <= sphere1->getRadius() + 0.01)
+                            if (sh2->GetShapeType() == SHAPE_TYPE_PLANE)
                             {
-                                if ((rb1->mVelocity.x >= 0.0000001f || rb1->mVelocity.z >= 0.0000001f)
-                                    && rb1->mVelocity.y <= 0.1f)
-                                {
-                                    // Make it loose energy
-                                    rb1->mVelocity *= 0.999f;
-                                }
-                            }
+                                // SPHERE-PLANE collision
+                                cPlaneShape* plane = static_cast<cPlaneShape*>(sh2);
+                                glm::vec3 normal;
+                                plane->GetPlaneNormal(normal);
+                                float constant;
+                                plane->GetPlaneConst(constant);
 
-                            if (normal == glm::vec3(0.0f, 1.0f, 0.0f))
-                            {
-                                float radius = sphere1->getRadius();
-                                if (rb1->mPosition.y <= constant + sphere1->getRadius())
-                                {
-                                    rb1->mPosition.y = constant + sphere1->getRadius();
-                                    rb1->mVelocity.y = -(rb1->mVelocity.y);
-                                    rb1->mVelocity.y *= 0.95f;
-                                }
-                            }
-
-                            if (normal == glm::vec3(0.0f, 0.0f, 1.0f))
-                            {
-                                if (rb1->mPosition.z <= constant + sphere1->getRadius())
-                                {
-                                    rb1->mPosition.z = constant + sphere1->getRadius();
-                                    rb1->mVelocity.z = -(rb1->mVelocity.z);
-                                    rb1->mVelocity.z *= 0.95f;
-                                }
-                            }
-
-                            if (normal == glm::vec3(0.0f, 0.0f, -1.0f))
-                            {
-                                if (rb1->mPosition.z >= -constant - sphere1->getRadius())
-                                {
-                                    rb1->mPosition.z = -constant - sphere1->getRadius();
-                                    rb1->mVelocity.z = -(rb1->mVelocity.z);
-                                    rb1->mVelocity.z *= 0.95f;
-                                }
-                            }
-
-                            if (normal == glm::vec3(1.0f, 0.0f, 0.0f))
-                            {
-                                if (rb1->mPosition.x <= constant + sphere1->getRadius())
-                                {
-                                    rb1->mPosition.x = constant + sphere1->getRadius();
-                                    rb1->mVelocity.x = -(rb1->mVelocity.x);
-                                    rb1->mVelocity.x *= 0.95f;
-                                }
-                            }
-
-                            if (normal == glm::vec3(-1.0f, 0.0f, 0.0f))
-                            {
-                                if (rb1->mPosition.x >= -constant - sphere1->getRadius())
-                                {
-                                    rb1->mPosition.x = -constant - sphere1->getRadius();
-                                    rb1->mVelocity.x = -(rb1->mVelocity.x);
-                                    rb1->mVelocity.x *= 0.95f;
-                                }
-                            }
-                        }//!if (sh2->GetShapeType() == SHAPE_TYPE_PLANE)
-
-                        if (sh2->GetShapeType() == SHAPE_TYPE_SPHERE)
-                        {
-                            // SPHERE-SPHERE collision
-                            cSphereShape* sphere2 = static_cast<cSphereShape*>(sh2);
-
-                            float distance = glm::length(rb1->mPosition - rb2->mPosition);
-                            if (distance <= sphere1->getRadius() + sphere2->getRadius())
-                            {
-                                // Collision
-
-                                // Let's simulate the reponse according to each mass.
-                                // The velocity should be proportional to the inverse of each mass
-                                // In this case, the mass is a factor of each radius, so we first sum
-                                // each one and than by divinding them by that sum. Then, we only
-                                // have to apply this final factor to the final velocity
-                                float radiusSum = sphere1->getRadius() + sphere2->getRadius();
-                                float fac1 = sphere2->getRadius() / radiusSum;
-                                float fac2 = sphere1->getRadius() / radiusSum;
-
-                                // Put them one step back
-                                rb1->mPosition = rb1->mLastPos;
-                                rb2->mPosition = rb2->mLastPos;
-                                
-                                // Sphere1
+                                // If we are just sliding, let make it loose some energy
                                 if (rb1->mPosition.y <= sphere1->getRadius() + 0.01)
                                 {
-                                    if (rb1->mVelocity.x <= 0.1f
-                                        && rb1->mVelocity.y <= 0.1f
-                                        && rb1->mVelocity.z <= 0.1f)
+                                    if ((rb1->mVelocity.x >= 0.0000001f || rb1->mVelocity.z >= 0.0000001f)
+                                        && rb1->mVelocity.y <= 0.1f)
                                     {
-                                        // This guy is suppose to be stuck in the floor. 
-                                        // Lets give him a lift and a push when colliding
-                                        rb1->mPosition.y += 0.01;
-                                        rb1->mVelocity = -(rb2->mVelocity / 2.0f);
-                                    }                                    
+                                        // Make it loose energy
+                                        rb1->mVelocity *= 0.999f;
+                                    }
                                 }
-                                glm::vec3 fakeNormalS2 = glm::normalize(rb1->mPosition - rb2->mPosition);
-                                glm::vec3 reflectedVectorS1 = glm::reflect(rb1->mVelocity, fakeNormalS2);                                
-                                rb1->mVelocity = reflectedVectorS1 * fac1 * 0.95f;
 
-                                // Sphere2                                
-                                glm::vec3 fakeNormalS1 = glm::normalize(rb2->mPosition - rb1->mPosition);
-                                glm::vec3 reflectedVectorS2 = glm::reflect(rb2->mVelocity, fakeNormalS1);                                
-                                rb2->mVelocity = reflectedVectorS2 * fac2 * 0.95f;
+                                if (normal == glm::vec3(0.0f, 1.0f, 0.0f))
+                                {
+                                    float radius = sphere1->getRadius();
+                                    if (rb1->mPosition.y <= constant + sphere1->getRadius())
+                                    {
+                                        rb1->mPosition.y = constant + sphere1->getRadius();
+                                        rb1->mVelocity.y = -(rb1->mVelocity.y);
+                                        rb1->mVelocity.y *= 0.95f;
+                                    }
+                                }
+
+                                if (normal == glm::vec3(0.0f, 0.0f, 1.0f))
+                                {
+                                    if (rb1->mPosition.z <= constant + sphere1->getRadius())
+                                    {
+                                        rb1->mPosition.z = constant + sphere1->getRadius();
+                                        rb1->mVelocity.z = -(rb1->mVelocity.z);
+                                        rb1->mVelocity.z *= 0.95f;
+                                    }
+                                }
+
+                                if (normal == glm::vec3(0.0f, 0.0f, -1.0f))
+                                {
+                                    if (rb1->mPosition.z >= -constant - sphere1->getRadius())
+                                    {
+                                        rb1->mPosition.z = -constant - sphere1->getRadius();
+                                        rb1->mVelocity.z = -(rb1->mVelocity.z);
+                                        rb1->mVelocity.z *= 0.95f;
+                                    }
+                                }
+
+                                if (normal == glm::vec3(1.0f, 0.0f, 0.0f))
+                                {
+                                    if (rb1->mPosition.x <= constant + sphere1->getRadius())
+                                    {
+                                        rb1->mPosition.x = constant + sphere1->getRadius();
+                                        rb1->mVelocity.x = -(rb1->mVelocity.x);
+                                        rb1->mVelocity.x *= 0.95f;
+                                    }
+                                }
+
+                                if (normal == glm::vec3(-1.0f, 0.0f, 0.0f))
+                                {
+                                    if (rb1->mPosition.x >= -constant - sphere1->getRadius())
+                                    {
+                                        rb1->mPosition.x = -constant - sphere1->getRadius();
+                                        rb1->mVelocity.x = -(rb1->mVelocity.x);
+                                        rb1->mVelocity.x *= 0.95f;
+                                    }
+                                }
+                            }//!if (sh2->GetShapeType() == SHAPE_TYPE_PLANE)
+
+                            if (sh2->GetShapeType() == SHAPE_TYPE_SPHERE)
+                            {
+                                // SPHERE-SPHERE collision
+                                cSphereShape* sphere2 = static_cast<cSphereShape*>(sh2);
+
+                                float distance = glm::length(rb1->mPosition - rb2->mPosition);
+                                if (distance <= sphere1->getRadius() + sphere2->getRadius())
+                                {
+                                    // Collision
+
+                                    // Let's simulate the reponse according to each mass.
+                                    // The velocity should be proportional to the inverse of each mass
+                                    // In this case, the mass is a factor of each radius, so we first sum
+                                    // each one and than by divinding them by that sum. Then, we only
+                                    // have to apply this final factor to the final velocity
+                                    float radiusSum = sphere1->getRadius() + sphere2->getRadius();
+                                    float fac1 = sphere2->getRadius() / radiusSum;
+                                    float fac2 = sphere1->getRadius() / radiusSum;
+
+                                    // Put them one step back
+                                    rb1->mPosition = rb1->mLastPos;
+                                    rb2->mPosition = rb2->mLastPos;
+
+                                    // Sphere1
+                                    if (rb1->mPosition.y <= sphere1->getRadius() + 0.01)
+                                    {
+                                        if (rb1->mVelocity.x <= 0.1f
+                                            && rb1->mVelocity.y <= 0.1f
+                                            && rb1->mVelocity.z <= 0.1f)
+                                        {
+                                            // This guy is suppose to be stuck in the floor. 
+                                            // Lets give him a lift and a push when colliding
+                                            rb1->mPosition.y += 0.01;
+                                            rb1->mVelocity = -(rb2->mVelocity / 2.0f);
+                                        }
+                                    }
+                                    glm::vec3 fakeNormalS2 = glm::normalize(rb1->mPosition - rb2->mPosition);
+                                    glm::vec3 reflectedVectorS1 = glm::reflect(rb1->mVelocity, fakeNormalS2);
+                                    rb1->mVelocity = reflectedVectorS1 * fac1 * 0.95f;
+
+                                    // Sphere2                                
+                                    glm::vec3 fakeNormalS1 = glm::normalize(rb2->mPosition - rb1->mPosition);
+                                    glm::vec3 reflectedVectorS2 = glm::reflect(rb2->mVelocity, fakeNormalS1);
+                                    rb2->mVelocity = reflectedVectorS2 * fac2 * 0.95f;
+                                }
                             }
-                        }
-                    }//!if (rb1 != rb2)
-                }//!for (size_t j = 0; j < rbSize; j++)
-            }//!case nPhysics::SHAPE_TYPE_SPHERE:
+                        }//!if (rb1 != rb2)
+                    }//!for (size_t j = 0; j < rbSize; j++)
+                }//!case nPhysics::SHAPE_TYPE_SPHERE:
                 break;
-            case nPhysics::SHAPE_TYPE_CUBE:
-                break;
-            default:
-                break;
-            }//!switch (sh1->GetShapeType()
+                case nPhysics::SHAPE_TYPE_CUBE:
+                    break;
+                default:
+                    break;
+                }//!switch (sh1->GetShapeType()
 
-            // Rotation
-            // Let's consider only the velocity of the object in Z local axis
-            // Also getting rid of pitch information (Y axis)
-            glm::vec3 horizontalDir = rb1->mVelocity - rb1->mPosition;
-            horizontalDir.y = 0.0f;
+                 // Rotation
+                 // Let's consider only the velocity of the object in Z local axis
+                 // Also getting rid of pitch information (Y axis)
+                glm::vec3 horizontalDir = rb1->mVelocity - rb1->mPosition;
+                horizontalDir.y = 0.0f;
 
-            // Now the axis of rotation should be:
-            glm::vec3 rotAxis = glm::normalize(glm::cross(horizontalDir, glm::vec3(0.0f, -1.0f, 0.0f)));
+                // Now the axis of rotation should be:
+                glm::vec3 rotAxis = glm::normalize(glm::cross(horizontalDir, glm::vec3(0.0f, -1.0f, 0.0f)));
 
-            float angVelocity = glm::length(glm::vec3(rb1->mVelocity.x, 0.0f, rb1->mVelocity.z)) * deltaTime;
+                float angVelocity = glm::length(glm::vec3(rb1->mVelocity.x, 0.0f, rb1->mVelocity.z)) * deltaTime;
 
-            glm::mat4 finalRotation(1.0f);
-            finalRotation = glm::rotate(finalRotation, angVelocity, rotAxis); //glm::rotate(finalRotation, glm::length(horizontalVel) * deltaTime, rotAxis);
-            rb1->mOrientation *= finalRotation;
+                glm::mat4 finalRotation(1.0f);
+                finalRotation = glm::rotate(finalRotation, angVelocity, rotAxis); //glm::rotate(finalRotation, glm::length(horizontalVel) * deltaTime, rotAxis);
+                rb1->mOrientation *= finalRotation;
 
-             //RK4
-            rb1->mLastPos = rb1->mPosition; // Save the last position
-            integrate(rb1->mPosition, rb1->mVelocity, GRAVITY, deltaTime);
+                //RK4
+                rb1->mLastPos = rb1->mPosition; // Save the last position
+                integrate(rb1->mPosition, rb1->mVelocity, GRAVITY, deltaTime);
 
-            //------------------------------------------------------------------------
-            // Change orientation according to the Rate Of Turn per minute     
-            if (rb1->rateOfTurnX != 0.0f)
-            {
-                float theTurnX = (rb1->rateOfTurnX * deltaTime) / 60.0f;
-                glm::mat4 orientation;
-                rb1->GetMatOrientation(orientation);
-                orientation = glm::rotate(orientation, glm::radians(theTurnX), glm::vec3(1.0f, 0.0f, 0.0f));
-                rb1->SetMatOrientation(orientation);
-            }
-            if (rb1->rateOfTurnY != 0.0f)
-            {
-                float theTurnY = (rb1->rateOfTurnY * deltaTime) / 60.0f;
-                glm::mat4 orientation;
-                rb1->GetMatOrientation(orientation);
-                orientation = glm::rotate(orientation, glm::radians(theTurnY), glm::vec3(0.0f, 1.0f, 0.0f));
-                rb1->SetMatOrientation(orientation);
-            }
-            if (rb1->rateOfTurnZ != 0.0f)
-            {
-                float theTurnZ = (rb1->rateOfTurnZ * deltaTime) / 60.0f;
-                glm::mat4 orientation;
-                rb1->GetMatOrientation(orientation);
-                orientation = glm::rotate(orientation, glm::radians(theTurnZ), glm::vec3(0.0f, 0.0f, 1.0f));
-                rb1->SetMatOrientation(orientation);
-            }
-            //------------------------------------------------------------------------ 
+                //------------------------------------------------------------------------
+                // Change orientation according to the Rate Of Turn per minute     
+                if (rb1->rateOfTurnX != 0.0f)
+                {
+                    float theTurnX = (rb1->rateOfTurnX * deltaTime) / 60.0f;
+                    glm::mat4 orientation;
+                    rb1->GetMatOrientation(orientation);
+                    orientation = glm::rotate(orientation, glm::radians(theTurnX), glm::vec3(1.0f, 0.0f, 0.0f));
+                    rb1->SetMatOrientation(orientation);
+                }
+                if (rb1->rateOfTurnY != 0.0f)
+                {
+                    float theTurnY = (rb1->rateOfTurnY * deltaTime) / 60.0f;
+                    glm::mat4 orientation;
+                    rb1->GetMatOrientation(orientation);
+                    orientation = glm::rotate(orientation, glm::radians(theTurnY), glm::vec3(0.0f, 1.0f, 0.0f));
+                    rb1->SetMatOrientation(orientation);
+                }
+                if (rb1->rateOfTurnZ != 0.0f)
+                {
+                    float theTurnZ = (rb1->rateOfTurnZ * deltaTime) / 60.0f;
+                    glm::mat4 orientation;
+                    rb1->GetMatOrientation(orientation);
+                    orientation = glm::rotate(orientation, glm::radians(theTurnZ), glm::vec3(0.0f, 0.0f, 1.0f));
+                    rb1->SetMatOrientation(orientation);
+                }
+                //------------------------------------------------------------------------ 
 
-        }//!for (size_t i = 0; i < rbSize; i++)
+            }//!for (size_t i = 0; i < rbSize; i++)
+
+            cloth->TimeStep(deltaTime, 2);
+        }// !for (size_t i = 0; i < mSoftBody.size(); i++)        
 	}
 
 	void cPhysicsWorld::AddRigidBody(iRigidBody* rigidBody)
