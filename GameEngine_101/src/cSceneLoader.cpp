@@ -574,6 +574,72 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             break;
         case SKYBOX:
             break;
+        case SKINNED_MESH:
+        {
+            // This assigns the game object to the particular skinned mesh type 
+            theGO->pSimpleSkinnedMesh = ::gAnimationCollection.getSkinnedMeshes(meshName);
+
+            if (theGO->pSimpleSkinnedMesh == NULL)
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " has an error in its meshName element!";
+                return false;
+            }
+
+            cMesh* pTheMesh = theGO->pSimpleSkinnedMesh->CreateMeshObjectFromCurrentModel();
+            pTheMesh->name = meshName;
+
+            if (pTheMesh)
+            {
+                if (!g_pVAOManager->loadMeshIntoStaticVAO(*pTheMesh, shaderID, false))
+                {
+                    error = "Could not load skinned mesh model into new VAO";
+                }
+            }
+            else
+            {
+                error = "Could not create a cMesh object from skinned mesh file";
+            }
+            // Delete temporary mesh if still around
+            if (pTheMesh)
+            {
+                delete pTheMesh;
+            }
+
+            if (gameObject[jsIndex].HasMember("defaultAnimation"))
+            {
+                if (gameObject[jsIndex]["defaultAnimation"].IsString())
+                {
+                    std::string defaultAnimation = gameObject[jsIndex]["defaultAnimation"].GetString();
+                    const aiScene* animScene = ::gAnimationCollection.getAnimation(defaultAnimation);
+                    if (animScene == NULL)
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " has an error in its defaultAnimation element!";
+                        return false;
+                    }
+                    theGO->pSimpleSkinnedMesh->AddAnimationScene(animScene, defaultAnimation);
+                    theGO->pAniState = new cAnimationState();
+                    theGO->pAniState->defaultAnimation.name = defaultAnimation;
+                    theGO->pAniState->defaultAnimation.totalTime =
+                        theGO->pSimpleSkinnedMesh->GetAnimationDuration(defaultAnimation);
+                }
+                else
+                {
+                    error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                        " is not properly formated for its \"defaultAnimation\" member!";
+                    return false;
+                }
+
+            }
+            else
+            {
+                theGO->pAniState = new cAnimationState();
+                theGO->pAniState->defaultAnimation.totalTime =
+                    theGO->pSimpleSkinnedMesh->GetDefaultAnimationDuration();
+            }
+        }
+        break;
         case CLOTH:
         {
             // Check for cloth parameters consistence
@@ -644,72 +710,6 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         }
             break;
         case UNKNOWN:
-            break;
-        case SKINNED_MESH:
-        {
-            // This assigns the game object to the particular skinned mesh type 
-            theGO->pSimpleSkinnedMesh = ::gAnimationCollection.getSkinnedMeshes(meshName);
-
-            if (theGO->pSimpleSkinnedMesh == NULL)
-            {
-                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                    " has an error in its meshName element!";
-                return false;
-            }
-
-            cMesh* pTheMesh = theGO->pSimpleSkinnedMesh->CreateMeshObjectFromCurrentModel();
-            pTheMesh->name = meshName;
-
-            if (pTheMesh)
-            {
-                if (!g_pVAOManager->loadMeshIntoStaticVAO(*pTheMesh, shaderID, false))
-                {
-                    error =  "Could not load skinned mesh model into new VAO";
-                }
-            }
-            else
-            {
-                error = "Could not create a cMesh object from skinned mesh file";
-            }
-            // Delete temporary mesh if still around
-            if (pTheMesh)
-            {
-                delete pTheMesh;
-            }
-                        
-            if (gameObject[jsIndex].HasMember("defaultAnimation"))
-            {
-                if (gameObject[jsIndex]["defaultAnimation"].IsString())
-                {
-                    std::string defaultAnimation = gameObject[jsIndex]["defaultAnimation"].GetString();
-                    const aiScene* animScene = ::gAnimationCollection.getAnimation(defaultAnimation);
-                    if (animScene == NULL)
-                    {
-                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                            " has an error in its defaultAnimation element!";
-                        return false;
-                    }
-                    theGO->pSimpleSkinnedMesh->AddAnimationScene(animScene, defaultAnimation);
-                    theGO->pAniState = new cAnimationState();
-                    theGO->pAniState->defaultAnimation.name = defaultAnimation;
-                    theGO->pAniState->defaultAnimation.totalTime = 
-                        theGO->pSimpleSkinnedMesh->GetAnimationDuration(defaultAnimation);
-                }
-                else
-                {
-                    error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                        " is not properly formated for its \"defaultAnimation\" member!";
-                    return false;
-                }
-                
-            }
-            else
-            {
-                theGO->pAniState = new cAnimationState();
-                theGO->pAniState->defaultAnimation.totalTime = 
-                    theGO->pSimpleSkinnedMesh->GetDefaultAnimationDuration();
-            }
-        }
             break;
         default:
             break;
