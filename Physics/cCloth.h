@@ -1,11 +1,11 @@
 #pragma once
 #include <iForm.h>
 #include "cSpring.h"
+#include "cClothMesh.h"
 
 namespace nPhysics
 {
     class cNode;
-    class cClothMesh;
 
     class cCloth : public iForm
     {

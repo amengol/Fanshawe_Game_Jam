@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "cCloth.h"
 #include "cNode.h"
-#include "cClothMesh.h"
 #include <glm\glm.hpp>
 
 nPhysics::cCloth::cCloth(glm::vec3 upLeftPostion,
