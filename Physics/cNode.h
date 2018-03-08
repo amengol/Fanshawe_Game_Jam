@@ -1,5 +1,4 @@
 #pragma once
-#include <glm\glm.hpp>
 #include <iNode.h>
 
 namespace nPhysics
@@ -7,15 +6,17 @@ namespace nPhysics
 	class cNode : public iNode
 	{
 	public:
-        cNode(glm::vec3 pos, float damping) : 
+        cNode(glm::vec3 pos, float damping, float mass) : 
             mPos(pos), 
             mOldPos(pos), 
             mAcceleration(glm::vec3(0.0f, 0.0f, 0.0f)), 
-            mMass(1.0f),
+            mMass(mass),
             mDamping(damping),
             mMovable(true), 
             mAccumulatedNormal(glm::vec3(0.0f, 0.0f, 0.0f)) 
         { }
+
+        cNode() { }
 
 		virtual ~cNode() {}
 

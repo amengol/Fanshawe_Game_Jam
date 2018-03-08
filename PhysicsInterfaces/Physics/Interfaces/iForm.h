@@ -11,10 +11,20 @@ namespace nPhysics
 	public:
 		virtual ~iForm() {}
 
+        // Returns the soft body type
         eSoftBodyType GetSoftBodyType() { return mSoftBodyType; }
-        std::vector<iNode*> GetSoftBodyNodes() { return mSoftBoryNodes; }
 
-		virtual bool SetWind(glm::vec3& wind) { return false; }
+        // Sets the wind
+		virtual void SetWind(glm::vec3& wind) { return; }
+
+        // Clears the wind
+        virtual void ClearWind() { return; }
+
+        // Sets Gravity
+        virtual void SetGravity(glm::vec3& gravity) { return; }
+
+        // Clears Gravity
+        virtual void ClearGravity() { return; }
 
 	protected:
         iForm(eSoftBodyType shapeType)
@@ -27,6 +37,5 @@ namespace nPhysics
         iForm& operator=(const iForm& other) { return *this; }
 	private:
         eSoftBodyType mSoftBodyType;
-        std::vector<iNode*> mSoftBoryNodes;
 	};
 }

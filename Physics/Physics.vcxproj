@@ -151,6 +151,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="cCloth.h" />
+    <ClInclude Include="cClothMesh.h" />
     <ClInclude Include="cNode.h" />
     <ClInclude Include="cPhysicsFactory.h" />
     <ClInclude Include="cPhysicsWorld.h" />
@@ -161,6 +163,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cCloth.cpp" />
+    <ClCompile Include="cClothMesh.cpp" />
     <ClCompile Include="cNode.cpp" />
     <ClCompile Include="cPhysicsFactory.cpp" />
     <ClCompile Include="cPhysicsWorld.cpp" />

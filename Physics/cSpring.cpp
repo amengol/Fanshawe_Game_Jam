@@ -1,5 +1,14 @@
 #include "stdafx.h"
 #include "cSpring.h"
+#include <glm\glm.hpp>
+
+nPhysics::cSpring::cSpring(cNode* n1, cNode* n2)
+{
+    node1 = n1;
+    node2 = n2;
+    glm::vec3 vec = node1->getPos() - node2->getPos();
+    mRestDistance = glm::length(vec);
+}
 
 void nPhysics::cSpring::restoreSpring()
 {

@@ -39,6 +39,12 @@
     <ClInclude Include="cSpring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cCloth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cClothMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -60,6 +66,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cSpring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cCloth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cClothMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

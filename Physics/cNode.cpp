@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cNode.h"
+#include <glm\glm.hpp>
 
 void nPhysics::cNode::addToNormal(glm::vec3 normal)
 {

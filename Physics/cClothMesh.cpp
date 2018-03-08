@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "cClothMesh.h"
 #include <glm/glm.hpp>
 

@@ -7,11 +7,7 @@ namespace nPhysics
     class cSpring : public iSpring
 	{
 	public:
-        cSpring(cNode* n1, cNode* n2) : node1(n1), node2(n2)
-        {
-            glm::vec3 vec = node1->getPos() - node2->getPos();
-            mRestDistance = glm::length(vec);
-        }
+        cSpring(cNode* n1, cNode* n2);
 
 		virtual ~cSpring() {}
 
