@@ -125,15 +125,18 @@ void nPhysics::cCloth::TimeStep(float deltaTime, size_t iterations)
 
 void nPhysics::cCloth::SphereCollision(const glm::vec3 center, const float radius)
 {
+    // Let the radius seems to be a little bit grater to not see through tht cloth
+    float radiusCorrected = radius * 1.1;
+
     std::vector<cNode>::iterator itNodes;
     for (itNodes = mNodes.begin(); itNodes != mNodes.end(); itNodes++)
     {
         glm::vec3 v = (*itNodes).getPos() - center;
         float vecLength = glm::length(v);
-        if (vecLength < radius) // if the particle is inside the sphere
+        if (vecLength < radiusCorrected) // if the particle is inside the sphere
         {
             // project the particle to the surface of the sphere
-            (*itNodes).offsetPos(glm::normalize(v)*(radius - vecLength));
+            (*itNodes).offsetPos(glm::normalize(v)*(radiusCorrected - vecLength));
         }
     }
 }
