@@ -786,6 +786,16 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
 
 void ClothDraw(cGameObject* pTheGO)
 {
+    //// calculating positions
+
+    //ball_time++;
+    //ball_pos.z = cos(ball_time / 50.0) * 7.0;
+
+    //cloth1.addForce(glm::vec3(0.0f, -0.2f, 0.0f)*TIME_STEPSIZE2); // add gravity each frame, pointing down
+    //cloth1.windForce(glm::vec3(0.5f, 0.0f, 0.2f)*TIME_STEPSIZE2); // generate some wind each frame
+    //cloth1.timeStep(); // calculate the particle positions of the next frame
+    //cloth1.ballCollision(ball_pos, ball_radius); // resolve collision with the ball
+
     nPhysics::cSoftBody* sb = static_cast<nPhysics::cSoftBody*>(pTheGO->softBody);
 
     if (sb == NULL)
@@ -795,6 +805,8 @@ void ClothDraw(cGameObject* pTheGO)
 
     if (cloth == NULL)
         return;
+
+    cloth->TimeStep(0.5f * 0.5f, 15);
 
     nPhysics::cClothMesh clothMesh;
     
