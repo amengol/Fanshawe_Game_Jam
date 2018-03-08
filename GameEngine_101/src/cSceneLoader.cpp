@@ -648,6 +648,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             if (gameObject[jsIndex].HasMember("softBodyName")
                 && gameObject[jsIndex].HasMember("upperLeftCornerPostion")
                 && gameObject[jsIndex].HasMember("nodeMass")
+                && gameObject[jsIndex].HasMember("damping")
                 && gameObject[jsIndex].HasMember("width")
                 && gameObject[jsIndex].HasMember("height")
                 && gameObject[jsIndex].HasMember("numNodesWidth")
@@ -656,6 +657,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 if (gameObject[jsIndex]["softBodyName"].IsString()
                     && gameObject[jsIndex]["upperLeftCornerPostion"].IsArray()
                     && gameObject[jsIndex]["nodeMass"].IsNumber()
+                    && gameObject[jsIndex]["damping"].IsNumber()
                     && gameObject[jsIndex]["width"].IsNumber()
                     && gameObject[jsIndex]["height"].IsNumber()
                     && gameObject[jsIndex]["numNodesWidth"].IsNumber()
@@ -673,6 +675,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                         float yPos = gameObject[jsIndex]["upperLeftCornerPostion"][1].GetFloat();
                         float zPos = gameObject[jsIndex]["upperLeftCornerPostion"][2].GetFloat();
                         float nodeMass = gameObject[jsIndex]["nodeMass"].GetFloat();
+                        float damping = gameObject[jsIndex]["damping"].GetFloat();
                         float width = gameObject[jsIndex]["width"].GetFloat();
                         float height = gameObject[jsIndex]["height"].GetFloat();
                         int numNodesWidth = gameObject[jsIndex]["numNodesWidth"].GetInt();
@@ -681,6 +684,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                         glm::vec3 ulcPos(xPos, yPos, zPos);
 
                         nPhysics::iForm* cloth = gPhysicsFactory->CreateCloth(ulcPos,
+                                                                              damping,
                                                                               nodeMass, 
                                                                               width, 
                                                                               height, 

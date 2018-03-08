@@ -99,6 +99,7 @@
 		"softBodyName" : "Fanshawe",
 		"typeOfObject" : 8,
 		"upperLeftCornerPostion" : [-4.0, 6.0, 0.0],
+		"damping" : 0.01,
 		"nodeMass" : 1.0,
 		"width": 8.0,
 		"height" : 5.0,

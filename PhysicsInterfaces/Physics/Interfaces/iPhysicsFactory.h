@@ -24,6 +24,7 @@ namespace nPhysics
         virtual iSoftBody* CreateSoftBody(iForm* shape) = 0;
 
         virtual iForm* CreateCloth(glm::vec3 upperLeftCornerPostion,
+                                   float damping,
                                    float nodeMass,
                                    float width, 
                                    float height, 
