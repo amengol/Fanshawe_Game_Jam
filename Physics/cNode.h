@@ -1,9 +1,10 @@
 #pragma once
 #include <glm\glm.hpp>
+#include <iNode.h>
 
 namespace nPhysics
 {
-	class cNode
+	class cNode : public iNode
 	{
 	public:
         cNode(glm::vec3 pos, float damping) : 
