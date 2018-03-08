@@ -157,6 +157,7 @@
     <ClInclude Include="cPhysicsFactory.h" />
     <ClInclude Include="cPhysicsWorld.h" />
     <ClInclude Include="cRigidBody.h" />
+    <ClInclude Include="cSoftBody.h" />
     <ClInclude Include="cSpring.h" />
     <ClInclude Include="shapes.h" />
     <ClInclude Include="stdafx.h" />

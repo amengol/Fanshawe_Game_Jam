@@ -4,6 +4,7 @@
 #include "shapes.h"
 #include "cPhysicsWorld.h"
 #include "cCloth.h"
+#include "cSoftBody.h"
 
 namespace nPhysics
 {
@@ -31,6 +32,11 @@ namespace nPhysics
     iShape* cPhysicsFactory::CreateCube(float size)
     {
         return new cCubeShape(size);
+    }
+
+    iSoftBody* cPhysicsFactory::CreateSoftBody(iForm* form)
+    {
+        return new cSoftBody(form);
     }
 
     iForm* cPhysicsFactory::CreateCloth(glm::vec3 upperLeftCornerPostion,
