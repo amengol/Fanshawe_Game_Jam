@@ -16,22 +16,12 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
-
-
-
-#include "cUniLocHandler.h"
+#include <string>
 
 // GLFW Callback function
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-
-
-
-
-extern cUniLocHandler gUniLocHandler;       // (theMain.cpp)
-
-
+// Decodes a GLError from a GLenum
 std::string decodeGLErrorFromEnum(GLenum error, std::string &details);
 #include "Error/COpenGLError.h"
 

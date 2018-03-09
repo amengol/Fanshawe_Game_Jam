@@ -17,6 +17,7 @@
 #include "cDebugRenderer.h"
 #include "cShaderManager.h"
 #include "Texture/cTextureManager.h"
+#include "cUniLocHandler.h"
 
 // Finds a GameObject by a friendly name. Returns 0 or NULL if not found
 cGameObject* findObjectByFriendlyName(std::string friendlyName, std::vector<cGameObject*> &vec_pGameObjects);
@@ -37,5 +38,6 @@ extern cVAOMeshManager* g_pVAOManager;		// (theMain.cpp)
 extern cDebugRenderer* g_pDebugRenderer;	// (theMain.cpp)
 extern cShaderManager* g_pShaderManager;	// (theMain.cpp)
 extern CTextureManager*	g_pTextureManager;	// (theMain.cpp)
+extern cUniLocHandler gUniLocHandler;       // (theMain.cpp)
 
 #endif

@@ -121,7 +121,7 @@ int main()
 
     int height = 480;
     int width = 640;
-    string title = "Game Engine 101";
+    std::string title = "Game Engine 101";
 
     ifstream infoFile("GameConfig.ini");
 

@@ -1,6 +1,7 @@
 #pragma once
-#include <glad/glad.h>
+
 #include <string>
+typedef int GLint;
 
 class cUniLocHandler
 {
