@@ -5,6 +5,8 @@
 #include "globalOpenGL_GLFW.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "globalGameStuff.h"
+#include <glm/gtc/matrix_transform.hpp>
+#include "Assimp\cAnimationState.h"
 
 void ClothDraw(cGameObject* pTheGO)
 {

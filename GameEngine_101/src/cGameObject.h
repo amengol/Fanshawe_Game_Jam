@@ -1,19 +1,15 @@
 #ifndef _cGameObject_HG_
 #define _cGameObject_HG_
 
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm\gtc\matrix_transform.hpp>
-#include <string>
 #include <vector>
-#include "sCollisionTriangle.h"
 #include <iRigidBody.h>
 #include <iSoftBody.h>
-#include "Assimp\cAnimationState.h"
-#include "Assimp\cSkinnedMesh.h"
 
 class cMesh;
 class cSoudObject;
+class sCollisionTriangle;
+class cAnimationState;
+class cSkinnedMesh;
 
 enum eTypeOfObject
 {

@@ -9,6 +9,7 @@
 #include "cVAOMeshManager.h"
 #include <iPhysicsFactory.h>
 #include "globalGameStuff.h"
+#include "Assimp\cAnimationState.h"
 //#include "AI\cSimpleAi_Manager.h"
 
 //extern cSimpleAi_Manager g_AiManager;

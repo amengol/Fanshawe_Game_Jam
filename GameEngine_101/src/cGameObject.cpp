@@ -2,6 +2,7 @@
 #include <fmod\fmod.hpp>
 #include "cMesh.h"
 #include "cSoundObject.h"
+#include "sCollisionTriangle.h"
 
 cGameObject::cGameObject()
 {
