@@ -21,6 +21,7 @@
 #include "cShaderManager.h"
 #include "Texture/cTextureManager.h"
 #include "cDebugRenderer.h"
+#include "cUniLocHandler.h"
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
@@ -28,6 +29,7 @@ extern cVAOMeshManager*			g_pVAOManager;		// (theMain.cpp)
 extern cShaderManager*			g_pShaderManager;	// (theMain.cpp)
 extern CTextureManager*	g_pTextureManager;	// (theMain.cpp)
 //extern cDebugRenderer*			g_pDebugRenderer;	// (theMain.cpp)
+extern cUniLocHandler gUniLocHandler;           // (theMain.cpp)
 
 std::string decodeGLErrorFromEnum(GLenum error, std::string &details);
 

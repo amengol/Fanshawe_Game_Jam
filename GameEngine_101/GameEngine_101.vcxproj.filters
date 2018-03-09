@@ -221,6 +221,9 @@
     <ClCompile Include="src\cUniLocHandler.cpp">
       <Filter>Render Related</Filter>
     </ClCompile>
+    <ClCompile Include="src\DrawCalls.cpp">
+      <Filter>Render Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utilities.h">
@@ -359,6 +362,9 @@
       <Filter>Cloth_TMP</Filter>
     </ClInclude>
     <ClInclude Include="src\cUniLocHandler.h">
+      <Filter>Render Related</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawCalls.h">
       <Filter>Render Related</Filter>
     </ClInclude>
   </ItemGroup>

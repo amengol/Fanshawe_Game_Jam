@@ -1,5 +1,6 @@
 #include "cUniLocHandler.h"
 #include "globalGameStuff.h"
+#include "globalOpenGL_GLFW.h"
 
 cUniLocHandler::cUniLocHandler()
 {

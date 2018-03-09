@@ -13,7 +13,6 @@
 #include <sstream>
 #include <string>
 #include "cCameraObject.h"
-#include "cVAOMeshManager.h"
 #include "cGameObject.h"
 #include "cLightManager.h"
 #include <glm/mat4x4.hpp>
@@ -37,7 +36,7 @@
 #include "cLocalization.h"
 #include "cTextManager.h"
 #include <cCloth.h>
-#include "cUniLocHandler.h"
+#include "DrawCalls.h"
 //#include "../Cloth.h"
 //
 ////=============================================================================
@@ -49,7 +48,7 @@
 //
 //float ball_time = 0; // counter for used to calculate the z position of the ball below
 //
-void ClothDraw(cGameObject*);
+//void ClothDraw(cGameObject*);
 ////=============================================================================
 
 //#include "AI\cSimpleAi_Manager.h"
@@ -94,7 +93,7 @@ CTextureManager* g_pTextureManager = NULL;
 cTransparencyManager* g_pTranspManager = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
 std::map<long long, miniVAOInfo> g_map_AABBID_miniVAO;
-cUniLocHandler uniLocHandler;
+cUniLocHandler gUniLocHandler;
 long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
@@ -333,7 +332,7 @@ int main()
     //-------------------------------------------------------------------------
 
     GLint currentProgID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-    uniLocHandler.InitShaderUniformLocations("GE101_Shader");
+    gUniLocHandler.InitShaderUniformLocations("GE101_Shader");
 
     //-------------------------------------------------------------------------
     // Lights
@@ -466,8 +465,8 @@ int main()
                   g_pCamera->getLookAtPosition(),				// "At" or "target" 
                   g_pCamera->getCameraUpVector());	// "up" vector
 
-        glUniformMatrix4fv(uniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matView));
-        glUniformMatrix4fv(uniLocHandler.mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));
+        glUniformMatrix4fv(gUniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matView));
+        glUniformMatrix4fv(gUniLocHandler.mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));
 
         //---------------------------------------------------------------------
         // "Draw scene" loop
@@ -751,212 +750,212 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
     return;
 }
 
-void ClothDraw(cGameObject* pTheGO)
-{
-    bool clothDebug = true;
-
-    //// calculating positions
-
-    //ball_time++;
-    //ball_pos.z = cos(ball_time / 50.0) * 7.0;
-
-    //cloth1.addForce(glm::vec3(0.0f, -0.2f, 0.0f)*TIME_STEPSIZE2); // add gravity each frame, pointing down
-    //cloth1.windForce(glm::vec3(0.5f, 0.0f, 0.2f)*TIME_STEPSIZE2); // generate some wind each frame
-    //cloth1.timeStep(); // calculate the particle positions of the next frame
-    //cloth1.ballCollision(ball_pos, ball_radius); // resolve collision with the ball
-
-    nPhysics::cSoftBody* sb = static_cast<nPhysics::cSoftBody*>(pTheGO->softBody);
-
-    if (sb == NULL)
-        return;
-
-    nPhysics::cCloth* cloth = static_cast<nPhysics::cCloth*>(sb->GetForm());
-
-    if (cloth == NULL)
-        return;
-
-    //cloth->TimeStep(0.5f * 0.5f, 15);
-
-    nPhysics::cClothMesh clothMesh;
-    
-    cloth->GetClothMesh(clothMesh);
-
-    cMesh theMesh;
-    theMesh.name = clothMesh.name;
-    theMesh.scaleForUnitBox = clothMesh.scaleForUnitBox;
-    theMesh.maxExtent = clothMesh.maxExtent;
-    theMesh.maxExtentXYZ = clothMesh.maxExtentXYZ;
-    theMesh.maxXYZ = clothMesh.maxXYZ;
-
-    theMesh.numberOfVertices = clothMesh.numberOfVertices;
-    sVertex* pVertices = new sVertex[theMesh.numberOfVertices];
-    for (size_t i = 0; i < theMesh.numberOfVertices; i++)
-    {
-        pVertices[i].x = clothMesh.pVertices[i].x;
-        pVertices[i].y = clothMesh.pVertices[i].y;
-        pVertices[i].z = clothMesh.pVertices[i].z;
-
-        pVertices[i].r = clothMesh.pVertices[i].r;
-        pVertices[i].g = clothMesh.pVertices[i].g;
-        pVertices[i].b = clothMesh.pVertices[i].b;
-        pVertices[i].a = clothMesh.pVertices[i].a;
-
-        pVertices[i].nx = clothMesh.pVertices[i].nx;
-        pVertices[i].ny = clothMesh.pVertices[i].ny;
-        pVertices[i].nz = clothMesh.pVertices[i].nz;
-
-        pVertices[i].u1 = clothMesh.pVertices[i].u1;
-        pVertices[i].v1 = clothMesh.pVertices[i].v1;
-
-        if (clothDebug)
-        {
-            cGameObject* debugSphere = new cGameObject;
-            debugSphere->meshName = "Low_Poly_Sphere";
-            debugSphere->scale = 0.1f;
-            debugSphere->bIsWireFrame = true;
-            debugSphere->diffuseColour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-            debugSphere->position.x = pVertices[i].x;
-            debugSphere->position.y = pVertices[i].y;
-            debugSphere->position.z = pVertices[i].z;
-
-            DrawObject(debugSphere);
-
-            delete debugSphere;
-        }
-    }
-    delete[] clothMesh.pVertices;
-
-
-    theMesh.numberOfTriangles = clothMesh.numberOfTriangles;
-    cTriangle* pTriangles = new cTriangle[theMesh.numberOfTriangles];
-    for (size_t i = 0; i < theMesh.numberOfTriangles; i++)
-    {
-        pTriangles[i].vertex_ID_0 = clothMesh.pTriangles[i].vertex_ID_0;
-        pTriangles[i].vertex_ID_1 = clothMesh.pTriangles[i].vertex_ID_1;
-        pTriangles[i].vertex_ID_2 = clothMesh.pTriangles[i].vertex_ID_2;
-
-    }
-    delete[] clothMesh.pTriangles;
-
-
-    theMesh.pVertices = pVertices;
-    theMesh.pTriangles = pTriangles;
-    ::g_pVAOManager->loadMeshIntoDynamicVAO(theMesh, "Cloth");
-
-    delete[] pTriangles;
-    delete[] pVertices;
-
-    // drawing
-    glm::mat4x4 mModel = glm::mat4x4(1.0f);
-    float finalScale = 1.0f;
-
-    glm::mat4 matScale = glm::mat4x4(1.0f);
-    matScale = glm::scale(matScale, glm::vec3(finalScale, finalScale, finalScale));
-    mModel = mModel * matScale;
-
-    glUniformMatrix4fv(uniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
-
-    glm::mat4 mWorldInvTranpose = glm::inverse(glm::transpose(mModel));
-    glUniformMatrix4fv(uniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
-
-    // Diffuse is often 0.2-0.3 the value of the diffuse
-    glUniform1f(uniLocHandler.ambientToDiffuseRatio, 0.2f);
-
-    // Specular: For now, set this colour to white, and the shininess to something high 
-    //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
-    glUniform4f(uniLocHandler.materialSpecular,
-                0.0f,
-                0.0f,
-                0.0f,
-                1.0f);
-
-
-    glUniform4f(uniLocHandler.materialDiffuse,
-                1.0f,
-                0.0f,
-                0.0f,
-                1.0f);
-
-    glUniform1f(uniLocHandler.hasColour, 0.0f);
-    glUniform1f(uniLocHandler.hasAlpha, 0.0f);
-    glUniform1f(uniLocHandler.useDiscardAlpha, 0.0f);
-    glUniform1f(uniLocHandler.isASkyBox, GL_FALSE);
-    glUniform1f(uniLocHandler.hasReflection, 0.0f);
-
-    if (clothDebug)
-    {
-        glUniform1f(uniLocHandler.bIsDebugWireFrameObject, 1.0f);
-    }
-    else
-    {
-        glUniform1f(uniLocHandler.bIsDebugWireFrameObject, 0.0f);
-    }
-
-
-
-    // Set up the textures
-    std::string textureName = "Fanshawe.bmp";
-    GLuint texture00Number
-        = ::g_pTextureManager->getTextureIDFromTextureName(textureName);
-    //// Texture binding... (i.e. set the 'active' texture
-    //GLuint texture00Unit = 0;							// Texture units go from 0 to 79 (at least)
-    //glActiveTexture(texture00Unit + GL_TEXTURE0);		// GL_TEXTURE0 = 33984
-    //glBindTexture(GL_TEXTURE_2D, texture00Number);
-
-    // 0 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D,
-                  ::g_pTextureManager->getTextureIDFromTextureName(textureName));
-
-
-    // Set sampler in the shader
-    // NOTE: You shouldn't be doing this during the draw call...
-    GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-    GLint textSampler00_ID = glGetUniformLocation(curShaderID, "texSamp2D00");
-
-    GLint textBlend00_ID = glGetUniformLocation(curShaderID, "texBlend00");
-
-
-    // This connects the texture sampler to the texture units... 
-    glUniform1i(textSampler00_ID, 0);
-
-    // .. and so on
-
-    // And the blending values
-    glUniform1f(textBlend00_ID, 1.0f);
-
-
-    GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
-    glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
-
-    if (clothDebug)
-    {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glDisable(GL_CULL_FACE);
-    }
-    else
-    {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        glEnable(GL_DEPTH_TEST);
-        glDisable(GL_CULL_FACE);
-    }
-
-    
-    //GLint UniLoc_IsCloth = glGetUniformLocation(curShaderID, "isCloth");
-    //glUniform1f(UniLoc_IsCloth, GL_TRUE);
-
-    sVAOInfo VAODrawInfo;
-    ::g_pVAOManager->lookupDynamicVAOFromName("Cloth", VAODrawInfo);
-
-    glBindVertexArray(VAODrawInfo.VAO_ID);
-
-    glDrawElements(GL_TRIANGLES, VAODrawInfo.numberOfIndices, GL_UNSIGNED_INT, 0);
-
-    // Unbind that VAO
-    glBindVertexArray(0);
-
-    //glUniform1f(UniLoc_IsCloth, GL_FALSE);
-}
+//void ClothDraw(cGameObject* pTheGO)
+//{
+//    bool clothDebug = true;
+//
+//    //// calculating positions
+//
+//    //ball_time++;
+//    //ball_pos.z = cos(ball_time / 50.0) * 7.0;
+//
+//    //cloth1.addForce(glm::vec3(0.0f, -0.2f, 0.0f)*TIME_STEPSIZE2); // add gravity each frame, pointing down
+//    //cloth1.windForce(glm::vec3(0.5f, 0.0f, 0.2f)*TIME_STEPSIZE2); // generate some wind each frame
+//    //cloth1.timeStep(); // calculate the particle positions of the next frame
+//    //cloth1.ballCollision(ball_pos, ball_radius); // resolve collision with the ball
+//
+//    nPhysics::cSoftBody* sb = static_cast<nPhysics::cSoftBody*>(pTheGO->softBody);
+//
+//    if (sb == NULL)
+//        return;
+//
+//    nPhysics::cCloth* cloth = static_cast<nPhysics::cCloth*>(sb->GetForm());
+//
+//    if (cloth == NULL)
+//        return;
+//
+//    //cloth->TimeStep(0.5f * 0.5f, 15);
+//
+//    nPhysics::cClothMesh clothMesh;
+//    
+//    cloth->GetClothMesh(clothMesh);
+//
+//    cMesh theMesh;
+//    theMesh.name = clothMesh.name;
+//    theMesh.scaleForUnitBox = clothMesh.scaleForUnitBox;
+//    theMesh.maxExtent = clothMesh.maxExtent;
+//    theMesh.maxExtentXYZ = clothMesh.maxExtentXYZ;
+//    theMesh.maxXYZ = clothMesh.maxXYZ;
+//
+//    theMesh.numberOfVertices = clothMesh.numberOfVertices;
+//    sVertex* pVertices = new sVertex[theMesh.numberOfVertices];
+//    for (size_t i = 0; i < theMesh.numberOfVertices; i++)
+//    {
+//        pVertices[i].x = clothMesh.pVertices[i].x;
+//        pVertices[i].y = clothMesh.pVertices[i].y;
+//        pVertices[i].z = clothMesh.pVertices[i].z;
+//
+//        pVertices[i].r = clothMesh.pVertices[i].r;
+//        pVertices[i].g = clothMesh.pVertices[i].g;
+//        pVertices[i].b = clothMesh.pVertices[i].b;
+//        pVertices[i].a = clothMesh.pVertices[i].a;
+//
+//        pVertices[i].nx = clothMesh.pVertices[i].nx;
+//        pVertices[i].ny = clothMesh.pVertices[i].ny;
+//        pVertices[i].nz = clothMesh.pVertices[i].nz;
+//
+//        pVertices[i].u1 = clothMesh.pVertices[i].u1;
+//        pVertices[i].v1 = clothMesh.pVertices[i].v1;
+//
+//        if (clothDebug)
+//        {
+//            cGameObject* debugSphere = new cGameObject;
+//            debugSphere->meshName = "Low_Poly_Sphere";
+//            debugSphere->scale = 0.1f;
+//            debugSphere->bIsWireFrame = true;
+//            debugSphere->diffuseColour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+//            debugSphere->position.x = pVertices[i].x;
+//            debugSphere->position.y = pVertices[i].y;
+//            debugSphere->position.z = pVertices[i].z;
+//
+//            DrawObject(debugSphere);
+//
+//            delete debugSphere;
+//        }
+//    }
+//    delete[] clothMesh.pVertices;
+//
+//
+//    theMesh.numberOfTriangles = clothMesh.numberOfTriangles;
+//    cTriangle* pTriangles = new cTriangle[theMesh.numberOfTriangles];
+//    for (size_t i = 0; i < theMesh.numberOfTriangles; i++)
+//    {
+//        pTriangles[i].vertex_ID_0 = clothMesh.pTriangles[i].vertex_ID_0;
+//        pTriangles[i].vertex_ID_1 = clothMesh.pTriangles[i].vertex_ID_1;
+//        pTriangles[i].vertex_ID_2 = clothMesh.pTriangles[i].vertex_ID_2;
+//
+//    }
+//    delete[] clothMesh.pTriangles;
+//
+//
+//    theMesh.pVertices = pVertices;
+//    theMesh.pTriangles = pTriangles;
+//    ::g_pVAOManager->loadMeshIntoDynamicVAO(theMesh, "Cloth");
+//
+//    delete[] pTriangles;
+//    delete[] pVertices;
+//
+//    // drawing
+//    glm::mat4x4 mModel = glm::mat4x4(1.0f);
+//    float finalScale = 1.0f;
+//
+//    glm::mat4 matScale = glm::mat4x4(1.0f);
+//    matScale = glm::scale(matScale, glm::vec3(finalScale, finalScale, finalScale));
+//    mModel = mModel * matScale;
+//
+//    glUniformMatrix4fv(gUniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
+//
+//    glm::mat4 mWorldInvTranpose = glm::inverse(glm::transpose(mModel));
+//    glUniformMatrix4fv(gUniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
+//
+//    // Diffuse is often 0.2-0.3 the value of the diffuse
+//    glUniform1f(gUniLocHandler.ambientToDiffuseRatio, 0.2f);
+//
+//    // Specular: For now, set this colour to white, and the shininess to something high 
+//    //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
+//    glUniform4f(gUniLocHandler.materialSpecular,
+//                0.0f,
+//                0.0f,
+//                0.0f,
+//                1.0f);
+//
+//
+//    glUniform4f(gUniLocHandler.materialDiffuse,
+//                1.0f,
+//                0.0f,
+//                0.0f,
+//                1.0f);
+//
+//    glUniform1f(gUniLocHandler.hasColour, 0.0f);
+//    glUniform1f(gUniLocHandler.hasAlpha, 0.0f);
+//    glUniform1f(gUniLocHandler.useDiscardAlpha, 0.0f);
+//    glUniform1f(gUniLocHandler.isASkyBox, GL_FALSE);
+//    glUniform1f(gUniLocHandler.hasReflection, 0.0f);
+//
+//    if (clothDebug)
+//    {
+//        glUniform1f(gUniLocHandler.bIsDebugWireFrameObject, 1.0f);
+//    }
+//    else
+//    {
+//        glUniform1f(gUniLocHandler.bIsDebugWireFrameObject, 0.0f);
+//    }
+//
+//
+//
+//    // Set up the textures
+//    std::string textureName = "Fanshawe.bmp";
+//    GLuint texture00Number
+//        = ::g_pTextureManager->getTextureIDFromTextureName(textureName);
+//    //// Texture binding... (i.e. set the 'active' texture
+//    //GLuint texture00Unit = 0;							// Texture units go from 0 to 79 (at least)
+//    //glActiveTexture(texture00Unit + GL_TEXTURE0);		// GL_TEXTURE0 = 33984
+//    //glBindTexture(GL_TEXTURE_2D, texture00Number);
+//
+//    // 0 
+//    glActiveTexture(GL_TEXTURE0);
+//    glBindTexture(GL_TEXTURE_2D,
+//                  ::g_pTextureManager->getTextureIDFromTextureName(textureName));
+//
+//
+//    // Set sampler in the shader
+//    // NOTE: You shouldn't be doing this during the draw call...
+//    GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+//    GLint textSampler00_ID = glGetUniformLocation(curShaderID, "texSamp2D00");
+//
+//    GLint textBlend00_ID = glGetUniformLocation(curShaderID, "texBlend00");
+//
+//
+//    // This connects the texture sampler to the texture units... 
+//    glUniform1i(textSampler00_ID, 0);
+//
+//    // .. and so on
+//
+//    // And the blending values
+//    glUniform1f(textBlend00_ID, 1.0f);
+//
+//
+//    GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
+//    glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
+//
+//    if (clothDebug)
+//    {
+//        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+//        glDisable(GL_CULL_FACE);
+//    }
+//    else
+//    {
+//        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+//        glEnable(GL_DEPTH_TEST);
+//        glDisable(GL_CULL_FACE);
+//    }
+//
+//    
+//    //GLint UniLoc_IsCloth = glGetUniformLocation(curShaderID, "isCloth");
+//    //glUniform1f(UniLoc_IsCloth, GL_TRUE);
+//
+//    sVAOInfo VAODrawInfo;
+//    ::g_pVAOManager->lookupDynamicVAOFromName("Cloth", VAODrawInfo);
+//
+//    glBindVertexArray(VAODrawInfo.VAO_ID);
+//
+//    glDrawElements(GL_TRIANGLES, VAODrawInfo.numberOfIndices, GL_UNSIGNED_INT, 0);
+//
+//    // Unbind that VAO
+//    glBindVertexArray(0);
+//
+//    //glUniform1f(UniLoc_IsCloth, GL_FALSE);
+//}
 
 // Draw a single object
 void DrawObject(cGameObject* pTheGO)
@@ -1062,24 +1061,24 @@ void DrawObject(cGameObject* pTheGO)
     matScale = glm::scale(matScale, glm::vec3(finalScale, finalScale, finalScale));
     mModel = mModel * matScale;
 
-    glUniformMatrix4fv(uniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
+    glUniformMatrix4fv(gUniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
 
     glm::mat4 mWorldInvTranpose = glm::inverse(glm::transpose(mModel));
-    glUniformMatrix4fv(uniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
+    glUniformMatrix4fv(gUniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
 
     // Diffuse is often 0.2-0.3 the value of the diffuse
-    glUniform1f(uniLocHandler.ambientToDiffuseRatio, 0.2f);
+    glUniform1f(gUniLocHandler.ambientToDiffuseRatio, 0.2f);
 
     // Specular: For now, set this colour to white, and the shininess to something high 
     //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
-    glUniform4f(uniLocHandler.materialSpecular,
+    glUniform4f(gUniLocHandler.materialSpecular,
                 pTheGO->specular.x, 
                 pTheGO->specular.y, 
                 pTheGO->specular.z,
                 pTheGO->specular.w);
 
 
-    glUniform4f(uniLocHandler.materialDiffuse,
+    glUniform4f(gUniLocHandler.materialDiffuse,
         pTheGO->diffuseColour.r,
         pTheGO->diffuseColour.g,
         pTheGO->diffuseColour.b,
@@ -1087,59 +1086,59 @@ void DrawObject(cGameObject* pTheGO)
     
     if (pTheGO->hasColour)
     {
-        glUniform1f(uniLocHandler.hasColour, 1.0f);
+        glUniform1f(gUniLocHandler.hasColour, 1.0f);
     }
     else
     {
-        glUniform1f(uniLocHandler.hasColour, 0.0f);
+        glUniform1f(gUniLocHandler.hasColour, 0.0f);
     }
 
     if(pTheGO->hasAlpha)
     {
-        glUniform1f(uniLocHandler.hasAlpha, 1.0f);
+        glUniform1f(gUniLocHandler.hasAlpha, 1.0f);
     } 
     else
     {
-        glUniform1f(uniLocHandler.hasAlpha, 0.0f);
+        glUniform1f(gUniLocHandler.hasAlpha, 0.0f);
     }
     
     if(pTheGO->useDiscardAlpha)
     {
-        glUniform1f(uniLocHandler.useDiscardAlpha, 1.0f);
+        glUniform1f(gUniLocHandler.useDiscardAlpha, 1.0f);
     }
     else
     {
-        glUniform1f(uniLocHandler.useDiscardAlpha, 0.0f);
+        glUniform1f(gUniLocHandler.useDiscardAlpha, 0.0f);
     }
 
     //...and all the other object material colours
 
     if (pTheGO->bIsWireFrame)
     {
-        glUniform1f(uniLocHandler.bIsDebugWireFrameObject, 1.0f);	// TRUE
+        glUniform1f(gUniLocHandler.bIsDebugWireFrameObject, 1.0f);	// TRUE
     }
     else
     {
-        glUniform1f(uniLocHandler.bIsDebugWireFrameObject, 0.0f);	// FALSE
+        glUniform1f(gUniLocHandler.bIsDebugWireFrameObject, 0.0f);	// FALSE
     }
 
     
     if(pTheGO->typeOfObject == SKYBOX)
     {
-        glUniform1f(uniLocHandler.isASkyBox, GL_TRUE);
+        glUniform1f(gUniLocHandler.isASkyBox, GL_TRUE);
     } 
     else
     {
-        glUniform1f(uniLocHandler.isASkyBox, GL_FALSE);
+        glUniform1f(gUniLocHandler.isASkyBox, GL_FALSE);
     }
 
     if(pTheGO->hasReflection)
     {
-        glUniform1f(uniLocHandler.hasReflection, 1.0f);
+        glUniform1f(gUniLocHandler.hasReflection, 1.0f);
     }
     else
     {
-        glUniform1f(uniLocHandler.hasReflection, 0.0f);
+        glUniform1f(gUniLocHandler.hasReflection, 0.0f);
     }
 
     // Set up cube map...

@@ -12,7 +12,6 @@
 #include "cModelAssetLoader.h"
 #include "cCameraObject.h"
 #include "Assimp\cAnimationCollection.h"
-#include "cShaderManager.h"
 
 // Remember to #include <vector>...
 extern std::vector< cGameObject* >  g_vecGameObjects;
@@ -22,7 +21,6 @@ cGameObject* findObjectByFriendlyName(std::string friendlyName, std::vector<cGam
 cGameObject* findObjectByUniqueID(unsigned int ID, std::vector<cGameObject*> &vec_pGameObjects);
 
 extern cCameraObject* g_pCamera;            // (GE101_Main.cpp)
-extern cShaderManager*	g_pShaderManager;   // (GE101_Main.cpp)
 
 extern cLightManager*	g_pLightManager;	// (GE101_Main.cpp)
 
