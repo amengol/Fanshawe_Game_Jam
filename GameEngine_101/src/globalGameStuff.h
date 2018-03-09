@@ -12,6 +12,7 @@
 #include "cModelAssetLoader.h"
 #include "cCameraObject.h"
 #include "Assimp\cAnimationCollection.h"
+#include "cPhysics_Switcher.h"
 
 // Finds a GameObject by a friendly name. Returns 0 or NULL if not found
 cGameObject* findObjectByFriendlyName(std::string friendlyName, std::vector<cGameObject*> &vec_pGameObjects);
@@ -24,6 +25,7 @@ void PhysicsStep(double deltaTime);
 
 extern cCameraObject* g_pCamera;                    // (GE101_Main.cpp)
 extern cLightManager* g_pLightManager;	            // (GE101_Main.cpp)
+extern cPhysics_Switcher gPhysicsSwitcher;          // (GE101_Main.cpp)
 extern cModelAssetLoader* g_pModelAssetLoader;	    // (ModelUtilies.cpp)
 extern cAnimationCollection gAnimationCollection;   // ModelUtilities.cpp
 extern std::vector<cGameObject*> g_vecGameObjects;  // (GE101_Main.cpp)
