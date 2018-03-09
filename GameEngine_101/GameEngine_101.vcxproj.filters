@@ -31,9 +31,6 @@
     <Filter Include="Global">
       <UniqueIdentifier>{6e8dca10-27a4-4969-be67-77a00fa413c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DebugRenderer">
-      <UniqueIdentifier>{0e3c1c14-157f-486d-977e-0c91a61341c2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="AABB">
       <UniqueIdentifier>{07d5c8e3-55ab-44b0-aa75-11ec89319140}</UniqueIdentifier>
     </Filter>
@@ -60,6 +57,9 @@
     </Filter>
     <Filter Include="Cloth_TMP">
       <UniqueIdentifier>{a59ac0de-5a09-44d0-9a59-9f9c6a689756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render Related">
+      <UniqueIdentifier>{0e3c1c14-157f-486d-977e-0c91a61341c2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -123,7 +123,7 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="src\cDebugRenderer.cpp">
-      <Filter>DebugRenderer</Filter>
+      <Filter>Render Related</Filter>
     </ClCompile>
     <ClCompile Include="src\generalGLStuff.cpp">
       <Filter>Global</Filter>
@@ -138,7 +138,7 @@
       <Filter>AABB</Filter>
     </ClCompile>
     <ClCompile Include="src\cSimpleDebugRenderer.cpp">
-      <Filter>DebugRenderer</Filter>
+      <Filter>Render Related</Filter>
     </ClCompile>
     <ClCompile Include="src\cTransparencyManager.cpp">
       <Filter>Game Objects Related</Filter>
@@ -201,7 +201,7 @@
       <Filter>Textures Related</Filter>
     </ClCompile>
     <ClCompile Include="src\cDebugRenderer_BuiltInShapes.cpp">
-      <Filter>DebugRenderer</Filter>
+      <Filter>Render Related</Filter>
     </ClCompile>
     <ClCompile Include="src\Assimp\cAssimpAssetLoader.cpp">
       <Filter>Assimp and Animation</Filter>
@@ -217,6 +217,9 @@
     </ClCompile>
     <ClCompile Include="src\Assimp\cSkinnedMesh.cpp">
       <Filter>Assimp and Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cUniLocHandler.cpp">
+      <Filter>Render Related</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,7 +266,7 @@
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="src\cDebugRenderer.h">
-      <Filter>DebugRenderer</Filter>
+      <Filter>Render Related</Filter>
     </ClInclude>
     <ClInclude Include="src\cAABBsManager.h">
       <Filter>AABB</Filter>
@@ -275,7 +278,7 @@
       <Filter>AABB</Filter>
     </ClInclude>
     <ClInclude Include="src\cSimpleDebugRenderer.h">
-      <Filter>DebugRenderer</Filter>
+      <Filter>Render Related</Filter>
     </ClInclude>
     <ClInclude Include="src\cTransparencyManager.h">
       <Filter>Game Objects Related</Filter>
@@ -314,7 +317,7 @@
       <Filter>Localization and Text</Filter>
     </ClInclude>
     <ClInclude Include="src\iDebugRenderer.h">
-      <Filter>DebugRenderer</Filter>
+      <Filter>Render Related</Filter>
     </ClInclude>
     <ClInclude Include="src\Error\CErrorLog.h">
       <Filter>Error</Filter>
@@ -354,6 +357,9 @@
     </ClInclude>
     <ClInclude Include="Cloth.h">
       <Filter>Cloth_TMP</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cUniLocHandler.h">
+      <Filter>Render Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -179,6 +179,7 @@
     <ClCompile Include="src\cTextManager.cpp" />
     <ClCompile Include="src\cTransparencyManager.cpp" />
     <ClCompile Include="src\cTriangle.cpp" />
+    <ClCompile Include="src\cUniLocHandler.cpp" />
     <ClCompile Include="src\cVAOMeshManager.cpp" />
     <ClCompile Include="src\Error\CErrorLog.cpp" />
     <ClCompile Include="src\Error\COpenGLError.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="src\cSoundManager_Imp.h" />
     <ClInclude Include="src\cSoundObject.h" />
     <ClInclude Include="src\cTextManager.h" />
+    <ClInclude Include="src\cUniLocHandler.h" />
     <ClInclude Include="src\Error\CErrorLog.h" />
     <ClInclude Include="src\Error\COpenGLError.h" />
     <ClInclude Include="src\iDebugRenderer.h" />

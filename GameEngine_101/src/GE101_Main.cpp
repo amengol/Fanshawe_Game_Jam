@@ -13,7 +13,6 @@
 #include <sstream>
 #include <string>
 #include "cCameraObject.h"
-#include "cShaderManager.h"
 #include "cVAOMeshManager.h"
 #include "cGameObject.h"
 #include "cLightManager.h"
@@ -38,6 +37,7 @@
 #include "cLocalization.h"
 #include "cTextManager.h"
 #include <cCloth.h>
+#include "cUniLocHandler.h"
 //#include "../Cloth.h"
 //
 ////=============================================================================
@@ -94,6 +94,7 @@ CTextureManager* g_pTextureManager = NULL;
 cTransparencyManager* g_pTranspManager = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
 std::map<long long, miniVAOInfo> g_map_AABBID_miniVAO;
+cUniLocHandler uniLocHandler;
 long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
@@ -106,25 +107,7 @@ float g_FOV = 0.6f;
 //cSoundManager* g_pSoundManager = NULL;
 
 
-// Other uniforms:
-GLint uniLoc_materialDiffuse = -1;
-//GLint uniLoc_materialAmbient = -1;
-GLint uniLoc_ambientToDiffuseRatio = -1; 	// Maybe	// 0.2 or 0.3
-GLint uniLoc_materialSpecular = -1;         // rgb = colour of HIGHLIGHT only | w = shininess of the 
-GLint uniLoc_bIsDebugWireFrameObject = -1;
-GLint uniLoc_HasColour = -1;
-GLint uniLoc_HasAlpha = -1;
-GLint uniLoc_HasReflection = -1;
-GLint uniLoc_UseDiscardAlpha = -1;
-GLint uniLoc_bIsSkyBoxObject = -1;
-GLint uniLoc_bIsReflectRefract = -1;
 
-
-GLint uniLoc_eyePosition = -1;	            // Camera position
-GLint uniLoc_mModel = -1;
-GLint uniLoc_mView = -1;
-GLint uniLoc_mProjection = -1;
-GLint uniLoc_mWorldInvTrans = -1;
 
 static void error_callback(int error, const char* description)
 {
@@ -350,23 +333,7 @@ int main()
     //-------------------------------------------------------------------------
 
     GLint currentProgID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-
-    uniLoc_materialDiffuse = glGetUniformLocation(currentProgID, "materialDiffuse");
-    //uniLoc_materialAmbient = glGetUniformLocation(currentProgID, "materialAmbient");
-    uniLoc_ambientToDiffuseRatio = glGetUniformLocation(currentProgID, "ambientToDiffuseRatio");
-    uniLoc_materialSpecular = glGetUniformLocation(currentProgID, "materialSpecular");
-    uniLoc_bIsDebugWireFrameObject = glGetUniformLocation(currentProgID, "bIsDebugWireFrameObject");
-    uniLoc_HasColour = glGetUniformLocation(currentProgID, "hasColour");
-    uniLoc_HasAlpha = glGetUniformLocation(currentProgID, "hasAlpha");
-    uniLoc_HasReflection = glGetUniformLocation(currentProgID, "hasReflection");
-    uniLoc_bIsReflectRefract = glGetUniformLocation(currentProgID, "isReflectRefract");
-    uniLoc_UseDiscardAlpha = glGetUniformLocation(currentProgID, "useDiscardAlpha");    
-    uniLoc_bIsSkyBoxObject = glGetUniformLocation(currentProgID, "isASkyBox");
-    uniLoc_eyePosition = glGetUniformLocation(currentProgID, "eyePosition");
-    uniLoc_mModel = glGetUniformLocation(currentProgID, "mModel");
-    uniLoc_mView = glGetUniformLocation(currentProgID, "mView");
-    uniLoc_mProjection = glGetUniformLocation(currentProgID, "mProjection");
-    uniLoc_mWorldInvTrans = glGetUniformLocation(currentProgID, "mWorldInvTranspose");
+    uniLocHandler.InitShaderUniformLocations("GE101_Shader");
 
     //-------------------------------------------------------------------------
     // Lights
@@ -499,8 +466,8 @@ int main()
                   g_pCamera->getLookAtPosition(),				// "At" or "target" 
                   g_pCamera->getCameraUpVector());	// "up" vector
 
-        glUniformMatrix4fv(uniLoc_mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matView));
-        glUniformMatrix4fv(uniLoc_mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));
+        glUniformMatrix4fv(uniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matView));
+        glUniformMatrix4fv(uniLocHandler.mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));
 
         //---------------------------------------------------------------------
         // "Draw scene" loop
@@ -887,42 +854,42 @@ void ClothDraw(cGameObject* pTheGO)
     matScale = glm::scale(matScale, glm::vec3(finalScale, finalScale, finalScale));
     mModel = mModel * matScale;
 
-    glUniformMatrix4fv(uniLoc_mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
+    glUniformMatrix4fv(uniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
 
     glm::mat4 mWorldInvTranpose = glm::inverse(glm::transpose(mModel));
-    glUniformMatrix4fv(uniLoc_mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
+    glUniformMatrix4fv(uniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
 
     // Diffuse is often 0.2-0.3 the value of the diffuse
-    glUniform1f(uniLoc_ambientToDiffuseRatio, 0.2f);
+    glUniform1f(uniLocHandler.ambientToDiffuseRatio, 0.2f);
 
     // Specular: For now, set this colour to white, and the shininess to something high 
     //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
-    glUniform4f(uniLoc_materialSpecular,
+    glUniform4f(uniLocHandler.materialSpecular,
                 0.0f,
                 0.0f,
                 0.0f,
                 1.0f);
 
 
-    glUniform4f(uniLoc_materialDiffuse,
+    glUniform4f(uniLocHandler.materialDiffuse,
                 1.0f,
                 0.0f,
                 0.0f,
                 1.0f);
 
-    glUniform1f(uniLoc_HasColour, 0.0f);
-    glUniform1f(uniLoc_HasAlpha, 0.0f);
-    glUniform1f(uniLoc_UseDiscardAlpha, 0.0f);
-    glUniform1f(uniLoc_bIsSkyBoxObject, GL_FALSE);
-    glUniform1f(uniLoc_HasReflection, 0.0f);
+    glUniform1f(uniLocHandler.hasColour, 0.0f);
+    glUniform1f(uniLocHandler.hasAlpha, 0.0f);
+    glUniform1f(uniLocHandler.useDiscardAlpha, 0.0f);
+    glUniform1f(uniLocHandler.isASkyBox, GL_FALSE);
+    glUniform1f(uniLocHandler.hasReflection, 0.0f);
 
     if (clothDebug)
     {
-        glUniform1f(uniLoc_bIsDebugWireFrameObject, 1.0f);
+        glUniform1f(uniLocHandler.bIsDebugWireFrameObject, 1.0f);
     }
     else
     {
-        glUniform1f(uniLoc_bIsDebugWireFrameObject, 0.0f);
+        glUniform1f(uniLocHandler.bIsDebugWireFrameObject, 0.0f);
     }
 
 
@@ -1095,24 +1062,24 @@ void DrawObject(cGameObject* pTheGO)
     matScale = glm::scale(matScale, glm::vec3(finalScale, finalScale, finalScale));
     mModel = mModel * matScale;
 
-    glUniformMatrix4fv(uniLoc_mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
+    glUniformMatrix4fv(uniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
 
     glm::mat4 mWorldInvTranpose = glm::inverse(glm::transpose(mModel));
-    glUniformMatrix4fv(uniLoc_mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
+    glUniformMatrix4fv(uniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
 
     // Diffuse is often 0.2-0.3 the value of the diffuse
-    glUniform1f(uniLoc_ambientToDiffuseRatio, 0.2f);
+    glUniform1f(uniLocHandler.ambientToDiffuseRatio, 0.2f);
 
     // Specular: For now, set this colour to white, and the shininess to something high 
     //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
-    glUniform4f(uniLoc_materialSpecular, 
+    glUniform4f(uniLocHandler.materialSpecular,
                 pTheGO->specular.x, 
                 pTheGO->specular.y, 
                 pTheGO->specular.z,
                 pTheGO->specular.w);
 
 
-    glUniform4f(uniLoc_materialDiffuse,
+    glUniform4f(uniLocHandler.materialDiffuse,
         pTheGO->diffuseColour.r,
         pTheGO->diffuseColour.g,
         pTheGO->diffuseColour.b,
@@ -1120,59 +1087,59 @@ void DrawObject(cGameObject* pTheGO)
     
     if (pTheGO->hasColour)
     {
-        glUniform1f(uniLoc_HasColour, 1.0f);
+        glUniform1f(uniLocHandler.hasColour, 1.0f);
     }
     else
     {
-        glUniform1f(uniLoc_HasColour, 0.0f);
+        glUniform1f(uniLocHandler.hasColour, 0.0f);
     }
 
     if(pTheGO->hasAlpha)
     {
-        glUniform1f(uniLoc_HasAlpha, 1.0f);
+        glUniform1f(uniLocHandler.hasAlpha, 1.0f);
     } 
     else
     {
-        glUniform1f(uniLoc_HasAlpha, 0.0f);
+        glUniform1f(uniLocHandler.hasAlpha, 0.0f);
     }
     
     if(pTheGO->useDiscardAlpha)
     {
-        glUniform1f(uniLoc_UseDiscardAlpha, 1.0f);
+        glUniform1f(uniLocHandler.useDiscardAlpha, 1.0f);
     }
     else
     {
-        glUniform1f(uniLoc_UseDiscardAlpha, 0.0f);
+        glUniform1f(uniLocHandler.useDiscardAlpha, 0.0f);
     }
 
     //...and all the other object material colours
 
     if (pTheGO->bIsWireFrame)
     {
-        glUniform1f(uniLoc_bIsDebugWireFrameObject, 1.0f);	// TRUE
+        glUniform1f(uniLocHandler.bIsDebugWireFrameObject, 1.0f);	// TRUE
     }
     else
     {
-        glUniform1f(uniLoc_bIsDebugWireFrameObject, 0.0f);	// FALSE
+        glUniform1f(uniLocHandler.bIsDebugWireFrameObject, 0.0f);	// FALSE
     }
 
     
     if(pTheGO->typeOfObject == SKYBOX)
     {
-        glUniform1f(uniLoc_bIsSkyBoxObject, GL_TRUE);
+        glUniform1f(uniLocHandler.isASkyBox, GL_TRUE);
     } 
     else
     {
-        glUniform1f(uniLoc_bIsSkyBoxObject, GL_FALSE);
+        glUniform1f(uniLocHandler.isASkyBox, GL_FALSE);
     }
 
     if(pTheGO->hasReflection)
     {
-        glUniform1f(uniLoc_HasReflection, 1.0f);
+        glUniform1f(uniLocHandler.hasReflection, 1.0f);
     }
     else
     {
-        glUniform1f(uniLoc_HasReflection, 0.0f);
+        glUniform1f(uniLocHandler.hasReflection, 0.0f);
     }
 
     // Set up cube map...
