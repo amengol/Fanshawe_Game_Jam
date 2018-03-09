@@ -2,6 +2,7 @@
 #define _cSimpleDebugRenderer_HG_
 #include "globalOpenGL_GLFW.h"
 #include "sVertex.h"
+#include <glm\glm.hpp>
 
 class sAABB_Triangle;
 

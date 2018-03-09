@@ -1,7 +1,7 @@
 #ifndef _sAABB_Triangle_HG_
 #define _sAABB_Triangle_HG_
 
-#include "globalGameStuff.h"
+#include <glm\vec3.hpp>
 
 struct sAABB_Triangle
 {

@@ -73,10 +73,10 @@ bool InitPhysics()
 using namespace std;
 
 // Function Prototypes
-void DrawObject(cGameObject* pTheGO);
+//void DrawObject(cGameObject* pTheGO);
 //void DrawAABB(cGameObject* pTheGO, float size);
 //void DrawAABBforPoints(std::vector<glm::vec3> vertices, float AABBSize);
-bool compare(cGameObject* i, cGameObject* j);
+//bool compare(cGameObject* i, cGameObject* j);
 
 // Global variables
 cVAOMeshManager* g_pVAOManager = NULL;
@@ -84,7 +84,7 @@ cCameraObject* g_pCamera = NULL;
 cGameObject* g_pSkyBoxObject = NULL;
 cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
-//cDebugRenderer*	g_pDebugRenderer = NULL;
+cDebugRenderer*	g_pDebugRenderer = NULL;
 cSimpleDebugRenderer* g_simpleDebug = NULL;
 cAABBsManager* g_pAABBsManager = NULL;
 CTextureManager* g_pTextureManager = NULL;
@@ -370,20 +370,20 @@ int main()
         std::cout << error << std::endl;
     }
 
-    //// Debug Render
-    ////-------------------------------------------------------------------------
-    //// Triangle debug renderer test...
-    //::g_pDebugRenderer = new cDebugRenderer();
-    //if (!::g_pDebugRenderer->initialize(error))
-    //{
-    //    std::cout << "Warning: couldn't init the debug renderer." << std::endl;
-    //    std::cout << "\t" << ::g_pDebugRenderer->getLastError() << std::endl;
-    //}
+    // Debug Render
+    //-------------------------------------------------------------------------
+    // Triangle debug renderer test...
+    ::g_pDebugRenderer = new cDebugRenderer();
+    if (!::g_pDebugRenderer->initialize(error))
+    {
+        std::cout << "Warning: couldn't init the debug renderer." << std::endl;
+        std::cout << "\t" << ::g_pDebugRenderer->getLastError() << std::endl;
+    }
 
-    //::g_pDebugRenderer->addTriangle( glm::vec3( -50.0f, -25.0f, 0.0f ),
-				//					 glm::vec3( 0.0, 50.0f, 100.0f ),
-				//					 glm::vec3( 50.0f, -25.0, 0.0f),
-				//					 glm::vec3( 1.0f, 1.0f, 0.0f ), 1000.0f );
+    ::g_pDebugRenderer->addTriangle( glm::vec3( -50.0f, -25.0f, 0.0f ),
+									 glm::vec3( 0.0, 50.0f, 100.0f ),
+									 glm::vec3( 50.0f, -25.0, 0.0f),
+									 glm::vec3( 1.0f, 1.0f, 0.0f ), 1000.0f );
 
     //-------------------------------------------------------------------------
     // Clouds
@@ -568,9 +568,9 @@ int main()
         //g_Lococalization.draw(width, height);
         //g_TextManager.draw(width, height);
 
-        //double timeForDebugRender = glfwGetTime() - lastTimeStep;
+        double timeForDebugRender = glfwGetTime() - lastTimeStep;
 
-        //::g_pDebugRenderer->RenderDebugObjects(matView, matProjection, timeForDebugRender);
+        ::g_pDebugRenderer->RenderDebugObjects(matView, matProjection, timeForDebugRender);
 
         // "Draw scene" loop end
         //---------------------------------------------------------------------
@@ -630,7 +630,7 @@ int main()
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
     delete ::g_simpleDebug;
-    //delete ::g_pDebugRenderer;
+    delete ::g_pDebugRenderer;
     delete ::g_pAABBsManager;
     //delete ::g_pSoundManager;
     delete ::g_pTranspManager;
