@@ -13,26 +13,19 @@
 #include "cCameraObject.h"
 #include "Assimp\cAnimationCollection.h"
 
-// Remember to #include <vector>...
-extern std::vector< cGameObject* >  g_vecGameObjects;
-
-// Returns 0 or NULL if not found
+// Finds a GameObject by a friendly name. Returns 0 or NULL if not found
 cGameObject* findObjectByFriendlyName(std::string friendlyName, std::vector<cGameObject*> &vec_pGameObjects);
+
+// Finds a GameObject by a unique ID
 cGameObject* findObjectByUniqueID(unsigned int ID, std::vector<cGameObject*> &vec_pGameObjects);
 
-extern cCameraObject* g_pCamera;            // (GE101_Main.cpp)
+// Super basic physics update function
+void PhysicsStep(double deltaTime);
 
-extern cLightManager*	g_pLightManager;	// (GE101_Main.cpp)
-
-                                            // Super basic physics update function
-void PhysicsStep( double deltaTime );
-
-extern cModelAssetLoader* g_pModelAssetLoader;	// (ModelUtilies.cpp)
-
+extern cCameraObject* g_pCamera;                    // (GE101_Main.cpp)
+extern cLightManager* g_pLightManager;	            // (GE101_Main.cpp)
+extern cModelAssetLoader* g_pModelAssetLoader;	    // (ModelUtilies.cpp)
 extern cAnimationCollection gAnimationCollection;   // ModelUtilities.cpp
-
-// The teapots
-extern cGameObject* pTP0;
-
+extern std::vector<cGameObject*> g_vecGameObjects;  // (GE101_Main.cpp)
 
 #endif

@@ -11,7 +11,7 @@
 //	anywhere you need it.
 
 // SHORT VERSION OF THIS: If you need ANYTHING with OpenGL (constant, functions, whatever), 
-//                         then include THIS file, not the glad and GLFW files specifically)
+//  then include THIS file, not the glad and GLFW files specifically)
 
 
 #include <glad/glad.h>
@@ -23,16 +23,17 @@
 #include "cDebugRenderer.h"
 #include "cUniLocHandler.h"
 
+// GLFW Callback function
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-extern cVAOMeshManager*			g_pVAOManager;		// (theMain.cpp)
-extern cShaderManager*			g_pShaderManager;	// (theMain.cpp)
+extern cVAOMeshManager* g_pVAOManager;		// (theMain.cpp)
+extern cShaderManager* g_pShaderManager;	// (theMain.cpp)
 extern CTextureManager*	g_pTextureManager;	// (theMain.cpp)
-//extern cDebugRenderer*			g_pDebugRenderer;	// (theMain.cpp)
-extern cUniLocHandler gUniLocHandler;           // (theMain.cpp)
+//extern cDebugRenderer* g_pDebugRenderer;	// (theMain.cpp)
+extern cUniLocHandler gUniLocHandler;       // (theMain.cpp)
+
 
 std::string decodeGLErrorFromEnum(GLenum error, std::string &details);
-
 #include "Error/COpenGLError.h"
 
 #endif
