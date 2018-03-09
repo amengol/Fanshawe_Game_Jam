@@ -786,6 +786,8 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
 
 void ClothDraw(cGameObject* pTheGO)
 {
+    bool clothDebug = true;
+
     //// calculating positions
 
     //ball_time++;
@@ -838,6 +840,22 @@ void ClothDraw(cGameObject* pTheGO)
 
         pVertices[i].u1 = clothMesh.pVertices[i].u1;
         pVertices[i].v1 = clothMesh.pVertices[i].v1;
+
+        if (clothDebug)
+        {
+            cGameObject* debugSphere = new cGameObject;
+            debugSphere->meshName = "Low_Poly_Sphere";
+            debugSphere->scale = 0.1f;
+            debugSphere->bIsWireFrame = true;
+            debugSphere->diffuseColour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+            debugSphere->position.x = pVertices[i].x;
+            debugSphere->position.y = pVertices[i].y;
+            debugSphere->position.z = pVertices[i].z;
+
+            DrawObject(debugSphere);
+
+            delete debugSphere;
+        }
     }
     delete[] clothMesh.pVertices;
 
@@ -895,9 +913,19 @@ void ClothDraw(cGameObject* pTheGO)
     glUniform1f(uniLoc_HasColour, 0.0f);
     glUniform1f(uniLoc_HasAlpha, 0.0f);
     glUniform1f(uniLoc_UseDiscardAlpha, 0.0f);
-    glUniform1f(uniLoc_bIsDebugWireFrameObject, 0.0f);	// FALSE
     glUniform1f(uniLoc_bIsSkyBoxObject, GL_FALSE);
     glUniform1f(uniLoc_HasReflection, 0.0f);
+
+    if (clothDebug)
+    {
+        glUniform1f(uniLoc_bIsDebugWireFrameObject, 1.0f);
+    }
+    else
+    {
+        glUniform1f(uniLoc_bIsDebugWireFrameObject, 0.0f);
+    }
+
+
 
     // Set up the textures
     std::string textureName = "Fanshawe.bmp";
@@ -933,9 +961,20 @@ void ClothDraw(cGameObject* pTheGO)
 
     GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
     glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    glEnable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
+
+    if (clothDebug)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glDisable(GL_CULL_FACE);
+    }
+    else
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glEnable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
+    }
+
+    
     //GLint UniLoc_IsCloth = glGetUniformLocation(curShaderID, "isCloth");
     //glUniform1f(UniLoc_IsCloth, GL_TRUE);
 
