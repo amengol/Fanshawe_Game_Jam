@@ -3,6 +3,7 @@
 #include "globalOpenGL_GLFW.h"
 #include "sVertex.h"
 #include <glm\glm.hpp>
+#include <map>
 
 class sAABB_Triangle;
 

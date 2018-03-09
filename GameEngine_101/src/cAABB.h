@@ -1,8 +1,9 @@
 #ifndef _cAABB_HG_
 #define _cAABB_HG_
 
-#include "globalGameStuff.h"
-#include "sAABB_Triangle.h"
+#include <glm\vec3.hpp>
+#include <vector>
+struct sAABB_Triangle;
 
 class cAABB
 {

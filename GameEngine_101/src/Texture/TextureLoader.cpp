@@ -1,8 +1,7 @@
 #include "TextureLoader.h"
-#include "CTextureManager.h"
 #include <iostream>
+#include "..\globalGameStuff.h"
 
-extern CTextureManager* g_pTextureManager;
 
 bool loadTextures()
 {

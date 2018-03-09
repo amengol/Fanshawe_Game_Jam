@@ -1,7 +1,7 @@
 #include "cAABBsManager.h"
 #include "sAABB_Triangle.h"
 #include <iostream>
-#include "sAABB_Triangle.h"
+#include <glm\glm.hpp>
 
 cAABBsManager::cAABBsManager()
 {

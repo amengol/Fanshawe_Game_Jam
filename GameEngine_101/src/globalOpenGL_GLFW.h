@@ -17,8 +17,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "cShaderManager.h"
-#include "Texture/cTextureManager.h"
+
+
 
 #include "cUniLocHandler.h"
 
@@ -26,8 +26,8 @@
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 
-extern cShaderManager* g_pShaderManager;	// (theMain.cpp)
-extern CTextureManager*	g_pTextureManager;	// (theMain.cpp)
+
+
 
 extern cUniLocHandler gUniLocHandler;       // (theMain.cpp)
 

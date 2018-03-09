@@ -15,6 +15,8 @@
 #include "cPhysics_Switcher.h"
 #include "cVAOMeshManager.h"
 #include "cDebugRenderer.h"
+#include "cShaderManager.h"
+#include "Texture/cTextureManager.h"
 
 // Finds a GameObject by a friendly name. Returns 0 or NULL if not found
 cGameObject* findObjectByFriendlyName(std::string friendlyName, std::vector<cGameObject*> &vec_pGameObjects);
@@ -33,5 +35,7 @@ extern cAnimationCollection gAnimationCollection;   // (ModelUtilities.cpp)
 extern std::vector<cGameObject*> g_vecGameObjects;  // (GE101_Main.cpp)
 extern cVAOMeshManager* g_pVAOManager;		// (theMain.cpp)
 extern cDebugRenderer* g_pDebugRenderer;	// (theMain.cpp)
+extern cShaderManager* g_pShaderManager;	// (theMain.cpp)
+extern CTextureManager*	g_pTextureManager;	// (theMain.cpp)
 
 #endif

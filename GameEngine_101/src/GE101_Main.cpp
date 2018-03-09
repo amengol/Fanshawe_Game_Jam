@@ -12,7 +12,6 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include "cCameraObject.h"
 #include "cGameObject.h"
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -32,7 +31,6 @@
 #include <bt_cPhysicsWorld.h>
 #include <bt_cPhysicsFactory.h>
 #include "cLocalization.h"
-#include "cTextManager.h"
 #include <cCloth.h>
 #include "DrawCalls.h"
 //#include "../Cloth.h"
