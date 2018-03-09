@@ -1,4 +1,5 @@
 #include "cModelAssetLoader.h"
+#include "cMesh.h"
 
 #include <sstream>
 

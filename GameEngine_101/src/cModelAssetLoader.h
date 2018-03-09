@@ -3,7 +3,8 @@
 
 #include <string>
 #include <fstream>
-#include "cMesh.h"
+
+class cMesh;
 
 class cModelAssetLoader
 {
