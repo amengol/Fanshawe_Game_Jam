@@ -4,7 +4,6 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>
-#include "sVAOInfo.h"		
 
 // Note: 
 // - Include this header in the thing(s) that MANAGE the debug render
