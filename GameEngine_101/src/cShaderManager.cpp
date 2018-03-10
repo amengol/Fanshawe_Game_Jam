@@ -6,6 +6,7 @@
 #include <algorithm>	
 #include <iterator>		
 #include "Texture/CTextureManager.h"
+#include "sTextureBindBlendInfo.h"
 
 cShaderManager::cShaderManager()
 {

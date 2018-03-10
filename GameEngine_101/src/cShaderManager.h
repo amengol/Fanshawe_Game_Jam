@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "sTextureBindBlendInfo.h"
+
+struct sTextureBindBlendInfo;
 
 class CTextureManager;	// Forward declare to avoid include
 
