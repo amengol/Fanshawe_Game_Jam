@@ -2,11 +2,8 @@
 #include "globalGameStuff.h"
 #include "cTransparencyManager.h"
 #include "cPhysics_Switcher.h"
-#include "cLocalization.h"
 
 extern cPhysics_Switcher g_physicsSwitcher;
-
-//extern cLocalization g_Lococalization;
 
 //#include "AI\cSimpleAi_Manager.h"
 
@@ -86,101 +83,101 @@ void key_callback(GLFWwindow* window,
 
     //if (key == GLFW_KEY_1 && action == GLFW_PRESS)
     //{
-    //    if (g_Lococalization.getState() == MAIN)
+    //    if (g_lococalization.getState() == MAIN)
     //    {
-    //        g_Lococalization.setMenu(ENGLISH);
+    //        g_lococalization.setMenu(ENGLISH);
     //        return;
     //    }
 
-    //    if (g_Lococalization.getState() == LANGUAGE)
+    //    if (g_lococalization.getState() == LANGUAGE)
     //    {
-    //        g_Lococalization.setMainMenu();
+    //        g_lococalization.setMainMenu();
     //        return;
     //    }
 
-    //    if (g_Lococalization.getState() == INSTRUCTIONS)
+    //    if (g_lococalization.getState() == INSTRUCTIONS)
     //    {
-    //        eSelectedLanguage lang = g_Lococalization.getLanguage();
-    //        g_Lococalization.setMenu(lang);
+    //        eSelectedLanguage lang = g_lococalization.getLanguage();
+    //        g_lococalization.setMenu(lang);
     //        return;
     //    }
 
-    //    if (g_Lococalization.getState() == DISMISS)
+    //    if (g_lococalization.getState() == DISMISS)
     //    {
-    //        g_Lococalization.setMainMenu();
+    //        g_lococalization.setMainMenu();
     //        return;
     //    }
     //}
 
     //if (key == GLFW_KEY_2 && action == GLFW_PRESS)
     //{
-    //    if (g_Lococalization.getState() == MAIN)
+    //    if (g_lococalization.getState() == MAIN)
     //    {
-    //        g_Lococalization.setMenu(FRENCH);
+    //        g_lococalization.setMenu(FRENCH);
     //        return;
     //    }
 
-    //    if (g_Lococalization.getState() == LANGUAGE)
+    //    if (g_lococalization.getState() == LANGUAGE)
     //    {
-    //        eSelectedLanguage lang = g_Lococalization.getLanguage();
-    //        g_Lococalization.setMenu(lang, true);
+    //        eSelectedLanguage lang = g_lococalization.getLanguage();
+    //        g_lococalization.setMenu(lang, true);
     //        return;
     //    }
 
-    //    if (g_Lococalization.getState() == DISMISS)
+    //    if (g_lococalization.getState() == DISMISS)
     //    {
-    //        g_Lococalization.setMainMenu();
+    //        g_lococalization.setMainMenu();
     //        return;
     //    }
     //}
 
     //if (key == GLFW_KEY_3 && action == GLFW_PRESS)
     //{
-    //    if (g_Lococalization.getState() == MAIN)
+    //    if (g_lococalization.getState() == MAIN)
     //    {
-    //        g_Lococalization.setMenu(SPANISH);
+    //        g_lococalization.setMenu(SPANISH);
     //        return;
     //    }
 
-    //    if (g_Lococalization.getState() == LANGUAGE)
+    //    if (g_lococalization.getState() == LANGUAGE)
     //    {
-    //        g_Lococalization.dismiss();
+    //        g_lococalization.dismiss();
     //        return;
     //    }
 
-    //    if (g_Lococalization.getState() == DISMISS)
+    //    if (g_lococalization.getState() == DISMISS)
     //    {
-    //        g_Lococalization.setMainMenu();
+    //        g_lococalization.setMainMenu();
     //        return;
     //    }
     //}
 
     //if (key == GLFW_KEY_4 && action == GLFW_PRESS)
     //{
-    //    if (g_Lococalization.getState() == MAIN)
+    //    if (g_lococalization.getState() == MAIN)
     //    {
-    //        g_Lococalization.setMenu(PORTUGUESE);
+    //        g_lococalization.setMenu(PORTUGUESE);
     //        return;
     //    }
 
-    //    if (g_Lococalization.getState() == DISMISS)
+    //    if (g_lococalization.getState() == DISMISS)
     //    {
-    //        g_Lococalization.setMainMenu();
+    //        g_lococalization.setMainMenu();
     //        return;
     //    }
     //}
 
     //if (key == GLFW_KEY_5 && action == GLFW_PRESS)
     //{
-    //    if(g_Lococalization.getState() == MAIN)
+    //    if(g_lococalization.getState() == MAIN)
     //    {
-    //        g_Lococalization.setMenu(CHINESE);
+    //        g_lococalization.setMenu(CHINESE);
     //        return;
     //    }
 
-    //    if (g_Lococalization.getState() == DISMISS)
+    //    if (g_lococalization.getState() == DISMISS)
     //    {
-    //        g_Lococalization.setMainMenu();
+    //        g_lococalization.setMainMenu();
     //        return;
     //    }
     //}

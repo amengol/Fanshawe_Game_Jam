@@ -23,8 +23,6 @@
 #include "Utilities.h"
 #include "cSceneLoader.h"
 #include "cSoundManager.h"
-
-#include "cLocalization.h"
 #include <cCloth.h>
 #include "DrawCalls.h"
 //#include "../Cloth.h"
@@ -42,8 +40,6 @@
 ////=============================================================================
 
 //#include "AI\cSimpleAi_Manager.h"
-
-bool g_renderStuffInDebug;
 
 
 //nPhysics::iPhysicsFactory* gbt_PhysicsFactory = NULL;
@@ -89,7 +85,7 @@ long long g_lineID = -1;
 float g_AABBSize = 20.0f;
 float g_FOV = 0.6f;
 //cSimpleAi_Manager g_AiManager;
-//cLocalization g_Lococalization;
+//cLocalization g_lococalization;
 cTextManager g_textManager;
 
 // To deal with sounds
@@ -173,12 +169,12 @@ int main()
     glfwSwapInterval(1);
 
     //// Localization and Text---------------------------------------------------
-    //if (!g_Lococalization.init())
+    //if (!g_lococalization.init())
     //{
     //    std::cout << "There was an error initiating the localization process!" << std::endl;
     //}
-    //g_Lococalization.loadLanguageFromXml("assets\\xml\\localization.xml");
-    //
+    //g_lococalization.loadLanguageFromXml("assets\\xml\\localization.xml");
+    
     if (!g_textManager.init())
     {
         std::cout << "There was an error initiating the text manager!" << std::endl;
@@ -555,9 +551,9 @@ int main()
         //    }
         //}
         
-        //// Draw localization text ---------------------------------------------
-        //g_Lococalization.draw(width, height);
-        g_textManager.draw(width, height);
+        ////// Draw localization text ---------------------------------------------
+        //g_lococalization.draw(width, height);
+        //g_textManager.draw(width, height);
 
         double timeForDebugRender = glfwGetTime() - lastTimeStep;
 
