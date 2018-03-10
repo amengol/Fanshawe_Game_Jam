@@ -1,12 +1,13 @@
 #ifndef _cSimpleDebugRenderer_HG_
 #define _cSimpleDebugRenderer_HG_
-#include "globalOpenGL_GLFW.h"
-#include "sVertex.h"
+
 #include <glm\glm.hpp>
 #include <map>
+#include <vector>
 
-class sAABB_Triangle;
-
+struct sVertex;
+struct sAABB_Triangle;
+typedef unsigned int GLuint;
 
 enum DebugType
 {

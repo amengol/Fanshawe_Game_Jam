@@ -1,6 +1,7 @@
 #include "cTransparencyManager.h"
 #include <algorithm>
 #include "cCameraObject.h"
+#include "cGameObject.h"
 
 extern cCameraObject* g_pCamera;
 

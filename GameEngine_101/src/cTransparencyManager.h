@@ -2,7 +2,8 @@
 #define _cTransparencyManager_HG_
 
 #include <vector>
-#include "cGameObject.h"
+
+class cGameObject;
 
 struct transparencyInfo
 {
