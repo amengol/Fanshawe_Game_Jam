@@ -55,9 +55,6 @@
     <Filter Include="Assimp and Animation">
       <UniqueIdentifier>{ab3b5775-1310-42b5-9b84-ad465c42d265}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Cloth_TMP">
-      <UniqueIdentifier>{a59ac0de-5a09-44d0-9a59-9f9c6a689756}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Render Related">
       <UniqueIdentifier>{0e3c1c14-157f-486d-977e-0c91a61341c2}</UniqueIdentifier>
     </Filter>
@@ -357,9 +354,6 @@
     </ClInclude>
     <ClInclude Include="src\Assimp\cSkinnedMesh.h">
       <Filter>Assimp and Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Cloth.h">
-      <Filter>Cloth_TMP</Filter>
     </ClInclude>
     <ClInclude Include="src\cUniLocHandler.h">
       <Filter>Render Related</Filter>
