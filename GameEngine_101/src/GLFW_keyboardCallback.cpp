@@ -3,12 +3,10 @@
 #include "cTransparencyManager.h"
 #include "cPhysics_Switcher.h"
 #include "cLocalization.h"
-#include "cTextManager.h"
 
 extern cPhysics_Switcher g_physicsSwitcher;
 
 //extern cLocalization g_Lococalization;
-//extern cTextManager g_TextManager;
 
 //#include "AI\cSimpleAi_Manager.h"
 
@@ -278,10 +276,11 @@ void key_callback(GLFWwindow* window,
 
     if(key == GLFW_KEY_F && action == GLFW_PRESS)
     {
-        for (size_t i = 0; i < g_vecGameObjects.size() ; i++)
+        g_clothDebug = !g_clothDebug;
+        /*for (size_t i = 0; i < g_vecGameObjects.size() ; i++)
         {
             g_vecGameObjects[i]->bIsWireFrame = !g_vecGameObjects[i]->bIsWireFrame;
-        }
+        }*/
     }
 
     //if (key == GLFW_KEY_P && action == GLFW_PRESS)
@@ -290,20 +289,20 @@ void key_callback(GLFWwindow* window,
     //    {
     //    case g_physicsSwitcher.SUPERDUPER:
     //    {
-    //        g_physicsSwitcher.SetBullet();
+    //        //g_physicsSwitcher.SetBullet();
     //        std::vector<std::wstring> ws;
     //        ws.push_back(L"Physics with Bullet");
     //        ws.push_back(L"[P] to change");
-    //        g_TextManager.setText(ws, glm::vec3(1.0f, 0.0f, 0.0f));
+    //        g_textManager.setText(ws, glm::vec3(1.0f, 0.0f, 0.0f));
     //    }            
     //        break;
     //    case g_physicsSwitcher.BULLET:
     //    {
-    //        g_physicsSwitcher.SetSuperDuper();
+    //        //g_physicsSwitcher.SetSuperDuper();
     //        std::vector<std::wstring> ws;
     //        ws.push_back(L"Physics with SuperDuper");
     //        ws.push_back(L"[P] to change");
-    //        g_TextManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));
+    //        g_textManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));
     //    }            
     //        break;
     //    default:

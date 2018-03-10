@@ -25,6 +25,7 @@
 #include <bt_cPhysicsFactory.h>
 #include "cSimpleDebugRenderer.h"
 #include "cTransparencyManager.h"
+#include "cTextManager.h"
 
 
 
@@ -37,7 +38,9 @@ cGameObject* findObjectByUniqueID(unsigned int ID, std::vector<cGameObject*> &ve
 // Super basic physics update function
 void PhysicsStep(double deltaTime);
 
+extern bool g_clothDebug;                             // (DrawCalls.cpp)
 extern cCameraObject* g_pCamera;                      // (GE101_Main.cpp)
+extern cTextManager g_textManager;                    // (GE101_Main.cpp)
 extern cGameObject* g_pSkyBoxObject;                  // (GE101_Main.cpp)
 extern cUniLocHandler g_uniLocHandler;                // (GE101_Main.cpp)
 extern cLightManager* g_pLightManager;	              // (GE101_Main.cpp)

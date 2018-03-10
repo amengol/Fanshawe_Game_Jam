@@ -8,9 +8,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Assimp\cAnimationState.h"
 
+bool g_clothDebug = false;
+
 void ClothDraw(cGameObject* pTheGO)
-{
-    bool clothDebug = true;
+{    
 
     nPhysics::cSoftBody* sb = static_cast<nPhysics::cSoftBody*>(pTheGO->softBody);
 
@@ -55,7 +56,7 @@ void ClothDraw(cGameObject* pTheGO)
         pVertices[i].u1 = clothMesh.pVertices[i].u1;
         pVertices[i].v1 = clothMesh.pVertices[i].v1;
 
-        if (clothDebug)
+        if (g_clothDebug)
         {
             cGameObject* debugSphere = new cGameObject;
             debugSphere->meshName = "Low_Poly_Sphere";
@@ -130,7 +131,7 @@ void ClothDraw(cGameObject* pTheGO)
     glUniform1f(g_uniLocHandler.isASkyBox, GL_FALSE);
     glUniform1f(g_uniLocHandler.hasReflection, 0.0f);
 
-    if (clothDebug)
+    if (g_clothDebug)
     {
         glUniform1f(g_uniLocHandler.bIsDebugWireFrameObject, 1.0f);
     }
@@ -176,7 +177,7 @@ void ClothDraw(cGameObject* pTheGO)
     GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
     glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
 
-    if (clothDebug)
+    if (g_clothDebug)
     {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glDisable(GL_CULL_FACE);

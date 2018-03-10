@@ -90,7 +90,7 @@ float g_AABBSize = 20.0f;
 float g_FOV = 0.6f;
 //cSimpleAi_Manager g_AiManager;
 //cLocalization g_Lococalization;
-//cTextManager g_TextManager;
+cTextManager g_textManager;
 
 // To deal with sounds
 //cSoundManager* g_pSoundManager = NULL;
@@ -179,15 +179,14 @@ int main()
     //}
     //g_Lococalization.loadLanguageFromXml("assets\\xml\\localization.xml");
     //
-    //if (!g_TextManager.init())
-    //{
-    //    std::cout << "There was an error initiating the text manager!" << std::endl;
-    //}
-    //std::vector<std::wstring> ws;
-    //ws.push_back(L"Physics with SuperDuper");
-    //ws.push_back(L"[P] to change");
-    //g_TextManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));    
-    ////-------------------------------------------------------------------------
+    if (!g_textManager.init())
+    {
+        std::cout << "There was an error initiating the text manager!" << std::endl;
+    }
+    std::vector<std::wstring> ws;
+    ws.push_back(L"[F] On/Off Debug Mode");
+    g_textManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));    
+    //-------------------------------------------------------------------------
 
     // General error string, used for a number of items during start up
     std::string error;
@@ -558,7 +557,7 @@ int main()
         
         //// Draw localization text ---------------------------------------------
         //g_Lococalization.draw(width, height);
-        //g_TextManager.draw(width, height);
+        g_textManager.draw(width, height);
 
         double timeForDebugRender = glfwGetTime() - lastTimeStep;
 
