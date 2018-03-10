@@ -10,19 +10,7 @@
 #include <iPhysicsFactory.h>
 #include "globalGameStuff.h"
 #include "Assimp\cAnimationState.h"
-//#include "AI\cSimpleAi_Manager.h"
 
-//extern cSimpleAi_Manager g_AiManager;
-
-extern nPhysics::iPhysicsFactory* gPhysicsFactory;
-//extern nPhysics::iPhysicsFactory* gbt_PhysicsFactory;
-extern nPhysics::iPhysicsWorld* gPhysicsWorld;
-//extern nPhysics::iPhysicsWorld* gbt_PhysicsWorld;
-
-extern std::vector< cGameObject* >  g_vecGameObjects;
-extern cGameObject* g_pSkyBoxObject;
-extern cTransparencyManager* g_pTranspManager;
-extern cVAOMeshManager* g_pVAOManager;
 
 cSceneLoader::cSceneLoader()
 {
@@ -553,11 +541,11 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         {
         case SPHERE:
         {
-            nPhysics::iShape* shape = gPhysicsFactory->CreateSphere(radius);
+            nPhysics::iShape* shape = g_pPhysicsFactory->CreateSphere(radius);
             //nPhysics::iShape* bt_shape = gbt_PhysicsFactory->CreateSphere(radius);
             nPhysics::sRigidBodyDesc desc;
             desc.Position = position;
-            nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, shape);
+            nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, shape);
             theGO->rigidBody = rb;
             //nPhysics::iRigidBody* bt_rb = gbt_PhysicsFactory->CreateRigidBody(desc, bt_shape);
             //theGO->bt_rigidBody = bt_rb;
@@ -578,7 +566,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         case SKINNED_MESH:
         {
             // This assigns the game object to the particular skinned mesh type 
-            theGO->pSimpleSkinnedMesh = ::gAnimationCollection.getSkinnedMeshes(meshName);
+            theGO->pSimpleSkinnedMesh = ::g_animationCollection.getSkinnedMeshes(meshName);
 
             if (theGO->pSimpleSkinnedMesh == NULL)
             {
@@ -612,7 +600,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 if (gameObject[jsIndex]["defaultAnimation"].IsString())
                 {
                     std::string defaultAnimation = gameObject[jsIndex]["defaultAnimation"].GetString();
-                    const aiScene* animScene = ::gAnimationCollection.getAnimation(defaultAnimation);
+                    const aiScene* animScene = ::g_animationCollection.getAnimation(defaultAnimation);
                     if (animScene == NULL)
                     {
                         error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
@@ -700,7 +688,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
 
                         glm::vec3 ulcPos(xPos, yPos, zPos);
 
-                        nPhysics::iForm* cloth = gPhysicsFactory->CreateCloth(ulcPos,
+                        nPhysics::iForm* cloth = g_pPhysicsFactory->CreateCloth(ulcPos,
                                                                               damping,
                                                                               nodeMass, 
                                                                               width, 
@@ -714,10 +702,10 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                         cloth->SetGravity(gravity);
                         cloth->SetWind(wind);
 
-                        nPhysics::iSoftBody* sbCloth = gPhysicsFactory->CreateSoftBody(cloth);
+                        nPhysics::iSoftBody* sbCloth = g_pPhysicsFactory->CreateSoftBody(cloth);
 
                         theGO->softBody = sbCloth;
-                        gPhysicsWorld->AddSoftBody(sbCloth);
+                        g_pPhysicsWorld->AddSoftBody(sbCloth);
                     }
                     else
                         clothIsOk = false;
@@ -1211,12 +1199,12 @@ bool cSceneLoader::loadLimitPlanes(std::string& error)
 
         float constant = limitPlanes[i]["constant"].GetFloat();
 
-        nPhysics::iShape* plane = gPhysicsFactory->CreatePlane(normal, constant);
+        nPhysics::iShape* plane = g_pPhysicsFactory->CreatePlane(normal, constant);
         //nPhysics::iShape* bt_plane = gbt_PhysicsFactory->CreatePlane(normal, constant);
 
         nPhysics::sRigidBodyDesc desc;
-        nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, plane);
-        gPhysicsWorld->AddRigidBody(rb);
+        nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, plane);
+        g_pPhysicsWorld->AddRigidBody(rb);
         //nPhysics::iRigidBody* bt_rb = gbt_PhysicsFactory->CreateRigidBody(desc, bt_plane);
         //gbt_PhysicsWorld->AddRigidBody(bt_rb);
 

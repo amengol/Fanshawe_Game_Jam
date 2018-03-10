@@ -11,7 +11,7 @@
 #include "globalGameStuff.h"
 #include "Assimp\cAnimationCollection.h"
 
-cAnimationCollection gAnimationCollection;
+cAnimationCollection g_animationCollection;
 
 cModelAssetLoader* g_pModelAssetLoader = NULL;
 
@@ -148,7 +148,7 @@ bool Load3DModelsIntoMeshManager(int shaderID,
                 continue;
             }                
             skinnedMesh->SetFriendlyName(meshName);
-            gAnimationCollection.addSkinnedMesh(meshName, skinnedMesh);
+            g_animationCollection.addSkinnedMesh(meshName, skinnedMesh);
             continue;
         }
             break;
@@ -185,7 +185,7 @@ bool Load3DModelsIntoMeshManager(int shaderID,
                     std::cout << "Assimp Animation Scene created.\n";
                 }
 
-                gAnimationCollection.addAnimationCollection(animName, pScene);
+                g_animationCollection.addAnimationCollection(animName, pScene);
 
                 continue;
             }

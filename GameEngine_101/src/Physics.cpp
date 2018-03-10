@@ -19,7 +19,7 @@
 //
 //extern std::vector< cGameObject* >  g_vecGameObjects;
 //
-//extern cSimpleDebugRenderer* g_simpleDebug; // (GE101_Main.cpp)
+//extern cSimpleDebugRenderer* g_pSimpleDebug; // (GE101_Main.cpp)
 //
 //extern float g_AABBSize;                    // (GE101_Main.cpp)
 //
@@ -340,7 +340,7 @@
 //        //            // Print the mesh
 //        //            if(pCurGO->isDebugAABBActive)
 //        //            {
-//        //                g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
+//        //                g_pSimpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));
 //        //            }
 //
 //        //        }
@@ -507,7 +507,7 @@
 //                        // Print the mesh
 //                        if(pCurGO->isDebugAABBActive)
 //                        {
-//                            g_simpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));                           
+//                            g_pSimpleDebug->drawCustomGeometry(theGeometry, glm::vec3(0.0f, 1.0f, 0.0f));                           
 //                        }
 //
 //                    }
@@ -625,7 +625,7 @@
 //            glm::mat4 repo(1.0f);
 //            repo = glm::translate(repo, GO->position);
 //            repo *= GO->orientation;
-//            g_simpleDebug->drawCustomGeometry(CollisionGeometry,
+//            g_pSimpleDebug->drawCustomGeometry(CollisionGeometry,
 //                                              glm::vec3(1.0f, 0.0f, 0.0f),
 //                                              true,
 //                                              repo);

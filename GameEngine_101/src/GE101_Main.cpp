@@ -19,17 +19,11 @@
 //#include "Physics.h"
 #include "globalGameStuff.h"
 #include "cAABBsManager.h"
-#include "cSimpleDebugRenderer.h"
 #include "Texture\TextureLoader.h"
-#include "cTransparencyManager.h"
 #include "Utilities.h"
 #include "cSceneLoader.h"
 #include "cSoundManager.h"
-#include <iPhysicsFactory.h>
-#include <cPhysicsWorld.h>
-#include <cPhysicsFactory.h>
-#include <bt_cPhysicsWorld.h>
-#include <bt_cPhysicsFactory.h>
+
 #include "cLocalization.h"
 #include <cCloth.h>
 #include "DrawCalls.h"
@@ -49,26 +43,26 @@
 
 //#include "AI\cSimpleAi_Manager.h"
 
-bool gRenderStuffInDebug;
-nPhysics::iPhysicsFactory* gPhysicsFactory;
-nPhysics::iPhysicsWorld* gPhysicsWorld;
+bool g_renderStuffInDebug;
 
-//nPhysics::iPhysicsFactory* gbt_PhysicsFactory;
-//nPhysics::iPhysicsWorld* gbt_PhysicsWorld;
 
-cPhysics_Switcher gPhysicsSwitcher;
+//nPhysics::iPhysicsFactory* gbt_PhysicsFactory = NULL;
+//nPhysics::iPhysicsWorld* gbt_PhysicsWorld = NULL;
+nPhysics::iPhysicsFactory* g_pPhysicsFactory = NULL;
+nPhysics::iPhysicsWorld* g_pPhysicsWorld = NULL;
+
+cPhysics_Switcher g_physicsSwitcher;
 
 bool InitPhysics()
 {
-    gPhysicsFactory = new nPhysics::cPhysicsFactory();
-    gPhysicsWorld = gPhysicsFactory->CreateWorld();
+    g_pPhysicsFactory = new nPhysics::cPhysicsFactory();
+    g_pPhysicsWorld = g_pPhysicsFactory->CreateWorld();
 
     //gbt_PhysicsFactory = new nPhysics::bt_cPhysicsFactory();
     //gbt_PhysicsWorld = gbt_PhysicsFactory->CreateWorld();
     return true;
 }
 
-using namespace std;
 
 // Function Prototypes
 //void DrawObject(cGameObject* pTheGO);
@@ -83,13 +77,13 @@ cGameObject* g_pSkyBoxObject = NULL;
 cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
 cDebugRenderer*	g_pDebugRenderer = NULL;
-cSimpleDebugRenderer* g_simpleDebug = NULL;
+cSimpleDebugRenderer* g_pSimpleDebug = NULL;
 cAABBsManager* g_pAABBsManager = NULL;
 CTextureManager* g_pTextureManager = NULL;
 cTransparencyManager* g_pTranspManager = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
-std::map<long long, miniVAOInfo> g_map_AABBID_miniVAO;
-cUniLocHandler gUniLocHandler;
+std::map<long long, miniVAOInfo> g_mapAABBIDminiVAO;
+cUniLocHandler g_uniLocHandler;
 long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
@@ -123,7 +117,7 @@ int main()
     int width = 640;
     std::string title = "Game Engine 101";
 
-    ifstream infoFile("GameConfig.ini");
+    std::ifstream infoFile("GameConfig.ini");
 
     if (!infoFile.is_open())
     {    // File didn't open...
@@ -270,7 +264,7 @@ int main()
 
         if (GO->rigidBody != NULL)
         {
-            gPhysicsWorld->AddRigidBody(GO->rigidBody);
+            g_pPhysicsWorld->AddRigidBody(GO->rigidBody);
         }
 
         if (GO->bt_rigidBody != NULL)
@@ -303,12 +297,12 @@ int main()
 
     //-------------------------------------------------------------------------
     // Simple Debug Renderer
-    ::g_simpleDebug = new cSimpleDebugRenderer();
-    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
+    ::g_pSimpleDebug = new cSimpleDebugRenderer();
+    //if(!::g_pSimpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
     //{
     //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
     //}
-    //if(!::g_simpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
+    //if(!::g_pSimpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
     //{
     //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
     //}
@@ -328,7 +322,7 @@ int main()
     //-------------------------------------------------------------------------
 
     GLint currentProgID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-    gUniLocHandler.InitShaderUniformLocations("GE101_Shader");
+    g_uniLocHandler.InitShaderUniformLocations("GE101_Shader");
 
     //-------------------------------------------------------------------------
     // Lights
@@ -461,8 +455,8 @@ int main()
                   g_pCamera->getLookAtPosition(),				// "At" or "target" 
                   g_pCamera->getCameraUpVector());	// "up" vector
 
-        glUniformMatrix4fv(gUniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matView));
-        glUniformMatrix4fv(gUniLocHandler.mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));
+        glUniformMatrix4fv(g_uniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matView));
+        glUniformMatrix4fv(g_uniLocHandler.mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));
 
         //---------------------------------------------------------------------
         // "Draw scene" loop
@@ -594,12 +588,12 @@ int main()
         double deltaTime = curTime - lastTimeStep;
 
         // Physics step
-        switch (gPhysicsSwitcher.gPhysicsEngine)
+        switch (g_physicsSwitcher.gPhysicsEngine)
         {
-        case gPhysicsSwitcher.SUPERDUPER:
-            gPhysicsWorld->TimeStep(deltaTime);
+        case g_physicsSwitcher.SUPERDUPER:
+            g_pPhysicsWorld->TimeStep(deltaTime);
             break;
-        case gPhysicsSwitcher.BULLET:
+        case g_physicsSwitcher.BULLET:
             //gbt_PhysicsWorld->TimeStep(deltaTime);
             break;
         default:
@@ -627,7 +621,7 @@ int main()
     
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
-    delete ::g_simpleDebug;
+    delete ::g_pSimpleDebug;
     delete ::g_pDebugRenderer;
     delete ::g_pAABBsManager;
     //delete ::g_pSoundManager;
@@ -740,42 +734,42 @@ int main()
 //    matScale = glm::scale(matScale, glm::vec3(finalScale, finalScale, finalScale));
 //    mModel = mModel * matScale;
 //
-//    glUniformMatrix4fv(gUniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
+//    glUniformMatrix4fv(g_uniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
 //
 //    glm::mat4 mWorldInvTranpose = glm::inverse(glm::transpose(mModel));
-//    glUniformMatrix4fv(gUniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
+//    glUniformMatrix4fv(g_uniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
 //
 //    // Diffuse is often 0.2-0.3 the value of the diffuse
-//    glUniform1f(gUniLocHandler.ambientToDiffuseRatio, 0.2f);
+//    glUniform1f(g_uniLocHandler.ambientToDiffuseRatio, 0.2f);
 //
 //    // Specular: For now, set this colour to white, and the shininess to something high 
 //    //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
-//    glUniform4f(gUniLocHandler.materialSpecular,
+//    glUniform4f(g_uniLocHandler.materialSpecular,
 //                0.0f,
 //                0.0f,
 //                0.0f,
 //                1.0f);
 //
 //
-//    glUniform4f(gUniLocHandler.materialDiffuse,
+//    glUniform4f(g_uniLocHandler.materialDiffuse,
 //                1.0f,
 //                0.0f,
 //                0.0f,
 //                1.0f);
 //
-//    glUniform1f(gUniLocHandler.hasColour, 0.0f);
-//    glUniform1f(gUniLocHandler.hasAlpha, 0.0f);
-//    glUniform1f(gUniLocHandler.useDiscardAlpha, 0.0f);
-//    glUniform1f(gUniLocHandler.isASkyBox, GL_FALSE);
-//    glUniform1f(gUniLocHandler.hasReflection, 0.0f);
+//    glUniform1f(g_uniLocHandler.hasColour, 0.0f);
+//    glUniform1f(g_uniLocHandler.hasAlpha, 0.0f);
+//    glUniform1f(g_uniLocHandler.useDiscardAlpha, 0.0f);
+//    glUniform1f(g_uniLocHandler.isASkyBox, GL_FALSE);
+//    glUniform1f(g_uniLocHandler.hasReflection, 0.0f);
 //
 //    if (clothDebug)
 //    {
-//        glUniform1f(gUniLocHandler.bIsDebugWireFrameObject, 1.0f);
+//        glUniform1f(g_uniLocHandler.bIsDebugWireFrameObject, 1.0f);
 //    }
 //    else
 //    {
-//        glUniform1f(gUniLocHandler.bIsDebugWireFrameObject, 0.0f);
+//        glUniform1f(g_uniLocHandler.bIsDebugWireFrameObject, 0.0f);
 //    }
 //
 //
@@ -906,13 +900,13 @@ int main()
 //    glm::mat4 trans = glm::mat4x4(1.0f);
 //    
 //    // Position by nPhysics?
-//    if (pTheGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+//    if (pTheGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
 //    {
 //        glm::vec3 rbPos;
 //        pTheGO->rigidBody->GetPostion(rbPos);
 //        trans = glm::translate(trans, rbPos);
 //    }
-//    else if (pTheGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+//    else if (pTheGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
 //    {
 //        glm::vec3 rbPos;
 //        pTheGO->bt_rigidBody->GetPostion(rbPos);
@@ -927,12 +921,12 @@ int main()
 //
 //    // Orientation by nPhysics?
 //    glm::mat4 orientation;
-//    if (pTheGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+//    if (pTheGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
 //    {
 //        pTheGO->rigidBody->GetMatOrientation(orientation);             
 //        mModel = mModel * orientation;
 //    }
-//    else if (pTheGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+//    else if (pTheGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
 //    {
 //        pTheGO->bt_rigidBody->GetMatOrientation(orientation);
 //        mModel = mModel * orientation;
@@ -948,24 +942,24 @@ int main()
 //    matScale = glm::scale(matScale, glm::vec3(finalScale, finalScale, finalScale));
 //    mModel = mModel * matScale;
 //
-//    glUniformMatrix4fv(gUniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
+//    glUniformMatrix4fv(g_uniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
 //
 //    glm::mat4 mWorldInvTranpose = glm::inverse(glm::transpose(mModel));
-//    glUniformMatrix4fv(gUniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
+//    glUniformMatrix4fv(g_uniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
 //
 //    // Diffuse is often 0.2-0.3 the value of the diffuse
-//    glUniform1f(gUniLocHandler.ambientToDiffuseRatio, 0.2f);
+//    glUniform1f(g_uniLocHandler.ambientToDiffuseRatio, 0.2f);
 //
 //    // Specular: For now, set this colour to white, and the shininess to something high 
 //    //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
-//    glUniform4f(gUniLocHandler.materialSpecular,
+//    glUniform4f(g_uniLocHandler.materialSpecular,
 //                pTheGO->specular.x, 
 //                pTheGO->specular.y, 
 //                pTheGO->specular.z,
 //                pTheGO->specular.w);
 //
 //
-//    glUniform4f(gUniLocHandler.materialDiffuse,
+//    glUniform4f(g_uniLocHandler.materialDiffuse,
 //        pTheGO->diffuseColour.r,
 //        pTheGO->diffuseColour.g,
 //        pTheGO->diffuseColour.b,
@@ -973,59 +967,59 @@ int main()
 //    
 //    if (pTheGO->hasColour)
 //    {
-//        glUniform1f(gUniLocHandler.hasColour, 1.0f);
+//        glUniform1f(g_uniLocHandler.hasColour, 1.0f);
 //    }
 //    else
 //    {
-//        glUniform1f(gUniLocHandler.hasColour, 0.0f);
+//        glUniform1f(g_uniLocHandler.hasColour, 0.0f);
 //    }
 //
 //    if(pTheGO->hasAlpha)
 //    {
-//        glUniform1f(gUniLocHandler.hasAlpha, 1.0f);
+//        glUniform1f(g_uniLocHandler.hasAlpha, 1.0f);
 //    } 
 //    else
 //    {
-//        glUniform1f(gUniLocHandler.hasAlpha, 0.0f);
+//        glUniform1f(g_uniLocHandler.hasAlpha, 0.0f);
 //    }
 //    
 //    if(pTheGO->useDiscardAlpha)
 //    {
-//        glUniform1f(gUniLocHandler.useDiscardAlpha, 1.0f);
+//        glUniform1f(g_uniLocHandler.useDiscardAlpha, 1.0f);
 //    }
 //    else
 //    {
-//        glUniform1f(gUniLocHandler.useDiscardAlpha, 0.0f);
+//        glUniform1f(g_uniLocHandler.useDiscardAlpha, 0.0f);
 //    }
 //
 //    //...and all the other object material colours
 //
 //    if (pTheGO->bIsWireFrame)
 //    {
-//        glUniform1f(gUniLocHandler.bIsDebugWireFrameObject, 1.0f);	// TRUE
+//        glUniform1f(g_uniLocHandler.bIsDebugWireFrameObject, 1.0f);	// TRUE
 //    }
 //    else
 //    {
-//        glUniform1f(gUniLocHandler.bIsDebugWireFrameObject, 0.0f);	// FALSE
+//        glUniform1f(g_uniLocHandler.bIsDebugWireFrameObject, 0.0f);	// FALSE
 //    }
 //
 //    
 //    if(pTheGO->typeOfObject == SKYBOX)
 //    {
-//        glUniform1f(gUniLocHandler.isASkyBox, GL_TRUE);
+//        glUniform1f(g_uniLocHandler.isASkyBox, GL_TRUE);
 //    } 
 //    else
 //    {
-//        glUniform1f(gUniLocHandler.isASkyBox, GL_FALSE);
+//        glUniform1f(g_uniLocHandler.isASkyBox, GL_FALSE);
 //    }
 //
 //    if(pTheGO->hasReflection)
 //    {
-//        glUniform1f(gUniLocHandler.hasReflection, 1.0f);
+//        glUniform1f(g_uniLocHandler.hasReflection, 1.0f);
 //    }
 //    else
 //    {
-//        glUniform1f(gUniLocHandler.hasReflection, 0.0f);
+//        glUniform1f(g_uniLocHandler.hasReflection, 0.0f);
 //    }
 //
 //    // Set up cube map...
@@ -1178,7 +1172,7 @@ int main()
 //    glm::vec3 min = g_pAABBsManager->genVecFromID(GO_ID, size);
 //
 //    glm::vec3 cubeColor = glm::vec3(1.0f, 0.0f, 0.0f);
-//    g_simpleDebug->drawDebugGeometry(min, g_cubeID, cubeColor, glm::mat4(1.0f));
+//    g_pSimpleDebug->drawDebugGeometry(min, g_cubeID, cubeColor, glm::mat4(1.0f));
 //
 //    // Print the normals
 //    cAABB theAABB(0, 0.0f);
@@ -1195,7 +1189,7 @@ int main()
 //        glm::quat qNormal = glm::rotation(glm::vec3(0.0f, 1.0f, 0.0f), fn);
 //        glm::mat4 matNormal = glm::toMat4(qNormal);
 //        glm::vec3 normalColor = glm::vec3(0.0f, 0.0f, 1.0f);
-//        g_simpleDebug->drawDebugGeometry(cn, g_lineID, normalColor, matNormal);
+//        g_pSimpleDebug->drawDebugGeometry(cn, g_lineID, normalColor, matNormal);
 //    }
 //
 //}
@@ -1222,7 +1216,7 @@ int main()
 //        glm::vec3 min = g_pAABBsManager->genVecFromID(GO_ID, size);
 //
 //        glm::vec3 cubeColor = glm::vec3(1.0f, 0.0f, 0.0f);
-//        g_simpleDebug->drawDebugGeometry(min, g_cubeID, cubeColor, glm::mat4(1.0f));
+//        g_pSimpleDebug->drawDebugGeometry(min, g_cubeID, cubeColor, glm::mat4(1.0f));
 //
 //        // Print the normals
 //        cAABB theAABB(0, 0.0f);
@@ -1239,7 +1233,7 @@ int main()
 //            glm::quat qNormal = glm::rotation(glm::vec3(0.0f, 1.0f, 0.0f), fn);
 //            glm::mat4 matNormal = glm::toMat4(qNormal);
 //            glm::vec3 normalColor = glm::vec3(0.0f, 0.0f, 1.0f);
-//            g_simpleDebug->drawDebugGeometry(cn, g_lineID, normalColor, matNormal);
+//            g_pSimpleDebug->drawDebugGeometry(cn, g_lineID, normalColor, matNormal);
 //        }
 //    }
 //

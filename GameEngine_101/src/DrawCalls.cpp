@@ -101,42 +101,42 @@ void ClothDraw(cGameObject* pTheGO)
     matScale = glm::scale(matScale, glm::vec3(finalScale, finalScale, finalScale));
     mModel = mModel * matScale;
 
-    glUniformMatrix4fv(gUniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
+    glUniformMatrix4fv(g_uniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
 
     glm::mat4 mWorldInvTranpose = glm::inverse(glm::transpose(mModel));
-    glUniformMatrix4fv(gUniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
+    glUniformMatrix4fv(g_uniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
 
     // Diffuse is often 0.2-0.3 the value of the diffuse
-    glUniform1f(gUniLocHandler.ambientToDiffuseRatio, 0.2f);
+    glUniform1f(g_uniLocHandler.ambientToDiffuseRatio, 0.2f);
 
     // Specular: For now, set this colour to white, and the shininess to something high 
     //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
-    glUniform4f(gUniLocHandler.materialSpecular,
+    glUniform4f(g_uniLocHandler.materialSpecular,
                 0.0f,
                 0.0f,
                 0.0f,
                 1.0f);
 
 
-    glUniform4f(gUniLocHandler.materialDiffuse,
+    glUniform4f(g_uniLocHandler.materialDiffuse,
                 1.0f,
                 0.0f,
                 0.0f,
                 1.0f);
 
-    glUniform1f(gUniLocHandler.hasColour, 0.0f);
-    glUniform1f(gUniLocHandler.hasAlpha, 0.0f);
-    glUniform1f(gUniLocHandler.useDiscardAlpha, 0.0f);
-    glUniform1f(gUniLocHandler.isASkyBox, GL_FALSE);
-    glUniform1f(gUniLocHandler.hasReflection, 0.0f);
+    glUniform1f(g_uniLocHandler.hasColour, 0.0f);
+    glUniform1f(g_uniLocHandler.hasAlpha, 0.0f);
+    glUniform1f(g_uniLocHandler.useDiscardAlpha, 0.0f);
+    glUniform1f(g_uniLocHandler.isASkyBox, GL_FALSE);
+    glUniform1f(g_uniLocHandler.hasReflection, 0.0f);
 
     if (clothDebug)
     {
-        glUniform1f(gUniLocHandler.bIsDebugWireFrameObject, 1.0f);
+        glUniform1f(g_uniLocHandler.bIsDebugWireFrameObject, 1.0f);
     }
     else
     {
-        glUniform1f(gUniLocHandler.bIsDebugWireFrameObject, 0.0f);
+        glUniform1f(g_uniLocHandler.bIsDebugWireFrameObject, 0.0f);
     }
 
 
@@ -375,13 +375,13 @@ void DrawObject(cGameObject* pTheGO)
     glm::mat4 trans = glm::mat4x4(1.0f);
 
     // Position by nPhysics?
-    if (pTheGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+    if (pTheGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
     {
         glm::vec3 rbPos;
         pTheGO->rigidBody->GetPostion(rbPos);
         trans = glm::translate(trans, rbPos);
     }
-    else if (pTheGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+    else if (pTheGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
     {
         glm::vec3 rbPos;
         pTheGO->bt_rigidBody->GetPostion(rbPos);
@@ -396,12 +396,12 @@ void DrawObject(cGameObject* pTheGO)
 
     // Orientation by nPhysics?
     glm::mat4 orientation;
-    if (pTheGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+    if (pTheGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
     {
         pTheGO->rigidBody->GetMatOrientation(orientation);
         mModel = mModel * orientation;
     }
-    else if (pTheGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+    else if (pTheGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
     {
         pTheGO->bt_rigidBody->GetMatOrientation(orientation);
         mModel = mModel * orientation;
@@ -417,24 +417,24 @@ void DrawObject(cGameObject* pTheGO)
     matScale = glm::scale(matScale, glm::vec3(finalScale, finalScale, finalScale));
     mModel = mModel * matScale;
 
-    glUniformMatrix4fv(gUniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
+    glUniformMatrix4fv(g_uniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
 
     glm::mat4 mWorldInvTranpose = glm::inverse(glm::transpose(mModel));
-    glUniformMatrix4fv(gUniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
+    glUniformMatrix4fv(g_uniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
 
     // Diffuse is often 0.2-0.3 the value of the diffuse
-    glUniform1f(gUniLocHandler.ambientToDiffuseRatio, 0.2f);
+    glUniform1f(g_uniLocHandler.ambientToDiffuseRatio, 0.2f);
 
     // Specular: For now, set this colour to white, and the shininess to something high 
     //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
-    glUniform4f(gUniLocHandler.materialSpecular,
+    glUniform4f(g_uniLocHandler.materialSpecular,
                 pTheGO->specular.x,
                 pTheGO->specular.y,
                 pTheGO->specular.z,
                 pTheGO->specular.w);
 
 
-    glUniform4f(gUniLocHandler.materialDiffuse,
+    glUniform4f(g_uniLocHandler.materialDiffuse,
                 pTheGO->diffuseColour.r,
                 pTheGO->diffuseColour.g,
                 pTheGO->diffuseColour.b,
@@ -442,59 +442,59 @@ void DrawObject(cGameObject* pTheGO)
 
     if (pTheGO->hasColour)
     {
-        glUniform1f(gUniLocHandler.hasColour, 1.0f);
+        glUniform1f(g_uniLocHandler.hasColour, 1.0f);
     }
     else
     {
-        glUniform1f(gUniLocHandler.hasColour, 0.0f);
+        glUniform1f(g_uniLocHandler.hasColour, 0.0f);
     }
 
     if (pTheGO->hasAlpha)
     {
-        glUniform1f(gUniLocHandler.hasAlpha, 1.0f);
+        glUniform1f(g_uniLocHandler.hasAlpha, 1.0f);
     }
     else
     {
-        glUniform1f(gUniLocHandler.hasAlpha, 0.0f);
+        glUniform1f(g_uniLocHandler.hasAlpha, 0.0f);
     }
 
     if (pTheGO->useDiscardAlpha)
     {
-        glUniform1f(gUniLocHandler.useDiscardAlpha, 1.0f);
+        glUniform1f(g_uniLocHandler.useDiscardAlpha, 1.0f);
     }
     else
     {
-        glUniform1f(gUniLocHandler.useDiscardAlpha, 0.0f);
+        glUniform1f(g_uniLocHandler.useDiscardAlpha, 0.0f);
     }
 
     //...and all the other object material colours
 
     if (pTheGO->bIsWireFrame)
     {
-        glUniform1f(gUniLocHandler.bIsDebugWireFrameObject, 1.0f);	// TRUE
+        glUniform1f(g_uniLocHandler.bIsDebugWireFrameObject, 1.0f);	// TRUE
     }
     else
     {
-        glUniform1f(gUniLocHandler.bIsDebugWireFrameObject, 0.0f);	// FALSE
+        glUniform1f(g_uniLocHandler.bIsDebugWireFrameObject, 0.0f);	// FALSE
     }
 
 
     if (pTheGO->typeOfObject == SKYBOX)
     {
-        glUniform1f(gUniLocHandler.isASkyBox, GL_TRUE);
+        glUniform1f(g_uniLocHandler.isASkyBox, GL_TRUE);
     }
     else
     {
-        glUniform1f(gUniLocHandler.isASkyBox, GL_FALSE);
+        glUniform1f(g_uniLocHandler.isASkyBox, GL_FALSE);
     }
 
     if (pTheGO->hasReflection)
     {
-        glUniform1f(gUniLocHandler.hasReflection, 1.0f);
+        glUniform1f(g_uniLocHandler.hasReflection, 1.0f);
     }
     else
     {
-        glUniform1f(gUniLocHandler.hasReflection, 0.0f);
+        glUniform1f(g_uniLocHandler.hasReflection, 0.0f);
     }
 
     // Set up cube map...

@@ -2,12 +2,7 @@
 
 #include <glm\gtx\vector_angle.hpp>
 
-#include "..\cSimpleDebugRenderer.h"
-#include "..\cGameObject.h"
-#include <iPhysicsFactory.h>
-extern std::vector< cGameObject* >  g_vecGameObjects;
-extern cSimpleDebugRenderer* g_simpleDebug;
-extern nPhysics::iPhysicsFactory* gPhysicsFactory;
+#include "..\globalGameStuff.h"
 
 
 cSimpleAi_Manager::~cSimpleAi_Manager()
@@ -168,7 +163,7 @@ void cSimpleAi_Manager::updateAi()
 {
     if (this->debugGridEnable)
     {
-        g_simpleDebug->drawCustomLines(this->mEdges, glm::vec3(1.0f, 0.0f, 0.0f));
+        g_pSimpleDebug->drawCustomLines(this->mEdges, glm::vec3(1.0f, 0.0f, 0.0f));
     }    
 
     this->goToTarget();
@@ -235,8 +230,8 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
     this->mainGO->friendlyName = "AiMainGameObject";
     nPhysics::sRigidBodyDesc desc;
     desc.Position = mainPos;
-    nPhysics::iShape* shape = gPhysicsFactory->CreateCube(1.0f);
-    nPhysics::iRigidBody* rb = gPhysicsFactory->CreateRigidBody(desc, shape);
+    nPhysics::iShape* shape = g_pPhysicsFactory->CreateCube(1.0f);
+    nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, shape);
     this->mainGO->rigidBody = rb;
     g_vecGameObjects.push_back(this->mainGO);
 
@@ -247,8 +242,8 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
     this->targetGO->friendlyName = "AiTargetGameObject";
     desc;
     desc.Position = targetPos;
-    shape = gPhysicsFactory->CreateCube(1.0f);
-    rb = gPhysicsFactory->CreateRigidBody(desc, shape);
+    shape = g_pPhysicsFactory->CreateCube(1.0f);
+    rb = g_pPhysicsFactory->CreateRigidBody(desc, shape);
     rb->SetRateOfTurnY(5760.0f);
     this->targetGO->rigidBody = rb;
     g_vecGameObjects.push_back(this->targetGO);

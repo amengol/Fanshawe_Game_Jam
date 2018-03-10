@@ -5,7 +5,7 @@
 #include "cLocalization.h"
 #include "cTextManager.h"
 
-extern cPhysics_Switcher gPhysicsSwitcher;
+extern cPhysics_Switcher g_physicsSwitcher;
 
 //extern cLocalization g_Lococalization;
 //extern cTextManager g_TextManager;
@@ -286,20 +286,20 @@ void key_callback(GLFWwindow* window,
 
     //if (key == GLFW_KEY_P && action == GLFW_PRESS)
     //{
-    //    switch (gPhysicsSwitcher.gPhysicsEngine)
+    //    switch (g_physicsSwitcher.gPhysicsEngine)
     //    {
-    //    case gPhysicsSwitcher.SUPERDUPER:
+    //    case g_physicsSwitcher.SUPERDUPER:
     //    {
-    //        gPhysicsSwitcher.SetBullet();
+    //        g_physicsSwitcher.SetBullet();
     //        std::vector<std::wstring> ws;
     //        ws.push_back(L"Physics with Bullet");
     //        ws.push_back(L"[P] to change");
     //        g_TextManager.setText(ws, glm::vec3(1.0f, 0.0f, 0.0f));
     //    }            
     //        break;
-    //    case gPhysicsSwitcher.BULLET:
+    //    case g_physicsSwitcher.BULLET:
     //    {
-    //        gPhysicsSwitcher.SetSuperDuper();
+    //        g_physicsSwitcher.SetSuperDuper();
     //        std::vector<std::wstring> ws;
     //        ws.push_back(L"Physics with SuperDuper");
     //        ws.push_back(L"[P] to change");
@@ -418,7 +418,7 @@ void key_callback(GLFWwindow* window,
             // Ortho axis only
             glm::vec3 orthoZ = glm::normalize(glm::vec3(CamZ.x, 0.0f, CamZ.z));
 
-            if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+            if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
             {
                 glm::vec3 vel;
                 theGO->rigidBody->GetVelocity(vel);
@@ -426,7 +426,7 @@ void key_callback(GLFWwindow* window,
                 theGO->rigidBody->SetVelocity(vel);
             }          
 
-            if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+            if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
             {
                 glm::vec3 vel;
                 theGO->bt_rigidBody->GetVelocity(vel);
@@ -447,7 +447,7 @@ void key_callback(GLFWwindow* window,
             // Ortho axis only
             glm::vec3 orthoZ = glm::normalize(glm::vec3(CamZ.x, 0.0f, CamZ.z));
 
-            if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+            if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
             {
                 glm::vec3 vel;
                 theGO->rigidBody->GetVelocity(vel);
@@ -455,7 +455,7 @@ void key_callback(GLFWwindow* window,
                 theGO->rigidBody->SetVelocity(vel);
             }
 
-            if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+            if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
             {
                 glm::vec3 vel;
                 theGO->bt_rigidBody->GetVelocity(vel);
@@ -476,7 +476,7 @@ void key_callback(GLFWwindow* window,
             // Ortho axis only
             // glm::vec3 orthoX = glm::normalize(glm::vec3(CamX.x, 0.0f, CamX.z));
 
-            if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+            if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
             {
                 glm::vec3 vel;
                 theGO->rigidBody->GetVelocity(vel);
@@ -484,7 +484,7 @@ void key_callback(GLFWwindow* window,
                 theGO->rigidBody->SetVelocity(vel);
             }
 
-            if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+            if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
             {
                 glm::vec3 vel;
                 theGO->bt_rigidBody->GetVelocity(vel);
@@ -505,7 +505,7 @@ void key_callback(GLFWwindow* window,
             // Ortho axis only
             // glm::vec3 orthoX = glm::normalize(glm::vec3(CamX.x, 0.0f, CamX.z));
 
-            if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+            if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
             {
                 glm::vec3 vel;
                 theGO->rigidBody->GetVelocity(vel);
@@ -513,7 +513,7 @@ void key_callback(GLFWwindow* window,
                 theGO->rigidBody->SetVelocity(vel);
             }
 
-            if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+            if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
             {
                 glm::vec3 vel;
                 theGO->bt_rigidBody->GetVelocity(vel);
@@ -526,7 +526,7 @@ void key_callback(GLFWwindow* window,
         {
             cGameObject* theGO = g_pCamera->getGameObject();
 
-            if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+            if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
             {
                 glm::vec3 vel;
                 theGO->rigidBody->GetVelocity(vel);
@@ -534,7 +534,7 @@ void key_callback(GLFWwindow* window,
                 theGO->rigidBody->SetVelocity(vel);
             }
 
-            if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+            if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
             {
                 glm::vec3 vel;
                 theGO->bt_rigidBody->GetVelocity(vel);
@@ -547,7 +547,7 @@ void key_callback(GLFWwindow* window,
         {
             cGameObject* theGO = g_pCamera->getGameObject();
 
-            if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+            if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
             {
                 glm::vec3 vel;
                 theGO->rigidBody->GetVelocity(vel);
@@ -555,7 +555,7 @@ void key_callback(GLFWwindow* window,
                 theGO->rigidBody->SetVelocity(vel);
             }
 
-            if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+            if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
             {
                 glm::vec3 vel;
                 theGO->bt_rigidBody->GetVelocity(vel);
@@ -568,13 +568,13 @@ void key_callback(GLFWwindow* window,
         {
             cGameObject* theGO = g_pCamera->getGameObject();
 
-            if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+            if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
             {
                 glm::vec3 vel(0.0f);
                 theGO->rigidBody->SetVelocity(vel);
             }
 
-            if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+            if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
             {
                 glm::vec3 vel(0.0f);
                 theGO->bt_rigidBody->SetVelocity(vel);
@@ -652,7 +652,7 @@ void key_callback(GLFWwindow* window,
                 // Ortho axis only
                 glm::vec3 orthoZ = glm::normalize(glm::vec3(CamZ.x, 0.0f, CamZ.z));
 
-                if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+                if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
                 {
                     glm::vec3 vel;
                     theGO->rigidBody->GetVelocity(vel);
@@ -660,7 +660,7 @@ void key_callback(GLFWwindow* window,
                     theGO->rigidBody->SetVelocity(vel);
                 }
 
-                if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+                if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
                 {
                     glm::vec3 vel;
                     theGO->bt_rigidBody->GetVelocity(vel);
@@ -681,7 +681,7 @@ void key_callback(GLFWwindow* window,
                 // Ortho axis only
                 glm::vec3 orthoZ = glm::normalize(glm::vec3(CamZ.x, 0.0f, CamZ.z));
 
-                if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+                if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
                 {
                     glm::vec3 vel;
                     theGO->rigidBody->GetVelocity(vel);
@@ -689,7 +689,7 @@ void key_callback(GLFWwindow* window,
                     theGO->rigidBody->SetVelocity(vel);
                 }
 
-                if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+                if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
                 {
                     glm::vec3 vel;
                     theGO->bt_rigidBody->GetVelocity(vel);
@@ -710,7 +710,7 @@ void key_callback(GLFWwindow* window,
                 // Ortho axis only
                 // glm::vec3 orthoX = glm::normalize(glm::vec3(CamX.x, 0.0f, CamX.z));
 
-                if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+                if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
                 {
                     glm::vec3 vel;
                     theGO->rigidBody->GetVelocity(vel);
@@ -718,7 +718,7 @@ void key_callback(GLFWwindow* window,
                     theGO->rigidBody->SetVelocity(vel);
                 }
 
-                if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+                if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
                 {
                     glm::vec3 vel;
                     theGO->bt_rigidBody->GetVelocity(vel);
@@ -739,7 +739,7 @@ void key_callback(GLFWwindow* window,
                 // Ortho axis only
                 // glm::vec3 orthoX = glm::normalize(glm::vec3(CamX.x, 0.0f, CamX.z));
 
-                if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+                if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
                 {
                     glm::vec3 vel;
                     theGO->rigidBody->GetVelocity(vel);
@@ -747,7 +747,7 @@ void key_callback(GLFWwindow* window,
                     theGO->rigidBody->SetVelocity(vel);
                 }
 
-                if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+                if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
                 {
                     glm::vec3 vel;
                     theGO->bt_rigidBody->GetVelocity(vel);
@@ -760,7 +760,7 @@ void key_callback(GLFWwindow* window,
             {
                 cGameObject* theGO = g_pCamera->getGameObject();
 
-                if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+                if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
                 {
                     glm::vec3 vel;
                     theGO->rigidBody->GetVelocity(vel);
@@ -768,7 +768,7 @@ void key_callback(GLFWwindow* window,
                     theGO->rigidBody->SetVelocity(vel);
                 }
 
-                if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+                if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
                 {
                     glm::vec3 vel;
                     theGO->bt_rigidBody->GetVelocity(vel);
@@ -781,7 +781,7 @@ void key_callback(GLFWwindow* window,
             {
                 cGameObject* theGO = g_pCamera->getGameObject();
 
-                if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+                if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
                 {
                     glm::vec3 vel;
                     theGO->rigidBody->GetVelocity(vel);
@@ -789,7 +789,7 @@ void key_callback(GLFWwindow* window,
                     theGO->rigidBody->SetVelocity(vel);
                 }
 
-                if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+                if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
                 {
                     glm::vec3 vel;
                     theGO->bt_rigidBody->GetVelocity(vel);
@@ -802,13 +802,13 @@ void key_callback(GLFWwindow* window,
             {
                 cGameObject* theGO = g_pCamera->getGameObject();
 
-                if (theGO->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+                if (theGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
                 {
                     glm::vec3 vel(0.0f);
                     theGO->rigidBody->SetVelocity(vel);
                 }
 
-                if (theGO->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+                if (theGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
                 {
                     glm::vec3 vel(0.0f);
                     theGO->bt_rigidBody->SetVelocity(vel);
@@ -991,11 +991,11 @@ void key_callback(GLFWwindow* window,
         {
             for (size_t i = 0; i < g_vecGameObjects.size(); i++)
             {
-                if (g_vecGameObjects[i]->rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.SUPERDUPER)
+                if (g_vecGameObjects[i]->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
                 {
                     g_vecGameObjects[i]->rigidBody->SetVelocity(glm::vec3(0.0f));
                 }
-                if (g_vecGameObjects[i]->bt_rigidBody != NULL && gPhysicsSwitcher.gPhysicsEngine == gPhysicsSwitcher.BULLET)
+                if (g_vecGameObjects[i]->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
                 {
                     g_vecGameObjects[i]->bt_rigidBody->SetVelocity(glm::vec3(0.0f));
                 }

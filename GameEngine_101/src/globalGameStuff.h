@@ -18,6 +18,15 @@
 #include "cShaderManager.h"
 #include "Texture/cTextureManager.h"
 #include "cUniLocHandler.h"
+#include <iPhysicsFactory.h>
+#include <cPhysicsWorld.h>
+#include <cPhysicsFactory.h>
+#include <bt_cPhysicsWorld.h>
+#include <bt_cPhysicsFactory.h>
+#include "cSimpleDebugRenderer.h"
+#include "cTransparencyManager.h"
+
+
 
 // Finds a GameObject by a friendly name. Returns 0 or NULL if not found
 cGameObject* findObjectByFriendlyName(std::string friendlyName, std::vector<cGameObject*> &vec_pGameObjects);
@@ -29,15 +38,22 @@ cGameObject* findObjectByUniqueID(unsigned int ID, std::vector<cGameObject*> &ve
 void PhysicsStep(double deltaTime);
 
 extern cCameraObject* g_pCamera;                    // (GE101_Main.cpp)
+
+extern cUniLocHandler g_uniLocHandler;               // (theMain.cpp)
 extern cLightManager* g_pLightManager;	            // (GE101_Main.cpp)
-extern cPhysics_Switcher gPhysicsSwitcher;          // (GE101_Main.cpp)
+extern cVAOMeshManager* g_pVAOManager;		        // (theMain.cpp)
+extern cDebugRenderer* g_pDebugRenderer;	        // (theMain.cpp)
+extern cShaderManager* g_pShaderManager;	        // (theMain.cpp)
+extern CTextureManager*	g_pTextureManager;	        // (theMain.cpp)
+extern cPhysics_Switcher g_physicsSwitcher;          // (GE101_Main.cpp)
+extern cSimpleDebugRenderer* g_pSimpleDebug;    // (GE101_Main.cpp)
 extern cModelAssetLoader* g_pModelAssetLoader;	    // (ModelUtilities.cpp)
-extern cAnimationCollection gAnimationCollection;   // (ModelUtilities.cpp)
+extern cAnimationCollection g_animationCollection;   // (ModelUtilities.cpp)
 extern std::vector<cGameObject*> g_vecGameObjects;  // (GE101_Main.cpp)
-extern cVAOMeshManager* g_pVAOManager;		// (theMain.cpp)
-extern cDebugRenderer* g_pDebugRenderer;	// (theMain.cpp)
-extern cShaderManager* g_pShaderManager;	// (theMain.cpp)
-extern CTextureManager*	g_pTextureManager;	// (theMain.cpp)
-extern cUniLocHandler gUniLocHandler;       // (theMain.cpp)
+extern nPhysics::iPhysicsFactory* g_pPhysicsFactory;// (GE101_Main.cpp)
+extern nPhysics::iPhysicsWorld* g_pPhysicsWorld;    // (GE101_Main.cpp)
+extern cTransparencyManager* g_pTranspManager;
+extern cGameObject* g_pSkyBoxObject;
+
 
 #endif
