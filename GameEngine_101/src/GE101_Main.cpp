@@ -553,7 +553,7 @@ int main()
         
         ////// Draw localization text ---------------------------------------------
         //g_lococalization.draw(width, height);
-        //g_textManager.draw(width, height);
+        g_textManager.draw(width, height);
 
         double timeForDebugRender = glfwGetTime() - lastTimeStep;
 
