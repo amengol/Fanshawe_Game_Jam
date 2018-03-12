@@ -221,6 +221,9 @@
     <ClCompile Include="src\DrawCalls.cpp">
       <Filter>Render Related</Filter>
     </ClCompile>
+    <ClCompile Include="src\cCharacterControl.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utilities.h">
@@ -360,6 +363,9 @@
     </ClInclude>
     <ClInclude Include="src\DrawCalls.h">
       <Filter>Render Related</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cCharacterControl.h">
+      <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

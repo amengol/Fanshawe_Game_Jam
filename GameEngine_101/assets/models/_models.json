@@ -22,7 +22,8 @@
 {"meshName" : "Sockerball", "meshFile" : "Sockerball.obj"},
 {"meshName" : "Low_Poly_Sphere", "meshFile" : "Low_Poly_Sphere.obj", "isPersistent" : true},
 {"meshName" : "T-pose", "type" : 1, "meshFile" : "T-pose.fbx"},
-{"meshName" : "walking2", "type" : 1, "meshFile" : "walking2.fbx"},
+{"meshName" : "ybot", "type" : 1, "meshFile" : "ybot.fbx"},
+{"animName" : "running", "type" : 2, "animFile" : "running.fbx"},
 {"animName" : "01_Walk_Cycle", "type" : 2, "animFile" : "01_Walk_Cycle.fbx"}
 ]
 }

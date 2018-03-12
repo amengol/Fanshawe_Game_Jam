@@ -162,6 +162,7 @@
     <ClCompile Include="src\cAABB.cpp" />
     <ClCompile Include="src\cAABBsManager.cpp" />
     <ClCompile Include="src\cCameraObject.cpp" />
+    <ClCompile Include="src\cCharacterControl.cpp" />
     <ClCompile Include="src\cDebugRenderer.cpp" />
     <ClCompile Include="src\cDebugRenderer_BuiltInShapes.cpp" />
     <ClCompile Include="src\cGameObject.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="src\cAABB.h" />
     <ClInclude Include="src\cAABBsManager.h" />
     <ClInclude Include="src\cCameraObject.h" />
+    <ClInclude Include="src\cCharacterControl.h" />
     <ClInclude Include="src\cDebugRenderer.h" />
     <ClInclude Include="src\cGameObject.h" />
     <ClInclude Include="src\cLightManager.h" />
