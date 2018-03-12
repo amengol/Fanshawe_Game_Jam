@@ -240,7 +240,19 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
             // (WHAT!? Should you use a vector for this???)
             pAniState->vecAnimationQueue.erase(pAniState->vecAnimationQueue.begin());
 
+            // At the end of the animation, the new start position is going
+            // to be the last hip position
+            pTheGO->pSimpleSkinnedMesh->mStartHipPosition =
+                pTheGO->pSimpleSkinnedMesh->mLastHipPosition;
+
         }//vecAnimationQueue[0].IncrementTime()
+
+         // Rotate the start position
+        glm::vec3 rotatedStartPos = pTheGO->orientation * glm::vec4(pTheGO->pSimpleSkinnedMesh->mStartHipPosition, 0.0f);
+        pTheGO->position = rotatedStartPos * pTheGO->scale + pTheGO->startDisplacement;
+
+        // Project the root to the ground level
+        pTheGO->position.y = 0.0f;
 
         pAniState->vecAnimationQueue[0].currentClockTime = glfwGetTime();
     }
@@ -251,19 +263,41 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
         // Update the next position
         if (pAniState->defaultAnimation.IncrementTime(deltaTime))
         {
-            // If you had to loop the animation, the new start position is goind
+            // If you had to loop the animation, the new start position is going
             // to be the last hip position
             pTheGO->pSimpleSkinnedMesh->mStartHipPosition = 
                 pTheGO->pSimpleSkinnedMesh->mLastHipPosition;
+
+            // TURN & POSITION CONTROL ========================================
+            if (pAniState->defaultAnimation.name == "left_turn")
+            {
+                pTheGO->rotateY(180.0f);
+            }
+            else if (pAniState->defaultAnimation.name == "right_turn")
+            {
+                pTheGO->rotateY(180.0f);
+            }
+            else if (pAniState->defaultAnimation.name == "left_turn_90")
+            {
+                pTheGO->rotateY(90.0f);
+            }
+            else if (pAniState->defaultAnimation.name == "right_turn_90")
+            {
+                pTheGO->rotateY(-90.0f);
+            }
+            else
+            {
+                // Rotate the start position
+                glm::vec3 rotatedStartPos = 
+                    pTheGO->orientation * glm::vec4(pTheGO->pSimpleSkinnedMesh->mStartHipPosition, 0.0f);
+                pTheGO->position = rotatedStartPos * pTheGO->scale + pTheGO->startDisplacement;
+
+                // Project the root to the ground level
+                pTheGO->position.y = 0.0f;
+            }
+            //=================================================================
         }
-        // Rotate the start position
-        glm::vec3 rotatedStartPos = pTheGO->orientation * glm::vec4(pTheGO->pSimpleSkinnedMesh->mStartHipPosition, 0.0f);
-        pTheGO->position = rotatedStartPos * pTheGO->scale + pTheGO->startDisplacement;
-
-        // Project the root to the ground level
-        pTheGO->position.y = 0.0f;
         
-
         animationToPlay = pAniState->defaultAnimation.name;
         curFrameTime = pAniState->defaultAnimation.currentTime;
         pAniState->defaultAnimation.currentClockTime = glfwGetTime();
