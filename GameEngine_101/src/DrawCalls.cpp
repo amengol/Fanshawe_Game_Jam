@@ -258,7 +258,7 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
         }
         // Rotate the start position
         glm::vec3 rotatedStartPos = pTheGO->orientation * glm::vec4(pTheGO->pSimpleSkinnedMesh->mStartHipPosition, 0.0f);
-        pTheGO->position = rotatedStartPos * pTheGO->scale;
+        pTheGO->position = rotatedStartPos * pTheGO->scale + pTheGO->startDisplacement;
 
         // Project the root to the ground level
         pTheGO->position.y = 0.0f;
