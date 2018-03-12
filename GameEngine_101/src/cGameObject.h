@@ -52,6 +52,8 @@ class cGameObject
 public:
 	cGameObject();
 	~cGameObject();
+
+    void SetPostiion(glm::vec3 pos);
 	glm::vec3 position;
     glm::mat4x4 orientation;
     glm::vec3 vecOrientation;
@@ -129,6 +131,7 @@ public:
     // If NULL, then object ISN'T a skinned mesh
     cSkinnedMesh*	pSimpleSkinnedMesh;
     cAnimationState*			pAniState;
+    glm::vec3 startDisplacement;
 
  private:
      unsigned int m_UniqueID;

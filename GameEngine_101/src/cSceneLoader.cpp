@@ -732,7 +732,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         }
         //---------------------------------------------------------------------
         theGO->radius = radius;
-        theGO->position = position;
+        theGO->SetPostiion(position);
         theGO->diffuseColour = diffuseColour;
         theGO->hasColour = hasMaterialColour;
         theGO->specular = specular;

@@ -40,7 +40,8 @@ cGameObject::cGameObject()
     this->softBody = NULL;
     this->bt_rigidBody = NULL;
     this->pSimpleSkinnedMesh = NULL;
-    this->pAniState = NULL;			
+    this->pAniState = NULL;	
+    this->startDisplacement;
 
 #ifdef _DEBUG
  	//this->m_pTheDR = cDebugRenderer::getInstance();
@@ -52,6 +53,12 @@ cGameObject::cGameObject()
 cGameObject::~cGameObject()
 {
 	return;
+}
+
+void cGameObject::SetPostiion(glm::vec3 pos)
+{
+    this->position = pos;
+    this->startDisplacement = pos;
 }
 
 void cGameObject::setCollisionGeometry(cMesh mesh)
