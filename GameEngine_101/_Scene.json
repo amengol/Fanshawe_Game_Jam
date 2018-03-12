@@ -102,9 +102,21 @@
 	{ 
 		"meshName" : "ybot",		
 		"typeOfObject" : 7,
-		"defaultAnimation" : "running",
-#		"textureBlend[0]" : 1.0,
-#		"textureNames[0]" : "Marshaller_Male_color.bmp",
+		"defaultAnimation" : "idle",
+		"animationList": 
+		[
+			"walking",
+			"running",
+			"jump",
+			"left_strafe",
+			"left_strafe_walking",
+			"left_turn",
+			"left_turn_90",
+			"right_strafe",
+			"right_strafe_walking",
+			"right_turn",
+			"right_turn_90"
+		],
 		"hasMaterialColour" : true,
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
 		"position" : [-1.5, 0.0, 0.0],

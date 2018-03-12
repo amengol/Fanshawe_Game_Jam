@@ -23,7 +23,18 @@
 {"meshName" : "Low_Poly_Sphere", "meshFile" : "Low_Poly_Sphere.obj", "isPersistent" : true},
 {"meshName" : "T-pose", "type" : 1, "meshFile" : "T-pose.fbx"},
 {"meshName" : "ybot", "type" : 1, "meshFile" : "ybot.fbx"},
+{"animName" : "idle", "type" : 2, "animFile" : "idle.fbx"},
+{"animName" : "walking", "type" : 2, "animFile" : "walking.fbx"},
 {"animName" : "running", "type" : 2, "animFile" : "running.fbx"},
+{"animName" : "jump", "type" : 2, "animFile" : "jump.fbx"},
+{"animName" : "left_strafe", "type" : 2, "animFile" : "left_strafe.fbx"},
+{"animName" : "left_strafe_walking", "type" : 2, "animFile" : "left_strafe_walking.fbx"},
+{"animName" : "left_turn", "type" : 2, "animFile" : "left_turn.fbx"},
+{"animName" : "left_turn_90", "type" : 2, "animFile" : "left_turn_90.fbx"},
+{"animName" : "right_strafe", "type" : 2, "animFile" : "right_strafe.fbx"},
+{"animName" : "right_strafe_walking", "type" : 2, "animFile" : "right_strafe_walking.fbx"},
+{"animName" : "right_turn", "type" : 2, "animFile" : "right_turn.fbx"},
+{"animName" : "right_turn_90", "type" : 2, "animFile" : "right_turn_90.fbx"},
 {"animName" : "01_Walk_Cycle", "type" : 2, "animFile" : "01_Walk_Cycle.fbx"}
 ]
 }
