@@ -44,8 +44,12 @@ private:
     std::map<std::string, unsigned int> m_mapBoneNameToBoneIndex;       //  Maps bone names to bone indexes
     std::vector<sBoneInfo> mBoneInfo;                                   //  Vector of bones info
     unsigned int mNumBones;                                             //  Number of bones of the skinned mesh
+    
 
 public:
+
+    glm::vec3 mLastHipPosition;     // The most recent hip position
+    glm::vec3 mStartHipPosition;    // The start hip position of this cycle
 
 	unsigned int m_numberOfVertices;
 	unsigned int m_numberOfIndices;

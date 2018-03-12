@@ -247,7 +247,20 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
     else
     {	// Use the default animation.
         float deltaTime = glfwGetTime() - pAniState->defaultAnimation.currentClockTime;
-        pAniState->defaultAnimation.IncrementTime(deltaTime);
+
+        // Update the next position
+        if (pAniState->defaultAnimation.IncrementTime(deltaTime))
+        {
+            // If you had to loop the animation, the new start position is goind
+            // to be the last hip position
+            pTheGO->pSimpleSkinnedMesh->mStartHipPosition = 
+                pTheGO->pSimpleSkinnedMesh->mLastHipPosition;
+        }
+        pTheGO->position = pTheGO->pSimpleSkinnedMesh->mStartHipPosition * pTheGO->scale;
+
+        // Project the root to the ground level
+        pTheGO->position.y = 0.0f;
+        
 
         animationToPlay = pAniState->defaultAnimation.name;
         curFrameTime = pAniState->defaultAnimation.currentTime;
@@ -366,6 +379,32 @@ void DrawObject(cGameObject* pTheGO)
     {	// Didn't find mesh
         return;
     }
+
+    GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+
+    // ***************************************************
+    //    ___  _    _                      _  __  __           _     
+    //   / __|| |__(_) _ _   _ _   ___  __| ||  \/  | ___  ___| |_   
+    //   \__ \| / /| || ' \ | ' \ / -_)/ _` || |\/| |/ -_)(_-<| ' \  
+    //   |___/|_\_\|_||_||_||_||_|\___|\__,_||_|  |_|\___|/__/|_||_| 
+    //                                                               
+    GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
+
+    if (pTheGO->pSimpleSkinnedMesh)
+    {
+        // Calculate the pose and load the skinned mesh stuff into the shader, too
+        GLint UniLoc_NumBonesUsed = glGetUniformLocation(curShaderID, "numBonesUsed");
+        GLint UniLoc_BoneIDArray = glGetUniformLocation(curShaderID, "bones");
+        CalculateSkinnedMeshBonesAndLoad(pTheGO, UniLoc_NumBonesUsed, UniLoc_BoneIDArray);
+
+        glUniform1f(UniLoc_IsSkinnedMesh, GL_TRUE);
+    }
+    else
+    {
+        glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
+    }
+
+    // ***************************************************
 
     // There IS something to draw
 
@@ -529,7 +568,6 @@ void DrawObject(cGameObject* pTheGO)
 
     // Set sampler in the shader
     // NOTE: You shouldn't be doing this during the draw call...
-    GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
     GLint textSampler00_ID = glGetUniformLocation(curShaderID, "texSamp2D00");
     GLint textSampler01_ID = glGetUniformLocation(curShaderID, "texSamp2D01");
     GLint textSampler02_ID = glGetUniformLocation(curShaderID, "texSamp2D02");
@@ -587,30 +625,6 @@ void DrawObject(cGameObject* pTheGO)
     }
 
     glCullFace(GL_BACK);
-
-    // ***************************************************
-    //    ___  _    _                      _  __  __           _     
-    //   / __|| |__(_) _ _   _ _   ___  __| ||  \/  | ___  ___| |_   
-    //   \__ \| / /| || ' \ | ' \ / -_)/ _` || |\/| |/ -_)(_-<| ' \  
-    //   |___/|_\_\|_||_||_||_||_|\___|\__,_||_|  |_|\___|/__/|_||_| 
-    //                                                               
-    GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
-
-    if (pTheGO->pSimpleSkinnedMesh)
-    {
-        // Calculate the pose and load the skinned mesh stuff into the shader, too
-        GLint UniLoc_NumBonesUsed = glGetUniformLocation(curShaderID, "numBonesUsed");
-        GLint UniLoc_BoneIDArray = glGetUniformLocation(curShaderID, "bones");
-        CalculateSkinnedMeshBonesAndLoad(pTheGO, UniLoc_NumBonesUsed, UniLoc_BoneIDArray);
-
-        glUniform1f(UniLoc_IsSkinnedMesh, GL_TRUE);
-    }
-    else
-    {
-        glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
-    }
-
-    // ***************************************************
 
     glBindVertexArray(VAODrawInfo.VAO_ID);
 
