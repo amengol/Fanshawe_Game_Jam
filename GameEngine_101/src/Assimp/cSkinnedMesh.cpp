@@ -146,11 +146,11 @@ void cSkinnedMesh::sVertexBoneData::AddBoneData(unsigned int BoneID, float Weigh
 	}
 }
 
-void cSkinnedMesh::BoneTransform( float TimeInSeconds, 
-											  std::string animationName,
-                                              std::vector<glm::mat4> &FinalTransformation, 
-								              std::vector<glm::mat4> &Globals, 
-								              std::vector<glm::mat4> &Offsets)
+void cSkinnedMesh::BoneTransform(float TimeInSeconds, 
+                                 std::string animationName,
+                                 std::vector<glm::mat4> &FinalTransformation, 
+								 std::vector<glm::mat4> &Globals, 
+								 std::vector<glm::mat4> &Offsets)
 {
 	glm::mat4 Identity(1.0f);
 
