@@ -87,28 +87,56 @@
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],	
 		"scale" : 100000.0
 	},
-#	{ 
-#		"meshName" : "RPG",		
-#		"typeOfObject" : 7,
-#		"defaultAnimation" : "RPG-Character_Unarmed-Attack-Kick-L1(FBX2013)",
+	{ 
+		"meshName" : "T-pose",		
+		"typeOfObject" : 7,
+		"defaultAnimation" : "01_Walk_Cycle",
+		"textureBlend[0]" : 1.0,
+		"textureNames[0]" : "Marshaller_Male_color.bmp",
 #		"hasMaterialColour" : true,
 #		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
-#		"scale" : 0.025
-#	},
-	{ 
-		"softBodyName" : "Fanshawe",
-		"typeOfObject" : 8,
-		"upperLeftCornerPostion" : [-4.0, 6.0, 0.0],
-		"gravity" : [0.0, -9.8, 0.0],
-		"wind" : [25, 0.0, 6.0],
-		"damping" : 0.05,
-		"nodeMass" : 1.0,
-		"width": 8.0,
-		"height" : 5.0,
-		"numNodesWidth" : 20,
-		"numNodesHeight" : 20,
-		"textureNames[0]" : "Fanshawe.bmp"
+		"position" : [1.5, 0.0, 0.0], 
+		"rotateY" : 45.0,
+		"scale" : 0.025
 	},
+	{ 
+		"meshName" : "walking2",		
+		"typeOfObject" : 7,
+#		"defaultAnimation" : "walking2",
+#		"textureBlend[0]" : 1.0,
+#		"textureNames[0]" : "Marshaller_Male_color.bmp",
+		"hasMaterialColour" : true,
+		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
+		"position" : [-1.5, 0.0, 0.0], 
+		"rotateY" : 180.0,
+		"scale" : 0.025
+	},
+	{ 
+		"meshName" : "T-pose",		
+		"typeOfObject" : 7,
+		"defaultAnimation" : "01_Walk_Cycle",
+		"textureBlend[0]" : 1.0,
+		"textureNames[0]" : "Marshaller_Male_color.bmp",
+#		"hasMaterialColour" : true,
+#		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
+#		"position" : [-1.0, 0.0, 0.0], 
+#		"rotateY" : -45.0,
+		"scale" : 0.025
+	},
+#	{ 
+#		"softBodyName" : "Fanshawe",
+#		"typeOfObject" : 8,
+#		"upperLeftCornerPostion" : [-4.0, 6.0, 0.0],
+#		"gravity" : [0.0, -9.8, 0.0],
+#		"wind" : [25, 0.0, 6.0],
+#		"damping" : 0.05,
+#		"nodeMass" : 1.0,
+#		"width": 8.0,
+#		"height" : 5.0,
+#		"numNodesWidth" : 20,
+#		"numNodesHeight" : 20,
+#		"textureNames[0]" : "Fanshawe.bmp"
+#	},
 	{ 
 		"meshName" : "Reference_Plane",
 		"friendlyName" : "Reference_Plane",
@@ -151,40 +179,40 @@
 		"cullFace" : false,
 		"hasAlpha" : true,
 		"useDiscardAlpha" : true
-	},
-	{
-		"meshName" : "Basketball",
-		"friendlyName" : "Basketball04",
-		"typeOfObject" : 0,
-		"radius" : 1.5,
-		"position" : [5.5, 7.3, -3.0], 
-		"scale" : 8.296875,
-		"bIsUpdatedInPhysics" : true,
-		"textureNames[0]" : "Basketball.bmp",
-		"textureNames[2]" : "Pure.bmp"
-	},
-	{
-		"meshName" : "Beachball",
-		"friendlyName" : "Beachball01",
-		"typeOfObject" : 0,
-		"radius" : 1.5,
-		"position" : [3.01, 3.0, 8.0], 
-		"scale" : 8.296875,
-		"bIsUpdatedInPhysics" : true,
-		"textureNames[0]" : "Beachball.bmp",
-		"textureNames[2]" : "Pure.bmp"
-	},
-	{
-		"meshName" : "Sockerball",
-		"friendlyName" : "Sockerball01",
-		"typeOfObject" : 0,
-		"radius" : 1.5,
-		"position" : [4.0, 4.3, 1.0], 
-		"scale" : 8.296875,
-		"bIsUpdatedInPhysics" : true,
-		"textureNames[0]" : "Sockerball.bmp",
-		"textureNames[2]" : "Pure.bmp"
 	}
+#	{
+#		"meshName" : "Basketball",
+#		"friendlyName" : "Basketball04",
+#		"typeOfObject" : 0,
+#		"radius" : 1.5,
+#		"position" : [5.5, 7.3, -3.0], 
+#		"scale" : 8.296875,
+#		"bIsUpdatedInPhysics" : true,
+#		"textureNames[0]" : "Basketball.bmp",
+#		"textureNames[2]" : "Pure.bmp"
+#	},
+#	{
+#		"meshName" : "Beachball",
+#		"friendlyName" : "Beachball01",
+#		"typeOfObject" : 0,
+#		"radius" : 1.5,
+#		"position" : [3.01, 3.0, 8.0], 
+#		"scale" : 8.296875,
+#		"bIsUpdatedInPhysics" : true,
+#		"textureNames[0]" : "Beachball.bmp",
+#		"textureNames[2]" : "Pure.bmp"
+#	},
+#	{
+#		"meshName" : "Sockerball",
+#		"friendlyName" : "Sockerball01",
+#		"typeOfObject" : 0,
+#		"radius" : 1.5,
+#		"position" : [4.0, 4.3, 1.0], 
+#		"scale" : 8.296875,
+#		"bIsUpdatedInPhysics" : true,
+#		"textureNames[0]" : "Sockerball.bmp",
+#		"textureNames[2]" : "Pure.bmp"
+#	}
 ],
 # Limit planes Block (Used in Physics)
 "Limit_Planes":

@@ -20,8 +20,9 @@
 {"meshName" : "Basketball", "meshFile" : "Basketball.obj"},
 {"meshName" : "Beachball", "meshFile" : "Beachball.obj"},
 {"meshName" : "Sockerball", "meshFile" : "Sockerball.obj"},
-{"meshName" : "Low_Poly_Sphere", "meshFile" : "Low_Poly_Sphere.obj", "isPersistent" : true}
-#{"meshName" : "RPG", "type" : 1, "meshFile" : "RPG-Character(FBX2013).FBX"},
-#{"animName" : "RPG-Character_Unarmed-Attack-Kick-L1(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Attack-Kick-L1(FBX2013).FBX"}
+{"meshName" : "Low_Poly_Sphere", "meshFile" : "Low_Poly_Sphere.obj", "isPersistent" : true},
+{"meshName" : "T-pose", "type" : 1, "meshFile" : "T-pose.fbx"},
+{"meshName" : "walking2", "type" : 1, "meshFile" : "walking2.fbx"},
+{"animName" : "01_Walk_Cycle", "type" : 2, "animFile" : "01_Walk_Cycle.fbx"}
 ]
 }

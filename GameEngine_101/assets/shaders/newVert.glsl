@@ -68,8 +68,7 @@ void main()
 		gl_Position = matMVP * vertPosition;	
 
 		// Inverse transform to keep ONLY rotation...
-		// BUT... mModel has to keep out of this...
-		mat4 matNormal = mModel * inverse( transpose(BoneTransform) );
+		mat4 matNormal =  inverse( transpose(mModel * BoneTransform) );
 		//
 		fVertNormal = mat3(matNormal) * normalize(vNorm.xyz);
 		fTangent = 	mat3(matNormal) * normalize(vTangent.xyz);
