@@ -23,7 +23,7 @@ bool cAnimationState::sStateDetails::IncrementTime(float deltaTime, bool bResetT
     this->currentTime += deltaTime;
     if (this->currentTime >= this->totalTime)
     {
-        this->currentTime = fmod(this->currentTime - this->totalTime, this->totalTime);
+        this->currentTime = 0.0f;
         bDidWeReset = true;
     }
 
