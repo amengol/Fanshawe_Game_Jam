@@ -156,7 +156,13 @@ void cSkinnedMesh::BoneTransform( float TimeInSeconds,
 	                                           this->pScene->mAnimations[0]->mTicksPerSecond : 25.0 );
 
 	float TimeInTicks = TimeInSeconds * TicksPerSecond;
-	float AnimationTime = fmod(TimeInTicks, (float)this->pScene->mAnimations[0]->mDuration);
+    std::map< std::string, const aiScene* >::iterator itAnim = mapAnimationNameTo_pScene.find(animationName);
+    if (itAnim == mapAnimationNameTo_pScene.end())
+        return;
+    if (!(itAnim->second->mAnimations[0]))
+        return;
+    aiAnimation* animation = itAnim->second->mAnimations[0];
+	float AnimationTime = fmod(TimeInTicks, (float)animation->mDuration);
 	
 	// use the "animation" file to look up these nodes
 	// (need the matOffset information from the animation file)
