@@ -12,7 +12,8 @@ enum eCameraMode {
     CONTROL_CAMERA,
     CONTROL_CAMERA_LOCK,
     FLY_CAMERA,		// Movement based on direction of gaze                    
-    STADIUM_CAMERA
+    STADIUM_CAMERA,
+    CHARACTER_CAMERA
 };
 
 class cCameraObject
