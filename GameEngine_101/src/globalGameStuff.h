@@ -27,6 +27,7 @@
 #include "cTransparencyManager.h"
 #include "cTextManager.h"
 //#include "cLocalization.h"
+#include "Assimp\cCharacterControl.h"
 
 
 
@@ -51,6 +52,7 @@ extern cDebugRenderer* g_pDebugRenderer;	            // (GE101_Main.cpp)
 extern cShaderManager* g_pShaderManager;	            // (GE101_Main.cpp)
 extern CTextureManager*	g_pTextureManager;	            // (GE101_Main.cpp)
 extern cPhysics_Switcher g_physicsSwitcher;             // (GE101_Main.cpp)
+extern cCharacterControl g_characterControl;            // (cSceneLoader.cpp)
 extern cSimpleDebugRenderer* g_pSimpleDebug;            // (GE101_Main.cpp)
 extern cTransparencyManager* g_pTranspManager;          // (GE101_Main.cpp)
 extern cModelAssetLoader* g_pModelAssetLoader;	        // (ModelUtilities.cpp)
@@ -58,6 +60,5 @@ extern nPhysics::iPhysicsWorld* g_pPhysicsWorld;        // (GE101_Main.cpp)
 extern cAnimationCollection g_animationCollection;      // (ModelUtilities.cpp)
 extern std::vector<cGameObject*> g_vecGameObjects;      // (GE101_Main.cpp)
 extern nPhysics::iPhysicsFactory* g_pPhysicsFactory;    // (GE101_Main.cpp)
-
 
 #endif
