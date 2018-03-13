@@ -39,6 +39,22 @@
 #	"meshName" : "ChangeItToTheNameOFTheMesh",
 #	"friendlyName" : "",
 #	"typeOfObject" : 99,
+#	"animationList": 
+#	{
+#		"walking" : "walking",
+#		"walking_backwards" : "walking_backwards",
+#		"running": "running",
+#		"jump": "jump",
+#		"jump_forward" : "jump_forward",
+#		"left_strafe" : "left_strafe",
+#		"left_strafe_walking" : "left_strafe_walking",
+#		"left_turn" : "left_turn",
+#		"left_turn_90" : "left_turn_90",
+#		"right_strafe" : "right_strafe",
+#		"right_strafe_walking" : "right_strafe_walking",
+#		"right_turn" : "right_turn",
+#		"right_turn_90" : "right_turn_90"
+#	},
 #	"radius" : 0.0,
 #	"position" : [0.0, 0.0, 0.0], 
 #	"diffuseColour" : [0.0, 0.0, 0.0, 1.0],
@@ -100,23 +116,26 @@
 		"scale" : 0.025
 	},
 	{ 
-		"meshName" : "ybot",		
+		"meshName" : "ybot",
+		"friendlyName" : "Hero",		
 		"typeOfObject" : 7,
 		"defaultAnimation" : "idle",
 		"animationList": 
-		[
-			"walking",
-			"running",
-			"jump",
-			"left_strafe",
-			"left_strafe_walking",
-			"left_turn",
-			"left_turn_90",
-			"right_strafe",
-			"right_strafe_walking",
-			"right_turn",
-			"right_turn_90"
-		],
+		{
+			"walking" : "walking",
+			"walking_backwards" : "walking_backwards",
+			"running": "running",
+			"jump": "jump",
+			"jump_forward" : "jump_forward",
+			"left_strafe" : "left_strafe",
+			"left_strafe_walking" : "left_strafe_walking",
+			"left_turn" : "left_turn",
+			"left_turn_90" : "left_turn_90",
+			"right_strafe" : "right_strafe",
+			"right_strafe_walking" : "right_strafe_walking",
+			"right_turn" : "right_turn",
+			"right_turn_90" : "right_turn_90"
+		},
 		"hasMaterialColour" : true,
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
 		"position" : [-1.5, 0.0, 0.0],

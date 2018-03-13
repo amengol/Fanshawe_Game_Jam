@@ -11,6 +11,7 @@
 #include "globalGameStuff.h"
 #include "Assimp\cAnimationState.h"
 
+cCharacterControl g_characterControl;
 
 cSceneLoader::cSceneLoader()
 {
@@ -626,6 +627,226 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 theGO->pAniState = new cAnimationState();
                 theGO->pAniState->defaultAnimation.totalTime =
                     theGO->pSimpleSkinnedMesh->GetDefaultAnimationDuration();
+            }
+
+            if (gameObject[jsIndex].HasMember("animationList"))
+            {
+                // We want to consider any GameObject with one of these animations a Character
+                bool isCharacter = false;
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("walking")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["walking"].IsString())))
+                    {
+                        theGO->animations.walking = gameObject[jsIndex]["animationList"]["walking"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"walking\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("walking_backwards")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["walking_backwards"].IsString())))
+                    {
+                        theGO->animations.walking_backwards =
+                            gameObject[jsIndex]["animationList"]["walking_backwards"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"walking_backwards\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("running")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["running"].IsString())))
+                    {
+                        theGO->animations.running = gameObject[jsIndex]["animationList"]["running"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"running\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("jump")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["jump"].IsString())))
+                    {
+                        theGO->animations.jump = gameObject[jsIndex]["animationList"]["jump"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"jump\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("jump_forward")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["jump_forward"].IsString())))
+                    {
+                        theGO->animations.jump_forward =
+                            gameObject[jsIndex]["animationList"]["jump_forward"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"jump_forward\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("left_strafe")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["left_strafe"].IsString())))
+                    {
+                        theGO->animations.left_strafe =
+                            gameObject[jsIndex]["animationList"]["left_strafe"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"left_strafe\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("left_strafe_walking")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["left_strafe_walking"].IsString())))
+                    {
+                        theGO->animations.left_strafe_walking =
+                            gameObject[jsIndex]["animationList"]["left_strafe_walking"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"left_strafe_walking\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("left_turn")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["left_turn"].IsString())))
+                    {
+                        theGO->animations.left_turn =
+                            gameObject[jsIndex]["animationList"]["left_turn"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"left_turn\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("left_turn_90")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["left_turn_90"].IsString())))
+                    {
+                        theGO->animations.left_turn_90 =
+                            gameObject[jsIndex]["animationList"]["left_turn_90"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"left_turn_90\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("right_strafe")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["right_strafe"].IsString())))
+                    {
+                        theGO->animations.right_strafe =
+                            gameObject[jsIndex]["animationList"]["right_strafe"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"right_strafe\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("right_strafe_walking")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["right_strafe_walking"].IsString())))
+                    {
+                        theGO->animations.right_strafe_walking =
+                            gameObject[jsIndex]["animationList"]["right_strafe_walking"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"right_strafe_walking\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("right_turn")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["right_turn"].IsString())))
+                    {
+                        theGO->animations.right_turn =
+                            gameObject[jsIndex]["animationList"]["right_turn"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"right_turn\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("right_turn_90")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["right_turn_90"].IsString())))
+                    {
+                        theGO->animations.right_turn_90 =
+                            gameObject[jsIndex]["animationList"]["right_turn_90"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"right_turn_90\" member!";
+                        return false;
+                    }
+                }
+
+                // Check for a character
+                if (isCharacter)
+                {
+                    if (!g_characterControl.AddCharacter(theGO, error))
+                    {
+                        return false;
+                    }
+                }
             }
         }
         break;
