@@ -610,8 +610,8 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                     theGO->pSimpleSkinnedMesh->AddAnimationScene(animScene, defaultAnimation);
                     theGO->pAniState = new cAnimationState();
-                    theGO->pAniState->defaultAnimation.name = defaultAnimation;
-                    theGO->pAniState->defaultAnimation.totalTime =
+                    theGO->pAniState->activeAnimation.name = defaultAnimation;
+                    theGO->pAniState->activeAnimation.totalTime =
                         theGO->pSimpleSkinnedMesh->GetAnimationDuration(defaultAnimation);
                 }
                 else
@@ -625,7 +625,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             else
             {
                 theGO->pAniState = new cAnimationState();
-                theGO->pAniState->defaultAnimation.totalTime =
+                theGO->pAniState->activeAnimation.totalTime =
                     theGO->pSimpleSkinnedMesh->GetDefaultAnimationDuration();
             }
 
