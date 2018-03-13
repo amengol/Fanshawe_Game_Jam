@@ -9,10 +9,10 @@ class cAnimationCollection
 {
 public:
     // Maps a vector of animations to a name
-    void addAnimationCollection(std::string name, const aiScene* anim);
+    bool addAnimationCollection(std::string name, const aiScene* anim);
 
     // Maps a vector of skinned meshes to a name
-    void addSkinnedMesh(std::string name, cSkinnedMesh* skinnedMesh);
+    bool addSkinnedMesh(std::string name, cSkinnedMesh* skinnedMesh);
 
     // Returns all animations associated with the name
     const aiScene* getAnimation(std::string name);

@@ -1,13 +1,19 @@
 #include "cAnimationCollection.h"
 
-void cAnimationCollection::addAnimationCollection(std::string name, const aiScene* anim)
+bool cAnimationCollection::addAnimationCollection(std::string name, const aiScene* anim)
 {
+    if (anim == NULL)
+        return false;
     this->mMapNameToAnimations[name] = anim;
+    return true;
 }
 
-void cAnimationCollection::addSkinnedMesh(std::string name, cSkinnedMesh* skinnedMesh)
+bool cAnimationCollection::addSkinnedMesh(std::string name, cSkinnedMesh* skinnedMesh)
 {
+    if (skinnedMesh == NULL)
+        return false;
     this->mMapNameToVecSkinnedMesh[name] = skinnedMesh;
+    return true;
 }
 
 const aiScene* cAnimationCollection::getAnimation(std::string name)
