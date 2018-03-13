@@ -122,7 +122,6 @@
 		"defaultAnimation" : "idle",
 		"animationList": 
 		{
-			"idle" : "idle",
 			"walking" : "walking",
 			"walking_backwards" : "walking_backwards",
 			"running": "running",

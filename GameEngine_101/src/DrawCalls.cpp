@@ -258,10 +258,10 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
     }
     else
     {	// Use the default animation.
-        float deltaTime = glfwGetTime() - pAniState->activeAnimation.currentClockTime;
+        float deltaTime = glfwGetTime() - pAniState->defaultAnimation.currentClockTime;
 
         // Update the next position
-        if (pAniState->activeAnimation.IncrementTime(deltaTime))
+        if (pAniState->defaultAnimation.IncrementTime(deltaTime))
         {
             // If you had to loop the animation, the new start position is going
             // to be the last hip position
@@ -269,19 +269,19 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
                 pTheGO->pSimpleSkinnedMesh->mLastHipPosition;
 
             // TURN & POSITION CONTROL ========================================
-            if (pAniState->activeAnimation.name == "left_turn")
+            if (pAniState->defaultAnimation.name == "left_turn")
             {
                 pTheGO->rotateY(180.0f);
             }
-            else if (pAniState->activeAnimation.name == "right_turn")
+            else if (pAniState->defaultAnimation.name == "right_turn")
             {
                 pTheGO->rotateY(180.0f);
             }
-            else if (pAniState->activeAnimation.name == "left_turn_90")
+            else if (pAniState->defaultAnimation.name == "left_turn_90")
             {
                 pTheGO->rotateY(90.0f);
             }
-            else if (pAniState->activeAnimation.name == "right_turn_90")
+            else if (pAniState->defaultAnimation.name == "right_turn_90")
             {
                 pTheGO->rotateY(-90.0f);
             }
@@ -298,9 +298,9 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
             //=================================================================
         }
         
-        animationToPlay = pAniState->activeAnimation.name;
-        curFrameTime = pAniState->activeAnimation.currentTime;
-        pAniState->activeAnimation.currentClockTime = glfwGetTime();
+        animationToPlay = pAniState->defaultAnimation.name;
+        curFrameTime = pAniState->defaultAnimation.currentTime;
+        pAniState->defaultAnimation.currentClockTime = glfwGetTime();
 
     }//if ( pAniState->vecAnimationQueue.empty()
 
