@@ -49,7 +49,6 @@ private:
 public:
 
     glm::vec3 mLastHipPosition;     // The most recent hip position
-    glm::vec3 mStartHipPosition;    // The start hip position of this cycle
 
 	unsigned int m_numberOfVertices;
 	unsigned int m_numberOfIndices;

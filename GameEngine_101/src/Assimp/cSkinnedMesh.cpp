@@ -16,7 +16,7 @@ cSkinnedMesh::cSkinnedMesh(void)
 	this->m_numberOfIndices = 0;
 	this->m_numberOfTriangles = 0;
     this->mLastHipPosition = glm::vec3(0.0f);
-    this->mStartHipPosition = glm::vec3(0.0f);
+    //this->mStartHipPosition = glm::vec3(0.0f);
 }
 
 bool cSkinnedMesh::LoadMeshFromFile(const std::string &path, const std::string &filename)
@@ -314,7 +314,7 @@ void cSkinnedMesh::ReadNodeHierarchy(float AnimationTime,
         if (found != std::string::npos)
         {
             // Keep ading the last position to displace the animation
-            mLastHipPosition = pos + mStartHipPosition;
+            mLastHipPosition = pos;
         }
 		
 		// Combine the above transformations
