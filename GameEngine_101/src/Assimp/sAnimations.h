@@ -4,6 +4,7 @@
 // Stores the name of all supported animations
 struct sAnimations
 {
+    std::string idle;
     std::string walking;
     std::string walking_backwards;
     std::string running;

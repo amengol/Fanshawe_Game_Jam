@@ -634,6 +634,27 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 // We want to consider any GameObject with one of these animations a Character
                 bool isCharacter = false;
 
+                if ((gameObject[jsIndex]["animationList"].HasMember("idle")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["idle"].IsString())))
+                    {
+                        theGO->animations.idle = gameObject[jsIndex]["animationList"]["idle"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"idle\" member!";
+                        return false;
+                    }
+                }
+                else
+                {
+                    error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                        ". An \"idle\" member is a must have in the \"animationList\"!";
+                    return false;
+                }
+
                 if ((gameObject[jsIndex]["animationList"].HasMember("walking")))
                 {
                     if (((gameObject[jsIndex]["animationList"]["walking"].IsString())))
