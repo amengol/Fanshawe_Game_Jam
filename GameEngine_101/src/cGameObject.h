@@ -4,6 +4,7 @@
 #include <vector>
 #include <iRigidBody.h>
 #include <iSoftBody.h>
+#include "Assimp\sAnimations.h"
 
 class cMesh;
 class cSoudObject;
@@ -129,9 +130,13 @@ public:
     nPhysics::iRigidBody* bt_rigidBody;
 
     // If NULL, then object ISN'T a skinned mesh
-    cSkinnedMesh*	pSimpleSkinnedMesh;
-    cAnimationState*			pAniState;
+    cSkinnedMesh* pSimpleSkinnedMesh;
+    cAnimationState* pAniState;
     glm::vec3 startDisplacement;
+    sAnimations animations;
+
+    // Will init all animation names in "animations" into the cSkinnedMesh
+    bool InitCharacterAnimations(std::string& error);
 
  private:
      unsigned int m_UniqueID;

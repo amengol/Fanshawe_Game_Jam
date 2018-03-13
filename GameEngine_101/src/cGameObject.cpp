@@ -3,6 +3,8 @@
 #include "cMesh.h"
 #include "cSoundObject.h"
 #include "sCollisionTriangle.h"
+#include "Assimp\cSkinnedMesh.h"
+#include "globalGameStuff.h"
 
 cGameObject::cGameObject()
 {
@@ -220,4 +222,220 @@ void cGameObject::DebugUpdate(double deltaTime)
  void cGameObject::setGOSoundPos()
  {
      this->mGOSound->setPosition(this->position);
+ }
+
+ bool cGameObject::InitCharacterAnimations(std::string & error)
+ {
+     bool allIsGood = true;
+     std::string animationName;
+
+     animationName = animations.walking;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+
+     animationName = animations.walking_backwards;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+     
+     animationName = animations.running;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+     
+     animationName = animations.jump;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+     
+     animationName = animations.jump_forward;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+     
+     animationName = animations.left_strafe;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+     
+     animationName = animations.left_strafe_walking;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+
+     animationName = animations.left_turn;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+     
+     animationName = animations.left_turn_90;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+     
+     animationName = animations.right_strafe;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+     
+     animationName = animations.right_strafe_walking;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+     
+     animationName = animations.right_turn;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+     
+     animationName = animations.right_turn_90;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+     
+     return allIsGood;
  }
