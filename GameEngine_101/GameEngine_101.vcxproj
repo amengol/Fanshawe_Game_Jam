@@ -158,11 +158,11 @@
     <ClCompile Include="src\Assimp\cAnimationCollection.cpp" />
     <ClCompile Include="src\Assimp\cAnimationState.cpp" />
     <ClCompile Include="src\Assimp\cAssimpAssetLoader.cpp" />
+    <ClCompile Include="src\Assimp\cCharacterControl.cpp" />
     <ClCompile Include="src\Assimp\cSkinnedMesh.cpp" />
     <ClCompile Include="src\cAABB.cpp" />
     <ClCompile Include="src\cAABBsManager.cpp" />
     <ClCompile Include="src\cCameraObject.cpp" />
-    <ClCompile Include="src\cCharacterControl.cpp" />
     <ClCompile Include="src\cDebugRenderer.cpp" />
     <ClCompile Include="src\cDebugRenderer_BuiltInShapes.cpp" />
     <ClCompile Include="src\cGameObject.cpp" />
@@ -209,11 +209,12 @@
     <ClInclude Include="src\Assimp\cAnimationCollection.h" />
     <ClInclude Include="src\Assimp\cAnimationState.h" />
     <ClInclude Include="src\Assimp\cAssimpAssetLoader.h" />
+    <ClInclude Include="src\Assimp\cCharacterControl.h" />
     <ClInclude Include="src\Assimp\cSkinnedMesh.h" />
+    <ClInclude Include="src\Assimp\sAnimations.h" />
     <ClInclude Include="src\cAABB.h" />
     <ClInclude Include="src\cAABBsManager.h" />
     <ClInclude Include="src\cCameraObject.h" />
-    <ClInclude Include="src\cCharacterControl.h" />
     <ClInclude Include="src\cDebugRenderer.h" />
     <ClInclude Include="src\cGameObject.h" />
     <ClInclude Include="src\cLightManager.h" />

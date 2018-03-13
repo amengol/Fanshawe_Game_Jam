@@ -221,8 +221,8 @@
     <ClCompile Include="src\DrawCalls.cpp">
       <Filter>Render Related</Filter>
     </ClCompile>
-    <ClCompile Include="src\cCharacterControl.cpp">
-      <Filter>AI</Filter>
+    <ClCompile Include="src\Assimp\cCharacterControl.cpp">
+      <Filter>Assimp and Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -364,8 +364,11 @@
     <ClInclude Include="src\DrawCalls.h">
       <Filter>Render Related</Filter>
     </ClInclude>
-    <ClInclude Include="src\cCharacterControl.h">
-      <Filter>AI</Filter>
+    <ClInclude Include="src\Assimp\sAnimations.h">
+      <Filter>Assimp and Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Assimp\cCharacterControl.h">
+      <Filter>Assimp and Animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
