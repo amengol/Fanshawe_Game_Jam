@@ -391,6 +391,13 @@ int main()
     //                        150.0f, 180.0f,
     //                        -1000.0f, 1000.0f);
     // ------------------------------------------------------------------------
+
+    // Sets the default Game Character
+    if (!g_characterControl.SetControlledCharacter("Hero", error))
+    {
+        std::cout << "The Game Character was not found!\n";
+    }
+
     glEnable(GL_DEPTH);
 
     // Will be used in the physics step
