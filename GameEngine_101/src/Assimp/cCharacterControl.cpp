@@ -2,7 +2,7 @@
 #include "../cGameObject.h"
 #include "cSkinnedMesh.h"
 #include "cAnimationState.h"
-#include "../globalOpenGL_GLFW.h"
+//#include "../globalOpenGL_GLFW.h"
 
 cCharacterControl::cCharacterControl()
 {
@@ -56,7 +56,7 @@ void cCharacterControl::Forward()
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
 
         mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
-        mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
+        //mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
@@ -71,7 +71,7 @@ void cCharacterControl::Backwards()
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
 
         mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
-        mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
+        //mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
@@ -86,7 +86,7 @@ void cCharacterControl::TurnLeft90()
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
 
         mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
-        mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
+        //mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
@@ -101,7 +101,7 @@ void cCharacterControl::TurnRight90()
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
 
         mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
-        mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
+        //mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
@@ -120,11 +120,21 @@ void cCharacterControl::Idle()
         // Project the root to the ground level
         mActiveCharacter->position.y = 0.0f;
 
+        // Reorient the character
+        mActiveCharacter->orientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
+
+        // Keep only the rotation in the Y axis
+        mActiveCharacter->orientation[0].y = 0.0f;
+        mActiveCharacter->orientation[1].x = 0.0f;
+        mActiveCharacter->orientation[1].y = 1.0f;
+        mActiveCharacter->orientation[1].z = 0.0f;
+        mActiveCharacter->orientation[2].y = 0.0f;
+
         std::string animationName = mActiveCharacter->animations.idle;
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
 
         mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
-        mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
+        //mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);

@@ -49,6 +49,7 @@ private:
 public:
 
     glm::vec3 mLastHipPosition;     // The most recent hip position
+    glm::mat4 mLastHipRotation;     // The most recent hip rotation
 
 	unsigned int m_numberOfVertices;
 	unsigned int m_numberOfIndices;
