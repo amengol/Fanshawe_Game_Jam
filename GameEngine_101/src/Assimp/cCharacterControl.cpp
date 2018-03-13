@@ -1,7 +1,11 @@
 #include "cCharacterControl.h"
+#include "../cGameObject.h"
 
 bool cCharacterControl::SetControlledCharacter(std::string friendlyName, std::string& error)
 {
+    if (friendlyName == mActiveCharacter)
+        return true;
+
     std::map<std::string, cGameObject*>::iterator it = mMapNameToCharacters.find(friendlyName);
 
     if (it == mMapNameToCharacters.end())
@@ -20,6 +24,7 @@ bool cCharacterControl::SetControlledCharacter(std::string friendlyName, std::st
     }
 
     mControlledCharacter = GO;
+    mActiveCharacter = friendlyName;
     return true;
 }
 
