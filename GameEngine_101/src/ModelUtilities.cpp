@@ -9,7 +9,6 @@
 #include "Assimp\cAssimpAssetLoader.h"
 #include <iostream>
 #include "globalGameStuff.h"
-#include "Assimp\cAnimationCollection.h"
 
 cAnimationCollection g_animationCollection;
 
