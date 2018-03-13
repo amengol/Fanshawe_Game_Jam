@@ -137,6 +137,7 @@ public:
 
     // Will init all animation names in "animations" into the cSkinnedMesh
     bool InitCharacterAnimations(std::string& error);
+    bool animationsInitiated;   // Control if the animations were already initiated
 
  private:
      unsigned int m_UniqueID;

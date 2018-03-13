@@ -44,6 +44,7 @@ cGameObject::cGameObject()
     this->pSimpleSkinnedMesh = NULL;
     this->pAniState = NULL;	
     this->startDisplacement;
+    this->animationsInitiated = false;
 
 #ifdef _DEBUG
  	//this->m_pTheDR = cDebugRenderer::getInstance();
@@ -226,6 +227,10 @@ void cGameObject::DebugUpdate(double deltaTime)
 
  bool cGameObject::InitCharacterAnimations(std::string & error)
  {
+     // If we already initiated, don't bother...
+     if (animationsInitiated)
+         return true;
+
      bool allIsGood = true;
      std::string animationName;
 
@@ -437,5 +442,6 @@ void cGameObject::DebugUpdate(double deltaTime)
          }
      }
      
+     animationsInitiated = allIsGood;
      return allIsGood;
  }
