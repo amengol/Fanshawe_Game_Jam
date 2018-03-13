@@ -610,8 +610,8 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                     theGO->pSimpleSkinnedMesh->AddAnimationScene(animScene, defaultAnimation);
                     theGO->pAniState = new cAnimationState();
-                    theGO->pAniState->defaultAnimation.name = defaultAnimation;
-                    theGO->pAniState->defaultAnimation.totalTime =
+                    theGO->pAniState->activeAnimation.name = defaultAnimation;
+                    theGO->pAniState->activeAnimation.totalTime =
                         theGO->pSimpleSkinnedMesh->GetAnimationDuration(defaultAnimation);
                 }
                 else
@@ -625,7 +625,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             else
             {
                 theGO->pAniState = new cAnimationState();
-                theGO->pAniState->defaultAnimation.totalTime =
+                theGO->pAniState->activeAnimation.totalTime =
                     theGO->pSimpleSkinnedMesh->GetDefaultAnimationDuration();
             }
 
@@ -633,6 +633,27 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             {
                 // We want to consider any GameObject with one of these animations a Character
                 bool isCharacter = false;
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("idle")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["idle"].IsString())))
+                    {
+                        theGO->animations.idle = gameObject[jsIndex]["animationList"]["idle"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"idle\" member!";
+                        return false;
+                    }
+                }
+                else
+                {
+                    error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                        "! We really need at least an \"idle\" animation in the \"animationList\" member!";
+                    return false;
+                }
 
                 if ((gameObject[jsIndex]["animationList"].HasMember("walking")))
                 {

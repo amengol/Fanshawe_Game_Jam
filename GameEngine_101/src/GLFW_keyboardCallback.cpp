@@ -1049,6 +1049,66 @@ void key_callback(GLFWwindow* window,
     }
     break;
 
+    case CHARACTER_CAMERA:
+    {
+        switch (key)
+        {
+        case GLFW_KEY_W:       
+        {
+            if (action == GLFW_PRESS)
+                g_characterControl.Forward();
+            if (action == GLFW_RELEASE)
+                g_characterControl.Idle();
+        }
+        break;
+        case GLFW_KEY_S:
+        {        
+            if (action == GLFW_PRESS)
+                g_characterControl.Backwards();
+            if (action == GLFW_RELEASE)
+                g_characterControl.Idle();
+        }
+            break;
+        case GLFW_KEY_A:
+        {
+            if (action == GLFW_PRESS)
+                g_characterControl.TurnLeft90();
+            if (action == GLFW_RELEASE)
+                g_characterControl.Idle();
+        }
+            break;
+        case GLFW_KEY_D:
+        {
+            if (action == GLFW_PRESS)
+                g_characterControl.TurnRight90();
+            if (action == GLFW_RELEASE)
+                g_characterControl.Idle();
+        }
+            break;
+        case GLFW_KEY_Q:
+            break;
+        case GLFW_KEY_E:
+            break;
+        case GLFW_KEY_LEFT:
+            break;
+        case GLFW_KEY_RIGHT:
+            break;
+        case GLFW_KEY_UP:
+            break;
+        case GLFW_KEY_DOWN:
+            break;
+        case GLFW_KEY_MINUS:
+            if (g_FOV <= 2.0f)
+                g_FOV += 0.01;
+            break;
+        case GLFW_KEY_EQUAL:
+            if (g_FOV >= 0.1f)
+                g_FOV -= 0.01;
+            break;
+        }// switch ( key ) 
+    }
+    break;
+
     default:
         break;
     }

@@ -1,9 +1,17 @@
 #include "cCharacterControl.h"
 #include "../cGameObject.h"
+#include "cSkinnedMesh.h"
+#include "cAnimationState.h"
+#include "../globalOpenGL_GLFW.h"
+
+cCharacterControl::cCharacterControl()
+{
+    mActiveCharacter = NULL;
+}
 
 bool cCharacterControl::SetControlledCharacter(std::string friendlyName, std::string& error)
 {
-    if (friendlyName == mActiveCharacter)
+    if (friendlyName == mActiveCharacterName)
         return true;
 
     std::map<std::string, cGameObject*>::iterator it = mMapNameToCharacters.find(friendlyName);
@@ -23,8 +31,8 @@ bool cCharacterControl::SetControlledCharacter(std::string friendlyName, std::st
         return false;
     }
 
-    mControlledCharacter = GO;
-    mActiveCharacter = friendlyName;
+    mActiveCharacter = GO;
+    mActiveCharacterName = friendlyName;
     return true;
 }
 
@@ -38,4 +46,87 @@ bool cCharacterControl::AddCharacter(cGameObject* GO, std::string& error)
 
     mMapNameToCharacters[GO->friendlyName] = GO;
     return true;
+}
+
+void cCharacterControl::Forward()
+{
+    if (mActiveCharacter != NULL)
+    {
+        std::string animationName = mActiveCharacter->animations.walking;
+        mActiveCharacter->pAniState->activeAnimation.name = animationName;
+
+        mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+        mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
+
+        mActiveCharacter->pAniState->activeAnimation.totalTime =
+            mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+    }
+}
+
+void cCharacterControl::Backwards()
+{
+    if (mActiveCharacter != NULL)
+    {
+        std::string animationName = mActiveCharacter->animations.walking_backwards;
+        mActiveCharacter->pAniState->activeAnimation.name = animationName;
+
+        mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+        mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
+
+        mActiveCharacter->pAniState->activeAnimation.totalTime =
+            mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+    }
+}
+
+void cCharacterControl::TurnLeft90()
+{
+    if (mActiveCharacter != NULL)
+    {
+        std::string animationName = mActiveCharacter->animations.left_turn_90;
+        mActiveCharacter->pAniState->activeAnimation.name = animationName;
+
+        mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+        mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
+
+        mActiveCharacter->pAniState->activeAnimation.totalTime =
+            mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+    }
+}
+
+void cCharacterControl::TurnRight90()
+{
+    if (mActiveCharacter != NULL)
+    {
+        std::string animationName = mActiveCharacter->animations.right_turn_90;
+        mActiveCharacter->pAniState->activeAnimation.name = animationName;
+
+        mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+        mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
+
+        mActiveCharacter->pAniState->activeAnimation.totalTime =
+            mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+    }
+}
+
+void cCharacterControl::Idle()
+{
+    if (mActiveCharacter != NULL)
+    {
+        // Rotate the start position
+        glm::vec3 rotatedStartPos =
+            mActiveCharacter->orientation * glm::vec4(mActiveCharacter->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
+        mActiveCharacter->position += rotatedStartPos * mActiveCharacter->scale;
+
+        // Project the root to the ground level
+        mActiveCharacter->position.y = 0.0f;
+
+        std::string animationName = mActiveCharacter->animations.idle;
+        mActiveCharacter->pAniState->activeAnimation.name = animationName;
+
+        mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+        mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
+
+        mActiveCharacter->pAniState->activeAnimation.totalTime =
+            mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+    }
 }
