@@ -72,7 +72,7 @@ const aiScene* cAssimpAssetLoader::GetAiSceneFromFile(const std::string& pPath, 
     {
         std::cout << "Couldn't open file: " + file;
         //this->logInfo(importer.GetErrorString());
-        return nullptr;
+        return NULL;
     }
 
     Assimp::Importer* pImporter = new Assimp::Importer();
@@ -83,7 +83,7 @@ const aiScene* cAssimpAssetLoader::GetAiSceneFromFile(const std::string& pPath, 
     if (!pScene)
     {
         //this->logInfo(importer.GetErrorString());
-        return nullptr;
+        return NULL;
     }
 
     // Now we can access the file's contents.

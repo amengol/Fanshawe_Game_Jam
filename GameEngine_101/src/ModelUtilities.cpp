@@ -173,7 +173,7 @@ bool Load3DModelsIntoMeshManager(int shaderID,
                 cAssimpAssetLoader ail;
                 const aiScene* pScene = ail.GetAiSceneFromFile(filePath, animFile);
                 // Load the models
-                if (pScene == nullptr)
+                if (pScene == NULL)
                 {
                     std::cout << "There was an error importing the aiScene from file. "
                         << "See \"assimp_log.txt\" for details.\n";
