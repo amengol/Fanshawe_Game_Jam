@@ -28,7 +28,7 @@ public:
 		bool IncrementTime(float deltaTime, bool bResetToZero = true);
 	};
 	
-	std::vector<sStateDetails> vecAnimationQueue;
+    sStateDetails activeAnimation;
 	sStateDetails defaultAnimation;
 };
 
