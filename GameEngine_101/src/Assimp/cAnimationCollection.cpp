@@ -18,10 +18,16 @@ bool cAnimationCollection::addSkinnedMesh(std::string name, cSkinnedMesh* skinne
 
 const aiScene* cAnimationCollection::getAnimation(std::string name)
 {
-    return this->mMapNameToAnimations[name];
+    std::map <std::string, const aiScene*>::iterator it = mMapNameToAnimations.find(name);
+    if (it == mMapNameToAnimations.end())
+        return NULL;
+    return it->second;
 }
 
 cSkinnedMesh* cAnimationCollection::getSkinnedMeshes(std::string name)
 {
-    return this->mMapNameToVecSkinnedMesh[name];
+    std::map <std::string, cSkinnedMesh*>::iterator it = mMapNameToVecSkinnedMesh.find(name);
+    if (it == mMapNameToVecSkinnedMesh.end())
+        return NULL;
+    return it->second;
 }
