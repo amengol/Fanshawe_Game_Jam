@@ -17,5 +17,8 @@ public:
     virtual void SetMatOrientation(const glm::mat4& orientationIn) = 0;
     virtual void SetVelocity(const glm::vec3& velocity) = 0;
     virtual void SetVelocityLocal(const glm::vec3& velocity) = 0;
+    virtual void rotateX(float degrees) = 0;
+    virtual void rotateY(float degrees) = 0;
+    virtual void rotateZ(float degrees) = 0;
 };
 

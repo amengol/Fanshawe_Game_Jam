@@ -5,7 +5,7 @@
 #include <glm\gtx\transform.hpp>
 #include "cCloth.h"
 
-const glm::vec3 GRAVITY = glm::vec3(0.0f, -10.0f, 0.0f);
+const glm::vec3 GRAVITY = glm::vec3(0.0f, 0.0f, 0.0f);
 
 namespace nPhysics
 {
@@ -213,33 +213,33 @@ namespace nPhysics
                 break;
             }//!switch (sh1->GetShapeType()
 
-             // Rotation
-             // Let's consider only the velocity of the object in Z local axis
-             // Also getting rid of pitch information (Y axis)
-            glm::vec3 horizontalDir = rb1->mPosition - rb1->mLastPos;
-            horizontalDir.y = 0.0f;
+            // // Rotation
+            // // Let's consider only the velocity of the object in Z local axis
+            // // Also getting rid of pitch information (Y axis)
+            //glm::vec3 horizontalDir = rb1->mPosition - rb1->mLastPos;
+            //horizontalDir.y = 0.0f;
 
-            if (glm::length(horizontalDir) == 0.0f)
-                horizontalDir.z = 1.0f;
+            //if (glm::length(horizontalDir) == 0.0f)
+            //    horizontalDir.z = 1.0f;
 
-            // Now the axis of rotation should be:
-            glm::vec3 rotAxis = glm::normalize(glm::cross(horizontalDir, glm::vec3(0.0f, -1.0f, 0.0f)));
+            //// Now the axis of rotation should be:
+            //glm::vec3 rotAxis = glm::normalize(glm::cross(horizontalDir, glm::vec3(0.0f, -1.0f, 0.0f)));
 
-            float angVelocity = glm::length(glm::vec3(rb1->mVelocity.x, 0.0f, rb1->mVelocity.z)) * deltaTime;
+            //float angVelocity = glm::length(glm::vec3(rb1->mVelocity.x, 0.0f, rb1->mVelocity.z)) * deltaTime;
 
-            //=================================================================
-            // This code is an attempt to correct the rotation of the balls
-            // It is better, but still looking funny some times...
-            glm::quat qRot = glm::toQuat(rb1->mOrientation);
-            glm::quat qTemp = glm::angleAxis(angVelocity, glm::normalize(rotAxis));
+            ////=================================================================
+            //// This code is an attempt to correct the rotation of the balls
+            //// It is better, but still looking funny some times...
+            //glm::quat qRot = glm::toQuat(rb1->mOrientation);
+            //glm::quat qTemp = glm::angleAxis(angVelocity, glm::normalize(rotAxis));
 
-            qRot *= qTemp;
-            glm::vec3 ballRotAxis = glm::axis(qRot);
-            glm::vec3 vecCorrection = rotAxis - ballRotAxis;
-            glm::vec3 correctedAxis = rotAxis + vecCorrection;
-            //=================================================================
+            //qRot *= qTemp;
+            //glm::vec3 ballRotAxis = glm::axis(qRot);
+            //glm::vec3 vecCorrection = rotAxis - ballRotAxis;
+            //glm::vec3 correctedAxis = rotAxis + vecCorrection;
+            ////=================================================================
 
-            rb1->mOrientation = glm::rotate(rb1->mOrientation, angVelocity, correctedAxis);
+            //rb1->mOrientation = glm::rotate(rb1->mOrientation, angVelocity, correctedAxis);
 
             //RK4
             rb1->mLastPos = rb1->mPosition; // Save the last position

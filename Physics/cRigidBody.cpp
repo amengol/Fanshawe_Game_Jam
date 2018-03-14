@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cRigidBody.h"
+#include <glm\gtx\transform.hpp>
 
 namespace nPhysics
 {
@@ -55,7 +56,7 @@ namespace nPhysics
 
     void cRigidBody::SetVelocityLocal(const glm::vec3& velocity)
     {
-        glm::mat4 orientation = glm::toMat4(this->mRotation);
+        glm::mat4 orientation = this->mOrientation;
 
         // Local X axis
         glm::vec3 localX = orientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
@@ -68,5 +69,20 @@ namespace nPhysics
         localZ = localZ * velocity.z;
 
         this->mVelocity = localX + localY + localZ;
+    }
+
+    void cRigidBody::rotateX(float degrees)
+    {
+        this->mOrientation = glm::rotate(this->mOrientation, glm::radians(degrees), glm::vec3(1.0f, 0.0f, 0.0f));
+    }
+
+    void cRigidBody::rotateY(float degrees)
+    {
+        this->mOrientation = glm::rotate(this->mOrientation, glm::radians(degrees), glm::vec3(0.0f, 1.0f, 0.0f));
+    }
+
+    void cRigidBody::rotateZ(float degrees)
+    {
+        this->mOrientation = glm::rotate(this->mOrientation, glm::radians(degrees), glm::vec3(0.0f, 0.0f, 1.0f));
     }
 }

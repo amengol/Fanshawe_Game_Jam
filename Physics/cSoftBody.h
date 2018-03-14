@@ -25,6 +25,9 @@ namespace nPhysics
         virtual void SetMatOrientation(const glm::mat4& orientationIn) { return; }
         virtual void SetVelocity(const glm::vec3& velocity) { return; }
         virtual void SetVelocityLocal(const glm::vec3& velocity) { return; }
+        virtual void rotateX(float degrees) { return; }
+        virtual void rotateY(float degrees) { return; }
+        virtual void rotateZ(float degrees) { return; }
 
 	private:
 		friend class cPhysicsWorld;
