@@ -30,6 +30,9 @@ public:
     // Let the camera be a follow_camera and controls a gameObject
     void lockOnGameObject(cGameObject*, bool control = true);
 
+    // Let the camera be a character_camera and controls a gameObject
+    void lockOnCharacter(cGameObject*, bool control = true);
+
     // Return the Game Object
     cGameObject* getGameObject();
 
@@ -71,6 +74,7 @@ private:
     float camVelocity;
     eCameraMode cameraMode;
     cGameObject* controlledGameObject;
+    cGameObject* controlledCharacter;
 };
 
 #endif // !_cCameraObject_HG_

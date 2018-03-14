@@ -68,7 +68,7 @@ void cCharacterControl::Forward()
             mActiveCharacter->pAniState->activeAnimation.totalTime =
                 mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mActiveCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.0f));
+            mActiveCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
         }
     }
 }
@@ -87,7 +87,7 @@ void cCharacterControl::ForwardRun()
             mActiveCharacter->pAniState->activeAnimation.totalTime =
                 mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mActiveCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 10.0f));
+            mActiveCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
         }
     }
 }
@@ -104,7 +104,7 @@ void cCharacterControl::Backwards()
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        mActiveCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -3.0f));
+        mActiveCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
     }
 }
 

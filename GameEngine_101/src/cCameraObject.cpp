@@ -13,7 +13,7 @@ cCameraObject::cCameraObject()
     this->camUpVector = glm::vec3(0.0f, 1.0f, 0.0f);
     this->camOrientation = glm::mat4x4(1.0f);
     this->camVelocity = 0.0f;
-    this->cameraMode = CHARACTER_CAMERA;
+    this->cameraMode = STADIUM_CAMERA;
     this->controlledGameObject = NULL;
 }
 
@@ -57,6 +57,20 @@ void cCameraObject::lockOnGameObject(cGameObject* GO, bool control)
     }
 }
 
+void cCameraObject::lockOnCharacter(cGameObject* GO, bool control)
+{
+    if (control)
+    {
+        this->controlledGameObject = GO;
+        this->cameraMode = CONTROL_CAMERA;
+    }
+    else
+    {
+        this->controlledGameObject = GO;
+        this->cameraMode = CHARACTER_CAMERA;
+    }
+}
+
 cGameObject * cCameraObject::getGameObject()
 {
     return this->controlledGameObject;
@@ -79,6 +93,26 @@ void cCameraObject::update()
         glm::vec3 lookAtOrigin = (this->controlledGameObject->orientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));
         this->camOrientation = glm::inverse(glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), lookAtOrigin, this->camUpVector));
         this->lookAtPosition = this->camPosition + lookAtOrigin;
+
+        // Reposition the camera to a better 'Follow' style
+        this->moveCameraBackNForth(6.0f);
+        this->moveCameraUpNDown(2.0f);
+        this->setCameraOrientationX(-10.0f);
+    }
+
+    if (this->cameraMode == CHARACTER_CAMERA)
+    {
+        // Move the camera to the target
+        this->controlledGameObject->rigidBody->GetPostion(this->camPosition);
+
+        // Reorient the camera according to the target
+        glm::mat4 matOrientation;
+        this->controlledGameObject->rigidBody->GetMatOrientation(matOrientation);
+        this->camUpVector = glm::vec3(0.0f, 1.0f, 0.0f);
+        glm::vec3 lookAtOrigin = (matOrientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));
+        lookAtOrigin.y = 0.0f;
+        this->camOrientation = glm::inverse(glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), lookAtOrigin, this->camUpVector));
+        this->lookAtPosition = this->camPosition + glm::normalize(lookAtOrigin);
 
         // Reposition the camera to a better 'Follow' style
         this->moveCameraBackNForth(6.0f);

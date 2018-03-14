@@ -88,6 +88,16 @@ void key_callback(GLFWwindow* window,
     //    }        
     //}
 
+    if(key == GLFW_KEY_1 && action == GLFW_PRESS)
+    {
+        // Get the character
+        cGameObject* theCharacter = NULL;
+        theCharacter = g_characterControl.GetActiveCharacter();
+        if (theCharacter == NULL)
+            return;
+        g_pCamera->lockOnCharacter(theCharacter, false);     
+    }
+
     //if (key == GLFW_KEY_1 && action == GLFW_PRESS)
     //{
     //    if (g_lococalization.getState() == MAIN)
@@ -1109,11 +1119,11 @@ void key_callback(GLFWwindow* window,
                 theCharacter->rigidBody->rotateY(ROTANGLE);
                 if (SHIFT_Pressed)
                 {
-                    theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 10.0f));
+                    theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
                 }
                 else
                 {
-                    theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.0f));
+                    theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
                 }
             }
             if (key == GLFW_KEY_D && action == GLFW_REPEAT)
@@ -1121,11 +1131,11 @@ void key_callback(GLFWwindow* window,
                 theCharacter->rigidBody->rotateY(-ROTANGLE);
                 if (SHIFT_Pressed)
                 {
-                    theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 10.0f));
+                    theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
                 }
                 else
                 {
-                    theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.0f));
+                    theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
                 }
             }
             if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
@@ -1141,12 +1151,12 @@ void key_callback(GLFWwindow* window,
             if (key == GLFW_KEY_A && action == GLFW_REPEAT)
             {
                 theCharacter->rigidBody->rotateY(-ROTANGLE);
-                theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -3.0f));
+                theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
             }
             if (key == GLFW_KEY_D && action == GLFW_REPEAT)
             {
                 theCharacter->rigidBody->rotateY(ROTANGLE);
-                theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -3.0f));
+                theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
             }
         }
         else

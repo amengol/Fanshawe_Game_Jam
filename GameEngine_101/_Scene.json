@@ -24,7 +24,7 @@
 "Camera" :
 [
 	{
-		"CameraPosition" : [14.3833, 8.0, 22.3505],
+		"CameraPosition" : [3.4, 4.0, 6.8],
 		"CameraOrientationX" : -15.0,
 		"CameraOrientationY" : 35.0,
 		"CameraOrientationZ" : 0.0
@@ -113,7 +113,7 @@
 #		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
 		"position" : [1.5, 0.0, 0.0], 
 		"rotateY" : 45.0,
-		"scale" : 0.025
+		"scale" : 0.01
 	},
 	{ 
 		"meshName" : "ybot",
@@ -141,7 +141,7 @@
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
 		"position" : [-1.5, 0.0, 0.0],
 #		"rotateY" : 45.0,
-		"scale" : 0.025
+		"scale" : 0.01
 	},
 #	{ 
 #		"meshName" : "T-pose",		
