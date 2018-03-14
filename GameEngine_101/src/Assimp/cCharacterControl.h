@@ -21,6 +21,12 @@ public:
     // Moves character forward
     void Forward();
 
+    // Moves character forward left
+    void ForwardLeft();
+
+    // Moves character forward right
+    void ForwardRight();
+
     // Moves character backwords
     void Backwards();
 

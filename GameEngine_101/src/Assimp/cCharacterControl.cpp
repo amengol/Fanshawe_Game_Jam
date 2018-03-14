@@ -2,7 +2,6 @@
 #include "../cGameObject.h"
 #include "cSkinnedMesh.h"
 #include "cAnimationState.h"
-//#include "../globalOpenGL_GLFW.h"
 
 cCharacterControl::cCharacterControl()
 {
@@ -52,11 +51,92 @@ void cCharacterControl::Forward()
 {
     if (mActiveCharacter != NULL)
     {
+        // Rotate the start position
+        glm::vec3 rotatedStartPos =
+            mActiveCharacter->orientation * glm::vec4(mActiveCharacter->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
+        mActiveCharacter->position += rotatedStartPos * mActiveCharacter->scale;
+
+        // Project the root to the ground level
+        mActiveCharacter->position.y = 0.0f;
+
+        // Reorient the character
+        mActiveCharacter->orientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
+
+        // Keep only the rotation in the Y axis
+        mActiveCharacter->orientation[0].y = 0.0f;
+        mActiveCharacter->orientation[1].x = 0.0f;
+        mActiveCharacter->orientation[1].y = 1.0f;
+        mActiveCharacter->orientation[1].z = 0.0f;
+        mActiveCharacter->orientation[2].y = 0.0f;
+
         std::string animationName = mActiveCharacter->animations.walking;
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
 
         mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
-        //mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
+
+        mActiveCharacter->pAniState->activeAnimation.totalTime =
+            mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+    }
+}
+
+void cCharacterControl::ForwardLeft()
+{
+    if (mActiveCharacter != NULL)
+    {
+        // Rotate the start position
+        glm::vec3 rotatedStartPos =
+            mActiveCharacter->orientation * glm::vec4(mActiveCharacter->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
+        mActiveCharacter->position += rotatedStartPos * mActiveCharacter->scale;
+
+        // Project the root to the ground level
+        mActiveCharacter->position.y = 0.0f;
+
+        // Reorient the character
+        mActiveCharacter->orientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
+
+        // Keep only the rotation in the Y axis
+        mActiveCharacter->orientation[0].y = 0.0f;
+        mActiveCharacter->orientation[1].x = 0.0f;
+        mActiveCharacter->orientation[1].y = 1.0f;
+        mActiveCharacter->orientation[1].z = 0.0f;
+        mActiveCharacter->orientation[2].y = 0.0f;
+
+        std::string animationName = mActiveCharacter->animations.walking_arc_left;
+        mActiveCharacter->pAniState->activeAnimation.name = animationName;
+
+        mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+        mActiveCharacter->pAniState->activeAnimation.totalTime =
+            mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+    }
+}
+
+void cCharacterControl::ForwardRight()
+{
+    if (mActiveCharacter != NULL)
+    {
+        // Rotate the start position
+        glm::vec3 rotatedStartPos =
+            mActiveCharacter->orientation * glm::vec4(mActiveCharacter->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
+        mActiveCharacter->position += rotatedStartPos * mActiveCharacter->scale;
+
+        // Project the root to the ground level
+        mActiveCharacter->position.y = 0.0f;
+
+        // Reorient the character
+        mActiveCharacter->orientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
+
+        // Keep only the rotation in the Y axis
+        mActiveCharacter->orientation[0].y = 0.0f;
+        mActiveCharacter->orientation[1].x = 0.0f;
+        mActiveCharacter->orientation[1].y = 1.0f;
+        mActiveCharacter->orientation[1].z = 0.0f;
+        mActiveCharacter->orientation[2].y = 0.0f;
+
+        std::string animationName = mActiveCharacter->animations.walking_arc_right;
+        mActiveCharacter->pAniState->activeAnimation.name = animationName;
+
+        mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
@@ -71,7 +151,6 @@ void cCharacterControl::Backwards()
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
 
         mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
-        //mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
@@ -86,7 +165,6 @@ void cCharacterControl::TurnLeft90()
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
 
         mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
-        //mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
@@ -101,7 +179,6 @@ void cCharacterControl::TurnRight90()
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
 
         mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
-        //mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
@@ -134,7 +211,6 @@ void cCharacterControl::Idle()
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
 
         mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
-        //mActiveCharacter->pAniState->activeAnimation.currentClockTime = glfwGetTime();
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);

@@ -25,6 +25,8 @@
 {"meshName" : "ybot", "type" : 1, "meshFile" : "ybot.fbx"},
 {"animName" : "idle", "type" : 2, "animFile" : "idle.fbx"},
 {"animName" : "walking", "type" : 2, "animFile" : "walking.fbx"},
+{"animName" : "walking_arc_left", "type" : 2, "animFile" : "walking_arc_left.fbx"},
+{"animName" : "walking_arc_right", "type" : 2, "animFile" : "walking_arc_right.fbx"},
 {"animName" : "walking_backwards", "type" : 2, "animFile" : "walking_backwards.fbx"},
 {"animName" : "running", "type" : 2, "animFile" : "running.fbx"},
 {"animName" : "jump", "type" : 2, "animFile" : "jump.fbx"},

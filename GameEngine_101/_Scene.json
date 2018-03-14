@@ -125,6 +125,8 @@
 			"idle" : "idle",
 			"walking" : "walking",
 			"walking_backwards" : "walking_backwards",
+			"walking_arc_left" : "walking_arc_left",
+			"walking_arc_right" : "walking_arc_right",
 			"running": "running",
 			"jump": "jump",
 			"jump_forward" : "jump_forward",

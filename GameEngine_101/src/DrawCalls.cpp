@@ -246,6 +246,27 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
         {
             pTheGO->rotateY(-90.0f);
         }
+        else if (pAniState->activeAnimation.name == "walking_arc_left"
+                 || pAniState->activeAnimation.name == "walking_arc_right")
+        {
+            // Rotate the start position
+            glm::vec3 rotatedStartPos =
+                pTheGO->orientation * glm::vec4(pTheGO->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
+            pTheGO->position += rotatedStartPos * pTheGO->scale;
+
+            // Project the root to the ground level
+            pTheGO->position.y = 0.0f;
+
+            // Reorient the character
+            pTheGO->orientation *= pTheGO->pSimpleSkinnedMesh->mLastHipRotation;
+
+            // Keep only the rotation in the Y axis
+            pTheGO->orientation[0].y = 0.0f;
+            pTheGO->orientation[1].x = 0.0f;
+            pTheGO->orientation[1].y = 1.0f;
+            pTheGO->orientation[1].z = 0.0f;
+            pTheGO->orientation[2].y = 0.0f;
+        }
         else
         {
             // Rotate the start position
