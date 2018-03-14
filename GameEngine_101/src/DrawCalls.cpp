@@ -248,6 +248,17 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
         }
         //=================================================================
 
+        // Jump only once!
+        if (pAniState->activeAnimation.name == "jump")
+        {
+            pAniState->activeAnimation.name = "idle";
+        }
+
+        // Jump only once!
+        if (pAniState->activeAnimation.name == "jump_forward")
+        {
+            pAniState->activeAnimation.name = "running";
+        }
     }
 
     animationToPlay = pAniState->activeAnimation.name;

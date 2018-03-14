@@ -16,6 +16,7 @@ extern float g_FOV;
 const float ROTANGLE = 1.0f;
 const float CAMSPEED = 1.0f;
 static bool W_Pressed = false;
+static bool S_Pressed = false;
 static bool SHIFT_Pressed = false;
 
 
@@ -36,8 +37,8 @@ void key_callback(GLFWwindow* window,
     if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 
-    if(key == GLFW_KEY_SPACE)
-        return;
+    //if(key == GLFW_KEY_SPACE)
+    //    return;
 
     if(key == GLFW_KEY_0 && action == GLFW_PRESS)
         ::g_pCamera->releaseGameObject();
@@ -1070,6 +1071,15 @@ void key_callback(GLFWwindow* window,
                     g_characterControl.Forward();
                 W_Pressed = true;
             }
+
+            if (key == GLFW_KEY_S)
+            {
+                //if (SHIFT_Pressed)
+                //    g_characterControl.ForwardRun();
+                //else
+                g_characterControl.Backwards();
+                S_Pressed = true;
+            }
         }
 
         if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE)
@@ -1085,15 +1095,59 @@ void key_callback(GLFWwindow* window,
             W_Pressed = false;
             SHIFT_Pressed = false;
         }
+
+        if (key == GLFW_KEY_S && action == GLFW_RELEASE)
+        {
+            g_characterControl.Idle();
+            S_Pressed = false;
+        }
         
         if (W_Pressed)
         {
             if (key == GLFW_KEY_A && action == GLFW_REPEAT)
-                //g_characterControl.ForwardLeft();
-                theCharacter->rotateY(ROTANGLE);
+            {
+                theCharacter->rigidBody->rotateY(ROTANGLE);
+                if (SHIFT_Pressed)
+                {
+                    theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 10.0f));
+                }
+                else
+                {
+                    theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.0f));
+                }
+            }
             if (key == GLFW_KEY_D && action == GLFW_REPEAT)
-                //g_characterControl.ForwardRight();
-                theCharacter->rotateY(-ROTANGLE);
+            {
+                theCharacter->rigidBody->rotateY(-ROTANGLE);
+                if (SHIFT_Pressed)
+                {
+                    theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 10.0f));
+                }
+                else
+                {
+                    theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.0f));
+                }
+            }
+            if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+            {
+                if (SHIFT_Pressed)
+                {
+                    g_characterControl.ForwardJump();
+                }
+            }
+        }
+        else if (S_Pressed)
+        {
+            if (key == GLFW_KEY_A && action == GLFW_REPEAT)
+            {
+                theCharacter->rigidBody->rotateY(-ROTANGLE);
+                theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -3.0f));
+            }
+            if (key == GLFW_KEY_D && action == GLFW_REPEAT)
+            {
+                theCharacter->rigidBody->rotateY(ROTANGLE);
+                theCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -3.0f));
+            }
         }
         else
         {
@@ -1101,6 +1155,8 @@ void key_callback(GLFWwindow* window,
                 g_characterControl.TurnLeft90();
             if (key == GLFW_KEY_D && action == GLFW_PRESS)
                 g_characterControl.TurnRight90();
+            if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+                g_characterControl.Jump();
             if (key == GLFW_KEY_A && action == GLFW_RELEASE)
                 g_characterControl.Idle();
             if (key == GLFW_KEY_D && action == GLFW_RELEASE)

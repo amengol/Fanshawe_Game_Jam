@@ -33,6 +33,12 @@ public:
     // Turns character right 90 degrees
     void TurnRight90();
 
+    // Jumps in place
+    void Jump();
+
+    // Jumps forward
+    void ForwardJump();
+
     // Reverts back to idle;
     void Idle();
 
