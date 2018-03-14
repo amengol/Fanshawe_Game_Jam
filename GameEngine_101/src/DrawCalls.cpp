@@ -246,37 +246,6 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
         {
             pTheGO->rigidBody->rotateY(-90.0f);
         }
-        else if (pAniState->activeAnimation.name == "walking_arc_left"
-                 || pAniState->activeAnimation.name == "walking_arc_right")
-        {
-            // Rotate the start position
-            glm::vec3 rotatedStartPos =
-                pTheGO->orientation * glm::vec4(pTheGO->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
-            pTheGO->position += rotatedStartPos * pTheGO->scale;
-
-            // Project the root to the ground level
-            pTheGO->position.y = 0.0f;
-
-            // Reorient the character
-            pTheGO->orientation *= pTheGO->pSimpleSkinnedMesh->mLastHipRotation;
-
-            // Keep only the rotation in the Y axis
-            pTheGO->orientation[0].y = 0.0f;
-            pTheGO->orientation[1].x = 0.0f;
-            pTheGO->orientation[1].y = 1.0f;
-            pTheGO->orientation[1].z = 0.0f;
-            pTheGO->orientation[2].y = 0.0f;
-        }
-        else
-        {
-            //// Rotate the start position
-            //glm::vec3 rotatedStartPos =
-            //    pTheGO->orientation * glm::vec4(pTheGO->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
-            //pTheGO->position += rotatedStartPos * pTheGO->scale;
-
-            //// Project the root to the ground level
-            //pTheGO->position.y = 0.0f;
-        }
         //=================================================================
 
     }
@@ -311,38 +280,6 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
     glUniformMatrix4fv(UniformLoc_bonesArray, numberOfBonesUsed, GL_FALSE,
         (const GLfloat*)glm::value_ptr(*pBoneMatrixArray));
 
-
-    //	//glUniform1i( UniformLoc_bIsASkinnedMesh, FALSE );
-    //	// Draw all the bones
-    //	for ( unsigned int boneIndex = 0; boneIndex != numberOfBonesUsed; boneIndex++ )
-    //	{
-    //		glm::mat4 boneLocal = vecObjectBoneTransformation[boneIndex];
-    //
-    //		cPhysicalProperties phyProps;
-    //		pTheGO->GetPhysState( phyProps );
-    //
-    //		float scale = pTheGO->vecMeshes;
-    //		boneLocal = glm::scale( boneLocal, glm::vec3(scale, scale, scale) );
-    //
-    //		cPhysicalProperties phyProps;
-    //		pTheGO->GetPhysState( phyProps );
-    //		glm::vec4 GameObjectlocation = glm::vec4( phyProps.position, 1.0f );
-    //
-    //		glm::vec4 boneBallLocation = boneLocal * GameObjectlocation;
-    //		//glm::vec4 boneBallLocation = boneLocal * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f );
-    //		boneBallLocation *= scale;
-    //		//boneBallLocation += glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
-    //			
-    //		DrawDebugBall( glm::vec3(boneBallLocation), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), 0.2f );
-    //
-    //		if ( boneIndex == 35 )
-    //		{
-    //			DrawDebugBall( glm::vec3(boneBallLocation), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), 0.5f );
-    //		}
-    //	}
-
-
-    //****************************************************************************************
     return;
 }
 

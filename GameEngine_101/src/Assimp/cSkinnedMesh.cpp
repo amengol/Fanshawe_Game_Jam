@@ -318,6 +318,13 @@ void cSkinnedMesh::ReadNodeHierarchy(float AnimationTime,
 
             // Store the last hip rotation too (used in the cCharacterControl)
             mLastHipRotation = RotationM;
+
+            // Keep only the rotation in the Y axis
+            mLastHipRotation[0].y = 0.0f;
+            mLastHipRotation[1].x = 0.0f;
+            mLastHipRotation[1].y = 1.0f;
+            mLastHipRotation[1].z = 0.0f;
+            mLastHipRotation[2].y = 0.0f;
         }
 		
 		// Combine the above transformations

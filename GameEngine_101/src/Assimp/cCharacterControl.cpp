@@ -56,13 +56,6 @@ void cCharacterControl::Forward()
         mActiveCharacter->rigidBody->GetMatOrientation(matOrientation);
         matOrientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
 
-        // Keep only the rotation in the Y axis
-        matOrientation[0].y = 0.0f;
-        matOrientation[1].x = 0.0f;
-        matOrientation[1].y = 1.0f;
-        matOrientation[1].z = 0.0f;
-        matOrientation[2].y = 0.0f;
-
         mActiveCharacter->rigidBody->SetMatOrientation(matOrientation);
 
         std::string animationName = mActiveCharacter->animations.walking;
@@ -145,13 +138,6 @@ void cCharacterControl::Idle()
         glm::mat4 matOrientation;
         mActiveCharacter->rigidBody->GetMatOrientation(matOrientation);
         matOrientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
-
-        // Keep only the rotation in the Y axis
-        matOrientation[0].y = 0.0f;
-        matOrientation[1].x = 0.0f;
-        matOrientation[1].y = 1.0f;
-        matOrientation[1].z = 0.0f;
-        matOrientation[2].y = 0.0f;
 
         mActiveCharacter->rigidBody->SetMatOrientation(matOrientation);
 
