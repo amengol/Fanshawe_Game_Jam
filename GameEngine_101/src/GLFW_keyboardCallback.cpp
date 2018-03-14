@@ -16,6 +16,7 @@ extern float g_FOV;
 const float ROTANGLE = 1.0f;
 const float CAMSPEED = 1.0f;
 static bool W_Pressed = false;
+static bool SHIFT_Pressed = false;
 
 
 #include <iostream>
@@ -1052,39 +1053,59 @@ void key_callback(GLFWwindow* window,
         if (theCharacter == NULL)
             return;
 
-        //if (action == GLFW_PRESS)
-        //{
-        //    if (key == GLFW_KEY_W)
-        //    {
-        //        g_characterControl.Forward();
-        //        W_Pressed = true;
-        //    }
-        //}
+        if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
+        {
+            SHIFT_Pressed = true;
+            if (W_Pressed)
+                g_characterControl.ForwardRun();
+        }
 
-        //if (key == GLFW_KEY_W && action == GLFW_RELEASE)
-        //{
-        //    g_characterControl.Idle();
-        //    W_Pressed = false;
-        //}
-        //
-        //if (W_Pressed)
-        //{
-        //    if (key == GLFW_KEY_A && action == GLFW_PRESS)
-        //        g_characterControl.ForwardLeft();
-        //    if (key == GLFW_KEY_D && action == GLFW_PRESS)
-        //        g_characterControl.ForwardRight();
-        //}
-        //else
-        //{
-        //    if (key == GLFW_KEY_A && action == GLFW_PRESS)
-        //        g_characterControl.TurnLeft90();
-        //    if (key == GLFW_KEY_D && action == GLFW_PRESS)
-        //        g_characterControl.TurnRight90();
-        //    if (key == GLFW_KEY_A && action == GLFW_RELEASE)
-        //        g_characterControl.Idle();
-        //    if (key == GLFW_KEY_D && action == GLFW_RELEASE)
-        //        g_characterControl.Idle();
-        //}
+        if (action == GLFW_PRESS)
+        {
+            if (key == GLFW_KEY_W)
+            {
+                //if (SHIFT_Pressed)
+                //    g_characterControl.ForwardRun();
+                //else
+                    g_characterControl.Forward();
+                W_Pressed = true;
+            }
+        }
+
+        if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE)
+        {
+            SHIFT_Pressed = false;
+            if (W_Pressed)
+                g_characterControl.Forward();
+        }
+
+        if (key == GLFW_KEY_W && action == GLFW_RELEASE)
+        {
+            g_characterControl.Idle();
+            W_Pressed = false;
+            SHIFT_Pressed = false;
+        }
+        
+        if (W_Pressed)
+        {
+            if (key == GLFW_KEY_A && action == GLFW_REPEAT)
+                //g_characterControl.ForwardLeft();
+                theCharacter->rotateY(ROTANGLE);
+            if (key == GLFW_KEY_D && action == GLFW_REPEAT)
+                //g_characterControl.ForwardRight();
+                theCharacter->rotateY(-ROTANGLE);
+        }
+        else
+        {
+            if (key == GLFW_KEY_A && action == GLFW_PRESS)
+                g_characterControl.TurnLeft90();
+            if (key == GLFW_KEY_D && action == GLFW_PRESS)
+                g_characterControl.TurnRight90();
+            if (key == GLFW_KEY_A && action == GLFW_RELEASE)
+                g_characterControl.Idle();
+            if (key == GLFW_KEY_D && action == GLFW_RELEASE)
+                g_characterControl.Idle();
+        }
 
         
         
@@ -1101,18 +1122,18 @@ void key_callback(GLFWwindow* window,
         
         switch (key)
         {
-        case GLFW_KEY_W:       
-        {
-            W_Pressed = true;
-            if (action == GLFW_PRESS)
-                g_characterControl.Forward();
-            if (action == GLFW_RELEASE)
-            {
-                g_characterControl.Idle();
-                W_Pressed = false;
-            }
-        }
-        break;
+        //case GLFW_KEY_W:       
+        //{
+        //    W_Pressed = true;
+        //    if (action == GLFW_PRESS)
+        //        g_characterControl.Forward();
+        //    if (action == GLFW_RELEASE)
+        //    {
+        //        g_characterControl.Idle();
+        //        W_Pressed = false;
+        //    }
+        //}
+        //break;
         case GLFW_KEY_S:
         {        
             if (action == GLFW_PRESS)
@@ -1121,42 +1142,42 @@ void key_callback(GLFWwindow* window,
                 g_characterControl.Idle();
         }
             break;
-        case GLFW_KEY_A:
-        {
-            if (W_Pressed)
-            {
-                if (action == GLFW_PRESS)
-                    g_characterControl.ForwardLeft();
-                if (action == GLFW_RELEASE)
-                    g_characterControl.Forward();
-            }
-            else
-            {
-                if (action == GLFW_PRESS)
-                    g_characterControl.TurnLeft90();
-                if (action == GLFW_RELEASE)
-                    g_characterControl.Idle();
-            }            
-        }
-            break;
-        case GLFW_KEY_D:
-        {
-            if (W_Pressed)
-            {
-                if (action == GLFW_PRESS)
-                    g_characterControl.ForwardRight();
-                if (action == GLFW_RELEASE)
-                    g_characterControl.Forward();
-            }
-            else
-            {
-                if (action == GLFW_PRESS)
-                    g_characterControl.TurnRight90();
-                if (action == GLFW_RELEASE)
-                    g_characterControl.Idle();
-            }
-        }
-            break;
+        //case GLFW_KEY_A:
+        //{
+        //    if (W_Pressed)
+        //    {
+        //        if (action == GLFW_PRESS)
+        //            g_characterControl.ForwardLeft();
+        //        if (action == GLFW_RELEASE)
+        //            g_characterControl.Forward();
+        //    }
+        //    else
+        //    {
+        //        if (action == GLFW_PRESS)
+        //            g_characterControl.TurnLeft90();
+        //        if (action == GLFW_RELEASE)
+        //            g_characterControl.Idle();
+        //    }            
+        //}
+        //    break;
+        //case GLFW_KEY_D:
+        //{
+        //    if (W_Pressed)
+        //    {
+        //        if (action == GLFW_PRESS)
+        //            g_characterControl.ForwardRight();
+        //        if (action == GLFW_RELEASE)
+        //            g_characterControl.Forward();
+        //    }
+        //    else
+        //    {
+        //        if (action == GLFW_PRESS)
+        //            g_characterControl.TurnRight90();
+        //        if (action == GLFW_RELEASE)
+        //            g_characterControl.Idle();
+        //    }
+        //}
+        //    break;
         case GLFW_KEY_Q:
         {
             if (action == GLFW_PRESS)

@@ -21,6 +21,9 @@ public:
     // Moves character forward
     void Forward();
 
+    // Runs forward
+    void ForwardRun();
+
     // Moves character forward left
     void ForwardLeft();
 
