@@ -13,6 +13,11 @@ extern cPhysics_Switcher g_physicsSwitcher;
 extern cTransparencyManager* g_pTranspManager;
 extern float g_FOV;
 
+const float ROTANGLE = 1.0f;
+const float CAMSPEED = 1.0f;
+static bool W_Pressed = false;
+
+
 #include <iostream>
 
 bool isShiftKeyDown( int mods, bool bByItself = true );
@@ -318,8 +323,6 @@ void key_callback(GLFWwindow* window,
     case MANUAL:
     {                
         // Camera movements
-        const float ROTANGLE = 1.0f;
-        const float CAMSPEED = 1.0f;
         switch(key)
         {
         case GLFW_KEY_W:       // Move camera forward along local Z axis 
@@ -398,8 +401,6 @@ void key_callback(GLFWwindow* window,
     case CONTROL_CAMERA:
     {
         // Camera movements
-        const float ROTANGLE = 1.0f;
-        const float CAMSPEED = 1.0f;
         switch(key)
         {
         case GLFW_KEY_W:       // Increase speed
@@ -632,8 +633,6 @@ void key_callback(GLFWwindow* window,
     case CONTROL_CAMERA_LOCK:
     {
             // Camera movements
-            const float ROTANGLE = 1.0f;
-            const float CAMSPEED = 1.0f;
             switch (key)
             {
             case GLFW_KEY_W:       // Increase speed
@@ -866,8 +865,6 @@ void key_callback(GLFWwindow* window,
     case FOLLOW_CAMERA:
     {
         // Camera movements
-        const float ROTANGLE = 1.0f;
-        const float CAMSPEED = 1.0f;
         switch (key)
         {
         case GLFW_KEY_W:       // Increase speed
@@ -954,9 +951,7 @@ void key_callback(GLFWwindow* window,
 
     case STADIUM_CAMERA:
     {
-        // Camera movements
-        const float ROTANGLE = 1.0f;
-        const float CAMSPEED = 1.0f;
+        // Camera movements        
         switch (key)
         {
         case GLFW_KEY_W:       // Move camera forward along local Z axis 
@@ -1051,16 +1046,69 @@ void key_callback(GLFWwindow* window,
 
     case CHARACTER_CAMERA:
     {
-        switch (key)
+        // Get the character
+        cGameObject* theCharacter = NULL;
+        theCharacter = g_characterControl.GetActiveCharacter();
+        if (theCharacter == NULL)
+            return;
+
+        if (action == GLFW_PRESS)
         {
-        case GLFW_KEY_W:       
-        {
-            if (action == GLFW_PRESS)
+            if (key == GLFW_KEY_W)
+            {
                 g_characterControl.Forward();
-            if (action == GLFW_RELEASE)
+                W_Pressed = true;
+            }
+        }
+
+        if (key == GLFW_KEY_W && action == GLFW_RELEASE)
+        {
+            g_characterControl.Idle();
+            W_Pressed = false;
+        }
+        
+        if (W_Pressed)
+        {
+            if (key == GLFW_KEY_A && action == GLFW_REPEAT)
+                theCharacter->rotateY(ROTANGLE);
+            if (key == GLFW_KEY_D && action == GLFW_REPEAT)
+                theCharacter->rotateY(-ROTANGLE);
+        }
+        else
+        {
+            if (key == GLFW_KEY_A && action == GLFW_PRESS)
+                g_characterControl.TurnLeft90();
+            if (key == GLFW_KEY_D && action == GLFW_PRESS)
+                g_characterControl.TurnRight90();
+            if (key == GLFW_KEY_A && action == GLFW_RELEASE)
+                g_characterControl.Idle();
+            if (key == GLFW_KEY_D && action == GLFW_RELEASE)
                 g_characterControl.Idle();
         }
-        break;
+
+        
+        
+        //if (key == GLFW_KEY_W && action == GLFW_PRESS)
+        //{
+        //    g_characterControl.Forward();
+        //    
+        //    if (key == GLFW_KEY_A)
+        //        theCharacter->rotateY(90.0f);
+        //}
+        //if (key == GLFW_KEY_W && action == GLFW_RELEASE)
+        //    g_characterControl.Idle();
+        
+        
+        switch (key)
+        {
+        //case GLFW_KEY_W:       
+        //{
+        //    if (action == GLFW_PRESS)
+        //        g_characterControl.Forward();
+        //    if (action == GLFW_RELEASE)
+        //        g_characterControl.Idle();
+        //}
+        //break;
         case GLFW_KEY_S:
         {        
             if (action == GLFW_PRESS)
@@ -1069,21 +1117,21 @@ void key_callback(GLFWwindow* window,
                 g_characterControl.Idle();
         }
             break;
-        case GLFW_KEY_A:
-        {
-            if (action == GLFW_PRESS)
-                g_characterControl.TurnLeft90();
-            if (action == GLFW_RELEASE)
-                g_characterControl.Idle();
-        }
-            break;
-        case GLFW_KEY_D:
-        {
-            if (action == GLFW_PRESS)
-                g_characterControl.TurnRight90();
-            if (action == GLFW_RELEASE)
-                g_characterControl.Idle();
-        }
+        //case GLFW_KEY_A:
+        //{
+        //    if (action == GLFW_PRESS)
+        //        g_characterControl.TurnLeft90();
+        //    if (action == GLFW_RELEASE)
+        //        g_characterControl.Idle();
+        //}
+        //    break;
+        //case GLFW_KEY_D:
+        //{
+        //    if (action == GLFW_PRESS)
+        //        g_characterControl.TurnRight90();
+        //    if (action == GLFW_RELEASE)
+        //        g_characterControl.Idle();
+        //}
             break;
         case GLFW_KEY_Q:
             break;

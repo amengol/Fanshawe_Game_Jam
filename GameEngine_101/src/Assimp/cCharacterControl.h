@@ -15,6 +15,9 @@ public:
     // Adds a character to the Character Control
     bool AddCharacter(cGameObject* GO, std::string& error);
 
+    // Returns the active character
+    inline cGameObject* GetActiveCharacter() { return mActiveCharacter; }
+
     // Moves character forward
     void Forward();
 
