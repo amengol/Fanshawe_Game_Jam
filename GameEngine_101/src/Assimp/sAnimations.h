@@ -7,8 +7,6 @@ struct sAnimations
     std::string idle;
     std::string walking;
     std::string walking_backwards;
-    std::string walking_arc_right;
-    std::string walking_arc_left;
     std::string running;
     std::string jump;
     std::string jump_forward;

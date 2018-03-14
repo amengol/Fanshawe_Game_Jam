@@ -51,23 +51,19 @@ void cCharacterControl::Forward()
 {
     if (mActiveCharacter != NULL)
     {
-        // Rotate the start position
-        glm::vec3 rotatedStartPos =
-            mActiveCharacter->orientation * glm::vec4(mActiveCharacter->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
-        mActiveCharacter->position += rotatedStartPos * mActiveCharacter->scale;
-
-        // Project the root to the ground level
-        mActiveCharacter->position.y = 0.0f;
-
         // Reorient the character
-        mActiveCharacter->orientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
+        glm::mat4 matOrientation;
+        mActiveCharacter->rigidBody->GetMatOrientation(matOrientation);
+        matOrientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
 
         // Keep only the rotation in the Y axis
-        mActiveCharacter->orientation[0].y = 0.0f;
-        mActiveCharacter->orientation[1].x = 0.0f;
-        mActiveCharacter->orientation[1].y = 1.0f;
-        mActiveCharacter->orientation[1].z = 0.0f;
-        mActiveCharacter->orientation[2].y = 0.0f;
+        matOrientation[0].y = 0.0f;
+        matOrientation[1].x = 0.0f;
+        matOrientation[1].y = 1.0f;
+        matOrientation[1].z = 0.0f;
+        matOrientation[2].y = 0.0f;
+
+        mActiveCharacter->rigidBody->SetMatOrientation(matOrientation);
 
         std::string animationName = mActiveCharacter->animations.walking;
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
@@ -76,6 +72,8 @@ void cCharacterControl::Forward()
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+        mActiveCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.0f));
     }
 }
 
@@ -83,24 +81,6 @@ void cCharacterControl::ForwardRun()
 {
     if (mActiveCharacter != NULL)
     {
-        // Rotate the start position
-        glm::vec3 rotatedStartPos =
-            mActiveCharacter->orientation * glm::vec4(mActiveCharacter->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
-        mActiveCharacter->position += rotatedStartPos * mActiveCharacter->scale;
-
-        // Project the root to the ground level
-        mActiveCharacter->position.y = 0.0f;
-
-        // Reorient the character
-        mActiveCharacter->orientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
-
-        // Keep only the rotation in the Y axis
-        mActiveCharacter->orientation[0].y = 0.0f;
-        mActiveCharacter->orientation[1].x = 0.0f;
-        mActiveCharacter->orientation[1].y = 1.0f;
-        mActiveCharacter->orientation[1].z = 0.0f;
-        mActiveCharacter->orientation[2].y = 0.0f;
-
         std::string animationName = mActiveCharacter->animations.running;
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
 
@@ -108,70 +88,8 @@ void cCharacterControl::ForwardRun()
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
-    }
-}
 
-void cCharacterControl::ForwardLeft()
-{
-    if (mActiveCharacter != NULL)
-    {
-        // Rotate the start position
-        glm::vec3 rotatedStartPos =
-            mActiveCharacter->orientation * glm::vec4(mActiveCharacter->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
-        mActiveCharacter->position += rotatedStartPos * mActiveCharacter->scale;
-
-        // Project the root to the ground level
-        mActiveCharacter->position.y = 0.0f;
-
-        // Reorient the character
-        mActiveCharacter->orientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
-
-        // Keep only the rotation in the Y axis
-        mActiveCharacter->orientation[0].y = 0.0f;
-        mActiveCharacter->orientation[1].x = 0.0f;
-        mActiveCharacter->orientation[1].y = 1.0f;
-        mActiveCharacter->orientation[1].z = 0.0f;
-        mActiveCharacter->orientation[2].y = 0.0f;
-
-        std::string animationName = mActiveCharacter->animations.walking_arc_left;
-        mActiveCharacter->pAniState->activeAnimation.name = animationName;
-
-        mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
-
-        mActiveCharacter->pAniState->activeAnimation.totalTime =
-            mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
-    }
-}
-
-void cCharacterControl::ForwardRight()
-{
-    if (mActiveCharacter != NULL)
-    {
-        // Rotate the start position
-        glm::vec3 rotatedStartPos =
-            mActiveCharacter->orientation * glm::vec4(mActiveCharacter->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
-        mActiveCharacter->position += rotatedStartPos * mActiveCharacter->scale;
-
-        // Project the root to the ground level
-        mActiveCharacter->position.y = 0.0f;
-
-        // Reorient the character
-        mActiveCharacter->orientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
-
-        // Keep only the rotation in the Y axis
-        mActiveCharacter->orientation[0].y = 0.0f;
-        mActiveCharacter->orientation[1].x = 0.0f;
-        mActiveCharacter->orientation[1].y = 1.0f;
-        mActiveCharacter->orientation[1].z = 0.0f;
-        mActiveCharacter->orientation[2].y = 0.0f;
-
-        std::string animationName = mActiveCharacter->animations.walking_arc_right;
-        mActiveCharacter->pAniState->activeAnimation.name = animationName;
-
-        mActiveCharacter->pAniState->activeAnimation.currentTime = 0.0f;
-
-        mActiveCharacter->pAniState->activeAnimation.totalTime =
-            mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+        mActiveCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 10.0f));
     }
 }
 
@@ -186,6 +104,8 @@ void cCharacterControl::Backwards()
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+        mActiveCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -3.0f));
     }
 }
 
@@ -221,23 +141,19 @@ void cCharacterControl::Idle()
 {
     if (mActiveCharacter != NULL)
     {
-        // Rotate the start position
-        glm::vec3 rotatedStartPos =
-            mActiveCharacter->orientation * glm::vec4(mActiveCharacter->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
-        mActiveCharacter->position += rotatedStartPos * mActiveCharacter->scale;
-
-        // Project the root to the ground level
-        mActiveCharacter->position.y = 0.0f;
-
         // Reorient the character
-        mActiveCharacter->orientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
+        glm::mat4 matOrientation;
+        mActiveCharacter->rigidBody->GetMatOrientation(matOrientation);
+        matOrientation *= mActiveCharacter->pSimpleSkinnedMesh->mLastHipRotation;
 
         // Keep only the rotation in the Y axis
-        mActiveCharacter->orientation[0].y = 0.0f;
-        mActiveCharacter->orientation[1].x = 0.0f;
-        mActiveCharacter->orientation[1].y = 1.0f;
-        mActiveCharacter->orientation[1].z = 0.0f;
-        mActiveCharacter->orientation[2].y = 0.0f;
+        matOrientation[0].y = 0.0f;
+        matOrientation[1].x = 0.0f;
+        matOrientation[1].y = 1.0f;
+        matOrientation[1].z = 0.0f;
+        matOrientation[2].y = 0.0f;
+
+        mActiveCharacter->rigidBody->SetMatOrientation(matOrientation);
 
         std::string animationName = mActiveCharacter->animations.idle;
         mActiveCharacter->pAniState->activeAnimation.name = animationName;
@@ -246,5 +162,7 @@ void cCharacterControl::Idle()
 
         mActiveCharacter->pAniState->activeAnimation.totalTime =
             mActiveCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+        mActiveCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
     }
 }

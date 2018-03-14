@@ -232,19 +232,19 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
         // TURN & POSITION CONTROL ========================================
         if (pAniState->activeAnimation.name == "left_turn")
         {
-            pTheGO->rotateY(180.0f);
+            pTheGO->rigidBody->rotateY(180.0f);
         }
         else if (pAniState->activeAnimation.name == "right_turn")
         {
-            pTheGO->rotateY(180.0f);
+            pTheGO->rigidBody->rotateY(180.0f);
         }
         else if (pAniState->activeAnimation.name == "left_turn_90")
         {
-            pTheGO->rotateY(90.0f);
+            pTheGO->rigidBody->rotateY(90.0f);
         }
         else if (pAniState->activeAnimation.name == "right_turn_90")
         {
-            pTheGO->rotateY(-90.0f);
+            pTheGO->rigidBody->rotateY(-90.0f);
         }
         else if (pAniState->activeAnimation.name == "walking_arc_left"
                  || pAniState->activeAnimation.name == "walking_arc_right")
@@ -269,13 +269,13 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
         }
         else
         {
-            // Rotate the start position
-            glm::vec3 rotatedStartPos =
-                pTheGO->orientation * glm::vec4(pTheGO->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
-            pTheGO->position += rotatedStartPos * pTheGO->scale;
+            //// Rotate the start position
+            //glm::vec3 rotatedStartPos =
+            //    pTheGO->orientation * glm::vec4(pTheGO->pSimpleSkinnedMesh->mLastHipPosition, 0.0f);
+            //pTheGO->position += rotatedStartPos * pTheGO->scale;
 
-            // Project the root to the ground level
-            pTheGO->position.y = 0.0f;
+            //// Project the root to the ground level
+            //pTheGO->position.y = 0.0f;
         }
         //=================================================================
 

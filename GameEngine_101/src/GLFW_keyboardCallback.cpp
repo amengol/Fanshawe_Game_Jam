@@ -1178,22 +1178,6 @@ void key_callback(GLFWwindow* window,
         //    }
         //}
         //    break;
-        case GLFW_KEY_Q:
-        {
-            if (action == GLFW_PRESS)
-                g_characterControl.ForwardLeft();
-            if (action == GLFW_RELEASE)
-                g_characterControl.Idle();
-        }
-            break;
-        case GLFW_KEY_E:
-        {
-            if (action == GLFW_PRESS)
-                g_characterControl.ForwardRight();
-            if (action == GLFW_RELEASE)
-                g_characterControl.Idle();
-        }
-            break;
         case GLFW_KEY_LEFT:
             break;
         case GLFW_KEY_RIGHT:

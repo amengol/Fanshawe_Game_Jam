@@ -566,6 +566,12 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             break;
         case SKINNED_MESH:
         {
+            nPhysics::iShape* shape = g_pPhysicsFactory->CreateCube(1.0f);
+            nPhysics::sRigidBodyDesc desc;
+            desc.Position = position;
+            nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, shape);
+            theGO->rigidBody = rb;
+
             // This assigns the game object to the particular skinned mesh type 
             theGO->pSimpleSkinnedMesh = ::g_animationCollection.getSkinnedMeshes(meshName);
 
@@ -682,38 +688,6 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     {
                         error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
                             " is not properly formated for its \"animationList\", \"walking_backwards\" member!";
-                        return false;
-                    }
-                }
-
-                if ((gameObject[jsIndex]["animationList"].HasMember("walking_arc_left")))
-                {
-                    if (((gameObject[jsIndex]["animationList"]["walking_arc_left"].IsString())))
-                    {
-                        theGO->animations.walking_arc_left =
-                            gameObject[jsIndex]["animationList"]["walking_arc_left"].GetString();
-                        isCharacter = true;
-                    }
-                    else
-                    {
-                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                            " is not properly formated for its \"animationList\", \"walking_arc_left\" member!";
-                        return false;
-                    }
-                }
-
-                if ((gameObject[jsIndex]["animationList"].HasMember("walking_arc_right")))
-                {
-                    if (((gameObject[jsIndex]["animationList"]["walking_arc_right"].IsString())))
-                    {
-                        theGO->animations.walking_arc_right =
-                            gameObject[jsIndex]["animationList"]["walking_arc_right"].GetString();
-                        isCharacter = true;
-                    }
-                    else
-                    {
-                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                            " is not properly formated for its \"animationList\", \"walking_arc_right\" member!";
                         return false;
                     }
                 }
