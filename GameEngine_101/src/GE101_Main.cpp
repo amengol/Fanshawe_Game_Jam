@@ -417,6 +417,8 @@ int main()
         //g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
         //=====================================================================
 
+        NPCManager.Evaluate();
+
         float ratio;
         int width, height;        
         glfwGetFramebufferSize(window, &width, &height);

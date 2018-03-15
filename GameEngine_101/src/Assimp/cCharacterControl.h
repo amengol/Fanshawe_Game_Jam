@@ -10,6 +10,22 @@ class cCharacterControl
 public:
     cCharacterControl();
 
+    enum ActiveState
+    {
+        IDLE,
+        FORWARD
+    };
+
+    struct sCharacterDetails
+    {
+        sCharacterDetails()
+            : mActiveState(IDLE)
+        { }
+
+        ActiveState mActiveState;
+        cGameObject* GO;
+    };
+    
     // Sets the controlled Character
     bool SetControlledCharacter(std::string friendlyName, std::string& error);
 
@@ -17,7 +33,7 @@ public:
     bool AddCharacter(cGameObject* GO, std::string& error);
 
     // Returns the active character
-    inline cGameObject* GetActiveCharacter() { return mActiveCharacter; }
+    inline cGameObject* GetActiveCharacter() { return mActiveCharacter->GO; }
 
     // Returns all NPCs (non active characters)
     std::vector<cGameObject*> GetNPCs();
@@ -47,8 +63,8 @@ public:
     void Idle();
 
 private:
-    cGameObject* mActiveCharacter;                              // The controlled character
+    cCharacterControl::sCharacterDetails* mActiveCharacter;                              // The controlled character
     std::string mActiveCharacterName;                           // Stores the name of the active character
-    std::map<std::string, cGameObject*> mMapNameToCharacters;   // Maps friendly names to characters
+    std::map<std::string, cCharacterControl::sCharacterDetails> mMapNameToCharacters;   // Maps friendly names to characters
 };
 
