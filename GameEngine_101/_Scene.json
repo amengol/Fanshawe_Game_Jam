@@ -144,7 +144,7 @@
 	},
 	{ 
 		"meshName" : "ybot",
-		"friendlyName" : "Angry",		
+		"friendlyName" : "NPC01",		
 		"typeOfObject" : 7,
 		"defaultAnimation" : "idle",
 		"animationList": 
@@ -172,7 +172,7 @@
 	},
 	{ 
 		"meshName" : "ybot",
-		"friendlyName" : "Curious",		
+		"friendlyName" : "NPC02",		
 		"typeOfObject" : 7,
 		"defaultAnimation" : "idle",
 		"animationList": 

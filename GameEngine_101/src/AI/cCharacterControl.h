@@ -78,11 +78,13 @@ public:
     inline eAnimationState GetAnimationState() { return mAnimState; }
 
 private:
-    float health;                // The health of the character
-    cGameObject* mCharacter;     // The controlled character
-    eCharacterState mCharState;  // The state of the character
-    eAnimationState mAnimState;  // The animation state of the character
+    float mHealth;              // The health of the character
+    float mSystemTime;          // To control "interrupted" animations     
+    cGameObject* mCharacter;    // The controlled character
+    eCharacterState mCharState; // The state of the character
+    eAnimationState mAnimState; // The animation state of the character
     
-
+    // Update orientation on interrupted rotations
+    void UpdateInterruptedRotations();
 };
 
