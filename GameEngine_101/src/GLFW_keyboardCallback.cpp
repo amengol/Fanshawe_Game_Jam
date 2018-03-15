@@ -1169,9 +1169,9 @@ void key_callback(GLFWwindow* window,
         else
         {
             if (key == GLFW_KEY_A && action == GLFW_PRESS)
-                pCharacterControl->TurnLeft180();
+                pCharacterControl->TurnLeft90();
             if (key == GLFW_KEY_D && action == GLFW_PRESS)
-                pCharacterControl->TurnRight180();
+                pCharacterControl->TurnRight90();
             if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
                 pCharacterControl->Jump();
             if (key == GLFW_KEY_A && action == GLFW_RELEASE)
