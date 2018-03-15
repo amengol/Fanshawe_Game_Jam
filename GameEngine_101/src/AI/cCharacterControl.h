@@ -1,6 +1,5 @@
 #pragma once
 #include <map>
-#include "..\Assimp\sAnimations.h"
 #include <vector>
 
 class cGameObject;
@@ -10,33 +9,11 @@ class cCharacterControl
 public:
     cCharacterControl();
 
-    enum ActiveState
-    {
-        IDLE,
-        FORWARD
-    };
+    // Sets the Character's GameObject
+    inline void SetCharacter(cGameObject* GO) { mCharacter = GO; }
 
-    struct sCharacterDetails
-    {
-        sCharacterDetails()
-            : mActiveState(IDLE)
-        { }
-
-        ActiveState mActiveState;
-        cGameObject* GO;
-    };
-    
-    // Sets the controlled Character
-    bool SetControlledCharacter(std::string friendlyName, std::string& error);
-
-    // Adds a character to the Character Control
-    bool AddCharacter(cGameObject* GO, std::string& error);
-
-    // Returns the active character
-    inline cGameObject* GetActiveCharacter() { return mActiveCharacter->GO; }
-
-    // Returns all NPCs (non active characters)
-    std::vector<cGameObject*> GetNPCs();
+    // Returns the Character's GameObject
+    inline cGameObject* GetCharacter() { return mCharacter; }
 
     // Moves character forward
     void Forward();
@@ -63,8 +40,6 @@ public:
     void Idle();
 
 private:
-    cCharacterControl::sCharacterDetails* mActiveCharacter;                              // The controlled character
-    std::string mActiveCharacterName;                           // Stores the name of the active character
-    std::map<std::string, cCharacterControl::sCharacterDetails> mMapNameToCharacters;   // Maps friendly names to characters
+    cGameObject* mCharacter;    // The controlled character
 };
 

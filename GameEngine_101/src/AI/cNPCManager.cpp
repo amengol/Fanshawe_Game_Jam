@@ -1,5 +1,4 @@
 #include "cNPCManager.h"
-#include "../globalGameStuff.h"
 
 
 cNPCManager::cNPCManager()

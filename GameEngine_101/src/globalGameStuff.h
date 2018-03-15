@@ -27,8 +27,7 @@
 #include "cTransparencyManager.h"
 #include "cTextManager.h"
 //#include "cLocalization.h"
-#include "AI\cCharacterControl.h"
-
+#include "AI\cCharacterManager.h"
 
 
 // Finds a GameObject by a friendly name. Returns 0 or NULL if not found
@@ -52,7 +51,7 @@ extern cDebugRenderer* g_pDebugRenderer;	            // (GE101_Main.cpp)
 extern cShaderManager* g_pShaderManager;	            // (GE101_Main.cpp)
 extern CTextureManager*	g_pTextureManager;	            // (GE101_Main.cpp)
 extern cPhysics_Switcher g_physicsSwitcher;             // (GE101_Main.cpp)
-extern cCharacterControl g_characterControl;            // (cSceneLoader.cpp)
+extern cCharacterManager g_characterManager;            // (cSceneLoader.cpp)
 extern cSimpleDebugRenderer* g_pSimpleDebug;            // (GE101_Main.cpp)
 extern cTransparencyManager* g_pTranspManager;          // (GE101_Main.cpp)
 extern cModelAssetLoader* g_pModelAssetLoader;	        // (ModelUtilities.cpp)

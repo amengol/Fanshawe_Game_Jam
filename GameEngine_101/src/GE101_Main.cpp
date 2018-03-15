@@ -394,15 +394,15 @@ int main()
     // ------------------------------------------------------------------------
 
     // Sets the default Game Character
-    if (!g_characterControl.SetControlledCharacter("Hero", error))
+    if (!g_characterManager.SetControlledCharacter("Hero", error))
     {
         std::cout << "The Game Character was not found!\n";
     }
 
     // Set NPC Manager
     cNPCManager NPCManager;
-    NPCManager.SetPlayer(g_characterControl.GetActiveCharacter());
-    NPCManager.SetNPCs(g_characterControl.GetNPCs());
+    NPCManager.SetPlayer(g_characterManager.GetActiveCharacter());
+    NPCManager.SetNPCs(g_characterManager.GetNPCs());
 
     glEnable(GL_DEPTH);
 

@@ -227,6 +227,9 @@
     <ClCompile Include="src\AI\cCharacterControl.cpp">
       <Filter>AI</Filter>
     </ClCompile>
+    <ClCompile Include="src\AI\cCharacterManager.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utilities.h">
@@ -374,6 +377,9 @@
       <Filter>AI</Filter>
     </ClInclude>
     <ClInclude Include="src\AI\cCharacterControl.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AI\cCharacterManager.h">
       <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>

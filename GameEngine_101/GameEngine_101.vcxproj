@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AI\cCharacterControl.cpp" />
+    <ClCompile Include="src\AI\cCharacterManager.cpp" />
     <ClCompile Include="src\AI\cNPCManager.cpp" />
     <ClCompile Include="src\AI\cSimpleAi_Manager.cpp" />
     <ClCompile Include="src\Assimp\animHelper.cpp" />
@@ -206,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AI\cCharacterControl.h" />
+    <ClInclude Include="src\AI\cCharacterManager.h" />
     <ClInclude Include="src\AI\cNPCManager.h" />
     <ClInclude Include="src\AI\cSimpleAi_Manager.h" />
     <ClInclude Include="src\Assimp\animHelper.h" />
