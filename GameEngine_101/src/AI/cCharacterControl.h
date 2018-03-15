@@ -9,6 +9,17 @@ class cCharacterControl
 public:
     cCharacterControl();
 
+    enum CharacterState
+    {
+        FOLLOWER,
+        CURIOUS_APPROACH,
+        CURIOUS_EVADE,
+        CURIOUS_OTHER,
+        ANGRY_PURSUIT,
+        ANGRY_EVADE,
+        ANGRY_OTHER
+    };
+
     // Sets the Character's GameObject
     inline void SetCharacter(cGameObject* GO) { mCharacter = GO; }
 
@@ -46,7 +57,9 @@ public:
     void Idle();
 
 private:
+    float health;               // The health of the character
     cGameObject* mCharacter;    // The controlled character
+    CharacterState mCharState;  // The state of the character
 
     enum AnimationState
     {
@@ -61,8 +74,7 @@ private:
         TURN_RIGHT_180,
         JUMP,
         JUMP_FORWARD
-    };
+    } mAnimState;
 
-    AnimationState mState;
 };
 

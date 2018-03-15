@@ -6,7 +6,9 @@
 cCharacterControl::cCharacterControl()
 {
     mCharacter = NULL;
-    mState = IDLE;
+    mAnimState = IDLE;
+    mCharState = FOLLOWER;
+    health = 1.0f;
 }
 
 void cCharacterControl::Forward()
@@ -14,7 +16,7 @@ void cCharacterControl::Forward()
 
     if (mCharacter != NULL)
     {
-        if (mState != WALKING)
+        if (mAnimState != WALKING)
         {
             // Don't cut the jump
             if (mCharacter->pAniState->activeAnimation.name != mCharacter->animations.jump_forward)
@@ -30,7 +32,7 @@ void cCharacterControl::Forward()
 
                 mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
 
-                mState = WALKING;
+                mAnimState = WALKING;
             }
         }
     }
@@ -40,7 +42,7 @@ void cCharacterControl::ForwardRun()
 {
     if (mCharacter != NULL)
     {
-        if (mState != RUN_FORWARD && mState != JUMP_FORWARD)
+        if (mAnimState != RUN_FORWARD && mAnimState != JUMP_FORWARD)
         {
             std::string animationName = mCharacter->animations.running;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -52,7 +54,7 @@ void cCharacterControl::ForwardRun()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
 
-            mState = RUN_FORWARD;
+            mAnimState = RUN_FORWARD;
         }
     }
 }
@@ -182,7 +184,7 @@ void cCharacterControl::Idle()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-            mState = IDLE;
+            mAnimState = IDLE;
         }
     }
 }
