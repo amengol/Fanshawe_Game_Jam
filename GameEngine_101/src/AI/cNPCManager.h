@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm\gtx\quaternion.hpp>
 
 class cCharacterControl;
 
@@ -16,10 +18,13 @@ public:
     void SetNPCs(std::vector<cCharacterControl*> vecCH) { mNPCs = vecCH; }
 
     // Evaluate the scene
-    void Evaluate();
+    void Evaluate(double deltaTime);
+
+    // Returns a rotation quaternion between two vectors
+    glm::quat RotationBetweenVectors(glm::vec3 start, glm::vec3 dest);
 
 private:
-    cCharacterControl * mPlayer;
+    cCharacterControl* mPlayer;
     std::vector<cCharacterControl*> mNPCs;
 };
 
