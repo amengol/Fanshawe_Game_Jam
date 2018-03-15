@@ -16,15 +16,11 @@ public:
     // Sets the NPCs
     void SetNPCs(std::vector<cGameObject*> vecGO) { mNPCs = vecGO; }
 
-    // Sets the Character Controel
-    void SetCharacterControl(cCharacterControl* cc) { mCharacterControl = cc; }
-
     // Evaluate the scene
     void Evaluate();
 
 private:
     cGameObject* mPlayer;
     std::vector<cGameObject*> mNPCs;
-    cCharacterControl* mCharacterControl;
 };
 

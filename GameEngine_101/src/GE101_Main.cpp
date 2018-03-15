@@ -25,6 +25,7 @@
 #include "cSoundManager.h"
 #include <cCloth.h>
 #include "DrawCalls.h"
+#include "AI\cNPCManager.h"
 //#include "../Cloth.h"
 //
 ////=============================================================================
@@ -397,6 +398,11 @@ int main()
     {
         std::cout << "The Game Character was not found!\n";
     }
+
+    // Set NPC Manager
+    cNPCManager NPCManager;
+    NPCManager.SetPlayer(g_characterControl.GetActiveCharacter());
+    NPCManager.SetNPCs(g_characterControl.GetNPCs());
 
     glEnable(GL_DEPTH);
 

@@ -47,6 +47,23 @@ bool cCharacterControl::AddCharacter(cGameObject* GO, std::string& error)
     return true;
 }
 
+std::vector<cGameObject*> cCharacterControl::GetNPCs()
+{
+    std::vector<cGameObject*> npcs;
+
+    std::map<std::string, cGameObject*>::iterator it = mMapNameToCharacters.begin();
+
+    for (; it != mMapNameToCharacters.end(); it++)
+    {
+        if (it->second != mActiveCharacter)
+        {
+            npcs.push_back(it->second);
+        }
+    }
+
+    return npcs;
+}
+
 void cCharacterControl::Forward()
 {
     if (mActiveCharacter != NULL)

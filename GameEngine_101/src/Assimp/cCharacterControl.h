@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include "sAnimations.h"
+#include <vector>
 
 class cGameObject;
 
@@ -17,6 +18,9 @@ public:
 
     // Returns the active character
     inline cGameObject* GetActiveCharacter() { return mActiveCharacter; }
+
+    // Returns all NPCs (non active characters)
+    std::vector<cGameObject*> GetNPCs();
 
     // Moves character forward
     void Forward();
