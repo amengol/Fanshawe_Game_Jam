@@ -51,7 +51,16 @@ private:
     enum AnimationState
     {
         IDLE,
-        WALKING
+        WALKING,
+        WALKING_BACKWARDS,
+        RUN,
+        RUN_FORWARD,
+        TURN_LEFT_90,
+        TURN_RIGHT_90,
+        TURN_LEFT_180,
+        TURN_RIGHT_180,
+        JUMP,
+        JUMP_FORWARD
     };
 
     AnimationState mState;

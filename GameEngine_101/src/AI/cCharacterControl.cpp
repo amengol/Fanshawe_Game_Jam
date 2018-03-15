@@ -39,8 +39,8 @@ void cCharacterControl::Forward()
 void cCharacterControl::ForwardRun()
 {
     if (mCharacter != NULL)
-    {// Don't cut the jump
-        if (mCharacter->pAniState->activeAnimation.name != mCharacter->animations.jump_forward)
+    {
+        if (mState != RUN_FORWARD && mState != JUMP_FORWARD)
         {
             std::string animationName = mCharacter->animations.running;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -51,6 +51,8 @@ void cCharacterControl::ForwardRun()
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
+
+            mState = RUN_FORWARD;
         }
     }
 }
