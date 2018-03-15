@@ -9,7 +9,7 @@ class cCharacterControl
 public:
     cCharacterControl();
 
-    enum CharacterState
+    enum eCharacterState
     {
         FOLLOWER,
         CURIOUS_APPROACH,
@@ -18,6 +18,21 @@ public:
         ANGRY_PURSUIT,
         ANGRY_EVADE,
         ANGRY_OTHER
+    };
+
+    enum eAnimationState
+    {
+        IDLE,
+        WALKING,
+        WALKING_BACKWARDS,
+        RUN,
+        RUN_FORWARD,
+        TURN_LEFT_90,
+        TURN_RIGHT_90,
+        TURN_LEFT_180,
+        TURN_RIGHT_180,
+        JUMP,
+        JUMP_FORWARD
     };
 
     // Sets the Character's GameObject
@@ -56,25 +71,18 @@ public:
     // Reverts back to idle;
     void Idle();
 
-private:
-    float health;               // The health of the character
-    cGameObject* mCharacter;    // The controlled character
-    CharacterState mCharState;  // The state of the character
+    // Returns the Character State
+    inline eCharacterState GetCharacterState() { return mCharState; }
 
-    enum AnimationState
-    {
-        IDLE,
-        WALKING,
-        WALKING_BACKWARDS,
-        RUN,
-        RUN_FORWARD,
-        TURN_LEFT_90,
-        TURN_RIGHT_90,
-        TURN_LEFT_180,
-        TURN_RIGHT_180,
-        JUMP,
-        JUMP_FORWARD
-    } mAnimState;
+    // Returns the Character's Animation State
+    inline eAnimationState GetAnimationState() { return mAnimState; }
+
+private:
+    float health;                // The health of the character
+    cGameObject* mCharacter;     // The controlled character
+    eCharacterState mCharState;  // The state of the character
+    eAnimationState mAnimState;  // The animation state of the character
+    
 
 };
 

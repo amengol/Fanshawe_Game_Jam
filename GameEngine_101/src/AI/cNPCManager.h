@@ -24,7 +24,13 @@ public:
     glm::quat RotationBetweenVectors(glm::vec3 start, glm::vec3 dest);
 
 private:
-    cCharacterControl* mPlayer;
-    std::vector<cCharacterControl*> mNPCs;
+    float mInterestRadius;                  // The interest radius
+    float mStopDistance;                    // The distance where the player should stop
+    float mThreshold;                       // Distance to avoid staggering
+    cCharacterControl* mPlayer;             // The player
+    std::vector<cCharacterControl*> mNPCs;  // The NPCs
+
+    // Solve the NPC for Fowller
+    void SolveForFollower(cCharacterControl*, double deltaTime);
 };
 
