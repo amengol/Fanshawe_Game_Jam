@@ -30,6 +30,12 @@ public:
     // Turns character right 90 degrees
     void TurnRight90();
 
+    // Turns character left 180 degrees
+    void TurnLeft180();
+
+    // Turns character right 180 degrees
+    void TurnRight180();
+
     // Jumps in place
     void Jump();
 
@@ -41,5 +47,13 @@ public:
 
 private:
     cGameObject* mCharacter;    // The controlled character
+
+    enum AnimationState
+    {
+        IDLE,
+        WALKING
+    };
+
+    AnimationState mState;
 };
 

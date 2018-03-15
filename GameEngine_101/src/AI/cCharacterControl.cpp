@@ -6,6 +6,7 @@
 cCharacterControl::cCharacterControl()
 {
     mCharacter = NULL;
+    mState = IDLE;
 }
 
 void cCharacterControl::Forward()
@@ -13,25 +14,24 @@ void cCharacterControl::Forward()
 
     if (mCharacter != NULL)
     {
-        // Don't cut the jump
-        if (mCharacter->pAniState->activeAnimation.name != mCharacter->animations.jump_forward)
+        if (mState != WALKING)
         {
-            // Reorient the character
-            glm::mat4 matOrientation;
-            mCharacter->rigidBody->GetMatOrientation(matOrientation);
-            matOrientation *= mCharacter->pSimpleSkinnedMesh->mLastHipRotation;
+            // Don't cut the jump
+            if (mCharacter->pAniState->activeAnimation.name != mCharacter->animations.jump_forward)
+            {
 
-            mCharacter->rigidBody->SetMatOrientation(matOrientation);
+                std::string animationName = mCharacter->animations.walking;
+                mCharacter->pAniState->activeAnimation.name = animationName;
 
-            std::string animationName = mCharacter->animations.walking;
-            mCharacter->pAniState->activeAnimation.name = animationName;
+                mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
 
-            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+                mCharacter->pAniState->activeAnimation.totalTime =
+                    mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->pAniState->activeAnimation.totalTime =
-                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+                mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
+                mState = WALKING;
+            }
         }
     }
 }
@@ -99,6 +99,34 @@ void cCharacterControl::TurnRight90()
     }
 }
 
+void cCharacterControl::TurnLeft180()
+{
+    if (mCharacter != NULL)
+    {
+        std::string animationName = mCharacter->animations.left_turn;
+        mCharacter->pAniState->activeAnimation.name = animationName;
+
+        mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+        mCharacter->pAniState->activeAnimation.totalTime =
+            mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+    }
+}
+
+void cCharacterControl::TurnRight180()
+{
+    if (mCharacter != NULL)
+    {
+        std::string animationName = mCharacter->animations.right_turn;
+        mCharacter->pAniState->activeAnimation.name = animationName;
+
+        mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+        mCharacter->pAniState->activeAnimation.totalTime =
+            mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+    }
+}
+
 void cCharacterControl::Jump()
 {
     if (mCharacter != NULL)
@@ -141,12 +169,6 @@ void cCharacterControl::Idle()
         // Don't cut the jump
         if (mCharacter->pAniState->activeAnimation.name != mCharacter->animations.jump_forward)
         {
-            // Reorient the character
-            glm::mat4 matOrientation;
-            mCharacter->rigidBody->GetMatOrientation(matOrientation);
-            matOrientation *= mCharacter->pSimpleSkinnedMesh->mLastHipRotation;
-
-            mCharacter->rigidBody->SetMatOrientation(matOrientation);
 
             std::string animationName = mCharacter->animations.idle;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -157,6 +179,8 @@ void cCharacterControl::Idle()
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+
+            mState = IDLE;
         }
     }
 }
