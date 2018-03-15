@@ -170,17 +170,44 @@ void cGameObject::DebugUpdate(double deltaTime)
 
  void cGameObject::rotateX(float degreesX)
  {
-     this->orientation = glm::rotate(this->orientation, glm::radians(degreesX), glm::vec3(1.0f, 0.0f, 0.0f));
+     if (this->rigidBody != NULL)
+     {
+         this->rigidBody->rotateX(degreesX);
+         // Just in case
+         this->orientation = glm::rotate(this->orientation, glm::radians(degreesX), glm::vec3(1.0f, 0.0f, 0.0f));
+     }
+     else
+     {
+         this->orientation = glm::rotate(this->orientation, glm::radians(degreesX), glm::vec3(1.0f, 0.0f, 0.0f));
+     }
  }
 
  void cGameObject::rotateY(float degreesY)
  {
-     this->orientation = glm::rotate(this->orientation, glm::radians(degreesY), glm::vec3(0.0f, 1.0f, 0.0f));
+     if (this->rigidBody != NULL)
+     {
+         this->rigidBody->rotateY(degreesY);
+         // Just in case
+         this->orientation = glm::rotate(this->orientation, glm::radians(degreesY), glm::vec3(0.0f, 1.0f, 0.0f));
+     }
+     else
+     {
+         this->orientation = glm::rotate(this->orientation, glm::radians(degreesY), glm::vec3(0.0f, 1.0f, 0.0f));
+     }
  }
 
  void cGameObject::rotateZ(float degreesZ)
  {
-     this->orientation = glm::rotate(this->orientation, glm::radians(degreesZ), glm::vec3(0.0f, 0.0f, 1.0f));
+     if (this->rigidBody != NULL)
+     {
+         this->rigidBody->rotateZ(degreesZ);
+         // Just in case
+         this->orientation = glm::rotate(this->orientation, glm::radians(degreesZ), glm::vec3(0.0f, 0.0f, 1.0f));
+     }
+     else
+     {
+         this->orientation = glm::rotate(this->orientation, glm::radians(degreesZ), glm::vec3(0.0f, 0.0f, 1.0f));
+     }
  }
 
  bool cGameObject::initSoundObject(std::string name)
