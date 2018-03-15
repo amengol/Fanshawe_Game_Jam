@@ -230,34 +230,36 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
     if (pAniState->activeAnimation.IncrementTime(deltaTime))
     {
         // TURN & POSITION CONTROL ========================================
-        if (pAniState->activeAnimation.name == "left_turn")
+        if (pAniState->activeAnimation.name == pTheGO->animations.left_turn)
         {
             pTheGO->rigidBody->rotateY(180.0f);
         }
-        else if (pAniState->activeAnimation.name == "right_turn")
+        else if (pAniState->activeAnimation.name == pTheGO->animations.right_turn)
         {
             pTheGO->rigidBody->rotateY(180.0f);
         }
-        else if (pAniState->activeAnimation.name == "left_turn_90")
+        else if (pAniState->activeAnimation.name == pTheGO->animations.left_turn_90)
         {
             pTheGO->rigidBody->rotateY(90.0f);
         }
-        else if (pAniState->activeAnimation.name == "right_turn_90")
+        else if (pAniState->activeAnimation.name == pTheGO->animations.right_turn_90)
         {
             pTheGO->rigidBody->rotateY(-90.0f);
         }
         //=================================================================
 
         // Jump only once!
-        if (pAniState->activeAnimation.name == "jump")
+        if (pAniState->activeAnimation.name == pTheGO->animations.jump)
         {
-            pAniState->activeAnimation.name = "idle";
+            pAniState->activeAnimation.name = pTheGO->animations.idle;
         }
 
         // Jump only once!
-        if (pAniState->activeAnimation.name == "jump_forward")
+        if (pAniState->activeAnimation.name == pTheGO->animations.jump_forward)
         {
-            pAniState->activeAnimation.name = "running";
+            pAniState->activeAnimation.name = pTheGO->animations.running;
+            pAniState->activeAnimation.totalTime =
+                pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.running);
         }
     }
 
