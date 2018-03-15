@@ -24,7 +24,7 @@
 "Camera" :
 [
 	{
-		"CameraPosition" : [3.4, 4.0, 6.8],
+		"CameraPosition" : [10, 8, 15],
 		"CameraOrientationX" : -15.0,
 		"CameraOrientationY" : 35.0,
 		"CameraOrientationZ" : 0.0
@@ -103,18 +103,18 @@
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],	
 		"scale" : 100000.0
 	},
-	{ 
-		"meshName" : "T-pose",		
-		"typeOfObject" : 7,
-		"defaultAnimation" : "01_Walk_Cycle",
-		"textureBlend[0]" : 1.0,
-		"textureNames[0]" : "Marshaller_Male_color.bmp",
-#		"hasMaterialColour" : true,
-#		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
-		"position" : [1.5, 0.0, 0.0], 
-		"rotateY" : 45.0,
-		"scale" : 0.01
-	},
+#	{ 
+#		"meshName" : "T-pose",		
+#		"typeOfObject" : 7,
+#		"defaultAnimation" : "01_Walk_Cycle",
+#		"textureBlend[0]" : 1.0,
+#		"textureNames[0]" : "Marshaller_Male_color.bmp",
+##		"hasMaterialColour" : true,
+##		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
+#		"position" : [1.5, 0.0, 0.0], 
+#		"rotateY" : 45.0,
+#		"scale" : 0.01
+#	},
 	{ 
 		"meshName" : "ybot",
 		"friendlyName" : "Hero",		
@@ -137,10 +137,65 @@
 			"right_turn" : "right_turn",
 			"right_turn_90" : "right_turn_90"
 		},
-		"hasMaterialColour" : true,
-		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
+		"textureNames[0]" : "Pure.bmp",
 		"position" : [-1.5, 0.0, 0.0],
 #		"rotateY" : 45.0,
+		"scale" : 0.01
+	},
+	{ 
+		"meshName" : "ybot",
+		"friendlyName" : "Angry",		
+		"typeOfObject" : 7,
+		"defaultAnimation" : "idle",
+		"animationList": 
+		{
+			"idle" : "idle",
+			"walking" : "walking",
+			"walking_backwards" : "walking_backwards",
+			"running": "running",
+			"jump": "jump",
+			"jump_forward" : "jump_forward",
+			"left_strafe" : "left_strafe",
+			"left_strafe_walking" : "left_strafe_walking",
+			"left_turn" : "left_turn",
+			"left_turn_90" : "left_turn_90",
+			"right_strafe" : "right_strafe",
+			"right_strafe_walking" : "right_strafe_walking",
+			"right_turn" : "right_turn",
+			"right_turn_90" : "right_turn_90"
+		},
+		"hasMaterialColour" : true,
+		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
+		"position" : [-1.5, 0.0, 5.0],
+		"rotateY" : 45.0,
+		"scale" : 0.01
+	},
+	{ 
+		"meshName" : "ybot",
+		"friendlyName" : "Curious",		
+		"typeOfObject" : 7,
+		"defaultAnimation" : "idle",
+		"animationList": 
+		{
+			"idle" : "idle",
+			"walking" : "walking",
+			"walking_backwards" : "walking_backwards",
+			"running": "running",
+			"jump": "jump",
+			"jump_forward" : "jump_forward",
+			"left_strafe" : "left_strafe",
+			"left_strafe_walking" : "left_strafe_walking",
+			"left_turn" : "left_turn",
+			"left_turn_90" : "left_turn_90",
+			"right_strafe" : "right_strafe",
+			"right_strafe_walking" : "right_strafe_walking",
+			"right_turn" : "right_turn",
+			"right_turn_90" : "right_turn_90"
+		},
+		"hasMaterialColour" : true,
+		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
+		"position" : [-3.5, 0.0, -7.0],
+		"rotateY" : 45.0,
 		"scale" : 0.01
 	},
 #	{ 
@@ -175,43 +230,43 @@
 		"typeOfObject" : 1,
 		"hasMaterialColour" : true,
 		"bIsWireFrame" : true
-	},
-	{ 
-		"meshName" : "Wooden_Elements",
-		"friendlyName" : "Wooden_Elements",
-		"typeOfObject" : 1,
-		"radius" : 0.0,
-		"textureNames[0]" : "Wood.bmp",
-		"cullFace" : false		
-	},
-	{ 
-		"meshName" : "Concrete_Elements",
-		"friendlyName" : "Concrete_Elements",
-		"typeOfObject" : 1,
-		"textureNames[0]" : "Concrete.bmp"
-	},
-	{
-		"meshName" : "Steel",
-		"friendlyName" : "Steel",
-		"typeOfObject" : 1,
-		"textureNames[0]" : "Steel.bmp"
-	},
-	{
-		"meshName" : "Basket_Square",
-		"friendlyName" : "Basket_Square",
-		"typeOfObject" : 1,
-		"textureNames[0]" : "Basket_Square.bmp"
-	},
-	{
-		"meshName" : "Fence",
-		"friendlyName" : "Fence",
-		"typeOfObject" : 1,
-		"textureNames[0]" : "Steel.bmp",
-		"textureNames[1]" : "fence_alpha.bmp",
-		"cullFace" : false,
-		"hasAlpha" : true,
-		"useDiscardAlpha" : true
 	}
+#	{ 
+#		"meshName" : "Wooden_Elements",
+#		"friendlyName" : "Wooden_Elements",
+#		"typeOfObject" : 1,
+#		"radius" : 0.0,
+#		"textureNames[0]" : "Wood.bmp",
+#		"cullFace" : false		
+#	},
+#	{ 
+#		"meshName" : "Concrete_Elements",
+#		"friendlyName" : "Concrete_Elements",
+#		"typeOfObject" : 1,
+#		"textureNames[0]" : "Concrete.bmp"
+#	},
+#	{
+#		"meshName" : "Steel",
+#		"friendlyName" : "Steel",
+#		"typeOfObject" : 1,
+#		"textureNames[0]" : "Steel.bmp"
+#	},
+#	{
+#		"meshName" : "Basket_Square",
+#		"friendlyName" : "Basket_Square",
+#		"typeOfObject" : 1,
+#		"textureNames[0]" : "Basket_Square.bmp"
+#	},
+#	{
+#		"meshName" : "Fence",
+#		"friendlyName" : "Fence",
+#		"typeOfObject" : 1,
+#		"textureNames[0]" : "Steel.bmp",
+#		"textureNames[1]" : "fence_alpha.bmp",
+#		"cullFace" : false,
+#		"hasAlpha" : true,
+#		"useDiscardAlpha" : true
+#	}
 #	{
 #		"meshName" : "Basketball",
 #		"friendlyName" : "Basketball04",
@@ -305,7 +360,8 @@
 # "position" : [332.0, 267.0, 810.0],
 # "diffuse" : [1.0, 1.0, 1.0],
 	{
-		"position" : [332.0, 267.0, 810.0],
+		"position" : [62.0, 230.0, 90.0],
+#		"position" : [332.0, 267.0, 810.0],
 		"diffuse" : [1.0, 1.0, 1.0],
 		"costantAttenuation" :1.0,
 		"linearAttenuation" :0.0,

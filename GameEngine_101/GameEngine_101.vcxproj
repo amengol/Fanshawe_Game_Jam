@@ -153,6 +153,7 @@
     <None Include="assets\shaders\newVert.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AI\cNPCManager.cpp" />
     <ClCompile Include="src\AI\cSimpleAi_Manager.cpp" />
     <ClCompile Include="src\Assimp\animHelper.cpp" />
     <ClCompile Include="src\Assimp\cAnimationCollection.cpp" />
@@ -204,6 +205,7 @@
     <ClCompile Include="src\Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AI\cNPCManager.h" />
     <ClInclude Include="src\AI\cSimpleAi_Manager.h" />
     <ClInclude Include="src\Assimp\animHelper.h" />
     <ClInclude Include="src\Assimp\cAnimationCollection.h" />
