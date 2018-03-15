@@ -1271,9 +1271,224 @@ void key_callback(GLFWwindow* window,
     }
     break;
 
+    case STADIUM_CHARACTER_CONTROL:
+    {
+        // Get the character
+        cCharacterControl* pCharacterControl = NULL;
+        pCharacterControl = g_characterManager.GetActiveCharacter();
+        if (pCharacterControl == NULL)
+            return;
+
+        cGameObject* pCharacter = NULL;
+        pCharacter = pCharacterControl->GetCharacter();
+
+        if (pCharacter == NULL)
+            return;
+
+        if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
+        {
+            SHIFT_Pressed = true;
+            if (W_Pressed)
+                pCharacterControl->ForwardRun();
+        }
+
+        if (action == GLFW_PRESS)
+        {
+            if (key == GLFW_KEY_W)
+            {
+                //if (SHIFT_Pressed)
+                //    pCharacterControl->ForwardRun();
+                //else
+                pCharacterControl->Forward();
+                W_Pressed = true;
+            }
+
+            if (key == GLFW_KEY_S)
+            {
+                //if (SHIFT_Pressed)
+                //    pCharacterControl->ForwardRun();
+                //else
+                pCharacterControl->Backwards();
+                S_Pressed = true;
+            }
+        }
+
+        if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE)
+        {
+            SHIFT_Pressed = false;
+            if (W_Pressed)
+                pCharacterControl->Forward();
+        }
+
+        if (key == GLFW_KEY_W && action == GLFW_RELEASE)
+        {
+            pCharacterControl->Idle();
+            W_Pressed = false;
+            SHIFT_Pressed = false;
+        }
+
+        if (key == GLFW_KEY_S && action == GLFW_RELEASE)
+        {
+            pCharacterControl->Idle();
+            S_Pressed = false;
+        }
+
+        if (W_Pressed)
+        {
+            if (key == GLFW_KEY_A && action == GLFW_REPEAT)
+            {
+                pCharacter->rigidBody->rotateY(ROTANGLE);
+                if (SHIFT_Pressed)
+                {
+                    pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
+                }
+                else
+                {
+                    pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
+                }
+            }
+            if (key == GLFW_KEY_D && action == GLFW_REPEAT)
+            {
+                pCharacter->rigidBody->rotateY(-ROTANGLE);
+                if (SHIFT_Pressed)
+                {
+                    pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
+                }
+                else
+                {
+                    pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
+                }
+            }
+            if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+            {
+                if (SHIFT_Pressed)
+                {
+                    pCharacterControl->ForwardJump();
+                }
+            }
+        }
+        else if (S_Pressed)
+        {
+            if (key == GLFW_KEY_A && action == GLFW_REPEAT)
+            {
+                pCharacter->rigidBody->rotateY(-ROTANGLE);
+                pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
+            }
+            if (key == GLFW_KEY_D && action == GLFW_REPEAT)
+            {
+                pCharacter->rigidBody->rotateY(ROTANGLE);
+                pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
+            }
+        }
+        else
+        {
+            if (key == GLFW_KEY_A && action == GLFW_PRESS)
+                pCharacterControl->TurnLeft180();
+            if (key == GLFW_KEY_D && action == GLFW_PRESS)
+                pCharacterControl->TurnRight180();
+            if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+                pCharacterControl->Jump();
+            if (key == GLFW_KEY_A && action == GLFW_RELEASE)
+                pCharacterControl->Idle();
+            if (key == GLFW_KEY_D && action == GLFW_RELEASE)
+                pCharacterControl->Idle();
+        }
+
+
+
+        //if (key == GLFW_KEY_W && action == GLFW_PRESS)
+        //{
+        //    pCharacterControl->Forward();
+        //    
+        //    if (key == GLFW_KEY_A)
+        //        pCharacter->rotateY(90.0f);
+        //}
+        //if (key == GLFW_KEY_W && action == GLFW_RELEASE)
+        //    pCharacterControl->Idle();
+
+
+        switch (key)
+        {
+            //case GLFW_KEY_W:       
+            //{
+            //    W_Pressed = true;
+            //    if (action == GLFW_PRESS)
+            //        pCharacterControl->Forward();
+            //    if (action == GLFW_RELEASE)
+            //    {
+            //        pCharacterControl->Idle();
+            //        W_Pressed = false;
+            //    }
+            //}
+            //break;
+        case GLFW_KEY_S:
+        {
+            if (action == GLFW_PRESS)
+                pCharacterControl->Backwards();
+            if (action == GLFW_RELEASE)
+                pCharacterControl->Idle();
+        }
+        break;
+        //case GLFW_KEY_A:
+        //{
+        //    if (W_Pressed)
+        //    {
+        //        if (action == GLFW_PRESS)
+        //            pCharacterControl->ForwardLeft();
+        //        if (action == GLFW_RELEASE)
+        //            pCharacterControl->Forward();
+        //    }
+        //    else
+        //    {
+        //        if (action == GLFW_PRESS)
+        //            pCharacterControl->TurnLeft90();
+        //        if (action == GLFW_RELEASE)
+        //            pCharacterControl->Idle();
+        //    }            
+        //}
+        //    break;
+        //case GLFW_KEY_D:
+        //{
+        //    if (W_Pressed)
+        //    {
+        //        if (action == GLFW_PRESS)
+        //            pCharacterControl->ForwardRight();
+        //        if (action == GLFW_RELEASE)
+        //            pCharacterControl->Forward();
+        //    }
+        //    else
+        //    {
+        //        if (action == GLFW_PRESS)
+        //            pCharacterControl->TurnRight90();
+        //        if (action == GLFW_RELEASE)
+        //            pCharacterControl->Idle();
+        //    }
+        //}
+        //    break;
+        case GLFW_KEY_LEFT:
+            break;
+        case GLFW_KEY_RIGHT:
+            break;
+        case GLFW_KEY_UP:
+            break;
+        case GLFW_KEY_DOWN:
+            break;
+        case GLFW_KEY_MINUS:
+            if (g_FOV <= 2.0f)
+                g_FOV += 0.01;
+            break;
+        case GLFW_KEY_EQUAL:
+            if (g_FOV >= 0.1f)
+                g_FOV -= 0.01;
+            break;
+        }// switch ( key ) 
+    }
+    break;
+
     default:
         break;
     }
+
 
     return;
 }
