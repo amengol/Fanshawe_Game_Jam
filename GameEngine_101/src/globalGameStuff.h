@@ -27,7 +27,7 @@
 #include "cTransparencyManager.h"
 #include "cTextManager.h"
 //#include "cLocalization.h"
-#include "Assimp\cCharacterControl.h"
+#include "AI\cCharacterControl.h"
 
 
 

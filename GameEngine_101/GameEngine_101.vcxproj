@@ -153,13 +153,13 @@
     <None Include="assets\shaders\newVert.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AI\cCharacterControl.cpp" />
     <ClCompile Include="src\AI\cNPCManager.cpp" />
     <ClCompile Include="src\AI\cSimpleAi_Manager.cpp" />
     <ClCompile Include="src\Assimp\animHelper.cpp" />
     <ClCompile Include="src\Assimp\cAnimationCollection.cpp" />
     <ClCompile Include="src\Assimp\cAnimationState.cpp" />
     <ClCompile Include="src\Assimp\cAssimpAssetLoader.cpp" />
-    <ClCompile Include="src\Assimp\cCharacterControl.cpp" />
     <ClCompile Include="src\Assimp\cSkinnedMesh.cpp" />
     <ClCompile Include="src\cAABB.cpp" />
     <ClCompile Include="src\cAABBsManager.cpp" />
@@ -205,13 +205,13 @@
     <ClCompile Include="src\Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AI\cCharacterControl.h" />
     <ClInclude Include="src\AI\cNPCManager.h" />
     <ClInclude Include="src\AI\cSimpleAi_Manager.h" />
     <ClInclude Include="src\Assimp\animHelper.h" />
     <ClInclude Include="src\Assimp\cAnimationCollection.h" />
     <ClInclude Include="src\Assimp\cAnimationState.h" />
     <ClInclude Include="src\Assimp\cAssimpAssetLoader.h" />
-    <ClInclude Include="src\Assimp\cCharacterControl.h" />
     <ClInclude Include="src\Assimp\cSkinnedMesh.h" />
     <ClInclude Include="src\Assimp\sAnimations.h" />
     <ClInclude Include="src\cAABB.h" />

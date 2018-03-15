@@ -1,6 +1,6 @@
 #pragma once
 #include <map>
-#include "sAnimations.h"
+#include "..\Assimp\sAnimations.h"
 #include <vector>
 
 class cGameObject;

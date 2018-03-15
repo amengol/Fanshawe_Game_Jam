@@ -1,7 +1,7 @@
 #include "cCharacterControl.h"
-#include "../cGameObject.h"
-#include "cSkinnedMesh.h"
-#include "cAnimationState.h"
+#include "..\cGameObject.h"
+#include "..\Assimp\cSkinnedMesh.h"
+#include "..\Assimp\cAnimationState.h"
 
 cCharacterControl::cCharacterControl()
 {

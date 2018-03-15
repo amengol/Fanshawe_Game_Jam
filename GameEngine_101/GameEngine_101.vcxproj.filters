@@ -221,10 +221,10 @@
     <ClCompile Include="src\DrawCalls.cpp">
       <Filter>Render Related</Filter>
     </ClCompile>
-    <ClCompile Include="src\Assimp\cCharacterControl.cpp">
-      <Filter>Assimp and Animation</Filter>
-    </ClCompile>
     <ClCompile Include="src\AI\cNPCManager.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AI\cCharacterControl.cpp">
       <Filter>AI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -370,10 +370,10 @@
     <ClInclude Include="src\Assimp\sAnimations.h">
       <Filter>Assimp and Animation</Filter>
     </ClInclude>
-    <ClInclude Include="src\Assimp\cCharacterControl.h">
-      <Filter>Assimp and Animation</Filter>
-    </ClInclude>
     <ClInclude Include="src\AI\cNPCManager.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AI\cCharacterControl.h">
       <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>
