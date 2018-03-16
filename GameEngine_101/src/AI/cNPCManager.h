@@ -32,5 +32,8 @@ private:
 
     // Solve the NPC for Fowller
     void SolveForFollower(cCharacterControl*, double deltaTime);
+
+    // Solve the NPC for Curious Approach
+    void SolveForCuriousApproach(cCharacterControl*, double deltaTime);
 };
 

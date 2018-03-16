@@ -14,10 +14,8 @@ public:
         FOLLOWER,
         CURIOUS_APPROACH,
         CURIOUS_EVADE,
-        CURIOUS_OTHER,
         ANGRY_PURSUIT,
-        ANGRY_EVADE,
-        ANGRY_OTHER
+        ANGRY_EVADE
     };
 
     enum eAnimationState
@@ -77,6 +75,9 @@ public:
 
     // Returns the Character State
     inline eCharacterState GetCharacterState() { return mCharState; }
+
+    // Sets the Character State
+    inline void SetCharacterState(eCharacterState cs) { mCharState = cs; }
 
     // Returns the Character's Animation State
     inline eAnimationState GetAnimationState() { return mAnimState; }

@@ -26,16 +26,13 @@ void cNPCManager::Evaluate(double deltaTime)
             SolveForFollower(mNPCs[i], deltaTime);
             break;
         case cCharacterControl::eCharacterState::CURIOUS_APPROACH:
+            SolveForCuriousApproach(mNPCs[i], deltaTime);
             break;
         case cCharacterControl::eCharacterState::CURIOUS_EVADE:
-            break;
-        case cCharacterControl::eCharacterState::CURIOUS_OTHER:
             break;
         case cCharacterControl::eCharacterState::ANGRY_PURSUIT:
             break;
         case cCharacterControl::eCharacterState::ANGRY_EVADE:
-            break;
-        case cCharacterControl::eCharacterState::ANGRY_OTHER:
             break;
         default:
             break;
@@ -107,6 +104,13 @@ void cNPCManager::SolveForFollower(cCharacterControl* npc, double deltaTime)
             npc->Idle();
             npc->GetCharacter()->rigidBody->SetVelocity(glm::vec3(0.0f));
         }
+
+        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::TRICK)
+        {
+            npc->GetCharacter()->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+            npc->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_APPROACH);
+        }
+
         return;
     }
     
@@ -128,10 +132,87 @@ void cNPCManager::SolveForFollower(cCharacterControl* npc, double deltaTime)
 
 
         glm::vec3 steering = desiredVelocity - npcVelocity;
-        steering *= deltaTime * 1.2f; // Speed up the steering a litle bit
+        steering *= deltaTime * 2.0f; // Speed up the steering a litle bit
 
         npcVelocity += steering;
         npcVelocity = glm::normalize(npcVelocity) * 1.5f;
+
+        npc->GetCharacter()->rigidBody->SetVelocity(npcVelocity);
+
+        // Reorient the npc to the velocity vector
+        glm::mat4 npcOrientation;
+        npc->GetCharacter()->rigidBody->GetMatOrientation(npcOrientation);
+        glm::vec3 npcDirection = npcOrientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+        npcDirection.y = 0.0f; // Get rid of any pitch information
+
+        glm::quat qRot = RotationBetweenVectors(npcDirection, npcVelocity);
+        npcOrientation *= glm::toMat4(qRot);
+        npc->GetCharacter()->rigidBody->SetMatOrientation(npcOrientation);
+    }
+}
+
+void cNPCManager::SolveForCuriousApproach(cCharacterControl* npc, double deltaTime)
+{
+    // Evaluate their distance
+    glm::vec3 playerPosition;
+    mPlayer->GetCharacter()->rigidBody->GetPostion(playerPosition);
+    glm::vec3 npcPosition;
+    npc->GetCharacter()->rigidBody->GetPostion(npcPosition);
+
+    float distance = glm::length(playerPosition - npcPosition);
+
+    //// Case when the player is out of the interest radius
+    //if (distance > mInterestRadius && npc->GetAnimationState() != cCharacterControl::eAnimationState::IDLE)
+    //{
+    //    npc->Idle();
+    //    npc->GetCharacter()->rigidBody->SetVelocity(glm::vec3(0.0f));
+    //    return; // Out of the interest radius
+    //}
+    //else if (distance > mInterestRadius && npc->GetAnimationState() == cCharacterControl::eAnimationState::IDLE)
+    //{
+    //    return; // Out of the interest radius
+    //}
+
+    // Case when the player is too close
+    if (distance < mStopDistance)
+    {
+        if (npc->GetAnimationState() != cCharacterControl::eAnimationState::IDLE)
+        {
+            npc->Idle();
+            npc->GetCharacter()->rigidBody->SetVelocity(glm::vec3(0.0f));
+        }
+
+        //if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::TRICK)
+        //{
+        //    npc->GetCharacter()->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+        //    npc->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_APPROACH);
+        //}
+
+        return;
+    }
+
+    // Check for enough space before proceed
+    if (distance < mThreshold + mStopDistance && npc->GetAnimationState() == cCharacterControl::eAnimationState::IDLE)
+    {
+        return; // Give it some space to avoid staggering
+    }
+    else
+    {
+        // All other cases
+
+        npc->ForwardRun();
+
+        glm::vec3 npcVelocity;
+        npc->GetCharacter()->rigidBody->GetVelocity(npcVelocity);
+
+        glm::vec3 desiredVelocity = glm::normalize(playerPosition - npcPosition) * 3.75f;
+
+
+        glm::vec3 steering = desiredVelocity - npcVelocity;
+        steering *= deltaTime * 3.0f; // Speed up the steering a litle bit
+
+        npcVelocity += steering;
+        npcVelocity = glm::normalize(npcVelocity) * 3.75f;
 
         npc->GetCharacter()->rigidBody->SetVelocity(npcVelocity);
 
