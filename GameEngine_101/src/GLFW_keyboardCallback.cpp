@@ -89,7 +89,7 @@ void key_callback(GLFWwindow* window,
     //    }        
     //}
 
-    if(key == GLFW_KEY_1 && action == GLFW_PRESS)
+    if(key == GLFW_KEY_2 && action == GLFW_PRESS)
     {
         // Get the character
         cGameObject* pCharacter = NULL;
@@ -99,7 +99,7 @@ void key_callback(GLFWwindow* window,
         g_pCamera->lockOnCharacter(pCharacter, false);     
     }
 
-    if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS)
     {
         // Get the character
         cGameObject* pCharacter = NULL;
