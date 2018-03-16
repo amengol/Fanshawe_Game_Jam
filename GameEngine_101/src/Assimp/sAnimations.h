@@ -21,4 +21,6 @@ struct sAnimations
     std::string trick;
     std::string violent_trick;
     std::string runaway;
+    std::string right_cross_punch;
+    std::string right_kicking;
 };

@@ -914,6 +914,38 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                 }
 
+                if ((gameObject[jsIndex]["animationList"].HasMember("right_cross_punch")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["right_cross_punch"].IsString())))
+                    {
+                        theGO->animations.right_cross_punch =
+                            gameObject[jsIndex]["animationList"]["right_cross_punch"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"right_cross_punch\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("right_kicking")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["right_kicking"].IsString())))
+                    {
+                        theGO->animations.right_kicking =
+                            gameObject[jsIndex]["animationList"]["right_kicking"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"right_kicking\" member!";
+                        return false;
+                    }
+                }
+
                 // Check for a character
                 if (isCharacter)
                 {

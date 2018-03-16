@@ -33,7 +33,9 @@ public:
         JUMP_FORWARD,
         TRICK,
         VIOLENT_TRICK,
-        RUNAWAY
+        RUNAWAY,
+        RIGHT_CROSS_PUNCH,
+        RIGHT_KICKING
     };
 
     // Sets the Character's GameObject
@@ -80,6 +82,12 @@ public:
 
     // Runaway run
     void Runaway();
+
+    // Right Cross Punch
+    void RightCrossPunch();
+
+    // Right Kicking
+    void RightKicking();
 
     // Returns the Character State
     inline eCharacterState GetCharacterState() { return mCharState; }

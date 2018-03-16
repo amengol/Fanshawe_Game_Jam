@@ -320,6 +320,54 @@ void cCharacterControl::Runaway()
     }
 }
 
+void cCharacterControl::RightCrossPunch()
+{
+    if (mCharacter != NULL)
+    {
+        if (mAnimState != RIGHT_CROSS_PUNCH)
+        {
+            // Update rotations
+            UpdateInterruptedRotations();
+
+            std::string animationName = mCharacter->animations.right_cross_punch;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+
+            mAnimState = RIGHT_CROSS_PUNCH;
+        }
+    }
+}
+
+void cCharacterControl::RightKicking()
+{
+    if (mCharacter != NULL)
+    {
+        if (mAnimState != RIGHT_KICKING)
+        {
+            // Update rotations
+            UpdateInterruptedRotations();
+
+            std::string animationName = mCharacter->animations.right_kicking;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+
+            mAnimState = RIGHT_KICKING;
+        }
+    }
+}
+
 void cCharacterControl::UpdateInterruptedRotations()
 {
     std::string animationName;

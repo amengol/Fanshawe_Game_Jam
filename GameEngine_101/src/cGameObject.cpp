@@ -517,6 +517,38 @@ void cGameObject::DebugUpdate(double deltaTime)
          }
      }
 
+     animationName = animations.right_cross_punch;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+
+     animationName = animations.right_kicking;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+
      animationsInitiated = allIsGood;
      return allIsGood;
  }
