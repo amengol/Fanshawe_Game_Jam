@@ -20,8 +20,42 @@ cNPCManager::~cNPCManager()
 {
 }
 
+float extension = 35.0f;
+
 void cNPCManager::Evaluate(double deltaTime)
 {
+    // Border control for the player===========================================
+    glm::vec3 playerPosition;
+    mPlayer->GetCharacter()->rigidBody->GetPostion(playerPosition);
+    if (playerPosition.x > extension)
+    {
+        playerPosition.x = -extension + 1.0f;
+        mPlayer->GetCharacter()->rigidBody->SetPosition(playerPosition);
+        return;
+    }
+
+    if (playerPosition.x < -extension)
+    {
+        playerPosition.x = extension - 1.0f;
+        mPlayer->GetCharacter()->rigidBody->SetPosition(playerPosition);
+        return;
+    }
+
+    if (playerPosition.z > extension)
+    {
+        playerPosition.z = -extension + 1.0f;
+        mPlayer->GetCharacter()->rigidBody->SetPosition(playerPosition);
+        return;
+    }
+
+    if (playerPosition.z < -extension)
+    {
+        playerPosition.z = extension - 1.0f;
+        mPlayer->GetCharacter()->rigidBody->SetPosition(playerPosition);
+        return;
+    }
+
+
     for (size_t i = 0; i < mNPCs.size(); i++)
     {
         // Shift too close NPCs
@@ -35,6 +69,44 @@ void cNPCManager::Evaluate(double deltaTime)
             mNPCs[i]->GetCharacter()->rigidBody->GetPostion(npcI_Position);
             glm::vec3 npcJ_Position;
             mNPCs[j]->GetCharacter()->rigidBody->GetPostion(npcJ_Position);
+
+            // Border control here to avoid looping again======================
+            if (npcJ_Position.x > extension)
+            {
+                npcJ_Position.x = -extension + 1.0f;
+                mNPCs[j]->GetCharacter()->rigidBody->SetPosition(npcJ_Position);
+                mNPCs[j]->GetCharacter()->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+                mNPCs[j]->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_APPROACH);
+                return;
+            }
+
+            if (npcJ_Position.x < -extension)
+            {
+                npcJ_Position.x = extension - 1.0f;
+                mNPCs[j]->GetCharacter()->rigidBody->SetPosition(npcJ_Position);
+                mNPCs[j]->GetCharacter()->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+                mNPCs[j]->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_APPROACH);
+                return;
+            }
+
+            if (npcJ_Position.z > extension)
+            {
+                npcJ_Position.z = -extension + 1.0f;
+                mNPCs[j]->GetCharacter()->rigidBody->SetPosition(npcJ_Position);
+                mNPCs[j]->GetCharacter()->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+                mNPCs[j]->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_APPROACH);
+                return;
+            }
+
+            if (npcJ_Position.z < -extension)
+            {
+                npcJ_Position.z = extension - 1.0f;
+                mNPCs[j]->GetCharacter()->rigidBody->SetPosition(npcJ_Position);
+                mNPCs[j]->GetCharacter()->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+                mNPCs[j]->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_APPROACH);
+                return;
+            }
+            //=================================================================
 
             float distance = glm::length(npcJ_Position - npcI_Position);
 
@@ -491,6 +563,7 @@ void cNPCManager::SolveForDying(cCharacterControl* npc, double deltaTime)
             npc->SetCharacterState(cCharacterControl::eCharacterState::FOLLOWER);
             npc->GetCharacter()->diffuseColour = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
             npc->Idle();
+            npc->Health100();
             mIsDying = false;
         }
         else

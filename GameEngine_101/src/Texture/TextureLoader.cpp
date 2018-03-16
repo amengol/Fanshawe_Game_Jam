@@ -45,6 +45,16 @@ bool loadTextures()
         std::cout << "Texture is loaded!" << std::endl;
     }
 
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Portal.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
     //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Fanshawe.bmp", true))
     //{
     //    std::cout << "Didn't load the texture. Oh no!" << std::endl;

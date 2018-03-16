@@ -12,6 +12,7 @@
 [
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply"},
 {"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply"},
+{"meshName" : "Border", "meshFile" : "Border.obj"},
 #{"meshName" : "Wooden_Elements", "meshFile" : "Wooden_Elements.obj"},
 #{"meshName" : "Concrete_Elements", "meshFile" : "Concrete_Elements.obj"},
 #{"meshName" : "Steel", "meshFile" : "Steel.obj"},
