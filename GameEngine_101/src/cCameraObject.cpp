@@ -62,7 +62,7 @@ void cCameraObject::lockOnCharacter(cGameObject* GO, bool control)
     if (control)
     {
         this->controlledGameObject = GO;
-        this->cameraMode = CONTROL_CAMERA;
+        this->cameraMode = STADIUM_CHARACTER_CONTROL;
     }
     else
     {
@@ -138,6 +138,26 @@ void cCameraObject::update()
                 this->setCameraTarget(pos);
             }
         }            
+    }
+
+    if (this->cameraMode == STADIUM_CHARACTER_CONTROL)
+    {
+        if (this->controlledGameObject != NULL)
+        {
+            if (this->controlledGameObject->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
+            {
+                glm::vec3 pos(0.0f);
+                this->controlledGameObject->rigidBody->GetPostion(pos);
+                this->setCameraTarget(pos);
+            }
+
+            if (this->controlledGameObject->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
+            {
+                glm::vec3 pos(0.0f);
+                this->controlledGameObject->bt_rigidBody->GetPostion(pos);
+                this->setCameraTarget(pos);
+            }
+        }
     }
 }
 

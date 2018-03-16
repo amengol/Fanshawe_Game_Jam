@@ -99,6 +99,16 @@ void key_callback(GLFWwindow* window,
         g_pCamera->lockOnCharacter(pCharacter, false);     
     }
 
+    if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+    {
+        // Get the character
+        cGameObject* pCharacter = NULL;
+        pCharacter = g_characterManager.GetActiveCharacter()->GetCharacter();
+        if (pCharacter == NULL)
+            return;
+        g_pCamera->lockOnCharacter(pCharacter, true);
+    }
+
     //if (key == GLFW_KEY_1 && action == GLFW_PRESS)
     //{
     //    if (g_lococalization.getState() == MAIN)
