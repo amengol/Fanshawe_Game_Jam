@@ -37,6 +37,7 @@
 {"animName" : "right_strafe_walking", "type" : 2, "animFile" : "right_strafe_walking_in_place.fbx"},
 {"animName" : "right_turn", "type" : 2, "animFile" : "right_turn.fbx"},
 {"animName" : "right_turn_90", "type" : 2, "animFile" : "right_turn_90.fbx"},
-{"animName" : "01_Walk_Cycle", "type" : 2, "animFile" : "01_Walk_Cycle.fbx"}
+{"animName" : "01_Walk_Cycle", "type" : 2, "animFile" : "01_Walk_Cycle.fbx"},
+{"animName" : "trick", "type" : 2, "animFile" : "trick.fbx"}
 ]
 }
