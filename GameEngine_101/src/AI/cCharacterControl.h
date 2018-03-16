@@ -79,7 +79,8 @@ public:
 
 private:
     float mHealth;              // The health of the character
-    float mSystemTime;          // To control "interrupted" animations     
+    float mSysTimeRot;          // To control "interrupted" rotations    
+    float mSysTimeJump;         // To avoid jumping in the air
     cGameObject* mCharacter;    // The controlled character
     eCharacterState mCharState; // The state of the character
     eAnimationState mAnimState; // The animation state of the character

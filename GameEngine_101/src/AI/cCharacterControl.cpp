@@ -10,7 +10,8 @@ cCharacterControl::cCharacterControl()
     mAnimState = IDLE;
     mCharState = FOLLOWER;
     mHealth = 1.0f;
-    mSystemTime = 0.0f;
+    mSysTimeRot = 0.0f;
+    mSysTimeJump = 0.0f;
 }
 
 void cCharacterControl::Forward()
@@ -100,7 +101,7 @@ void cCharacterControl::TurnLeft90()
 
         mAnimState = TURN_LEFT_90;
 
-        mSystemTime = glfwGetTime();
+        mSysTimeRot = glfwGetTime();
     }
 }
 
@@ -120,7 +121,7 @@ void cCharacterControl::TurnRight90()
 
         mAnimState = TURN_RIGHT_90;
 
-        mSystemTime = glfwGetTime();
+        mSysTimeRot = glfwGetTime();
     }
 }
 
@@ -140,7 +141,7 @@ void cCharacterControl::TurnLeft180()
 
         mAnimState = TURN_LEFT_180;
 
-        mSystemTime = glfwGetTime();
+        mSysTimeRot = glfwGetTime();
     }
 }
 
@@ -160,7 +161,7 @@ void cCharacterControl::TurnRight180()
 
         mAnimState = TURN_RIGHT_180;
 
-        mSystemTime = glfwGetTime();
+        mSysTimeRot = glfwGetTime();
     }
 }
 
@@ -168,9 +169,16 @@ void cCharacterControl::Jump()
 {
     if (mCharacter != NULL)
     {// Don't cut the jump
-        if (mAnimState != JUMP)
+        if (mAnimState != JUMP_FORWARD)
         {
+            // Avoid jumping in the air
             std::string animationName = mCharacter->animations.jump;
+            float duration =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+            float deltaTime = glfwGetTime() - mSysTimeJump;
+            if (deltaTime < duration)
+                return;
+
             mCharacter->pAniState->activeAnimation.name = animationName;
 
             mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
@@ -181,6 +189,8 @@ void cCharacterControl::Jump()
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
             mAnimState = JUMP;
+
+            mSysTimeJump = glfwGetTime();
         }
     }
 }
@@ -188,19 +198,25 @@ void cCharacterControl::Jump()
 void cCharacterControl::ForwardJump()
 {
     if (mCharacter != NULL)
-    {// Don't cut the jump
-        if (mAnimState != JUMP_FORWARD)
-        {
-            std::string animationName = mCharacter->animations.jump_forward;
-            mCharacter->pAniState->activeAnimation.name = animationName;
+    {
+        // Avoid jumping in the air
+        std::string animationName = mCharacter->animations.jump_forward;
+        float duration =
+            mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+        float deltaTime = glfwGetTime() - mSysTimeJump;
+        if (deltaTime < duration)
+            return;
 
-            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+        mCharacter->pAniState->activeAnimation.name = animationName;
 
-            mCharacter->pAniState->activeAnimation.totalTime =
-                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+        mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
 
-            mAnimState = JUMP_FORWARD;
-        }
+        mCharacter->pAniState->activeAnimation.totalTime =
+            mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+        mAnimState = JUMP_FORWARD;
+
+        mSysTimeJump = glfwGetTime();
     }
 }
 
@@ -240,7 +256,7 @@ void cCharacterControl::UpdateInterruptedRotations()
         duration =
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        deltaTime = glfwGetTime() - mSystemTime;
+        deltaTime = glfwGetTime() - mSysTimeRot;
 
         ratio = deltaTime / duration;
 
@@ -255,7 +271,7 @@ void cCharacterControl::UpdateInterruptedRotations()
         duration =
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        deltaTime = glfwGetTime() - mSystemTime;
+        deltaTime = glfwGetTime() - mSysTimeRot;
 
         ratio = deltaTime / duration;
 
@@ -270,7 +286,7 @@ void cCharacterControl::UpdateInterruptedRotations()
         duration =
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        deltaTime = glfwGetTime() - mSystemTime;
+        deltaTime = glfwGetTime() - mSysTimeRot;
 
         ratio = deltaTime / duration;
 
@@ -285,7 +301,7 @@ void cCharacterControl::UpdateInterruptedRotations()
         duration =
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        deltaTime = glfwGetTime() - mSystemTime;
+        deltaTime = glfwGetTime() - mSysTimeRot;
 
         ratio = deltaTime / duration;
 
