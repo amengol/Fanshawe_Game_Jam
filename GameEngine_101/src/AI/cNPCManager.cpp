@@ -20,6 +20,35 @@ void cNPCManager::Evaluate(double deltaTime)
 {
     for (size_t i = 0; i < mNPCs.size(); i++)
     {
+        // Shift too close NPCs
+        for (size_t j = 0; j < mNPCs.size(); j++)
+        {
+            if (mNPCs[j] == mNPCs[i])
+                continue;
+
+            // Evaluate their distance
+            glm::vec3 npcI_Position;
+            mNPCs[i]->GetCharacter()->rigidBody->GetPostion(npcI_Position);
+            glm::vec3 npcJ_Position;
+            mNPCs[j]->GetCharacter()->rigidBody->GetPostion(npcJ_Position);
+
+            float distance = glm::length(npcJ_Position - npcI_Position);
+
+            if (distance > 0.5f)
+                continue;
+
+            glm::vec3 shiftDirection = npcJ_Position - npcI_Position;
+            shiftDirection = glm::normalize(shiftDirection);
+
+            if (mNPCs[i]->GetAnimationState() != cCharacterControl::eAnimationState::IDLE)
+                npcI_Position += -(shiftDirection * 0.3f);
+            if (mNPCs[j]->GetAnimationState() != cCharacterControl::eAnimationState::IDLE)
+                npcJ_Position += shiftDirection * 0.3f;
+
+            mNPCs[i]->GetCharacter()->rigidBody->SetPosition(npcI_Position);
+            mNPCs[j]->GetCharacter()->rigidBody->SetPosition(npcJ_Position);
+        }
+
         switch (mNPCs[i]->GetCharacterState())
         {
         case cCharacterControl::eCharacterState::FOLLOWER:
