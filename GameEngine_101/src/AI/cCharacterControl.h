@@ -98,6 +98,12 @@ public:
     // Returns the Character's Animation State
     inline eAnimationState GetAnimationState() { return mAnimState; }
 
+    // Returns the health
+    inline float GetHealth() { return mHealth; }
+
+    // Decrease health
+    void Hurt(float amount);
+
 private:
     float mHealth;              // The health of the character
     float mSysTimeRot;          // To control "interrupted" rotations    

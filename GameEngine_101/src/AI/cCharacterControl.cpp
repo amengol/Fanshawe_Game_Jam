@@ -68,20 +68,23 @@ void cCharacterControl::Backwards()
 {
     if (mCharacter != NULL)
     {
-        // Update rotations
-        UpdateInterruptedRotations();
+        if (mAnimState != WALKING_BACKWARDS)
+        {
+            // Update rotations
+            UpdateInterruptedRotations();
 
-        std::string animationName = mCharacter->animations.walking_backwards;
-        mCharacter->pAniState->activeAnimation.name = animationName;
+            std::string animationName = mCharacter->animations.walking_backwards;
+            mCharacter->pAniState->activeAnimation.name = animationName;
 
-        mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
 
-        mCharacter->pAniState->activeAnimation.totalTime =
-            mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
+            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
 
-        mAnimState = WALKING_BACKWARDS;
+            mAnimState = WALKING_BACKWARDS;
+        }
     }
 }
 
@@ -366,6 +369,21 @@ void cCharacterControl::RightKicking()
             mAnimState = RIGHT_KICKING;
         }
     }
+}
+
+void cCharacterControl::Hurt(float amount)
+{
+    if (amount < 0.0f)
+        return;
+
+    if (amount > mHealth)
+    {
+        mHealth = 0.0f;
+        return;
+    }
+
+    mHealth -= amount;
+
 }
 
 void cCharacterControl::UpdateInterruptedRotations()

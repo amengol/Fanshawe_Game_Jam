@@ -64,6 +64,7 @@ void cNPCManager::Evaluate(double deltaTime)
             SolveForAngryPursuit(mNPCs[i], deltaTime);
             break;
         case cCharacterControl::eCharacterState::ANGRY_EVADE:
+            SolveForAngryEvade(mNPCs[i], deltaTime);
             break;
         default:
             break;
@@ -320,6 +321,17 @@ void cNPCManager::SolveForAngryPursuit(cCharacterControl* npc, double deltaTime)
         npc->RightKicking();
         npc->GetCharacter()->rigidBody->SetVelocity(glm::vec3(0.0f));
 
+        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_KICKING ||
+            mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_CROSS_PUNCH)
+        {
+            npc->Hurt(deltaTime * 0.001f);
+
+            if (npc->GetCharacter()->diffuseColour.g < 0.68f)
+                npc->GetCharacter()->diffuseColour.g += 1.0f - npc->GetHealth();
+            else
+                npc->SetCharacterState(cCharacterControl::eCharacterState::ANGRY_EVADE);
+        }
+
         return;
     }
 
@@ -358,4 +370,39 @@ void cNPCManager::SolveForAngryPursuit(cCharacterControl* npc, double deltaTime)
         npcOrientation *= glm::toMat4(qRot);
         npc->GetCharacter()->rigidBody->SetMatOrientation(npcOrientation);
     }
+}
+
+void cNPCManager::SolveForAngryEvade(cCharacterControl* npc, double deltaTime)
+{
+    // Evaluate their distance
+    glm::vec3 playerPosition;
+    mPlayer->GetCharacter()->rigidBody->GetPostion(playerPosition);
+    glm::vec3 npcPosition;
+    npc->GetCharacter()->rigidBody->GetPostion(npcPosition);
+
+    npc->Backwards();
+
+    glm::vec3 npcVelocity;
+    npc->GetCharacter()->rigidBody->GetVelocity(npcVelocity);
+
+    glm::vec3 desiredVelocity = glm::normalize(playerPosition - npcPosition) * 1.125f;
+
+
+    glm::vec3 steering = npcVelocity - desiredVelocity;
+    steering *= deltaTime * 3.0f; // Speed up the steering a litle bit
+
+    npcVelocity += steering;
+    npcVelocity = glm::normalize(npcVelocity) * 1.125f;
+
+    npc->GetCharacter()->rigidBody->SetVelocity(npcVelocity);
+
+    // Reorient the npc to the velocity vector
+    glm::mat4 npcOrientation;
+    npc->GetCharacter()->rigidBody->GetMatOrientation(npcOrientation);
+    glm::vec3 npcDirection = npcOrientation * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f);
+    npcDirection.y = 0.0f; // Get rid of any pitch information
+
+    glm::quat qRot = RotationBetweenVectors(npcDirection, npcVelocity);
+    npcOrientation *= glm::toMat4(qRot);
+    npc->GetCharacter()->rigidBody->SetMatOrientation(npcOrientation);
 }
