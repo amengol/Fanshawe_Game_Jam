@@ -135,7 +135,8 @@
 			"right_strafe" : "right_strafe",
 			"right_strafe_walking" : "right_strafe_walking",
 			"right_turn" : "right_turn",
-			"right_turn_90" : "right_turn_90"
+			"right_turn_90" : "right_turn_90",
+			"trick" : "trick"
 		},
 		"textureNames[0]" : "Pure.bmp",
 		"position" : [-1.5, 0.0, 0.0],

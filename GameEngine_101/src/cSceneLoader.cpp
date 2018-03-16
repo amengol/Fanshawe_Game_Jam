@@ -866,6 +866,22 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                 }
 
+                if ((gameObject[jsIndex]["animationList"].HasMember("trick")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["trick"].IsString())))
+                    {
+                        theGO->animations.trick =
+                            gameObject[jsIndex]["animationList"]["trick"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"trick\" member!";
+                        return false;
+                    }
+                }
+
                 // Check for a character
                 if (isCharacter)
                 {

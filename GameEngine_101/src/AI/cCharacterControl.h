@@ -32,7 +32,8 @@ public:
         TURN_LEFT_180,
         TURN_RIGHT_180,
         JUMP,
-        JUMP_FORWARD
+        JUMP_FORWARD,
+        TRICK
     };
 
     // Sets the Character's GameObject
@@ -70,6 +71,9 @@ public:
 
     // Reverts back to idle;
     void Idle();
+
+    // Starts the trick animation;
+    void Trick();
 
     // Returns the Character State
     inline eCharacterState GetCharacterState() { return mCharState; }
