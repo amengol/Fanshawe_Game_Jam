@@ -1176,6 +1176,8 @@ void key_callback(GLFWwindow* window,
                 pCharacterControl->Jump();
             if (key == GLFW_KEY_T && action == GLFW_PRESS)
                 pCharacterControl->Trick();
+            if (key == GLFW_KEY_V && action == GLFW_PRESS)
+                pCharacterControl->ViolentTrick();
             if (key == GLFW_KEY_A && action == GLFW_RELEASE)
                 pCharacterControl->Idle();
             if (key == GLFW_KEY_D && action == GLFW_RELEASE)
@@ -1392,6 +1394,8 @@ void key_callback(GLFWwindow* window,
                 pCharacterControl->Jump();
             if (key == GLFW_KEY_T && action == GLFW_PRESS)
                 pCharacterControl->Trick();
+            if (key == GLFW_KEY_V && action == GLFW_PRESS)
+                pCharacterControl->ViolentTrick();
             if (key == GLFW_KEY_A && action == GLFW_RELEASE)
                 pCharacterControl->Idle();
             if (key == GLFW_KEY_D && action == GLFW_RELEASE)

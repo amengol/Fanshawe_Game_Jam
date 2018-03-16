@@ -882,6 +882,22 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                 }
 
+                if ((gameObject[jsIndex]["animationList"].HasMember("violent_trick")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["violent_trick"].IsString())))
+                    {
+                        theGO->animations.violent_trick =
+                            gameObject[jsIndex]["animationList"]["violent_trick"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"violent_trick\" member!";
+                        return false;
+                    }
+                }
+
                 if ((gameObject[jsIndex]["animationList"].HasMember("runaway")))
                 {
                     if (((gameObject[jsIndex]["animationList"]["runaway"].IsString())))

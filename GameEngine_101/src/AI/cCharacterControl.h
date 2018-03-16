@@ -32,6 +32,7 @@ public:
         JUMP,
         JUMP_FORWARD,
         TRICK,
+        VIOLENT_TRICK,
         RUNAWAY
     };
 
@@ -73,6 +74,9 @@ public:
 
     // Starts the trick animation;
     void Trick();
+
+    // Starts the violent trick animation
+    void ViolentTrick();
 
     // Runaway run
     void Runaway();
