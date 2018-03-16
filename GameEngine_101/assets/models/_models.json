@@ -42,6 +42,8 @@
 {"animName" : "runaway", "type" : 2, "animFile" : "runaway.fbx"},
 {"animName" : "violent_trick", "type" : 2, "animFile" : "violent_trick.fbx"},
 {"animName" : "right_cross_punch", "type" : 2, "animFile" : "right_cross_punch.fbx"},
-{"animName" : "right_kicking", "type" : 2, "animFile" : "right_kicking.fbx"}
+{"animName" : "right_kicking", "type" : 2, "animFile" : "right_kicking.fbx"},
+{"animName" : "praying_stand", "type" : 2, "animFile" : "praying_stand.fbx"},
+{"animName" : "dying", "type" : 2, "animFile" : "dying.fbx"}
 ]
 }

@@ -15,7 +15,9 @@ public:
         CURIOUS_APPROACH,
         CURIOUS_EVADE,
         ANGRY_PURSUIT,
-        ANGRY_EVADE
+        ANGRY_EVADE,
+        BAGGING,
+        DYING
     };
 
     enum eAnimationState
@@ -35,7 +37,9 @@ public:
         VIOLENT_TRICK,
         RUNAWAY,
         RIGHT_CROSS_PUNCH,
-        RIGHT_KICKING
+        RIGHT_KICKING,
+        PRAYING,
+        DYING_RISING
     };
 
     // Sets the Character's GameObject
@@ -88,6 +92,12 @@ public:
 
     // Right Kicking
     void RightKicking();
+
+    // Praying
+    void Praying();
+
+    // Dying
+    void Dying();
 
     // Returns the Character State
     inline eCharacterState GetCharacterState() { return mCharState; }

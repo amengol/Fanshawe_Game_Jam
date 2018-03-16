@@ -371,6 +371,54 @@ void cCharacterControl::RightKicking()
     }
 }
 
+void cCharacterControl::Praying()
+{
+    if (mCharacter != NULL)
+    {
+        if (mAnimState != PRAYING)
+        {
+            // Update rotations
+            UpdateInterruptedRotations();
+
+            std::string animationName = mCharacter->animations.praying;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+
+            mAnimState = PRAYING;
+        }
+    }
+}
+
+void cCharacterControl::Dying()
+{
+    if (mCharacter != NULL)
+    {
+        if (mAnimState != DYING_RISING)
+        {
+            // Update rotations
+            UpdateInterruptedRotations();
+
+            std::string animationName = mCharacter->animations.dying;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+
+            mAnimState = DYING_RISING;
+        }
+    }
+}
+
 void cCharacterControl::Hurt(float amount)
 {
     if (amount < 0.0f)

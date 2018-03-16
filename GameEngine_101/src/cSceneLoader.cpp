@@ -946,6 +946,38 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                 }
 
+                if ((gameObject[jsIndex]["animationList"].HasMember("praying")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["praying"].IsString())))
+                    {
+                        theGO->animations.praying =
+                            gameObject[jsIndex]["animationList"]["praying"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"praying\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("dying")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["dying"].IsString())))
+                    {
+                        theGO->animations.dying =
+                            gameObject[jsIndex]["animationList"]["dying"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"dying\" member!";
+                        return false;
+                    }
+                }
+
                 // Check for a character
                 if (isCharacter)
                 {

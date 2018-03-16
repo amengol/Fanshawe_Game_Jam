@@ -3,12 +3,16 @@
 #include <glm\glm.hpp>
 #include "..\cGameObject.h"
 #include <glm\gtx\transform.hpp>
+#include "..\Assimp\cSkinnedMesh.h"
+#include <GLFW/glfw3.h>
 
 cNPCManager::cNPCManager()
 {
     mInterestRadius = 10.0f;
     mStopDistance = 2.0f;                  
     mThreshold = 2.0f;
+    mSysTimeDying = 0.0f;
+    mIsDying = false;
 }
 
 
@@ -65,6 +69,12 @@ void cNPCManager::Evaluate(double deltaTime)
             break;
         case cCharacterControl::eCharacterState::ANGRY_EVADE:
             SolveForAngryEvade(mNPCs[i], deltaTime);
+            break;
+        case cCharacterControl::eCharacterState::BAGGING:
+            SolveForBagging(mNPCs[i], deltaTime);
+            break;
+        case cCharacterControl::eCharacterState::DYING:
+            SolveForDying(mNPCs[i], deltaTime);
             break;
         default:
             break;
@@ -324,10 +334,12 @@ void cNPCManager::SolveForAngryPursuit(cCharacterControl* npc, double deltaTime)
         if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_KICKING ||
             mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_CROSS_PUNCH)
         {
-            npc->Hurt(deltaTime * 0.001f);
+            npc->Hurt(deltaTime * 0.1f);
 
-            if (npc->GetCharacter()->diffuseColour.g < 0.68f)
-                npc->GetCharacter()->diffuseColour.g += 1.0f - npc->GetHealth();
+            float control = npc->GetHealth();
+
+            if (npc->GetHealth() > 0.32f)
+                npc->GetCharacter()->diffuseColour.g += deltaTime * 0.1f;
             else
                 npc->SetCharacterState(cCharacterControl::eCharacterState::ANGRY_EVADE);
         }
@@ -382,6 +394,35 @@ void cNPCManager::SolveForAngryEvade(cCharacterControl* npc, double deltaTime)
 
     npc->Backwards();
 
+    float distance = glm::length(playerPosition - npcPosition);
+
+    // Case when the player is too close
+    if (distance < mStopDistance * 0.5f)
+    {
+        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_KICKING ||
+            mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_CROSS_PUNCH)
+        {
+            npc->Hurt(deltaTime);
+
+            if (npc->GetHealth() < 0.15f)
+                npc->SetCharacterState(cCharacterControl::eCharacterState::BAGGING);
+            
+        }
+
+        return;
+    }
+    else
+    {
+        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::VIOLENT_TRICK)
+        {
+            npc->Hurt(deltaTime * 0.1f);
+
+            if (npc->GetHealth() < 0.15f)
+                npc->SetCharacterState(cCharacterControl::eCharacterState::BAGGING);
+
+        }
+    }
+
     glm::vec3 npcVelocity;
     npc->GetCharacter()->rigidBody->GetVelocity(npcVelocity);
 
@@ -405,4 +446,65 @@ void cNPCManager::SolveForAngryEvade(cCharacterControl* npc, double deltaTime)
     glm::quat qRot = RotationBetweenVectors(npcDirection, npcVelocity);
     npcOrientation *= glm::toMat4(qRot);
     npc->GetCharacter()->rigidBody->SetMatOrientation(npcOrientation);
+}
+
+void cNPCManager::SolveForBagging(cCharacterControl* npc, double deltaTime)
+{
+    // Evaluate their distance
+    glm::vec3 playerPosition;
+    mPlayer->GetCharacter()->rigidBody->GetPostion(playerPosition);
+    glm::vec3 npcPosition;
+    npc->GetCharacter()->rigidBody->GetPostion(npcPosition);
+
+    npc->Praying();
+
+    float distance = glm::length(playerPosition - npcPosition);
+
+    // Case when the player is too close
+    if (distance < mStopDistance * 0.5f)
+    {
+        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_KICKING ||
+            mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_CROSS_PUNCH)
+        {
+            npc->Hurt(deltaTime * 0.1f);
+
+            if (npc->GetHealth() < 0.01f)
+                npc->SetCharacterState(cCharacterControl::eCharacterState::DYING);
+
+        }
+
+        return;
+    }
+
+}
+
+void cNPCManager::SolveForDying(cCharacterControl* npc, double deltaTime)
+{
+    if (mIsDying)
+    {
+        cGameObject* ch = npc->GetCharacter();
+        std::string animationName = ch->animations.dying;
+        float totalTimeDying = ch->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+        if (glfwGetTime() - mSysTimeDying >= totalTimeDying)
+        {
+            npc->SetCharacterState(cCharacterControl::eCharacterState::FOLLOWER);
+            npc->GetCharacter()->diffuseColour = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+            npc->Idle();
+            mIsDying = false;
+        }
+        else
+        {
+            return;
+        }
+    }
+    else
+    {
+        npc->Dying();
+        mIsDying = true;
+        mSysTimeDying = glfwGetTime();
+    }
+    
+
+    
 }

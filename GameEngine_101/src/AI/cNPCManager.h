@@ -27,6 +27,8 @@ private:
     float mInterestRadius;                  // The interest radius
     float mStopDistance;                    // The distance where the player should stop
     float mThreshold;                       // Distance to avoid staggering
+    float mSysTimeDying;                    // Control for dying
+    bool mIsDying;                          // Control for dying
     cCharacterControl* mPlayer;             // The player
     std::vector<cCharacterControl*> mNPCs;  // The NPCs
 
@@ -44,5 +46,11 @@ private:
 
     // Solve the NPC for Angry Evade
     void SolveForAngryEvade(cCharacterControl*, double deltaTime);
+
+    // Solve the NPC for Praying
+    void SolveForBagging(cCharacterControl*, double deltaTime);
+
+    // Solve the NPC for Dying
+    void SolveForDying(cCharacterControl*, double deltaTime);
 };
 
