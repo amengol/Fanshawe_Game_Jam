@@ -882,6 +882,22 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                 }
 
+                if ((gameObject[jsIndex]["animationList"].HasMember("runaway")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["runaway"].IsString())))
+                    {
+                        theGO->animations.runaway =
+                            gameObject[jsIndex]["animationList"]["runaway"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"runaway\" member!";
+                        return false;
+                    }
+                }
+
                 // Check for a character
                 if (isCharacter)
                 {

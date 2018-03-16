@@ -38,6 +38,7 @@
 {"animName" : "right_turn", "type" : 2, "animFile" : "right_turn.fbx"},
 {"animName" : "right_turn_90", "type" : 2, "animFile" : "right_turn_90.fbx"},
 {"animName" : "01_Walk_Cycle", "type" : 2, "animFile" : "01_Walk_Cycle.fbx"},
-{"animName" : "trick", "type" : 2, "animFile" : "trick.fbx"}
+{"animName" : "trick", "type" : 2, "animFile" : "trick.fbx"},
+{"animName" : "runaway", "type" : 2, "animFile" : "runaway.fbx"}
 ]
 }

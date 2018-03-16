@@ -1071,7 +1071,7 @@ void key_callback(GLFWwindow* window,
         if (pCharacter == NULL)
             return;
 
-        if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
+        if ((key == GLFW_KEY_LEFT_SHIFT || key == GLFW_KEY_RIGHT_SHIFT) && action == GLFW_PRESS)
         {
             SHIFT_Pressed = true;
             if (W_Pressed)
@@ -1099,7 +1099,7 @@ void key_callback(GLFWwindow* window,
             }
         }
 
-        if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE)
+        if ((key == GLFW_KEY_LEFT_SHIFT || key == GLFW_KEY_RIGHT_SHIFT) && action == GLFW_RELEASE)
         {
             SHIFT_Pressed = false;
             if (W_Pressed)
@@ -1174,6 +1174,8 @@ void key_callback(GLFWwindow* window,
                 pCharacterControl->TurnRight90();
             if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
                 pCharacterControl->Jump();
+            if (key == GLFW_KEY_T && action == GLFW_PRESS)
+                pCharacterControl->Trick();
             if (key == GLFW_KEY_A && action == GLFW_RELEASE)
                 pCharacterControl->Idle();
             if (key == GLFW_KEY_D && action == GLFW_RELEASE)
@@ -1285,7 +1287,7 @@ void key_callback(GLFWwindow* window,
         if (pCharacter == NULL)
             return;
 
-        if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
+        if ((key == GLFW_KEY_LEFT_SHIFT || key == GLFW_KEY_RIGHT_SHIFT) && action == GLFW_PRESS)
         {
             SHIFT_Pressed = true;
             if (W_Pressed)
@@ -1313,7 +1315,7 @@ void key_callback(GLFWwindow* window,
             }
         }
 
-        if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_RELEASE)
+        if ((key == GLFW_KEY_LEFT_SHIFT || key == GLFW_KEY_RIGHT_SHIFT) && action == GLFW_RELEASE)
         {
             SHIFT_Pressed = false;
             if (W_Pressed)

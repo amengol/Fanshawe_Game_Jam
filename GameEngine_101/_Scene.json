@@ -136,7 +136,8 @@
 			"right_strafe_walking" : "right_strafe_walking",
 			"right_turn" : "right_turn",
 			"right_turn_90" : "right_turn_90",
-			"trick" : "trick"
+			"trick" : "trick",
+			"runaway" : "runaway"
 		},
 		"textureNames[0]" : "Pure.bmp",
 		"position" : [-1.5, 0.0, 0.0],
@@ -163,7 +164,8 @@
 			"right_strafe" : "right_strafe",
 			"right_strafe_walking" : "right_strafe_walking",
 			"right_turn" : "right_turn",
-			"right_turn_90" : "right_turn_90"
+			"right_turn_90" : "right_turn_90",
+			"runaway" : "runaway"
 		},
 		"hasMaterialColour" : true,
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
@@ -191,7 +193,8 @@
 			"right_strafe" : "right_strafe",
 			"right_strafe_walking" : "right_strafe_walking",
 			"right_turn" : "right_turn",
-			"right_turn_90" : "right_turn_90"
+			"right_turn_90" : "right_turn_90",
+			"runaway" : "runaway"
 		},
 		"hasMaterialColour" : true,
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],

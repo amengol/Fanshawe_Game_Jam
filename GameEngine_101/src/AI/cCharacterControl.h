@@ -31,7 +31,8 @@ public:
         TURN_RIGHT_180,
         JUMP,
         JUMP_FORWARD,
-        TRICK
+        TRICK,
+        RUNAWAY
     };
 
     // Sets the Character's GameObject
@@ -72,6 +73,9 @@ public:
 
     // Starts the trick animation;
     void Trick();
+
+    // Runaway run
+    void Runaway();
 
     // Returns the Character State
     inline eCharacterState GetCharacterState() { return mCharState; }

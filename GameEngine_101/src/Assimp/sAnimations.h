@@ -19,4 +19,5 @@ struct sAnimations
     std::string right_turn;
     std::string right_turn_90;
     std::string trick;
+    std::string runaway;
 };

@@ -270,6 +270,31 @@ void cCharacterControl::Trick()
     }
 }
 
+void cCharacterControl::Runaway()
+{
+    if (mCharacter != NULL)
+    {
+        // Don't cut the jump
+        if (mAnimState != JUMP_FORWARD)
+        {
+            // Update rotations
+            UpdateInterruptedRotations();
+
+            std::string animationName = mCharacter->animations.runaway;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
+
+            mAnimState = RUNAWAY;
+        }
+    }
+}
+
 void cCharacterControl::UpdateInterruptedRotations()
 {
     std::string animationName;
