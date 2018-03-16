@@ -111,6 +111,9 @@ public:
     // Returns the health
     inline float GetHealth() { return mHealth; }
 
+    // Sets the health to 100%
+    inline void Health100() { mHealth = 1.0f; }
+
     // Decrease health
     void Hurt(float amount);
 
