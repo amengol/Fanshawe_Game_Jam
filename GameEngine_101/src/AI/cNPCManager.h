@@ -35,5 +35,8 @@ private:
 
     // Solve the NPC for Curious Approach
     void SolveForCuriousApproach(cCharacterControl*, double deltaTime);
+
+    // Solve the NPC for Curious Evade
+    void SolveForCuriousEvade(cCharacterControl*, double deltaTime);
 };
 

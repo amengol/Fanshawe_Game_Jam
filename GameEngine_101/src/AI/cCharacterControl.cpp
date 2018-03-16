@@ -300,7 +300,7 @@ void cCharacterControl::Runaway()
     if (mCharacter != NULL)
     {
         // Don't cut the jump
-        if (mAnimState != JUMP_FORWARD)
+        if (mAnimState != RUNAWAY && mAnimState != JUMP_FORWARD)
         {
             // Update rotations
             UpdateInterruptedRotations();
