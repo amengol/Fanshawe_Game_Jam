@@ -755,7 +755,7 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, d
 
     ////// Draw localization text ---------------------------------------------
     //g_lococalization.draw(width, height);
-    g_textManager.draw(width, height);
+    //g_textManager.draw(width, height);
 
     //::g_pDebugRenderer->RenderDebugObjects(matView, matProjection, deltaTime);
 

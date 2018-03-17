@@ -100,7 +100,7 @@ float g_AABBSize = 20.0f;
 float g_FOV = 0.6f;
 //cSimpleAi_Manager g_AiManager;
 //cLocalization g_lococalization;
-cTextManager g_textManager;
+//cTextManager g_textManager;
 
 // To deal with sounds
 //cSoundManager* g_pSoundManager = NULL;
@@ -195,16 +195,16 @@ int main()
     //}
     //g_lococalization.loadLanguageFromXml("assets\\xml\\localization.xml");
     
-    if (!g_textManager.init())
-    {
-        std::cout << "There was an error initiating the text manager!" << std::endl;
-    }
-    std::vector<std::wstring> ws;
-    ws.push_back(L"[1] Lock on Player");
-    ws.push_back(L"[2] First Person Mode");
-    ws.push_back(L"[0] Free Camera");
-    g_textManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));    
-    //-------------------------------------------------------------------------
+    //if (!g_textManager.init())
+    //{
+    //    std::cout << "There was an error initiating the text manager!" << std::endl;
+    //}
+    //std::vector<std::wstring> ws;
+    //ws.push_back(L"[1] Lock on Player");
+    //ws.push_back(L"[2] First Person Mode");
+    //ws.push_back(L"[0] Free Camera");
+    //g_textManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));    
+    ////-------------------------------------------------------------------------
 
     // General error string, used for a number of items during start up
     std::string error;

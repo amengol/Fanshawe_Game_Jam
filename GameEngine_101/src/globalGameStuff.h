@@ -25,7 +25,7 @@
 #include <bt_cPhysicsFactory.h>
 #include "cSimpleDebugRenderer.h"
 #include "cTransparencyManager.h"
-#include "cTextManager.h"
+//#include "cTextManager.h"
 //#include "cLocalization.h"
 #include "AI\cCharacterManager.h"
 
@@ -42,7 +42,7 @@ void PhysicsStep(double deltaTime);
 extern float g_FOV;                                     // (GE101_Main.cpp)
 extern bool g_clothDebug;                               // (DrawCalls.cpp)
 extern cCameraObject* g_pCamera;                        // (GE101_Main.cpp)
-extern cTextManager g_textManager;                      // (GE101_Main.cpp)
+//extern cTextManager g_textManager;                      // (GE101_Main.cpp)
 extern cGameObject* g_pSkyBoxObject;                    // (GE101_Main.cpp)
 //extern cLocalization g_lococalization;                  // (GE101_Main.cpp)
 extern cUniLocHandler g_uniLocHandler;                  // (GE101_Main.cpp)
