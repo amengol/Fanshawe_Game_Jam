@@ -478,13 +478,13 @@ int main()
         //                                                                        
         // In this pass, we render all the geometry to the "G buffer"
         // The lighting is NOT done here. 
-        // 
-        //::g_pShaderManager->useShaderProgram("GE101_Shader");
-        //GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+         
+        ::g_pShaderManager->useShaderProgram("GE101_Shader");
+        GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
 
-        //// Direct everything to the FBO
-        //GLint renderPassNumber_LocID = glGetUniformLocation(shaderID, "renderPassNumber");
-        //glUniform1i(renderPassNumber_LocID, RENDER_PASS_0_G_BUFFER_PASS);
+        // Direct everything to the FBO
+        GLint renderPassNumber_LocID = glGetUniformLocation(shaderID, "renderPassNumber");
+        glUniform1i(renderPassNumber_LocID, RENDER_PASS_0_G_BUFFER_PASS);
 
         //glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass1_G_Buffer.ID);
         //// Clear colour AND depth buffer

@@ -99,140 +99,163 @@ vec3 calcLightColour( in vec3 fVertNormal,
                       in vec4 matSpecular );
 /*****************************************************/
 
+const float CALCULATE_LIGHTING = 1.0f;
+const float DONT_CALCULATE_LIGHTING = 0.25f;
+
+const int PASS_0_G_BUFFER_PASS = 0;
+const int PASS_1_DEFERRED_RENDER_PASS = 1;
+const int PASS_2_FULL_SCREEN_EFFECT_PASS = 2;
 
 
 void main()
 {	
 
-	fragOut_colour = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	fragOut_colour = vec4( 0.0f, 0.0f, 0.0f, 1.0f );
+	fragOut_normal = vec4( 0.0f, 0.0f, 0.0f, DONT_CALCULATE_LIGHTING );
+	fragOut_vertexWorldPos = vec4( 0.0f, 0.0f, 0.0f, 1.0f );
 
-	// Is this a 'debug' wireframe object, i.e. no lighting, just use diffuse
-	if ( bIsDebugWireFrameObject )
+		switch (renderPassNumber)
 	{
-		if (hasColour)
+	case PASS_0_G_BUFFER_PASS:	 // (0)
+	{
+			// Is this a 'debug' wireframe object, i.e. no lighting, just use diffuse
+		if ( bIsDebugWireFrameObject )
 		{
-			fragOut_colour.rgb = fColor.rgb;
-			fragOut_colour.a = fColor.a;
-			return;		// Immediate return
+			if (hasColour)
+			{
+				fragOut_colour.rgb = fColor.rgb;
+				fragOut_colour.a = fColor.a;
+				return;		// Immediate return
+			}
+			else
+			{
+				fragOut_colour.rgb = materialDiffuse.rgb;
+				fragOut_colour.a = materialDiffuse.a;
+				return;		// Immediate return
+			}
+		}
+		
+		
+		if ( isASkyBox )
+		{	// Sample from skybox texture and exit
+			// I pass texture coords to 'sample' 
+			//	returning a colour (at that point in the texture)
+			// Note we are using the normals of our skybox object
+			//	to determine the point on the inside of the box
+			vec4 skyRGBA = texture( texSampCube00, fVertNormal.xyz );
+			
+			fragOut_colour = vec4(skyRGBA.rgb, 1.0f);		//gl_FragColor = skyRGBA;
+			return;	
+		}
+		
+		if ( isReflectRefract )
+		{			
+			// Have "eyePosition" (camera eye) in WORLD space
+			
+			// reFLECTion value 
+			vec3 vecReflectEyeToVertex = fVecWorldPosition - eyePosition;
+			//vec3 vecReflectEyeToVertex = eyePosition - vecWorldPosition;
+			vecReflectEyeToVertex = normalize(vecReflectEyeToVertex);
+			vec3 vecReflect = reflect( vecReflectEyeToVertex, fVertNormal.xyz );
+			// Look up colour for reflection
+			vec4 rgbReflection = texture( texSampCube00, fVertNormal.xyz );
+
+			rgbReflection = texture( texSampCube00, vecReflect );
+			rgbReflection.rgb * 0.01f;
+			rgbReflection.rgb += normalize(fVertNormal.xyz);
+			
+			
+			vec3 vecReFRACT_EyeToVertex = eyePosition - fVecWorldPosition;
+			vecReFRACT_EyeToVertex = normalize(vecReFRACT_EyeToVertex);				
+			vec3 vecRefract = refract( vecReFRACT_EyeToVertex, fVertNormal.xyz, 
+		                               coefficientRefract );
+			// Look up colour for reflection
+			vec4 rgbRefraction = texture( texSampCube00, vecRefract );
+			
+			
+			// Mix the two, based on how reflective the surface is
+			fragOut_colour = (rgbReflection * reflectBlendRatio) + 
+			                (rgbRefraction * refractBlendRatio);
+			
+			//fragOut_colour.r = 1.0f;
+			
+			return;	
+		}	
+		
+		vec3 matDiffuse = vec3(0.0f, 0.0f, 0.0f);
+		
+		// ****************************************************************/
+		vec2 theUVCoords = fUV_X2.xy;		// use UV #1 of vertex
+			
+		vec4 texCol00 = texture( texSamp2D00, theUVCoords.xy );
+		vec4 texCol01 = texture( texSamp2D01, theUVCoords.xy );
+		vec4 texCol02 = texture( texSamp2D02, theUVCoords.xy );
+		vec4 texCol03 = texture( texSamp2D03, theUVCoords.xy );
+		vec4 texCol04 = texture( texSamp2D04, theUVCoords.xy );
+		vec4 texCol05 = texture( texSamp2D05, theUVCoords.xy );
+		vec4 texCol06 = texture( texSamp2D06, theUVCoords.xy );
+		vec4 texCol07 = texture( texSamp2D07, theUVCoords.xy );
+		//... and so on (to how many textures you are using)
+
+		matDiffuse.rgb += (texCol00.rgb * texBlend00) + 
+		                  (texCol01.rgb * texBlend01) + 
+						  (texCol02.rgb * texBlend02) + 
+						  (texCol03.rgb * texBlend03) +
+						  (texCol04.rgb * texBlend04) +
+						  (texCol05.rgb * texBlend05) +
+						  (texCol06.rgb * texBlend06) +
+						  (texCol07.rgb * texBlend07);
+		
+						  
+
+		//****************************************************************/	
+		for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
+		{
+			fragOut_colour.rgb += calcLightColour( fVertNormal, 					
+			                                      fVecWorldPosition, 
+												  index, 
+			                                      matDiffuse, 
+												  materialSpecular );
+		}
+
+
+		vec3 ambientContribution = matDiffuse.rgb * ambientToDiffuseRatio;
+		fragOut_colour.rgb += ambientContribution.rgb;		
+		
+		if ( hasReflection )
+		{
+			vec3 eyeDir = fVecWorldPosition - eyePosition;		
+			vec3 reflectedDirection = normalize(reflect(eyeDir, normalize(fVertNormal)));
+			vec4 fragColor = texture(texSampCube00, reflectedDirection);
+			vec4 matReflect = texCol02;
+			fragOut_colour += fragColor * matReflect;
+			fragOut_colour.rgb += ambientContribution.rgb;	
+		}	
+
+		// Copy object material diffuse to alpha
+		if (hasAlpha)
+		{
+			if (useDiscardAlpha)
+			{
+				if (texCol01.r < 0.5)
+					discard;
+			}
+			fragOut_colour.a = texCol01.r;
 		}
 		else
 		{
-			fragOut_colour.rgb = materialDiffuse.rgb;
 			fragOut_colour.a = materialDiffuse.a;
-			return;		// Immediate return
 		}
 	}
-	
-	
-	if ( isASkyBox )
-	{	// Sample from skybox texture and exit
-		// I pass texture coords to 'sample' 
-		//	returning a colour (at that point in the texture)
-		// Note we are using the normals of our skybox object
-		//	to determine the point on the inside of the box
-		vec4 skyRGBA = texture( texSampCube00, fVertNormal.xyz );
-		
-		fragOut_colour = vec4(skyRGBA.rgb, 1.0f);		//gl_FragColor = skyRGBA;
-		return;	
+		break;	// end of PASS_0_G_BUFFER_PASS (0):
+	case PASS_1_DEFERRED_RENDER_PASS:	// (1)
+	{
 	}
-	
-	if ( isReflectRefract )
-	{			
-		// Have "eyePosition" (camera eye) in WORLD space
-		
-		// reFLECTion value 
-		vec3 vecReflectEyeToVertex = fVecWorldPosition - eyePosition;
-		//vec3 vecReflectEyeToVertex = eyePosition - vecWorldPosition;
-		vecReflectEyeToVertex = normalize(vecReflectEyeToVertex);
-		vec3 vecReflect = reflect( vecReflectEyeToVertex, fVertNormal.xyz );
-		// Look up colour for reflection
-		vec4 rgbReflection = texture( texSampCube00, fVertNormal.xyz );
-
-		rgbReflection = texture( texSampCube00, vecReflect );
-		rgbReflection.rgb * 0.01f;
-		rgbReflection.rgb += normalize(fVertNormal.xyz);
-		
-		
-		vec3 vecReFRACT_EyeToVertex = eyePosition - fVecWorldPosition;
-		vecReFRACT_EyeToVertex = normalize(vecReFRACT_EyeToVertex);				
-		vec3 vecRefract = refract( vecReFRACT_EyeToVertex, fVertNormal.xyz, 
-                                   coefficientRefract );
-		// Look up colour for reflection
-		vec4 rgbRefraction = texture( texSampCube00, vecRefract );
-		
-		
-		// Mix the two, based on how reflective the surface is
-		fragOut_colour = (rgbReflection * reflectBlendRatio) + 
-		                (rgbRefraction * refractBlendRatio);
-		
-		//fragOut_colour.r = 1.0f;
-		
-		return;	
-	}	
-	
-	vec3 matDiffuse = vec3(0.0f, 0.0f, 0.0f);
-	
-	// ****************************************************************/
-	vec2 theUVCoords = fUV_X2.xy;		// use UV #1 of vertex
-		
-	vec4 texCol00 = texture( texSamp2D00, theUVCoords.xy );
-	vec4 texCol01 = texture( texSamp2D01, theUVCoords.xy );
-	vec4 texCol02 = texture( texSamp2D02, theUVCoords.xy );
-	vec4 texCol03 = texture( texSamp2D03, theUVCoords.xy );
-	vec4 texCol04 = texture( texSamp2D04, theUVCoords.xy );
-	vec4 texCol05 = texture( texSamp2D05, theUVCoords.xy );
-	vec4 texCol06 = texture( texSamp2D06, theUVCoords.xy );
-	vec4 texCol07 = texture( texSamp2D07, theUVCoords.xy );
-	//... and so on (to how many textures you are using)
-
-	matDiffuse.rgb += (texCol00.rgb * texBlend00) + 
-	                  (texCol01.rgb * texBlend01) + 
-					  (texCol02.rgb * texBlend02) + 
-					  (texCol03.rgb * texBlend03) +
-					  (texCol04.rgb * texBlend04) +
-					  (texCol05.rgb * texBlend05) +
-					  (texCol06.rgb * texBlend06) +
-					  (texCol07.rgb * texBlend07);
-	
-					  
-
-	//****************************************************************/	
-	for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
+		break;	// end of pass PASS_1_DEFERRED_RENDER_PASS (1)
+	case PASS_2_FULL_SCREEN_EFFECT_PASS:	// (2)
 	{
-		fragOut_colour.rgb += calcLightColour( fVertNormal, 					
-		                                      fVecWorldPosition, 
-											  index, 
-		                                      matDiffuse, 
-											  materialSpecular );
 	}
-
-
-	vec3 ambientContribution = matDiffuse.rgb * ambientToDiffuseRatio;
-	fragOut_colour.rgb += ambientContribution.rgb;		
-	
-	if ( hasReflection )
-	{
-		vec3 eyeDir = fVecWorldPosition - eyePosition;		
-		vec3 reflectedDirection = normalize(reflect(eyeDir, normalize(fVertNormal)));
-		vec4 fragColor = texture(texSampCube00, reflectedDirection);
-		vec4 matReflect = texCol02;
-		fragOut_colour += fragColor * matReflect;
-		fragOut_colour.rgb += ambientContribution.rgb;	
-	}	
-
-	// Copy object material diffuse to alpha
-	if (hasAlpha)
-	{
-		if (useDiscardAlpha)
-		{
-			if (texCol01.r < 0.5)
-				discard;
-		}
-		fragOut_colour.a = texCol01.r;
-	}
-	else
-	{
-		fragOut_colour.a = materialDiffuse.a;
+		break;	// end of pass PASS_2_FULL_SCREEN_EFFECT_PASS:
 	}
 	
 	return;
