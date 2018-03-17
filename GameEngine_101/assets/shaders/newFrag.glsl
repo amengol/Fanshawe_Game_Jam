@@ -14,7 +14,9 @@ in vec3 fBitangent;		// For bump (or normal) mapping
 // gl_FragColor is deprecated after version 120
 // Now we specify a specific variable.
 // If there is only 1, then GL will assume it's the colour 
-out vec4 fragColourOut;
+out vec4 fragOut_colour;
+out vec4 fragOut_normal;
+out vec4 fragOut_vertexWorldPos;
 
 // The values our OBJECT material
 uniform vec4 materialDiffuse;	
@@ -102,21 +104,21 @@ vec3 calcLightColour( in vec3 fVertNormal,
 void main()
 {	
 
-	fragColourOut = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	fragOut_colour = vec4(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Is this a 'debug' wireframe object, i.e. no lighting, just use diffuse
 	if ( bIsDebugWireFrameObject )
 	{
 		if (hasColour)
 		{
-			fragColourOut.rgb = fColor.rgb;
-			fragColourOut.a = fColor.a;
+			fragOut_colour.rgb = fColor.rgb;
+			fragOut_colour.a = fColor.a;
 			return;		// Immediate return
 		}
 		else
 		{
-			fragColourOut.rgb = materialDiffuse.rgb;
-			fragColourOut.a = materialDiffuse.a;
+			fragOut_colour.rgb = materialDiffuse.rgb;
+			fragOut_colour.a = materialDiffuse.a;
 			return;		// Immediate return
 		}
 	}
@@ -130,7 +132,7 @@ void main()
 		//	to determine the point on the inside of the box
 		vec4 skyRGBA = texture( texSampCube00, fVertNormal.xyz );
 		
-		fragColourOut = vec4(skyRGBA.rgb, 1.0f);		//gl_FragColor = skyRGBA;
+		fragOut_colour = vec4(skyRGBA.rgb, 1.0f);		//gl_FragColor = skyRGBA;
 		return;	
 	}
 	
@@ -160,10 +162,10 @@ void main()
 		
 		
 		// Mix the two, based on how reflective the surface is
-		fragColourOut = (rgbReflection * reflectBlendRatio) + 
+		fragOut_colour = (rgbReflection * reflectBlendRatio) + 
 		                (rgbRefraction * refractBlendRatio);
 		
-		//fragColourOut.r = 1.0f;
+		//fragOut_colour.r = 1.0f;
 		
 		return;	
 	}	
@@ -197,7 +199,7 @@ void main()
 	//****************************************************************/	
 	for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
 	{
-		fragColourOut.rgb += calcLightColour( fVertNormal, 					
+		fragOut_colour.rgb += calcLightColour( fVertNormal, 					
 		                                      fVecWorldPosition, 
 											  index, 
 		                                      matDiffuse, 
@@ -206,7 +208,7 @@ void main()
 
 
 	vec3 ambientContribution = matDiffuse.rgb * ambientToDiffuseRatio;
-	fragColourOut.rgb += ambientContribution.rgb;		
+	fragOut_colour.rgb += ambientContribution.rgb;		
 	
 	if ( hasReflection )
 	{
@@ -214,8 +216,8 @@ void main()
 		vec3 reflectedDirection = normalize(reflect(eyeDir, normalize(fVertNormal)));
 		vec4 fragColor = texture(texSampCube00, reflectedDirection);
 		vec4 matReflect = texCol02;
-		fragColourOut += fragColor * matReflect;
-		fragColourOut.rgb += ambientContribution.rgb;	
+		fragOut_colour += fragColor * matReflect;
+		fragOut_colour.rgb += ambientContribution.rgb;	
 	}	
 
 	// Copy object material diffuse to alpha
@@ -226,11 +228,11 @@ void main()
 			if (texCol01.r < 0.5)
 				discard;
 		}
-		fragColourOut.a = texCol01.r;
+		fragOut_colour.a = texCol01.r;
 	}
 	else
 	{
-		fragColourOut.a = materialDiffuse.a;
+		fragOut_colour.a = materialDiffuse.a;
 	}
 	
 	return;

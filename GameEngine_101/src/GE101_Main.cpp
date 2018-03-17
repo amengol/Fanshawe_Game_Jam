@@ -457,6 +457,10 @@ int main()
     // Will be used in the physics step
     double lastTimeStep = glfwGetTime();
 
+    const int RENDER_PASS_0_G_BUFFER_PASS = 0;
+    const int RENDER_PASS_1_DEFERRED_RENDER_PASS = 1;
+    const int RENDER_PASS_2_FULL_SCREEN_EFFECT_PASS = 2;
+
     // Main game or application loop
     while (!glfwWindowShouldClose(window))
     {
@@ -467,7 +471,41 @@ int main()
 
         NPCManager.Evaluate(glfwGetTime() - lastTimeStep);
 
+        //    ___                _             _           ___       _            __   __           
+        //   | _ \ ___  _ _   __| | ___  _ _  | |_  ___   / __| ___ | |__  _  _  / _| / _| ___  _ _ 
+        //   |   // -_)| ' \ / _` |/ -_)| '_| |  _|/ _ \ | (_ ||___|| '_ \| || ||  _||  _|/ -_)| '_|
+        //   |_|_\\___||_||_|\__,_|\___||_|    \__|\___/  \___|     |_.__/ \_,_||_|  |_|  \___||_|  
+        //                                                                        
+        // In this pass, we render all the geometry to the "G buffer"
+        // The lighting is NOT done here. 
+        // 
+        //::g_pShaderManager->useShaderProgram("GE101_Shader");
+        //GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+
+        //// Direct everything to the FBO
+        //GLint renderPassNumber_LocID = glGetUniformLocation(shaderID, "renderPassNumber");
+        //glUniform1i(renderPassNumber_LocID, RENDER_PASS_0_G_BUFFER_PASS);
+
+        //glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass1_G_Buffer.ID);
+        //// Clear colour AND depth buffer
+        //g_FBO_Pass1_G_Buffer.clearBuffers();
+
         RenderScene(::g_vecGameObjects, window, glfwGetTime() - lastTimeStep);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // Prints camera information to the title
         std::stringstream ssTitle;
