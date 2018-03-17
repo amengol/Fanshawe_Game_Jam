@@ -34,6 +34,16 @@ uniform bool hasReflection;
 
 uniform int renderPassNumber;	//FBO
 
+//uniform sampler2D tex2ndPassSamp2D;		// Offscreen texture for 2nd pass
+uniform sampler2D texFBOColour2D;
+uniform sampler2D texFBONormal2D;
+uniform sampler2D texFBOVertexWorldPos2D;
+
+uniform sampler2D fullRenderedImage2D;
+
+uniform float screenWidth;
+uniform float screenHeight;
+
 // Note: this CAN'T be an array (sorry). See 3D texture array
 uniform sampler2D texSamp2D00;		// Represents a 2D image
 uniform sampler2D texSamp2D01;		// Represents a 2D image
@@ -125,17 +135,16 @@ void main()
 			{
 				fragOut_colour.rgb = fColor.rgb;
 				fragOut_colour.a = fColor.a;
-				return;		// Immediate return
 			}
 			else
 			{
 				fragOut_colour.rgb = materialDiffuse.rgb;
 				fragOut_colour.a = materialDiffuse.a;
-				return;		// Immediate return
 			}
 
 			fragOut_vertexWorldPos.xyz = fVecWorldPosition.xyz;
 			fragOut_normal.a = DONT_CALCULATE_LIGHTING;
+			return;		// Immediate return
 		}
 		
 		
@@ -218,15 +227,7 @@ void main()
 		
 						  
 
-		//****************************************************************/	
-		//for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
-		//{
-		//	fragOut_colour.rgb += calcLightColour( fVertNormal, 					
-		//	                                      fVecWorldPosition, 
-		//										  index, 
-		//	                                      matDiffuse, 
-		//										  materialSpecular );
-		//}
+
 
 
 		vec3 ambientContribution = matDiffuse.rgb * ambientToDiffuseRatio;
@@ -267,10 +268,56 @@ void main()
 		{
 			fragOut_colour.a = materialDiffuse.a;
 		}
+
+	////****************************************************************/	
+	//	for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
+	//	{
+	//		fragOut_colour.rgb += calcLightColour( fVertNormal, 					
+	//		                                      fVecWorldPosition, 
+	//											  index, 
+	//		                                      matDiffuse, 
+	//											  materialSpecular );
+	//	}
 	}
 		break;	// end of PASS_0_G_BUFFER_PASS (0):
 	case PASS_1_DEFERRED_RENDER_PASS:	// (1)
 	{
+				//vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, gl_FragCoord.y / screenHeight );
+		//fragOut_colour.rgb = texture( texFBOVertexWorldPos2D, textCoords).rgb;
+		//fragOut_colour.a = 1.0f; 
+
+		//uniform sampler2D texFBOColour2D;
+		//uniform sampler2D texFBONormal2D;
+		//uniform sampler2D texFBOVertexWorldPos2D;
+
+		vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, gl_FragCoord.y / screenHeight );
+
+		vec3 theColourAtThisPixel = texture( texFBOColour2D, textCoords).rgb;
+		vec4 theNormalAtThisPixel = texture( texFBONormal2D, textCoords).rgba;
+		vec3 theVertLocWorldAtThisPixel = texture( texFBOVertexWorldPos2D, textCoords).rgb;
+
+		if ( theNormalAtThisPixel.a != CALCULATE_LIGHTING )
+		{
+			// Return the colour as it is on the colour FBO
+			fragOut_colour.rgb = theColourAtThisPixel.rgb;
+			fragOut_colour.a = 1.0f;
+		}
+		else
+		{
+			// ELSE: do the lighting...
+			for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
+			{
+				fragOut_colour.rgb += calcLightColour( theNormalAtThisPixel.xyz, 					
+													   theVertLocWorldAtThisPixel, 
+													   index, 
+													   theColourAtThisPixel, 
+													   materialSpecular );
+			}
+		}// if ( theNormalAtThisPixel.a != CALCULATE_LIGHTING )
+
+
+		fragOut_colour.rgb *= 5.0f;		// dim projector
+		fragOut_colour.a = 1.0f;
 	}
 		break;	// end of pass PASS_1_DEFERRED_RENDER_PASS (1)
 	case PASS_2_FULL_SCREEN_EFFECT_PASS:	// (2)
