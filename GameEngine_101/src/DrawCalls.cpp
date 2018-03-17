@@ -603,3 +603,162 @@ void DrawObject(cGameObject* pTheGO)
 
     return;
 }
+
+void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, double deltaTime)
+{
+    float ratio;
+    int width, height;
+    glfwGetFramebufferSize(pGLFWWindow, &width, &height);
+
+    // Prevent division by zero!
+    if (height == 0)
+        height = 1;
+
+    ratio = width / (float)height;
+    glViewport(0, 0, width, height);
+
+    // Clear colour AND depth buffer
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    ::g_pShaderManager->useShaderProgram("GE101_Shader");
+    GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+
+    // Update all the light uniforms...
+    // (for the whole scene)
+    ::g_pLightManager->CopyLightInformationToCurrentShader();
+
+    //---------------------------------------------------------------------
+    // Camera block
+
+    glm::mat4x4 matProjection;
+
+    // Projection and view don't change per scene (maybe)
+    matProjection = glm::perspective(g_FOV,			// FOV
+                                     ratio,		    // Aspect ratio
+                                     1.0f,		   	// Near (as big as possible)
+                                     200000.0f);    // Far (as small as possible)
+
+    g_pCamera->update();
+
+    ::g_pSkyBoxObject->position = g_pCamera->getCameraPosition();
+
+    // View or "camera" matrix
+    glm::mat4 matView = glm::mat4(1.0f);
+
+    matView = glm::lookAt(g_pCamera->getCameraPosition(),		// "eye" or "camera" position
+                          g_pCamera->getLookAtPosition(),				// "At" or "target" 
+                          g_pCamera->getCameraUpVector());	// "up" vector
+
+    glUniformMatrix4fv(g_uniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matView));
+    glUniformMatrix4fv(g_uniLocHandler.mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));
+
+    //---------------------------------------------------------------------
+    // "Draw scene" loop
+
+    unsigned int sizeOfVector = (unsigned int)::g_vecGameObjects.size();
+    for (int index = 0; index != sizeOfVector; index++)
+    {
+        cGameObject* pTheGO = ::g_vecGameObjects[index];
+
+        if (pTheGO->typeOfObject == CLOTH)
+        {
+            ClothDraw(pTheGO);
+        }
+        else
+        {
+            DrawObject(pTheGO);
+        }
+
+        // For the AABBs
+        //if(pTheGO->isDebugAABBActive)
+        //{
+        //    if(pTheGO->typeOfObject == SPHERE)
+        //    {
+        //        // Calculate all AABBs for the sphere
+        //        // Put the sphere inside an axis-aligned box
+
+        //        // Vertices
+        //        float diameter = pTheGO->radius * 2;
+        //        std::vector<glm::vec3> vertices;
+        //        glm::vec3 vertex0 = glm::vec3(pTheGO->position - pTheGO->radius);
+        //        vertices.push_back(vertex0);
+        //        vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z));
+        //        vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z));
+        //        vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z));
+        //        vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + diameter));
+        //        vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y, vertex0.z + diameter));
+        //        vertices.push_back(glm::vec3(vertex0.x, vertex0.y + diameter, vertex0.z + diameter));
+        //        vertices.push_back(glm::vec3(vertex0.x + diameter, vertex0.y + diameter, vertex0.z + diameter));
+
+        //        DrawAABBforPoints(vertices, g_AABBSize);
+        //    } 
+        //    else if(pTheGO->typeOfObject == MESH)
+        //    {
+        //        // Calculate all AABBs for the mesh
+        //        // Put the mesh inside an axis-aligned box
+
+        //        // Take the mesh extents
+        //        cMesh theMesh;
+        //        if (!g_pVAOManager->lookupMeshFromName(pTheGO->meshName, theMesh))
+        //        {
+        //            // Can't find the mesh
+        //            continue;
+        //        }
+
+        //        float extent = theMesh.maxExtent;
+
+        //        // Vertices
+        //        std::vector<glm::vec3> vertices;
+        //        glm::vec3 vertex0(0.0f);
+        //        vertex0 = pTheGO->position - (extent / 2.0f);
+        //        vertices.push_back(vertex0);
+        //        vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y, vertex0.z));
+        //        vertices.push_back(glm::vec3(vertex0.x, vertex0.y + extent, vertex0.z));
+        //        vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y + extent, vertex0.z));
+        //        vertices.push_back(glm::vec3(vertex0.x, vertex0.y, vertex0.z + extent));
+        //        vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y, vertex0.z + extent));
+        //        vertices.push_back(glm::vec3(vertex0.x, vertex0.y + extent, vertex0.z + extent));
+        //        vertices.push_back(glm::vec3(vertex0.x + extent, vertex0.y + extent, vertex0.z + extent));
+
+        //        DrawAABBforPoints(vertices, g_AABBSize);
+        //    }
+        //    else
+        //    {
+        //        DrawAABB(pTheGO, g_AABBSize);
+        //    }
+        //}
+
+    }
+
+    //// Now Draw the transparent objects
+    //::g_pTranspManager->sortObjects();
+    //int numTransObjects = ::g_pTranspManager->transpObjects.size();
+    //for(int i = 0; i < numTransObjects; i++)
+    //{
+    //    if(::g_pTranspManager->transpObjects[i]->rotateToCamera)
+    //    {
+    //        // Orient the cloud to the camera
+    //        turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], g_pCamera->getCameraPosition());
+    //    }
+    //    
+    //    DrawObject(::g_pTranspManager->transpObjects[i]);
+
+    //    // For the AABBs
+    //    if(::g_pTranspManager->transpObjects[i]->isDebugAABBActive)
+    //    {
+    //        DrawAABB(::g_pTranspManager->transpObjects[i], g_AABBSize);
+    //    }
+    //}
+
+    ////// Draw localization text ---------------------------------------------
+    //g_lococalization.draw(width, height);
+    g_textManager.draw(width, height);
+
+    //::g_pDebugRenderer->RenderDebugObjects(matView, matProjection, deltaTime);
+
+    // "Draw scene" loop end
+    //---------------------------------------------------------------------
+}

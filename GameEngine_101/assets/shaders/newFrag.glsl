@@ -30,6 +30,8 @@ uniform bool hasAlpha;
 uniform bool useDiscardAlpha;
 uniform bool hasReflection;
 
+uniform int renderPassNumber;	//FBO
+
 // Note: this CAN'T be an array (sorry). See 3D texture array
 uniform sampler2D texSamp2D00;		// Represents a 2D image
 uniform sampler2D texSamp2D01;		// Represents a 2D image

@@ -167,6 +167,7 @@
     <ClCompile Include="src\cCameraObject.cpp" />
     <ClCompile Include="src\cDebugRenderer.cpp" />
     <ClCompile Include="src\cDebugRenderer_BuiltInShapes.cpp" />
+    <ClCompile Include="src\cFBO.cpp" />
     <ClCompile Include="src\cGameObject.cpp" />
     <ClCompile Include="src\cLightManager.cpp" />
     <ClCompile Include="src\cLocalization.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="src\cAABBsManager.h" />
     <ClInclude Include="src\cCameraObject.h" />
     <ClInclude Include="src\cDebugRenderer.h" />
+    <ClInclude Include="src\cFBO.h" />
     <ClInclude Include="src\cGameObject.h" />
     <ClInclude Include="src\cLightManager.h" />
     <ClInclude Include="src\cLocalization.h" />
