@@ -133,6 +133,9 @@ void main()
 				fragOut_colour.a = materialDiffuse.a;
 				return;		// Immediate return
 			}
+
+			fragOut_vertexWorldPos.xyz = fVecWorldPosition.xyz;
+			fragOut_normal.a = DONT_CALCULATE_LIGHTING;
 		}
 		
 		
@@ -145,6 +148,10 @@ void main()
 			vec4 skyRGBA = texture( texSampCube00, fVertNormal.xyz );
 			
 			fragOut_colour = vec4(skyRGBA.rgb, 1.0f);		//gl_FragColor = skyRGBA;
+
+			fragOut_vertexWorldPos.xyz = fVecWorldPosition.xyz;
+			fragOut_normal.a = DONT_CALCULATE_LIGHTING;
+
 			return;	
 		}
 		
@@ -179,6 +186,9 @@ void main()
 			
 			//fragOut_colour.r = 1.0f;
 			
+			fragOut_vertexWorldPos.xyz = fVecWorldPosition.xyz;
+			fragOut_normal.a = DONT_CALCULATE_LIGHTING;
+
 			return;	
 		}	
 		
@@ -209,18 +219,27 @@ void main()
 						  
 
 		//****************************************************************/	
-		for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
-		{
-			fragOut_colour.rgb += calcLightColour( fVertNormal, 					
-			                                      fVecWorldPosition, 
-												  index, 
-			                                      matDiffuse, 
-												  materialSpecular );
-		}
+		//for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
+		//{
+		//	fragOut_colour.rgb += calcLightColour( fVertNormal, 					
+		//	                                      fVecWorldPosition, 
+		//										  index, 
+		//	                                      matDiffuse, 
+		//										  materialSpecular );
+		//}
 
 
 		vec3 ambientContribution = matDiffuse.rgb * ambientToDiffuseRatio;
-		fragOut_colour.rgb += ambientContribution.rgb;		
+		fragOut_colour.rgb += ambientContribution.rgb;	
+		
+		// Transparency value (for alpha blending)
+		fragOut_colour.a = materialDiffuse.a;
+
+		fragOut_normal.rgb = fVertNormal.xyz;
+
+		fragOut_vertexWorldPos.xyz = fVecWorldPosition.xyz;
+
+		fragOut_normal.a = CALCULATE_LIGHTING;
 		
 		if ( hasReflection )
 		{
@@ -230,6 +249,8 @@ void main()
 			vec4 matReflect = texCol02;
 			fragOut_colour += fragColor * matReflect;
 			fragOut_colour.rgb += ambientContribution.rgb;	
+
+			fragOut_normal.a = DONT_CALCULATE_LIGHTING;
 		}	
 
 		// Copy object material diffuse to alpha
