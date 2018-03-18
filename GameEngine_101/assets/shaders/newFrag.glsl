@@ -322,6 +322,10 @@ void main()
 		break;	// end of pass PASS_1_DEFERRED_RENDER_PASS (1)
 	case PASS_2_FULL_SCREEN_EFFECT_PASS:	// (2)
 	{
+		// In this example, there is a single quad, that
+		//	is being drawn with the full, rendered buffer from the previous pass
+		fragOut_colour.rgb = texture( fullRenderedImage2D, fUV_X2.xy ).rgb;
+		fragOut_colour.a = 1.0f;
 	}
 		break;	// end of pass PASS_2_FULL_SCREEN_EFFECT_PASS:
 	}
