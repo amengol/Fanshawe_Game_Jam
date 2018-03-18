@@ -982,9 +982,9 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 if (isCharacter)
                 {
                     if (!g_characterManager.AddCharacter(theGO, error))
-                    {
                         return false;
-                    }
+                    if (!theGO->InitCharacterAnimations(error))
+                        return false;
                 }
             }
         }
