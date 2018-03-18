@@ -28,6 +28,7 @@
 //#include "cTextManager.h"
 //#include "cLocalization.h"
 #include "AI\cCharacterManager.h"
+#include "AI\cNPCManager.h"
 
 
 // Finds a GameObject by a friendly name. Returns 0 or NULL if not found
@@ -42,6 +43,7 @@ void PhysicsStep(double deltaTime);
 extern float g_FOV;                                     // (GE101_Main.cpp)
 extern bool g_clothDebug;                               // (DrawCalls.cpp)
 extern cCameraObject* g_pCamera;                        // (GE101_Main.cpp)
+extern cNPCManager g_NPCManager;
 //extern cTextManager g_textManager;                      // (GE101_Main.cpp)
 extern cGameObject* g_pSkyBoxObject;                    // (GE101_Main.cpp)
 //extern cLocalization g_lococalization;                  // (GE101_Main.cpp)

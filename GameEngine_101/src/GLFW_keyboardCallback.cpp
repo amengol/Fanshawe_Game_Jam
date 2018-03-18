@@ -91,25 +91,45 @@ void key_callback(GLFWwindow* window,
     //    }        
     //}
 
-    if(key == GLFW_KEY_2 && action == GLFW_PRESS)
-    {
-        // Get the character
-        cGameObject* pCharacter = NULL;
-        pCharacter = g_characterManager.GetActiveCharacter()->GetCharacter();
-        if (pCharacter == NULL)
-            return;
-        g_pCamera->lockOnCharacter(pCharacter, false);     
-    }
-
     if (key == GLFW_KEY_1 && action == GLFW_PRESS)
     {
         // Get the character
+        std::string error;
+        g_characterManager.SetControlledCharacter("Hero01", error);
         cGameObject* pCharacter = NULL;
         pCharacter = g_characterManager.GetActiveCharacter()->GetCharacter();
         if (pCharacter == NULL)
             return;
         g_pCamera->lockOnCharacter(pCharacter, true);
+        g_NPCManager.SetPlayer(g_characterManager.GetActiveCharacter());
     }
+
+    if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+    {
+        // Get the character
+        std::string error;
+        g_characterManager.SetControlledCharacter("Hero02", error);
+        cGameObject* pCharacter = NULL;
+        pCharacter = g_characterManager.GetActiveCharacter()->GetCharacter();
+        if (pCharacter == NULL)
+            return;
+        g_pCamera->lockOnCharacter(pCharacter, true);
+        g_NPCManager.SetPlayer(g_characterManager.GetActiveCharacter());
+    }
+
+    if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+    {
+        // Get the character
+        cGameObject* pCharacter = NULL;
+        pCharacter = g_characterManager.GetActiveCharacter()->GetCharacter();
+        if (pCharacter == NULL)
+            return;
+        g_pCamera->lockOnCharacter(pCharacter, false);
+    }
+
+    
+
+
 
     //if (key == GLFW_KEY_1 && action == GLFW_PRESS)
     //{

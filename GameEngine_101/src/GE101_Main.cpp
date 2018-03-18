@@ -25,7 +25,6 @@
 #include "cSoundManager.h"
 #include <cCloth.h>
 #include "DrawCalls.h"
-#include "AI\cNPCManager.h"
 //#include "../Cloth.h"
 #include "cFBO.h"
 
@@ -98,6 +97,7 @@ long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
 float g_FOV = 0.6f;
+cNPCManager g_NPCManager;
 //cSimpleAi_Manager g_AiManager;
 //cLocalization g_lococalization;
 //cTextManager g_textManager;
@@ -415,15 +415,14 @@ int main()
     // ------------------------------------------------------------------------
 
     // Sets the default Game Character
-    if (!g_characterManager.SetControlledCharacter("Hero", error))
+    if (!g_characterManager.SetControlledCharacter("Hero01", error))
     {
         std::cout << "The Game Character was not found!\n";
     }
 
-    // Set NPC Manager
-    cNPCManager NPCManager;
-    NPCManager.SetPlayer(g_characterManager.GetActiveCharacter());
-    NPCManager.SetNPCs(g_characterManager.GetNPCs());
+    // Set NPC Manager    
+    g_NPCManager.SetPlayer(g_characterManager.GetActiveCharacter());
+    g_NPCManager.SetNPCs(g_characterManager.GetNPCs());
 
     glEnable(GL_DEPTH);
 
@@ -471,7 +470,7 @@ int main()
         //g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
         //=====================================================================
 
-        NPCManager.Evaluate(glfwGetTime() - lastTimeStep);
+        g_NPCManager.Evaluate(glfwGetTime() - lastTimeStep);
 
         ////    ___                _             _           ___       _            __   __           
         ////   | _ \ ___  _ _   __| | ___  _ _  | |_  ___   / __| ___ | |__  _  _  / _| / _| ___  _ _ 

@@ -66,6 +66,10 @@ std::vector<cCharacterControl*> cCharacterManager::GetNPCs()
         {
             if (it->second != mActiveCharacter)
             {
+                // HACK for now
+                if (it->second->GetCharacter()->friendlyName == "Hero01"
+                    || it->second->GetCharacter()->friendlyName == "Hero02")
+                    continue;
                 npcs.push_back(it->second);
             }
         }
