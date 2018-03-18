@@ -476,6 +476,14 @@ int main()
     // Will be used in the physics step
     double lastTimeStep = glfwGetTime();
 
+    for (size_t i = 0; i < g_vecGameObjects.size(); i++)
+    {
+        if (g_vecGameObjects[i]->friendlyName == "Delorean")
+        {
+            g_vecGameObjects[i]->rigidBody->SetRateOfTurnY(720.0f);
+        }
+    }
+
     // Main game or application loop
     while (!glfwWindowShouldClose(window))
     {

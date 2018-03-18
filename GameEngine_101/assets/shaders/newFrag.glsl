@@ -253,6 +253,8 @@ void main()
 			fragOut_colour.rgb += ambientContribution.rgb;	
 
 			fragOut_normal.a = DONT_CALCULATE_LIGHTING;
+
+			fragOut_colour *= 0.1f;
 		}	
 
 		// Copy object material diffuse to alpha

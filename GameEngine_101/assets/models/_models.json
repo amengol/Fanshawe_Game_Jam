@@ -12,6 +12,7 @@
 [
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply"},
 {"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply"},
+{"meshName" : "Delorean", "meshFile" : "Delorean_Textured.obj"},
 #{"meshName" : "Border", "meshFile" : "Border.obj"},
 {"meshName" : "Stadium_Grass", "meshFile" : "Stadium_Grass.obj"},
 {"meshName" : "Stadium_Steel", "meshFile" : "Stadium_Steel.obj"},
