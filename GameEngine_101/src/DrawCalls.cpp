@@ -610,7 +610,7 @@ void DrawObject(cGameObject* pTheGO)
     return;
 }
 
-void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, double deltaTime)
+void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, cCameraObject* pCamera, double deltaTime)
 {
     float ratio;
     int width, height;
@@ -647,16 +647,16 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, d
                                      1.0f,		   	// Near (as big as possible)
                                      200000.0f);    // Far (as small as possible)
 
-    g_pCamera->update();
+    pCamera->update();
 
-    ::g_pSkyBoxObject->position = g_pCamera->getCameraPosition();
+    ::g_pSkyBoxObject->position = pCamera->getCameraPosition();
 
     // View or "camera" matrix
     glm::mat4 matView = glm::mat4(1.0f);
 
-    matView = glm::lookAt(g_pCamera->getCameraPosition(),		// "eye" or "camera" position
-                          g_pCamera->getLookAtPosition(),				// "At" or "target" 
-                          g_pCamera->getCameraUpVector());	// "up" vector
+    matView = glm::lookAt(pCamera->getCameraPosition(),		// "eye" or "camera" position
+                          pCamera->getLookAtPosition(),				// "At" or "target" 
+                          pCamera->getCameraUpVector());	// "up" vector
 
     glUniformMatrix4fv(g_uniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matView));
     glUniformMatrix4fv(g_uniLocHandler.mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));

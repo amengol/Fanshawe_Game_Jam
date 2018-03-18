@@ -29,6 +29,12 @@
 		"CameraOrientationY" : 75.0,
 		"CameraOrientationZ" : 0.0
 	}
+#	{
+#		"CameraPosition" : [10.26, 4, 4.177],
+#		"CameraOrientationX" : -5.0,
+#		"CameraOrientationY" : 75.0,
+#		"CameraOrientationZ" : 0.0
+#	}
 ],
 
 # GameObject template 
@@ -509,13 +515,13 @@
 		"friendlyName" : "Stadium_Concrete",
 		"typeOfObject" : 1,
 		"textureNames[0]" : "Concrete.bmp"
-	},
-	{ 
-		"meshName" : "Stadium_Screen01",
-		"friendlyName" : "Stadium_Screen01",
-		"typeOfObject" : 1,
-		"textureNames[0]" : "Dummy_Screen.bmp"
 	}
+#	{ 
+#		"meshName" : "Stadium_Screen01",
+#		"friendlyName" : "Stadium_Screen01",
+#		"typeOfObject" : 1,
+#		"textureNames[0]" : "Dummy_Screen.bmp"
+#	}
 #	{ 
 #		"meshName" : "Wooden_Elements",
 #		"friendlyName" : "Wooden_Elements",
