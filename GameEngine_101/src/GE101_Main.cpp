@@ -779,7 +779,17 @@ int main()
         screen2->meshName = "Stadium_Screen01";
         screen2->friendlyName = "Stadium_Screen01";
         screen2->typeOfObject = eTypeOfObject::PLANE;
-        //screen2->position = glm::vec3(0.0f, 0.0f, 0.0f);
+        
+        // The "deferred pass" FBO has a colour texture with the entire rendered scene
+        // (including lighting, etc.)
+        GLint fullRenderedImage2D_Overlay_LocID = glGetUniformLocation(ShaderID, "fullRenderedImage2D_Overlay");
+
+        // Pick a texture unit... 
+        pass2unit2 = 56;
+        glActiveTexture(GL_TEXTURE0 + pass2unit2);
+        glBindTexture(GL_TEXTURE_2D, ::g_pTextureManager->getTextureIDFromTextureName("news.bmp"));
+        glUniform1i(fullRenderedImage2D_Overlay_LocID, pass2unit2);
+
 
         // Push back a SINGLE quad or GIANT triangle that fills the entire screen
         vecCopySingleLonelyQuad2.push_back(screen2);

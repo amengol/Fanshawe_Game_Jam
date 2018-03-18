@@ -115,7 +115,7 @@ bool loadTextures()
         std::cout << "Texture is loaded!" << std::endl;
     }
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Dummy_Screen.bmp", true))
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("news.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;
