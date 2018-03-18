@@ -269,15 +269,15 @@ void main()
 			fragOut_colour.a = materialDiffuse.a;
 		}
 
-	////****************************************************************/	
-	//	for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
-	//	{
-	//		fragOut_colour.rgb += calcLightColour( fVertNormal, 					
-	//		                                      fVecWorldPosition, 
-	//											  index, 
-	//		                                      matDiffuse, 
-	//											  materialSpecular );
-	//	}
+	//****************************************************************/	
+		for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
+		{
+			fragOut_colour.rgb += calcLightColour( fVertNormal, 					
+			                                      fVecWorldPosition, 
+												  index, 
+			                                      matDiffuse, 
+												  materialSpecular );
+		}
 	}
 		break;	// end of PASS_0_G_BUFFER_PASS (0):
 	case PASS_1_DEFERRED_RENDER_PASS:	// (1)
