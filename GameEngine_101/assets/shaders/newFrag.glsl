@@ -269,15 +269,15 @@ void main()
 			fragOut_colour.a = materialDiffuse.a;
 		}
 
-	//****************************************************************/	
-		for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
-		{
-			fragOut_colour.rgb += calcLightColour( fVertNormal, 					
-			                                      fVecWorldPosition, 
-												  index, 
-			                                      matDiffuse, 
-												  materialSpecular );
-		}
+	////****************************************************************/	
+	//	for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
+	//	{
+	//		fragOut_colour.rgb += calcLightColour( fVertNormal, 					
+	//		                                      fVecWorldPosition, 
+	//											  index, 
+	//		                                      matDiffuse, 
+	//											  materialSpecular );
+	//	}
 	}
 		break;	// end of PASS_0_G_BUFFER_PASS (0):
 	case PASS_1_DEFERRED_RENDER_PASS:	// (1)
@@ -316,7 +316,7 @@ void main()
 		}// if ( theNormalAtThisPixel.a != CALCULATE_LIGHTING )
 
 
-		fragOut_colour.rgb *= 5.0f;		// dim projector
+		fragOut_colour.rgb *= 7.0f;		// dim projector
 		fragOut_colour.a = 1.0f;
 	}
 		break;	// end of pass PASS_1_DEFERRED_RENDER_PASS (1)

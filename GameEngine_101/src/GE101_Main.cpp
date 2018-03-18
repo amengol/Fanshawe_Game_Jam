@@ -472,113 +472,113 @@ int main()
 
         g_NPCManager.Evaluate(glfwGetTime() - lastTimeStep);
 
-        ////    ___                _             _           ___       _            __   __           
-        ////   | _ \ ___  _ _   __| | ___  _ _  | |_  ___   / __| ___ | |__  _  _  / _| / _| ___  _ _ 
-        ////   |   // -_)| ' \ / _` |/ -_)| '_| |  _|/ _ \ | (_ ||___|| '_ \| || ||  _||  _|/ -_)| '_|
-        ////   |_|_\\___||_||_|\__,_|\___||_|    \__|\___/  \___|     |_.__/ \_,_||_|  |_|  \___||_|  
-        ////                                                                        
-        //// In this pass, we render all the geometry to the "G buffer"
-        //// The lighting is NOT done here. 
-        // 
-        //int curWidth, curHeight;
-        //glfwGetFramebufferSize(window, &curWidth, &curHeight);
+        //    ___                _             _           ___       _            __   __           
+        //   | _ \ ___  _ _   __| | ___  _ _  | |_  ___   / __| ___ | |__  _  _  / _| / _| ___  _ _ 
+        //   |   // -_)| ' \ / _` |/ -_)| '_| |  _|/ _ \ | (_ ||___|| '_ \| || ||  _||  _|/ -_)| '_|
+        //   |_|_\\___||_||_|\__,_|\___||_|    \__|\___/  \___|     |_.__/ \_,_||_|  |_|  \___||_|  
+        //                                                                        
+        // In this pass, we render all the geometry to the "G buffer"
+        // The lighting is NOT done here. 
+         
+        int curWidth, curHeight;
+        glfwGetFramebufferSize(window, &curWidth, &curHeight);
 
-        //if (curWidth != g_FBO_Pass1_G_Buffer.width || curHeight != g_FBO_Pass1_G_Buffer.height)
-        //{
-        //    g_FBO_Pass1_G_Buffer.shutdown();
-        //    g_FBO_Pass2_Deferred.shutdown();
-        //    g_FBO_Pass1_G_Buffer.init(curWidth, curHeight, error);
-        //    g_FBO_Pass2_Deferred.init(curWidth, curHeight, error);
-        //}
+        if (curWidth != g_FBO_Pass1_G_Buffer.width || curHeight != g_FBO_Pass1_G_Buffer.height)
+        {
+            g_FBO_Pass1_G_Buffer.shutdown();
+            g_FBO_Pass2_Deferred.shutdown();
+            g_FBO_Pass1_G_Buffer.init(curWidth, curHeight, error);
+            g_FBO_Pass2_Deferred.init(curWidth, curHeight, error);
+        }
 
-        //::g_pShaderManager->useShaderProgram("GE101_Shader");
-        //GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+        ::g_pShaderManager->useShaderProgram("GE101_Shader");
+        GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
 
-        //// Direct everything to the FBO
-        //GLint renderPassNumber_LocID = glGetUniformLocation(shaderID, "renderPassNumber");
-        //glUniform1i(renderPassNumber_LocID, RENDER_PASS_0_G_BUFFER_PASS);
+        // Direct everything to the FBO
+        GLint renderPassNumber_LocID = glGetUniformLocation(shaderID, "renderPassNumber");
+        glUniform1i(renderPassNumber_LocID, RENDER_PASS_0_G_BUFFER_PASS);
 
-        //glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass1_G_Buffer.ID);
-        //// Clear colour AND depth buffer
+        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass1_G_Buffer.ID);
+        // Clear colour AND depth buffer
         g_FBO_Pass1_G_Buffer.clearBuffers();
 
         RenderScene(::g_vecGameObjects, window, glfwGetTime() - lastTimeStep);
 
-        ////    ___         __                         _   ___                _             ___               
-        ////   |   \  ___  / _| ___  _ _  _ _  ___  __| | | _ \ ___  _ _   __| | ___  _ _  | _ \ __ _  ___ ___
-        ////   | |) |/ -_)|  _|/ -_)| '_|| '_|/ -_)/ _` | |   // -_)| ' \ / _` |/ -_)| '_| |  _// _` |(_-<(_-<
-        ////   |___/ \___||_|  \___||_|  |_|  \___|\__,_| |_|_\\___||_||_|\__,_|\___||_|   |_|  \__,_|/__//__/
-        ////   
-        //// In this pass, we READ from the G-buffer, and calculate the lighting. 
-        //// In this example, we are writing to another FBO, now. 
-        //// 
+        //    ___         __                         _   ___                _             ___               
+        //   |   \  ___  / _| ___  _ _  _ _  ___  __| | | _ \ ___  _ _   __| | ___  _ _  | _ \ __ _  ___ ___
+        //   | |) |/ -_)|  _|/ -_)| '_|| '_|/ -_)/ _` | |   // -_)| ' \ / _` |/ -_)| '_| |  _// _` |(_-<(_-<
+        //   |___/ \___||_|  \___||_|  |_|  \___|\__,_| |_|_\\___||_||_|\__,_|\___||_|   |_|  \__,_|/__//__/
+        //   
+        // In this pass, we READ from the G-buffer, and calculate the lighting. 
+        // In this example, we are writing to another FBO, now. 
+        // 
 
 
-        //// Render it again, but point the the FBO texture... 
-        ////glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass2_Deferred.ID );
-        ////g_FBO_Pass2_Deferred.clearBuffers();
+        // Render it again, but point the the FBO texture... 
+        //glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass2_Deferred.ID );
+        //g_FBO_Pass2_Deferred.clearBuffers();
 
-        //glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        //::g_pShaderManager->useShaderProgram("GE101_Shader");
+        ::g_pShaderManager->useShaderProgram("GE101_Shader");
 
-        //glUniform1i(renderPassNumber_LocID, RENDER_PASS_1_DEFERRED_RENDER_PASS);
+        glUniform1i(renderPassNumber_LocID, RENDER_PASS_1_DEFERRED_RENDER_PASS);
 
-        ////uniform sampler2D texFBONormal2D;
-        ////uniform sampler2D texFBOVertexWorldPos2D;
+        //uniform sampler2D texFBONormal2D;
+        //uniform sampler2D texFBOVertexWorldPos2D;
 
-        //GLint texFBOColour2DTextureUnitID = 10;
-        //GLint texFBOColour2DLocID = glGetUniformLocation(shaderID, "texFBOColour2D");
-        //GLint texFBONormal2DTextureUnitID = 11;
-        //GLint texFBONormal2DLocID = glGetUniformLocation(shaderID, "texFBONormal2D");
-        //GLint texFBOWorldPosition2DTextureUnitID = 12;
-        //GLint texFBOWorldPosition2DLocID = glGetUniformLocation(shaderID, "texFBOVertexWorldPos2D");
+        GLint texFBOColour2DTextureUnitID = 10;
+        GLint texFBOColour2DLocID = glGetUniformLocation(shaderID, "texFBOColour2D");
+        GLint texFBONormal2DTextureUnitID = 11;
+        GLint texFBONormal2DLocID = glGetUniformLocation(shaderID, "texFBONormal2D");
+        GLint texFBOWorldPosition2DTextureUnitID = 12;
+        GLint texFBOWorldPosition2DLocID = glGetUniformLocation(shaderID, "texFBOVertexWorldPos2D");
 
-        //// Pick a texture unit... 
-        //glActiveTexture(GL_TEXTURE0 + texFBOColour2DTextureUnitID);
-        //glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.colourTexture_0_ID);
-        //glUniform1i(texFBOColour2DLocID, texFBOColour2DTextureUnitID);
+        // Pick a texture unit... 
+        glActiveTexture(GL_TEXTURE0 + texFBOColour2DTextureUnitID);
+        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.colourTexture_0_ID);
+        glUniform1i(texFBOColour2DLocID, texFBOColour2DTextureUnitID);
 
-        //glActiveTexture(GL_TEXTURE0 + texFBONormal2DTextureUnitID);
-        //glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.normalTexture_1_ID);
-        //glUniform1i(texFBONormal2DLocID, texFBONormal2DTextureUnitID);
+        glActiveTexture(GL_TEXTURE0 + texFBONormal2DTextureUnitID);
+        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.normalTexture_1_ID);
+        glUniform1i(texFBONormal2DLocID, texFBONormal2DTextureUnitID);
 
-        //glActiveTexture(GL_TEXTURE0 + texFBOWorldPosition2DTextureUnitID);
-        //glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.vertexWorldPos_2_ID);
-        //glUniform1i(texFBOWorldPosition2DLocID, texFBOWorldPosition2DTextureUnitID);
+        glActiveTexture(GL_TEXTURE0 + texFBOWorldPosition2DTextureUnitID);
+        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.vertexWorldPos_2_ID);
+        glUniform1i(texFBOWorldPosition2DLocID, texFBOWorldPosition2DTextureUnitID);
 
-        //// Set the sampler in the shader to the same texture unit (20)
+        // Set the sampler in the shader to the same texture unit (20)
 
-        //glfwGetFramebufferSize(window, &width, &height);
+        glfwGetFramebufferSize(window, &width, &height);
 
-        //GLint screenWidthLocID = glGetUniformLocation(shaderID, "screenWidth");
-        //GLint screenHeightLocID = glGetUniformLocation(shaderID, "screenHeight");
-        //glUniform1f(screenWidthLocID, (float)width);
-        //glUniform1f(screenHeightLocID, (float)height);
+        GLint screenWidthLocID = glGetUniformLocation(shaderID, "screenWidth");
+        GLint screenHeightLocID = glGetUniformLocation(shaderID, "screenHeight");
+        glUniform1f(screenWidthLocID, (float)width);
+        glUniform1f(screenHeightLocID, (float)height);
 
-        ////// Adjust the CA:
-        //////float g_ChromaticAberrationOffset = 0.0f;
-        ////// 0.1
-        ////if (g_CA_CountDown > 0.0)
-        ////{
-        ////    float CRChange = getRandInRange((-g_CR_Max / 10.0f), (g_CR_Max / 10.0f));
-        ////    g_ChromaticAberrationOffset += CRChange;
-        ////    g_CA_CountDown -= glfwGetTime() - lastTimeStep;
-        ////}
-        ////else
-        ////{
-        ////    g_ChromaticAberrationOffset = 0.0f;
-        ////}
+        //// Adjust the CA:
+        ////float g_ChromaticAberrationOffset = 0.0f;
+        //// 0.1
+        //if (g_CA_CountDown > 0.0)
+        //{
+        //    float CRChange = getRandInRange((-g_CR_Max / 10.0f), (g_CR_Max / 10.0f));
+        //    g_ChromaticAberrationOffset += CRChange;
+        //    g_CA_CountDown -= glfwGetTime() - lastTimeStep;
+        //}
+        //else
+        //{
+        //    g_ChromaticAberrationOffset = 0.0f;
+        //}
 
-        ////GLint CROffset_LocID = glGetUniformLocation(shaderID, "CAoffset");
-        ////glUniform1f(CROffset_LocID, g_ChromaticAberrationOffset);
+        //GLint CROffset_LocID = glGetUniformLocation(shaderID, "CAoffset");
+        //glUniform1f(CROffset_LocID, g_ChromaticAberrationOffset);
 
-        //std::vector< cGameObject* >  vecCopy2ndPass;
-        //// Push back a SINGLE quad or GIANT triangle that fills the entire screen
-        //// Here we will use the skybox (as it fills the entire screen)
-        //vecCopy2ndPass.push_back(::g_pSkyBoxObject);
-        //RenderScene(vecCopy2ndPass, window, glfwGetTime() - lastTimeStep);
+        std::vector< cGameObject* >  vecCopy2ndPass;
+        // Push back a SINGLE quad or GIANT triangle that fills the entire screen
+        // Here we will use the skybox (as it fills the entire screen)
+        vecCopy2ndPass.push_back(::g_pSkyBoxObject);
+        RenderScene(vecCopy2ndPass, window, glfwGetTime() - lastTimeStep);
 
 
         ////    ___  _              _   ___  ___    ___               
