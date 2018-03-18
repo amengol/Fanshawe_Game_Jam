@@ -24,9 +24,9 @@
 "Camera" :
 [
 	{
-		"CameraPosition" : [10, 8, 15],
-		"CameraOrientationX" : -15.0,
-		"CameraOrientationY" : 35.0,
+		"CameraPosition" : [8.33, 2, 3.66],
+		"CameraOrientationX" : 0.0,
+		"CameraOrientationY" : 75.0,
 		"CameraOrientationZ" : 0.0
 	}
 ],
@@ -145,22 +145,22 @@
 			"praying" : "praying_stand",
 			"dying" : "dying"
 		},
-		"textureNames[0]" : "Pure.bmp",
+		"textureNames[0]" : "survivor.bmp",
 		"position" : [-1.5, 0.0, 0.0],
 #		"rotateY" : 45.0,
 		"scale" : 0.01
 	},
 	{ 
-		"meshName" : "ybot",
+		"meshName" : "parasite",
 		"friendlyName" : "NPC01",		
 		"typeOfObject" : 7,
-		"defaultAnimation" : "idle",
+		"defaultAnimation" : "idleP",
 		"animationList": 
 		{
-			"idle" : "idle",
-			"walking" : "walking",
-			"walking_backwards" : "walking_backwards",
-			"running": "running",
+			"idle" : "idleP",
+			"walking" : "walkingP",
+			"walking_backwards" : "walking_backwardsP",
+			"running": "runningP",
 			"jump": "jump",
 			"jump_forward_walking" : "jump_forward_walking",
 			"jump_forward_running" : "jump_forward_running",
@@ -172,14 +172,13 @@
 			"right_strafe_walking" : "right_strafe_walking",
 			"right_turn" : "right_turn",
 			"right_turn_90" : "right_turn_90",
-			"runaway" : "runaway",
+			"runaway" : "runawayP",
 			"right_cross_punch" : "right_cross_punch",
-			"right_kicking" : "right_kicking",
-			"praying" : "praying_stand",
-			"dying" : "dying"
+			"right_kicking" : "right_kickingP",
+			"praying" : "praying_standP",
+			"dying" : "dyingP"
 		},
-		"hasMaterialColour" : true,
-		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],
+		"textureNames[0]" : "parasite.bmp",
 		"position" : [-1.5, 0.0, 5.0],
 		"rotateY" : 45.0,
 		"scale" : 0.01

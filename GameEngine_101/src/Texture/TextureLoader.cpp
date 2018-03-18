@@ -35,7 +35,7 @@ bool loadTextures()
 
     ::g_pTextureManager->setBasePath("assets/textures");
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Pure.bmp", true))
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("survivor.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;

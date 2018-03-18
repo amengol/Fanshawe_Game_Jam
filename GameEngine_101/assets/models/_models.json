@@ -29,7 +29,7 @@
 #{"meshName" : "Sockerball", "meshFile" : "Sockerball.obj"},
 #{"meshName" : "Low_Poly_Sphere", "meshFile" : "Low_Poly_Sphere.obj", "isPersistent" : true},
 #{"meshName" : "T-pose", "type" : 1, "meshFile" : "T-pose.fbx"},
-{"meshName" : "ybot", "type" : 1, "meshFile" : "ybot.fbx"},
+{"meshName" : "ybot", "type" : 1, "meshFile" : "survivor.fbx"},
 {"meshName" : "parasite", "type" : 1, "meshFile" : "parasite.fbx"},
 {"animName" : "idle", "type" : 2, "animFile" : "idle.fbx"},
 {"animName" : "idleP", "type" : 2, "animFile" : "idleP.fbx"},
