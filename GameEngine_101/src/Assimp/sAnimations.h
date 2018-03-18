@@ -11,11 +11,11 @@ struct sAnimations
     std::string jump;
     std::string jump_forward;
     std::string left_strafe;
-    std::string left_strafe_walking;
+    std::string left_strafe_running;
     std::string left_turn;
     std::string left_turn_90;
     std::string right_strafe;
-    std::string right_strafe_walking;
+    std::string right_strafe_running;
     std::string right_turn;
     std::string right_turn_90;
     std::string trick;

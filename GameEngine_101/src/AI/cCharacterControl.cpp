@@ -40,6 +40,56 @@ void cCharacterControl::Forward()
     }
 }
 
+void cCharacterControl::LeftStrafe()
+{
+    if (mCharacter != NULL)
+    {
+        // Don't cut the jump
+        if (mAnimState != LEFT_STRAFE && mAnimState != JUMP_FORWARD)
+        {
+            // Update rotations
+            UpdateInterruptedRotations();
+
+            std::string animationName = mCharacter->animations.left_strafe;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(1.5f, 0.0f, 0.0f));
+
+            mAnimState = LEFT_STRAFE;
+        }
+    }
+}
+
+void cCharacterControl::RightStrafe()
+{
+    if (mCharacter != NULL)
+    {
+        // Don't cut the jump
+        if (mAnimState != RIGHT_STRAFE && mAnimState != JUMP_FORWARD)
+        {
+            // Update rotations
+            UpdateInterruptedRotations();
+
+            std::string animationName = mCharacter->animations.right_strafe;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(-1.5f, 0.0f, 0.0f));
+
+            mAnimState = RIGHT_STRAFE;
+        }
+    }
+}
+
 void cCharacterControl::ForwardRun()
 {
     if (mCharacter != NULL)
@@ -60,6 +110,56 @@ void cCharacterControl::ForwardRun()
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
 
             mAnimState = RUN_FORWARD;
+        }
+    }
+}
+
+void cCharacterControl::LeftStrafeRun()
+{
+    if (mCharacter != NULL)
+    {
+        // Don't cut the jump
+        if (mAnimState != LEFT_STRAFE_RUN && mAnimState != JUMP_FORWARD)
+        {
+            // Update rotations
+            UpdateInterruptedRotations();
+
+            std::string animationName = mCharacter->animations.left_strafe_running;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(3.75f, 0.0f, 0.0f));
+
+            mAnimState = LEFT_STRAFE_RUN;
+        }
+    }
+}
+
+void cCharacterControl::RightStrafeRun()
+{
+    if (mCharacter != NULL)
+    {
+        // Don't cut the jump
+        if (mAnimState != RIGHT_STRAFE_RUN && mAnimState != JUMP_FORWARD)
+        {
+            // Update rotations
+            UpdateInterruptedRotations();
+
+            std::string animationName = mCharacter->animations.right_strafe_running;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(-3.75f, 0.0f, 0.0f));
+
+            mAnimState = RIGHT_STRAFE_RUN;
         }
     }
 }

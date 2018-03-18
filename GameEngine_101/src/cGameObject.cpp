@@ -341,7 +341,7 @@ void cGameObject::DebugUpdate(double deltaTime)
          }
      }
      
-     animationName = animations.left_strafe;
+     animationName = animations.left_strafe_running;
      if (animationName != "")
      {
          const aiScene* anim = g_animationCollection.getAnimation(animationName);
@@ -357,7 +357,7 @@ void cGameObject::DebugUpdate(double deltaTime)
          }
      }
      
-     animationName = animations.left_strafe_walking;
+     animationName = animations.left_strafe;
      if (animationName != "")
      {
          const aiScene* anim = g_animationCollection.getAnimation(animationName);
@@ -405,7 +405,7 @@ void cGameObject::DebugUpdate(double deltaTime)
          }
      }
      
-     animationName = animations.right_strafe;
+     animationName = animations.right_strafe_running;
      if (animationName != "")
      {
          const aiScene* anim = g_animationCollection.getAnimation(animationName);
@@ -421,7 +421,7 @@ void cGameObject::DebugUpdate(double deltaTime)
          }
      }
      
-     animationName = animations.right_strafe_walking;
+     animationName = animations.right_strafe;
      if (animationName != "")
      {
          const aiScene* anim = g_animationCollection.getAnimation(animationName);

@@ -18,6 +18,8 @@ const float ROTANGLE = 1.0f;
 const float CAMSPEED = 1.0f;
 static bool W_Pressed = false;
 static bool S_Pressed = false;
+static bool LA_Pressed = false;
+static bool RA_Pressed = false;
 static bool SHIFT_Pressed = false;
 
 
@@ -1086,6 +1088,10 @@ void key_callback(GLFWwindow* window,
             SHIFT_Pressed = true;
             if (W_Pressed)
                 pCharacterControl->ForwardRun();
+            if (LA_Pressed)
+                pCharacterControl->LeftStrafeRun();
+            if (RA_Pressed)
+                pCharacterControl->RightStrafeRun();
         }
 
         if (action == GLFW_PRESS)
@@ -1107,6 +1113,24 @@ void key_callback(GLFWwindow* window,
                 pCharacterControl->Backwards();
                 S_Pressed = true;
             }
+
+            if (key == GLFW_KEY_LEFT)
+            {
+                //if (SHIFT_Pressed)
+                //    pCharacterControl->ForwardRun();
+                //else
+                pCharacterControl->LeftStrafe();
+                LA_Pressed = true;
+            }
+
+            if (key == GLFW_KEY_RIGHT)
+            {
+                //if (SHIFT_Pressed)
+                //    pCharacterControl->ForwardRun();
+                //else
+                pCharacterControl->RightStrafe();
+                RA_Pressed = true;
+            }
         }
 
         if ((key == GLFW_KEY_LEFT_SHIFT || key == GLFW_KEY_RIGHT_SHIFT) && action == GLFW_RELEASE)
@@ -1114,12 +1138,30 @@ void key_callback(GLFWwindow* window,
             SHIFT_Pressed = false;
             if (W_Pressed)
                 pCharacterControl->Forward();
+            if (LA_Pressed)
+                pCharacterControl->LeftStrafe();
+            if (RA_Pressed)
+                pCharacterControl->RightStrafe();
         }
 
         if (key == GLFW_KEY_W && action == GLFW_RELEASE)
         {
             pCharacterControl->Idle();
             W_Pressed = false;
+            SHIFT_Pressed = false;
+        }
+
+        if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE)
+        {
+            pCharacterControl->Idle();
+            LA_Pressed = false;
+            SHIFT_Pressed = false;
+        }
+
+        if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE)
+        {
+            pCharacterControl->Idle();
+            RA_Pressed = false;
             SHIFT_Pressed = false;
         }
 
@@ -1195,6 +1237,10 @@ void key_callback(GLFWwindow* window,
             if (key == GLFW_KEY_A && action == GLFW_RELEASE)
                 pCharacterControl->Idle();
             if (key == GLFW_KEY_D && action == GLFW_RELEASE)
+                pCharacterControl->Idle();
+            if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE)
+                pCharacterControl->Idle();
+            if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE)
                 pCharacterControl->Idle();
         }
 
@@ -1308,6 +1354,10 @@ void key_callback(GLFWwindow* window,
             SHIFT_Pressed = true;
             if (W_Pressed)
                 pCharacterControl->ForwardRun();
+            if (LA_Pressed)
+                pCharacterControl->LeftStrafeRun();
+            if (RA_Pressed)
+                pCharacterControl->RightStrafeRun();
         }
 
         if (action == GLFW_PRESS)
@@ -1329,6 +1379,24 @@ void key_callback(GLFWwindow* window,
                 pCharacterControl->Backwards();
                 S_Pressed = true;
             }
+
+            if (key == GLFW_KEY_LEFT)
+            {
+                //if (SHIFT_Pressed)
+                //    pCharacterControl->ForwardRun();
+                //else
+                pCharacterControl->LeftStrafe();
+                LA_Pressed = true;
+            }
+
+            if (key == GLFW_KEY_RIGHT)
+            {
+                //if (SHIFT_Pressed)
+                //    pCharacterControl->ForwardRun();
+                //else
+                pCharacterControl->RightStrafe();
+                RA_Pressed = true;
+            }
         }
 
         if ((key == GLFW_KEY_LEFT_SHIFT || key == GLFW_KEY_RIGHT_SHIFT) && action == GLFW_RELEASE)
@@ -1336,12 +1404,30 @@ void key_callback(GLFWwindow* window,
             SHIFT_Pressed = false;
             if (W_Pressed)
                 pCharacterControl->Forward();
+            if (LA_Pressed)
+                pCharacterControl->LeftStrafe();
+            if (RA_Pressed)
+                pCharacterControl->RightStrafe();
         }
 
         if (key == GLFW_KEY_W && action == GLFW_RELEASE)
         {
             pCharacterControl->Idle();
             W_Pressed = false;
+            SHIFT_Pressed = false;
+        }
+
+        if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE)
+        {
+            pCharacterControl->Idle();
+            LA_Pressed = false;
+            SHIFT_Pressed = false;
+        }
+
+        if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE)
+        {
+            pCharacterControl->Idle();
+            RA_Pressed = false;
             SHIFT_Pressed = false;
         }
 
@@ -1401,9 +1487,9 @@ void key_callback(GLFWwindow* window,
         else
         {
             if (key == GLFW_KEY_A && action == GLFW_PRESS)
-                pCharacterControl->TurnLeft180();
+                pCharacterControl->TurnLeft90();
             if (key == GLFW_KEY_D && action == GLFW_PRESS)
-                pCharacterControl->TurnRight180();
+                pCharacterControl->TurnRight90();
             if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
                 pCharacterControl->Jump();
             if (key == GLFW_KEY_T && action == GLFW_PRESS)
@@ -1417,6 +1503,10 @@ void key_callback(GLFWwindow* window,
             if (key == GLFW_KEY_A && action == GLFW_RELEASE)
                 pCharacterControl->Idle();
             if (key == GLFW_KEY_D && action == GLFW_RELEASE)
+                pCharacterControl->Idle();
+            if (key == GLFW_KEY_LEFT && action == GLFW_RELEASE)
+                pCharacterControl->Idle();
+            if (key == GLFW_KEY_RIGHT && action == GLFW_RELEASE)
                 pCharacterControl->Idle();
         }
 

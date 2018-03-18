@@ -738,18 +738,18 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                 }
 
-                if ((gameObject[jsIndex]["animationList"].HasMember("left_strafe")))
+                if ((gameObject[jsIndex]["animationList"].HasMember("left_strafe_running")))
                 {
-                    if (((gameObject[jsIndex]["animationList"]["left_strafe"].IsString())))
+                    if (((gameObject[jsIndex]["animationList"]["left_strafe_running"].IsString())))
                     {
-                        theGO->animations.left_strafe =
-                            gameObject[jsIndex]["animationList"]["left_strafe"].GetString();
+                        theGO->animations.left_strafe_running =
+                            gameObject[jsIndex]["animationList"]["left_strafe_running"].GetString();
                         isCharacter = true;
                     }
                     else
                     {
                         error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                            " is not properly formated for its \"animationList\", \"left_strafe\" member!";
+                            " is not properly formated for its \"animationList\", \"left_strafe_running\" member!";
                         return false;
                     }
                 }
@@ -758,7 +758,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 {
                     if (((gameObject[jsIndex]["animationList"]["left_strafe_walking"].IsString())))
                     {
-                        theGO->animations.left_strafe_walking =
+                        theGO->animations.left_strafe =
                             gameObject[jsIndex]["animationList"]["left_strafe_walking"].GetString();
                         isCharacter = true;
                     }
@@ -802,18 +802,18 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                 }
 
-                if ((gameObject[jsIndex]["animationList"].HasMember("right_strafe")))
+                if ((gameObject[jsIndex]["animationList"].HasMember("right_strafe_running")))
                 {
-                    if (((gameObject[jsIndex]["animationList"]["right_strafe"].IsString())))
+                    if (((gameObject[jsIndex]["animationList"]["right_strafe_running"].IsString())))
                     {
-                        theGO->animations.right_strafe =
-                            gameObject[jsIndex]["animationList"]["right_strafe"].GetString();
+                        theGO->animations.right_strafe_running =
+                            gameObject[jsIndex]["animationList"]["right_strafe_running"].GetString();
                         isCharacter = true;
                     }
                     else
                     {
                         error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                            " is not properly formated for its \"animationList\", \"right_strafe\" member!";
+                            " is not properly formated for its \"animationList\", \"right_strafe_running\" member!";
                         return false;
                     }
                 }
@@ -822,7 +822,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 {
                     if (((gameObject[jsIndex]["animationList"]["right_strafe_walking"].IsString())))
                     {
-                        theGO->animations.right_strafe_walking =
+                        theGO->animations.right_strafe =
                             gameObject[jsIndex]["animationList"]["right_strafe_walking"].GetString();
                         isCharacter = true;
                     }

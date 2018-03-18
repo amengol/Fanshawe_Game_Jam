@@ -24,9 +24,13 @@ public:
     {
         IDLE,
         WALKING,
+        LEFT_STRAFE,
+        RIGHT_STRAFE,
         WALKING_BACKWARDS,
         RUN,
         RUN_FORWARD,
+        LEFT_STRAFE_RUN,
+        RIGHT_STRAFE_RUN,
         TURN_LEFT_90,
         TURN_RIGHT_90,
         TURN_LEFT_180,
@@ -51,8 +55,20 @@ public:
     // Moves character forward
     void Forward();
 
+    // Strafes character to the left
+    void LeftStrafe();
+
+    // Strafes character to the right
+    void RightStrafe();
+
     // Runs forward
     void ForwardRun();
+
+    // Strafes character to the left running
+    void LeftStrafeRun();
+
+    // Strafes character to the right running
+    void RightStrafeRun();
 
     // Moves character backwords
     void Backwards();
