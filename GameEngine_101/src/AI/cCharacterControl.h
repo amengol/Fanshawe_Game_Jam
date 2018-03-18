@@ -36,6 +36,7 @@ public:
         TURN_LEFT_180,
         TURN_RIGHT_180,
         JUMP,
+        JUMP_FORWARD_WALKING,
         JUMP_FORWARD,
         TRICK,
         VIOLENT_TRICK,
@@ -87,6 +88,9 @@ public:
 
     // Jumps in place
     void Jump();
+
+    // Jumps forward
+    void ForwardJumpWalking();
 
     // Jumps forward
     void ForwardJump();

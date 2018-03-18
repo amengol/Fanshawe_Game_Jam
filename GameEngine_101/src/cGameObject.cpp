@@ -325,7 +325,23 @@ void cGameObject::DebugUpdate(double deltaTime)
          }
      }
      
-     animationName = animations.jump_forward;
+     animationName = animations.jump_forward_walking;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+
+     animationName = animations.jump_forward_running;
      if (animationName != "")
      {
          const aiScene* anim = g_animationCollection.getAnimation(animationName);

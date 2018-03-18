@@ -255,7 +255,13 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
         }
 
         // Jump only once!
-        if (pAniState->activeAnimation.name == pTheGO->animations.jump_forward)
+        if (pAniState->activeAnimation.name == pTheGO->animations.jump_forward_walking)
+        {
+            pAniState->activeAnimation.name = pTheGO->animations.walking;
+            pAniState->activeAnimation.totalTime =
+                pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.walking);
+        }
+        if (pAniState->activeAnimation.name == pTheGO->animations.jump_forward_running)
         {
             pAniState->activeAnimation.name = pTheGO->animations.running;
             pAniState->activeAnimation.totalTime =

@@ -1203,6 +1203,10 @@ void key_callback(GLFWwindow* window,
                 {
                     pCharacterControl->ForwardJump();
                 }
+                else
+                {
+                    pCharacterControl->ForwardJumpWalking();
+                }
             }
         }
         else if (S_Pressed)
@@ -1468,6 +1472,10 @@ void key_callback(GLFWwindow* window,
                 if (SHIFT_Pressed)
                 {
                     pCharacterControl->ForwardJump();
+                }
+                else
+                {
+                    pCharacterControl->ForwardJumpWalking();
                 }
             }
         }

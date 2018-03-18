@@ -9,7 +9,8 @@ struct sAnimations
     std::string walking_backwards;
     std::string running;
     std::string jump;
-    std::string jump_forward;
+    std::string jump_forward_walking;
+    std::string jump_forward_running;
     std::string left_strafe;
     std::string left_strafe_running;
     std::string left_turn;

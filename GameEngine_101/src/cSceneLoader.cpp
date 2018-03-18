@@ -722,18 +722,34 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                 }
 
-                if ((gameObject[jsIndex]["animationList"].HasMember("jump_forward")))
+                if ((gameObject[jsIndex]["animationList"].HasMember("jump_forward_walking")))
                 {
-                    if (((gameObject[jsIndex]["animationList"]["jump_forward"].IsString())))
+                    if (((gameObject[jsIndex]["animationList"]["jump_forward_walking"].IsString())))
                     {
-                        theGO->animations.jump_forward =
-                            gameObject[jsIndex]["animationList"]["jump_forward"].GetString();
+                        theGO->animations.jump_forward_walking =
+                            gameObject[jsIndex]["animationList"]["jump_forward_walking"].GetString();
                         isCharacter = true;
                     }
                     else
                     {
                         error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                            " is not properly formated for its \"animationList\", \"jump_forward\" member!";
+                            " is not properly formated for its \"animationList\", \"jump_forward_walking\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("jump_forward_running")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["jump_forward_running"].IsString())))
+                    {
+                        theGO->animations.jump_forward_running =
+                            gameObject[jsIndex]["animationList"]["jump_forward_running"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"jump_forward_running\" member!";
                         return false;
                     }
                 }

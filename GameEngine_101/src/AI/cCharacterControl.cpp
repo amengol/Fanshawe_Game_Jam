@@ -298,12 +298,37 @@ void cCharacterControl::Jump()
     }
 }
 
+void cCharacterControl::ForwardJumpWalking()
+{
+    if (mCharacter != NULL)
+    {
+        // Avoid jumping in the air
+        std::string animationName = mCharacter->animations.jump_forward_walking;
+        float duration =
+            mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+        float deltaTime = glfwGetTime() - mSysTimeJump;
+        if (deltaTime < duration)
+            return;
+
+        mCharacter->pAniState->activeAnimation.name = animationName;
+
+        mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+        mCharacter->pAniState->activeAnimation.totalTime =
+            mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+        mAnimState = JUMP_FORWARD_WALKING;
+
+        mSysTimeJump = glfwGetTime();
+    }
+}
+
 void cCharacterControl::ForwardJump()
 {
     if (mCharacter != NULL)
     {
         // Avoid jumping in the air
-        std::string animationName = mCharacter->animations.jump_forward;
+        std::string animationName = mCharacter->animations.jump_forward_running;
         float duration =
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
         float deltaTime = glfwGetTime() - mSysTimeJump;
