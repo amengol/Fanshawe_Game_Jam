@@ -115,6 +115,7 @@ const float DONT_CALCULATE_LIGHTING = 0.25f;
 const int PASS_0_G_BUFFER_PASS = 0;
 const int PASS_1_DEFERRED_RENDER_PASS = 1;
 const int PASS_2_FULL_SCREEN_EFFECT_PASS = 2;
+const int PASS_3_FULL_SCREEN_EFFECT_PASS_2 = 3;
 
 
 void main()
@@ -328,6 +329,15 @@ void main()
 		fragOut_colour.a = 1.0f;
 	}
 		break;	// end of pass PASS_2_FULL_SCREEN_EFFECT_PASS:
+	case PASS_3_FULL_SCREEN_EFFECT_PASS_2:	// (2)
+	{
+		vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, gl_FragCoord.y / screenHeight );
+
+
+		fragOut_colour.rgb = texture( fullRenderedImage2D, textCoords).rgb;
+		fragOut_colour.a = 1.0f;
+	}
+		break;	// end of pass PASS_3_FULL_SCREEN_EFFECT_PASS_2:
 	}
 	
 	return;

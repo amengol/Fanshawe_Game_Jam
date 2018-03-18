@@ -37,6 +37,8 @@
 //    Copying from the Pass2_Deferred buffer to the final screen
 cFBO g_FBO_Pass1_G_Buffer;
 cFBO g_FBO_Pass2_Deferred;
+cFBO g_FBO_Pass1_G_Buffer_Screen;
+cFBO g_FBO_Pass2_Deferred_Screen;
 
 
 
@@ -120,6 +122,7 @@ double g_CA_CountDown = 0.0f;
 const int RENDER_PASS_0_G_BUFFER_PASS = 0;
 const int RENDER_PASS_1_DEFERRED_RENDER_PASS = 1;
 const int RENDER_PASS_2_FULL_SCREEN_EFFECT_PASS = 2;
+const int RENDER_PASS_3_FULL_SCREEN_EFFECT_PASS_2 = 3;
 
 int main()
 {
@@ -467,6 +470,9 @@ int main()
 
     }//if ( ! ::g_FBO_Pass2_Deferred.init
 
+    g_FBO_Pass1_G_Buffer_Screen.init(width, height, error);
+    g_FBO_Pass2_Deferred_Screen.init(width, height, error);
+
     // Will be used in the physics step
     double lastTimeStep = glfwGetTime();
 
@@ -499,6 +505,10 @@ int main()
             g_FBO_Pass2_Deferred.shutdown();
             g_FBO_Pass1_G_Buffer.init(curWidth, curHeight, error);
             g_FBO_Pass2_Deferred.init(curWidth, curHeight, error);
+            g_FBO_Pass1_G_Buffer_Screen.shutdown();
+            g_FBO_Pass2_Deferred_Screen.shutdown();
+            g_FBO_Pass1_G_Buffer_Screen.init(curWidth, curHeight, error);
+            g_FBO_Pass2_Deferred_Screen.init(curWidth, curHeight, error);
         }
 
         ::g_pShaderManager->useShaderProgram("GE101_Shader");
@@ -508,9 +518,9 @@ int main()
         GLint renderPassNumber_LocID = glGetUniformLocation(shaderID, "renderPassNumber");
         glUniform1i(renderPassNumber_LocID, RENDER_PASS_0_G_BUFFER_PASS);
 
-        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass1_G_Buffer.ID);
+        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass1_G_Buffer_Screen.ID);
         // Clear colour AND depth buffer
-        g_FBO_Pass1_G_Buffer.clearBuffers();
+        g_FBO_Pass1_G_Buffer_Screen.clearBuffers();
 
         RenderScene(::g_vecGameObjects, window, g_pFixedCamera, glfwGetTime() - lastTimeStep);
 
@@ -525,8 +535,8 @@ int main()
 
 
         // Render it again, but point the the FBO texture... 
-        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass2_Deferred.ID );
-        g_FBO_Pass2_Deferred.clearBuffers();
+        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass2_Deferred_Screen.ID );
+        g_FBO_Pass2_Deferred_Screen.clearBuffers();
 
         //glBindFramebuffer(GL_FRAMEBUFFER, 0);
         //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -547,15 +557,15 @@ int main()
 
         // Pick a texture unit... 
         glActiveTexture(GL_TEXTURE0 + texFBOColour2DTextureUnitID);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.colourTexture_0_ID);
+        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer_Screen.colourTexture_0_ID);
         glUniform1i(texFBOColour2DLocID, texFBOColour2DTextureUnitID);
 
         glActiveTexture(GL_TEXTURE0 + texFBONormal2DTextureUnitID);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.normalTexture_1_ID);
+        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer_Screen.normalTexture_1_ID);
         glUniform1i(texFBONormal2DLocID, texFBONormal2DTextureUnitID);
 
         glActiveTexture(GL_TEXTURE0 + texFBOWorldPosition2DTextureUnitID);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.vertexWorldPos_2_ID);
+        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer_Screen.vertexWorldPos_2_ID);
         glUniform1i(texFBOWorldPosition2DLocID, texFBOWorldPosition2DTextureUnitID);
 
         // Set the sampler in the shader to the same texture unit (20)
@@ -590,6 +600,103 @@ int main()
         vecCopy2ndPass.push_back(::g_pSkyBoxObject);
         RenderScene(vecCopy2ndPass, window, g_pFixedCamera, glfwGetTime() - lastTimeStep);
 
+        //    ___                _             _           ___       _            __   __           
+        //   | _ \ ___  _ _   __| | ___  _ _  | |_  ___   / __| ___ | |__  _  _  / _| / _| ___  _ _ 
+        //   |   // -_)| ' \ / _` |/ -_)| '_| |  _|/ _ \ | (_ ||___|| '_ \| || ||  _||  _|/ -_)| '_|
+        //   |_|_\\___||_||_|\__,_|\___||_|    \__|\___/  \___|     |_.__/ \_,_||_|  |_|  \___||_|  
+        //                                                                        
+        // In this pass, we render all the geometry to the "G buffer"
+        // The lighting is NOT done here. 
+
+
+
+        glUniform1i(renderPassNumber_LocID, RENDER_PASS_0_G_BUFFER_PASS);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass1_G_Buffer.ID);
+        // Clear colour AND depth buffer
+        g_FBO_Pass1_G_Buffer.clearBuffers();
+
+        RenderScene(::g_vecGameObjects, window, g_pCamera, glfwGetTime() - lastTimeStep);
+
+        //    ___         __                         _   ___                _             ___               
+        //   |   \  ___  / _| ___  _ _  _ _  ___  __| | | _ \ ___  _ _   __| | ___  _ _  | _ \ __ _  ___ ___
+        //   | |) |/ -_)|  _|/ -_)| '_|| '_|/ -_)/ _` | |   // -_)| ' \ / _` |/ -_)| '_| |  _// _` |(_-<(_-<
+        //   |___/ \___||_|  \___||_|  |_|  \___|\__,_| |_|_\\___||_||_|\__,_|\___||_|   |_|  \__,_|/__//__/
+        //   
+        // In this pass, we READ from the G-buffer, and calculate the lighting. 
+        // In this example, we are writing to another FBO, now. 
+        // 
+
+
+        // Render it again, but point the the FBO texture... 
+        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass2_Deferred.ID );
+        g_FBO_Pass2_Deferred.clearBuffers();
+
+        //glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        ::g_pShaderManager->useShaderProgram("GE101_Shader");
+
+        glUniform1i(renderPassNumber_LocID, RENDER_PASS_1_DEFERRED_RENDER_PASS);
+
+        //uniform sampler2D texFBONormal2D;
+        //uniform sampler2D texFBOVertexWorldPos2D;
+
+        texFBOColour2DTextureUnitID = 20;
+        texFBONormal2DTextureUnitID = 21;
+        texFBOWorldPosition2DTextureUnitID = 22;
+
+        // Pick a texture unit... 
+        glActiveTexture(GL_TEXTURE0 + texFBOColour2DTextureUnitID);
+        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.colourTexture_0_ID);
+        glUniform1i(texFBOColour2DLocID, texFBOColour2DTextureUnitID);
+
+        glActiveTexture(GL_TEXTURE0 + texFBONormal2DTextureUnitID);
+        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.normalTexture_1_ID);
+        glUniform1i(texFBONormal2DLocID, texFBONormal2DTextureUnitID);
+
+        glActiveTexture(GL_TEXTURE0 + texFBOWorldPosition2DTextureUnitID);
+        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.vertexWorldPos_2_ID);
+        glUniform1i(texFBOWorldPosition2DLocID, texFBOWorldPosition2DTextureUnitID);
+
+        // Set the sampler in the shader to the same texture unit (20)
+
+        glfwGetFramebufferSize(window, &width, &height);
+
+        glUniform1f(screenWidthLocID, (float)width);
+        glUniform1f(screenHeightLocID, (float)height);
+
+        //// Adjust the CA:
+        ////float g_ChromaticAberrationOffset = 0.0f;
+        //// 0.1
+        //if (g_CA_CountDown > 0.0)
+        //{
+        //    float CRChange = getRandInRange((-g_CR_Max / 10.0f), (g_CR_Max / 10.0f));
+        //    g_ChromaticAberrationOffset += CRChange;
+        //    g_CA_CountDown -= glfwGetTime() - lastTimeStep;
+        //}
+        //else
+        //{
+        //    g_ChromaticAberrationOffset = 0.0f;
+        //}
+
+        //GLint CROffset_LocID = glGetUniformLocation(shaderID, "CAoffset");
+        //glUniform1f(CROffset_LocID, g_ChromaticAberrationOffset);
+
+        std::vector< cGameObject* >  vecCopy2ndPass2;
+        // Push back a SINGLE quad or GIANT triangle that fills the entire screen
+        // Here we will use the skybox (as it fills the entire screen)
+        vecCopy2ndPass2.push_back(::g_pSkyBoxObject);
+        RenderScene(vecCopy2ndPass2, window, g_pFixedCamera, glfwGetTime() - lastTimeStep);
+
+
+
+
+
+
+
+
+
 
         //    ___  _              _   ___  ___    ___               
         //   | __|(_) _ _   __ _ | | |_  )|   \  | _ \ __ _  ___ ___
@@ -614,14 +721,12 @@ int main()
         //===========================================================================================
 
 
-        glUniform1i(renderPassNumber_LocID, RENDER_PASS_0_G_BUFFER_PASS);
-        RenderScene(g_vecGameObjects, window, g_pCamera, glfwGetTime() - lastTimeStep);
+        //glUniform1i(renderPassNumber_LocID, RENDER_PASS_0_G_BUFFER_PASS);
+        //RenderScene(g_vecGameObjects, window, g_pCamera, glfwGetTime() - lastTimeStep);
 
-        //================================================================================================
+        glUniform1i(renderPassNumber_LocID, RENDER_PASS_3_FULL_SCREEN_EFFECT_PASS_2);
 
-        glUniform1i(renderPassNumber_LocID, RENDER_PASS_2_FULL_SCREEN_EFFECT_PASS);
 
-        
 
         // The "deferred pass" FBO has a colour texture with the entire rendered scene
         // (including lighting, etc.)
@@ -635,15 +740,42 @@ int main()
 
 
         std::vector< cGameObject* >  vecCopySingleLonelyQuad;
-        cGameObject* screen = new cGameObject();
-        screen->meshName = "Stadium_Screen01";
-        screen->friendlyName = "Stadium_Screen01";
-        screen->typeOfObject = eTypeOfObject::PLANE;
-        screen->position = glm::vec3(0.0f, -20.0f, 0.0f);
+        //cGameObject* screen = new cGameObject();
+        //screen->meshName = "Stadium_Screen01";
+        //screen->friendlyName = "Stadium_Screen01";
+        //screen->typeOfObject = eTypeOfObject::PLANE;
+        ////screen->position = glm::vec3(0.0f, 10.0f, -50.0f);
 
         // Push back a SINGLE quad or GIANT triangle that fills the entire screen
-        vecCopySingleLonelyQuad.push_back(screen);
+        vecCopySingleLonelyQuad.push_back(g_pSkyBoxObject);
         RenderScene(vecCopySingleLonelyQuad, window, g_pCamera, glfwGetTime() - lastTimeStep);
+
+
+        //================================================================================================
+
+
+        glUniform1i(renderPassNumber_LocID, RENDER_PASS_2_FULL_SCREEN_EFFECT_PASS);
+
+        // The "deferred pass" FBO has a colour texture with the entire rendered scene
+        // (including lighting, etc.)
+
+        // Pick a texture unit... 
+        unsigned int pass2unit2 = 55;
+        glActiveTexture(GL_TEXTURE0 + pass2unit2);
+        glBindTexture(GL_TEXTURE_2D, ::g_FBO_Pass2_Deferred_Screen.colourTexture_0_ID);
+        glUniform1i(fullRenderedImage2D_LocID, pass2unit2);
+
+
+        std::vector< cGameObject* >  vecCopySingleLonelyQuad2;
+        cGameObject* screen2 = new cGameObject();
+        screen2->meshName = "Stadium_Screen01";
+        screen2->friendlyName = "Stadium_Screen01";
+        screen2->typeOfObject = eTypeOfObject::PLANE;
+        //screen2->position = glm::vec3(0.0f, 0.0f, 0.0f);
+
+        // Push back a SINGLE quad or GIANT triangle that fills the entire screen
+        vecCopySingleLonelyQuad2.push_back(screen2);
+        RenderScene(vecCopySingleLonelyQuad2, window, g_pCamera, glfwGetTime() - lastTimeStep);
 
 
 
