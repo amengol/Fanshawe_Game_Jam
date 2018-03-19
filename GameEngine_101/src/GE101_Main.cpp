@@ -101,7 +101,7 @@ long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
 float g_FOV = 0.6f;
-cNPCManager g_NPCManager;
+//cNPCManager g_NPCManager;
 //cSimpleAi_Manager g_AiManager;
 //cLocalization g_lococalization;
 //cTextManager g_textManager;
@@ -426,15 +426,15 @@ int main()
     //                        -1000.0f, 1000.0f);
     // ------------------------------------------------------------------------
 
-    // Sets the default Game Character
-    if (!g_characterManager.SetControlledCharacter("Hero01", error))
-    {
-        std::cout << "The Game Character was not found!\n";
-    }
+    //// Sets the default Game Character
+    //if (!g_characterManager.SetControlledCharacter("Hero01", error))
+    //{
+    //    std::cout << "The Game Character was not found!\n";
+    //}
 
-    // Set NPC Manager    
-    g_NPCManager.SetPlayer(g_characterManager.GetActiveCharacter());
-    g_NPCManager.SetNPCs(g_characterManager.GetNPCs());
+    //// Set NPC Manager    
+    //g_NPCManager.SetPlayer(g_characterManager.GetActiveCharacter());
+    //g_NPCManager.SetNPCs(g_characterManager.GetNPCs());
 
     glEnable(GL_DEPTH);
 
@@ -464,10 +464,10 @@ int main()
         //g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
         //=====================================================================
 
-        g_NPCManager.Evaluate(glfwGetTime() - lastTimeStep);
+        //g_NPCManager.Evaluate(glfwGetTime() - lastTimeStep);
 
-        // Will lock the fixed camera on the main character
-        g_pFixedCamera->lockOnCharacter(g_characterManager.GetActiveCharacter()->GetCharacter(), true);
+        //// Will lock the fixed camera on the main character
+        //g_pFixedCamera->lockOnCharacter(g_characterManager.GetActiveCharacter()->GetCharacter(), true);
          
         int curWidth, curHeight;
         glfwGetFramebufferSize(window, &curWidth, &curHeight);
@@ -497,7 +497,13 @@ int main()
         g_FBO_Pass1_G_Buffer_Screen.clearBuffers();
 
         // Render to the Screen FBO (1st pass)
-        RenderScene(::g_vecGameObjects, window, g_pFixedCamera, glfwGetTime() - lastTimeStep);
+        //RenderScene(::g_vecGameObjects, window, g_pFixedCamera, glfwGetTime() - lastTimeStep);
+
+
+
+        RenderScene(::g_vecGameObjects, window, g_pCamera, glfwGetTime() - lastTimeStep);
+
+
 
         // Now we point it to the FBO texture
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass2_Deferred_Screen.ID );
@@ -540,12 +546,7 @@ int main()
         // Also, we are using the Fixed Camera
         std::vector< cGameObject* >  vecSkyBox;
         vecSkyBox.push_back(::g_pSkyBoxObject);
-        //RenderScene(vecSkyBox, window, g_pFixedCamera, glfwGetTime() - lastTimeStep);
-
-
-
-        RenderScene(vecSkyBox, window, g_pCamera, glfwGetTime() - lastTimeStep);
-
+        RenderScene(vecSkyBox, window, g_pFixedCamera, glfwGetTime() - lastTimeStep);
 
 
         //// We now have a "Screen texture" to be used in the screen of the Stadium

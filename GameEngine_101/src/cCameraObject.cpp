@@ -13,7 +13,7 @@ cCameraObject::cCameraObject()
     this->camUpVector = glm::vec3(0.0f, 1.0f, 0.0f);
     this->camOrientation = glm::mat4x4(1.0f);
     this->camVelocity = 0.0f;
-    this->cameraMode = STADIUM_CHARACTER_CONTROL;
+    this->cameraMode = STADIUM_CAMERA;
     this->controlledGameObject = NULL;
 }
 

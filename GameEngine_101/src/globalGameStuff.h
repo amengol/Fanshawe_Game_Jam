@@ -27,8 +27,8 @@
 #include "cTransparencyManager.h"
 //#include "cTextManager.h"
 //#include "cLocalization.h"
-#include "AI\cCharacterManager.h"
-#include "AI\cNPCManager.h"
+//#include "AI\cCharacterManager.h"
+//#include "AI\cNPCManager.h"
 
 
 // Finds a GameObject by a friendly name. Returns 0 or NULL if not found
@@ -43,7 +43,7 @@ void PhysicsStep(double deltaTime);
 extern float g_FOV;                                     // (GE101_Main.cpp)
 extern bool g_clothDebug;                               // (DrawCalls.cpp)
 extern cCameraObject* g_pCamera;                        // (GE101_Main.cpp)
-extern cNPCManager g_NPCManager;
+//extern cNPCManager g_NPCManager;
 //extern cTextManager g_textManager;                      // (GE101_Main.cpp)
 extern cGameObject* g_pSkyBoxObject;                    // (GE101_Main.cpp)
 //extern cLocalization g_lococalization;                  // (GE101_Main.cpp)
@@ -54,7 +54,7 @@ extern cVAOMeshManager* g_pVAOManager;		            // (GE101_Main.cpp)
 extern cShaderManager* g_pShaderManager;	            // (GE101_Main.cpp)
 extern CTextureManager*	g_pTextureManager;	            // (GE101_Main.cpp)
 extern cPhysics_Switcher g_physicsSwitcher;             // (GE101_Main.cpp)
-extern cCharacterManager g_characterManager;            // (cSceneLoader.cpp)
+//extern cCharacterManager g_characterManager;            // (cSceneLoader.cpp)
 extern cSimpleDebugRenderer* g_pSimpleDebug;            // (GE101_Main.cpp)
 extern cTransparencyManager* g_pTranspManager;          // (GE101_Main.cpp)
 extern cModelAssetLoader* g_pModelAssetLoader;	        // (ModelUtilities.cpp)
