@@ -439,14 +439,8 @@ int main()
     rightView->setCameraOrientationX(-17.0f);
     g_CameraManager.AddCamera(rightView);
 
-    // This is the camera for the deferred render
-    cCameraObject* tvSetView = new cCameraObject();
-    tvSetView->friendlyName = "tvSetView";
-    camPos = glm::vec3(0.0f, 1.2f, 6.6f);
-    tvSetView->setCameraPosition(camPos);
-
-    g_CameraManager.SetActiveCamera(tvSetView);
-    //g_CameraManager.AutoCircling(3.0f);
+    g_CameraManager.SetActiveCamera(frontView);
+    g_CameraManager.AutoCircling(3.0f);
 
     // Camera end
     //-------------------------------------------------------------------------
