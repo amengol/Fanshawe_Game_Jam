@@ -24,17 +24,11 @@
 "Camera" :
 [
 	{
-		"CameraPosition" : [10.26, 4, 4.177],
-		"CameraOrientationX" : -5.0,
-		"CameraOrientationY" : 75.0,
+		"CameraPosition" : [169, 23, 137],
+		"CameraOrientationX" : -15.0,
+		"CameraOrientationY" : 105.0,
 		"CameraOrientationZ" : 0.0
 	}
-#	{
-#		"CameraPosition" : [10.26, 4, 4.177],
-#		"CameraOrientationX" : -5.0,
-#		"CameraOrientationY" : 75.0,
-#		"CameraOrientationZ" : 0.0
-#	}
 ],
 
 # GameObject template 
@@ -110,19 +104,40 @@
 		"scale" : 100000.0
 	},
 	{ 
-		"meshName" : "Delorean",
-		"friendlyName" : "Delorean",
-		"typeOfObject" : 0,
-		"radius" : 0.0,
-		"position" : [0.0, 4.0, 0.0], 
-		"specular" : [0.25, 0.25, 0.14, 40.0],
-		"bIsUpdatedInPhysics" : true,
-		"textureNames[0]" : "delorean.bmp",
-		"textureNames[2]" : "delorean_reflection.bmp",
-		"hasReflection" : true,
-		"rotateX" : 0.0,
-		"rotateY" : 0.0,
-		"rotateZ" : 0.0
+		"meshName" : "gale_crater_LLC",
+		"friendlyName" : "gale_crater",
+		"typeOfObject" : 1,
+		"textureNames[0]" : "mars_terrain_LLC.bmp"		
+	},
+	{ 
+		"meshName" : "gale_crater_LUC",
+		"friendlyName" : "gale_crater",
+		"typeOfObject" : 1,
+		"textureNames[0]" : "mars_terrain_LUC.bmp"		
+	},
+	{ 
+		"meshName" : "gale_crater_RLC",
+		"friendlyName" : "gale_crater",
+		"typeOfObject" : 1,
+		"textureNames[0]" : "mars_terrain_RLC.bmp"		
+	},
+	{ 
+		"meshName" : "gale_crater_RUC",
+		"friendlyName" : "gale_crater",
+		"typeOfObject" : 1,
+		"textureNames[0]" : "mars_terrain_RUC.bmp"		
+	},
+	{ 
+		"meshName" : "curiosity_rover",
+		"friendlyName" : "curiosity_rover",
+		"typeOfObject" : 1,
+		"textureNames[0]" : "Steel.bmp"		
+	},
+	{ 
+		"meshName" : "curiosity_rover_rubber",
+		"friendlyName" : "curiosity_rover_rubber",
+		"typeOfObject" : 1,
+		"textureNames[0]" : "rubber.bmp"		
 	},
 #	{ 
 #		"meshName" : "T-pose",		
