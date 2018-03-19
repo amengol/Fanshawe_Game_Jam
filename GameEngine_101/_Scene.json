@@ -34,13 +34,12 @@
 "Camera" :
 [
 	{
-		"CameraPosition" : [90.1877, -19, 159.432],
-		"CameraOrientationX" : -10.0,
-		"CameraOrientationY" : 120.0,
+		"CameraPosition" : [87.3749, -17.8, 165.868],
+		"CameraOrientationX" : -17.0,
+		"CameraOrientationY" : 0.0,
 		"CameraOrientationZ" : 0.0
 	}
 ],
-
 # GameObject template 
 # Warning: Even if the GameObject doesn't have a particular option
 # you should leave the "default" template's value

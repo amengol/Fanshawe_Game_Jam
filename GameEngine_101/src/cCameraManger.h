@@ -29,8 +29,20 @@ public:
     // Updates all managed cameras
     void Update(float deltaTIme);
 
+    // Circles to the next camera in the sequence
+    void CircleToNextCamera();
+
+    // Enables AutoCircling
+    void AutoCircling(float timeToCircle);
+
+    // Disables AutoCircling
+    void AutoCirclingOff();
+
 private:
-    cCameraObject* mActiveCamera;
+    bool mCirclingCameras;                      // If anable, the cameras will change from time to time
+    float mElapsedTime;                         // The time since the beginning of a take
+    float mTimeToCircle;                        // Time to change to the next take
+    cCameraObject* mActiveCamera;               // The active camera
     std::vector<cCameraObject*> mVecCameras;    // Vector of managed cameras
 
     struct sCircleAround

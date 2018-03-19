@@ -393,13 +393,55 @@ int main()
         }
     }
 
-    g_pCamera->mFOV = 1.0f;
-    g_CameraManager.SetActiveCamera(g_pCamera);
+    // Create all the scene cameras
+    cCameraObject* pCirclyingCamera = new cCameraObject();
+    pCirclyingCamera->friendlyName = "circlying";
+    glm::vec3 camPos = glm::vec3(169.0f, 23.0f, 137.0f);
+    pCirclyingCamera->setCameraPosition(camPos);
+    pCirclyingCamera->setCameraOrientationY(105.0f);
+    pCirclyingCamera->setCameraOrientationX(-15.0f);
+    g_CameraManager.AddCamera(pCirclyingCamera);
 
-    //g_CameraManager.CircleAroundObject(g_pCamera,
-    //                                   circleAround,
-    //                                   5.0f,
-    //                                   true);
+    g_CameraManager.CircleAroundObject(pCirclyingCamera,
+                                       circleAround,
+                                       5.0f,
+                                       true);
+
+    cCameraObject* frontView = new cCameraObject();
+    frontView->friendlyName = "frontView";
+    camPos = glm::vec3(82.7017, -17.8f, 161.026f);
+    frontView->setCameraPosition(camPos);
+    frontView->setCameraOrientationY(-90.0f);
+    frontView->setCameraOrientationX(-17.0f);
+    g_CameraManager.AddCamera(frontView);
+
+    cCameraObject* leftView = new cCameraObject();
+    leftView->friendlyName = "leftView";
+    camPos = glm::vec3(87.3749f, -17.8f, 165.868f);
+    leftView->setCameraPosition(camPos);
+    leftView->setCameraOrientationY(0.0f);
+    leftView->setCameraOrientationX(-17.0f);
+    g_CameraManager.AddCamera(leftView);
+
+    cCameraObject* backView = new cCameraObject();
+    backView->friendlyName = "backView";
+    camPos = glm::vec3(92.0893, -17.8f, 161.026f);
+    backView->setCameraPosition(camPos);
+    backView->setCameraOrientationY(90.0f);
+    backView->setCameraOrientationX(-17.0f);
+    g_CameraManager.AddCamera(backView);
+
+    cCameraObject* rightView = new cCameraObject();
+    rightView->friendlyName = "rightView";
+    camPos = glm::vec3(87.3749f, -17.8f, 155.961f);
+    rightView->setCameraPosition(camPos);
+    rightView->setCameraOrientationY(180.0f);
+    rightView->setCameraOrientationX(-17.0f);
+    g_CameraManager.AddCamera(rightView);
+
+    g_CameraManager.SetActiveCamera(g_pCamera);
+    g_CameraManager.AutoCircling(3.0f);
+
 
     // Camera end
     //-------------------------------------------------------------------------
@@ -522,7 +564,7 @@ int main()
 
 
 
-        RenderScene(::g_vecGameObjects, window, g_pCamera, glfwGetTime() - lastTimeStep);
+        RenderScene(::g_vecGameObjects, window, g_CameraManager.GetAcitveCamera(), glfwGetTime() - lastTimeStep);
 
 
 

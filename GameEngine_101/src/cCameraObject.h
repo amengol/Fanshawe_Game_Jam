@@ -3,6 +3,7 @@
 
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
+#include <string>
 
 class cGameObject;
 
@@ -69,7 +70,7 @@ public:
 
     glm::vec3 camLastPos;
     float mFOV; // Field Of View
-
+    std::string friendlyName;   // A name for this camera
 
 private:
     glm::vec3 camPosition;

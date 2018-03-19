@@ -6,6 +6,8 @@
 cCameraManger::cCameraManger()
 {
     mActiveCamera = NULL;
+    mElapsedTime = 0.0f;
+    mTimeToCircle = 0.0f;
 }
 
 
@@ -46,6 +48,17 @@ void cCameraManger::AddCamera(cCameraObject* Camera)
 
 void cCameraManger::Update(float deltaTIme)
 {
+    if (mCirclingCameras)
+    {
+        mElapsedTime += deltaTIme;
+
+        if (mElapsedTime >= mTimeToCircle)
+        {
+            CircleToNextCamera();
+            mElapsedTime = 0.0f;
+        }
+    }
+
     for (size_t i = 0; i < mVecCircleAround.size(); i++)
     {
         sCircleAround ca = mVecCircleAround[i];
@@ -77,6 +90,49 @@ void cCameraManger::Update(float deltaTIme)
         objectPostiion.y += 25.0f;
         ca.camera->setCameraTarget(objectPostiion);
     }
+}
+
+void cCameraManger::CircleToNextCamera()
+{
+    if (mVecCameras.size() != 0)
+    {
+        if (mActiveCamera == NULL)
+        {
+            mActiveCamera = mVecCameras[0];
+            return;
+        }
+
+        std::vector<cCameraObject*>::iterator it = mVecCameras.begin();
+        for (; it != mVecCameras.end(); it++)
+        {
+            if (*it == mActiveCamera)
+            {
+                it++;
+                if (it == mVecCameras.end())
+                {
+                    it = mVecCameras.begin();
+                    mActiveCamera = *it;
+                    return;
+                }
+                mActiveCamera = *it;
+                return;
+            }
+        }
+
+        mActiveCamera = mVecCameras[0];
+    }
+}
+
+void cCameraManger::AutoCircling(float timeToCircle)
+{
+    mCirclingCameras = true;
+    mTimeToCircle = timeToCircle;
+    mElapsedTime = 0.0f;
+}
+
+void cCameraManger::AutoCirclingOff()
+{
+    mCirclingCameras = false;
 }
 
 cCameraManger::RK4_Derivative cCameraManger::evaluate(const RK4_State& initial, float dt, const RK4_Derivative& d)
