@@ -286,14 +286,6 @@ void main()
 		break;	// end of PASS_0_G_BUFFER_PASS (0):
 	case PASS_1_DEFERRED_RENDER_PASS:	// (1)
 	{
-				//vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, gl_FragCoord.y / screenHeight );
-		//fragOut_colour.rgb = texture( texFBOVertexWorldPos2D, textCoords).rgb;
-		//fragOut_colour.a = 1.0f; 
-
-		//uniform sampler2D texFBOColour2D;
-		//uniform sampler2D texFBONormal2D;
-		//uniform sampler2D texFBOVertexWorldPos2D;
-
 		vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, gl_FragCoord.y / screenHeight );
 
 		vec3 theColourAtThisPixel = texture( texFBOColour2D, textCoords).rgb;
@@ -326,8 +318,6 @@ void main()
 		break;	// end of pass PASS_1_DEFERRED_RENDER_PASS (1)
 	case PASS_2_FULL_SCREEN_EFFECT_PASS:	// (2)
 	{
-		// In this example, there is a single quad, that
-		//	is being drawn with the full, rendered buffer from the previous pass
 		fragOut_colour.rgb = texture( fullRenderedImage2D, fUV_X2.xy ).rgb;
 		fragOut_colour.r += texture( fullRenderedImage2D_Overlay, fUV_X2.xy).r;
 		fragOut_colour.b += texture( fullRenderedImage2D_Overlay, fUV_X2.xy).b;
