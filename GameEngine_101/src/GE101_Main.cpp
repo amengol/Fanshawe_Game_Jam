@@ -440,7 +440,7 @@ int main()
     g_CameraManager.AddCamera(rightView);
 
     g_CameraManager.SetActiveCamera(pCirclyingCamera);
-    g_CameraManager.AutoCircling(4.0f);
+    //g_CameraManager.AutoCircling(4.0f);
 
     // Camera end
     //-------------------------------------------------------------------------

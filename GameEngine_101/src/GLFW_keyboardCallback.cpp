@@ -45,6 +45,11 @@ void key_callback(GLFWwindow* window,
     if(key == GLFW_KEY_0 && action == GLFW_PRESS)
         ::g_pCamera->releaseGameObject();
 
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+    {
+        g_CameraManager.CircleToNextCamera();
+    }
+
     //if (key == GLFW_KEY_9 && action == GLFW_PRESS)
     //{
     //    if (::g_pCamera->getGameObject() != NULL)            
