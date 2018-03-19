@@ -9,6 +9,7 @@ cCameraObject::cCameraObject()
 {
     // The camera position should always be 1 unit behind the lookAt position
     this->camPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+    this->camLastPos = glm::vec3(0.0f, 0.0f, 0.0f);
     this->lookAtPosition = glm::vec3(0.0f, 0.0f, -1.0f);
     this->camUpVector = glm::vec3(0.0f, 1.0f, 0.0f);
     this->camOrientation = glm::mat4x4(1.0f);

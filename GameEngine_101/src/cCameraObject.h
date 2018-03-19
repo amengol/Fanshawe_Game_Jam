@@ -67,6 +67,8 @@ public:
     glm::vec3 getVelocity();
     glm::mat4x4 getCameraOrientation() { return this->camOrientation; }
 
+    glm::vec3 camLastPos;
+
 private:
     glm::vec3 camPosition;
     glm::vec3 lookAtPosition;

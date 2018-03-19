@@ -236,6 +236,9 @@
     <ClCompile Include="src\cFBO.cpp">
       <Filter>FrameBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="src\cCameraManger.cpp">
+      <Filter>Cameras Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utilities.h">
@@ -390,6 +393,9 @@
     </ClInclude>
     <ClInclude Include="src\cFBO.h">
       <Filter>FrameBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cCameraManger.h">
+      <Filter>Cameras Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

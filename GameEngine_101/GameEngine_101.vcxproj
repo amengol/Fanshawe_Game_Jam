@@ -164,6 +164,7 @@
     <ClCompile Include="src\Assimp\cSkinnedMesh.cpp" />
     <ClCompile Include="src\cAABB.cpp" />
     <ClCompile Include="src\cAABBsManager.cpp" />
+    <ClCompile Include="src\cCameraManger.cpp" />
     <ClCompile Include="src\cCameraObject.cpp" />
     <ClCompile Include="src\cDebugRenderer.cpp" />
     <ClCompile Include="src\cDebugRenderer_BuiltInShapes.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="src\Assimp\sAnimations.h" />
     <ClInclude Include="src\cAABB.h" />
     <ClInclude Include="src\cAABBsManager.h" />
+    <ClInclude Include="src\cCameraManger.h" />
     <ClInclude Include="src\cCameraObject.h" />
     <ClInclude Include="src\cDebugRenderer.h" />
     <ClInclude Include="src\cFBO.h" />

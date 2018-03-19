@@ -28,6 +28,7 @@
 //#include "../Cloth.h"
 #include "cFBO.h"
 #include "AI\cCharacterControl.h"
+#include "cCameraManger.h"
 
 
 // Here, the scene is rendered in 3 passes:
@@ -101,6 +102,7 @@ long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
 float g_FOV = 0.6f;
+cCameraManger g_CameraManager;
 //cNPCManager g_NPCManager;
 //cSimpleAi_Manager g_AiManager;
 //cLocalization g_lococalization;
@@ -382,6 +384,24 @@ int main()
     g_pFixedCamera->setCameraOrientationX(-20.0f);
     g_pFixedCamera->setCameraOrientationZ(0.0f);
     
+    // Camera manager
+    cGameObject* circleAround = NULL;
+    for (size_t i = 0; i < g_vecGameObjects.size(); i++)
+    {
+        if (g_vecGameObjects[i]->friendlyName == "curiosity_rover")
+        {
+            circleAround = g_vecGameObjects[i];
+            break;
+        }
+    }
+
+    g_CameraManager.CircleAroundObject(g_pCamera,
+                                       circleAround,
+                                       glm::vec3(0.0f, 0.0f, 5.0f),
+                                       glm::vec3(0.0f),
+                                       50.0f,
+                                       true);
+
     // Camera end
     //-------------------------------------------------------------------------
     // Limit planes
@@ -463,6 +483,8 @@ int main()
         //Sound
         //g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
         //=====================================================================
+
+        g_CameraManager.Update(glfwGetTime() - lastTimeStep);
 
         //g_NPCManager.Evaluate(glfwGetTime() - lastTimeStep);
 
