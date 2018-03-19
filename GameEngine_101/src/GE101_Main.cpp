@@ -503,8 +503,8 @@ int main()
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass2_Deferred_Screen.ID );
         g_FBO_Pass2_Deferred_Screen.clearBuffers();
 
-        //glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // Second pass (Deferred)
         glUniform1i(renderPassNumber_LocID, RENDER_PASS_1_DEFERRED_RENDER_PASS);
@@ -540,106 +540,112 @@ int main()
         // Also, we are using the Fixed Camera
         std::vector< cGameObject* >  vecSkyBox;
         vecSkyBox.push_back(::g_pSkyBoxObject);
-        RenderScene(vecSkyBox, window, g_pFixedCamera, glfwGetTime() - lastTimeStep);
+        //RenderScene(vecSkyBox, window, g_pFixedCamera, glfwGetTime() - lastTimeStep);
 
-        // We now have a "Screen texture" to be used in the screen of the Stadium
-        //-----------------------------------------------------------------------
-        
-        //Now we want to do the process again, for the "normal" scene
-        glUniform1i(renderPassNumber_LocID, RENDER_PASS_0_G_BUFFER_PASS);
 
-        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass1_G_Buffer.ID);
-        g_FBO_Pass1_G_Buffer.clearBuffers();
 
-        // This time o render with the "normal" camera
-        RenderScene(::g_vecGameObjects, window, g_pCamera, glfwGetTime() - lastTimeStep);
-
-        // Render it again, but point the the FBO texture... 
-        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass2_Deferred.ID );
-        g_FBO_Pass2_Deferred.clearBuffers();
-
-        glUniform1i(renderPassNumber_LocID, RENDER_PASS_1_DEFERRED_RENDER_PASS);
-
-        texFBOColour2DTextureUnitID = 20;
-        texFBONormal2DTextureUnitID = 21;
-        texFBOWorldPosition2DTextureUnitID = 22;
-
-        // Pick a texture unit... 
-        glActiveTexture(GL_TEXTURE0 + texFBOColour2DTextureUnitID);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.colourTexture_0_ID);
-        glUniform1i(texFBOColour2DLocID, texFBOColour2DTextureUnitID);
-
-        glActiveTexture(GL_TEXTURE0 + texFBONormal2DTextureUnitID);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.normalTexture_1_ID);
-        glUniform1i(texFBONormal2DLocID, texFBONormal2DTextureUnitID);
-
-        glActiveTexture(GL_TEXTURE0 + texFBOWorldPosition2DTextureUnitID);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.vertexWorldPos_2_ID);
-        glUniform1i(texFBOWorldPosition2DLocID, texFBOWorldPosition2DTextureUnitID);
-
-        // Set the sampler in the shader to the same texture unit (20)
-
-        glfwGetFramebufferSize(window, &width, &height);
-
-        glUniform1f(screenWidthLocID, (float)width);
-        glUniform1f(screenHeightLocID, (float)height);
-
-        std::vector< cGameObject* >  vecCopy2ndPass2;
-        vecCopy2ndPass2.push_back(::g_pSkyBoxObject);
-        RenderScene(vecCopy2ndPass2, window, g_pFixedCamera, glfwGetTime() - lastTimeStep);
-
-        // Now we are going to draw to the screen itself. There is going to be 2 draws:
-        // 1. We draw the full scene using the regulat FBO texture from "g_FBO_Pass2_Deferred"
-        // 2. We draw the screen scene, using a dummy mesh at the right place.
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glUniform1i(renderPassNumber_LocID, RENDER_PASS_3_FULL_SCREEN_EFFECT_PASS_2);
-
-        // The "deferred pass" FBO has a colour texture with the entire rendered scene
-        // (including lighting, etc.)
-        GLint fullRenderedImage2D_LocID = glGetUniformLocation(ShaderID, "fullRenderedImage2D");
-
-        // Pick a texture unit... 
-        unsigned int pass2unit = 50;
-        glActiveTexture(GL_TEXTURE0 + pass2unit);
-        glBindTexture(GL_TEXTURE_2D, ::g_FBO_Pass2_Deferred.colourTexture_0_ID);
-        glUniform1i(fullRenderedImage2D_LocID, pass2unit);
-
-        // Render the "Full scene
         RenderScene(vecSkyBox, window, g_pCamera, glfwGetTime() - lastTimeStep);
 
-        // Now we render to the screen again, but with the dummy "screen" mesh
-        glUniform1i(renderPassNumber_LocID, RENDER_PASS_2_FULL_SCREEN_EFFECT_PASS);
-
-        // Pick a texture unit... 
-        unsigned int pass2unit2 = 55;
-        glActiveTexture(GL_TEXTURE0 + pass2unit2);
-        glBindTexture(GL_TEXTURE_2D, ::g_FBO_Pass2_Deferred_Screen.colourTexture_0_ID);
-        glUniform1i(fullRenderedImage2D_LocID, pass2unit2);
-
-        std::vector< cGameObject* >  vecCopySingleLonelyQuad2;
-        cGameObject* screen = new cGameObject();
-        screen->meshName = "Stadium_Screen01";
-        
-        // This uniform is used to put and overlay on top of the screen
-        GLint fullRenderedImage2D_Overlay_LocID = glGetUniformLocation(ShaderID, "fullRenderedImage2D_Overlay");
-
-        // Pick a texture unit... 
-        pass2unit2 = 56;
-        glActiveTexture(GL_TEXTURE0 + pass2unit2);
-        glBindTexture(GL_TEXTURE_2D, ::g_pTextureManager->getTextureIDFromTextureName("news.bmp"));
-        glUniform1i(fullRenderedImage2D_Overlay_LocID, pass2unit2);
 
 
-        vecCopySingleLonelyQuad2.push_back(screen);
-        RenderScene(vecCopySingleLonelyQuad2, window, g_pCamera, glfwGetTime() - lastTimeStep);
+        //// We now have a "Screen texture" to be used in the screen of the Stadium
+        ////-----------------------------------------------------------------------
+        //
+        ////Now we want to do the process again, for the "normal" scene
+        //glUniform1i(renderPassNumber_LocID, RENDER_PASS_0_G_BUFFER_PASS);
+
+        //glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass1_G_Buffer.ID);
+        //g_FBO_Pass1_G_Buffer.clearBuffers();
+
+        //// This time o render with the "normal" camera
+        //RenderScene(::g_vecGameObjects, window, g_pCamera, glfwGetTime() - lastTimeStep);
+
+        //// Render it again, but point the the FBO texture... 
+        //glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_Pass2_Deferred.ID );
+        //g_FBO_Pass2_Deferred.clearBuffers();
+
+        //glUniform1i(renderPassNumber_LocID, RENDER_PASS_1_DEFERRED_RENDER_PASS);
+
+        //texFBOColour2DTextureUnitID = 20;
+        //texFBONormal2DTextureUnitID = 21;
+        //texFBOWorldPosition2DTextureUnitID = 22;
+
+        //// Pick a texture unit... 
+        //glActiveTexture(GL_TEXTURE0 + texFBOColour2DTextureUnitID);
+        //glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.colourTexture_0_ID);
+        //glUniform1i(texFBOColour2DLocID, texFBOColour2DTextureUnitID);
+
+        //glActiveTexture(GL_TEXTURE0 + texFBONormal2DTextureUnitID);
+        //glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.normalTexture_1_ID);
+        //glUniform1i(texFBONormal2DLocID, texFBONormal2DTextureUnitID);
+
+        //glActiveTexture(GL_TEXTURE0 + texFBOWorldPosition2DTextureUnitID);
+        //glBindTexture(GL_TEXTURE_2D, g_FBO_Pass1_G_Buffer.vertexWorldPos_2_ID);
+        //glUniform1i(texFBOWorldPosition2DLocID, texFBOWorldPosition2DTextureUnitID);
+
+        //// Set the sampler in the shader to the same texture unit (20)
+
+        //glfwGetFramebufferSize(window, &width, &height);
+
+        //glUniform1f(screenWidthLocID, (float)width);
+        //glUniform1f(screenHeightLocID, (float)height);
+
+        //std::vector< cGameObject* >  vecCopy2ndPass2;
+        //vecCopy2ndPass2.push_back(::g_pSkyBoxObject);
+        //RenderScene(vecCopy2ndPass2, window, g_pFixedCamera, glfwGetTime() - lastTimeStep);
+
+        //// Now we are going to draw to the screen itself. There is going to be 2 draws:
+        //// 1. We draw the full scene using the regulat FBO texture from "g_FBO_Pass2_Deferred"
+        //// 2. We draw the screen scene, using a dummy mesh at the right place.
+        //glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //glUniform1i(renderPassNumber_LocID, RENDER_PASS_3_FULL_SCREEN_EFFECT_PASS_2);
+
+        //// The "deferred pass" FBO has a colour texture with the entire rendered scene
+        //// (including lighting, etc.)
+        //GLint fullRenderedImage2D_LocID = glGetUniformLocation(ShaderID, "fullRenderedImage2D");
+
+        //// Pick a texture unit... 
+        //unsigned int pass2unit = 50;
+        //glActiveTexture(GL_TEXTURE0 + pass2unit);
+        //glBindTexture(GL_TEXTURE_2D, ::g_FBO_Pass2_Deferred.colourTexture_0_ID);
+        //glUniform1i(fullRenderedImage2D_LocID, pass2unit);
+
+        //// Render the "Full scene
+        //RenderScene(vecSkyBox, window, g_pCamera, glfwGetTime() - lastTimeStep);
+
+        //// Now we render to the screen again, but with the dummy "screen" mesh
+        //glUniform1i(renderPassNumber_LocID, RENDER_PASS_2_FULL_SCREEN_EFFECT_PASS);
+
+        //// Pick a texture unit... 
+        //unsigned int pass2unit2 = 55;
+        //glActiveTexture(GL_TEXTURE0 + pass2unit2);
+        //glBindTexture(GL_TEXTURE_2D, ::g_FBO_Pass2_Deferred_Screen.colourTexture_0_ID);
+        //glUniform1i(fullRenderedImage2D_LocID, pass2unit2);
+
+        //std::vector< cGameObject* >  vecCopySingleLonelyQuad2;
+        //cGameObject* screen = new cGameObject();
+        //screen->meshName = "Stadium_Screen01";
+        //
+        //// This uniform is used to put and overlay on top of the screen
+        //GLint fullRenderedImage2D_Overlay_LocID = glGetUniformLocation(ShaderID, "fullRenderedImage2D_Overlay");
+
+        //// Pick a texture unit... 
+        //pass2unit2 = 56;
+        //glActiveTexture(GL_TEXTURE0 + pass2unit2);
+        //glBindTexture(GL_TEXTURE_2D, ::g_pTextureManager->getTextureIDFromTextureName("news.bmp"));
+        //glUniform1i(fullRenderedImage2D_Overlay_LocID, pass2unit2);
 
 
-        // Clean things
-        delete screen;
+        //vecCopySingleLonelyQuad2.push_back(screen);
+        //RenderScene(vecCopySingleLonelyQuad2, window, g_pCamera, glfwGetTime() - lastTimeStep);
 
-        // End of the Deferred Render
-        //=====================================================================================
+
+        //// Clean things
+        //delete screen;
+
+        //// End of the Deferred Render
+        ////=====================================================================================
 
 
         // Prints camera information to the title
