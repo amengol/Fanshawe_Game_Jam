@@ -131,12 +131,14 @@
 		"meshName" : "curiosity_rover",
 		"friendlyName" : "curiosity_rover",
 		"typeOfObject" : 1,
+		"position" : [87.4, -20.0, 161.0], 
 		"textureNames[0]" : "Steel.bmp"		
 	},
 	{ 
 		"meshName" : "curiosity_rover_rubber",
 		"friendlyName" : "curiosity_rover_rubber",
 		"typeOfObject" : 1,
+		"position" : [87.4, -20.0, 161.0], 
 		"textureNames[0]" : "rubber.bmp"		
 	},
 #	{ 
