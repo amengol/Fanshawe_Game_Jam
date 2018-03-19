@@ -397,9 +397,7 @@ int main()
 
     g_CameraManager.CircleAroundObject(g_pCamera,
                                        circleAround,
-                                       glm::vec3(0.0f, 0.0f, 5.0f),
-                                       glm::vec3(0.0f),
-                                       50.0f,
+                                       5.0f,
                                        true);
 
     // Camera end

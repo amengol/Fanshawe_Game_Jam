@@ -1,5 +1,6 @@
 #include "cCameraManger.h"
 #include "cCameraObject.h"
+#include "cGameObject.h"
 
 
 cCameraManger::cCameraManger()
@@ -13,9 +14,7 @@ cCameraManger::~cCameraManger()
 
 void cCameraManger::CircleAroundObject(cCameraObject* camera,
                                        cGameObject* GO, 
-                                       glm::vec3 speed, 
-                                       glm::vec3 height,
-                                       float distaceRadius, 
+                                       float speed, 
                                        bool counterClockWise)
 {
     if (GO == NULL)
@@ -25,8 +24,6 @@ void cCameraManger::CircleAroundObject(cCameraObject* camera,
     ca.camera = camera;
     ca.GO = GO;
     ca.speed = speed;
-    ca.height = height;
-    ca.distaceRadius = distaceRadius;
     ca.counterClockWise = counterClockWise;
 
     mVecCircleAround.push_back(ca);
@@ -44,10 +41,27 @@ void cCameraManger::Update(float deltaTIme)
     {
         sCircleAround ca = mVecCircleAround[i];
 
+        // The direction to the GameObject
+        glm::vec3 camPostiion = ca.camera->getCameraPosition();
+        glm::vec3 objectPostiion = ca.GO->position;
+        glm::vec3 GO_Direction = ca.GO->position - ca.camera->getCameraPosition();
+
+        // Get rid of Y information
+        GO_Direction.y = 0.0f;
+
+        // Normilize it
+        GO_Direction = glm::normalize(GO_Direction);
+
+        // The desired direction will be:
+        glm::vec3 desiredDir = glm::cross(GO_Direction, glm::vec3(0.0f, 1.0f, 0.0f));
+
+        // Get the velocity
+        glm::vec3 newVelocity = glm::normalize(desiredDir) * ca.speed;
+
         //RK4
         glm::vec3 camPosition = ca.camera->getCameraPosition();
         ca.camera->camLastPos = camPosition;    // Save the last position
-        integrate(camPosition, ca.speed, glm::vec3(0.0f), deltaTIme);
+        integrate(camPosition, newVelocity, glm::vec3(0.0f), deltaTIme);
         ca.camera->setCameraPosition(camPosition);
     }
 }

@@ -14,9 +14,7 @@ public:
     // Makes a camera circles around a Game Object
     void CircleAroundObject(cCameraObject*,
                             cGameObject*,
-                            glm::vec3 speed,
-                            glm::vec3 height,
-                            float distaceRadius,
+                            float speed,
                             bool counterClockWise);
 
     // Adds a camera to the Manager
@@ -32,9 +30,7 @@ private:
     {
         cCameraObject* camera;
         cGameObject* GO;
-        glm::vec3 speed;
-        glm::vec3 height;
-        float distaceRadius;
+        float speed;
         bool counterClockWise;
     };
 
