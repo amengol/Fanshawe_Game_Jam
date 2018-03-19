@@ -30,6 +30,7 @@
 #include "AI\cCharacterControl.h"
 
 
+
 // Here, the scene is rendered in 3 passes:
 // 1. Render geometry to G buffer
 // 2. Perform deferred pass, rendering to Deferred buffer
@@ -40,6 +41,8 @@ cFBO g_FBO_Pass2_Deferred;
 cFBO g_FBO_Pass1_G_Buffer_Screen;
 cFBO g_FBO_Pass2_Deferred_Screen;
 
+// Fade Control
+sFade g_Fade;
 
 
 //
@@ -455,7 +458,7 @@ int main()
 
     vecSecondPass.push_back(tvSet);
     vecSecondPass.push_back(g_pSkyBoxObject);
-
+    
     //-------------------------------------------------------------------------
     // Limit planes
     if (!sceneLoader.loadLimitPlanes(error))
@@ -698,15 +701,27 @@ int main()
         cGameObject* screen = new cGameObject();
         screen->meshName = "tv_screen";
         
-        //// This uniform is used to put and overlay on top of the screen
-        //GLint fullRenderedImage2D_Overlay_LocID = glGetUniformLocation(ShaderID, "fullRenderedImage2D_Overlay");
+        // This uniform is used to put and overlay on top of the screen
+        GLint fullRenderedImage2D_Overlay_LocID = glGetUniformLocation(ShaderID, "fullRenderedImage2D_Overlay");
 
-        //// Pick a texture unit... 
-        //pass2unit2 = 56;
-        //glActiveTexture(GL_TEXTURE0 + pass2unit2);
-        //glBindTexture(GL_TEXTURE_2D, ::g_pTextureManager->getTextureIDFromTextureName("news.bmp"));
-        //glUniform1i(fullRenderedImage2D_Overlay_LocID, pass2unit2);
+        // Pick a texture unit... 
+        pass2unit2 = 56;
+        glActiveTexture(GL_TEXTURE0 + pass2unit2);
+        glBindTexture(GL_TEXTURE_2D, ::g_pTextureManager->getTextureIDFromTextureName("static.bmp"));
+        glUniform1i(fullRenderedImage2D_Overlay_LocID, pass2unit2);
 
+
+        // Static Effect
+        GLint static_LocID = glGetUniformLocation(ShaderID, "staticEffect");
+        float noiseFactor = getRandInRange(0.0f, 1.0f);
+        // And the noise
+        glUniform1f(static_LocID, noiseFactor);
+
+        // Static Fade
+        g_Fade.Update(glfwGetTime() - lastTimeStep);
+        GLint static_Fade_LocID = glGetUniformLocation(ShaderID, "staticFade");
+        // And the fade
+        glUniform1f(static_Fade_LocID, g_Fade.mFade);
 
         vecCopySingleLonelyQuad2.push_back(screen);
         RenderScene(vecCopySingleLonelyQuad2, window, g_pCamera, glfwGetTime() - lastTimeStep);

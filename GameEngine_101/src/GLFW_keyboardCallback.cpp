@@ -48,6 +48,7 @@ void key_callback(GLFWwindow* window,
     if (key == GLFW_KEY_1 && action == GLFW_PRESS)
     {
         g_CameraManager.CircleToNextCamera();
+        g_Fade.startFade(2.0f);
     }
 
     //if (key == GLFW_KEY_9 && action == GLFW_PRESS)

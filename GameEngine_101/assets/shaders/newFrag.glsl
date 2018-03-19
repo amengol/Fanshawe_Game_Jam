@@ -82,6 +82,10 @@ uniform float reflectBlendRatio;		// How much reflection (0-1)
 uniform float refractBlendRatio;		// How much refraction (0-1)
 uniform float coefficientRefract; 		// coefficient of refraction 
 
+// For rthe static effect
+uniform float staticEffect;
+uniform float staticFade;
+
 
 /*****************************************************/
 struct sLightDesc {
@@ -318,9 +322,11 @@ void main()
 		break;	// end of pass PASS_1_DEFERRED_RENDER_PASS (1)
 	case PASS_2_FULL_SCREEN_EFFECT_PASS:	// (2)
 	{
-		fragOut_colour.rgb = texture( fullRenderedImage2D, fUV_X2.xy ).rgb;
-		//fragOut_colour.r += texture( fullRenderedImage2D_Overlay, fUV_X2.xy).r;
-		//fragOut_colour.b += texture( fullRenderedImage2D_Overlay, fUV_X2.xy).b;
+		vec2 theUVCoords = fUV_X2.xy;
+		theUVCoords.x += staticEffect;
+		theUVCoords.y += staticEffect;
+		fragOut_colour.rgb = texture( fullRenderedImage2D, fUV_X2.xy ).rgb * (1.0f - staticFade);
+		fragOut_colour.rgb += texture( fullRenderedImage2D_Overlay, theUVCoords.xy).rgb * staticFade;
 		fragOut_colour.a = 1.0f;
 	}
 		break;	// end of pass PASS_2_FULL_SCREEN_EFFECT_PASS:
