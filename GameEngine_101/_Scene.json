@@ -21,12 +21,22 @@
 #}
 
 {
+# Aerial Camera
+#"Camera" :
+#[
+#	{
+#		"CameraPosition" : [169, 23, 137],
+#		"CameraOrientationX" : -15.0,
+#		"CameraOrientationY" : 105.0,
+#		"CameraOrientationZ" : 0.0
+#	}
+#],
 "Camera" :
 [
 	{
-		"CameraPosition" : [169, 23, 137],
-		"CameraOrientationX" : -15.0,
-		"CameraOrientationY" : 105.0,
+		"CameraPosition" : [90.1877, -19, 159.432],
+		"CameraOrientationX" : -10.0,
+		"CameraOrientationY" : 120.0,
 		"CameraOrientationZ" : 0.0
 	}
 ],

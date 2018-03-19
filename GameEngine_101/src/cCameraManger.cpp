@@ -5,6 +5,7 @@
 
 cCameraManger::cCameraManger()
 {
+    mActiveCamera = NULL;
 }
 
 
@@ -27,6 +28,14 @@ void cCameraManger::CircleAroundObject(cCameraObject* camera,
     ca.counterClockWise = counterClockWise;
 
     mVecCircleAround.push_back(ca);
+}
+
+void cCameraManger::SetActiveCamera(cCameraObject* camera)
+{
+    if (camera != NULL)
+    {
+        mActiveCamera = camera;
+    }
 }
 
 void cCameraManger::AddCamera(cCameraObject* Camera)

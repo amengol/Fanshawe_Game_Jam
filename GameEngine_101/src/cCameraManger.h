@@ -17,6 +17,12 @@ public:
                             float speed,
                             bool counterClockWise);
 
+    // Sets the active Camera
+    void SetActiveCamera(cCameraObject*);
+
+    // Gets the active Camera
+    inline cCameraObject* GetAcitveCamera() { return mActiveCamera; }
+
     // Adds a camera to the Manager
     void AddCamera(cCameraObject*);
 
@@ -24,6 +30,7 @@ public:
     void Update(float deltaTIme);
 
 private:
+    cCameraObject* mActiveCamera;
     std::vector<cCameraObject*> mVecCameras;    // Vector of managed cameras
 
     struct sCircleAround

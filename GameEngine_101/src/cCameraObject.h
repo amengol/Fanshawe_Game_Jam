@@ -68,6 +68,8 @@ public:
     glm::mat4x4 getCameraOrientation() { return this->camOrientation; }
 
     glm::vec3 camLastPos;
+    float mFOV; // Field Of View
+
 
 private:
     glm::vec3 camPosition;

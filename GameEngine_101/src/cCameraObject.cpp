@@ -16,6 +16,7 @@ cCameraObject::cCameraObject()
     this->camVelocity = 0.0f;
     this->cameraMode = STADIUM_CAMERA;
     this->controlledGameObject = NULL;
+    this->mFOV = 0.6f;
 }
 
 void cCameraObject::setCameraPosition(glm::vec3 newPosition)

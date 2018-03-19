@@ -28,7 +28,6 @@
 //#include "../Cloth.h"
 #include "cFBO.h"
 #include "AI\cCharacterControl.h"
-#include "cCameraManger.h"
 
 
 // Here, the scene is rendered in 3 passes:
@@ -101,7 +100,6 @@ cUniLocHandler g_uniLocHandler;
 long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
-float g_FOV = 0.6f;
 cCameraManger g_CameraManager;
 //cNPCManager g_NPCManager;
 //cSimpleAi_Manager g_AiManager;
@@ -395,10 +393,13 @@ int main()
         }
     }
 
-    g_CameraManager.CircleAroundObject(g_pCamera,
-                                       circleAround,
-                                       5.0f,
-                                       true);
+    g_pCamera->mFOV = 1.0f;
+    g_CameraManager.SetActiveCamera(g_pCamera);
+
+    //g_CameraManager.CircleAroundObject(g_pCamera,
+    //                                   circleAround,
+    //                                   5.0f,
+    //                                   true);
 
     // Camera end
     //-------------------------------------------------------------------------

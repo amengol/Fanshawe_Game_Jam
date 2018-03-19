@@ -12,7 +12,6 @@ extern cPhysics_Switcher g_physicsSwitcher;
 //bool enableDebugGrid = false;
 
 extern cTransparencyManager* g_pTranspManager;
-extern float g_FOV;
 
 const float ROTANGLE = 1.0f;
 const float CAMSPEED = 1.0f;
@@ -434,10 +433,10 @@ void key_callback(GLFWwindow* window,
         //        ::g_pLightManager->vecLights[0].attenuation.z -= 0.01f;
         //    break;
         case GLFW_KEY_COMMA:
-            g_FOV -= 0.01;
+            g_CameraManager.GetAcitveCamera()->mFOV -= 0.01;
             break;
         case GLFW_KEY_PERIOD:
-            g_FOV += 0.01;
+            g_CameraManager.GetAcitveCamera()->mFOV += 0.01;
             break;
         }// switch ( key ) 
     }
@@ -664,12 +663,12 @@ void key_callback(GLFWwindow* window,
         }
             break;
         case GLFW_KEY_MINUS:
-            if (g_FOV <= 2.0f)
-                g_FOV += 0.01;
+            if (g_CameraManager.GetAcitveCamera()->mFOV <= 2.0f)
+                g_CameraManager.GetAcitveCamera()->mFOV += 0.01;
             break;
         case GLFW_KEY_EQUAL:
-            if (g_FOV >= 0.1f)
-                g_FOV -= 0.01;
+            if (g_CameraManager.GetAcitveCamera()->mFOV >= 0.1f)
+                g_CameraManager.GetAcitveCamera()->mFOV -= 0.01;
             break;
         }// switch ( key )
     }
@@ -896,12 +895,12 @@ void key_callback(GLFWwindow* window,
             }
             break;
             case GLFW_KEY_MINUS:
-                if (g_FOV <= 2.0f)
-                    g_FOV += 0.01;
+                if (g_CameraManager.GetAcitveCamera()->mFOV <= 2.0f)
+                    g_CameraManager.GetAcitveCamera()->mFOV += 0.01;
                 break;
             case GLFW_KEY_EQUAL:
-                if (g_FOV >= 0.1f)
-                    g_FOV -= 0.01;
+                if (g_CameraManager.GetAcitveCamera()->mFOV >= 0.1f)
+                    g_CameraManager.GetAcitveCamera()->mFOV -= 0.01;
                 break;
             }// switch ( key )
         }
@@ -1078,12 +1077,12 @@ void key_callback(GLFWwindow* window,
         //        ::g_pLightManager->vecLights[0].attenuation.z -= 0.01f;
         //    break;
         case GLFW_KEY_MINUS:
-            if (g_FOV <= 2.0f)
-                g_FOV += 0.01;
+            if (g_CameraManager.GetAcitveCamera()->mFOV <= 2.0f)
+                g_CameraManager.GetAcitveCamera()->mFOV += 0.01;
             break;
         case GLFW_KEY_EQUAL:
-            if (g_FOV >= 0.1f)
-                g_FOV -= 0.01;
+            if (g_CameraManager.GetAcitveCamera()->mFOV >= 0.1f)
+                g_CameraManager.GetAcitveCamera()->mFOV -= 0.01;
             break;
         }// switch ( key ) 
     }

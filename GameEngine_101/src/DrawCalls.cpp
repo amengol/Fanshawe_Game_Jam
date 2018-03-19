@@ -642,10 +642,10 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, c
     glm::mat4x4 matProjection;
 
     // Projection and view don't change per scene (maybe)
-    matProjection = glm::perspective(g_FOV,			// FOV
-                                     ratio,		    // Aspect ratio
-                                     1.0f,		   	// Near (as big as possible)
-                                     200000.0f);    // Far (as small as possible)
+    matProjection = glm::perspective(pCamera->mFOV,   // FOV
+                                     ratio,		      // Aspect ratio
+                                     1.0f,		   	  // Near (as big as possible)
+                                     200000.0f);      // Far (as small as possible)
 
     pCamera->update();
 
