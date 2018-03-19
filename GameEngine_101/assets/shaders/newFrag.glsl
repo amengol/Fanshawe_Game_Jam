@@ -319,8 +319,8 @@ void main()
 	case PASS_2_FULL_SCREEN_EFFECT_PASS:	// (2)
 	{
 		fragOut_colour.rgb = texture( fullRenderedImage2D, fUV_X2.xy ).rgb;
-		fragOut_colour.r += texture( fullRenderedImage2D_Overlay, fUV_X2.xy).r;
-		fragOut_colour.b += texture( fullRenderedImage2D_Overlay, fUV_X2.xy).b;
+		//fragOut_colour.r += texture( fullRenderedImage2D_Overlay, fUV_X2.xy).r;
+		//fragOut_colour.b += texture( fullRenderedImage2D_Overlay, fUV_X2.xy).b;
 		fragOut_colour.a = 1.0f;
 	}
 		break;	// end of pass PASS_2_FULL_SCREEN_EFFECT_PASS:
