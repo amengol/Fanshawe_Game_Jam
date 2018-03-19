@@ -63,6 +63,10 @@ void cCameraManger::Update(float deltaTIme)
         ca.camera->camLastPos = camPosition;    // Save the last position
         integrate(camPosition, newVelocity, glm::vec3(0.0f), deltaTIme);
         ca.camera->setCameraPosition(camPosition);
+
+        // hack to see the horizon
+        objectPostiion.y += 25.0f;
+        ca.camera->setCameraTarget(objectPostiion);
     }
 }
 
