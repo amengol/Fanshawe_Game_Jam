@@ -51,6 +51,16 @@ void key_callback(GLFWwindow* window,
         g_Fade.startFade(2.0f);
     }
 
+    if (key == GLFW_KEY_KP_9 && action == GLFW_PRESS)
+    {
+        for (size_t i = 0; i < g_vecGameObjects.size(); i++)
+        {
+            std::string error;
+            g_characterManager.SetControlledCharacter("BLUE", error);
+            g_characterManager.GetActiveCharacter()->RightCrossPunch();
+        }
+    }
+
     //if (key == GLFW_KEY_9 && action == GLFW_PRESS)
     //{
     //    if (::g_pCamera->getGameObject() != NULL)            

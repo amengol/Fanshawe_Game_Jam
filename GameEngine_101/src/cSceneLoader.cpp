@@ -11,7 +11,7 @@
 #include "globalGameStuff.h"
 #include "Assimp\cAnimationState.h"
 
-//cCharacterManager g_characterManager;
+cCharacterManager g_characterManager;
 
 cSceneLoader::cSceneLoader()
 {
@@ -994,14 +994,14 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                 }
 
-                //// Check for a character
-                //if (isCharacter)
-                //{
-                //    if (!g_characterManager.AddCharacter(theGO, error))
-                //        return false;
-                //    if (!theGO->InitCharacterAnimations(error))
-                //        return false;
-                //}
+                // Check for a character
+                if (isCharacter)
+                {
+                    if (!g_characterManager.AddCharacter(theGO, error))
+                        return false;
+                    if (!theGO->InitCharacterAnimations(error))
+                        return false;
+                }
             }
         }
         break;

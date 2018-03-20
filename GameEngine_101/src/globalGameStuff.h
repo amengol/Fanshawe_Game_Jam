@@ -27,7 +27,7 @@
 #include "cTransparencyManager.h"
 //#include "cTextManager.h"
 //#include "cLocalization.h"
-//#include "AI\cCharacterManager.h"
+#include "AI\cCharacterManager.h"
 //#include "AI\cNPCManager.h"
 #include "cCameraManger.h"
 #include "sFade.h"
@@ -57,7 +57,7 @@ extern cVAOMeshManager* g_pVAOManager;		            // (GE101_Main.cpp)
 extern cShaderManager* g_pShaderManager;	            // (GE101_Main.cpp)
 extern CTextureManager*	g_pTextureManager;	            // (GE101_Main.cpp)
 extern cPhysics_Switcher g_physicsSwitcher;             // (GE101_Main.cpp)
-//extern cCharacterManager g_characterManager;            // (cSceneLoader.cpp)
+extern cCharacterManager g_characterManager;            // (cSceneLoader.cpp)
 extern cSimpleDebugRenderer* g_pSimpleDebug;            // (GE101_Main.cpp)
 extern cTransparencyManager* g_pTranspManager;          // (GE101_Main.cpp)
 extern cModelAssetLoader* g_pModelAssetLoader;	        // (ModelUtilities.cpp)
