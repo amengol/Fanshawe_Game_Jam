@@ -35,75 +35,75 @@ bool loadTextures()
 
     ::g_pTextureManager->setBasePath("assets/textures");
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("mars_terrain_LLC.bmp", true))
-    {
-        std::cout << "Didn't load the texture. Oh no!" << std::endl;
-        return false;
-    }
-    else
-    {
-        std::cout << "Texture is loaded!" << std::endl;
-    }
+    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("mars_terrain_LLC.bmp", true))
+    //{
+    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
+    //    return false;
+    //}
+    //else
+    //{
+    //    std::cout << "Texture is loaded!" << std::endl;
+    //}
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("mars_terrain_LUC.bmp", true))
-    {
-        std::cout << "Didn't load the texture. Oh no!" << std::endl;
-        return false;
-    }
-    else
-    {
-        std::cout << "Texture is loaded!" << std::endl;
-    }
+    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("mars_terrain_LUC.bmp", true))
+    //{
+    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
+    //    return false;
+    //}
+    //else
+    //{
+    //    std::cout << "Texture is loaded!" << std::endl;
+    //}
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("mars_terrain_RLC.bmp", true))
-    {
-        std::cout << "Didn't load the texture. Oh no!" << std::endl;
-        return false;
-    }
-    else
-    {
-        std::cout << "Texture is loaded!" << std::endl;
-    }
+    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("mars_terrain_RLC.bmp", true))
+    //{
+    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
+    //    return false;
+    //}
+    //else
+    //{
+    //    std::cout << "Texture is loaded!" << std::endl;
+    //}
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("mars_terrain_RUC.bmp", true))
-    {
-        std::cout << "Didn't load the texture. Oh no!" << std::endl;
-        return false;
-    }
-    else
-    {
-        std::cout << "Texture is loaded!" << std::endl;
-    }
+    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("mars_terrain_RUC.bmp", true))
+    //{
+    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
+    //    return false;
+    //}
+    //else
+    //{
+    //    std::cout << "Texture is loaded!" << std::endl;
+    //}
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Steel.bmp", true))
-    {
-        std::cout << "Didn't load the texture. Oh no!" << std::endl;
-        return false;
-    }
-    else
-    {
-        std::cout << "Texture is loaded!" << std::endl;
-    }
+    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("Steel.bmp", true))
+    //{
+    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
+    //    return false;
+    //}
+    //else
+    //{
+    //    std::cout << "Texture is loaded!" << std::endl;
+    //}
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("rubber.bmp", true))
-    {
-        std::cout << "Didn't load the texture. Oh no!" << std::endl;
-        return false;
-    }
-    else
-    {
-        std::cout << "Texture is loaded!" << std::endl;
-    }
+    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("rubber.bmp", true))
+    //{
+    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
+    //    return false;
+    //}
+    //else
+    //{
+    //    std::cout << "Texture is loaded!" << std::endl;
+    //}
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("static.bmp", true))
-    {
-        std::cout << "Didn't load the texture. Oh no!" << std::endl;
-        return false;
-    }
-    else
-    {
-        std::cout << "Texture is loaded!" << std::endl;
-    }
+    //if (!::g_pTextureManager->Create2DTextureFromBMPFile("static.bmp", true))
+    //{
+    //    std::cout << "Didn't load the texture. Oh no!" << std::endl;
+    //    return false;
+    //}
+    //else
+    //{
+    //    std::cout << "Texture is loaded!" << std::endl;
+    //}
 
     //if (!::g_pTextureManager->Create2DTextureFromBMPFile("survivor.bmp", true))
     //{

@@ -102,30 +102,30 @@
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],	
 		"scale" : 100000.0
 	},
-	{ 
-		"meshName" : "gale_crater_LLC",
-		"friendlyName" : "gale_crater",
-		"typeOfObject" : 1,
-		"textureNames[0]" : "mars_terrain_LLC.bmp"		
-	},
-	{ 
-		"meshName" : "gale_crater_LUC",
-		"friendlyName" : "gale_crater",
-		"typeOfObject" : 1,
-		"textureNames[0]" : "mars_terrain_LUC.bmp"		
-	},
-	{ 
-		"meshName" : "gale_crater_RLC",
-		"friendlyName" : "gale_crater",
-		"typeOfObject" : 1,
-		"textureNames[0]" : "mars_terrain_RLC.bmp"		
-	},
-	{ 
-		"meshName" : "gale_crater_RUC",
-		"friendlyName" : "gale_crater",
-		"typeOfObject" : 1,
-		"textureNames[0]" : "mars_terrain_RUC.bmp"		
-	},
+#	{ 
+#		"meshName" : "gale_crater_LLC",
+#		"friendlyName" : "gale_crater",
+#		"typeOfObject" : 1,
+#		"textureNames[0]" : "mars_terrain_LLC.bmp"		
+#	},
+#	{ 
+#		"meshName" : "gale_crater_LUC",
+#		"friendlyName" : "gale_crater",
+#		"typeOfObject" : 1,
+#		"textureNames[0]" : "mars_terrain_LUC.bmp"		
+#	},
+#	{ 
+#		"meshName" : "gale_crater_RLC",
+#		"friendlyName" : "gale_crater",
+#		"typeOfObject" : 1,
+#		"textureNames[0]" : "mars_terrain_RLC.bmp"		
+#	},
+#	{ 
+#		"meshName" : "gale_crater_RUC",
+#		"friendlyName" : "gale_crater",
+#		"typeOfObject" : 1,
+#		"textureNames[0]" : "mars_terrain_RUC.bmp"		
+#	},
 	#{ 
 	#	"meshName" : "tv_set",
 	#	"friendlyName" : "tv_set",
@@ -140,20 +140,20 @@
 	#	"position" : [0.0, 0.0, 0.0], 
 	#	"textureNames[0]" : "Steel.bmp"		
 	#},
-	{ 
-		"meshName" : "curiosity_rover",
-		"friendlyName" : "curiosity_rover",
-		"typeOfObject" : 1,
-		"position" : [87.4, -20.0, 161.0], 
-		"textureNames[0]" : "Steel.bmp"		
-	},
-	{ 
-		"meshName" : "curiosity_rover_rubber",
-		"friendlyName" : "curiosity_rover_rubber",
-		"typeOfObject" : 1,
-		"position" : [87.4, -20.0, 161.0], 
-		"textureNames[0]" : "rubber.bmp"		
-	},
+#	{ 
+#		"meshName" : "curiosity_rover",
+#		"friendlyName" : "curiosity_rover",
+#		"typeOfObject" : 1,
+#		"position" : [87.4, -20.0, 161.0], 
+#		"textureNames[0]" : "Steel.bmp"		
+#	},
+#	{ 
+#		"meshName" : "curiosity_rover_rubber",
+#		"friendlyName" : "curiosity_rover_rubber",
+#		"typeOfObject" : 1,
+#		"position" : [87.4, -20.0, 161.0], 
+#		"textureNames[0]" : "rubber.bmp"		
+#	},
 #	{ 
 #		"meshName" : "T-pose",		
 #		"typeOfObject" : 7,

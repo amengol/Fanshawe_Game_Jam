@@ -11,14 +11,15 @@
 {"Meshes" : 
 [
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply"},
-{"meshName" : "gale_crater_LLC", "meshFile" : "gale_crater_LLC.obj"},
-{"meshName" : "gale_crater_LUC", "meshFile" : "gale_crater_LUC.obj"},
-{"meshName" : "gale_crater_RLC", "meshFile" : "gale_crater_RLC.obj"},
-{"meshName" : "gale_crater_RUC", "meshFile" : "gale_crater_RUC.obj"},
-{"meshName" : "curiosity_rover", "meshFile" : "curiosity_rover.obj"},
-{"meshName" : "curiosity_rover_rubber", "meshFile" : "curiosity_rover_rubber.obj"},
-{"meshName" : "tv_set", "meshFile" : "tv_set.obj"},
-{"meshName" : "tv_screen", "meshFile" : "tv_screen.obj"}
+{"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply"}
+#{"meshName" : "gale_crater_LLC", "meshFile" : "gale_crater_LLC.obj"},
+#{"meshName" : "gale_crater_LUC", "meshFile" : "gale_crater_LUC.obj"},
+#{"meshName" : "gale_crater_RLC", "meshFile" : "gale_crater_RLC.obj"},
+#{"meshName" : "gale_crater_RUC", "meshFile" : "gale_crater_RUC.obj"},
+#{"meshName" : "curiosity_rover", "meshFile" : "curiosity_rover.obj"},
+#{"meshName" : "curiosity_rover_rubber", "meshFile" : "curiosity_rover_rubber.obj"},
+#{"meshName" : "tv_set", "meshFile" : "tv_set.obj"},
+#{"meshName" : "tv_screen", "meshFile" : "tv_screen.obj"}
 #{"meshName" : "Border", "meshFile" : "Border.obj"},
 #{"meshName" : "Stadium_Grass", "meshFile" : "Stadium_Grass.obj"},
 #{"meshName" : "Stadium_Steel", "meshFile" : "Stadium_Steel.obj"},
