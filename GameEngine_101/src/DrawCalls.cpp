@@ -227,57 +227,64 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
 
     float deltaTime = glfwGetTime() - pAniState->activeAnimation.currentClockTime;
 
-    // Update the next position
-    if (pAniState->activeAnimation.IncrementTime(deltaTime))
+    // HACK: Specifically for this assigment, we will only 
+    // increment time if the animation is not the idle animation
+    if (pAniState->activeAnimation.name != pTheGO->animations.idle)
     {
-        // TURN & POSITION CONTROL ========================================
-        if (pAniState->activeAnimation.name == pTheGO->animations.left_turn)
-        {
-            pTheGO->rigidBody->rotateY(180.0f);
-        }
-        else if (pAniState->activeAnimation.name == pTheGO->animations.right_turn)
-        {
-            pTheGO->rigidBody->rotateY(180.0f);
-        }
-        else if (pAniState->activeAnimation.name == pTheGO->animations.left_turn_90)
-        {
-            pTheGO->rigidBody->rotateY(90.0f);
-        }
-        else if (pAniState->activeAnimation.name == pTheGO->animations.right_turn_90)
-        {
-            pTheGO->rigidBody->rotateY(-90.0f);
-        }
-        //=================================================================
 
-        // Jump only once!
-        if (pAniState->activeAnimation.name == pTheGO->animations.jump)
+    // Update the next position
+        if (pAniState->activeAnimation.IncrementTime(deltaTime))
         {
-            pAniState->activeAnimation.name = pTheGO->animations.idle;
+            // TURN & POSITION CONTROL ========================================
+            if (pAniState->activeAnimation.name == pTheGO->animations.left_turn)
+            {
+                pTheGO->rigidBody->rotateY(180.0f);
+            }
+            else if (pAniState->activeAnimation.name == pTheGO->animations.right_turn)
+            {
+                pTheGO->rigidBody->rotateY(180.0f);
+            }
+            else if (pAniState->activeAnimation.name == pTheGO->animations.left_turn_90)
+            {
+                pTheGO->rigidBody->rotateY(90.0f);
+            }
+            else if (pAniState->activeAnimation.name == pTheGO->animations.right_turn_90)
+            {
+                pTheGO->rigidBody->rotateY(-90.0f);
+            }
+            //=================================================================
+
+            // Jump only once!
+            if (pAniState->activeAnimation.name == pTheGO->animations.jump)
+            {
+                pAniState->activeAnimation.name = pTheGO->animations.idle;
+            }
+
+            // Jump only once!
+            if (pAniState->activeAnimation.name == pTheGO->animations.jump_forward_walking)
+            {
+                pAniState->activeAnimation.name = pTheGO->animations.walking;
+                pAniState->activeAnimation.totalTime =
+                    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.walking);
+            }
+            if (pAniState->activeAnimation.name == pTheGO->animations.jump_forward_running)
+            {
+                pAniState->activeAnimation.name = pTheGO->animations.running;
+                pAniState->activeAnimation.totalTime =
+                    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.running);
+            }
+
+            // Fight control
+            if (pTheGO->characterAnim == eCharacterAnim::RIGHT_CROSS_PUNCH
+                || pTheGO->characterAnim == eCharacterAnim::LEFT_CROSS_PUNCH)
+            {
+                pAniState->activeAnimation.name = pTheGO->animations.idle;
+                pAniState->activeAnimation.totalTime =
+                    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
+                pTheGO->characterAnim = eCharacterAnim::IDLE;
+            }
         }
 
-        // Jump only once!
-        if (pAniState->activeAnimation.name == pTheGO->animations.jump_forward_walking)
-        {
-            pAniState->activeAnimation.name = pTheGO->animations.walking;
-            pAniState->activeAnimation.totalTime =
-                pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.walking);
-        }
-        if (pAniState->activeAnimation.name == pTheGO->animations.jump_forward_running)
-        {
-            pAniState->activeAnimation.name = pTheGO->animations.running;
-            pAniState->activeAnimation.totalTime =
-                pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.running);
-        }
-
-        // Fight control
-        if (pTheGO->characterAnim == eCharacterAnim::RIGHT_CROSS_PUNCH
-            || pTheGO->characterAnim == eCharacterAnim::LEFT_CROSS_PUNCH)
-        {
-            pAniState->activeAnimation.name = pTheGO->animations.idle;
-            pAniState->activeAnimation.totalTime =
-                pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
-            pTheGO->characterAnim = eCharacterAnim::IDLE;
-        }
     }
 
     animationToPlay = pAniState->activeAnimation.name;
