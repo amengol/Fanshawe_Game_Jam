@@ -1022,6 +1022,21 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     cCharacterControl* ch = new cCharacterControl();
                     ch->SetCharacter(theGO);
 
+                    // HACK
+                    cGameObject::sContactSpheres* cs1 = new cGameObject::sContactSpheres();
+                    cGameObject::sContactSpheres* cs2 = new cGameObject::sContactSpheres();
+                    cGameObject::sContactSpheres* cs3 = new cGameObject::sContactSpheres();
+                    cs1->meshName = "sphere_fist";
+                    cs1->radius = 0.25f;
+                    cs2->meshName = "sphere_chest";
+                    cs2->radius = 0.45f;
+                    cs3->meshName = "sphere_head";
+                    cs3->radius = 0.3f;
+
+                    theGO->mMapBoneNameTOMeshName["B_L_Hand"] = cs1;
+                    theGO->mMapBoneNameTOMeshName["B_R_Hand"] = cs1;
+                    theGO->mMapBoneNameTOMeshName["B_Spine2"] = cs2;
+                    theGO->mMapBoneNameTOMeshName["B_Head"] = cs3;
 
 
                     if (!g_characterManager.AddCharacter(ch, error))

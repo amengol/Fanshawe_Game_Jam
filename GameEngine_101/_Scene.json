@@ -116,19 +116,24 @@
 		"contactSpheres": 
 		[
 			{
-				"boneName" : "",
-				"meshName" : "",
-				"radius" : ""
+				"boneName" : "B_L_Hand",
+				"meshName" : "sphere_fist",
+				"radius" : 0.25
 			},
 			{
-				"boneName" : "",
-				"meshName" : "",
-				"radius" : ""
+				"boneName" : "B_R_Hand",
+				"meshName" : "sphere_fist",
+				"radius" : 0.25
 			},
 			{
-				"boneName" : "",
-				"meshName" : "",
-				"radius" : ""
+				"boneName" : "B_Spine2",
+				"meshName" : "sphere_chest",
+				"radius" : 0.45
+			},
+			{
+				"boneName" : "B_Head",
+				"meshName" : "sphere_head",
+				"radius" : 0.3
 			}
 		],
 		"hasMaterialColour" : true,
@@ -154,13 +159,13 @@
 		"rotateY" : -90.0,
 		"scale" : 0.01
 	},
-	{ 
-		"meshName" : "sphere_fist",
-		"friendlyName" : "sphere_fist",
-		"typeOfObject" : 1,
-		"hasMaterialColour" : true,
-		"diffuseColour" : [1.0, 1.0, 1.0, 1.0]		
-	},
+#	{ 
+#		"meshName" : "sphere_fist",
+#		"friendlyName" : "sphere_fist",
+#		"typeOfObject" : 1,
+#		"hasMaterialColour" : true,
+#		"diffuseColour" : [1.0, 1.0, 1.0, 1.0]		
+#	},
 #	{ 
 #		"meshName" : "gale_crater_LLC",
 #		"friendlyName" : "gale_crater",

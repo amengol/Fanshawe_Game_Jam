@@ -142,6 +142,20 @@ public:
     bool InitCharacterAnimations(std::string& error);
     bool animationsInitiated;   // Control if the animations were already initiated
 
+    struct sContactSpheres
+    {
+        sContactSpheres() :
+            radius(1.0f),
+            position(glm::vec3(0.0f))
+        { }
+
+        std::string meshName;
+        float radius;
+        glm::vec3 position;
+    };
+
+    std::map<std::string, sContactSpheres*> mMapBoneNameTOMeshName;
+
  private:
      unsigned int m_UniqueID;
      // Used when creating objects
