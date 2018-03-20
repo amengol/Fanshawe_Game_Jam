@@ -148,7 +148,7 @@ public:
             radius(1.0f),
             position(glm::vec3(0.0f)),
             colour(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)),
-            timeToFade(2.0f),
+            timeToFade(1.8f),
             hasCollided(false)
         { }
 
