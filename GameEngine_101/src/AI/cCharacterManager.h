@@ -24,6 +24,9 @@ public:
     // Returns all NPCs (non active characters)
     std::vector<cCharacterControl*> GetNPCs();
 
+    // Update collisions
+    void UpdateCollisions(float deltaTime);
+
 private:
     cCharacterControl* mActiveCharacter;                            // The controlled character
     std::string mActiveCharacterName;                               // Stores the name of the active character

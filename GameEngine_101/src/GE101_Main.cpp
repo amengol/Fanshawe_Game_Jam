@@ -542,7 +542,7 @@ int main()
         //g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
         //=====================================================================
 
-        g_CameraManager.Update(glfwGetTime() - lastTimeStep);
+        g_CameraManager.Update(glfwGetTime() - lastTimeStep);        
 
         //g_NPCManager.Evaluate(glfwGetTime() - lastTimeStep);
 
@@ -742,7 +742,8 @@ int main()
 
         // End of the Deferred Render
         //=====================================================================================
-
+        
+        g_characterManager.UpdateCollisions(glfwGetTime() - lastTimeStep);
 
         // Prints camera information to the title
         std::stringstream ssTitle;

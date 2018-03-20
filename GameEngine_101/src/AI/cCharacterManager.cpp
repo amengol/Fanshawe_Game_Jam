@@ -75,3 +75,62 @@ std::vector<cCharacterControl*> cCharacterManager::GetNPCs()
     
         return npcs;
 }
+
+void cCharacterManager::UpdateCollisions(float deltaTime)
+{
+    std::vector<cGameObject*> vecCharacters;
+
+    std::map<std::string, cCharacterControl*>::iterator it = mMapNameToCharacters.begin();
+    for (; it != mMapNameToCharacters.end(); it++)
+    {
+        vecCharacters.push_back(it->second->GetCharacter());
+    }
+
+    for (size_t i = 0; i < vecCharacters.size(); i++)
+    {
+        cGameObject* character1 = vecCharacters[i];
+
+        for (size_t j = 0; j < vecCharacters.size(); j++)
+        {
+            cGameObject* character2 = vecCharacters[j];
+
+            if (character1 == character2)
+                continue;
+
+            // Character 1 spheres
+            std::vector<cGameObject::sContactSpheres*> vecCh1_spheres;
+            std::map<std::string, cGameObject::sContactSpheres*>::iterator itSpheres = 
+                character1->mMapBoneNameTOMeshName.begin();
+            for (;itSpheres != character1->mMapBoneNameTOMeshName.end(); itSpheres++)
+            {
+                vecCh1_spheres.push_back(itSpheres->second);
+            }
+
+            // Character 2 spheres
+            std::vector<cGameObject::sContactSpheres*> vecCh2_spheres;
+            itSpheres = character2->mMapBoneNameTOMeshName.begin();
+            for (; itSpheres != character2->mMapBoneNameTOMeshName.end(); itSpheres++)
+            {
+                vecCh2_spheres.push_back(itSpheres->second);
+            }
+
+            // Now the "Collision"
+            for (size_t s1Index = 0; s1Index < vecCh1_spheres.size(); s1Index++)
+            {
+                cGameObject::sContactSpheres* sphere1 = vecCh1_spheres[s1Index];
+                
+                for (size_t s2Index = 0; s2Index < vecCh2_spheres.size(); s2Index++)
+                {
+                    cGameObject::sContactSpheres* sphere2 = vecCh2_spheres[s2Index];
+
+                    if (glm::length(sphere1->position - sphere2->position) <= sphere1->radius + sphere2->radius)
+                    {
+                        sphere1->colour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+                        sphere2->colour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+                    }
+                }
+            }
+        }
+    }
+
+}
