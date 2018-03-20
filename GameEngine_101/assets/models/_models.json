@@ -16,6 +16,7 @@
 {"animName" : "RPG-Character_Unarmed-Idle(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Idle(FBX2013).FBX"},
 {"animName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Attack-L3(FBX2013).FBX"},
 {"animName" : "RPG-Character_Unarmed-Attack-R3(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Attack-R3(FBX2013).FBX"},
+{"animName" : "RPG-Character_Unarmed-Stunned(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Stunned(FBX2013).FBX"},
 {"meshName" : "sphere_fist", "meshFile" : "sphere_fist.obj"},
 {"meshName" : "sphere_chest", "meshFile" : "sphere_chest.obj"},
 {"meshName" : "sphere_head", "meshFile" : "sphere_head.obj"}

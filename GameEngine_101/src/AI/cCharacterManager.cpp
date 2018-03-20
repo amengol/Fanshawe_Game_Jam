@@ -78,21 +78,23 @@ std::vector<cCharacterControl*> cCharacterManager::GetNPCs()
 
 void cCharacterManager::UpdateCollisions(float deltaTime)
 {
-    std::vector<cGameObject*> vecCharacters;
+    std::vector<cCharacterControl*> vecCharacters;
 
     std::map<std::string, cCharacterControl*>::iterator it = mMapNameToCharacters.begin();
     for (; it != mMapNameToCharacters.end(); it++)
     {
-        vecCharacters.push_back(it->second->GetCharacter());
+        vecCharacters.push_back(it->second);
     }
 
     for (size_t i = 0; i < vecCharacters.size(); i++)
     {
-        cGameObject* character1 = vecCharacters[i];
+        cCharacterControl* control1 = vecCharacters[i];
+        cGameObject* character1 = control1->GetCharacter();
 
         for (size_t j = 0; j < vecCharacters.size(); j++)
         {
-            cGameObject* character2 = vecCharacters[j];
+            cCharacterControl* control2 = vecCharacters[j];
+            cGameObject* character2 = control2->GetCharacter();
 
             if (character1 == character2)
                 continue;
@@ -128,7 +130,8 @@ void cCharacterManager::UpdateCollisions(float deltaTime)
                         // HACK: the names are hard coded...
 
                         // if one chacater is in idle, he can't hi by standing still
-                        if (character1->characterAnim != eCharacterAnim::IDLE)
+                        if (character1->characterAnim != eCharacterAnim::IDLE
+                            && character1->characterAnim != eCharacterAnim::STUNNED)
                         {
                             // For now, only torax will lit
                             if (sphere1->meshName == "sphere_fist")
@@ -142,10 +145,12 @@ void cCharacterManager::UpdateCollisions(float deltaTime)
                                     }
                                     sphere2->hasCollided = true;
                                     sphere2->elapseTime = 0.0f;
+                                    control2->Stunned();
                                 }
                             }
                         }
-                        else if (character2->characterAnim != eCharacterAnim::IDLE)
+                        else if (character2->characterAnim != eCharacterAnim::IDLE
+                                 && character2->characterAnim != eCharacterAnim::STUNNED)
                         {
                             // For now, only torax will lit
                             if (sphere2->meshName == "sphere_fist")
@@ -159,6 +164,7 @@ void cCharacterManager::UpdateCollisions(float deltaTime)
                                     }
                                     sphere1->hasCollided = true;
                                     sphere1->elapseTime = 0.0f;
+                                    control1->Stunned();
                                 }
                             }
                         }
@@ -176,6 +182,7 @@ void cCharacterManager::UpdateCollisions(float deltaTime)
                                     }
                                     sphere2->hasCollided = true;
                                     sphere2->elapseTime = 0.0f;
+                                    control2->Stunned();
                                 }
                             }
                             if (sphere2->meshName == "sphere_fist")
@@ -189,6 +196,7 @@ void cCharacterManager::UpdateCollisions(float deltaTime)
                                     }
                                     sphere1->hasCollided = true;
                                     sphere1->elapseTime = 0.0f;
+                                    control1->Stunned();
                                 }
                             }
                         }

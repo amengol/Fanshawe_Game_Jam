@@ -96,6 +96,9 @@ public:
     // Dying
     void Dying();
 
+    // Stunned
+    void Stunned();
+
     // Returns the Character State
     inline eCharacterState GetCharacterState() { return mCharState; }
 

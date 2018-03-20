@@ -27,4 +27,5 @@ struct sAnimations
     std::string right_kicking;
     std::string praying;
     std::string dying;
+    std::string stunned;
 };

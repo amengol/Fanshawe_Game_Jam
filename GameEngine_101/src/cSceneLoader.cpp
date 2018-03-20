@@ -1010,6 +1010,22 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                 }
 
+                if ((gameObject[jsIndex]["animationList"].HasMember("stunned")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["stunned"].IsString())))
+                    {
+                        theGO->animations.stunned =
+                            gameObject[jsIndex]["animationList"]["stunned"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"stunned\" member!";
+                        return false;
+                    }
+                }
+
                 // Check for a character
                 if (isCharacter)
                 {

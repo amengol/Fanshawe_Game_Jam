@@ -363,8 +363,19 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
                 DrawObject(sphereX);
 
                 delete sphereX;
+
+                pAniState->activeAnimation.name = pTheGO->animations.stunned;
+                pAniState->activeAnimation.totalTime =
+                    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.stunned);
+                pTheGO->characterAnim = eCharacterAnim::STUNNED;
             }
-            
+            else if (pTheGO->characterAnim == eCharacterAnim::STUNNED)
+            {
+                pAniState->activeAnimation.name = pTheGO->animations.idle;
+                pAniState->activeAnimation.totalTime =
+                    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
+                pTheGO->characterAnim = eCharacterAnim::IDLE;
+            }
         }
     }
 
