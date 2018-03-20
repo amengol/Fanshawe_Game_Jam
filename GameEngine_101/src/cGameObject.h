@@ -146,12 +146,14 @@ public:
     {
         sContactSpheres() :
             radius(1.0f),
-            position(glm::vec3(0.0f))
+            position(glm::vec3(0.0f)),
+            colour(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f))
         { }
 
         std::string meshName;
         float radius;
         glm::vec3 position;
+        glm::vec4 colour;
     };
 
     std::map<std::string, sContactSpheres*> mMapBoneNameTOMeshName;

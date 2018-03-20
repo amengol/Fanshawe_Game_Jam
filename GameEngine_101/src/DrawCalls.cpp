@@ -333,7 +333,7 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
             cGameObject* sphere = new cGameObject();
             sphere->meshName = contactSphere->meshName;
             sphere->hasColour = true;
-            sphere->diffuseColour = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+            sphere->diffuseColour = contactSphere->colour;
             sphere->typeOfObject = eTypeOfObject::PLANE;
             sphere->position = glm::vec3(pos.x, pos.y, pos.z) + pTheGO->position;
             
