@@ -114,16 +114,12 @@ public:
     // Decrease health
     void Hurt(float amount);
 
-    // Set a bone name
-    void MapBone(std::string boneName, std::string meshName);
-
 private:
     float mHealth;              // The health of the character
     float mSysTimeRot;          // To control "interrupted" rotations    
     float mSysTimeJump;         // To avoid jumping in the air
     cGameObject* mCharacter;    // The controlled character
     eCharacterState mCharState; // The state of the character
-    std::map<std::string, std::string> mMapBoneNamesToMeshNames;
     
     // Update orientation on interrupted rotations
     void UpdateInterruptedRotations();

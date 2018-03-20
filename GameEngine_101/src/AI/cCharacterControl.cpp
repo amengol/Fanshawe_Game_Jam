@@ -592,11 +592,6 @@ void cCharacterControl::Hurt(float amount)
 
 }
 
-void cCharacterControl::MapBone(std::string boneName, std::string meshName)
-{
-    mMapBoneNamesToMeshNames[boneName] = meshName;
-}
-
 void cCharacterControl::UpdateInterruptedRotations()
 {
     std::string animationName;
