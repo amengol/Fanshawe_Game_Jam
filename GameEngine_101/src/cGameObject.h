@@ -147,13 +147,19 @@ public:
         sContactSpheres() :
             radius(1.0f),
             position(glm::vec3(0.0f)),
-            colour(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f))
+            colour(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)),
+            timeToFade(2.0f),
+            hasCollided(false)
         { }
 
         std::string meshName;
         float radius;
         glm::vec3 position;
         glm::vec4 colour;
+        bool hasCollided;
+        float timeToFade;
+        float elapseTime;
+        glm::vec3 collisionPosition;
     };
 
     std::map<std::string, sContactSpheres*> mMapBoneNameTOMeshName;

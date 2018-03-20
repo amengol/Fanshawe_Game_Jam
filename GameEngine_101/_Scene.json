@@ -138,7 +138,7 @@
 		],
 		"hasMaterialColour" : true,
 		"diffuseColour" : [1.0, 0.0, 0.0, 1.0],
-		"position" : [-1.0, 0.0, 0.0], 
+		"position" : [-0.95, 0.0, 0.0], 
 		"rotateY" : 90.0,
 		"scale" : 0.01
 	},
@@ -155,7 +155,7 @@
 		},
 		"hasMaterialColour" : true,
 		"diffuseColour" : [0.0, 1.0, 1.0, 1.0],
-		"position" : [1.0, 0.0, 0.0], 
+		"position" : [0.95, 0.0, 0.0], 
 		"rotateY" : -90.0,
 		"scale" : 0.01
 	},

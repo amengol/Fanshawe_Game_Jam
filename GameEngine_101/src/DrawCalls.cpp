@@ -330,19 +330,41 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
             glm::vec4 vecTrans(1.0f, 1.0f, 1.0f, 1.0f);
             glm::vec4 pos = GO_Orientation * vecTrans;
 
-            cGameObject* sphere = new cGameObject();
-            sphere->meshName = contactSphere->meshName;
-            sphere->hasColour = true;
-            sphere->diffuseColour = contactSphere->colour;
-            sphere->typeOfObject = eTypeOfObject::PLANE;
-            sphere->position = glm::vec3(pos.x, pos.y, pos.z) + pTheGO->position;
+            //cGameObject* sphere = new cGameObject();
+            //sphere->meshName = contactSphere->meshName;
+            //sphere->hasColour = true;
+            //sphere->diffuseColour = contactSphere->colour;
+            //sphere->typeOfObject = eTypeOfObject::PLANE;
+            //sphere->position = glm::vec3(pos.x, pos.y, pos.z) + pTheGO->position;
             
             // Update the contact sphere
-            contactSphere->position = sphere->position;
+            contactSphere->position = glm::vec3(pos.x, pos.y, pos.z) + pTheGO->position;;
 
-            // Finally draw the sphere
-            DrawObject(sphere);
-            delete sphere;
+            
+
+            if (contactSphere->hasCollided)
+            {
+                contactSphere->elapseTime += deltaTime;
+                if (contactSphere->elapseTime >= contactSphere->timeToFade)
+                {
+                    contactSphere->hasCollided = false;
+                    contactSphere->elapseTime = 0.0f;
+                }
+
+                cGameObject* sphereX = new cGameObject();
+                sphereX->meshName = "sphere_fist";
+                sphereX->diffuseColour = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
+                sphereX->bIsWireFrame = true;
+                sphereX->typeOfObject = eTypeOfObject::PLANE;
+                sphereX->position = contactSphere->collisionPosition;
+                float scale = contactSphere->elapseTime / contactSphere->timeToFade;
+                sphereX->scale += scale;
+
+                DrawObject(sphereX);
+
+                delete sphereX;
+            }
+            
         }
     }
 
