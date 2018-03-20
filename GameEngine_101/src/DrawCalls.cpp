@@ -283,8 +283,34 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
                     pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
                 pTheGO->characterAnim = eCharacterAnim::IDLE;
             }
+
+            if (pTheGO->characterAnim == eCharacterAnim::STUNNED)
+            {
+                pAniState->activeAnimation.name = pTheGO->animations.idle;
+                pAniState->activeAnimation.totalTime =
+                    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
+                pTheGO->characterAnim = eCharacterAnim::IDLE;
+            }
+
+            if (pTheGO->characterAnim == eCharacterAnim::DYING_RISING)
+            {
+                pAniState->activeAnimation.name = pTheGO->animations.dying;
+                pAniState->activeAnimation.totalTime =
+                    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.dying);
+                pAniState->activeAnimation.currentTime = pAniState->activeAnimation.totalTime - 0.001f;
+                    pTheGO->characterAnim = eCharacterAnim::DEAD;
+            }
         }
 
+    }
+
+    if (pTheGO->characterAnim == eCharacterAnim::DEAD)
+    {
+        pAniState->activeAnimation.name = pTheGO->animations.dying;
+        pAniState->activeAnimation.totalTime =
+            pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.dying);
+        pAniState->activeAnimation.currentTime = pAniState->activeAnimation.totalTime - 0.001f;
+        pTheGO->characterAnim = eCharacterAnim::DEAD;
     }
 
     animationToPlay = pAniState->activeAnimation.name;
@@ -364,17 +390,17 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
 
                 delete sphereX;
 
-                pAniState->activeAnimation.name = pTheGO->animations.stunned;
-                pAniState->activeAnimation.totalTime =
-                    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.stunned);
-                pTheGO->characterAnim = eCharacterAnim::STUNNED;
+                //pAniState->activeAnimation.name = pTheGO->animations.stunned;
+                //pAniState->activeAnimation.totalTime =
+                //    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.stunned);
+                //pTheGO->characterAnim = eCharacterAnim::STUNNED;
             }
             else if (pTheGO->characterAnim == eCharacterAnim::STUNNED)
             {
-                pAniState->activeAnimation.name = pTheGO->animations.idle;
-                pAniState->activeAnimation.totalTime =
-                    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
-                pTheGO->characterAnim = eCharacterAnim::IDLE;
+                //pAniState->activeAnimation.name = pTheGO->animations.idle;
+                //pAniState->activeAnimation.totalTime =
+                //    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
+                //pTheGO->characterAnim = eCharacterAnim::IDLE;
             }
         }
     }

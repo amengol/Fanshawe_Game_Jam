@@ -29,7 +29,8 @@ enum eCharacterAnim
     RIGHT_KICKING,
     PRAYING,
     DYING_RISING,
-    STUNNED
+    STUNNED,
+    DEAD
 };
 
 // Returns a GLM 4x4 matrix from an AiMatrix4x4

@@ -1,7 +1,7 @@
 #include "cCharacterManager.h"
 #include "cCharacterControl.h"
 #include "..\cGameObject.h"
-
+#include "..\Utilities.h"
 
 cCharacterManager::cCharacterManager()
 {
@@ -145,7 +145,13 @@ void cCharacterManager::UpdateCollisions(float deltaTime)
                                     }
                                     sphere2->hasCollided = true;
                                     sphere2->elapseTime = 0.0f;
-                                    control2->Stunned();
+                                    
+                                    float hit = getRandInRange(0.05f, 0.1f);
+                                    control2->Hurt(hit * deltaTime);
+                                    if (control2->GetHealth() <= 0.1f)
+                                        control2->Dying();
+                                    else
+                                        control2->Stunned();
                                 }
                             }
                         }
@@ -164,7 +170,13 @@ void cCharacterManager::UpdateCollisions(float deltaTime)
                                     }
                                     sphere1->hasCollided = true;
                                     sphere1->elapseTime = 0.0f;
-                                    control1->Stunned();
+                                    
+                                    float hit = getRandInRange(0.05f, 0.1f);
+                                    control1->Hurt(hit * deltaTime);
+                                    if (control1->GetHealth() <= 0.1f)
+                                        control1->Dying();
+                                    else
+                                        control1->Stunned();
                                 }
                             }
                         }
@@ -182,7 +194,13 @@ void cCharacterManager::UpdateCollisions(float deltaTime)
                                     }
                                     sphere2->hasCollided = true;
                                     sphere2->elapseTime = 0.0f;
-                                    control2->Stunned();
+                                    
+                                    float hit = getRandInRange(0.05f, 0.1f);
+                                    control2->Hurt(hit * deltaTime);
+                                    if (control2->GetHealth() <= 0.1f)
+                                        control2->Dying();
+                                    else
+                                        control2->Stunned();
                                 }
                             }
                             if (sphere2->meshName == "sphere_fist")
@@ -196,7 +214,13 @@ void cCharacterManager::UpdateCollisions(float deltaTime)
                                     }
                                     sphere1->hasCollided = true;
                                     sphere1->elapseTime = 0.0f;
-                                    control1->Stunned();
+                                    
+                                    float hit = getRandInRange(0.05f, 0.1f);
+                                    control1->Hurt(hit * deltaTime);
+                                    if (control1->GetHealth() <= 0.1f)
+                                        control1->Dying();
+                                    else
+                                        control1->Stunned();
                                 }
                             }
                         }
