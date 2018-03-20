@@ -930,6 +930,22 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                 }
 
+                if ((gameObject[jsIndex]["animationList"].HasMember("left_cross_punch")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["left_cross_punch"].IsString())))
+                    {
+                        theGO->animations.left_cross_punch =
+                            gameObject[jsIndex]["animationList"]["left_cross_punch"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"left_cross_punch\" member!";
+                        return false;
+                    }
+                }
+
                 if ((gameObject[jsIndex]["animationList"].HasMember("right_cross_punch")))
                 {
                     if (((gameObject[jsIndex]["animationList"]["right_cross_punch"].IsString())))

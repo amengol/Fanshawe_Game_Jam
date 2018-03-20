@@ -447,11 +447,37 @@ void cCharacterControl::Runaway()
     }
 }
 
+void cCharacterControl::LeftCrossPunch()
+{
+    if (mCharacter != NULL)
+    {
+        if (mCharacter->characterAnim != LEFT_CROSS_PUNCH 
+            && mCharacter->characterAnim != RIGHT_CROSS_PUNCH)
+        {
+            // Update rotations
+            UpdateInterruptedRotations();
+
+            std::string animationName = mCharacter->animations.left_cross_punch;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+
+            mCharacter->characterAnim = LEFT_CROSS_PUNCH;
+        }
+    }
+}
+
 void cCharacterControl::RightCrossPunch()
 {
     if (mCharacter != NULL)
     {
-        if (mCharacter->characterAnim != RIGHT_CROSS_PUNCH)
+        if (mCharacter->characterAnim != LEFT_CROSS_PUNCH
+            && mCharacter->characterAnim != RIGHT_CROSS_PUNCH)
         {
             // Update rotations
             UpdateInterruptedRotations();

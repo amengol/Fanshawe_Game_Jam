@@ -82,6 +82,9 @@ public:
     void Runaway();
 
     // Right Cross Punch
+    void LeftCrossPunch();
+
+    // Right Cross Punch
     void RightCrossPunch();
 
     // Right Kicking

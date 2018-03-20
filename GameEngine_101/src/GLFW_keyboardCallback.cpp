@@ -51,13 +51,23 @@ void key_callback(GLFWwindow* window,
         g_Fade.startFade(2.0f);
     }
 
-    if (key == GLFW_KEY_KP_9 && action == GLFW_PRESS)
+    if (key == GLFW_KEY_KP_4 && action == GLFW_PRESS)
+    {
+        for (size_t i = 0; i < g_vecGameObjects.size(); i++)
+        {
+            std::string error;
+            g_characterManager.SetControlledCharacter("RED", error);
+            g_characterManager.GetActiveCharacter()->LeftCrossPunch();
+        }
+    }
+
+    if (key == GLFW_KEY_KP_6 && action == GLFW_PRESS)
     {
         for (size_t i = 0; i < g_vecGameObjects.size(); i++)
         {
             std::string error;
             g_characterManager.SetControlledCharacter("BLUE", error);
-            g_characterManager.GetActiveCharacter()->RightCrossPunch();
+            g_characterManager.GetActiveCharacter()->LeftCrossPunch();
         }
     }
 
@@ -67,6 +77,16 @@ void key_callback(GLFWwindow* window,
         {
             std::string error;
             g_characterManager.SetControlledCharacter("RED", error);
+            g_characterManager.GetActiveCharacter()->RightCrossPunch();
+        }
+    }
+
+    if (key == GLFW_KEY_KP_9 && action == GLFW_PRESS)
+    {
+        for (size_t i = 0; i < g_vecGameObjects.size(); i++)
+        {
+            std::string error;
+            g_characterManager.SetControlledCharacter("BLUE", error);
             g_characterManager.GetActiveCharacter()->RightCrossPunch();
         }
     }

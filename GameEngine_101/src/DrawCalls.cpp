@@ -270,7 +270,8 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
         }
 
         // Fight control
-        if (pTheGO->characterAnim == eCharacterAnim::RIGHT_CROSS_PUNCH)
+        if (pTheGO->characterAnim == eCharacterAnim::RIGHT_CROSS_PUNCH
+            || pTheGO->characterAnim == eCharacterAnim::LEFT_CROSS_PUNCH)
         {
             pAniState->activeAnimation.name = pTheGO->animations.idle;
             pAniState->activeAnimation.totalTime =

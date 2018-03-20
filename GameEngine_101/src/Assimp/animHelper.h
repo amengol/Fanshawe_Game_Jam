@@ -24,6 +24,7 @@ enum eCharacterAnim
     TRICK,
     VIOLENT_TRICK,
     RUNAWAY,
+    LEFT_CROSS_PUNCH,
     RIGHT_CROSS_PUNCH,
     RIGHT_KICKING,
     PRAYING,
