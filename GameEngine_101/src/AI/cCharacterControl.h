@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <vector>
+#include "..\Assimp\animHelper.h"
 
 class cGameObject;
 
@@ -18,33 +19,6 @@ public:
         ANGRY_EVADE,
         BAGGING,
         DYING
-    };
-
-    enum eAnimationState
-    {
-        IDLE,
-        WALKING,
-        LEFT_STRAFE,
-        RIGHT_STRAFE,
-        WALKING_BACKWARDS,
-        RUN,
-        RUN_FORWARD,
-        LEFT_STRAFE_RUN,
-        RIGHT_STRAFE_RUN,
-        TURN_LEFT_90,
-        TURN_RIGHT_90,
-        TURN_LEFT_180,
-        TURN_RIGHT_180,
-        JUMP,
-        JUMP_FORWARD_WALKING,
-        JUMP_FORWARD,
-        TRICK,
-        VIOLENT_TRICK,
-        RUNAWAY,
-        RIGHT_CROSS_PUNCH,
-        RIGHT_KICKING,
-        PRAYING,
-        DYING_RISING
     };
 
     // Sets the Character's GameObject
@@ -126,7 +100,7 @@ public:
     inline void SetCharacterState(eCharacterState cs) { mCharState = cs; }
 
     // Returns the Character's Animation State
-    inline eAnimationState GetAnimationState() { return mAnimState; }
+    eCharacterAnim GetAnimationState();
 
     // Returns the health
     inline float GetHealth() { return mHealth; }
@@ -143,7 +117,6 @@ private:
     float mSysTimeJump;         // To avoid jumping in the air
     cGameObject* mCharacter;    // The controlled character
     eCharacterState mCharState; // The state of the character
-    eAnimationState mAnimState; // The animation state of the character
     
     // Update orientation on interrupted rotations
     void UpdateInterruptedRotations();

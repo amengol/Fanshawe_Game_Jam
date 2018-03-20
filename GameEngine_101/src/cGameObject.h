@@ -5,6 +5,7 @@
 #include <iRigidBody.h>
 #include <iSoftBody.h>
 #include "Assimp\sAnimations.h"
+#include "AI\cCharacterControl.h"
 
 class cMesh;
 class cSoudObject;
@@ -134,6 +135,8 @@ public:
     cAnimationState* pAniState;
     glm::vec3 startDisplacement;
     sAnimations animations;
+    // When the animation is for a character, we also need this
+    eCharacterAnim characterAnim;
 
     // Will init all animation names in "animations" into the cSkinnedMesh
     bool InitCharacterAnimations(std::string& error);

@@ -7,6 +7,7 @@
 #include "globalGameStuff.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include "Assimp\cAnimationState.h"
+#include "AI\cCharacterControl.h"
 
 bool g_clothDebug = false;
 
@@ -266,6 +267,15 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
             pAniState->activeAnimation.name = pTheGO->animations.running;
             pAniState->activeAnimation.totalTime =
                 pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.running);
+        }
+
+        // Fight control
+        if (pTheGO->characterAnim == eCharacterAnim::RIGHT_CROSS_PUNCH)
+        {
+            pAniState->activeAnimation.name = pTheGO->animations.idle;
+            pAniState->activeAnimation.totalTime =
+                pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
+            pTheGO->characterAnim = eCharacterAnim::IDLE;
         }
     }
 

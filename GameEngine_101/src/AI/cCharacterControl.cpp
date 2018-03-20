@@ -7,7 +7,6 @@
 cCharacterControl::cCharacterControl()
 {
     mCharacter = NULL;
-    mAnimState = IDLE;
     mCharState = FOLLOWER;
     mHealth = 1.0f;
     mSysTimeRot = 0.0f;
@@ -20,7 +19,7 @@ void cCharacterControl::Forward()
     if (mCharacter != NULL)
     {
         // Don't cut the jump
-        if (mAnimState != WALKING && mAnimState != JUMP_FORWARD)
+        if (mCharacter->characterAnim != WALKING && mCharacter->characterAnim != JUMP_FORWARD)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -35,7 +34,7 @@ void cCharacterControl::Forward()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
 
-            mAnimState = WALKING;
+            mCharacter->characterAnim = WALKING;
         }
     }
 }
@@ -45,7 +44,7 @@ void cCharacterControl::LeftStrafe()
     if (mCharacter != NULL)
     {
         // Don't cut the jump
-        if (mAnimState != LEFT_STRAFE && mAnimState != JUMP_FORWARD)
+        if (mCharacter->characterAnim != LEFT_STRAFE && mCharacter->characterAnim != JUMP_FORWARD)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -60,7 +59,7 @@ void cCharacterControl::LeftStrafe()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(1.5f, 0.0f, 0.0f));
 
-            mAnimState = LEFT_STRAFE;
+            mCharacter->characterAnim = LEFT_STRAFE;
         }
     }
 }
@@ -70,7 +69,7 @@ void cCharacterControl::RightStrafe()
     if (mCharacter != NULL)
     {
         // Don't cut the jump
-        if (mAnimState != RIGHT_STRAFE && mAnimState != JUMP_FORWARD)
+        if (mCharacter->characterAnim != RIGHT_STRAFE && mCharacter->characterAnim != JUMP_FORWARD)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -85,7 +84,7 @@ void cCharacterControl::RightStrafe()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(-1.5f, 0.0f, 0.0f));
 
-            mAnimState = RIGHT_STRAFE;
+            mCharacter->characterAnim = RIGHT_STRAFE;
         }
     }
 }
@@ -94,7 +93,7 @@ void cCharacterControl::ForwardRun()
 {
     if (mCharacter != NULL)
     {
-        if (mAnimState != RUN_FORWARD && mAnimState != JUMP_FORWARD)
+        if (mCharacter->characterAnim != RUN_FORWARD && mCharacter->characterAnim != JUMP_FORWARD)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -109,7 +108,7 @@ void cCharacterControl::ForwardRun()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
 
-            mAnimState = RUN_FORWARD;
+            mCharacter->characterAnim = RUN_FORWARD;
         }
     }
 }
@@ -119,7 +118,7 @@ void cCharacterControl::LeftStrafeRun()
     if (mCharacter != NULL)
     {
         // Don't cut the jump
-        if (mAnimState != LEFT_STRAFE_RUN && mAnimState != JUMP_FORWARD)
+        if (mCharacter->characterAnim != LEFT_STRAFE_RUN && mCharacter->characterAnim != JUMP_FORWARD)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -134,7 +133,7 @@ void cCharacterControl::LeftStrafeRun()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(3.75f, 0.0f, 0.0f));
 
-            mAnimState = LEFT_STRAFE_RUN;
+            mCharacter->characterAnim = LEFT_STRAFE_RUN;
         }
     }
 }
@@ -144,7 +143,7 @@ void cCharacterControl::RightStrafeRun()
     if (mCharacter != NULL)
     {
         // Don't cut the jump
-        if (mAnimState != RIGHT_STRAFE_RUN && mAnimState != JUMP_FORWARD)
+        if (mCharacter->characterAnim != RIGHT_STRAFE_RUN && mCharacter->characterAnim != JUMP_FORWARD)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -159,7 +158,7 @@ void cCharacterControl::RightStrafeRun()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(-3.75f, 0.0f, 0.0f));
 
-            mAnimState = RIGHT_STRAFE_RUN;
+            mCharacter->characterAnim = RIGHT_STRAFE_RUN;
         }
     }
 }
@@ -168,7 +167,7 @@ void cCharacterControl::Backwards()
 {
     if (mCharacter != NULL)
     {
-        if (mAnimState != WALKING_BACKWARDS)
+        if (mCharacter->characterAnim != WALKING_BACKWARDS)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -183,7 +182,7 @@ void cCharacterControl::Backwards()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
 
-            mAnimState = WALKING_BACKWARDS;
+            mCharacter->characterAnim = WALKING_BACKWARDS;
         }
     }
 }
@@ -202,7 +201,7 @@ void cCharacterControl::TurnLeft90()
 
         mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-        mAnimState = TURN_LEFT_90;
+        mCharacter->characterAnim = TURN_LEFT_90;
 
         mSysTimeRot = glfwGetTime();
     }
@@ -222,7 +221,7 @@ void cCharacterControl::TurnRight90()
 
         mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-        mAnimState = TURN_RIGHT_90;
+        mCharacter->characterAnim = TURN_RIGHT_90;
 
         mSysTimeRot = glfwGetTime();
     }
@@ -242,7 +241,7 @@ void cCharacterControl::TurnLeft180()
 
         mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-        mAnimState = TURN_LEFT_180;
+        mCharacter->characterAnim = TURN_LEFT_180;
 
         mSysTimeRot = glfwGetTime();
     }
@@ -262,7 +261,7 @@ void cCharacterControl::TurnRight180()
 
         mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-        mAnimState = TURN_RIGHT_180;
+        mCharacter->characterAnim = TURN_RIGHT_180;
 
         mSysTimeRot = glfwGetTime();
     }
@@ -272,7 +271,7 @@ void cCharacterControl::Jump()
 {
     if (mCharacter != NULL)
     {// Don't cut the jump
-        if (mAnimState != JUMP_FORWARD)
+        if (mCharacter->characterAnim != JUMP_FORWARD)
         {
             // Avoid jumping in the air
             std::string animationName = mCharacter->animations.jump;
@@ -291,7 +290,7 @@ void cCharacterControl::Jump()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-            mAnimState = JUMP;
+            mCharacter->characterAnim = JUMP;
 
             mSysTimeJump = glfwGetTime();
         }
@@ -317,7 +316,7 @@ void cCharacterControl::ForwardJumpWalking()
         mCharacter->pAniState->activeAnimation.totalTime =
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        mAnimState = JUMP_FORWARD_WALKING;
+        mCharacter->characterAnim = JUMP_FORWARD_WALKING;
 
         mSysTimeJump = glfwGetTime();
     }
@@ -342,7 +341,7 @@ void cCharacterControl::ForwardJump()
         mCharacter->pAniState->activeAnimation.totalTime =
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        mAnimState = JUMP_FORWARD;
+        mCharacter->characterAnim = JUMP_FORWARD;
 
         mSysTimeJump = glfwGetTime();
     }
@@ -353,7 +352,7 @@ void cCharacterControl::Idle()
     if (mCharacter != NULL)
     {
         // Don't cut the jump
-        if (mAnimState != JUMP_FORWARD && mAnimState != IDLE)
+        if (mCharacter->characterAnim != JUMP_FORWARD && mCharacter->characterAnim != IDLE)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -368,7 +367,7 @@ void cCharacterControl::Idle()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-            mAnimState = IDLE;
+            mCharacter->characterAnim = IDLE;
         }
     }
 }
@@ -378,7 +377,7 @@ void cCharacterControl::Trick()
     if (mCharacter != NULL)
     {
         // Don't cut the jump
-        if (mAnimState != JUMP_FORWARD)
+        if (mCharacter->characterAnim != JUMP_FORWARD)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -393,7 +392,7 @@ void cCharacterControl::Trick()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-            mAnimState = TRICK;
+            mCharacter->characterAnim = TRICK;
         }
     }
 }
@@ -403,7 +402,7 @@ void cCharacterControl::ViolentTrick()
     if (mCharacter != NULL)
     {
         // Don't cut the jump
-        if (mAnimState != JUMP_FORWARD)
+        if (mCharacter->characterAnim != JUMP_FORWARD)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -418,7 +417,7 @@ void cCharacterControl::ViolentTrick()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-            mAnimState = VIOLENT_TRICK;
+            mCharacter->characterAnim = VIOLENT_TRICK;
         }
     }
 }
@@ -428,7 +427,7 @@ void cCharacterControl::Runaway()
     if (mCharacter != NULL)
     {
         // Don't cut the jump
-        if (mAnimState != RUNAWAY && mAnimState != JUMP_FORWARD)
+        if (mCharacter->characterAnim != RUNAWAY && mCharacter->characterAnim != JUMP_FORWARD)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -443,7 +442,7 @@ void cCharacterControl::Runaway()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
 
-            mAnimState = RUNAWAY;
+            mCharacter->characterAnim = RUNAWAY;
         }
     }
 }
@@ -452,7 +451,7 @@ void cCharacterControl::RightCrossPunch()
 {
     if (mCharacter != NULL)
     {
-        if (mAnimState != RIGHT_CROSS_PUNCH)
+        if (mCharacter->characterAnim != RIGHT_CROSS_PUNCH)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -467,7 +466,7 @@ void cCharacterControl::RightCrossPunch()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-            mAnimState = RIGHT_CROSS_PUNCH;
+            mCharacter->characterAnim = RIGHT_CROSS_PUNCH;
         }
     }
 }
@@ -476,7 +475,7 @@ void cCharacterControl::RightKicking()
 {
     if (mCharacter != NULL)
     {
-        if (mAnimState != RIGHT_KICKING)
+        if (mCharacter->characterAnim != RIGHT_KICKING)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -491,7 +490,7 @@ void cCharacterControl::RightKicking()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-            mAnimState = RIGHT_KICKING;
+            mCharacter->characterAnim = RIGHT_KICKING;
         }
     }
 }
@@ -500,7 +499,7 @@ void cCharacterControl::Praying()
 {
     if (mCharacter != NULL)
     {
-        if (mAnimState != PRAYING)
+        if (mCharacter->characterAnim != PRAYING)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -515,7 +514,7 @@ void cCharacterControl::Praying()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-            mAnimState = PRAYING;
+            mCharacter->characterAnim = PRAYING;
         }
     }
 }
@@ -524,7 +523,7 @@ void cCharacterControl::Dying()
 {
     if (mCharacter != NULL)
     {
-        if (mAnimState != DYING_RISING)
+        if (mCharacter->characterAnim != DYING_RISING)
         {
             // Update rotations
             UpdateInterruptedRotations();
@@ -539,8 +538,16 @@ void cCharacterControl::Dying()
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-            mAnimState = DYING_RISING;
+            mCharacter->characterAnim = DYING_RISING;
         }
+    }
+}
+
+eCharacterAnim cCharacterControl::GetAnimationState()
+{
+    if (mCharacter != NULL)
+    {
+        return mCharacter->characterAnim;
     }
 }
 
@@ -564,7 +571,7 @@ void cCharacterControl::UpdateInterruptedRotations()
     std::string animationName;
     float duration, deltaTime, ratio;
 
-    if (mAnimState == TURN_LEFT_180)
+    if (mCharacter->characterAnim == TURN_LEFT_180)
     {
         animationName = mCharacter->animations.left_turn;
         duration =
@@ -579,7 +586,7 @@ void cCharacterControl::UpdateInterruptedRotations()
         return;
     }
 
-    if (mAnimState == TURN_RIGHT_180)
+    if (mCharacter->characterAnim == TURN_RIGHT_180)
     {
         animationName = mCharacter->animations.right_turn;
         duration =
@@ -594,7 +601,7 @@ void cCharacterControl::UpdateInterruptedRotations()
         return;
     }
 
-    if (mAnimState == TURN_LEFT_90)
+    if (mCharacter->characterAnim == TURN_LEFT_90)
     {
         animationName = mCharacter->animations.left_turn;
         duration =
@@ -609,7 +616,7 @@ void cCharacterControl::UpdateInterruptedRotations()
         return;
     }
 
-    if (mAnimState == TURN_RIGHT_90)
+    if (mCharacter->characterAnim == TURN_RIGHT_90)
     {
         animationName = mCharacter->animations.left_turn;
         duration =

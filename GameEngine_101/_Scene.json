@@ -109,7 +109,8 @@
 		"defaultAnimation" : "RPG-Character_Unarmed-Idle(FBX2013)",
 		"animationList": 
 		{
-			"idle" : "RPG-Character_Unarmed-Idle(FBX2013)"
+			"idle" : "RPG-Character_Unarmed-Idle(FBX2013)",
+			"right_cross_punch" : "RPG-Character_Unarmed-Attack-R3(FBX2013)"
 		},
 		"hasMaterialColour" : true,
 		"diffuseColour" : [1.0, 0.0, 0.0, 1.0],

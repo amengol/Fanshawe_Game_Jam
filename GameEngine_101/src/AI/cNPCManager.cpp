@@ -5,6 +5,7 @@
 #include <glm\gtx\transform.hpp>
 #include "..\Assimp\cSkinnedMesh.h"
 #include <GLFW/glfw3.h>
+#include "..\Assimp\cAnimationState.h"
 
 cNPCManager::cNPCManager()
 {
@@ -116,9 +117,9 @@ void cNPCManager::Evaluate(double deltaTime)
             glm::vec3 shiftDirection = npcJ_Position - npcI_Position;
             shiftDirection = glm::normalize(shiftDirection);
 
-            if (mNPCs[i]->GetAnimationState() != cCharacterControl::eAnimationState::IDLE)
+            if (mNPCs[i]->GetAnimationState() != eCharacterAnim::IDLE)
                 npcI_Position += -(shiftDirection * 0.3f);
-            if (mNPCs[j]->GetAnimationState() != cCharacterControl::eAnimationState::IDLE)
+            if (mNPCs[j]->GetAnimationState() != eCharacterAnim::IDLE)
                 npcJ_Position += shiftDirection * 0.3f;
 
             mNPCs[i]->GetCharacter()->rigidBody->SetPosition(npcI_Position);
@@ -199,13 +200,13 @@ void cNPCManager::SolveForFollower(cCharacterControl* npc, double deltaTime)
     float distance = glm::length(playerPosition - npcPosition);
 
     // Case when the player is out of the interest radius
-    if (distance > mInterestRadius && npc->GetAnimationState() != cCharacterControl::eAnimationState::IDLE)
+    if (distance > mInterestRadius && npc->GetAnimationState() != eCharacterAnim::IDLE)
     {
         npc->Idle();
         npc->GetCharacter()->rigidBody->SetVelocity(glm::vec3(0.0f));
         return; // Out of the interest radius
     }
-    else if (distance > mInterestRadius && npc->GetAnimationState() == cCharacterControl::eAnimationState::IDLE)
+    else if (distance > mInterestRadius && npc->GetAnimationState() == eCharacterAnim::IDLE)
     {
         return; // Out of the interest radius
     }
@@ -213,26 +214,26 @@ void cNPCManager::SolveForFollower(cCharacterControl* npc, double deltaTime)
     // Case when the player is too close
     if (distance < mStopDistance)
     {
-        if (npc->GetAnimationState() != cCharacterControl::eAnimationState::IDLE)
+        if (npc->GetAnimationState() != eCharacterAnim::IDLE)
         {
             npc->Idle();
             npc->GetCharacter()->rigidBody->SetVelocity(glm::vec3(0.0f));
         }
 
-        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::TRICK)
+        if (mPlayer->GetAnimationState() == eCharacterAnim::TRICK)
         {
             npc->GetCharacter()->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
             npc->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_APPROACH);
         }
 
-        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::VIOLENT_TRICK)
+        if (mPlayer->GetAnimationState() == eCharacterAnim::VIOLENT_TRICK)
         {
             npc->GetCharacter()->diffuseColour = glm::vec4(0.5f, 0.0f, 0.5f, 1.0f);
             npc->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_EVADE);
         }
 
-        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_CROSS_PUNCH
-            || mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_KICKING)
+        if (mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_CROSS_PUNCH
+            || mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_KICKING)
         {
             npc->GetCharacter()->diffuseColour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
             npc->SetCharacterState(cCharacterControl::eCharacterState::ANGRY_PURSUIT);
@@ -242,7 +243,7 @@ void cNPCManager::SolveForFollower(cCharacterControl* npc, double deltaTime)
     }
     
     // Check for enough space before proceed
-    if (distance < mThreshold + mStopDistance && npc->GetAnimationState() == cCharacterControl::eAnimationState::IDLE)
+    if (distance < mThreshold + mStopDistance && npc->GetAnimationState() == eCharacterAnim::IDLE)
     {
         return; // Give it some space to avoid staggering
     }
@@ -291,20 +292,20 @@ void cNPCManager::SolveForCuriousApproach(cCharacterControl* npc, double deltaTi
     // Case when the player is too close
     if (distance < mStopDistance)
     {
-        if (npc->GetAnimationState() != cCharacterControl::eAnimationState::IDLE)
+        if (npc->GetAnimationState() != eCharacterAnim::IDLE)
         {
             npc->Idle();
             npc->GetCharacter()->rigidBody->SetVelocity(glm::vec3(0.0f));
         }
 
-        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::VIOLENT_TRICK)
+        if (mPlayer->GetAnimationState() == eCharacterAnim::VIOLENT_TRICK)
         {
             npc->GetCharacter()->diffuseColour = glm::vec4(0.5f, 0.0f, 0.5f, 1.0f);
             npc->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_EVADE);
         }
 
-        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_CROSS_PUNCH
-            || mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_KICKING)
+        if (mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_CROSS_PUNCH
+            || mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_KICKING)
         {
             npc->GetCharacter()->diffuseColour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
             npc->SetCharacterState(cCharacterControl::eCharacterState::ANGRY_PURSUIT);
@@ -314,7 +315,7 @@ void cNPCManager::SolveForCuriousApproach(cCharacterControl* npc, double deltaTi
     }
 
     // Check for enough space before proceed
-    if (distance < mThreshold + mStopDistance && npc->GetAnimationState() == cCharacterControl::eAnimationState::IDLE)
+    if (distance < mThreshold + mStopDistance && npc->GetAnimationState() == eCharacterAnim::IDLE)
     {
         return; // Give it some space to avoid staggering
     }
@@ -403,8 +404,8 @@ void cNPCManager::SolveForAngryPursuit(cCharacterControl* npc, double deltaTime)
         npc->RightKicking();
         npc->GetCharacter()->rigidBody->SetVelocity(glm::vec3(0.0f));
 
-        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_KICKING ||
-            mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_CROSS_PUNCH)
+        if (mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_KICKING ||
+            mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_CROSS_PUNCH)
         {
             npc->Hurt(deltaTime * 0.1f);
 
@@ -420,7 +421,7 @@ void cNPCManager::SolveForAngryPursuit(cCharacterControl* npc, double deltaTime)
     }
 
     // Check for enough space before proceed
-    if (distance < mThreshold + mStopDistance * 0.5f && npc->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_KICKING)
+    if (distance < mThreshold + mStopDistance * 0.5f && npc->GetAnimationState() == eCharacterAnim::RIGHT_KICKING)
     {
         return; // Give it some space to avoid staggering
     }
@@ -471,8 +472,8 @@ void cNPCManager::SolveForAngryEvade(cCharacterControl* npc, double deltaTime)
     // Case when the player is too close
     if (distance < mStopDistance * 0.5f)
     {
-        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_KICKING ||
-            mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_CROSS_PUNCH)
+        if (mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_KICKING ||
+            mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_CROSS_PUNCH)
         {
             npc->Hurt(deltaTime);
 
@@ -485,7 +486,7 @@ void cNPCManager::SolveForAngryEvade(cCharacterControl* npc, double deltaTime)
     }
     else
     {
-        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::VIOLENT_TRICK)
+        if (mPlayer->GetAnimationState() == eCharacterAnim::VIOLENT_TRICK)
         {
             npc->Hurt(deltaTime * 0.1f);
 
@@ -535,8 +536,8 @@ void cNPCManager::SolveForBagging(cCharacterControl* npc, double deltaTime)
     // Case when the player is too close
     if (distance < mStopDistance * 0.5f)
     {
-        if (mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_KICKING ||
-            mPlayer->GetAnimationState() == cCharacterControl::eAnimationState::RIGHT_CROSS_PUNCH)
+        if (mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_KICKING ||
+            mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_CROSS_PUNCH)
         {
             npc->Hurt(deltaTime * 0.1f);
 
