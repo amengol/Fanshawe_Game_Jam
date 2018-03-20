@@ -307,6 +307,47 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
                                               vecObjectBoneTransformation,  // final location of bones
                                               vecOffsets);                 // local offset for each bone
 
+    //=========================================================================
+    // Contact points update
+    std::map<std::string, cGameObject::sContactSpheres*>::iterator itGO = pTheGO->mMapBoneNameTOMeshName.begin();
+
+    for (; itGO != pTheGO->mMapBoneNameTOMeshName.end(); itGO++)
+    {
+        std::string boneName = itGO->first;
+        cGameObject::sContactSpheres* contactSphere = itGO->second;
+
+        std::map<std::string, glm::mat4>::iterator itSkinned = 
+            pTheGO->pSimpleSkinnedMesh->mMapBoneToLastLocalTranslation.find(boneName);
+
+        if (itSkinned != pTheGO->pSimpleSkinnedMesh->mMapBoneToLastLocalTranslation.end())
+        {
+            glm::mat4 boneTranslation = itSkinned->second * pTheGO->scale;
+            glm::mat4 GO_Orientation;
+            pTheGO->rigidBody->GetMatOrientation(GO_Orientation);
+            GO_Orientation *= boneTranslation;
+            //boneTranslation *= GO_Orientation;
+
+            glm::vec4 vecTrans(1.0f, 1.0f, 1.0f, 1.0f);
+            glm::vec4 pos = GO_Orientation * vecTrans;
+
+            cGameObject* sphere = new cGameObject();
+            sphere->meshName = contactSphere->meshName;
+            sphere->hasColour = true;
+            sphere->diffuseColour = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+            sphere->typeOfObject = eTypeOfObject::PLANE;
+            sphere->position = glm::vec3(pos.x, pos.y, pos.z) + pTheGO->position;
+            
+            // Update the contact sphere
+            contactSphere->position = sphere->position;
+
+            // Finally draw the sphere
+            DrawObject(sphere);
+            delete sphere;
+        }
+    }
+
+    //=========================================================================
+
     unsigned int numberOfBonesUsed = static_cast< unsigned int >(vecFinalTransformation.size());
     glUniform1i(UniformLoc_numBonesUsed, numberOfBonesUsed);
 
