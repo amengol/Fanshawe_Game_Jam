@@ -15,7 +15,8 @@
 {"meshName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)", "type" : 1, "meshFile" : "RPG-Character_Unarmed-Attack-L3(FBX2013).FBX"},
 {"animName" : "RPG-Character_Unarmed-Idle(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Idle(FBX2013).FBX"},
 {"animName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Attack-L3(FBX2013).FBX"},
-{"animName" : "RPG-Character_Unarmed-Attack-R3(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Attack-R3(FBX2013).FBX"}
+{"animName" : "RPG-Character_Unarmed-Attack-R3(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Attack-R3(FBX2013).FBX"},
+{"meshName" : "sphere_fist", "meshFile" : "sphere_fist.obj"}
 #{"meshName" : "gale_crater_LLC", "meshFile" : "gale_crater_LLC.obj"},
 #{"meshName" : "gale_crater_LUC", "meshFile" : "gale_crater_LUC.obj"},
 #{"meshName" : "gale_crater_RLC", "meshFile" : "gale_crater_RLC.obj"},

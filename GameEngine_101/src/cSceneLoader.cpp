@@ -1013,7 +1013,18 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 // Check for a character
                 if (isCharacter)
                 {
-                    if (!g_characterManager.AddCharacter(theGO, error))
+                    if (friendlyName == "")
+                    {
+                        error = "The Character Gameobject number is missing its friendly name!";
+                        return false;
+                    }
+
+                    cCharacterControl* ch = new cCharacterControl();
+                    ch->SetCharacter(theGO);
+
+
+
+                    if (!g_characterManager.AddCharacter(ch, error))
                         return false;
                     if (!theGO->InitCharacterAnimations(error))
                         return false;

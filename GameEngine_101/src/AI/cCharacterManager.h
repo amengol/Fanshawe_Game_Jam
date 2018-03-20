@@ -13,7 +13,7 @@ public:
     ~cCharacterManager();
 
     // Adds a character to the Character Manager
-    bool AddCharacter(cGameObject* GO, std::string& error);
+    bool AddCharacter(cCharacterControl* cc, std::string& error);
 
     // Sets the controlled Character
     bool SetControlledCharacter(std::string friendlyName, std::string& error);

@@ -13,18 +13,17 @@ cCharacterManager::~cCharacterManager()
 {
 }
 
-bool cCharacterManager::AddCharacter(cGameObject* GO, std::string& error)
+bool cCharacterManager::AddCharacter(cCharacterControl* cc, std::string& error)
 {
-    if (GO->friendlyName == "")
+    if (cc->GetCharacter()->friendlyName == "")
     {
         error = "The Character Gameobject number is missing its friendly name!";
         return false;
     }
 
-    cCharacterControl* ch = new cCharacterControl();
-    ch->SetCharacter(GO);
+    cc->SetCharacter(cc->GetCharacter());
 
-    mMapNameToCharacters[GO->friendlyName] = ch;
+    mMapNameToCharacters[cc->GetCharacter()->friendlyName] = cc;
     return true;
 }
 
