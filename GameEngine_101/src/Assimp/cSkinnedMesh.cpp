@@ -348,6 +348,8 @@ void cSkinnedMesh::ReadNodeHierarchy(float AnimationTime,
 		this->mBoneInfo[BoneIndex].FinalTransformation = this->mGlobalInverseTransformation 
 		                                                 * ObjectBoneTransformation 
 			                                             * this->mBoneInfo[BoneIndex].BoneOffset;
+
+        mMapBoneToLastLocalTranslation[NodeName.C_Str()] = this->mBoneInfo[BoneIndex].ObjectBoneTransformation;
 	}
 	else
 	{
