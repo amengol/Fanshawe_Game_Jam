@@ -102,6 +102,28 @@
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],	
 		"scale" : 100000.0
 	},
+	{ 
+		"meshName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",	
+		"friendlyName" : "RED",	
+		"typeOfObject" : 7,
+		"defaultAnimation" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",
+		"hasMaterialColour" : true,
+		"diffuseColour" : [1.0, 0.0, 0.0, 1.0],
+		"position" : [-1.3, 0.0, 0.0], 
+		"rotateY" : 90.0,
+		"scale" : 0.01
+	},
+	{ 
+		"meshName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",	
+		"friendlyName" : "YELLOW",	
+		"typeOfObject" : 7,
+		"defaultAnimation" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",
+		"hasMaterialColour" : true,
+		"diffuseColour" : [0.0, 1.0, 1.0, 1.0],
+		"position" : [1.3, 0.0, 0.0], 
+		"rotateY" : -90.0,
+		"scale" : 0.01
+	},
 #	{ 
 #		"meshName" : "gale_crater_LLC",
 #		"friendlyName" : "gale_crater",
