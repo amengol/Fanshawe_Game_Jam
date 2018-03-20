@@ -125,8 +125,29 @@ void cCharacterManager::UpdateCollisions(float deltaTime)
 
                     if (glm::length(sphere1->position - sphere2->position) <= sphere1->radius + sphere2->radius)
                     {
-                        sphere1->colour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-                        sphere2->colour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+                        // HACK: the names are hard coded...
+
+                        // if one chacater is in idle, he can't hi by standing still
+                        if (character1->characterAnim == eCharacterAnim::IDLE)
+                        {
+                            // For now, only torax will lit
+                            if (sphere1->meshName == "sphere_chest")
+                                sphere1->colour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+                        }
+                        else if (character2->characterAnim == eCharacterAnim::IDLE)
+                        {
+                            // For now, only torax will lit
+                            if (sphere2->meshName == "sphere_chest")
+                                sphere2->colour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+                        }
+                        else
+                        {
+                            // For now, only torax will lit
+                            if (sphere1->meshName == "sphere_chest")
+                                sphere1->colour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+                            if (sphere2->meshName == "sphere_chest")
+                                sphere2->colour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+                        }
                     }
                 }
             }
