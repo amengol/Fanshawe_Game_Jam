@@ -102,67 +102,74 @@
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],	
 		"scale" : 100000.0
 	},
-	{ 
-		"meshName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",	
-		"friendlyName" : "RED",	
-		"typeOfObject" : 7,
-		"defaultAnimation" : "RPG-Character_Unarmed-Idle(FBX2013)",
-		"animationList": 
-		{
-			"idle" : "RPG-Character_Unarmed-Idle(FBX2013)",
-			"left_cross_punch" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",
-			"right_cross_punch" : "RPG-Character_Unarmed-Attack-R3(FBX2013)",
-			"stunned" : "RPG-Character_Unarmed-Stunned(FBX2013)",
-			"dying" : "RPG-Character_Unarmed-Death1(FBX2013)"
-		},
-		"contactSpheres": 
-		[
-			{
-				"boneName" : "B_L_Hand",
-				"meshName" : "sphere_fist",
-				"radius" : 0.25
-			},
-			{
-				"boneName" : "B_R_Hand",
-				"meshName" : "sphere_fist",
-				"radius" : 0.25
-			},
-			{
-				"boneName" : "B_Spine2",
-				"meshName" : "sphere_chest",
-				"radius" : 0.45
-			},
-			{
-				"boneName" : "B_Head",
-				"meshName" : "sphere_head",
-				"radius" : 0.3
-			}
-		],
+		{ 
+		"meshName" : "Reference_Plane",
+		"friendlyName" : "Reference_Plane",
+		"typeOfObject" : 1,
 		"hasMaterialColour" : true,
-		"diffuseColour" : [1.0, 0.0, 0.0, 1.0],
-		"position" : [-0.95, 0.0, 0.0], 
-		"rotateY" : 90.0,
-		"scale" : 0.01
-	},
-	{ 
-		"meshName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",	
-		"friendlyName" : "BLUE",	
-		"typeOfObject" : 7,
-		"defaultAnimation" : "RPG-Character_Unarmed-Idle(FBX2013)",
-		"animationList": 
-		{
-			"idle" : "RPG-Character_Unarmed-Idle(FBX2013)",
-			"left_cross_punch" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",
-			"right_cross_punch" : "RPG-Character_Unarmed-Attack-R3(FBX2013)",
-			"stunned" : "RPG-Character_Unarmed-Stunned(FBX2013)",
-			"dying" : "RPG-Character_Unarmed-Death1(FBX2013)"
-		},
-		"hasMaterialColour" : true,
-		"diffuseColour" : [0.0, 1.0, 1.0, 1.0],
-		"position" : [0.95, 0.0, 0.0], 
-		"rotateY" : -90.0,
-		"scale" : 0.01
-	},
+		"bIsWireFrame" : true
+	}
+#	{ 
+#		"meshName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",	
+#		"friendlyName" : "RED",	
+#		"typeOfObject" : 7,
+#		"defaultAnimation" : "RPG-Character_Unarmed-Idle(FBX2013)",
+#		"animationList": 
+#		{
+#			"idle" : "RPG-Character_Unarmed-Idle(FBX2013)",
+#			"left_cross_punch" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",
+#			"right_cross_punch" : "RPG-Character_Unarmed-Attack-R3(FBX2013)",
+#			"stunned" : "RPG-Character_Unarmed-Stunned(FBX2013)",
+#			"dying" : "RPG-Character_Unarmed-Death1(FBX2013)"
+#		},
+#		"contactSpheres": 
+#		[
+#			{
+#				"boneName" : "B_L_Hand",
+#				"meshName" : "sphere_fist",
+#				"radius" : 0.25
+#			},
+#			{
+#				"boneName" : "B_R_Hand",
+#				"meshName" : "sphere_fist",
+#				"radius" : 0.25
+#			},
+#			{
+#				"boneName" : "B_Spine2",
+#				"meshName" : "sphere_chest",
+#				"radius" : 0.45
+#			},
+#			{
+#				"boneName" : "B_Head",
+#				"meshName" : "sphere_head",
+#				"radius" : 0.3
+#			}
+#		],
+#		"hasMaterialColour" : true,
+#		"diffuseColour" : [1.0, 0.0, 0.0, 1.0],
+#		"position" : [-0.95, 0.0, 0.0], 
+#		"rotateY" : 90.0,
+#		"scale" : 0.01
+#	},
+#	{ 
+#		"meshName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",	
+#		"friendlyName" : "BLUE",	
+#		"typeOfObject" : 7,
+#		"defaultAnimation" : "RPG-Character_Unarmed-Idle(FBX2013)",
+#		"animationList": 
+#		{
+#			"idle" : "RPG-Character_Unarmed-Idle(FBX2013)",
+#			"left_cross_punch" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",
+#			"right_cross_punch" : "RPG-Character_Unarmed-Attack-R3(FBX2013)",
+#			"stunned" : "RPG-Character_Unarmed-Stunned(FBX2013)",
+#			"dying" : "RPG-Character_Unarmed-Death1(FBX2013)"
+#		},
+#		"hasMaterialColour" : true,
+#		"diffuseColour" : [0.0, 1.0, 1.0, 1.0],
+#		"position" : [0.95, 0.0, 0.0], 
+#		"rotateY" : -90.0,
+#		"scale" : 0.01
+#	},
 #	{ 
 #		"meshName" : "sphere_fist",
 #		"friendlyName" : "sphere_fist",
@@ -592,13 +599,6 @@
 #		"numNodesHeight" : 20,
 #		"textureNames[0]" : "Fanshawe.bmp"
 #	},
-	{ 
-		"meshName" : "Reference_Plane",
-		"friendlyName" : "Reference_Plane",
-		"typeOfObject" : 1,
-		"hasMaterialColour" : true,
-		"bIsWireFrame" : true
-	}
 #	{ 
 #		"meshName" : "Stadium_Grass",
 #		"friendlyName" : "Stadium_Grass",

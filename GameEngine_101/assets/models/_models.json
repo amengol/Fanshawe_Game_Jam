@@ -11,16 +11,16 @@
 {"Meshes" : 
 [
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply"},
-{"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply"},
-{"meshName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)", "type" : 1, "meshFile" : "RPG-Character_Unarmed-Attack-L3(FBX2013).FBX"},
-{"animName" : "RPG-Character_Unarmed-Idle(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Idle(FBX2013).FBX"},
-{"animName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Attack-L3(FBX2013).FBX"},
-{"animName" : "RPG-Character_Unarmed-Attack-R3(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Attack-R3(FBX2013).FBX"},
-{"animName" : "RPG-Character_Unarmed-Stunned(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Stunned(FBX2013).FBX"},
-{"animName" : "RPG-Character_Unarmed-Death1(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Death1(FBX2013).FBX"},
-{"meshName" : "sphere_fist", "meshFile" : "sphere_fist.obj"},
-{"meshName" : "sphere_chest", "meshFile" : "sphere_chest.obj"},
-{"meshName" : "sphere_head", "meshFile" : "sphere_head.obj"}
+{"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply"}
+#{"meshName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)", "type" : 1, "meshFile" : "RPG-Character_Unarmed-Attack-L3(FBX2013).FBX"},
+#{"animName" : "RPG-Character_Unarmed-Idle(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Idle(FBX2013).FBX"},
+#{"animName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Attack-L3(FBX2013).FBX"},
+#{"animName" : "RPG-Character_Unarmed-Attack-R3(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Attack-R3(FBX2013).FBX"},
+#{"animName" : "RPG-Character_Unarmed-Stunned(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Stunned(FBX2013).FBX"},
+#{"animName" : "RPG-Character_Unarmed-Death1(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Death1(FBX2013).FBX"},
+#{"meshName" : "sphere_fist", "meshFile" : "sphere_fist.obj"},
+#{"meshName" : "sphere_chest", "meshFile" : "sphere_chest.obj"},
+#{"meshName" : "sphere_head", "meshFile" : "sphere_head.obj"}
 #{"meshName" : "gale_crater_LLC", "meshFile" : "gale_crater_LLC.obj"},
 #{"meshName" : "gale_crater_LUC", "meshFile" : "gale_crater_LUC.obj"},
 #{"meshName" : "gale_crater_RLC", "meshFile" : "gale_crater_RLC.obj"},
