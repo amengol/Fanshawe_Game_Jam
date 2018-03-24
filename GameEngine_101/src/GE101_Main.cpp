@@ -537,6 +537,8 @@ int main()
         }
     }
 
+    g_pTranspManager->InitSortingThread();
+
     // Main game or application loop
     while (!glfwWindowShouldClose(window))
     {

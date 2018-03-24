@@ -397,5 +397,8 @@
     <ClInclude Include="src\cCameraManger.h">
       <Filter>Cameras Related</Filter>
     </ClInclude>
+    <ClInclude Include="src\sThreadInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

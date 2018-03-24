@@ -4,6 +4,7 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <string>
+#include <Windows.h>
 
 class cGameObject;
 
@@ -81,6 +82,7 @@ private:
     eCameraMode cameraMode;
     cGameObject* controlledGameObject;
     cGameObject* controlledCharacter;
+    CRITICAL_SECTION mCameraDataLock;
 };
 
 #endif // !_cCameraObject_HG_

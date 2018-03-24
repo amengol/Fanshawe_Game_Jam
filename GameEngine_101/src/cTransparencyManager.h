@@ -2,6 +2,7 @@
 #define _cTransparencyManager_HG_
 
 #include <vector>
+#include "sThreadInfo.h"
 
 class cGameObject;
 
@@ -19,8 +20,10 @@ public:
     ~cTransparencyManager();
 
     void sortObjects();
+    void InitSortingThread();
     
     std::vector<cGameObject*> transpObjects;
+    sThreadInfo threadInfo;
 };
 #endif // !_cTransparencyManager_HG_
 

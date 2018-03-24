@@ -17,6 +17,7 @@ cCameraObject::cCameraObject()
     this->cameraMode = STADIUM_CAMERA;
     this->controlledGameObject = NULL;
     this->mFOV = 0.6f;
+    InitializeCriticalSection(&mCameraDataLock);
 }
 
 void cCameraObject::setCameraPosition(glm::vec3 newPosition)
@@ -431,7 +432,10 @@ eCameraMode cCameraObject::getCameraMode()
 
 glm::vec3 cCameraObject::getCameraPosition()
 {
-    return this->camPosition;
+    EnterCriticalSection(&mCameraDataLock);
+    glm::vec3 camPos = this->camPosition;
+    LeaveCriticalSection(&mCameraDataLock);
+    return camPos;
 }
 
 glm::vec3 cCameraObject::getLookAtPosition()

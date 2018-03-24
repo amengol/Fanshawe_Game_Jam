@@ -251,6 +251,7 @@
     <ClInclude Include="src\ModelUtilities.h" />
     <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\sAABB_Triangle.h" />
+    <ClInclude Include="src\sThreadInfo.h" />
     <ClInclude Include="src\sVAOInfo.h" />
     <ClInclude Include="src\sVertex.h" />
     <ClInclude Include="src\cTransparencyManager.h" />
