@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "Assimp\cAnimationState.h"
 #include "AI\cCharacterControl.h"
+#include "Utilities.h"
 
 bool g_clothDebug = false;
 
@@ -857,25 +858,25 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, c
 
     }
 
-    //// Now Draw the transparent objects
-    //::g_pTranspManager->sortObjects();
-    //int numTransObjects = ::g_pTranspManager->transpObjects.size();
-    //for(int i = 0; i < numTransObjects; i++)
-    //{
-    //    if(::g_pTranspManager->transpObjects[i]->rotateToCamera)
-    //    {
-    //        // Orient the cloud to the camera
-    //        turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], g_pCamera->getCameraPosition());
-    //    }
-    //    
-    //    DrawObject(::g_pTranspManager->transpObjects[i]);
+    // Now Draw the transparent objects
+    ::g_pTranspManager->sortObjects();
+    int numTransObjects = ::g_pTranspManager->transpObjects.size();
+    for(int i = 0; i < numTransObjects; i++)
+    {
+        if(::g_pTranspManager->transpObjects[i]->rotateToCamera)
+        {
+            // Orient the cloud to the camera
+            turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], g_pCamera->getCameraPosition());
+        }
+        
+        DrawObject(::g_pTranspManager->transpObjects[i]);
 
-    //    // For the AABBs
-    //    if(::g_pTranspManager->transpObjects[i]->isDebugAABBActive)
-    //    {
-    //        DrawAABB(::g_pTranspManager->transpObjects[i], g_AABBSize);
-    //    }
-    //}
+        //// For the AABBs
+        //if(::g_pTranspManager->transpObjects[i]->isDebugAABBActive)
+        //{
+        //    DrawAABB(::g_pTranspManager->transpObjects[i], g_AABBSize);
+        //}
+    }
 
     ////// Draw localization text ---------------------------------------------
     //g_lococalization.draw(width, height);

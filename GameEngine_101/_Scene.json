@@ -24,8 +24,8 @@
 "Camera" :
 [
 	{
-		"CameraPosition" : [0.0, 1.2, 6.6],
-		"CameraOrientationX" : 0.0,
+		"CameraPosition" : [0.0, 300.0, 0.0],
+		"CameraOrientationX" : -10.0,
 		"CameraOrientationY" : 0.0,
 		"CameraOrientationZ" : 0.0
 	}
@@ -102,13 +102,53 @@
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],	
 		"scale" : 100000.0
 	},
-		{ 
-		"meshName" : "Reference_Plane",
-		"friendlyName" : "Reference_Plane",
-		"typeOfObject" : 1,
-		"hasMaterialColour" : true,
-		"bIsWireFrame" : true
+	{ 
+		"meshName" : "FacadeSets",
+		"textureNames[0]" : "FacadeSets01.bmp"		
+	},
+	{ 
+		"meshName" : "RoofsEtc",
+		"textureNames[0]" : "RoofsEtc.bmp"		
+	},
+	{ 
+		"meshName" : "Asphalt",
+		"textureNames[0]" : "Asphalt_rue.bmp"		
+	},
+	{ 
+		"meshName" : "Concrete",
+		"textureNames[0]" : "trottoir.bmp"		
+	},
+	{ 
+		"meshName" : "Curbs",
+		"textureNames[0]" : "curb.bmp"		
+	},
+	{ 
+		"meshName" : "Ground1",
+		"textureNames[0]" : "herbe1.bmp"		
+	},
+	{ 
+		"meshName" : "Ground2",
+		"textureNames[0]" : "sol8.bmp"		
+	},
+	{ 
+		"meshName" : "StreetPart",
+		"textureNames[0]" : "StreetPart.bmp"		
+	},
+	{ 
+		"meshName" : "SideWalkTree",
+		"textureNames[0]" : "tree15.bmp",
+		"textureNames[1]" : "tree15_alpha.bmp",
+		"hasAlpha" : true,
+		"useDiscardAlpha" : true,
+		"cullFace" : false		
 	}
+#	{ 
+#		"meshName" : "Reference_Plane",
+#		"friendlyName" : "Reference_Plane",
+#		"typeOfObject" : 1,
+#		"hasMaterialColour" : true,
+#		"bIsWireFrame" : true
+#	}
 #	{ 
 #		"meshName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)",	
 #		"friendlyName" : "RED",	
@@ -764,10 +804,10 @@
 # "position" : [332.0, 267.0, 810.0],
 # "diffuse" : [1.0, 1.0, 1.0],
 	{
-		"position" : [62.0, 230.0, 90.0],
+		"position" : [0.0, 1000.0, 0.0],
 #		"position" : [332.0, 267.0, 810.0],
 		"diffuse" : [1.0, 1.0, 1.0],
-		"costantAttenuation" :1.0,
+		"costantAttenuation" :0.8,
 		"linearAttenuation" :0.0,
 		"quadraticAttenuation" :0.0,
 		"attachToGameObject" : "",

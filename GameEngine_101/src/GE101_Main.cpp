@@ -486,22 +486,25 @@ int main()
 
     //-------------------------------------------------------------------------
     // Clouds
-    //std::vector<GameObjectsInfo> transInfo;
-    //for(int i = 0; i < 4; i++)
-    //{
-    //    GameObjectsInfo ti;
-    //    ti.meshName = "Cloud" + std::to_string(i + 1);
-    //    ti.texture = "clouds.bmp";
-    //    ti.alpha = "clouds_alpha.bmp";
-    //    transInfo.push_back(ti);
-    //}
+    std::vector<GameObjectsInfo> transInfo;
+    for(int i = 0; i < 4; i++)
+    {
+        GameObjectsInfo ti;
+        ti.meshName = "Cloud" + std::to_string(i + 1);
+        ti.texture = "clouds.bmp";
+        ti.alpha = "clouds_alpha.bmp";
+        transInfo.push_back(ti);
+    }
 
-    //createRamdomGameObjects(100,
-    //                        ::g_pTranspManager->transpObjects,
-    //                        transInfo,
-    //                        -1000.0f, 1000.0f,
-    //                        150.0f, 180.0f,
-    //                        -1000.0f, 1000.0f);
+    int numOfClouds = 10000;
+
+
+    createRamdomGameObjects(numOfClouds,
+                            ::g_pTranspManager->transpObjects,
+                            transInfo,
+                            -2000.0f, 2000.0f,
+                            150.0f, 180.0f,
+                            -2000.0f, 2000.0f);
     // ------------------------------------------------------------------------
 
     //// Sets the default Game Character
@@ -764,6 +767,8 @@ int main()
         // Now many seconds that have elapsed since we last checked
         double curTime = glfwGetTime();
         double deltaTime = curTime - lastTimeStep;
+
+        printf("%f frames per second\n", 1.0f / deltaTime);
 
         // Physics step
         switch (g_physicsSwitcher.gPhysicsEngine)
