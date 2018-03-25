@@ -496,15 +496,15 @@ int main()
         transInfo.push_back(ti);
     }
 
-    int numOfClouds = 10000;
+    int numOfClouds = 1000;
 
 
     createRamdomGameObjects(numOfClouds,
                             ::g_pTranspManager->transpObjects,
                             transInfo,
-                            -2000.0f, 2000.0f,
+                            -1000.0f, 1000.0f,
                             150.0f, 180.0f,
-                            -2000.0f, 2000.0f);
+                            -1000.0f, 1000.0f);
     // ------------------------------------------------------------------------
 
     //// Sets the default Game Character
