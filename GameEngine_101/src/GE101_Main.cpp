@@ -484,28 +484,28 @@ int main()
 				//					 glm::vec3( 50.0f, -25.0, 0.0f),
 				//					 glm::vec3( 1.0f, 1.0f, 0.0f ), 1000.0f );
 
-    //-------------------------------------------------------------------------
-    // Clouds
-    std::vector<GameObjectsInfo> transInfo;
-    for(int i = 0; i < 4; i++)
-    {
-        GameObjectsInfo ti;
-        ti.meshName = "Cloud" + std::to_string(i + 1);
-        ti.texture = "clouds.bmp";
-        ti.alpha = "clouds_alpha.bmp";
-        transInfo.push_back(ti);
-    }
+    ////-------------------------------------------------------------------------
+    //// Clouds
+    //std::vector<GameObjectsInfo> transInfo;
+    //for(int i = 0; i < 4; i++)
+    //{
+    //    GameObjectsInfo ti;
+    //    ti.meshName = "Cloud" + std::to_string(i + 1);
+    //    ti.texture = "clouds.bmp";
+    //    ti.alpha = "clouds_alpha.bmp";
+    //    transInfo.push_back(ti);
+    //}
 
-    int numOfClouds = 1000;
+    //int numOfClouds = 1000;
 
 
-    createRamdomGameObjects(numOfClouds,
-                            ::g_pTranspManager->transpObjects,
-                            transInfo,
-                            -1000.0f, 1000.0f,
-                            150.0f, 180.0f,
-                            -1000.0f, 1000.0f);
-    // ------------------------------------------------------------------------
+    //createRamdomGameObjects(numOfClouds,
+    //                        ::g_pTranspManager->transpObjects,
+    //                        transInfo,
+    //                        -1000.0f, 1000.0f,
+    //                        150.0f, 180.0f,
+    //                        -1000.0f, 1000.0f);
+    //// ------------------------------------------------------------------------
 
     //// Sets the default Game Character
     //if (!g_characterManager.SetControlledCharacter("Hero01", error))
@@ -537,7 +537,7 @@ int main()
         }
     }
 
-    g_pTranspManager->InitSortingThread();
+    //g_pTranspManager->InitSortingThread();
 
     // Main game or application loop
     while (!glfwWindowShouldClose(window))

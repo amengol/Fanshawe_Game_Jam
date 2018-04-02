@@ -859,15 +859,15 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, c
     }
 
     // Now Draw the transparent objects
-    //::g_pTranspManager->sortObjects();
+    ::g_pTranspManager->sortObjects();
     int numTransObjects = ::g_pTranspManager->transpObjects.size();
     for(int i = 0; i < numTransObjects; i++)
     {
-        //if(::g_pTranspManager->transpObjects[i]->rotateToCamera)
-        //{
-        //    // Orient the cloud to the camera
-        //    turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], g_pCamera->getCameraPosition());
-        //}
+        if(::g_pTranspManager->transpObjects[i]->rotateToCamera)
+        {
+            // Orient the cloud to the camera
+            turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], g_pCamera->getCameraPosition());
+        }
         
         DrawObject(::g_pTranspManager->transpObjects[i]);
 
