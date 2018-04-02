@@ -11,19 +11,21 @@
 {"Meshes" : 
 [
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply"},
-{"meshName" : "FacadeSets", "meshFile" : "FacadeSets.obj"},
-{"meshName" : "RoofsEtc", "meshFile" : "RoofsEtc.obj"},
-{"meshName" : "Asphalt", "meshFile" : "Asphalt.obj"},
-{"meshName" : "Concrete", "meshFile" : "Concrete.obj"},
-{"meshName" : "Curbs", "meshFile" : "Curbs.obj"},
-{"meshName" : "Ground1", "meshFile" : "Ground1.obj"},
-{"meshName" : "Ground2", "meshFile" : "Ground2.obj"},
-{"meshName" : "StreetPart", "meshFile" : "StreetPart.obj"},
-{"meshName" : "SideWalkTree", "meshFile" : "SideWalkTree.obj"},
-{"meshName" : "Cloud1", "meshFile" : "Cloud1.ply"},
-{"meshName" : "Cloud2", "meshFile" : "Cloud2.ply"},
-{"meshName" : "Cloud2", "meshFile" : "Cloud2.ply"},
-{"meshName" : "Cloud4", "meshFile" : "Cloud4.ply"}
+{"meshName" : "Terrain", "meshFile" : "Terrain.obj"},
+{"meshName" : "Limits", "meshFile" : "Limits.obj"}
+#{"meshName" : "FacadeSets", "meshFile" : "FacadeSets.obj"},
+#{"meshName" : "RoofsEtc", "meshFile" : "RoofsEtc.obj"},
+#{"meshName" : "Asphalt", "meshFile" : "Asphalt.obj"},
+#{"meshName" : "Concrete", "meshFile" : "Concrete.obj"},
+#{"meshName" : "Curbs", "meshFile" : "Curbs.obj"},
+#{"meshName" : "Ground1", "meshFile" : "Ground1.obj"},
+#{"meshName" : "Ground2", "meshFile" : "Ground2.obj"},
+#{"meshName" : "StreetPart", "meshFile" : "StreetPart.obj"},
+#{"meshName" : "SideWalkTree", "meshFile" : "SideWalkTree.obj"},
+#{"meshName" : "Cloud1", "meshFile" : "Cloud1.ply"},
+#{"meshName" : "Cloud2", "meshFile" : "Cloud2.ply"},
+#{"meshName" : "Cloud2", "meshFile" : "Cloud2.ply"},
+#{"meshName" : "Cloud4", "meshFile" : "Cloud4.ply"}
 #{"meshName" : "Reference_Plane", "meshFile" : "Reference_Plane.ply"}
 #{"meshName" : "RPG-Character_Unarmed-Attack-L3(FBX2013)", "type" : 1, "meshFile" : "RPG-Character_Unarmed-Attack-L3(FBX2013).FBX"},
 #{"animName" : "RPG-Character_Unarmed-Idle(FBX2013)", "type" : 2, "animFile" : "RPG-Character_Unarmed-Idle(FBX2013).FBX"},
