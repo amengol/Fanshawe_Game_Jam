@@ -507,11 +507,11 @@ int main()
     //                        -1000.0f, 1000.0f);
     //// ------------------------------------------------------------------------
 
-    //// Sets the default Game Character
-    //if (!g_characterManager.SetControlledCharacter("Hero01", error))
-    //{
-    //    std::cout << "The Game Character was not found!\n";
-    //}
+    // Sets the default Game Character
+    if (!g_characterManager.SetControlledCharacter("Hero01", error))
+    {
+        std::cout << "The Game Character was not found!\n";
+    }
 
     //// Set NPC Manager    
     //g_NPCManager.SetPlayer(g_characterManager.GetActiveCharacter());
