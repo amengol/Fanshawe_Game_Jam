@@ -1243,7 +1243,7 @@ void key_callback(GLFWwindow* window,
                 pCharacter->rigidBody->rotateY(ROTANGLE * g_deltaTime);
                 if (SHIFT_Pressed)
                 {
-                    pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
+                    pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.75f));
                 }
                 else
                 {
@@ -1255,7 +1255,7 @@ void key_callback(GLFWwindow* window,
                 pCharacter->rigidBody->rotateY(-ROTANGLE * g_deltaTime);
                 if (SHIFT_Pressed)
                 {
-                    pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
+                    pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.75f));
                 }
                 else
                 {
@@ -1513,7 +1513,7 @@ void key_callback(GLFWwindow* window,
                 pCharacter->rigidBody->rotateY(ROTANGLE * g_deltaTime);
                 if (SHIFT_Pressed)
                 {
-                    pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
+                    pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.75f));
                 }
                 else
                 {
@@ -1525,7 +1525,7 @@ void key_callback(GLFWwindow* window,
                 pCharacter->rigidBody->rotateY(-ROTANGLE * g_deltaTime);
                 if (SHIFT_Pressed)
                 {
-                    pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
+                    pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.75f));
                 }
                 else
                 {
