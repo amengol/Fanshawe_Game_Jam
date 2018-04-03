@@ -13,7 +13,7 @@ extern cPhysics_Switcher g_physicsSwitcher;
 
 extern cTransparencyManager* g_pTranspManager;
 
-const float ROTANGLE = 30.0f;
+const float ROTANGLE = 60.0f;
 const float CAMSPEED  = 10.0f;
 static bool W_Pressed = false;
 static bool S_Pressed = false;

@@ -111,39 +111,56 @@
 		"textureNames[0]" : "Tomb01_D.bmp"		
 	},
 	{ 
-		"meshName" : "survivor",
+		"meshName" : "knight",
 		"friendlyName" : "Hero01",		
 		"typeOfObject" : 7,
-		"defaultAnimation" : "idle",
+		"defaultAnimation" : "sword_and_shield_idle",
 		"animationList": 
 		{
-			"idle" : "idle",
-			"walking" : "walking",
-			"walking_backwards" : "walking_backwards",
-			"running": "running",
-			"jump": "jump",
-			"jump_forward_walking" : "jump_forward_walking",
-			"jump_forward_running" : "jump_forward_running",
-			"left_strafe_running" : "left_strafe",
-			"left_strafe_walking" : "left_strafe_walking",
-			"left_turn" : "left_turn",
-			"left_turn_90" : "left_turn_90",
-			"right_strafe_running" : "right_strafe",
-			"right_strafe_walking" : "right_strafe_walking",
-			"right_turn" : "right_turn",
-			"right_turn_90" : "right_turn_90",
-			"trick" : "trick",
-			"runaway" : "runaway",
-			"violent_trick" : "violent_trick",
-			"right_cross_punch" : "right_cross_punch",
-			"right_kicking" : "right_kicking",
-			"praying" : "praying_stand",
-			"dying" : "dying"
+		"idle" : "sword_and_shield_idle",
+		"walking" : "sword_and_shield_walk_forward",
+		"walking_backwards" : "sword_and_shield_walk_backwards",
+		"left_turn_90" : "sword_and_shield_turn_left_90",
+		"right_turn_90" : "sword_and_shield_turn_right_90"
 		},
-		"textureNames[0]" : "survivor.bmp",
-		"position" : [-1.5, 0.0, 0.0],
+		"textureNames[0]" : "Paladin_diffuse.bmp",
+		"position" : [0.0, 0.0, 0.0],
 		"scale" : 0.01
 	}
+#	{ 
+#		"meshName" : "survivor",
+#		"friendlyName" : "Hero01",		
+#		"typeOfObject" : 7,
+#		"defaultAnimation" : "idle",
+#		"animationList": 
+#		{
+#			"idle" : "idle",
+#			"walking" : "walking",
+#			"walking_backwards" : "walking_backwards",
+#			"running": "running",
+#			"jump": "jump",
+#			"jump_forward_walking" : "jump_forward_walking",
+#			"jump_forward_running" : "jump_forward_running",
+#			"left_strafe_running" : "left_strafe",
+#			"left_strafe_walking" : "left_strafe_walking",
+#			"left_turn" : "left_turn",
+#			"left_turn_90" : "left_turn_90",
+#			"right_strafe_running" : "right_strafe",
+#			"right_strafe_walking" : "right_strafe_walking",
+#			"right_turn" : "right_turn",
+#			"right_turn_90" : "right_turn_90",
+#			"trick" : "trick",
+#			"runaway" : "runaway",
+#			"violent_trick" : "violent_trick",
+#			"right_cross_punch" : "right_cross_punch",
+#			"right_kicking" : "right_kicking",
+#			"praying" : "praying_stand",
+#			"dying" : "dying"
+#		},
+#		"textureNames[0]" : "survivor.bmp",
+#		"position" : [-1.5, 0.0, 0.0],
+#		"scale" : 0.01
+#	}
 #	{ 
 #		"meshName" : "FacadeSets",
 #		"textureNames[0]" : "FacadeSets01.bmp"		

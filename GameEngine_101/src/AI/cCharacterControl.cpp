@@ -22,7 +22,7 @@ void cCharacterControl::Forward()
         if (mCharacter->characterAnim != WALKING && mCharacter->characterAnim != JUMP_FORWARD)
         {
             // Update rotations
-            UpdateInterruptedRotations();
+            //UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.walking;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -46,8 +46,6 @@ void cCharacterControl::LeftStrafe()
         // Don't cut the jump
         if (mCharacter->characterAnim != LEFT_STRAFE && mCharacter->characterAnim != JUMP_FORWARD)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.left_strafe;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -71,8 +69,6 @@ void cCharacterControl::RightStrafe()
         // Don't cut the jump
         if (mCharacter->characterAnim != RIGHT_STRAFE && mCharacter->characterAnim != JUMP_FORWARD)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.right_strafe;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -95,8 +91,6 @@ void cCharacterControl::ForwardRun()
     {
         if (mCharacter->characterAnim != RUN_FORWARD && mCharacter->characterAnim != JUMP_FORWARD)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.running;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -120,8 +114,6 @@ void cCharacterControl::LeftStrafeRun()
         // Don't cut the jump
         if (mCharacter->characterAnim != LEFT_STRAFE_RUN && mCharacter->characterAnim != JUMP_FORWARD)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.left_strafe_running;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -145,8 +137,6 @@ void cCharacterControl::RightStrafeRun()
         // Don't cut the jump
         if (mCharacter->characterAnim != RIGHT_STRAFE_RUN && mCharacter->characterAnim != JUMP_FORWARD)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.right_strafe_running;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -169,8 +159,6 @@ void cCharacterControl::Backwards()
     {
         if (mCharacter->characterAnim != WALKING_BACKWARDS)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.walking_backwards;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -200,6 +188,7 @@ void cCharacterControl::TurnLeft90()
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
         mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+        mCharacter->rigidBody->SetRateOfTurnY(2880.0f);
 
         mCharacter->characterAnim = TURN_LEFT_90;
 
@@ -220,6 +209,7 @@ void cCharacterControl::TurnRight90()
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
         mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+        mCharacter->rigidBody->SetRateOfTurnY(-2880.0f);
 
         mCharacter->characterAnim = TURN_RIGHT_90;
 
@@ -354,8 +344,6 @@ void cCharacterControl::Idle()
         // Don't cut the jump
         if (mCharacter->characterAnim != JUMP_FORWARD && mCharacter->characterAnim != IDLE)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.idle;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -366,6 +354,7 @@ void cCharacterControl::Idle()
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetRateOfTurnY(0.0f);
 
             mCharacter->characterAnim = IDLE;
         }
@@ -379,8 +368,6 @@ void cCharacterControl::Trick()
         // Don't cut the jump
         if (mCharacter->characterAnim != JUMP_FORWARD)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.trick;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -404,8 +391,6 @@ void cCharacterControl::ViolentTrick()
         // Don't cut the jump
         if (mCharacter->characterAnim != JUMP_FORWARD)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.violent_trick;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -429,8 +414,6 @@ void cCharacterControl::Runaway()
         // Don't cut the jump
         if (mCharacter->characterAnim != RUNAWAY && mCharacter->characterAnim != JUMP_FORWARD)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.runaway;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -455,8 +438,6 @@ void cCharacterControl::LeftCrossPunch()
             && mCharacter->characterAnim != RIGHT_CROSS_PUNCH
             && mCharacter->characterAnim != STUNNED)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.left_cross_punch;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -481,8 +462,6 @@ void cCharacterControl::RightCrossPunch()
             && mCharacter->characterAnim != RIGHT_CROSS_PUNCH
             && mCharacter->characterAnim != STUNNED)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.right_cross_punch;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -505,8 +484,6 @@ void cCharacterControl::RightKicking()
     {
         if (mCharacter->characterAnim != RIGHT_KICKING)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.right_kicking;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -529,8 +506,6 @@ void cCharacterControl::Praying()
     {
         if (mCharacter->characterAnim != PRAYING)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.praying;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -553,8 +528,6 @@ void cCharacterControl::Dying()
     {
         if (mCharacter->characterAnim != DYING_RISING)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.dying;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -577,8 +550,6 @@ void cCharacterControl::Stunned()
     {
         if (mCharacter->characterAnim != STUNNED)
         {
-            // Update rotations
-            UpdateInterruptedRotations();
 
             std::string animationName = mCharacter->animations.stunned;
             mCharacter->pAniState->activeAnimation.name = animationName;
