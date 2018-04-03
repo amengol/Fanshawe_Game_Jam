@@ -200,7 +200,6 @@
     <ClCompile Include="src\pugixml.cpp" />
     <ClCompile Include="src\sAABB_Triangle.cpp" />
     <ClCompile Include="src\sCollisionTriangle.cpp" />
-    <ClCompile Include="src\stb_image.c" />
     <ClCompile Include="src\Texture\C24BitBMPpixel.cpp" />
     <ClCompile Include="src\Texture\CTextureFromBMP.cpp" />
     <ClCompile Include="src\Texture\CTextureManager.cpp" />

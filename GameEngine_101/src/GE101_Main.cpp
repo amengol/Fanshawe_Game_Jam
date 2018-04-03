@@ -103,6 +103,7 @@ cUniLocHandler g_uniLocHandler;
 long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
+double g_deltaTime;
 cCameraManger g_CameraManager;
 //cNPCManager g_NPCManager;
 //cSimpleAi_Manager g_AiManager;
@@ -768,15 +769,15 @@ int main()
                 
         // Now many seconds that have elapsed since we last checked
         double curTime = glfwGetTime();
-        double deltaTime = curTime - lastTimeStep;
+        g_deltaTime = curTime - lastTimeStep;
 
-        printf("%f frames per second\n", 1.0f / deltaTime);
+        printf("%f frames per second\n", 1.0f / g_deltaTime);
 
         // Physics step
         switch (g_physicsSwitcher.gPhysicsEngine)
         {
         case g_physicsSwitcher.SUPERDUPER:
-            g_pPhysicsWorld->TimeStep(deltaTime);
+            g_pPhysicsWorld->TimeStep(g_deltaTime);
             break;
         case g_physicsSwitcher.BULLET:
             //gbt_PhysicsWorld->TimeStep(deltaTime);

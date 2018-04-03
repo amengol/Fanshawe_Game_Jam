@@ -44,6 +44,7 @@ void PhysicsStep(double deltaTime);
 
 extern sFade g_Fade;                                    // (GE101_Main.cpp)
 extern bool g_clothDebug;                               // (DrawCalls.cpp)
+extern double g_deltaTime;                              // (GE101_Main.cpp)
 extern cCameraObject* g_pCamera;                        // (GE101_Main.cpp)
 //extern cNPCManager g_NPCManager;
 //extern cTextManager g_textManager;                      // (GE101_Main.cpp)

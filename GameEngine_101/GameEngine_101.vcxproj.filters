@@ -176,9 +176,6 @@
     <ClCompile Include="src\pugixml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\stb_image.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\cTextManager.cpp">
       <Filter>Localization and Text</Filter>
     </ClCompile>

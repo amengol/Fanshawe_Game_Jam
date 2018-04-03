@@ -13,8 +13,8 @@ extern cPhysics_Switcher g_physicsSwitcher;
 
 extern cTransparencyManager* g_pTranspManager;
 
-const float ROTANGLE = 1.0f;
-const float CAMSPEED = 1.0f;
+const float ROTANGLE = 30.0f;
+const float CAMSPEED  = 10.0f;
 static bool W_Pressed = false;
 static bool S_Pressed = false;
 static bool LA_Pressed = false;
@@ -416,40 +416,40 @@ void key_callback(GLFWwindow* window,
         switch(key)
         {
         case GLFW_KEY_W:       // Move camera forward along local Z axis 
-            g_pCamera->moveCameraBackNForth(-CAMSPEED);
+            g_pCamera->moveCameraBackNForth(-CAMSPEED * g_deltaTime);
             break;
         case GLFW_KEY_S:       // Move camera backward along local Z axis 
-            g_pCamera->moveCameraBackNForth(CAMSPEED);
+            g_pCamera->moveCameraBackNForth(CAMSPEED * g_deltaTime);
             break;
         case GLFW_KEY_A:        // Move camera right along local X axis
-            g_pCamera->moveCameraLeftNRight(-CAMSPEED);
+            g_pCamera->moveCameraLeftNRight(-CAMSPEED * g_deltaTime);
             break;
         case GLFW_KEY_D:        // Move camera right along local x axis
-            g_pCamera->moveCameraLeftNRight(CAMSPEED);
+            g_pCamera->moveCameraLeftNRight(CAMSPEED * g_deltaTime);
             break;
         case GLFW_KEY_Z:        // rotate around local camera Z axis +
-            g_pCamera->setCameraOrientationZ(ROTANGLE);
+            g_pCamera->setCameraOrientationZ(ROTANGLE * g_deltaTime);
             break;
         case GLFW_KEY_C:        // rotate around local camera Z axis -
-            g_pCamera->setCameraOrientationZ(-ROTANGLE);
+            g_pCamera->setCameraOrientationZ(-ROTANGLE * g_deltaTime);
             break;
         case GLFW_KEY_LEFT:     // rotate around local camera Y axis +
-            g_pCamera->setCameraOrientationY(ROTANGLE);
+            g_pCamera->setCameraOrientationY(ROTANGLE * g_deltaTime);
             break;
         case GLFW_KEY_RIGHT:    // rotate around local camera Y axis -
-            g_pCamera->setCameraOrientationY(-ROTANGLE);
+            g_pCamera->setCameraOrientationY(-ROTANGLE * g_deltaTime);
             break;
         case GLFW_KEY_Q:        // Increase high along Y axis
-            g_pCamera->changeAlongY(CAMSPEED);
+            g_pCamera->changeAlongY(CAMSPEED * g_deltaTime);
             break;
         case GLFW_KEY_E:        // Decrease high along Y axis
-            g_pCamera->changeAlongY(-CAMSPEED);
+            g_pCamera->changeAlongY(-CAMSPEED * g_deltaTime);
             break;
         case GLFW_KEY_UP:       // rotate around local camera X axis +
-            g_pCamera->setCameraOrientationX(ROTANGLE);
+            g_pCamera->setCameraOrientationX(ROTANGLE * g_deltaTime);
             break;
         case GLFW_KEY_DOWN:     // rotate around local camera X axis -
-            g_pCamera->setCameraOrientationX(-ROTANGLE);
+            g_pCamera->setCameraOrientationX(-ROTANGLE * g_deltaTime);
             break;
         case GLFW_KEY_H:        // Increase constant light attenuation
             ::g_pLightManager->vecLights[0].attenuation.x += 0.1f;
@@ -671,40 +671,40 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_Z:        // rotate around local GameObject Z axis +
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->rotateZ(-ROTANGLE);
+            theGO->rotateZ(-ROTANGLE * g_deltaTime);
         }
             break;
         case GLFW_KEY_C:        // rotate around local GameObject Z axis -
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->rotateZ(+ROTANGLE);
+            theGO->rotateZ(+ROTANGLE * g_deltaTime);
         }
             break;
         case GLFW_KEY_LEFT:     // rotate around local GameObject Y axis +
         {
             cGameObject * theGO = g_pCamera->getGameObject();
             //theGO->rateOfTurnZ -= 30.0f;
-            theGO->rotateY(ROTANGLE);
+            theGO->rotateY(ROTANGLE * g_deltaTime);
         }
             break;
         case GLFW_KEY_RIGHT:    // rotate around local GameObject Y axis -
         {
             cGameObject * theGO = g_pCamera->getGameObject();
             //theGO->rateOfTurnZ += 30.0f;
-            theGO->rotateY(-ROTANGLE);
+            theGO->rotateY(-ROTANGLE * g_deltaTime);
         }
             break;
         case GLFW_KEY_UP:       // rotate around local GameObject X axis +
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->rotateX(ROTANGLE);
+            theGO->rotateX(ROTANGLE * g_deltaTime);
             //theGO->rateOfTurnX += 30.0f;
         }
             break;
         case GLFW_KEY_DOWN:     // rotate around local GameObject X axis -
         {
             cGameObject * theGO = g_pCamera->getGameObject();
-            theGO->rotateX(-ROTANGLE);
+            theGO->rotateX(-ROTANGLE * g_deltaTime);
             //theGO->rateOfTurnX -= 30.0f;
         }
             break;
@@ -903,40 +903,40 @@ void key_callback(GLFWwindow* window,
             case GLFW_KEY_Z:        // rotate around local GameObject Z axis +
             {
                 cGameObject * theGO = g_pCamera->getGameObject();
-                theGO->rotateZ(-ROTANGLE);
+                theGO->rotateZ(-ROTANGLE * g_deltaTime);
             }
             break;
             case GLFW_KEY_C:        // rotate around local GameObject Z axis -
             {
                 cGameObject * theGO = g_pCamera->getGameObject();
-                theGO->rotateZ(+ROTANGLE);
+                theGO->rotateZ(+ROTANGLE * g_deltaTime);
             }
             break;
             case GLFW_KEY_LEFT:     // rotate around local GameObject Y axis +
             {
                 cGameObject * theGO = g_pCamera->getGameObject();
                 //theGO->rateOfTurnZ -= 30.0f;
-                theGO->rotateY(ROTANGLE);
+                theGO->rotateY(ROTANGLE * g_deltaTime);
             }
             break;
             case GLFW_KEY_RIGHT:    // rotate around local GameObject Y axis -
             {
                 cGameObject * theGO = g_pCamera->getGameObject();
                 //theGO->rateOfTurnZ += 30.0f;
-                theGO->rotateY(-ROTANGLE);
+                theGO->rotateY(-ROTANGLE * g_deltaTime);
             }
             break;
             case GLFW_KEY_UP:       // rotate around local GameObject X axis +
             {
                 cGameObject * theGO = g_pCamera->getGameObject();
-                theGO->rotateX(ROTANGLE);
+                theGO->rotateX(ROTANGLE * g_deltaTime);
                 //theGO->rateOfTurnX += 30.0f;
             }
             break;
             case GLFW_KEY_DOWN:     // rotate around local GameObject X axis -
             {
                 cGameObject * theGO = g_pCamera->getGameObject();
-                theGO->rotateX(-ROTANGLE);
+                theGO->rotateX(-ROTANGLE * g_deltaTime);
                 //theGO->rateOfTurnX -= 30.0f;
             }
             break;
@@ -996,13 +996,13 @@ void key_callback(GLFWwindow* window,
         case GLFW_KEY_Z:        // rotate around local GameObject Z axis +
         {
             //cGameObject * theGO = g_pCamera->getGameObject();
-            //theGO->rotateZ(-ROTANGLE);
+            //theGO->rotateZ(-ROTANGLE * g_deltaTime);
         }
         break;
         case GLFW_KEY_C:        // rotate around local GameObject Z axis -
         {
             //cGameObject * theGO = g_pCamera->getGameObject();
-            //theGO->rotateZ(+ROTANGLE);
+            //theGO->rotateZ(+ROTANGLE * g_deltaTime);
         }
         break;
         case GLFW_KEY_LEFT:     // rotate around local GameObject Y axis +
@@ -1045,28 +1045,28 @@ void key_callback(GLFWwindow* window,
         switch (key)
         {
         case GLFW_KEY_W:       // Move camera forward along local Z axis 
-            g_pCamera->moveCameraBackNForth_Stadium(-CAMSPEED);
+            g_pCamera->moveCameraBackNForth_Stadium(-CAMSPEED * g_deltaTime);
             break;
         case GLFW_KEY_S:       // Move camera backward along local Z axis 
-            g_pCamera->moveCameraBackNForth_Stadium(CAMSPEED);
+            g_pCamera->moveCameraBackNForth_Stadium(CAMSPEED * g_deltaTime);
             break;
         case GLFW_KEY_A:        // Move camera right along local X axis
-            g_pCamera->moveCameraLeftNRight_Stadium(-CAMSPEED);
+            g_pCamera->moveCameraLeftNRight_Stadium(-CAMSPEED * g_deltaTime);
             break;
         case GLFW_KEY_D:        // Move camera right along local x axis
-            g_pCamera->moveCameraLeftNRight_Stadium(CAMSPEED);
+            g_pCamera->moveCameraLeftNRight_Stadium(CAMSPEED * g_deltaTime);
             break;
         //case GLFW_KEY_Z:        // rotate around local camera Z axis +
-        //    g_pCamera->setCameraOrientationZ(ROTANGLE);
+        //    g_pCamera->setCameraOrientationZ(ROTANGLE * g_deltaTime);
         //    break;
         //case GLFW_KEY_C:        // rotate around local camera Z axis -
-        //    g_pCamera->setCameraOrientationZ(-ROTANGLE);
+        //    g_pCamera->setCameraOrientationZ(-ROTANGLE * g_deltaTime);
             break;
         case GLFW_KEY_Q:        // Increase high along Y axis
-            g_pCamera->changeAlongY(CAMSPEED);
+            g_pCamera->changeAlongY(CAMSPEED * g_deltaTime);
             break;
         case GLFW_KEY_E:        // Decrease high along Y axis
-            g_pCamera->changeAlongY(-CAMSPEED);
+            g_pCamera->changeAlongY(-CAMSPEED * g_deltaTime);
             break;
         case GLFW_KEY_R:        // Resets object's velocities
         {
@@ -1084,16 +1084,16 @@ void key_callback(GLFWwindow* window,
         }
         break;
         case GLFW_KEY_LEFT:     // rotate around local camera Y axis +
-            g_pCamera->setCameraOrientationY_Stadium(ROTANGLE);
+            g_pCamera->setCameraOrientationY_Stadium(ROTANGLE * g_deltaTime);
             break;
         case GLFW_KEY_RIGHT:    // rotate around local camera Y axis -
-            g_pCamera->setCameraOrientationY_Stadium(-ROTANGLE);
+            g_pCamera->setCameraOrientationY_Stadium(-ROTANGLE * g_deltaTime);
             break;
         case GLFW_KEY_UP:       // rotate around local camera X axis +
-            g_pCamera->setCameraOrientationX_Stadium(ROTANGLE);
+            g_pCamera->setCameraOrientationX_Stadium(ROTANGLE * g_deltaTime);
             break;
         case GLFW_KEY_DOWN:     // rotate around local camera X axis -
-            g_pCamera->setCameraOrientationX_Stadium(-ROTANGLE);
+            g_pCamera->setCameraOrientationX_Stadium(-ROTANGLE * g_deltaTime);
             break;
         //case GLFW_KEY_H:        // Increase constant light attenuation
         //    ::g_pLightManager->vecLights[0].attenuation.x += 0.1f;
@@ -1240,7 +1240,7 @@ void key_callback(GLFWwindow* window,
         {
             if (key == GLFW_KEY_A && action == GLFW_REPEAT)
             {
-                pCharacter->rigidBody->rotateY(ROTANGLE);
+                pCharacter->rigidBody->rotateY(ROTANGLE * g_deltaTime);
                 if (SHIFT_Pressed)
                 {
                     pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
@@ -1252,7 +1252,7 @@ void key_callback(GLFWwindow* window,
             }
             if (key == GLFW_KEY_D && action == GLFW_REPEAT)
             {
-                pCharacter->rigidBody->rotateY(-ROTANGLE);
+                pCharacter->rigidBody->rotateY(-ROTANGLE * g_deltaTime);
                 if (SHIFT_Pressed)
                 {
                     pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
@@ -1278,12 +1278,12 @@ void key_callback(GLFWwindow* window,
         {
             if (key == GLFW_KEY_A && action == GLFW_REPEAT)
             {
-                pCharacter->rigidBody->rotateY(-ROTANGLE);
+                pCharacter->rigidBody->rotateY(-ROTANGLE * g_deltaTime);
                 pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
             }
             if (key == GLFW_KEY_D && action == GLFW_REPEAT)
             {
-                pCharacter->rigidBody->rotateY(ROTANGLE);
+                pCharacter->rigidBody->rotateY(ROTANGLE * g_deltaTime);
                 pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
             }
         }
@@ -1510,7 +1510,7 @@ void key_callback(GLFWwindow* window,
         {
             if (key == GLFW_KEY_A && action == GLFW_REPEAT)
             {
-                pCharacter->rigidBody->rotateY(ROTANGLE);
+                pCharacter->rigidBody->rotateY(ROTANGLE * g_deltaTime);
                 if (SHIFT_Pressed)
                 {
                     pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
@@ -1522,7 +1522,7 @@ void key_callback(GLFWwindow* window,
             }
             if (key == GLFW_KEY_D && action == GLFW_REPEAT)
             {
-                pCharacter->rigidBody->rotateY(-ROTANGLE);
+                pCharacter->rigidBody->rotateY(-ROTANGLE * g_deltaTime);
                 if (SHIFT_Pressed)
                 {
                     pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
@@ -1548,12 +1548,12 @@ void key_callback(GLFWwindow* window,
         {
             if (key == GLFW_KEY_A && action == GLFW_REPEAT)
             {
-                pCharacter->rigidBody->rotateY(-ROTANGLE);
+                pCharacter->rigidBody->rotateY(-ROTANGLE * g_deltaTime);
                 pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
             }
             if (key == GLFW_KEY_D && action == GLFW_REPEAT)
             {
-                pCharacter->rigidBody->rotateY(ROTANGLE);
+                pCharacter->rigidBody->rotateY(ROTANGLE * g_deltaTime);
                 pCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
             }
         }
