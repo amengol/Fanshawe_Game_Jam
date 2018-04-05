@@ -1478,11 +1478,11 @@ bool cSceneLoader::loadCameraParams(cCameraObject* camera, std::string& error)
         camPos.x = cameraParams[i]["CameraPosition"][0].GetFloat();
         camPos.y = cameraParams[i]["CameraPosition"][1].GetFloat();
         camPos.z = cameraParams[i]["CameraPosition"][2].GetFloat();
-        camera->setCameraPosition(camPos);
+        //camera->setCameraPosition(camPos);
 
-        camera->setCameraOrientationY(cameraParams[i]["CameraOrientationY"].GetFloat());
-        camera->setCameraOrientationX(cameraParams[i]["CameraOrientationX"].GetFloat());        
-        camera->setCameraOrientationZ(cameraParams[i]["CameraOrientationZ"].GetFloat());
+        //camera->setCameraOrientationY(cameraParams[i]["CameraOrientationY"].GetFloat());
+        //camera->setCameraOrientationX(cameraParams[i]["CameraOrientationX"].GetFloat());        
+        //camera->setCameraOrientationZ(cameraParams[i]["CameraOrientationZ"].GetFloat());
 
         break; // only one camera allowed
         

@@ -48,11 +48,11 @@ extern unsigned int g_scrHeight;                          // (GE101_Main.cpp)
 extern cCamera g_camera;                                // (GE101_Main.cpp)
 extern sFade g_Fade;                                    // (GE101_Main.cpp)
 extern bool g_clothDebug;                               // (DrawCalls.cpp)
-extern cCameraObject* g_pCamera;                        // (GE101_Main.cpp)
+//extern cCameraObject* g_pCamera;                        // (GE101_Main.cpp)
 //extern cNPCManager g_NPCManager;
 //extern cTextManager g_textManager;                      // (GE101_Main.cpp)
 extern cGameObject* g_pSkyBoxObject;                    // (GE101_Main.cpp)
-extern cCameraManger g_CameraManager;
+//extern cCameraManger g_CameraManager;
 //extern cLocalization g_lococalization;                  // (GE101_Main.cpp)
 extern cUniLocHandler g_uniLocHandler;                  // (GE101_Main.cpp)
 extern cLightManager* g_pLightManager;	                // (GE101_Main.cpp)

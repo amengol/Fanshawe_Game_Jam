@@ -4,7 +4,7 @@
 
 class cGameObject;
 struct GLFWwindow;
-class cCameraObject;
+class cCamera;
 
 // Draws cloth soft bodies
 void ClothDraw(cGameObject* pTheGO);
@@ -13,7 +13,7 @@ void ClothDraw(cGameObject* pTheGO);
 void DrawObject(cGameObject* pTheGO);
 
 // The main render call
-void RenderScene(std::vector<cGameObject*> &vec_pGOs, GLFWwindow* pGLFWWindow, cCameraObject* pCamera, double deltaTime);
+void RenderScene(std::vector<cGameObject*> &vec_pGOs, GLFWwindow* pGLFWWindow, cCamera& camera, double deltaTime);
 
 //// Draws a debug cube at an AABB location with a specific size
 //void DrawAABB(cGameObject* pTheGO, float size);

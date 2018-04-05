@@ -90,7 +90,7 @@ bool InitPhysics()
 // Global variables
 // ----------------------------------------------------------------------------
 cCamera g_camera(glm::vec3(0.0f, 2.5f, 5.0f));
-cCameraManger g_CameraManager;
+//cCameraManger g_CameraManager;
 unsigned int g_scrWidth = 1260;
 unsigned int g_scrHeight = 768;
 cVAOMeshManager* g_pVAOManager = NULL;
@@ -345,15 +345,15 @@ int main()
     //-------------------------------------------------------------------------
     // Camera
 
-    g_pCamera = new cCameraObject();
+    //g_pCamera = new cCameraObject();
 
-    if(!sceneLoader.loadCameraParams(g_pCamera, error))
-    {
-        std::cout << "The camera configuration was not loaded..." << std::endl;
-        std::cout << error << std::endl;
-    }
-    
-    g_CameraManager.SetActiveCamera(g_pCamera);
+    //if(!sceneLoader.loadCameraParams(g_pCamera, error))
+    //{
+    //    std::cout << "The camera configuration was not loaded..." << std::endl;
+    //    std::cout << error << std::endl;
+    //}
+    //
+    //g_CameraManager.SetActiveCamera(g_pCamera);
 
     //// Used by the deferred render
     //g_pFixedCamera = new cCameraObject();
@@ -545,7 +545,7 @@ int main()
         //=====================================================================
 
         ::processCameraInput(window, deltaTime);
-        g_CameraManager.Update(glfwGetTime() - lastTimeStep);        
+        //g_CameraManager.Update(glfwGetTime() - lastTimeStep);        
 
         //g_NPCManager.Evaluate(glfwGetTime() - lastTimeStep);
 
@@ -583,7 +583,7 @@ int main()
         //==== Not using FBOs==================================================
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        RenderScene(::g_vecGameObjects, window, g_CameraManager.GetAcitveCamera(), glfwGetTime() - lastTimeStep);
+        RenderScene(::g_vecGameObjects, window, g_camera, glfwGetTime() - lastTimeStep);
         //=====================================================================
 
         //// Render to the Screen FBO (1st pass)
@@ -750,8 +750,8 @@ int main()
 
         // Prints camera information to the title
         std::stringstream ssTitle;
-        glm::vec3 curCameraPosition = g_pCamera->getCameraPosition();
-        glm::vec3 curCameraLookAt = g_pCamera->getLookAtPosition();
+        glm::vec3 curCameraPosition = g_camera.m_position;
+        glm::vec3 curCameraLookAt = g_camera.m_lookAt;
         ssTitle << title
             << "Camera (xyz): "
             << curCameraPosition.x << ", "

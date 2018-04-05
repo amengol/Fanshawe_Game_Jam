@@ -1,5 +1,5 @@
-#ifndef _cCameraObject_HG_
-#define _cCameraObject_HG_
+#ifdef _cCameraObject_HG_
+//#define _cCameraObject_HG_
 
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>

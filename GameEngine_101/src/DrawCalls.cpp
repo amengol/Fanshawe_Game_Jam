@@ -703,7 +703,7 @@ void DrawObject(cGameObject* pTheGO)
     return;
 }
 
-void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, cCameraObject* pCamera, double deltaTime)
+void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, cCamera& camera, double deltaTime)
 {
 
     // Clear colour AND depth buffer
@@ -730,7 +730,7 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, c
                                      1.0f,		   	                            // Near (as big as possible)
                                      200000.0f);                                // Far (as small as possible)
 
-    glUniformMatrix4fv(g_uniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(g_camera.getViewMatrix()));
+    glUniformMatrix4fv(g_uniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(camera.getViewMatrix()));
     glUniformMatrix4fv(g_uniLocHandler.mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));
 
     //---------------------------------------------------------------------
@@ -819,7 +819,7 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, c
         if(::g_pTranspManager->transpObjects[i]->rotateToCamera)
         {
             // Orient the cloud to the camera
-            turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], g_pCamera->getCameraPosition());
+            turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], g_camera.m_position);
         }
         
         DrawObject(::g_pTranspManager->transpObjects[i]);
