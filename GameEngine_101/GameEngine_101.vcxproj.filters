@@ -236,6 +236,9 @@
     <ClCompile Include="src\cCameraManger.cpp">
       <Filter>Cameras Related</Filter>
     </ClCompile>
+    <ClCompile Include="src\cCamera.cpp">
+      <Filter>Cameras Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utilities.h">
@@ -396,6 +399,9 @@
     </ClInclude>
     <ClInclude Include="src\sThreadInfo.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cCamera.h">
+      <Filter>Cameras Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

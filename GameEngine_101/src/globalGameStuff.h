@@ -31,6 +31,7 @@
 //#include "AI\cNPCManager.h"
 #include "cCameraManger.h"
 #include "sFade.h"
+#include "cCamera.h"
 
 
 // Finds a GameObject by a friendly name. Returns 0 or NULL if not found
@@ -42,6 +43,7 @@ cGameObject* findObjectByUniqueID(unsigned int ID, std::vector<cGameObject*> &ve
 // Super basic physics update function
 void PhysicsStep(double deltaTime);
 
+extern cCamera g_camera;
 extern sFade g_Fade;                                    // (GE101_Main.cpp)
 extern bool g_clothDebug;                               // (DrawCalls.cpp)
 extern double g_deltaTime;                              // (GE101_Main.cpp)

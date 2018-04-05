@@ -28,6 +28,7 @@
 //#include "../Cloth.h"
 #include "cFBO.h"
 #include "AI\cCharacterControl.h"
+#include "cCamera.h"
 
 
 
@@ -88,6 +89,7 @@ bool InitPhysics()
 // Global variables
 cVAOMeshManager* g_pVAOManager = NULL;
 cCameraObject* g_pCamera = NULL;
+cCamera g_camera;
 cCameraObject* g_pFixedCamera = NULL;
 cGameObject* g_pSkyBoxObject = NULL;
 cShaderManager*	g_pShaderManager = NULL;

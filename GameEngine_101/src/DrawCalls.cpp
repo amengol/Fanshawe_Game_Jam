@@ -742,16 +742,17 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, c
 
     pCamera->update();
 
-    ::g_pSkyBoxObject->position = pCamera->getCameraPosition();
+    //::g_pSkyBoxObject->position = pCamera->getCameraPosition();
+    ::g_pSkyBoxObject->position = g_camera.m_position;
 
-    // View or "camera" matrix
-    glm::mat4 matView = glm::mat4(1.0f);
+    //// View or "camera" matrix
+    //glm::mat4 matView = glm::mat4(1.0f);
 
-    matView = glm::lookAt(pCamera->getCameraPosition(),		// "eye" or "camera" position
-                          pCamera->getLookAtPosition(),				// "At" or "target" 
-                          pCamera->getCameraUpVector());	// "up" vector
+    //matView = glm::lookAt(pCamera->getCameraPosition(),		// "eye" or "camera" position
+    //                      pCamera->getLookAtPosition(),				// "At" or "target" 
+    //                      pCamera->getCameraUpVector());	// "up" vector
 
-    glUniformMatrix4fv(g_uniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matView));
+    glUniformMatrix4fv(g_uniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(g_camera.getViewMatrix()));
     glUniformMatrix4fv(g_uniLocHandler.mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));
 
     //---------------------------------------------------------------------
