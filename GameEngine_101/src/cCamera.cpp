@@ -77,6 +77,38 @@ void cCamera::processMouseScroll(float yoffset)
         m_zoom = 45.0f;
 }
 
+void cCamera::setYaw(float degrees)
+{
+    if (fabs(degrees) > 360.0f)
+    {
+        m_yaw = fmod(degrees, 360.0f);
+    }
+    else
+    {
+        m_yaw = degrees;
+    }
+    
+    updateCameraVectors();
+}
+
+void cCamera::setPitch(float degrees)
+{
+    if (degrees > 89.0f)
+    {
+        m_pitch = 89.0f;
+    }
+    else if (degrees < -89.0f)
+    {
+        m_pitch = -89.0f;
+    }
+    else
+    {
+        m_pitch = degrees;
+    }
+    
+    updateCameraVectors();
+}
+
 void cCamera::updateCameraVectors()
 {
     // Calculate the new Front vector

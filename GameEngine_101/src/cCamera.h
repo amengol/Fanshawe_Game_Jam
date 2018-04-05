@@ -22,11 +22,9 @@ enum eCameraMovement
 };
 
 // Default camera values
-const float YAW = -90.0f;
-const float PITCH = 0.0f;
 const float SPEED = 2.5f;
 const float SENSITIVITY = 0.1f;
-const float ZOOM = 45.0f;
+const float ZOOM = 30.0f;
 
 // An abstract camera class that processes input 
 // and calculates the corresponding Euler Angles, 
@@ -40,9 +38,6 @@ public:
     glm::vec3 m_up;
     glm::vec3 m_right;
     glm::vec3 m_worldm_up;
-    // Euler Angles
-    float m_yaw;
-    float m_pitch;
     // Camera options
     float m_movementSpeed;
     float m_mouseSensitivity;
@@ -51,7 +46,7 @@ public:
     // Constructor with vectors
     cCamera(glm::vec3 position = glm::vec3(0.0f),
             glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
-            float yaw = YAW, float pitch = PITCH);
+            float yaw = -90.0f, float pitch = 0.0f);
 
     // Constructor with scalar values
     cCamera(float posX, float posY, float posZ,
@@ -74,7 +69,17 @@ public:
     // Only requires input on the vertical wheel-axis
     void processMouseScroll(float yoffset);
 
+    // Sets the Yaw (Euler Angles)
+    void setYaw(float degrees);
+
+    // Sets the Pitch (Euler Angles)
+    void setPitch(float degrees);
+
 private:
+    // Euler Angles
+    float m_yaw;
+    float m_pitch;
+
     // Calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors();
 };

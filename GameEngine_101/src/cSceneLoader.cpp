@@ -5,7 +5,7 @@
 #include "Utilities.h"
 #include "cTransparencyManager.h"
 #include "cLightManager.h"
-#include "cCameraObject.h"
+#include "cCamera.h"
 #include "cVAOMeshManager.h"
 #include <iPhysicsFactory.h>
 #include "globalGameStuff.h"
@@ -1422,7 +1422,7 @@ bool cSceneLoader::loadLightParams(int shaderID,
     return true;
 }
 
-bool cSceneLoader::loadCameraParams(cCameraObject* camera, std::string& error)
+bool cSceneLoader::loadCameraParams(cCamera& camera, std::string& error)
 {
     std::string jsonStr;
 
@@ -1458,9 +1458,8 @@ bool cSceneLoader::loadCameraParams(cCameraObject* camera, std::string& error)
     {
         // Test all variables before reading
         if(!(cameraParams[i]["CameraPosition"].IsArray()
-           && cameraParams[i]["CameraOrientationX"].IsNumber()
-           && cameraParams[i]["CameraOrientationY"].IsNumber()
-           && cameraParams[i]["CameraOrientationZ"].IsNumber()))
+           && cameraParams[i]["Yaw"].IsNumber()
+           && cameraParams[i]["Pitch"].IsNumber()))
         {
             error = "The Json camera parameters are not properly formated!";
             return false;
@@ -1478,11 +1477,10 @@ bool cSceneLoader::loadCameraParams(cCameraObject* camera, std::string& error)
         camPos.x = cameraParams[i]["CameraPosition"][0].GetFloat();
         camPos.y = cameraParams[i]["CameraPosition"][1].GetFloat();
         camPos.z = cameraParams[i]["CameraPosition"][2].GetFloat();
-        //camera->setCameraPosition(camPos);
+        camera.m_position = camPos;
 
-        //camera->setCameraOrientationY(cameraParams[i]["CameraOrientationY"].GetFloat());
-        //camera->setCameraOrientationX(cameraParams[i]["CameraOrientationX"].GetFloat());        
-        //camera->setCameraOrientationZ(cameraParams[i]["CameraOrientationZ"].GetFloat());
+        camera.setYaw(cameraParams[i]["Yaw"].GetFloat());
+        camera.setPitch(cameraParams[i]["Pitch"].GetFloat());
 
         break; // only one camera allowed
         

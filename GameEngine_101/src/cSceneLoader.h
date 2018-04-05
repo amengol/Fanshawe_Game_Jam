@@ -18,7 +18,7 @@
 class cVAOMeshManager;
 class cModelAssetLoader;
 class cLightManager;
-class cCameraObject;
+class cCamera;
 
 class cSceneLoader
 {
@@ -38,7 +38,7 @@ public:
 
     // Loads all camera parameters from a joson files. Reports back an
     // error via a string
-    bool loadCameraParams(cCameraObject*, std::string& error);
+    bool loadCameraParams(cCamera&, std::string& error);
 
     //// Loads the AI configuration from the maze.config file
     //bool loadAiGrid(std::string& error);

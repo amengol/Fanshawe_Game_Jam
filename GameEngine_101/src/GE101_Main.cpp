@@ -89,7 +89,7 @@ bool InitPhysics()
 
 // Global variables
 // ----------------------------------------------------------------------------
-cCamera g_camera(glm::vec3(0.0f, 2.5f, 5.0f));
+cCamera g_camera;
 //cCameraManger g_CameraManager;
 unsigned int g_scrWidth = 1260;
 unsigned int g_scrHeight = 768;
@@ -347,12 +347,12 @@ int main()
 
     //g_pCamera = new cCameraObject();
 
-    //if(!sceneLoader.loadCameraParams(g_pCamera, error))
-    //{
-    //    std::cout << "The camera configuration was not loaded..." << std::endl;
-    //    std::cout << error << std::endl;
-    //}
-    //
+    if(!sceneLoader.loadCameraParams(g_camera, error))
+    {
+        std::cout << "The camera configuration was not loaded..." << std::endl;
+        std::cout << error << std::endl;
+    }
+    
     //g_CameraManager.SetActiveCamera(g_pCamera);
 
     //// Used by the deferred render
