@@ -76,7 +76,6 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
     g_camera.processMouseScroll(yoffset);
-
 }
 
 void processCameraInput(GLFWwindow* window, float deltaTime)
@@ -89,4 +88,8 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
         g_camera.processKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         g_camera.processKeyboard(RIGHT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+        g_camera.processKeyboard(UP, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+        g_camera.processKeyboard(DOWN, deltaTime);
 }

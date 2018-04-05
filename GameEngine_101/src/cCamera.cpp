@@ -44,6 +44,10 @@ void cCamera::processKeyboard(eCameraMovement direction, float deltaTime)
         m_position -= m_right * velocity;
     if (direction == RIGHT)
         m_position += m_right * velocity;
+    if (direction == UP)
+        m_position += m_up * velocity;
+    if (direction == DOWN)
+        m_position -= m_up * velocity;
 }
 
 void cCamera::processMouseMovement(float xoffset, float yoffset, bool constrainm_pitch)
