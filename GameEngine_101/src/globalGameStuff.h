@@ -43,10 +43,11 @@ cGameObject* findObjectByUniqueID(unsigned int ID, std::vector<cGameObject*> &ve
 // Super basic physics update function
 void PhysicsStep(double deltaTime);
 
-extern cCamera g_camera;
+extern unsigned int g_scrWidth;                           // (GE101_Main.cpp)
+extern unsigned int g_scrHeight;                          // (GE101_Main.cpp)
+extern cCamera g_camera;                                // (GE101_Main.cpp)
 extern sFade g_Fade;                                    // (GE101_Main.cpp)
 extern bool g_clothDebug;                               // (DrawCalls.cpp)
-extern double g_deltaTime;                              // (GE101_Main.cpp)
 extern cCameraObject* g_pCamera;                        // (GE101_Main.cpp)
 //extern cNPCManager g_NPCManager;
 //extern cTextManager g_textManager;                      // (GE101_Main.cpp)

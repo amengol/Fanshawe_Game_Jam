@@ -3,10 +3,57 @@
 #include <time.h>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm\gtx\vector_angle.hpp>
-
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <sstream>
+
+bool initialConfig(std::string fileName, unsigned int& width, unsigned int& height, std::string& title)
+{
+    std::string theTitle = title;
+
+    std::ifstream infoFile("GameConfig.ini");
+
+    if (!infoFile.is_open())
+    {    // File didn't open...
+        return false;
+    }
+    else
+    {    // File DID open, so read it... 
+        std::string a;
+
+        infoFile >> a;    // "Game"
+        infoFile >> a;    // "Config"
+        infoFile >> a;    // "width"
+
+        infoFile >> width;
+
+        infoFile >> a;    // "height"
+
+        infoFile >> height;
+
+        infoFile >> a;    // Title_Start
+
+        std::stringstream ssTitle;
+        bool bKeepReading = true;
+        do
+        {
+            infoFile >> a;
+            if (a != "Title_End")
+            {
+                ssTitle << a << " ";
+            }
+            else
+            {    // it IS the end! 
+                bKeepReading = false;
+                title = ssTitle.str();
+            }
+        } while (bKeepReading);
+
+        return true;
+
+    }//if ( ! infoFile.is_open() )
+}
 
 void createRamdomGameObjects(int numOfObjects,
                              std::vector<cGameObject*>& theVecGO,

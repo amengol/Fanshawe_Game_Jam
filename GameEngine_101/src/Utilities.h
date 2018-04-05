@@ -7,7 +7,6 @@
 // Inspired by: https://stackoverflow.com/questions/686353/c-random-float-number-generation
 
 template <class T>
-
 T getRandInRange( T min, T max )
 {
 	double value = min + static_cast <double> ( rand() ) 
@@ -23,6 +22,8 @@ struct GameObjectsInfo
     std::string texture;
     std::string alpha;
 };
+
+bool initialConfig(std::string fileName, unsigned int& width, unsigned int& height, std::string& title);
 
 void createRamdomGameObjects(int numOfObjects,
                              std::vector<cGameObject*>&,

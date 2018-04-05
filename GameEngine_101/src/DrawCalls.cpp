@@ -705,16 +705,6 @@ void DrawObject(cGameObject* pTheGO)
 
 void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, cCameraObject* pCamera, double deltaTime)
 {
-    float ratio;
-    int width, height;
-    glfwGetFramebufferSize(pGLFWWindow, &width, &height);
-
-    // Prevent division by zero!
-    if (height == 0)
-        height = 1;
-
-    ratio = width / (float)height;
-    glViewport(0, 0, width, height);
 
     // Clear colour AND depth buffer
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -735,22 +725,10 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, c
     glm::mat4x4 matProjection;
 
     // Projection and view don't change per scene (maybe)
-    matProjection = glm::perspective(pCamera->mFOV,   // FOV
-                                     ratio,		      // Aspect ratio
-                                     1.0f,		   	  // Near (as big as possible)
-                                     200000.0f);      // Far (as small as possible)
-
-    pCamera->update();
-
-    //::g_pSkyBoxObject->position = pCamera->getCameraPosition();
-    ::g_pSkyBoxObject->position = g_camera.m_position;
-
-    //// View or "camera" matrix
-    //glm::mat4 matView = glm::mat4(1.0f);
-
-    //matView = glm::lookAt(pCamera->getCameraPosition(),		// "eye" or "camera" position
-    //                      pCamera->getLookAtPosition(),				// "At" or "target" 
-    //                      pCamera->getCameraUpVector());	// "up" vector
+    matProjection = glm::perspective(glm::radians(g_camera.m_zoom),             // FOV
+                                     (float)g_scrWidth / (float)g_scrHeight,	// Aspect ratio
+                                     1.0f,		   	                            // Near (as big as possible)
+                                     200000.0f);                                // Far (as small as possible)
 
     glUniformMatrix4fv(g_uniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(g_camera.getViewMatrix()));
     glUniformMatrix4fv(g_uniLocHandler.mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));

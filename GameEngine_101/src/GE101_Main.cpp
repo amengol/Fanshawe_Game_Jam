@@ -1,9 +1,9 @@
-/*
-*
-*   Game Engine 101
-*   By Jorge Amengol
-*   2018
-*
+/**
+   Game Engine 101
+
+   @author Jorge Amengol
+   @date April, 2018
+   @version 2.0
 */
 
 #include "globalOpenGL_GLFW.h"
@@ -29,6 +29,7 @@
 #include "cFBO.h"
 #include "AI\cCharacterControl.h"
 #include "cCamera.h"
+#include "GLFW_callBacks.h"
 
 
 
@@ -87,9 +88,13 @@ bool InitPhysics()
 //bool compare(cGameObject* i, cGameObject* j);
 
 // Global variables
+// ----------------------------------------------------------------------------
+cCamera g_camera(glm::vec3(0.0f, 2.5f, 5.0f));
+cCameraManger g_CameraManager;
+unsigned int g_scrWidth = 1260;
+unsigned int g_scrHeight = 768;
 cVAOMeshManager* g_pVAOManager = NULL;
 cCameraObject* g_pCamera = NULL;
-cCamera g_camera;
 cCameraObject* g_pFixedCamera = NULL;
 cGameObject* g_pSkyBoxObject = NULL;
 cShaderManager*	g_pShaderManager = NULL;
@@ -105,8 +110,7 @@ cUniLocHandler g_uniLocHandler;
 long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
-double g_deltaTime;
-cCameraManger g_CameraManager;
+
 //cNPCManager g_NPCManager;
 //cSimpleAi_Manager g_AiManager;
 //cLocalization g_lococalization;
@@ -115,11 +119,6 @@ cCameraManger g_CameraManager;
 // To deal with sounds
 //cSoundManager* g_pSoundManager = NULL;
 
-
-static void error_callback(int error, const char* description)
-{
-    fprintf(stderr, "Error: %s\n", description);
-}
 
 float g_ChromaticAberrationOffset = 0.0f;
 float g_CR_Max = 0.1f;
@@ -130,74 +129,47 @@ const int RENDER_PASS_1_DEFERRED_RENDER_PASS = 1;
 const int RENDER_PASS_2_FULL_SCREEN_EFFECT_PASS = 2;
 const int RENDER_PASS_3_FULL_SCREEN_EFFECT_PASS_2 = 3;
 
+// ----------------------------------------------------------------------------
+
 int main()
 {
     InitPhysics();
 
     GLFWwindow* window;
-    glfwSetErrorCallback(error_callback);
+    glfwSetErrorCallback(errorCallback);
 
     if (!glfwInit())
         exit(EXIT_FAILURE);
 
-    int height = 480;
-    int width = 640;
-    std::string title = "Game Engine 101";
+    std::string title = "Game Engine 101!";
 
-    std::ifstream infoFile("GameConfig.ini");
-
-    if (!infoFile.is_open())
-    {    // File didn't open...
+    if (!initialConfig("GameConfig.ini", g_scrWidth, g_scrHeight, title));
+    {
         std::cout << "Can't find config file" << std::endl;
         std::cout << "Using defaults" << std::endl;
     }
-    else
-    {    // File DID open, so read it... 
-        std::string a;
-
-        infoFile >> a;    // "Game"
-        infoFile >> a;    // "Config"
-        infoFile >> a;    // "width"
-
-        infoFile >> width;
-
-        infoFile >> a;    // "height"
-
-        infoFile >> height;
-
-        infoFile >> a;    // Title_Start
-
-        std::stringstream ssTitle;
-        bool bKeepReading = true;
-        do
-        {
-            infoFile >> a;
-            if (a != "Title_End")
-            {
-                ssTitle << a << " ";
-            }
-            else
-            {    // it IS the end! 
-                bKeepReading = false;
-                title = ssTitle.str();
-            }
-        } while (bKeepReading);
-
-    }//if ( ! infoFile.is_open() )
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-    window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+    window = glfwCreateWindow(g_scrWidth, g_scrHeight, title.c_str(), NULL, NULL);
     if (!window)
     {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
 
-    glfwSetKeyCallback(window, key_callback);
     glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+    glfwSetCursorPosCallback(window, mousePosCallback);
+    glfwSetMouseButtonCallback(window, mouseButtonCallback);
+    glfwSetKeyCallback(window, keyCallback);
+    glfwSetScrollCallback(window, scrollCallback);
+
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     glfwSwapInterval(1);
+
+    // tell GLFW to capture our mouse
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     //// Localization and Text---------------------------------------------------
     //if (!g_lococalization.init())
@@ -545,11 +517,34 @@ int main()
     // Main game or application loop
     while (!glfwWindowShouldClose(window))
     {
+        // Now many seconds that have elapsed since we last checked
+        double curTime = glfwGetTime();
+        double deltaTime = curTime - lastTimeStep;
+
+        printf("%f frames per second\n", 1.0f / deltaTime);
+
+        // Physics step
+        switch (g_physicsSwitcher.gPhysicsEngine)
+        {
+        case g_physicsSwitcher.SUPERDUPER:
+            g_pPhysicsWorld->TimeStep(deltaTime);
+            break;
+        case g_physicsSwitcher.BULLET:
+            //gbt_PhysicsWorld->TimeStep(deltaTime);
+            break;
+        default:
+            break;
+        }
+
+        //PhysicsStep(deltaTime);
+        lastTimeStep = curTime;
+
         //=====================================================================
         //Sound
         //g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
         //=====================================================================
 
+        ::processCameraInput(window, deltaTime);
         g_CameraManager.Update(glfwGetTime() - lastTimeStep);        
 
         //g_NPCManager.Evaluate(glfwGetTime() - lastTimeStep);
@@ -769,27 +764,7 @@ int main()
 
         glfwSetWindowTitle(window, ssTitle.str().c_str());
                 
-        // Now many seconds that have elapsed since we last checked
-        double curTime = glfwGetTime();
-        g_deltaTime = curTime - lastTimeStep;
-
-        printf("%f frames per second\n", 1.0f / g_deltaTime);
-
-        // Physics step
-        switch (g_physicsSwitcher.gPhysicsEngine)
-        {
-        case g_physicsSwitcher.SUPERDUPER:
-            g_pPhysicsWorld->TimeStep(g_deltaTime);
-            break;
-        case g_physicsSwitcher.BULLET:
-            //gbt_PhysicsWorld->TimeStep(deltaTime);
-            break;
-        default:
-            break;
-        }
-                
-        //PhysicsStep(deltaTime);
-        lastTimeStep = curTime;
+        
 
         //g_AiManager.updateAi();
 
