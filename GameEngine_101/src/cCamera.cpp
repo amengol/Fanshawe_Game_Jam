@@ -1,10 +1,14 @@
 #include "cCamera.h"
+#include "cGameObject.h"
 
 cCamera::cCamera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) :
     m_lookAt(glm::vec3(0.0f, 0.0f, -1.0f)),
     m_movementSpeed(SPEED),
     m_mouseSensitivity(SENSITIVITY),
-    m_zoom(ZOOM)
+    m_zoom(ZOOM),
+    m_cameraMode(FREE),
+    m_radiusFromTarget(5.0f),
+    m_cameraGO(NULL)
 {
     m_position = position;
     m_worldm_up = up;
@@ -19,7 +23,10 @@ cCamera::cCamera(float posX, float posY, float posZ,
     m_lookAt(glm::vec3(0.0f, 0.0f, -1.0f)),
     m_movementSpeed(SPEED),
     m_mouseSensitivity(SENSITIVITY),
-    m_zoom(ZOOM)
+    m_zoom(ZOOM),
+    m_cameraMode(FREE),
+    m_radiusFromTarget(5.0f),
+    m_cameraGO(NULL)
 {
     m_position = glm::vec3(posX, posY, posZ);
     m_worldm_up = glm::vec3(upX, upY, upZ);
@@ -30,7 +37,18 @@ cCamera::cCamera(float posX, float posY, float posZ,
 
 glm::mat4 cCamera::getViewMatrix()
 {
-    return glm::lookAt(m_position, m_position + m_lookAt, m_up);
+    switch (m_cameraMode)
+    {
+    case FREE:
+        return glm::lookAt(m_position, m_position + m_lookAt, m_up);
+        break;
+    case THIRD_PERSON:
+        return glm::lookAt(m_position, m_lookAt, glm::vec3(0.0f, 1.0f, 0.0f));
+        break;
+    default:
+        break;
+    }
+    
 }
 
 void cCamera::processKeyboard(eCameraMovement direction, float deltaTime)
@@ -113,14 +131,41 @@ void cCamera::setPitch(float degrees)
     updateCameraVectors();
 }
 
-void cCamera::updateCameraVectors()
+void cCamera::lockOnGameObject(cGameObject* GO)
 {
-    // Calculate the new Front vector
-    glm::vec3 lookAt;
-    lookAt.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-    lookAt.y = sin(glm::radians(m_pitch));
-    lookAt.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-    m_lookAt = glm::normalize(lookAt);
+    if (GO != NULL)
+    {
+        if (GO->rigidBody != NULL)
+        {
+            m_cameraGO = GO;
+            m_cameraMode = THIRD_PERSON;
+            GO->rigidBody->GetPostion(m_lookAt);
+            m_lookAt += glm::vec3(0.0f, 1.5f, 0.0f);
+
+            // Calculate a direction to guide the new position of the camera
+            // related to the center of the Point of Interest
+            glm::vec3 posDirection;
+            posDirection.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+            posDirection.y = sin(glm::radians(-m_pitch));
+            posDirection.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+            posDirection = glm::normalize(posDirection);
+
+            // Project the new position and assign        
+            m_position = m_lookAt + posDirection * m_radiusFromTarget;
+        }
+    }
+}
+
+void cCamera::releaseGameObject()
+{
+    m_cameraGO = NULL;
+    m_cameraMode = FREE;
+    
+    // Make the way back to the FREE camera mode
+    m_lookAt = glm::normalize(m_position - m_lookAt) * -1.0f;
+    m_pitch = glm::degrees(glm::asin(m_lookAt.y));
+    float alpha = acos(m_lookAt.x);
+    m_yaw = glm::degrees(cos(glm::radians(m_pitch)) / alpha);
 
     // Also re-calculate the m_right and m_up vector
     m_right = glm::normalize(glm::cross(m_lookAt, m_worldm_up));    // Normalize the vectors, 
@@ -128,4 +173,48 @@ void cCamera::updateCameraVectors()
                                                                     // the more you look up or down which 
                                                                     // results in slower movement.
     m_up = glm::normalize(glm::cross(m_right, m_lookAt));
+}
+
+void cCamera::updateCameraVectors()
+{
+    switch (m_cameraMode)
+    {
+    case FREE:
+    {
+        // Calculate the new LookAt vector
+        glm::vec3 lookAt;
+        lookAt.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+        lookAt.y = sin(glm::radians(m_pitch));
+        lookAt.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+        m_lookAt = glm::normalize(lookAt);
+
+        // Also re-calculate the m_right and m_up vector
+        m_right = glm::normalize(glm::cross(m_lookAt, m_worldm_up));    // Normalize the vectors, 
+                                                                        // because their length gets closer to 0 
+                                                                        // the more you look up or down which 
+                                                                        // results in slower movement.
+        m_up = glm::normalize(glm::cross(m_right, m_lookAt));
+    }
+        break;
+    case THIRD_PERSON:
+    {
+        // LookAt by GameObject
+        m_cameraGO->rigidBody->GetPostion(m_lookAt);
+        m_lookAt += glm::vec3(0.0f, 1.5f, 0.0f);
+
+        // Calculate a direction to guide the new position of the camera
+        // related to the center of the Point of Interest
+        glm::vec3 posDirection;
+        posDirection.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+        posDirection.y = sin(glm::radians(-m_pitch));
+        posDirection.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+        posDirection = glm::normalize(posDirection);
+        
+        // Project the new position and assign        
+        m_position = m_lookAt + posDirection * m_radiusFromTarget;
+    }
+        break;
+    default:
+        break;
+    }
 }

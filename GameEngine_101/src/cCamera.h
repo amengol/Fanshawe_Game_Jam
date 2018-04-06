@@ -11,8 +11,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+class cGameObject;
+
 // Defines several possible options for camera movement. 
-// Used as abstraction to stay away from window-system specific input methods
 enum eCameraMovement
 {
     FORWARD,
@@ -21,6 +22,13 @@ enum eCameraMovement
     RIGHT,
     UP,
     DOWN
+};
+
+// Defines camera modes
+enum eCameraMode
+{
+    FREE,
+    THIRD_PERSON
 };
 
 // Default camera values
@@ -44,6 +52,8 @@ public:
     float m_movementSpeed;
     float m_mouseSensitivity;
     float m_zoom;
+
+    float m_radiusFromTarget;     // Camera radius from a target
 
     // Constructor with vectors
     cCamera(glm::vec3 position = glm::vec3(0.0f),
@@ -77,10 +87,22 @@ public:
     // Sets the Pitch (Euler Angles)
     void setPitch(float degrees);
 
+    // Sets the character GameObject
+    void lockOnGameObject(cGameObject* GO);
+
+    // Releases the character GameObject
+    void releaseGameObject();
+
+    // Returns the active camera mode
+    inline eCameraMode getCameraMode() { return m_cameraMode; }
+
 private:
     // Euler Angles
     float m_yaw;
     float m_pitch;
+
+    eCameraMode m_cameraMode;   // The camera's mode
+    cGameObject* m_cameraGO;    // The camera's GameObject
 
     // Calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors();

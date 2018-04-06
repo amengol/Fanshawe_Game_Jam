@@ -23,7 +23,7 @@
 "Camera" :
 [
 	{
-		"CameraPosition" : [0.0, 2.5, 5.0],
+		"CameraPosition" : [0.0, 2.0, 10.0],
 		"Yaw" : -90.0,
 		"Pitch" : -15.0
 	}

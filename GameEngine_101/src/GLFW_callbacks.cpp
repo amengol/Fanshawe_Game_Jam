@@ -27,6 +27,16 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
             cursorOn = true;
         }
+
+        if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+        {
+            g_camera.lockOnGameObject(g_characterManager.GetActiveCharacter()->GetCharacter());
+        }
+
+        if (key == GLFW_KEY_0 && action == GLFW_PRESS)
+        {
+            g_camera.releaseGameObject();
+        }
     }    
 }
 
@@ -80,16 +90,26 @@ void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 
 void processCameraInput(GLFWwindow* window, float deltaTime)
 {
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        g_camera.processKeyboard(FORWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        g_camera.processKeyboard(BACKWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        g_camera.processKeyboard(LEFT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        g_camera.processKeyboard(RIGHT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-        g_camera.processKeyboard(UP, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-        g_camera.processKeyboard(DOWN, deltaTime);
+    switch (g_camera.getCameraMode())
+    {
+    case FREE:
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+            g_camera.processKeyboard(FORWARD, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+            g_camera.processKeyboard(BACKWARD, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            g_camera.processKeyboard(LEFT, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            g_camera.processKeyboard(RIGHT, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+            g_camera.processKeyboard(UP, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+            g_camera.processKeyboard(DOWN, deltaTime);
+        break;
+    case THIRD_PERSON:
+        break;
+    default:
+        break;
+    }
+    
 }
