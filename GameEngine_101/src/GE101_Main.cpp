@@ -492,7 +492,8 @@ int main()
     //g_NPCManager.SetPlayer(g_characterManager.GetActiveCharacter());
     //g_NPCManager.SetNPCs(g_characterManager.GetNPCs());
 
-    glEnable(GL_DEPTH);
+    //glEnable(GL_DEPTH);
+    glEnable(GL_DEPTH_TEST);
 
     //// Create the FBOs
     //g_FBO_Pass1_G_Buffer.init(width, height, error);
@@ -581,7 +582,7 @@ int main()
 
 
         //==== Not using FBOs==================================================
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        //glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         RenderScene(::g_vecGameObjects, window, g_camera, glfwGetTime() - lastTimeStep);
         //=====================================================================
