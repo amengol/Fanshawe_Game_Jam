@@ -2,8 +2,8 @@
    Handles camera movements and modes 
 
    @author Jorge Amengol
-   @version 1.1
-   @date April 4th, 2018
+   @version 1.2
+   @date April 6th, 2018
    @note start code based on the tutorial:
    https://learnopengl.com/Getting-started/Camera
 */
