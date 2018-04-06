@@ -97,6 +97,9 @@ public:
     // Returns the active camera mode
     inline eCameraMode getCameraMode() { return m_cameraMode; }
 
+    // Returns the active GameObject
+    inline cGameObject* getGameObject() { return m_cameraGO; }
+
 private:
     // Euler Angles
     float m_yaw;
