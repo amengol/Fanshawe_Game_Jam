@@ -4,6 +4,7 @@
 cCamera::cCamera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) :
     m_lookAt(glm::vec3(0.0f, 0.0f, -1.0f)),
     m_movementSpeed(SPEED),
+    m_movementSpeedFactor(1.0f),
     m_mouseSensitivity(SENSITIVITY),
     m_zoom(ZOOM),
     m_cameraMode(FREE),
@@ -22,6 +23,7 @@ cCamera::cCamera(float posX, float posY, float posZ,
                  float yaw, float pitch) :
     m_lookAt(glm::vec3(0.0f, 0.0f, -1.0f)),
     m_movementSpeed(SPEED),
+    m_movementSpeedFactor(1.0f),
     m_mouseSensitivity(SENSITIVITY),
     m_zoom(ZOOM),
     m_cameraMode(FREE),
@@ -53,7 +55,7 @@ glm::mat4 cCamera::getViewMatrix()
 
 void cCamera::processKeyboard(eCameraMovement direction, float deltaTime)
 {
-    float velocity = m_movementSpeed * deltaTime;
+    float velocity = m_movementSpeed * m_movementSpeedFactor * deltaTime;
     if (direction == FORWARD)
         m_position += m_lookAt * velocity;
     if (direction == BACKWARD)
@@ -66,6 +68,10 @@ void cCamera::processKeyboard(eCameraMovement direction, float deltaTime)
         m_position += m_up * velocity;
     if (direction == DOWN)
         m_position -= m_up * velocity;
+
+    // Constraint the camera to not go under the ground
+    if (m_position.y <= 0.3f)
+        m_position.y = 0.3f;
 }
 
 void cCamera::processMouseMovement(float xoffset, float yoffset, bool constrainm_pitch)
@@ -83,6 +89,13 @@ void cCamera::processMouseMovement(float xoffset, float yoffset, bool constrainm
             m_pitch = 89.0f;
         if (m_pitch < -89.0f)
             m_pitch = -89.0f;
+    }
+
+    // Limit the pitch in THIRD_PERSON mode
+    if (m_cameraMode == THIRD_PERSON)
+    {
+        if (m_pitch > 5.0f)
+            m_pitch = 5.0f;
     }
 
     // m_update Front, m_right and m_up Vectors using the updated Euler angles
@@ -141,6 +154,7 @@ void cCamera::lockOnGameObject(cGameObject* GO)
             m_cameraMode = THIRD_PERSON;
             GO->rigidBody->GetPostion(m_lookAt);
             m_lookAt += glm::vec3(0.0f, 1.5f, 0.0f);
+            m_yaw -= -180.0f;
 
             // Calculate a direction to guide the new position of the camera
             // related to the center of the Point of Interest
@@ -163,9 +177,7 @@ void cCamera::releaseGameObject()
     
     // Make the way back to the FREE camera mode
     m_lookAt = glm::normalize(m_position - m_lookAt) * -1.0f;
-    m_pitch = glm::degrees(glm::asin(m_lookAt.y));
-    float alpha = acos(m_lookAt.x);
-    m_yaw = glm::degrees(cos(glm::radians(m_pitch)) / alpha);
+    m_yaw -= -180.0f;
 
     // Also re-calculate the m_right and m_up vector
     m_right = glm::normalize(glm::cross(m_lookAt, m_worldm_up));    // Normalize the vectors, 

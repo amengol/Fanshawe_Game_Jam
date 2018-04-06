@@ -112,4 +112,9 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
         break;
     }
     
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+        g_camera.m_movementSpeedFactor = 4.0f;
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
+        g_camera.m_movementSpeedFactor = 1.0f;
+
 }

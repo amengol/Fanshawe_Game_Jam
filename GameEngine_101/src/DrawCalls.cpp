@@ -727,7 +727,7 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, c
     // Projection and view don't change per scene (maybe)
     matProjection = glm::perspective(glm::radians(g_camera.m_zoom),             // FOV
                                      (float)g_scrWidth / (float)g_scrHeight,	// Aspect ratio
-                                     1.0f,		   	                            // Near (as big as possible)
+                                     0.1f,		   	                            // Near (as big as possible)
                                      200000.0f);                                // Far (as small as possible)
 
     glUniformMatrix4fv(g_uniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(camera.getViewMatrix()));

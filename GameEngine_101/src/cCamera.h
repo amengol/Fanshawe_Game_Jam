@@ -50,6 +50,7 @@ public:
     glm::vec3 m_worldm_up;
     // Camera options
     float m_movementSpeed;
+    float m_movementSpeedFactor;
     float m_mouseSensitivity;
     float m_zoom;
 
