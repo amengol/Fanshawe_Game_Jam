@@ -98,7 +98,7 @@
 		"meshName" : "SkyBox",		
 		"typeOfObject" : 6,
 		"diffuseColour" : [1.0, 1.0, 1.0, 1.0],	
-		"scale" : 100000.0
+		"scale" : 1900.0
 	},
 	{ 
 		"meshName" : "Terrain",
