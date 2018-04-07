@@ -605,19 +605,23 @@ void DrawObject(cGameObject* pTheGO)
     }
 
     // Set up cube map...
-    GLuint cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("sunset");
+    GLuint cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("morning");
+    glActiveTexture(GL_TEXTURE27);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
+
+    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("day");
     glActiveTexture(GL_TEXTURE28);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
 
-    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("dusk");
+    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("sunset");
     glActiveTexture(GL_TEXTURE29);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
 
-    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("night");
+    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("dusk");
     glActiveTexture(GL_TEXTURE30);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
 
-    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("morning");
+    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("night");
     glActiveTexture(GL_TEXTURE31);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
 
@@ -661,21 +665,25 @@ void DrawObject(cGameObject* pTheGO)
     GLint texSampCube01_LocID = glGetUniformLocation(curShaderID, "texSampCube01");
     GLint texSampCube02_LocID = glGetUniformLocation(curShaderID, "texSampCube02");
     GLint texSampCube03_LocID = glGetUniformLocation(curShaderID, "texSampCube03");
+    GLint texSampCube04_LocID = glGetUniformLocation(curShaderID, "texSampCube04");
 
     GLint texCubeBlend00_LocID = glGetUniformLocation(curShaderID, "texCubeBlend00");
     GLint texCubeBlend01_LocID = glGetUniformLocation(curShaderID, "texCubeBlend01");
     GLint texCubeBlend02_LocID = glGetUniformLocation(curShaderID, "texCubeBlend02");
     GLint texCubeBlend03_LocID = glGetUniformLocation(curShaderID, "texCubeBlend03");
+    GLint texCubeBlend04_LocID = glGetUniformLocation(curShaderID, "texCubeBlend04");
 
-    glUniform1i(texSampCube00_LocID, 28);
-    glUniform1i(texSampCube01_LocID, 29);
-    glUniform1i(texSampCube02_LocID, 30);
-    glUniform1i(texSampCube03_LocID, 31);
+    glUniform1i(texSampCube00_LocID, 27);
+    glUniform1i(texSampCube01_LocID, 28);
+    glUniform1i(texSampCube02_LocID, 29);
+    glUniform1i(texSampCube03_LocID, 30);
+    glUniform1i(texSampCube04_LocID, 31);
 
     glUniform1f(texCubeBlend00_LocID, 1.0f);
     glUniform1f(texCubeBlend01_LocID, 0.0f);
     glUniform1f(texCubeBlend02_LocID, 0.0f);
     glUniform1f(texCubeBlend03_LocID, 0.0f);
+    glUniform1f(texCubeBlend04_LocID, 0.0f);
 
     // This connects the texture sampler to the texture units... 
     glUniform1i(textSampler00_ID, 0);
