@@ -864,9 +864,9 @@
 # "position" : [332.0, 267.0, 810.0],
 # "diffuse" : [1.0, 1.0, 1.0],
 	{
-		"position" : [0.0, 1000.0, 0.0],
+		"position" : [-100.0, 100.0, 0.0],
 #		"position" : [332.0, 267.0, 810.0],
-		"diffuse" : [1.0, 1.0, 1.0],
+		"diffuse" : [1.0, 0.925, 0.925],
 		"costantAttenuation" :0.8,
 		"linearAttenuation" :0.0,
 		"quadraticAttenuation" :0.0,

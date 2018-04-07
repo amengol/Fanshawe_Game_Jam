@@ -7,28 +7,54 @@ bool loadTextures()
 {
     ::g_pTextureManager = new CTextureManager();
 
-    //::g_pTextureManager->SetBasePath("assets/textures/skybox");
-    //if(!::g_pTextureManager->CreateCubeTextureFromBMPFiles(
-    //    "space",
-    //    "NightSky_Right.bmp",
-    //    "NightSky_Left.bmp",
-    //    "NightSky_Bottom.bmp",
-    //    "NightSky_Top.bmp",
-    //    "NightSky_Front.bmp",
-    //    "NightSky_Back.bmp", true, true))
-    //{
-    //    std::cout << "Didn't load skybox" << std::endl;
-    //}
-
-    ::g_pTextureManager->setBasePath("assets/textures/skybox");
+    ::g_pTextureManager->setBasePath("assets/textures/sb_sunset");
     if (!::g_pTextureManager->CreateCubeTextureFromBMPFiles(
-        "space",
-        "DaySky_Right.bmp",
-        "DaySky_Left.bmp",
-        "DaySky_Bottom.bmp",
-        "DaySky_Top.bmp",
-        "DaySky_Front.bmp",
-        "DaySky_Back.bmp", true, true))
+        "sunset",
+        "SkySunSet_Right.bmp",
+        "SkySunSet_Left.bmp",
+        "SkySunSet_Bottom.bmp",
+        "SkySunSet_Top.bmp",
+        "SkySunSet_Front.bmp",
+        "SkySunSet_Back.bmp", true, true))
+    {
+        std::cout << "Didn't load skybox" << std::endl;
+    }
+
+    ::g_pTextureManager->setBasePath("assets/textures/sb_dusk");
+    if (!::g_pTextureManager->CreateCubeTextureFromBMPFiles(
+        "dusk",
+        "SkyEarlyDusk_Right.bmp",
+        "SkyEarlyDusk_Left.bmp",
+        "SkyEarlyDusk_Bottom.bmp",
+        "SkyEarlyDusk_Top.bmp",
+        "SkyEarlyDusk_Front.bmp",
+        "SkyEarlyDusk_Back.bmp", true, true))
+    {
+        std::cout << "Didn't load skybox" << std::endl;
+    }
+
+    ::g_pTextureManager->setBasePath("assets/textures/sb_night");
+    if (!::g_pTextureManager->CreateCubeTextureFromBMPFiles(
+        "night",
+        "SkyMidNight_Right.bmp",
+        "SkyMidNight_Left.bmp",
+        "SkyMidNight_Bottom.bmp",
+        "SkyMidNight_Top.bmp",
+        "SkyMidNight_Front.bmp",
+        "SkyMidNight_Back.bmp", true, true))
+    {
+        std::cout << "Didn't load skybox" << std::endl;
+    }
+
+    ::g_pTextureManager->setBasePath("assets/textures/sb_morning");
+    if (!::g_pTextureManager->CreateCubeTextureFromBMPFiles(
+        "morning",
+        "SkyMorning_Right.bmp",
+        "SkyMorning_Left.bmp",
+        "SkyMorning_Bottom.bmp",
+        "SkyMorning_Top.bmp",
+        "SkyMorning_Front.bmp",
+        "SkyMorning_Back.bmp", true, true))
     {
         std::cout << "Didn't load skybox" << std::endl;
     }

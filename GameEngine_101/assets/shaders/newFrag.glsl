@@ -160,7 +160,10 @@ void main()
 			//	returning a colour (at that point in the texture)
 			// Note we are using the normals of our skybox object
 			//	to determine the point on the inside of the box
-			vec4 skyRGBA = texture( texSampCube00, fVertNormal.xyz );
+			vec4 skyRGBA = texture(texSampCube00, fVertNormal.xyz ) * texCubeBlend00 +
+									texture( texSampCube01, fVertNormal.xyz ) * texCubeBlend01 +
+									texture( texSampCube02, fVertNormal.xyz ) * texCubeBlend02 +
+									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03;
 			
 			fragOut_colour = vec4(skyRGBA.rgb, 1.0f);		//gl_FragColor = skyRGBA;
 
@@ -179,10 +182,20 @@ void main()
 			//vec3 vecReflectEyeToVertex = eyePosition - vecWorldPosition;
 			vecReflectEyeToVertex = normalize(vecReflectEyeToVertex);
 			vec3 vecReflect = reflect( vecReflectEyeToVertex, fVertNormal.xyz );
+			
 			// Look up colour for reflection
-			vec4 rgbReflection = texture( texSampCube00, fVertNormal.xyz );
+			
+			// We probably wont need this enymore, but will be here just in case...
+			//vec4 rgbReflection = texture(texSampCube00, fVertNormal.xyz ) * texCubeBlend00 +
+			//						texture( texSampCube01, fVertNormal.xyz ) * texCubeBlend01 +
+			//						texture( texSampCube02, fVertNormal.xyz ) * texCubeBlend02 +
+			//						texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03);
 
-			rgbReflection = texture( texSampCube00, vecReflect );
+			vec4 rgbReflection = texture(texSampCube00, fVertNormal.xyz ) * texCubeBlend00 +
+									texture( texSampCube01, fVertNormal.xyz ) * texCubeBlend01 +
+									texture( texSampCube02, fVertNormal.xyz ) * texCubeBlend02 +
+									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03;
+
 			rgbReflection.rgb * 0.01f;
 			rgbReflection.rgb += normalize(fVertNormal.xyz);
 			
@@ -192,7 +205,10 @@ void main()
 			vec3 vecRefract = refract( vecReFRACT_EyeToVertex, fVertNormal.xyz, 
 		                               coefficientRefract );
 			// Look up colour for reflection
-			vec4 rgbRefraction = texture( texSampCube00, vecRefract );
+			vec4 rgbRefraction = texture(texSampCube00, fVertNormal.xyz ) * texCubeBlend00 +
+									texture( texSampCube01, fVertNormal.xyz ) * texCubeBlend01 +
+									texture( texSampCube02, fVertNormal.xyz ) * texCubeBlend02 +
+									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03;
 			
 			
 			// Mix the two, based on how reflective the surface is
@@ -237,7 +253,7 @@ void main()
 
 
 		vec3 ambientContribution = matDiffuse.rgb * ambientToDiffuseRatio;
-		fragOut_colour.rgb += ambientContribution.rgb;	
+		fragOut_colour.rgb += ambientContribution.rgb * 4.0f;	
 		
 		// Transparency value (for alpha blending)
 		fragOut_colour.a = materialDiffuse.a;
@@ -252,7 +268,10 @@ void main()
 		{
 			vec3 eyeDir = fVecWorldPosition - eyePosition;		
 			vec3 reflectedDirection = normalize(reflect(eyeDir, normalize(fVertNormal)));
-			vec4 fragColor = texture(texSampCube00, reflectedDirection);
+			vec4 fragColor = texture(texSampCube00, fVertNormal.xyz ) * texCubeBlend00 +
+									texture( texSampCube01, fVertNormal.xyz ) * texCubeBlend01 +
+									texture( texSampCube02, fVertNormal.xyz ) * texCubeBlend02 +
+									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03;
 			vec4 matReflect = texCol02;
 			fragOut_colour += fragColor * matReflect;
 			fragOut_colour.rgb += ambientContribution.rgb;	

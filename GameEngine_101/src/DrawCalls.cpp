@@ -605,18 +605,21 @@ void DrawObject(cGameObject* pTheGO)
     }
 
     // Set up cube map...
-    GLuint cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("space");
-    glActiveTexture(GL_TEXTURE31);
+    GLuint cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("sunset");
+    glActiveTexture(GL_TEXTURE28);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
 
-    // Set up the textures
-    std::string textureName = pTheGO->textureNames[0];
-    GLuint texture00Number
-        = ::g_pTextureManager->getTextureIDFromTextureName(textureName);
-    // Texture binding... (i.e. set the 'active' texture
-    GLuint texture00Unit = 0;							// Texture units go from 0 to 79 (at least)
-    glActiveTexture(texture00Unit + GL_TEXTURE0);		// GL_TEXTURE0 = 33984
-    glBindTexture(GL_TEXTURE_2D, texture00Number);
+    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("dusk");
+    glActiveTexture(GL_TEXTURE29);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
+
+    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("night");
+    glActiveTexture(GL_TEXTURE30);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
+
+    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("morning");
+    glActiveTexture(GL_TEXTURE31);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
 
     // 0 
     glActiveTexture(GL_TEXTURE0);
@@ -638,26 +641,41 @@ void DrawObject(cGameObject* pTheGO)
     GLint textSampler00_ID = glGetUniformLocation(curShaderID, "texSamp2D00");
     GLint textSampler01_ID = glGetUniformLocation(curShaderID, "texSamp2D01");
     GLint textSampler02_ID = glGetUniformLocation(curShaderID, "texSamp2D02");
+    GLint textSampler03_ID = glGetUniformLocation(curShaderID, "texSamp2D03");
+    GLint textSampler04_ID = glGetUniformLocation(curShaderID, "texSamp2D04");
+    GLint textSampler05_ID = glGetUniformLocation(curShaderID, "texSamp2D05");
+    GLint textSampler06_ID = glGetUniformLocation(curShaderID, "texSamp2D06");
+    GLint textSampler07_ID = glGetUniformLocation(curShaderID, "texSamp2D07");
     //// And so on (up to 10, or whatever number of textures)... 
 
     GLint textBlend00_ID = glGetUniformLocation(curShaderID, "texBlend00");
     GLint textBlend01_ID = glGetUniformLocation(curShaderID, "texBlend01");
     GLint textBlend02_ID = glGetUniformLocation(curShaderID, "texBlend02");
+    GLint textBlend03_ID = glGetUniformLocation(curShaderID, "texBlend03");
+    GLint textBlend04_ID = glGetUniformLocation(curShaderID, "texBlend04");
+    GLint textBlend05_ID = glGetUniformLocation(curShaderID, "texBlend05");
+    GLint textBlend06_ID = glGetUniformLocation(curShaderID, "texBlend06");
+    GLint textBlend07_ID = glGetUniformLocation(curShaderID, "texBlend07");
 
     GLint texSampCube00_LocID = glGetUniformLocation(curShaderID, "texSampCube00");
-    GLint texSampCube01_LocID = glGetUniformLocation(curShaderID, "texSampCube00");
-    GLint texSampCube02_LocID = glGetUniformLocation(curShaderID, "texSampCube00");
-    GLint texSampCube03_LocID = glGetUniformLocation(curShaderID, "texSampCube00");
+    GLint texSampCube01_LocID = glGetUniformLocation(curShaderID, "texSampCube01");
+    GLint texSampCube02_LocID = glGetUniformLocation(curShaderID, "texSampCube02");
+    GLint texSampCube03_LocID = glGetUniformLocation(curShaderID, "texSampCube03");
 
     GLint texCubeBlend00_LocID = glGetUniformLocation(curShaderID, "texCubeBlend00");
     GLint texCubeBlend01_LocID = glGetUniformLocation(curShaderID, "texCubeBlend01");
     GLint texCubeBlend02_LocID = glGetUniformLocation(curShaderID, "texCubeBlend02");
     GLint texCubeBlend03_LocID = glGetUniformLocation(curShaderID, "texCubeBlend03");
 
-    glUniform1i(texSampCube00_LocID, 31);
-    glUniform1i(texSampCube01_LocID, 31);
-    glUniform1i(texSampCube02_LocID, 31);
+    glUniform1i(texSampCube00_LocID, 28);
+    glUniform1i(texSampCube01_LocID, 29);
+    glUniform1i(texSampCube02_LocID, 30);
     glUniform1i(texSampCube03_LocID, 31);
+
+    glUniform1f(texCubeBlend00_LocID, 1.0f);
+    glUniform1f(texCubeBlend01_LocID, 0.0f);
+    glUniform1f(texCubeBlend02_LocID, 0.0f);
+    glUniform1f(texCubeBlend03_LocID, 0.0f);
 
     // This connects the texture sampler to the texture units... 
     glUniform1i(textSampler00_ID, 0);
