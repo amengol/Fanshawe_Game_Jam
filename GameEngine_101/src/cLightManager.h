@@ -11,6 +11,7 @@ class cLight
 public:
 	cLight();
 
+    std::string name;
 	glm::vec3 position;
 	glm::vec3 diffuse;		// rgb
 	glm::vec3 ambient;
@@ -19,6 +20,7 @@ public:
 	glm::vec3 direction;
 	glm::vec4 typeParams;	// x = type, y = distance cut-off
 							// z angle1, w = angle2
+    glm::vec4 typeParams2; // x = Light power
 
 	// This represents a uniform variable inside a specific shader
 	// (We are only using one shader)	int ShaderlocID_position;
@@ -29,6 +31,7 @@ public:
 	int shaderlocID_attenuation;
 	int shaderlocID_direction;
 	int shaderlocID_typeParams;
+    int shaderlocID_typeParams2;
 
 	static const unsigned int DEFAULTMAXITERATIONS = 50;
 	static const float DEFAULTINFINITEDISTANCE;

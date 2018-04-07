@@ -71,10 +71,12 @@ uniform samplerCube texSampCube00;
 uniform samplerCube texSampCube01;
 uniform samplerCube texSampCube02;
 uniform samplerCube texSampCube03;
+uniform samplerCube texSampCube04;
 uniform float texCubeBlend00;
 uniform float texCubeBlend01;
 uniform float texCubeBlend02;
 uniform float texCubeBlend03;
+uniform float texCubeBlend04;
 
 // For env. mapping (reflection and refraction)
 uniform bool isReflectRefract;
@@ -101,6 +103,8 @@ struct sLightDesc {
 						// 		2 = spot
 						// y = distance cut-off
 	                    // z angle1, w = angle2		- only for spot
+	
+	vec4 typeParams2;	// x = lightPower
 };
 
 const int NUMBEROFLIGHTS = 20;
@@ -163,7 +167,8 @@ void main()
 			vec4 skyRGBA = texture(texSampCube00, fVertNormal.xyz ) * texCubeBlend00 +
 									texture( texSampCube01, fVertNormal.xyz ) * texCubeBlend01 +
 									texture( texSampCube02, fVertNormal.xyz ) * texCubeBlend02 +
-									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03;
+									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03 +
+									texture( texSampCube04, fVertNormal.xyz ) * texCubeBlend04;
 			
 			fragOut_colour = vec4(skyRGBA.rgb, 1.0f);		//gl_FragColor = skyRGBA;
 
@@ -194,7 +199,8 @@ void main()
 			vec4 rgbReflection = texture(texSampCube00, fVertNormal.xyz ) * texCubeBlend00 +
 									texture( texSampCube01, fVertNormal.xyz ) * texCubeBlend01 +
 									texture( texSampCube02, fVertNormal.xyz ) * texCubeBlend02 +
-									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03;
+									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03 +
+									texture( texSampCube04, fVertNormal.xyz ) * texCubeBlend04;
 
 			rgbReflection.rgb * 0.01f;
 			rgbReflection.rgb += normalize(fVertNormal.xyz);
@@ -208,7 +214,8 @@ void main()
 			vec4 rgbRefraction = texture(texSampCube00, fVertNormal.xyz ) * texCubeBlend00 +
 									texture( texSampCube01, fVertNormal.xyz ) * texCubeBlend01 +
 									texture( texSampCube02, fVertNormal.xyz ) * texCubeBlend02 +
-									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03;
+									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03 +
+									texture( texSampCube04, fVertNormal.xyz ) * texCubeBlend04;
 			
 			
 			// Mix the two, based on how reflective the surface is
@@ -271,7 +278,8 @@ void main()
 			vec4 fragColor = texture(texSampCube00, fVertNormal.xyz ) * texCubeBlend00 +
 									texture( texSampCube01, fVertNormal.xyz ) * texCubeBlend01 +
 									texture( texSampCube02, fVertNormal.xyz ) * texCubeBlend02 +
-									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03;
+									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03 +
+									texture( texSampCube04, fVertNormal.xyz ) * texCubeBlend04;
 			vec4 matReflect = texCol02;
 			fragOut_colour += fragColor * matReflect;
 			fragOut_colour.rgb += ambientContribution.rgb;	
@@ -471,7 +479,7 @@ vec3 calcLightColour( in vec3 vecNormal,
 	}//if ( typeParams.x
 
 	
-	return colour;
+	return colour * myLight[lightID].typeParams2.x;
 }// vec3 calcLightColour(...) 
 
 

@@ -9,6 +9,7 @@ cLight::cLight()
 	this->position = glm::vec3(0.0f);
 	this->diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
 	this->ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+    this->typeParams2 = glm::vec4(1.0f);
 	
 	// Colour (xyz), intensity (w)
 	this->specular = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -35,6 +36,7 @@ cLight::cLight()
 	this->shaderlocID_attenuation = -1;
 	this->shaderlocID_direction = -1;
 	this->shaderlocID_typeParams = -1;
+    this->shaderlocID_typeParams2 = -1;
 
 	return;
 }
@@ -91,6 +93,7 @@ void cLightManager::LoadShaderUniformLocations(int shaderID)
 		this->vecLights[index].shaderlocID_attenuation = glGetUniformLocation( shaderID, genUniName(index, "attenuation").c_str() );
 		this->vecLights[index].shaderlocID_direction = glGetUniformLocation( shaderID, genUniName(index, "direction").c_str() );
 		this->vecLights[index].shaderlocID_typeParams = glGetUniformLocation( shaderID, genUniName(index, "typeParams").c_str() );
+        this->vecLights[index].shaderlocID_typeParams2 = glGetUniformLocation(shaderID, genUniName(index, "typeParams2").c_str());
 	}
 	return;
 }
@@ -144,6 +147,12 @@ void cLightManager::CopyLightInformationToCurrentShader(void)
 					 pCurLight.typeParams.y, 
 					 pCurLight.typeParams.z, 
 					 pCurLight.typeParams.w );
+
+        glUniform4f(pCurLight.shaderlocID_typeParams2,
+                    pCurLight.typeParams2.x,
+                    pCurLight.typeParams2.y,
+                    pCurLight.typeParams2.z,
+                    pCurLight.typeParams2.w);
 	}// for ( int index = 0;...
 
 	return;
