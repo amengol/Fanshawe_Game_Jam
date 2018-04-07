@@ -202,6 +202,7 @@
     <ClCompile Include="src\pugixml.cpp" />
     <ClCompile Include="src\sAABB_Triangle.cpp" />
     <ClCompile Include="src\sCollisionTriangle.cpp" />
+    <ClCompile Include="src\stb_image.cpp" />
     <ClCompile Include="src\Texture\C24BitBMPpixel.cpp" />
     <ClCompile Include="src\Texture\CTextureFromBMP.cpp" />
     <ClCompile Include="src\Texture\CTextureManager.cpp" />
@@ -254,6 +255,7 @@
     <ClInclude Include="src\ModelUtilities.h" />
     <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\sAABB_Triangle.h" />
+    <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\sThreadInfo.h" />
     <ClInclude Include="src\sVAOInfo.h" />
     <ClInclude Include="src\sVertex.h" />

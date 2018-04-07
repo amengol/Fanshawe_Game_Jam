@@ -242,6 +242,9 @@
     <ClCompile Include="src\GLFW_callbacks.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="src\stb_image.cpp">
+      <Filter>Textures Related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utilities.h">
@@ -408,6 +411,9 @@
     </ClInclude>
     <ClInclude Include="src\GLFW_callbacks.h">
       <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stb_image.h">
+      <Filter>Textures Related</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
