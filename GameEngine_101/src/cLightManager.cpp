@@ -58,15 +58,24 @@ void cLightManager::CreateLights( int numberOfLights, bool bKeepOldValues )
 	int howManyLightsToAdd = numberOfLights - (int)this->vecLights.size(); 
 	howManyLightsToAdd = abs(howManyLightsToAdd);
 	// Resize the vector
-	this->vecLights.resize( howManyLightsToAdd, cLight() );
+	this->vecLights.resize( howManyLightsToAdd, NULL );
 
 	// If we DON'T want the original values, then clear the old ones
-	cLight tempLight;
-	for ( int index = 0; index != this->vecLights.size(); index++ )
-	{
-		this->vecLights[index] = tempLight;
-	}
-
+    if (!bKeepOldValues)
+    {
+        for (int index = 0; index != this->vecLights.size(); index++)
+        {
+            delete this->vecLights[index];
+            this->vecLights[index] = new cLight();
+        }
+    }
+    else
+    {
+        for (int index = 0; index != this->vecLights.size(); index++)
+        {
+            this->vecLights[index] = new cLight();
+        }
+    }
 	return;
 }
 
@@ -84,16 +93,16 @@ void cLightManager::LoadShaderUniformLocations(int shaderID)
 	for ( int index = 0; index != this->vecLights.size(); index++ )
 	{
 		//"myLight[0].position"
-		this->vecLights[index].shaderlocID_position 
+		this->vecLights[index]->shaderlocID_position 
 			= glGetUniformLocation( shaderID, genUniName(index, "position").c_str() );
 
-		this->vecLights[index].shaderlocID_diffuse = glGetUniformLocation( shaderID, genUniName(index, "diffuse").c_str() );
-		this->vecLights[index].shaderlocID_ambient = glGetUniformLocation( shaderID, genUniName(index, "ambient").c_str() );
-		this->vecLights[index].shaderlocID_specular = glGetUniformLocation( shaderID, genUniName(index, "specular").c_str() );
-		this->vecLights[index].shaderlocID_attenuation = glGetUniformLocation( shaderID, genUniName(index, "attenuation").c_str() );
-		this->vecLights[index].shaderlocID_direction = glGetUniformLocation( shaderID, genUniName(index, "direction").c_str() );
-		this->vecLights[index].shaderlocID_typeParams = glGetUniformLocation( shaderID, genUniName(index, "typeParams").c_str() );
-        this->vecLights[index].shaderlocID_typeParams2 = glGetUniformLocation(shaderID, genUniName(index, "typeParams2").c_str());
+		this->vecLights[index]->shaderlocID_diffuse = glGetUniformLocation( shaderID, genUniName(index, "diffuse").c_str() );
+		this->vecLights[index]->shaderlocID_ambient = glGetUniformLocation( shaderID, genUniName(index, "ambient").c_str() );
+		this->vecLights[index]->shaderlocID_specular = glGetUniformLocation( shaderID, genUniName(index, "specular").c_str() );
+		this->vecLights[index]->shaderlocID_attenuation = glGetUniformLocation( shaderID, genUniName(index, "attenuation").c_str() );
+		this->vecLights[index]->shaderlocID_direction = glGetUniformLocation( shaderID, genUniName(index, "direction").c_str() );
+		this->vecLights[index]->shaderlocID_typeParams = glGetUniformLocation( shaderID, genUniName(index, "typeParams").c_str() );
+        this->vecLights[index]->shaderlocID_typeParams2 = glGetUniformLocation(shaderID, genUniName(index, "typeParams2").c_str());
 	}
 	return;
 }
@@ -102,57 +111,57 @@ void cLightManager::CopyLightInformationToCurrentShader(void)
 {
 	for ( int index = 0; index != this->vecLights.size(); index++ )
 	{
-		cLight& pCurLight = this->vecLights[index];
+		cLight* pCurLight = this->vecLights[index];
 
-		glUniform4f( pCurLight.shaderlocID_position, 
-					 pCurLight.position.x, 
-					 pCurLight.position.y, 
-					 pCurLight.position.z,
+		glUniform4f( pCurLight->shaderlocID_position, 
+					 pCurLight->position.x, 
+					 pCurLight->position.y, 
+					 pCurLight->position.z,
 					 1.0f);
 
-		glUniform4f( pCurLight.shaderlocID_diffuse, 
-					 pCurLight.diffuse.r, 
-					 pCurLight.diffuse.g, 
-					 pCurLight.diffuse.b,
+		glUniform4f( pCurLight->shaderlocID_diffuse, 
+					 pCurLight->diffuse.r, 
+					 pCurLight->diffuse.g, 
+					 pCurLight->diffuse.b,
 					 1.0f);
 		
-		glUniform4f( pCurLight.shaderlocID_ambient, 
-					 pCurLight.ambient.r, 
-					 pCurLight.ambient.g,
-					 pCurLight.ambient.b, 
+		glUniform4f( pCurLight->shaderlocID_ambient, 
+					 pCurLight->ambient.r, 
+					 pCurLight->ambient.g,
+					 pCurLight->ambient.b, 
 					 1.0f);
 
-		glUniform4f( pCurLight.shaderlocID_specular,
-					 pCurLight.specular.r,
-					 pCurLight.specular.g,
-					 pCurLight.specular.b,
-					 pCurLight.specular.w );
+		glUniform4f( pCurLight->shaderlocID_specular,
+					 pCurLight->specular.r,
+					 pCurLight->specular.g,
+					 pCurLight->specular.b,
+					 pCurLight->specular.w );
 
-		glUniform4f( pCurLight.shaderlocID_attenuation, 
-					 pCurLight.attenuation.x,
-					 pCurLight.attenuation.y,
-					 pCurLight.attenuation.z, 
+		glUniform4f( pCurLight->shaderlocID_attenuation, 
+					 pCurLight->attenuation.x,
+					 pCurLight->attenuation.y,
+					 pCurLight->attenuation.z, 
 					 1.0f);
 
-		glUniform4f( pCurLight.shaderlocID_direction,
-					 pCurLight.direction.x, 
-					 pCurLight.direction.y, 
-					 pCurLight.direction.z,
+		glUniform4f( pCurLight->shaderlocID_direction,
+					 pCurLight->direction.x, 
+					 pCurLight->direction.y, 
+					 pCurLight->direction.z,
 					 1.0f);
 
 		// x = type, y = distance cut-off
 		// z angle1, w = angle2		
-		glUniform4f( pCurLight.shaderlocID_typeParams, 
-					 pCurLight.typeParams.x, 
-					 pCurLight.typeParams.y, 
-					 pCurLight.typeParams.z, 
-					 pCurLight.typeParams.w );
+		glUniform4f( pCurLight->shaderlocID_typeParams, 
+					 pCurLight->typeParams.x, 
+					 pCurLight->typeParams.y, 
+					 pCurLight->typeParams.z, 
+					 pCurLight->typeParams.w );
 
-        glUniform4f(pCurLight.shaderlocID_typeParams2,
-                    pCurLight.typeParams2.x,
-                    pCurLight.typeParams2.y,
-                    pCurLight.typeParams2.z,
-                    pCurLight.typeParams2.w);
+        glUniform4f(pCurLight->shaderlocID_typeParams2,
+                    pCurLight->typeParams2.x,
+                    pCurLight->typeParams2.y,
+                    pCurLight->typeParams2.z,
+                    pCurLight->typeParams2.w);
 	}// for ( int index = 0;...
 
 	return;

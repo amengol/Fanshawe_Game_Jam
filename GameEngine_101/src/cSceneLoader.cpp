@@ -1299,9 +1299,9 @@ bool cSceneLoader::loadLightParams(int shaderID,
                 " is not properly formated for its \"position\" array!";
             return false;
         }
-        lightManager->vecLights[i].position.x = lights[i]["position"][0].GetFloat();
-        lightManager->vecLights[i].position.y = lights[i]["position"][1].GetFloat();
-        lightManager->vecLights[i].position.z = lights[i]["position"][2].GetFloat();
+        lightManager->vecLights[i]->position.x = lights[i]["position"][0].GetFloat();
+        lightManager->vecLights[i]->position.y = lights[i]["position"][1].GetFloat();
+        lightManager->vecLights[i]->position.z = lights[i]["position"][2].GetFloat();
 
         if(!(lights[i]["diffuse"][0].IsNumber()
            && lights[i]["diffuse"][1].IsNumber()
@@ -1311,13 +1311,13 @@ bool cSceneLoader::loadLightParams(int shaderID,
                 " is not properly formated for its \"diffuse\" array!";
             return false;
         }
-        lightManager->vecLights[i].diffuse.x = lights[i]["diffuse"][0].GetFloat();
-        lightManager->vecLights[i].diffuse.y = lights[i]["diffuse"][1].GetFloat();
-        lightManager->vecLights[i].diffuse.z = lights[i]["diffuse"][2].GetFloat();
+        lightManager->vecLights[i]->diffuse.x = lights[i]["diffuse"][0].GetFloat();
+        lightManager->vecLights[i]->diffuse.y = lights[i]["diffuse"][1].GetFloat();
+        lightManager->vecLights[i]->diffuse.z = lights[i]["diffuse"][2].GetFloat();
 
-        lightManager->vecLights[i].attenuation.x = lights[i]["costantAttenuation"].GetFloat();
-        lightManager->vecLights[i].attenuation.y = lights[i]["linearAttenuation"].GetFloat();
-        lightManager->vecLights[i].attenuation.z = lights[i]["quadraticAttenuation"].GetFloat();
+        lightManager->vecLights[i]->attenuation.x = lights[i]["costantAttenuation"].GetFloat();
+        lightManager->vecLights[i]->attenuation.y = lights[i]["linearAttenuation"].GetFloat();
+        lightManager->vecLights[i]->attenuation.z = lights[i]["quadraticAttenuation"].GetFloat();
 
         std::string gameObject = lights[i]["attachToGameObject"].GetString();
 
@@ -1360,9 +1360,9 @@ bool cSceneLoader::loadLightParams(int shaderID,
                         GO_Light.focusDirection.y = lights[i]["focusDirection"][1].GetFloat();
                         GO_Light.focusDirection.z = lights[i]["focusDirection"][2].GetFloat();
 
-                        lightManager->vecLights[i].typeParams.x = 2.0f;
-                        lightManager->vecLights[i].typeParams.z = glm::radians(lights[i]["innerAngle"].GetFloat());
-                        lightManager->vecLights[i].typeParams.w = glm::radians(lights[i]["outerAngle"].GetFloat());
+                        lightManager->vecLights[i]->typeParams.x = 2.0f;
+                        lightManager->vecLights[i]->typeParams.z = glm::radians(lights[i]["innerAngle"].GetFloat());
+                        lightManager->vecLights[i]->typeParams.w = glm::radians(lights[i]["outerAngle"].GetFloat());
                     }                    
 
                     g_vecGameObjects[j]->vecLightsInfo.push_back(GO_Light);
@@ -1407,9 +1407,9 @@ bool cSceneLoader::loadLightParams(int shaderID,
                         GO_Light.focusDirection.y = lights[i]["focusDirection"][1].GetFloat();
                         GO_Light.focusDirection.z = lights[i]["focusDirection"][2].GetFloat();
 
-                        lightManager->vecLights[i].typeParams.x = 2.0f;
-                        lightManager->vecLights[i].typeParams.z = glm::radians(lights[i]["innerAngle"].GetFloat());
-                        lightManager->vecLights[i].typeParams.w = glm::radians(lights[i]["outerAngle"].GetFloat());
+                        lightManager->vecLights[i]->typeParams.x = 2.0f;
+                        lightManager->vecLights[i]->typeParams.z = glm::radians(lights[i]["innerAngle"].GetFloat());
+                        lightManager->vecLights[i]->typeParams.w = glm::radians(lights[i]["outerAngle"].GetFloat());
                     }
 
                     g_pTranspManager->transpObjects[j]->vecLightsInfo.push_back(GO_Light);

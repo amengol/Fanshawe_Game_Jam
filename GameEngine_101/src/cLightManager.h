@@ -58,7 +58,7 @@ public:
 	void LoadShaderUniformLocations(int shaderID);
 	void CopyLightInformationToCurrentShader(void);
 
-	std::vector<cLight> vecLights;
+	std::vector<cLight*> vecLights;
 };
 
 #endif

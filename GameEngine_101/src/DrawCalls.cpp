@@ -417,22 +417,22 @@ void DrawObject(cGameObject* pTheGO)
         {
             lightInfo lightInfo = pTheGO->vecLightsInfo[i];
             glm::vec3 rotatedOffset = pTheGO->orientation * glm::vec4(lightInfo.offset, 0.0f);
-            g_pLightManager->vecLights[lightInfo.index].position = pTheGO->position + rotatedOffset;
+            g_pLightManager->vecLights[lightInfo.index]->position = pTheGO->position + rotatedOffset;
             // Update directly to not get a delay
-            glUniform4f(g_pLightManager->vecLights[lightInfo.index].shaderlocID_position,
-                        g_pLightManager->vecLights[lightInfo.index].position.x,
-                        g_pLightManager->vecLights[lightInfo.index].position.y,
-                        g_pLightManager->vecLights[lightInfo.index].position.z,
+            glUniform4f(g_pLightManager->vecLights[lightInfo.index]->shaderlocID_position,
+                        g_pLightManager->vecLights[lightInfo.index]->position.x,
+                        g_pLightManager->vecLights[lightInfo.index]->position.y,
+                        g_pLightManager->vecLights[lightInfo.index]->position.z,
                         1.0f);
             if (lightInfo.type == SPOT)
             {
                 glm::vec3 rotatedFocus = pTheGO->orientation * glm::vec4(lightInfo.focusDirection, 0.0f);
-                g_pLightManager->vecLights[lightInfo.index].direction = rotatedFocus;
+                g_pLightManager->vecLights[lightInfo.index]->direction = rotatedFocus;
                 // Update directly to not get a delay
-                glUniform4f(g_pLightManager->vecLights[lightInfo.index].shaderlocID_direction,
-                            g_pLightManager->vecLights[lightInfo.index].direction.x,
-                            g_pLightManager->vecLights[lightInfo.index].direction.y,
-                            g_pLightManager->vecLights[lightInfo.index].direction.z,
+                glUniform4f(g_pLightManager->vecLights[lightInfo.index]->shaderlocID_direction,
+                            g_pLightManager->vecLights[lightInfo.index]->direction.x,
+                            g_pLightManager->vecLights[lightInfo.index]->direction.y,
+                            g_pLightManager->vecLights[lightInfo.index]->direction.z,
                             1.0f);
             }
         }
