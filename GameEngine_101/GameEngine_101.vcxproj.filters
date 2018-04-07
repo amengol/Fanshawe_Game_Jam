@@ -61,6 +61,9 @@
     <Filter Include="FrameBuffer">
       <UniqueIdentifier>{705df7d7-70ee-438f-9867-c6d1696ffc5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Environment">
+      <UniqueIdentifier>{623d5fd1-c12f-4db6-be16-c6cd5e4007d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\newFrag.glsl">
@@ -245,6 +248,9 @@
     <ClCompile Include="src\stb_image.cpp">
       <Filter>Textures Related</Filter>
     </ClCompile>
+    <ClCompile Include="src\cEnvironment.cpp">
+      <Filter>Environment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utilities.h">
@@ -414,6 +420,9 @@
     </ClInclude>
     <ClInclude Include="src\stb_image.h">
       <Filter>Textures Related</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cEnvironment.h">
+      <Filter>Environment</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

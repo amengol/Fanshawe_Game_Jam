@@ -253,7 +253,7 @@ void main()
 
 
 		vec3 ambientContribution = matDiffuse.rgb * ambientToDiffuseRatio;
-		fragOut_colour.rgb += ambientContribution.rgb * 4.0f;	
+		fragOut_colour.rgb += ambientContribution.rgb;	
 		
 		// Transparency value (for alpha blending)
 		fragOut_colour.a = materialDiffuse.a;

@@ -48,7 +48,7 @@ bool loadTextures()
 
     ::g_pTextureManager->setBasePath("assets/textures/sb_dusk");
     if (!::g_pTextureManager->CreateCubeTextureFromBMPFiles(
-        "dusk",
+        "night",
         "SkyEarlyDusk_Right.bmp",
         "SkyEarlyDusk_Left.bmp",
         "SkyEarlyDusk_Bottom.bmp",
@@ -61,7 +61,7 @@ bool loadTextures()
 
     ::g_pTextureManager->setBasePath("assets/textures/sb_night");
     if (!::g_pTextureManager->CreateCubeTextureFromBMPFiles(
-        "night",
+        "deep_night",
         "SkyMidNight_Right.bmp",
         "SkyMidNight_Left.bmp",
         "SkyMidNight_Bottom.bmp",

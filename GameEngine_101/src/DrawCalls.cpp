@@ -617,11 +617,11 @@ void DrawObject(cGameObject* pTheGO)
     glActiveTexture(GL_TEXTURE29);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
 
-    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("dusk");
+    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("night");
     glActiveTexture(GL_TEXTURE30);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
 
-    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("night");
+    cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("deep_night");
     glActiveTexture(GL_TEXTURE31);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
 
@@ -679,11 +679,11 @@ void DrawObject(cGameObject* pTheGO)
     glUniform1i(texSampCube03_LocID, 30);
     glUniform1i(texSampCube04_LocID, 31);
 
-    glUniform1f(texCubeBlend00_LocID, 1.0f);
+    glUniform1f(texCubeBlend00_LocID, 0.0f);
     glUniform1f(texCubeBlend01_LocID, 0.0f);
     glUniform1f(texCubeBlend02_LocID, 0.0f);
     glUniform1f(texCubeBlend03_LocID, 0.0f);
-    glUniform1f(texCubeBlend04_LocID, 0.0f);
+    glUniform1f(texCubeBlend04_LocID, 1.0f);
 
     // This connects the texture sampler to the texture units... 
     glUniform1i(textSampler00_ID, 0);
