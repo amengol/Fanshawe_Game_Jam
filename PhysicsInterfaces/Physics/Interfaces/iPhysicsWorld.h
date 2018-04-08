@@ -1,9 +1,17 @@
 #pragma once
 #include "iRigidBody.h"
-#include "iSoftBody.h"
+#include "iConstraint.h"
 
 namespace nPhysics
 {
+    enum ContraintType
+    {
+        POINT2POINT,
+        HINGE,
+        FIXED,
+        UNIVERSAL
+    };
+
 	class iPhysicsWorld
 	{
 	public:
@@ -14,7 +22,6 @@ namespace nPhysics
 		virtual void AddRigidBody(iRigidBody* rigidBody) = 0;
 		virtual void RemoveRigidBody(iRigidBody* rigidBody) = 0;
 
-        virtual void AddSoftBody(iSoftBody* softBody) = 0;
-        virtual void RemoveSoftBody(iSoftBody* softBody) = 0;
+        virtual void AddConstraint(ContraintType type, iConstraint* constraint) = 0;
 	};
 }

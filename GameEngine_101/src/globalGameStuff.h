@@ -21,8 +21,8 @@
 #include <iPhysicsFactory.h>
 #include <cPhysicsWorld.h>
 #include <cPhysicsFactory.h>
-#include <bt_cPhysicsWorld.h>
-#include <bt_cPhysicsFactory.h>
+#include <cPhysicsWorld.h>
+#include <cPhysicsFactory.h>
 #include "cSimpleDebugRenderer.h"
 #include "cTransparencyManager.h"
 //#include "cTextManager.h"

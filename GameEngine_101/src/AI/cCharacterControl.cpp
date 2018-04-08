@@ -33,7 +33,7 @@ void cCharacterControl::Forward()
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
-            mCharacter->rigidBody->SetRateOfTurnY(0.0f);
+            //mCharacter->rigidBody->SetRateOfTurnY(0.0f);
 
             mCharacter->characterAnim = WALKING;
         }
@@ -189,7 +189,7 @@ void cCharacterControl::TurnLeft90()
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
         mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
-        mCharacter->rigidBody->SetRateOfTurnY(2880.0f);
+        //mCharacter->rigidBody->SetRateOfTurnY(2880.0f);
 
         mCharacter->characterAnim = TURN_LEFT_90;
 
@@ -210,7 +210,7 @@ void cCharacterControl::TurnRight90()
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
         mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
-        mCharacter->rigidBody->SetRateOfTurnY(-2880.0f);
+        //mCharacter->rigidBody->SetRateOfTurnY(-2880.0f);
 
         mCharacter->characterAnim = TURN_RIGHT_90;
 
@@ -355,7 +355,7 @@ void cCharacterControl::Idle()
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
-            mCharacter->rigidBody->SetRateOfTurnY(0.0f);
+            //mCharacter->rigidBody->SetRateOfTurnY(0.0f);
 
             mCharacter->characterAnim = IDLE;
         }
@@ -605,7 +605,7 @@ void cCharacterControl::UpdateInterruptedRotations()
 
         ratio = deltaTime / duration;
 
-        mCharacter->rigidBody->rotateY(fmod(ratio * 180.0f, 180.0f));
+        //mCharacter->rigidBody->rotateY(fmod(ratio * 180.0f, 180.0f));
 
         return;
     }
@@ -620,7 +620,7 @@ void cCharacterControl::UpdateInterruptedRotations()
 
         ratio = deltaTime / duration;
 
-        mCharacter->rigidBody->rotateY(fmod(ratio * -180.0f, 180.0f));
+        //mCharacter->rigidBody->rotateY(fmod(ratio * -180.0f, 180.0f));
 
         return;
     }
@@ -635,7 +635,7 @@ void cCharacterControl::UpdateInterruptedRotations()
 
         ratio = deltaTime / duration;
 
-        mCharacter->rigidBody->rotateY(fmod(ratio * 90.0f, 90.0f));
+        //mCharacter->rigidBody->rotateY(fmod(ratio * 90.0f, 90.0f));
 
         return;
     }
@@ -650,7 +650,7 @@ void cCharacterControl::UpdateInterruptedRotations()
 
         ratio = deltaTime / duration;
 
-        mCharacter->rigidBody->rotateY(fmod(ratio * -90.0f, 90.0f));
+        //mCharacter->rigidBody->rotateY(fmod(ratio * -90.0f, 90.0f));
 
         return;
     }

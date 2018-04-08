@@ -230,7 +230,7 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
     this->mainGO->friendlyName = "AiMainGameObject";
     nPhysics::sRigidBodyDesc desc;
     desc.Position = mainPos;
-    nPhysics::iShape* shape = g_pPhysicsFactory->CreateCube(1.0f);
+    nPhysics::iShape* shape = g_pPhysicsFactory->CreateBox(glm::vec3(0.5f));
     nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, shape);
     this->mainGO->rigidBody = rb;
     g_vecGameObjects.push_back(this->mainGO);
@@ -242,9 +242,9 @@ bool cSimpleAi_Manager::createMainObjects(std::string mainMeshName,
     this->targetGO->friendlyName = "AiTargetGameObject";
     desc;
     desc.Position = targetPos;
-    shape = g_pPhysicsFactory->CreateCube(1.0f);
+    shape = g_pPhysicsFactory->CreateBox(glm::vec3(0.5f));
     rb = g_pPhysicsFactory->CreateRigidBody(desc, shape);
-    rb->SetRateOfTurnY(5760.0f);
+    //rb->SetRateOfTurnY(5760.0f);
     this->targetGO->rigidBody = rb;
     g_vecGameObjects.push_back(this->targetGO);
 

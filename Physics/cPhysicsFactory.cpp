@@ -3,8 +3,10 @@
 #include "cRigidBody.h"
 #include "shapes.h"
 #include "cPhysicsWorld.h"
-#include "cCloth.h"
-#include "cSoftBody.h"
+#include "cPoint2PointConstraint.h"
+#include "cHingeConstraint.h"
+#include "cFixedConstraint.h"
+#include "cUniversalConstraint.h"
 
 namespace nPhysics
 {
@@ -20,40 +22,55 @@ namespace nPhysics
 		return new cRigidBody(desc, shape);
 	}
 
+    iConstraint* cPhysicsFactory::CreatePoint2PointConstraint(iRigidBody* rbA, 
+                                                                 iRigidBody* rbB, 
+                                                                 const glm::vec3 & pivotInA, 
+                                                                 const glm::vec3 & pivotInB)
+    {
+        return new cPoint2PointConstraint(rbA, rbB, pivotInA, pivotInB);
+    }
+
+    iConstraint * cPhysicsFactory::CreateHingeConstraint(iRigidBody* rbA, 
+                                                            iRigidBody* rbB, 
+                                                            const glm::vec3& pivotInA,
+                                                            const glm::vec3& pivotInB,
+                                                            glm::vec3 & axisInA, 
+                                                            glm::vec3 & axisInB)
+    {
+        return new cHingeConstraint(rbA, rbB, pivotInA, pivotInB, axisInA, axisInB);
+    }
+
+    iConstraint * cPhysicsFactory::CreateFixedConstraint(iRigidBody* rbA,
+                                                            iRigidBody* rbB, 
+                                                            const glm::vec3& pivotInA, 
+                                                            const glm::vec3& pivotInB)
+    {
+        return new cFixedConstraint(rbA, rbB, pivotInA, pivotInB);
+    }
+
+    iConstraint * cPhysicsFactory::CreateUniversalConstraint(iRigidBody* rbA, 
+                                                                iRigidBody* rbB, 
+                                                                const glm::vec3& anchor, 
+                                                                const glm::vec3& axis1, 
+                                                                const glm::vec3& axis2)
+    {
+        return new cUniversalConstraint(rbA, rbB, anchor, axis1, axis2);
+    }
+
 	iShape* cPhysicsFactory::CreateSphere(float radius)
 	{
-		return new cSphereShape(radius);
+		return new bt_cSphereShape(radius);
 	}
 	iShape* cPhysicsFactory::CreatePlane(const glm::vec3& normal, float planeConst)
 	{
-		return new cPlaneShape(normal, planeConst);
+		return new bt_cPlaneShape(normal, planeConst);
 	}
-
-    iShape* cPhysicsFactory::CreateCube(float size)
+    iShape* cPhysicsFactory::CreateBox(const glm::vec3 & halfExtents)
     {
-        return new cCubeShape(size);
+        return new bt_cBoxShape(halfExtents);
     }
-
-    iSoftBody* cPhysicsFactory::CreateSoftBody(iForm* form)
+    iShape* cPhysicsFactory::CreateConvexHull(const GLInstanceVertex* instanceVertex, size_t numOfVertices)
     {
-        return new cSoftBody(form);
+        return new bt_cConvexHullShape(instanceVertex, numOfVertices);
     }
-
-    iForm* cPhysicsFactory::CreateCloth(glm::vec3 upperLeftCornerPostion,
-                                        float damping,
-                                        float nodeMass,
-                                        float width,
-                                        float height,
-                                        int numNodesWidth,
-                                        int numNodesHeight)
-    {
-        return new cCloth(upperLeftCornerPostion,
-                          damping,
-                          nodeMass,
-                          width,
-                          height,
-                          numNodesWidth,
-                          numNodesHeight);
-    }
-	
 }

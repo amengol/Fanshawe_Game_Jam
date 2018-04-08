@@ -33,19 +33,16 @@
     <ClInclude Include="shapes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cNode.h">
+    <ClInclude Include="cPoint2PointConstraint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cSpring.h">
+    <ClInclude Include="cHingeConstraint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cCloth.h">
+    <ClInclude Include="cFixedConstraint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cClothMesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cSoftBody.h">
+    <ClInclude Include="cUniversalConstraint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -65,16 +62,16 @@
     <ClCompile Include="shapes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cNode.cpp">
+    <ClCompile Include="cPoint2PointConstraint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cSpring.cpp">
+    <ClCompile Include="cHingeConstraint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cCloth.cpp">
+    <ClCompile Include="cFixedConstraint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cClothMesh.cpp">
+    <ClCompile Include="cUniversalConstraint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

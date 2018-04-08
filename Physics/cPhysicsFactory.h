@@ -12,21 +12,32 @@ namespace nPhysics
 
 		virtual iRigidBody* CreateRigidBody(const sRigidBodyDesc& desc, iShape* shape);
 
+        virtual iConstraint* CreatePoint2PointConstraint(iRigidBody* rbA,
+                                                         iRigidBody* rbB,
+                                                         const glm::vec3& pivotInA,
+                                                         const glm::vec3& pivotInB);
+
+        virtual iConstraint* CreateHingeConstraint(iRigidBody* rbA,
+                                                   iRigidBody* rbB,
+                                                   const glm::vec3& pivotInA,
+                                                   const glm::vec3& pivotInB,
+                                                   glm::vec3& axisInA,
+                                                   glm::vec3& axisInB);
+
+        virtual iConstraint* CreateFixedConstraint(iRigidBody* rbA,
+                                                   iRigidBody* rbB,
+                                                   const glm::vec3& pivotInA,
+                                                   const glm::vec3& pivotInB);
+
+        virtual iConstraint* CreateUniversalConstraint(iRigidBody* rbA,
+                                                       iRigidBody* rbB,
+                                                       const glm::vec3& anchor,
+                                                       const glm::vec3& axis1,
+                                                       const glm::vec3& axis2);
+
 		virtual iShape* CreateSphere(float radius);
 		virtual iShape* CreatePlane(const glm::vec3& normal, float planeConst);
-        virtual iShape* CreateCube(float size);
-
-        virtual iSoftBody* CreateSoftBody(iForm* form);
-
-        virtual iForm* CreateCloth(glm::vec3 upperLeftCornerPostion,
-                                   float damping,
-                                   float nodeMass,
-                                   float width,
-                                   float height,
-                                   int numNodesWidth,
-                                   int numNodesHeight);
-
-        virtual iForm* CreateRubber() { return NULL; }
-        virtual iForm* Water() { return NULL; }
+        virtual iShape* CreateBox(const glm::vec3& halfExtents);
+        virtual iShape* CreateConvexHull(const GLInstanceVertex*, size_t numOfVertices);
 	};
 }

@@ -39,8 +39,6 @@ cGameObject::cGameObject()
     this->hasAI = false;
     this->target = glm::vec3(0.0f);
     this->rigidBody = NULL;
-    this->softBody = NULL;
-    this->bt_rigidBody = NULL;
     this->pSimpleSkinnedMesh = NULL;
     this->pAniState = NULL;	
     this->startDisplacement;
@@ -172,7 +170,7 @@ void cGameObject::DebugUpdate(double deltaTime)
  {
      if (this->rigidBody != NULL)
      {
-         this->rigidBody->rotateX(degreesX);
+         //this->rigidBody->rotateX(degreesX);
          // Just in case
          this->orientation = glm::rotate(this->orientation, glm::radians(degreesX), glm::vec3(1.0f, 0.0f, 0.0f));
      }
@@ -186,7 +184,7 @@ void cGameObject::DebugUpdate(double deltaTime)
  {
      if (this->rigidBody != NULL)
      {
-         this->rigidBody->rotateY(degreesY);
+         //this->rigidBody->rotateY(degreesY);
          // Just in case
          this->orientation = glm::rotate(this->orientation, glm::radians(degreesY), glm::vec3(0.0f, 1.0f, 0.0f));
      }
@@ -200,7 +198,7 @@ void cGameObject::DebugUpdate(double deltaTime)
  {
      if (this->rigidBody != NULL)
      {
-         this->rigidBody->rotateZ(degreesZ);
+         //this->rigidBody->rotateZ(degreesZ);
          // Just in case
          this->orientation = glm::rotate(this->orientation, glm::radians(degreesZ), glm::vec3(0.0f, 0.0f, 1.0f));
      }

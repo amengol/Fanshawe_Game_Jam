@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Physics\Interfaces\iRigidBody.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Physics\Interfaces\iPhysicsFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Physics\Interfaces\sRigidBodyDesc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Interfaces\iShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Physics\Interfaces\eShapeType.h">
@@ -30,25 +30,13 @@
     <ClInclude Include="Physics\Interfaces\iPhysicsWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Physics\Interfaces\iCollisionBody.h">
+    <ClInclude Include="Physics\Interfaces\iRigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Physics\Interfaces\iSoftBody.h">
+    <ClInclude Include="Physics\Interfaces\iConstraint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Physics\Interfaces\iShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics\Interfaces\eSoftBodyType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics\Interfaces\iForm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics\Interfaces\iNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics\Interfaces\iSpring.h">
+    <ClInclude Include="Physics\Interfaces\GLInstanceVertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

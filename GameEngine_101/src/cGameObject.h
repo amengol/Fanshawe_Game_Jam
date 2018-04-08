@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <iRigidBody.h>
-#include <iSoftBody.h>
 #include "Assimp\sAnimations.h"
 #include "AI\cCharacterControl.h"
 
@@ -125,8 +124,7 @@ public:
 
     // Rigid Body
     nPhysics::iRigidBody* rigidBody;
-    // Soft Body
-    nPhysics::iSoftBody* softBody;
+
     // Rigid Body from bullet 
     nPhysics::iRigidBody* bt_rigidBody;
 

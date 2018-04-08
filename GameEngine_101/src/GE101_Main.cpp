@@ -23,7 +23,6 @@
 #include "Utilities.h"
 #include "cSceneLoader.h"
 #include "cSoundManager.h"
-#include <cCloth.h>
 #include "DrawCalls.h"
 //#include "../Cloth.h"
 #include "cFBO.h"
@@ -74,9 +73,6 @@ bool InitPhysics()
 {
     g_pPhysicsFactory = new nPhysics::cPhysicsFactory();
     g_pPhysicsWorld = g_pPhysicsFactory->CreateWorld();
-
-    //gbt_PhysicsFactory = new nPhysics::bt_cPhysicsFactory();
-    //gbt_PhysicsWorld = gbt_PhysicsFactory->CreateWorld();
     return true;
 }
 
@@ -508,15 +504,6 @@ int main()
     // Will be used in the physics step
     double lastTimeStep = glfwGetTime();
 
-    // Hack for the turinin Deloran. I know....
-    for (size_t i = 0; i < g_vecGameObjects.size(); i++)
-    {
-        if (g_vecGameObjects[i]->friendlyName == "Delorean")
-        {
-            g_vecGameObjects[i]->rigidBody->SetRateOfTurnY(720.0f);
-        }
-    }
-
     //g_pTranspManager->InitSortingThread();
 
     // Main game or application loop
@@ -531,17 +518,7 @@ int main()
         printf("%f frames per second\n", 1.0f / deltaTime);
 
         // Physics step
-        switch (g_physicsSwitcher.gPhysicsEngine)
-        {
-        case g_physicsSwitcher.SUPERDUPER:
-            g_pPhysicsWorld->TimeStep(deltaTime);
-            break;
-        case g_physicsSwitcher.BULLET:
-            //gbt_PhysicsWorld->TimeStep(deltaTime);
-            break;
-        default:
-            break;
-        }
+        g_pPhysicsWorld->TimeStep(deltaTime);
 
         //PhysicsStep(deltaTime);
         lastTimeStep = curTime;
