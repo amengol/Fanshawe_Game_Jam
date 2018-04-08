@@ -7,6 +7,7 @@
 #include "cHingeConstraint.h"
 #include "cFixedConstraint.h"
 #include "cUniversalConstraint.h"
+#include "cCharacterBody.h"
 
 namespace nPhysics
 {
@@ -21,6 +22,11 @@ namespace nPhysics
 	{
 		return new cRigidBody(desc, shape);
 	}
+
+    iRigidBody* cPhysicsFactory::CreateCharacterBody(const sRigidBodyDesc& desc, iShape* shape)
+    {
+        return new cCharacterBody(desc, shape);
+    }
 
     iConstraint* cPhysicsFactory::CreatePoint2PointConstraint(iRigidBody* rbA, 
                                                                  iRigidBody* rbB, 

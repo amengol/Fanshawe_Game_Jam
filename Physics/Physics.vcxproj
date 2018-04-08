@@ -171,6 +171,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="cCharacterBody.h" />
     <ClInclude Include="cFixedConstraint.h" />
     <ClInclude Include="cHingeConstraint.h" />
     <ClInclude Include="cPhysicsFactory.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cCharacterBody.cpp" />
     <ClCompile Include="cFixedConstraint.cpp" />
     <ClCompile Include="cHingeConstraint.cpp" />
     <ClCompile Include="cPhysicsFactory.cpp" />

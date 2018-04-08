@@ -36,6 +36,13 @@ namespace nPhysics
         virtual void SetHit(bool hit) { this->mHit = hit; }
         virtual bool GetHit() { return this->mHit; }
 
+        virtual void rotateX(float degrees) { return; }
+        virtual void rotateY(float degrees) { return; }
+        virtual void rotateZ(float degrees) { return; }
+        virtual void SetRateOfTurnX(float rotX) { return; }
+        virtual void SetRateOfTurnY(float rotY) { return; }
+        virtual void SetRateOfTurnZ(float rotZ) { return; }
+
 	private:
         friend class cPhysicsWorld;
 		iShape* mShape;
