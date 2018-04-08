@@ -107,6 +107,18 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
             g_camera.processKeyboard(DOWN, deltaTime);
         break;
     case THIRD_PERSON:
+    {
+        // Get the character
+        cCharacterControl* pCharacterControl = NULL;
+        pCharacterControl = g_characterManager.GetActiveCharacter();
+        if (pCharacterControl == NULL)
+            return;
+
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+            pCharacterControl->Forward();
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_RELEASE)
+            pCharacterControl->Idle();
+    }
         break;
     default:
         break;
