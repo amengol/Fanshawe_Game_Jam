@@ -13,7 +13,7 @@
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply"},
 {"meshName" : "Terrain", "meshFile" : "Terrain.obj"},
 {"meshName" : "Limits", "meshFile" : "Limits.obj"},
-{"meshName" : "knight", "type" : 1, "meshFile" : "paladin_prop_j_nordstrom.fbx"},
+{"meshName" : "knight", "type" : 1, "meshFile" : "knight.fbx"},
 {"animName" : "sword_and_shield_idle", "type" : 2, "animFile" : "sword_and_shield_idle.fbx"},
 {"animName" : "sword_and_shield_walk_forward", "type" : 2, "animFile" : "sword_and_shield_walk_forward.fbx"},
 {"animName" : "sword_and_shield_walk_backwards", "type" : 2, "animFile" : "sword_and_shield_walk_backwards.fbx"},
