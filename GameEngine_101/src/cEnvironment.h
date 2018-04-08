@@ -2,7 +2,7 @@
     Controls Day/Night cycle and other environment parameters
 
     @author Jorge Amengol
-    @version 0.3
+    @version 0.4
     @date April 8th, 2018
 */
 #pragma once
@@ -41,13 +41,13 @@ public:
     void initLights(int shaderID, cLightManager* lightManager);
 
     // Sets the mode
-    void setMode(Mode mode);
+    inline void setMode(Mode mode) { m_mode = mode; }
+
+    // Sets the day duration in minutes
+    void setDayDuration(float minutes);
 
     // Advances to the next time of the day
     void advance(float seconds);
-
-    // Sets the day duration in minutes
-    inline void setDayDuration(float duration) { m_dayDuration = duration * 60.0f; }
 
     // Start the clock
     void startClock();
@@ -56,7 +56,7 @@ public:
     void stopClock();
 
     // Sets a specifc time of the day in hours
-    void setTimeOfDay(float hours);
+    void setTimeOfDay(float hour);
 
     // Sets a full time of the day
     void setTimeOfDay(DaySkyLight daySkyLight);

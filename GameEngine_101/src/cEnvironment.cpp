@@ -4,9 +4,9 @@
 cEnvironment::cEnvironment()
 {
     m_mode = STEP;
-    m_daySkyLight = NOON;
     m_dayDuration = 15.0f;
     m_elapsedTime = 0.0f;
+    m_timeOfDay = 0.0f;
 
     // Create all the lights
     m_midNight = new cLight();
@@ -73,50 +73,168 @@ void cEnvironment::initLights(int shaderID, cLightManager* lightManager)
     lightManager->LoadShaderUniformLocations(shaderID);
 }
 
+void cEnvironment::setDayDuration(float minutes)
+{
+    if (minutes < 0.0f)
+        return;
+
+    m_dayDuration = minutes * 60.0f;
+}
+
+void cEnvironment::setTimeOfDay(float hour)
+{
+    if (hour == 24.0f)
+        hour = 0.0f;
+
+    if (hour >= 0.0f && hour < 24.0f)
+    {
+        m_timeOfDay = hour / 24.0f;
+
+        if (hour >= 0.0f && hour < 6.0f)
+        {
+            m_midNight->typeParams2.x = (6.0f - hour) / 6.0f;
+            m_dawn->typeParams2.x = hour / 6.0f;
+            m_noon->typeParams2.x = 0.0f;
+            m_sunset->typeParams2.x = 0.0f;
+            m_night->typeParams2.x = 0.0f;
+        }
+        else if (hour >= 6.0f && hour < 12.0f)
+        {
+            m_midNight->typeParams2.x = 0.0f;
+            m_dawn->typeParams2.x = (12.0f - hour) / 6.0f;
+            m_noon->typeParams2.x = (hour - 6.0f) / 6.0f;
+            m_sunset->typeParams2.x = 0.0f;
+            m_night->typeParams2.x = 0.0f;
+        }
+        else if (hour >= 12.0f && hour < 18.0f)
+        {
+            m_midNight->typeParams2.x = 0.0f;
+            m_dawn->typeParams2.x = 0.0f;
+            m_noon->typeParams2.x = (18.0f - hour) / 6.0f;
+            m_sunset->typeParams2.x = (hour - 12.0f) / 6.0f;
+            m_night->typeParams2.x = 0.0f;
+        }
+        else if (hour >= 18.0f && hour < 21.0f)
+        {
+            m_midNight->typeParams2.x = 0.0f;
+            m_dawn->typeParams2.x = 0.0f;
+            m_noon->typeParams2.x = 0.0f;
+            m_sunset->typeParams2.x = (21.0f - hour) / 3.0f;
+            m_night->typeParams2.x = (hour - 18.0f) / 3.0f;
+        }
+        else
+        {
+            m_midNight->typeParams2.x = (hour - 21.0f) / 3.0f;
+            m_dawn->typeParams2.x = 0.0f;
+            m_noon->typeParams2.x = 0.0f;
+            m_sunset->typeParams2.x = 0.0f;
+            m_night->typeParams2.x = (24.0f - hour) / 3.0f;
+        }
+    }
+
+    // To ensure we continue from where we set the time
+    m_elapsedTime = m_timeOfDay * m_dayDuration;
+}
+
+void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
+{
+    switch (daySkyLight)
+    {
+    case cEnvironment::MIDNIGHT:
+        m_timeOfDay = 0.0f;
+        m_midNight->typeParams2.x = 1.0f;
+        m_dawn->typeParams2.x = 0.0f;
+        m_noon->typeParams2.x = 0.0f;
+        m_sunset->typeParams2.x = 0.0f;
+        m_night->typeParams2.x = 0.0f;
+        break;
+    case cEnvironment::DAWN:
+        m_timeOfDay = 0.25f;
+        m_midNight->typeParams2.x = 0.0f;
+        m_dawn->typeParams2.x = 1.0f;
+        m_noon->typeParams2.x = 0.0f;
+        m_sunset->typeParams2.x = 0.0f;
+        m_night->typeParams2.x = 0.0f;
+        break;
+    case cEnvironment::NOON:
+        m_timeOfDay = 0.5f;
+        m_midNight->typeParams2.x = 0.0f;
+        m_dawn->typeParams2.x = 0.0f;
+        m_noon->typeParams2.x = 1.0f;
+        m_sunset->typeParams2.x = 0.0f;
+        m_night->typeParams2.x = 0.0f;
+        break;
+    case cEnvironment::SUNSET:
+        m_timeOfDay = 0.75f;
+        m_midNight->typeParams2.x = 0.0f;
+        m_dawn->typeParams2.x = 0.0f;
+        m_noon->typeParams2.x = 0.0f;
+        m_sunset->typeParams2.x = 1.0f;
+        m_night->typeParams2.x = 0.0f;
+        break;
+    case cEnvironment::NIGHT:
+        m_timeOfDay = 0.875f;
+        m_midNight->typeParams2.x = 0.0f;
+        m_dawn->typeParams2.x = 0.0f;
+        m_noon->typeParams2.x = 0.0f;
+        m_sunset->typeParams2.x = 0.0f;
+        m_night->typeParams2.x = 1.0f;
+        break;
+    default:
+        break;
+    }
+
+    // To ensure we continue from where we set the time
+    m_elapsedTime = m_timeOfDay * m_dayDuration;
+}
+
 void cEnvironment::update(float deltaTime)
 {
-    m_elapsedTime += deltaTime;
-    m_timeOfDay = fmod(m_elapsedTime, m_dayDuration) / m_dayDuration;
-    
-    float hour = m_timeOfDay * 24.0f;
-    if (hour >= 0.0f && hour < 6.0f)
+    if (m_mode == CONTINUOUS)
     {
-        m_midNight->typeParams2.x = (6.0f - hour) / 6.0f;
-        m_dawn->typeParams2.x = hour / 6.0f;
-        m_noon->typeParams2.x = 0.0f;
-        m_sunset->typeParams2.x = 0.0f;
-        m_night->typeParams2.x = 0.0f;
-    }
-    else if (hour >= 6.0f && hour < 12.0f)
-    {
-        m_midNight->typeParams2.x = 0.0f;
-        m_dawn->typeParams2.x = (12.0f - hour) / 6.0f;
-        m_noon->typeParams2.x = (hour - 6.0f) / 6.0f;
-        m_sunset->typeParams2.x = 0.0f;
-        m_night->typeParams2.x = 0.0f;
-    }
-    else if (hour >= 12.0f && hour < 18.0f)
-    {
-        m_midNight->typeParams2.x = 0.0f;
-        m_dawn->typeParams2.x = 0.0f;
-        m_noon->typeParams2.x = (18.0f - hour) / 6.0f;
-        m_sunset->typeParams2.x = (hour - 12.0f) / 6.0f;
-        m_night->typeParams2.x = 0.0f;
-    }
-    else if (hour >= 18.0f && hour < 21.0f)
-    {
-        m_midNight->typeParams2.x = 0.0f;
-        m_dawn->typeParams2.x = 0.0f;
-        m_noon->typeParams2.x = 0.0f;
-        m_sunset->typeParams2.x = (21.0f - hour) / 3.0f;
-        m_night->typeParams2.x = (hour - 18.0f) / 3.0f;
-    }
-    else
-    {
-        m_midNight->typeParams2.x = (hour - 21.0f) / 3.0f;
-        m_dawn->typeParams2.x = 0.0f;
-        m_noon->typeParams2.x = 0.0f;
-        m_sunset->typeParams2.x = 0.0f;
-        m_night->typeParams2.x = (24.0f - hour) / 3.0f;
+        m_elapsedTime += deltaTime;
+        m_timeOfDay = fmod(m_elapsedTime, m_dayDuration) / m_dayDuration;
+
+        float hour = m_timeOfDay * 24.0f;
+        if (hour >= 0.0f && hour < 6.0f)
+        {
+            m_midNight->typeParams2.x = (6.0f - hour) / 6.0f;
+            m_dawn->typeParams2.x = hour / 6.0f;
+            m_noon->typeParams2.x = 0.0f;
+            m_sunset->typeParams2.x = 0.0f;
+            m_night->typeParams2.x = 0.0f;
+        }
+        else if (hour >= 6.0f && hour < 12.0f)
+        {
+            m_midNight->typeParams2.x = 0.0f;
+            m_dawn->typeParams2.x = (12.0f - hour) / 6.0f;
+            m_noon->typeParams2.x = (hour - 6.0f) / 6.0f;
+            m_sunset->typeParams2.x = 0.0f;
+            m_night->typeParams2.x = 0.0f;
+        }
+        else if (hour >= 12.0f && hour < 18.0f)
+        {
+            m_midNight->typeParams2.x = 0.0f;
+            m_dawn->typeParams2.x = 0.0f;
+            m_noon->typeParams2.x = (18.0f - hour) / 6.0f;
+            m_sunset->typeParams2.x = (hour - 12.0f) / 6.0f;
+            m_night->typeParams2.x = 0.0f;
+        }
+        else if (hour >= 18.0f && hour < 21.0f)
+        {
+            m_midNight->typeParams2.x = 0.0f;
+            m_dawn->typeParams2.x = 0.0f;
+            m_noon->typeParams2.x = 0.0f;
+            m_sunset->typeParams2.x = (21.0f - hour) / 3.0f;
+            m_night->typeParams2.x = (hour - 18.0f) / 3.0f;
+        }
+        else
+        {
+            m_midNight->typeParams2.x = (hour - 21.0f) / 3.0f;
+            m_dawn->typeParams2.x = 0.0f;
+            m_noon->typeParams2.x = 0.0f;
+            m_sunset->typeParams2.x = 0.0f;
+            m_night->typeParams2.x = (24.0f - hour) / 3.0f;
+        }
     }
 }
