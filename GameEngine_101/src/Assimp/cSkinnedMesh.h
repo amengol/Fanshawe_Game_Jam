@@ -73,8 +73,8 @@ public:
     // Looks in the animation map and returns the duration of an animation
     float GetAnimationDuration(const std::string animName);
 
-    // Returns NULL (0) if there is no mesh at that index
-    cMesh* CreateMeshObjectFromCurrentModel(unsigned int meshIndex = 0);
+    // Returns a vector os meshes
+    void CreateMeshesObjectFromCurrentModel(std::vector<cMesh>& meshes);
 
     // Transforms all bones according to an animation
     void BoneTransform(float TimeInSeconds,

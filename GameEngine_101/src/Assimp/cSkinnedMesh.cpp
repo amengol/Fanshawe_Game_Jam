@@ -519,173 +519,74 @@ float cSkinnedMesh::GetDefaultAnimationDuration(void)
 	return duration; 
 }
 
-cMesh* cSkinnedMesh::CreateMeshObjectFromCurrentModel( unsigned int meshIndex /*=0*/)
+void cSkinnedMesh::CreateMeshesObjectFromCurrentModel(std::vector<cMesh>& meshes)
 {
-	if ( this->pScene->mNumMeshes < meshIndex )
-	{	// Doesn't have this mesh
-		return NULL;
-	}
-
-    cMesh* engMesh = new cMesh();  // The Engine Mesh
-    const struct aiMesh* mesh = NULL; // Assim mesh
-
-    mesh = this->pScene->mMeshes[meshIndex];
-
-    engMesh->numberOfVertices = mesh->mNumVertices;
-    engMesh->numberOfTriangles = mesh->mNumFaces;
-    engMesh->pVertices = new sVertex[mesh->mNumVertices];
-    engMesh->pTriangles = new cTriangle[mesh->mNumFaces];
-
-    // Load the vertices into Engine Mesh
-    for (size_t vertexIndex = 0; vertexIndex < mesh->mNumVertices; ++vertexIndex)
+    for (size_t i = 0; i < this->pScene->mNumMeshes; i++)
     {
-        engMesh->pVertices[vertexIndex].x = mesh->mVertices[vertexIndex].x;
-        engMesh->pVertices[vertexIndex].y = mesh->mVertices[vertexIndex].y;
-        engMesh->pVertices[vertexIndex].z = mesh->mVertices[vertexIndex].z;
+        cMesh engMesh;  // The Engine Mesh
+        const struct aiMesh* mesh = NULL; // Assim mesh
 
-        if (mesh->mColors[0] != NULL)
+        mesh = this->pScene->mMeshes[i];
+
+        engMesh.numberOfVertices = mesh->mNumVertices;
+        engMesh.numberOfTriangles = mesh->mNumFaces;
+        engMesh.pVertices = new sVertex[mesh->mNumVertices];
+        engMesh.pTriangles = new cTriangle[mesh->mNumFaces];
+
+        // Load the vertices into Engine Mesh
+        for (size_t vertexIndex = 0; vertexIndex < mesh->mNumVertices; ++vertexIndex)
         {
-            engMesh->pVertices[vertexIndex].r = mesh->mColors[0][vertexIndex].r;
-            engMesh->pVertices[vertexIndex].g = mesh->mColors[0][vertexIndex].g;
-            engMesh->pVertices[vertexIndex].b = mesh->mColors[0][vertexIndex].b;
-            engMesh->pVertices[vertexIndex].a = mesh->mColors[0][vertexIndex].a;
+            engMesh.pVertices[vertexIndex].x = mesh->mVertices[vertexIndex].x;
+            engMesh.pVertices[vertexIndex].y = mesh->mVertices[vertexIndex].y;
+            engMesh.pVertices[vertexIndex].z = mesh->mVertices[vertexIndex].z;
+
+            if (mesh->mColors[0] != NULL)
+            {
+                engMesh.pVertices[vertexIndex].r = mesh->mColors[0][vertexIndex].r;
+                engMesh.pVertices[vertexIndex].g = mesh->mColors[0][vertexIndex].g;
+                engMesh.pVertices[vertexIndex].b = mesh->mColors[0][vertexIndex].b;
+                engMesh.pVertices[vertexIndex].a = mesh->mColors[0][vertexIndex].a;
+            }
+
+            if (mesh->mNormals != NULL)
+            {
+                engMesh.pVertices[vertexIndex].nx = mesh->mNormals[vertexIndex].x;
+                engMesh.pVertices[vertexIndex].ny = mesh->mNormals[vertexIndex].y;
+                engMesh.pVertices[vertexIndex].nz = mesh->mNormals[vertexIndex].z;
+            }
+
+            if (mesh->HasTextureCoords(0))
+            {
+                engMesh.pVertices[vertexIndex].u1 = mesh->mTextureCoords[0][vertexIndex].x;
+                engMesh.pVertices[vertexIndex].v1 = mesh->mTextureCoords[0][vertexIndex].y;
+            }
+
+            // Bone IDs are being passed OK
+            engMesh.pVertices[vertexIndex].boneID[0] = this->vecVertexBoneData[vertexIndex].ids[0];
+            engMesh.pVertices[vertexIndex].boneID[1] = this->vecVertexBoneData[vertexIndex].ids[1];
+            engMesh.pVertices[vertexIndex].boneID[2] = this->vecVertexBoneData[vertexIndex].ids[2];
+            engMesh.pVertices[vertexIndex].boneID[3] = this->vecVertexBoneData[vertexIndex].ids[3];
+
+            // Weights are being passed OK
+            engMesh.pVertices[vertexIndex].boneWeights[0] = this->vecVertexBoneData[vertexIndex].weights[0];
+            engMesh.pVertices[vertexIndex].boneWeights[1] = this->vecVertexBoneData[vertexIndex].weights[1];
+            engMesh.pVertices[vertexIndex].boneWeights[2] = this->vecVertexBoneData[vertexIndex].weights[2];
+            engMesh.pVertices[vertexIndex].boneWeights[3] = this->vecVertexBoneData[vertexIndex].weights[3];
         }
 
-        if (mesh->mNormals != NULL)
+        // Load the indeces into Engine Mesh
+        for (size_t faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
         {
-            engMesh->pVertices[vertexIndex].nx = mesh->mNormals[vertexIndex].x;
-            engMesh->pVertices[vertexIndex].ny = mesh->mNormals[vertexIndex].y;
-            engMesh->pVertices[vertexIndex].nz = mesh->mNormals[vertexIndex].z;
+            const struct aiFace* face = &mesh->mFaces[faceIndex];
+
+            engMesh.pTriangles[faceIndex].vertex_ID_0 = face->mIndices[0];
+            engMesh.pTriangles[faceIndex].vertex_ID_1 = face->mIndices[1];
+            engMesh.pTriangles[faceIndex].vertex_ID_2 = face->mIndices[2];
         }
 
-        if (mesh->HasTextureCoords(0))
-        {
-            engMesh->pVertices[vertexIndex].u1 = mesh->mTextureCoords[0][vertexIndex].x;
-            engMesh->pVertices[vertexIndex].v1 = mesh->mTextureCoords[0][vertexIndex].y;
-        }
+        engMesh.name = this->friendlyName;
+        engMesh.CalculateExtents();
 
-        // Bone IDs are being passed OK
-        engMesh->pVertices[vertexIndex].boneID[0] = this->vecVertexBoneData[vertexIndex].ids[0];
-        engMesh->pVertices[vertexIndex].boneID[1] = this->vecVertexBoneData[vertexIndex].ids[1];
-        engMesh->pVertices[vertexIndex].boneID[2] = this->vecVertexBoneData[vertexIndex].ids[2];
-        engMesh->pVertices[vertexIndex].boneID[3] = this->vecVertexBoneData[vertexIndex].ids[3];
-
-        // Weights are being passed OK
-        engMesh->pVertices[vertexIndex].boneWeights[0] = this->vecVertexBoneData[vertexIndex].weights[0];
-        engMesh->pVertices[vertexIndex].boneWeights[1] = this->vecVertexBoneData[vertexIndex].weights[1];
-        engMesh->pVertices[vertexIndex].boneWeights[2] = this->vecVertexBoneData[vertexIndex].weights[2];
-        engMesh->pVertices[vertexIndex].boneWeights[3] = this->vecVertexBoneData[vertexIndex].weights[3];
+        meshes.push_back(engMesh);
     }
-
-    // Load the indeces into Engine Mesh
-    for (size_t faceIndex = 0; faceIndex < mesh->mNumFaces; faceIndex++)
-    {
-        const struct aiFace* face = &mesh->mFaces[faceIndex];
-
-        engMesh->pTriangles[faceIndex].vertex_ID_0 = face->mIndices[0];
-        engMesh->pTriangles[faceIndex].vertex_ID_1 = face->mIndices[1];
-        engMesh->pTriangles[faceIndex].vertex_ID_2 = face->mIndices[2];
-    }
-
-    engMesh->name = this->friendlyName;
-    engMesh->CalculateExtents();
-
-    return engMesh;
-
-    //==============  OLD FEENEY's CODE for this function =====================
-
-    //// Assume there is a valid mesh there
-	//cMesh* pTheMesh = new cMesh();
-
-	//aiMesh* pAIMesh = this->pScene->mMeshes[meshIndex];
-
-	//pTheMesh->numberOfVertices = pAIMesh->mNumVertices;
-
-	//pTheMesh->pVertices = new sVertex[ pTheMesh->numberOfVertices ];
-
-	//for ( int vertIndex = 0; vertIndex != pTheMesh->numberOfVertices; vertIndex++ )
-	//{
- //       sVertex* pCurVert = &( pTheMesh->pVertices[vertIndex] );
-
-	//	aiVector3D* pAIVert =&(pAIMesh->mVertices[vertIndex]);
-
-	//	pCurVert->x = pAIVert->x;
-	//	pCurVert->y = pAIVert->y;
-	//	pCurVert->z = pAIVert->z;
-
-	//	// Colours
-	//	if ( pAIMesh->GetNumColorChannels() > 0 )
-	//	{
-	//		pCurVert->r = this->pScene->mMeshes[0]->mColors[vertIndex]->r;
-	//		pCurVert->g = this->pScene->mMeshes[0]->mColors[vertIndex]->g;
-	//		pCurVert->b = this->pScene->mMeshes[0]->mColors[vertIndex]->b;
-	//		pCurVert->a = this->pScene->mMeshes[0]->mColors[vertIndex]->a;
-	//	}
-	//	else
-	//	{
-	//		pCurVert->r = pCurVert->g = pCurVert->b = pCurVert->a = 1.0f;
-	//	}
-
-	//	// Normals
-	//	if ( pAIMesh->HasNormals() )
-	//	{
-	//		pCurVert->nx = pAIMesh->mNormals[vertIndex].x;
-	//		pCurVert->ny = pAIMesh->mNormals[vertIndex].y;
-	//		pCurVert->nx = pAIMesh->mNormals[vertIndex].z;
-	//	}
-
-	//	// UVs
-	//	if ( pAIMesh->GetNumUVChannels() > 0 )
-	//	{	// Assume 1st channel is the 2D UV coordinates
-	//		pCurVert->u1 = pAIMesh->mTextureCoords[0][vertIndex].x;
-	//		pCurVert->v1 = pAIMesh->mTextureCoords[0][vertIndex].y;
-	//	}
-
-	//	// Tangents and Bitangents (bi-normals)
-	//	if ( pAIMesh->HasTangentsAndBitangents() )
-	//	{
-	//		pCurVert->tx = pAIMesh->mTangents[vertIndex].x;
-	//		pCurVert->ty = pAIMesh->mTangents[vertIndex].y;
-	//		pCurVert->tz = pAIMesh->mTangents[vertIndex].z;
-
-	//		pCurVert->bx = pAIMesh->mBitangents[vertIndex].x;
-	//		pCurVert->by = pAIMesh->mBitangents[vertIndex].y;
-	//		pCurVert->bz = pAIMesh->mBitangents[vertIndex].z;
-	//	}
-
-	//	// Bone IDs are being passed OK
-	//	pCurVert->boneID[0] = this->vecVertexBoneData[vertIndex].ids[0];
-	//	pCurVert->boneID[1] = this->vecVertexBoneData[vertIndex].ids[1];
-	//	pCurVert->boneID[2] = this->vecVertexBoneData[vertIndex].ids[2];
-	//	pCurVert->boneID[3] = this->vecVertexBoneData[vertIndex].ids[3];
-
-	//	// Weights are being passed OK
-	//	pCurVert->boneWeights[0] = this->vecVertexBoneData[vertIndex].weights[0];
-	//	pCurVert->boneWeights[1] = this->vecVertexBoneData[vertIndex].weights[1];
-	//	pCurVert->boneWeights[2] = this->vecVertexBoneData[vertIndex].weights[2];
-	//	pCurVert->boneWeights[3] = this->vecVertexBoneData[vertIndex].weights[3];
-
-
-	//}//for ( int vertIndex
-
-	//// Triangles
-	//pTheMesh->numberOfTriangles = pAIMesh->mNumFaces;
-
-	//pTheMesh->pTriangles = new cTriangle[pTheMesh->numberOfTriangles];
-
-	//for ( unsigned int triIndex = 0; triIndex != pTheMesh->numberOfTriangles; triIndex++ )
-	//{
-	//	aiFace* pAIFace = &(pAIMesh->mFaces[triIndex]);
-
-	//	pTheMesh->pTriangles[triIndex].vertex_ID_0 = pAIFace->mIndices[0];
-	//	pTheMesh->pTriangles[triIndex].vertex_ID_1 = pAIFace->mIndices[1];
-	//	pTheMesh->pTriangles[triIndex].vertex_ID_2 = pAIFace->mIndices[2];
-
-	//}//for ( unsigned int triIndex...
-
-	//pTheMesh->name = this->friendlyName;
-
-	//pTheMesh->CalculateExtents();
-
-	//return pTheMesh;
 }

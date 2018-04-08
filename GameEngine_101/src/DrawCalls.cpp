@@ -441,8 +441,9 @@ void DrawObject(cGameObject* pTheGO)
     // Was near the draw call, but we need the mesh name
     std::string meshToDraw = pTheGO->meshName;
 
-    sVAOInfo VAODrawInfo;
-    if (::g_pVAOManager->lookupStaticVAOFromName(meshToDraw, VAODrawInfo) == false)
+
+    std::vector<sVAOInfo> vecVAODrawInfo;
+    if (::g_pVAOManager->lookupStaticVAOsFromName(meshToDraw, vecVAODrawInfo) == false)
     {	// Didn't find mesh
         return;
     }
@@ -684,10 +685,13 @@ void DrawObject(cGameObject* pTheGO)
 
     glCullFace(GL_BACK);
 
-    glBindVertexArray(VAODrawInfo.VAO_ID);
 
-    glDrawElements(GL_TRIANGLES, VAODrawInfo.numberOfIndices, GL_UNSIGNED_INT, 0);
-
+    for (size_t i = 0; i < vecVAODrawInfo.size(); i++)
+    {
+        glBindVertexArray(vecVAODrawInfo[i].VAO_ID);
+        glDrawElements(GL_TRIANGLES, vecVAODrawInfo[i].numberOfIndices, GL_UNSIGNED_INT, 0);
+    }
+    
     // Unbind that VAO
     glBindVertexArray(0);
 

@@ -582,12 +582,12 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 return false;
             }
 
-            cMesh* pTheMesh = theGO->pSimpleSkinnedMesh->CreateMeshObjectFromCurrentModel();
-            pTheMesh->name = meshName;
+            std::vector<cMesh> vecMeshes;
+            theGO->pSimpleSkinnedMesh->CreateMeshesObjectFromCurrentModel(vecMeshes);
 
-            if (pTheMesh)
+            if (vecMeshes.size() != 0)
             {
-                if (!g_pVAOManager->loadMeshIntoStaticVAO(*pTheMesh, shaderID, false))
+                if (!g_pVAOManager->loadMeshesIntoStaticVAO(vecMeshes, shaderID, false))
                 {
                     error = "Could not load skinned mesh model into new VAO";
                 }
@@ -595,11 +595,6 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             else
             {
                 error = "Could not create a cMesh object from skinned mesh file";
-            }
-            // Delete temporary mesh if still around
-            if (pTheMesh)
-            {
-                delete pTheMesh;
             }
 
             if (gameObject[jsIndex].HasMember("defaultAnimation"))
@@ -1195,9 +1190,13 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         {
             for (int i = 0; i < conllisionMeshesNames.size(); i++)
             {
-                cMesh collMesh;
-                g_pVAOManager->lookupMeshFromName(conllisionMeshesNames[i], collMesh);
-                theGO->setCollisionGeometry(collMesh);
+                std::vector<cMesh> vecMeshes;
+                g_pVAOManager->lookupMeshesFromName(conllisionMeshesNames[i], vecMeshes);
+                if (vecMeshes.size() != 0)
+                {
+                    cMesh collMesh = vecMeshes[0];
+                    theGO->setCollisionGeometry(collMesh);
+                }
             }
         }
 
