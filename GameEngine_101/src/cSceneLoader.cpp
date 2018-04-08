@@ -1319,6 +1319,14 @@ bool cSceneLoader::loadLightParams(int shaderID,
         lightManager->vecLights[i]->attenuation.y = lights[i]["linearAttenuation"].GetFloat();
         lightManager->vecLights[i]->attenuation.z = lights[i]["quadraticAttenuation"].GetFloat();
 
+        if (lights[i].HasMember("power"))
+        {
+            if (lights[i]["power"].IsNumber())
+            {
+                lightManager->vecLights[i]->typeParams2.x = lights[i]["power"].GetFloat();
+            }
+        }
+
         std::string gameObject = lights[i]["attachToGameObject"].GetString();
 
         if(gameObject != "")
