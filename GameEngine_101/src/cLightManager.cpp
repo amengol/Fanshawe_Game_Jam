@@ -79,6 +79,14 @@ void cLightManager::CreateLights( int numberOfLights, bool bKeepOldValues )
 	return;
 }
 
+void cLightManager::CreateLights(std::vector<cLight*> lights)
+{
+    for (size_t i = 0; i < lights.size(); i++)
+    {
+        this->vecLights.push_back(lights[i]);
+    }
+}
+
 std::string genUniName( int lightIndex, std::string paramName )
 {
 	// uniform vec4 myLight[0].position;

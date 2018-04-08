@@ -479,7 +479,7 @@ vec3 calcLightColour( in vec3 vecNormal,
 	}//if ( typeParams.x
 
 	
-	return colour * myLight[lightID].typeParams2.x;
+	return colour * myLight[lightID].typeParams2.x * 2.0f;
 }// vec3 calcLightColour(...) 
 
 

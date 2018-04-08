@@ -54,6 +54,7 @@ public:
 	~cLightManager();
 
 	void CreateLights( int numberOfLights, bool bKeepOldValues = true );
+    void CreateLights(std::vector<cLight*> lights);
 
 	void LoadShaderUniformLocations(int shaderID);
 	void CopyLightInformationToCurrentShader(void);

@@ -30,7 +30,7 @@
 #include "AI\cCharacterControl.h"
 #include "cCamera.h"
 #include "GLFW_callBacks.h"
-
+#include "cEnvironment.h"
 
 
 //// Here, the scene is rendered in 3 passes:
@@ -99,6 +99,7 @@ cCameraObject* g_pFixedCamera = NULL;
 cGameObject* g_pSkyBoxObject = NULL;
 cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
+cEnvironment g_environment;
 //cDebugRenderer*	g_pDebugRenderer = NULL;
 cSimpleDebugRenderer* g_pSimpleDebug = NULL;
 cAABBsManager* g_pAABBsManager = NULL;
@@ -337,6 +338,9 @@ int main()
 
     // Lights end
     
+    // Environment initialization
+    g_environment.initLights(currentProgID, g_pLightManager);
+
     //-------------------------------------------------------------------------
     // Texture 
     if(!loadTextures())
@@ -521,6 +525,8 @@ int main()
         // Now many seconds that have elapsed since we last checked
         double curTime = glfwGetTime();
         double deltaTime = curTime - lastTimeStep;
+
+        g_environment.update(deltaTime);
 
         printf("%f frames per second\n", 1.0f / deltaTime);
 

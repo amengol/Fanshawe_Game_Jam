@@ -640,61 +640,28 @@ void DrawObject(cGameObject* pTheGO)
                   ::g_pTextureManager->getTextureIDFromTextureName(pTheGO->textureNames[2]));
     // 2..  and so on... 
 
-    // Set sampler in the shader
-    // NOTE: You shouldn't be doing this during the draw call...
-    GLint textSampler00_ID = glGetUniformLocation(curShaderID, "texSamp2D00");
-    GLint textSampler01_ID = glGetUniformLocation(curShaderID, "texSamp2D01");
-    GLint textSampler02_ID = glGetUniformLocation(curShaderID, "texSamp2D02");
-    GLint textSampler03_ID = glGetUniformLocation(curShaderID, "texSamp2D03");
-    GLint textSampler04_ID = glGetUniformLocation(curShaderID, "texSamp2D04");
-    GLint textSampler05_ID = glGetUniformLocation(curShaderID, "texSamp2D05");
-    GLint textSampler06_ID = glGetUniformLocation(curShaderID, "texSamp2D06");
-    GLint textSampler07_ID = glGetUniformLocation(curShaderID, "texSamp2D07");
-    //// And so on (up to 10, or whatever number of textures)... 
+    glUniform1i(g_uniLocHandler.texSampCube00_LocID, 27);
+    glUniform1i(g_uniLocHandler.texSampCube01_LocID, 28);
+    glUniform1i(g_uniLocHandler.texSampCube02_LocID, 29);
+    glUniform1i(g_uniLocHandler.texSampCube03_LocID, 30);
+    glUniform1i(g_uniLocHandler.texSampCube04_LocID, 31);
 
-    GLint textBlend00_ID = glGetUniformLocation(curShaderID, "texBlend00");
-    GLint textBlend01_ID = glGetUniformLocation(curShaderID, "texBlend01");
-    GLint textBlend02_ID = glGetUniformLocation(curShaderID, "texBlend02");
-    GLint textBlend03_ID = glGetUniformLocation(curShaderID, "texBlend03");
-    GLint textBlend04_ID = glGetUniformLocation(curShaderID, "texBlend04");
-    GLint textBlend05_ID = glGetUniformLocation(curShaderID, "texBlend05");
-    GLint textBlend06_ID = glGetUniformLocation(curShaderID, "texBlend06");
-    GLint textBlend07_ID = glGetUniformLocation(curShaderID, "texBlend07");
-
-    GLint texSampCube00_LocID = glGetUniformLocation(curShaderID, "texSampCube00");
-    GLint texSampCube01_LocID = glGetUniformLocation(curShaderID, "texSampCube01");
-    GLint texSampCube02_LocID = glGetUniformLocation(curShaderID, "texSampCube02");
-    GLint texSampCube03_LocID = glGetUniformLocation(curShaderID, "texSampCube03");
-    GLint texSampCube04_LocID = glGetUniformLocation(curShaderID, "texSampCube04");
-
-    GLint texCubeBlend00_LocID = glGetUniformLocation(curShaderID, "texCubeBlend00");
-    GLint texCubeBlend01_LocID = glGetUniformLocation(curShaderID, "texCubeBlend01");
-    GLint texCubeBlend02_LocID = glGetUniformLocation(curShaderID, "texCubeBlend02");
-    GLint texCubeBlend03_LocID = glGetUniformLocation(curShaderID, "texCubeBlend03");
-    GLint texCubeBlend04_LocID = glGetUniformLocation(curShaderID, "texCubeBlend04");
-
-    glUniform1i(texSampCube00_LocID, 27);
-    glUniform1i(texSampCube01_LocID, 28);
-    glUniform1i(texSampCube02_LocID, 29);
-    glUniform1i(texSampCube03_LocID, 30);
-    glUniform1i(texSampCube04_LocID, 31);
-
-    glUniform1f(texCubeBlend00_LocID, 0.0f);
-    glUniform1f(texCubeBlend01_LocID, 0.0f);
-    glUniform1f(texCubeBlend02_LocID, 0.0f);
-    glUniform1f(texCubeBlend03_LocID, 0.0f);
-    glUniform1f(texCubeBlend04_LocID, 1.0f);
+    glUniform1f(g_uniLocHandler.texCubeBlend00_LocID, g_environment.m_dawn->typeParams2.x);
+    glUniform1f(g_uniLocHandler.texCubeBlend01_LocID, g_environment.m_noon->typeParams2.x);
+    glUniform1f(g_uniLocHandler.texCubeBlend02_LocID, g_environment.m_sunset->typeParams2.x);
+    glUniform1f(g_uniLocHandler.texCubeBlend03_LocID, g_environment.m_night->typeParams2.x);
+    glUniform1f(g_uniLocHandler.texCubeBlend04_LocID, g_environment.m_midNight->typeParams2.x);
 
     // This connects the texture sampler to the texture units... 
-    glUniform1i(textSampler00_ID, 0);
-    glUniform1i(textSampler01_ID, 1);
-    glUniform1i(textSampler02_ID, 2);
+    glUniform1i(g_uniLocHandler.textSampler00_ID, 0);
+    glUniform1i(g_uniLocHandler.textSampler01_ID, 1);
+    glUniform1i(g_uniLocHandler.textSampler02_ID, 2);
     // .. and so on
 
     // And the blending values
-    glUniform1f(textBlend00_ID, pTheGO->textureBlend[0]);
-    glUniform1f(textBlend01_ID, pTheGO->textureBlend[1]);
-    glUniform1f(textBlend02_ID, pTheGO->textureBlend[2]);
+    glUniform1f(g_uniLocHandler.textBlend00_ID, pTheGO->textureBlend[0]);
+    glUniform1f(g_uniLocHandler.textBlend01_ID, pTheGO->textureBlend[1]);
+    glUniform1f(g_uniLocHandler.textBlend02_ID, pTheGO->textureBlend[2]);
     // And so on...
 
     //			glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
