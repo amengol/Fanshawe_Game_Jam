@@ -140,7 +140,7 @@ int main()
 
     std::string title = "Game Engine 101!";
 
-    if (!initialConfig("GameConfig.ini", g_scrWidth, g_scrHeight, title));
+    if (!initialConfig("GameConfig.ini", g_scrWidth, g_scrHeight, title))
     {
         std::cout << "Can't find config file" << std::endl;
         std::cout << "Using defaults" << std::endl;
@@ -487,6 +487,9 @@ int main()
     {
         std::cout << "The Game Character was not found!\n";
     }
+
+    // Lock on the main character
+    g_camera.lockOnGameObject(g_characterManager.GetActiveCharacter()->GetCharacter());
 
     //// Set NPC Manager    
     //g_NPCManager.SetPlayer(g_characterManager.GetActiveCharacter());
