@@ -3,6 +3,7 @@
 
 #include <vector>;
 #include "cGameObject.h"
+#include <glm\glm.hpp>
 
 // Inspired by: https://stackoverflow.com/questions/686353/c-random-float-number-generation
 
@@ -33,6 +34,8 @@ void createRamdomGameObjects(int numOfObjects,
                              float minZ, float maxZ);
 
 void turnGameObjectToCamera(cGameObject*, glm::vec3 cameraPosition);
+
+glm::mat4 getMatrixFromVector(glm::vec3 XZ_Direction);
 
 bool loadFileIntoString(std::string& theString, std::string fileName);
 

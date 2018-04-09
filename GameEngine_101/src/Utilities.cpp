@@ -112,6 +112,18 @@ void turnGameObjectToCamera(cGameObject* theGO, glm::vec3 cameraPosition)
     theGO->orientation = orientation;
 }
 
+glm::mat4 getMatrixFromVector(glm::vec3 XZ_Direction)
+{
+    // Discard y values
+    XZ_Direction.y = 0;
+
+    // Mage sure it is normalizard
+    XZ_Direction = glm::normalize(XZ_Direction);
+
+    glm::quat qOrientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), XZ_Direction);
+    return glm::toMat4(qOrientation);
+}
+
 bool loadFileIntoString(std::string& theString, std::string fileName)
 {   
 
