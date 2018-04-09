@@ -103,6 +103,9 @@ public:
     // Calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors();
 
+    // Returns the normilized ortho camera front vector
+    glm::vec3 getCameraFrontVector();
+
 private:
     // Euler Angles
     float m_yaw;
