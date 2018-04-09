@@ -514,6 +514,7 @@ int main()
         double deltaTime = curTime - lastTimeStep;
 
         g_environment.update(deltaTime);
+        g_camera.updateCameraVectors();
 
         printf("%f frames per second\n", 1.0f / deltaTime);
 

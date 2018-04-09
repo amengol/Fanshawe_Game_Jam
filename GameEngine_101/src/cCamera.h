@@ -100,6 +100,9 @@ public:
     // Returns the active GameObject
     inline cGameObject* getGameObject() { return m_cameraGO; }
 
+    // Calculates the front vector from the Camera's (updated) Euler Angles
+    void updateCameraVectors();
+
 private:
     // Euler Angles
     float m_yaw;
@@ -107,8 +110,5 @@ private:
 
     eCameraMode m_cameraMode;   // The camera's mode
     cGameObject* m_cameraGO;    // The camera's GameObject
-
-    // Calculates the front vector from the Camera's (updated) Euler Angles
-    void updateCameraVectors();
 };
 

@@ -99,7 +99,7 @@ void cCamera::processMouseMovement(float xoffset, float yoffset, bool constrainm
     }
 
     // m_update Front, m_right and m_up Vectors using the updated Euler angles
-    updateCameraVectors();
+    //updateCameraVectors();
 }
 
 void cCamera::processMouseScroll(float yoffset)
@@ -123,7 +123,7 @@ void cCamera::setYaw(float degrees)
         m_yaw = degrees;
     }
     
-    updateCameraVectors();
+    //updateCameraVectors();
 }
 
 void cCamera::setPitch(float degrees)
@@ -141,7 +141,7 @@ void cCamera::setPitch(float degrees)
         m_pitch = degrees;
     }
     
-    updateCameraVectors();
+    //updateCameraVectors();
 }
 
 void cCamera::lockOnGameObject(cGameObject* GO)
