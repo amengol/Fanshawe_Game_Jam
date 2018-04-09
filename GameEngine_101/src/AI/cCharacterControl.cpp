@@ -3,6 +3,7 @@
 #include "..\Assimp\cSkinnedMesh.h"
 #include "..\Assimp\cAnimationState.h"
 #include <GLFW/glfw3.h>
+#include "..\Utilities.h"
 
 cCharacterControl::cCharacterControl()
 {
@@ -33,6 +34,37 @@ void cCharacterControl::Forward()
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
+            mCharacter->rigidBody->SetRateOfTurnY(0.0f);
+
+            mCharacter->characterAnim = WALKING;
+        }
+    }
+}
+
+void cCharacterControl::Forward(glm::vec3 direction)
+{
+
+    if (mCharacter != NULL)
+    {
+        // Don't cut the jump
+        if (mCharacter->characterAnim != WALKING && mCharacter->characterAnim != JUMP_FORWARD)
+        {
+            // Update rotations
+            //UpdateInterruptedRotations();
+
+            std::string animationName = mCharacter->animations.walking;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetVelocity(direction * 1.5f);
+            
+            glm::mat4 orientation = getMatrixFromVector(direction);
+            mCharacter->rigidBody->SetMatOrientation(orientation);
+
             mCharacter->rigidBody->SetRateOfTurnY(0.0f);
 
             mCharacter->characterAnim = WALKING;
@@ -170,6 +202,33 @@ void cCharacterControl::Backwards()
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
             mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
+
+            mCharacter->characterAnim = WALKING_BACKWARDS;
+        }
+    }
+}
+
+void cCharacterControl::Backwards(glm::vec3 direction)
+{
+    if (mCharacter != NULL)
+    {
+        if (mCharacter->characterAnim != WALKING_BACKWARDS)
+        {
+
+            std::string animationName = mCharacter->animations.walking_backwards;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetVelocity(direction * -1.125f);
+
+            glm::mat4 orientation = getMatrixFromVector(direction);
+            mCharacter->rigidBody->SetMatOrientation(orientation);
+
+            mCharacter->rigidBody->SetRateOfTurnY(0.0f);
 
             mCharacter->characterAnim = WALKING_BACKWARDS;
         }

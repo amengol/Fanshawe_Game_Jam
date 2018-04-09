@@ -30,6 +30,9 @@ public:
     // Moves character forward
     void Forward();
 
+    // Moves character forward
+    void Forward(glm::vec3 direction);
+
     // Strafes character to the left
     void LeftStrafe();
 
@@ -47,6 +50,9 @@ public:
 
     // Moves character backwords
     void Backwards();
+
+    // Moves character backwords
+    void Backwards(glm::vec3 direction);
 
     // Turns character left 90 degrees
     void TurnLeft90();
