@@ -109,8 +109,6 @@ void cCamera::processJoystickMovement(float xAxis, float yAxis, bool constrainm_
 
     m_yaw += xoffset;
 
-    printf("Pitch %f\n", m_pitch);
-
     if (isCharacterMoving)
     {
         if (m_pitch < -20.0f)
