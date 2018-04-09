@@ -1,6 +1,8 @@
 #include "cCamera.h"
 #include "cGameObject.h"
 
+extern bool isCharacterMoving;
+
 cCamera::cCamera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) :
     m_lookAt(glm::vec3(0.0f, 0.0f, -1.0f)),
     m_movementSpeed(SPEED),
@@ -96,6 +98,50 @@ void cCamera::processMouseMovement(float xoffset, float yoffset, bool constrainm
     {
         if (m_pitch > 5.0f)
             m_pitch = 5.0f;
+    }
+}
+
+void cCamera::processJoystickMovement(float xAxis, float yAxis, bool constrainm_pitch)
+{
+    // Translate the axes to offsets
+    float xoffset = (xAxis / 1.000015f) * 90.0f;
+    float yoffset = (yAxis / 1.000015f) * 180.0f;
+
+    m_yaw += xoffset;
+
+    printf("Pitch %f\n", m_pitch);
+
+    if (isCharacterMoving)
+    {
+        if (m_pitch < -20.0f)
+            m_pitch += 5.0f;
+        else if (m_pitch >= -20.0f && m_pitch <= -6.0f)
+            m_pitch += 0.5f;
+
+        else if (m_pitch > -4.0f)
+            m_pitch -= 0.5f;
+    }
+    else
+    {
+        m_pitch += yoffset;
+    }
+
+    // Make sure that when pitch is out of bounds, screen doesn't get flipped
+    if (constrainm_pitch)
+    {
+        if (m_pitch > 89.0f)
+            m_pitch = 89.0f;
+        if (m_pitch < -89.0f)
+            m_pitch = -89.0f;
+    }
+
+    // Limit the pitch in THIRD_PERSON mode
+    if (m_cameraMode == THIRD_PERSON)
+    {
+        if (m_pitch > 5.0f)
+        {
+            m_pitch = 5.0f;
+        }
     }
 }
 

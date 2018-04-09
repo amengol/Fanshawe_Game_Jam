@@ -78,6 +78,10 @@ public:
     // Expects the offset value in both the x and y direction.
     void processMouseMovement(float xoffset, float yoffset, bool constrainm_pitch = true);
 
+    // Processes input received from a joystick input system. 
+    // Expects the offset value in both the x and y direction.
+    void processJoystickMovement(float xAxis, float yAxis, bool constrainm_pitch = true);
+
     // Processes input received from a mouse scroll-wheel event. 
     // Only requires input on the vertical wheel-axis
     void processMouseScroll(float yoffset);

@@ -33,9 +33,6 @@ void cCharacterControl::Forward()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
-            mCharacter->rigidBody->SetRateOfTurnY(0.0f);
-
             mCharacter->characterAnim = WALKING;
         }
     }
@@ -132,8 +129,6 @@ void cCharacterControl::ForwardRun()
 
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
-
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.75f));
 
             mCharacter->characterAnim = RUN_FORWARD;
         }

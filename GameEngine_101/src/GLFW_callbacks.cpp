@@ -1,10 +1,12 @@
 #include "GLFW_callbacks.h"
 #include "globalGameStuff.h"
+#include "Utilities.h"
 
 float lastX = g_scrWidth * 0.5f;
 float lastY = g_scrHeight * 0.5f;
 bool firstMouse = true;
 bool cursorOn = true;
+bool isCharacterMoving = false;
 
 void errorCallback(int error, const char* description)
 {
@@ -114,10 +116,52 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
         if (pCharacterControl == NULL)
             return;
 
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-            pCharacterControl->Forward();
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_RELEASE)
-            pCharacterControl->Idle();
+        // Controller test
+        int present = glfwJoystickPresent(GLFW_JOYSTICK_1);
+
+        if (present == 1)
+        {
+            int count;
+            const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
+
+            if (axes[0] != 0.0f || axes[1] != 0.0f)
+            {
+                isCharacterMoving = true;
+
+                // Mount a normalized vector direction from the controller
+                glm::vec3 controllerDir = glm::vec3(-axes[0], 0.0f, axes[1]);
+                glm::vec3 normilizedControllerDir = glm::normalize(controllerDir);
+
+                // Get the new character orientaion
+                glm::mat4 chacacterRotation = getMatrixFromVector(normilizedControllerDir);
+                glm::mat4 cameraOrientation = getMatrixFromVector(g_camera.getCameraFrontVector());
+                cameraOrientation *= chacacterRotation;
+                pCharacterControl->GetCharacter()->rigidBody->SetMatOrientation(cameraOrientation);
+                
+                if (glm::length(controllerDir) <= 0.9f)
+                {
+                    pCharacterControl->GetCharacter()->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
+                    pCharacterControl->Forward();
+                }
+                else
+                {
+                    pCharacterControl->GetCharacter()->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.75f));
+                    pCharacterControl->ForwardRun();
+                }
+            }// !if (axes[0] != 0.0f || axes[1] != 0.0f)
+            else
+            {
+                isCharacterMoving = false;
+
+                pCharacterControl->GetCharacter()->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+                pCharacterControl->Idle();
+            }// !else if (axes[0] != 0.0f || axes[1] != 0.0f)
+
+            if (axes[2] != 0.0f || axes[3] != 0.0f)
+            {
+                g_camera.processJoystickMovement(axes[2] * deltaTime, axes[3] * deltaTime);
+            }// !if (axes[0] != 0.0f || axes[1] != 0.0f)
+        }
     }
         break;
     default:
