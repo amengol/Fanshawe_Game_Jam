@@ -213,6 +213,17 @@ void DrawObject(cGameObject* pTheGO)
         return;
     }
 
+    // Skybox update
+    if (pTheGO->typeOfObject == SKYBOX)
+    {
+        pTheGO->position = g_camera.m_position;
+        glUniform1f(g_uniLocHandler.isASkyBox, GL_TRUE);
+    }
+    else
+    {
+        glUniform1f(g_uniLocHandler.isASkyBox, GL_FALSE);
+    }
+
     // Update lights
     if (pTheGO->hasLights)
     {
@@ -387,16 +398,6 @@ void DrawObject(cGameObject* pTheGO)
     else
     {
         glUniform1f(g_uniLocHandler.bIsDebugWireFrameObject, 0.0f);	// FALSE
-    }
-
-
-    if (pTheGO->typeOfObject == SKYBOX)
-    {
-        glUniform1f(g_uniLocHandler.isASkyBox, GL_TRUE);
-    }
-    else
-    {
-        glUniform1f(g_uniLocHandler.isASkyBox, GL_FALSE);
     }
 
     if (pTheGO->hasReflection)
