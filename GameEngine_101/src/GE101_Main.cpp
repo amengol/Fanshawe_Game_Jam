@@ -519,7 +519,7 @@ int main()
         g_environment.update(deltaTime);
         g_camera.updateCameraVectors();
 
-        printf("%f frames per second\n", 1.0f / deltaTime);
+        //printf("%f frames per second\n", 1.0f / deltaTime);
 
         // Physics step
         g_pPhysicsWorld->TimeStep(deltaTime);

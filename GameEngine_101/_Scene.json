@@ -125,6 +125,8 @@
 		"jump_forward_running" : "sword_and_shield_jump_forward_r"
 		},
 		"textureNames[0]" : "Paladin_diffuse.bmp",
+		"textureNames[3]" : "Paladin_specular.bmp",
+		"textureNames[4]" : "Paladin_normal.bmp",
 		"position" : [0.0, 0.0, 0.0],
 		"scale" : 0.01
 	}

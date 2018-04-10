@@ -104,5 +104,24 @@ bool loadTextures()
         std::cout << "Texture is loaded!" << std::endl;
     }
 
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Paladin_specular.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Paladin_normal.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
     return true;
 }

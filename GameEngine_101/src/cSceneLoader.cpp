@@ -361,6 +361,70 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             }
         }
 
+        // textureBlend_3
+        float textureBlend_3 = 0.0f;
+        if (gameObject[jsIndex].HasMember("textureBlend[3]"))
+        {
+            if (gameObject[jsIndex]["textureBlend[3]"].IsNumber())
+            {
+                textureBlend_3 = gameObject[jsIndex]["textureBlend[3]"].GetFloat();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"textureBlend[3]\" member!";
+                return false;
+            }
+        }
+
+        // textureNames_3
+        std::string textureNames_3;
+        if (gameObject[jsIndex].HasMember("textureNames[3]"))
+        {
+            if (gameObject[jsIndex]["textureNames[3]"].IsString())
+            {
+                textureNames_3 = gameObject[jsIndex]["textureNames[3]"].GetString();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"textureNames[3]\" member!";
+                return false;
+            }
+        }
+
+        // textureBlend_4
+        float textureBlend_4 = 0.0f;
+        if (gameObject[jsIndex].HasMember("textureBlend[4]"))
+        {
+            if (gameObject[jsIndex]["textureBlend[4]"].IsNumber())
+            {
+                textureBlend_4 = gameObject[jsIndex]["textureBlend[4]"].GetFloat();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"textureBlend[4]\" member!";
+                return false;
+            }
+        }
+
+        // textureNames_4
+        std::string textureNames_4;
+        if (gameObject[jsIndex].HasMember("textureNames[4]"))
+        {
+            if (gameObject[jsIndex]["textureNames[4]"].IsString())
+            {
+                textureNames_4 = gameObject[jsIndex]["textureNames[4]"].GetString();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"textureNames[4]\" member!";
+                return false;
+            }
+        }
+
         // Has Alpha?
         bool hasAlpha = false;
         if (gameObject[jsIndex].HasMember("hasAlpha"))
@@ -1087,6 +1151,10 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         theGO->textureNames[1] = textureNames_1;
 		theGO->textureBlend[2] = textureBlend_2;
         theGO->textureNames[2] = textureNames_2;
+        theGO->textureBlend[3] = textureBlend_3;
+        theGO->textureNames[3] = textureNames_3;
+        theGO->textureBlend[4] = textureBlend_4;
+        theGO->textureNames[4] = textureNames_4;
         theGO->hasAlpha = hasAlpha;
         theGO->useDiscardAlpha = useDiscardAlpha;
         theGO->cullFace = cullFace;

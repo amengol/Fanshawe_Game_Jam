@@ -443,7 +443,16 @@ void DrawObject(cGameObject* pTheGO)
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D,
                   ::g_pTextureManager->getTextureIDFromTextureName(pTheGO->textureNames[2]));
-    // 2..  and so on... 
+
+    // 3
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D,
+                  ::g_pTextureManager->getTextureIDFromTextureName(pTheGO->textureNames[3]));
+
+    // 4
+    glActiveTexture(GL_TEXTURE4);
+    glBindTexture(GL_TEXTURE_2D,
+                  ::g_pTextureManager->getTextureIDFromTextureName(pTheGO->textureNames[4]));
 
     glUniform1i(g_uniLocHandler.texSampCube00_LocID, 27);
     glUniform1i(g_uniLocHandler.texSampCube01_LocID, 28);
@@ -461,12 +470,16 @@ void DrawObject(cGameObject* pTheGO)
     glUniform1i(g_uniLocHandler.textSampler00_ID, 0);
     glUniform1i(g_uniLocHandler.textSampler01_ID, 1);
     glUniform1i(g_uniLocHandler.textSampler02_ID, 2);
+    glUniform1i(g_uniLocHandler.textSampler03_ID, 3);
+    glUniform1i(g_uniLocHandler.textSampler04_ID, 4);
     // .. and so on
 
     // And the blending values
     glUniform1f(g_uniLocHandler.textBlend00_ID, pTheGO->textureBlend[0]);
     glUniform1f(g_uniLocHandler.textBlend01_ID, pTheGO->textureBlend[1]);
     glUniform1f(g_uniLocHandler.textBlend02_ID, pTheGO->textureBlend[2]);
+    glUniform1f(g_uniLocHandler.textBlend03_ID, pTheGO->textureBlend[3]);
+    glUniform1f(g_uniLocHandler.textBlend04_ID, pTheGO->textureBlend[4]);
     // And so on...
 
     //			glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
