@@ -116,6 +116,13 @@ vec3 calcLightColour( in vec3 fVertNormal,
                       in int lightID, 
 					  in vec3 matDiffuse, 
                       in vec4 matSpecular );
+
+// Calculate the contribution of a light at a vertex
+vec3 calcLightColour2( in vec3 fVertNormal, 
+                      in vec3 fVecWorldPosition, 
+                      in int lightID, 
+					  in vec3 matDiffuse, 
+                      in vec4 matSpecular );
 /*****************************************************/
 
 const float CALCULATE_LIGHTING = 1.0f;
@@ -378,6 +385,45 @@ vec3 calcLightColour( in vec3 vecNormal,
                       in vec3 matDiffuse, 	
                       in vec4 matSpecular )	
 {
+	// Ambient
+	vec3 norm = normalize(vecNormal);
+	vec3 lightDir = normalize(myLight[lightID].position.rgb - fVecWorldPosition); 
+
+	// Diffuse
+	float diff = max(dot(norm, lightDir), 0.0);
+	vec3 diffuse = diff * myLight[lightID].diffuse.rgb;
+
+	// Light Power
+	float lightPower = myLight[lightID].typeParams2.x * 2.0f;
+
+	// Specular
+	float specularStrength = 0.5;
+	vec3 viewDir = normalize(eyePosition - fVecWorldPosition);
+	vec3 reflectDir = reflect(-lightDir, norm);
+	float specularShininess = matSpecular.w;
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), specularShininess);
+	vec3 specular;
+	if (hasColour)
+	{
+		specular = matSpecular.rgb * spec * myLight[lightID].diffuse.rgb; 
+	}
+	else
+	{
+		specular = texture( texSamp2D03, fUV_X2.xy ).rgb * spec * myLight[lightID].diffuse.rgb; 
+	}
+	
+
+	// Result
+	return diffuse * matDiffuse * lightPower + specular;
+}
+
+// Calcualte the contribution of a light at a vertex
+vec3 calcLightColour2( in vec3 vecNormal, 
+                      in vec3 fVecWorldPosition, 
+                      in int lightID, 
+                      in vec3 matDiffuse, 	
+                      in vec4 matSpecular )	
+{
 	vec3 colour = vec3( 0.0f, 0.0f, 0.0f );	
 	vec3 outDiffuse = vec3( 0.0f, 0.0f, 0.0f );
 	vec3 outSpecular = vec3( 0.0f, 0.0f, 0.0f );	
@@ -427,7 +473,7 @@ vec3 calcLightColour( in vec3 vecNormal,
 	
 	// Vector from vertex to eye 
 	vec3 viewVector = normalize( eyePosition - fVecWorldPosition );
-	vec3 vecLightReflection = reflect( normalize(lightVector), vecNormal );
+	vec3 vecLightReflection = reflect( normalize(-lightVector), vecNormal );
 	
 	float specularShininess = matSpecular.w;	
 	vec3 specMatColour = matSpecular.rgb;		

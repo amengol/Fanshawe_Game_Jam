@@ -126,6 +126,7 @@
 		},
 		"textureNames[0]" : "Paladin_diffuse.bmp",
 		"textureNames[3]" : "Paladin_specular.bmp",
+		"specular" : [1.0, 1.0, 1.0, 64.0],
 		"textureNames[4]" : "Paladin_normal.bmp",
 		"position" : [0.0, 0.0, 0.0],
 		"scale" : 0.01
