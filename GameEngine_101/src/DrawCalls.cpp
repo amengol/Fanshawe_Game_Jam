@@ -349,7 +349,7 @@ void DrawObject(cGameObject* pTheGO)
     glUniformMatrix4fv(g_uniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
 
     // Diffuse is often 0.2-0.3 the value of the diffuse
-    glUniform1f(g_uniLocHandler.ambientToDiffuseRatio, 0.2f);
+    glUniform1f(g_uniLocHandler.ambientToDiffuseRatio, 0.4f);
 
     // Specular: For now, set this colour to white, and the shininess to something high 
     //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
