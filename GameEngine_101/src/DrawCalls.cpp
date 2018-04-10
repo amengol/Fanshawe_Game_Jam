@@ -224,6 +224,10 @@ void DrawObject(cGameObject* pTheGO)
         glUniform1f(g_uniLocHandler.isASkyBox, GL_FALSE);
     }
 
+    // Eye Position
+    glm::vec3 eyePos = g_camera.m_position;
+    glUniform3f(g_uniLocHandler.eyePosition, eyePos.x, eyePos.y, eyePos.z);
+
     // Update lights
     if (pTheGO->hasLights)
     {
