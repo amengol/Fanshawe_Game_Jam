@@ -52,8 +52,7 @@ void main()
 		fTangent = vTangent;
 		fBitangent = vBitangent;
 	}
-	
-	if (bIsASkinnedMesh)
+	else
 	{
 		mat4 BoneTransform = bones[ int(vBoneIDs_x4[0]) ] * vBoneWeights_x4[0];
 		BoneTransform += bones[ int(vBoneIDs_x4[1]) ] * vBoneWeights_x4[1];
