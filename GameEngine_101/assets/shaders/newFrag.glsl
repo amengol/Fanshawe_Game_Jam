@@ -117,12 +117,6 @@ vec3 calcLightColour( in vec3 fVertNormal,
 					  in vec3 matDiffuse, 
                       in vec4 matSpecular );
 
-// Calculate the contribution of a light at a vertex
-vec3 calcLightColour2( in vec3 fVertNormal, 
-                      in vec3 fVecWorldPosition, 
-                      in int lightID, 
-					  in vec3 matDiffuse, 
-                      in vec4 matSpecular );
 /*****************************************************/
 
 const float CALCULATE_LIGHTING = 1.0f;
@@ -385,16 +379,34 @@ vec3 calcLightColour( in vec3 vecNormal,
                       in vec3 matDiffuse, 	
                       in vec4 matSpecular )	
 {
+	// Result Colour
+	vec3 resultColour = vec3( 0.0f, 0.0f, 0.0f );
+
+	// Distance between light and vertex (in world)
+	vec3 vecToLight = myLight[lightID].position.xyz - fVecWorldPosition;
+	float lightDistance = length(vecToLight);
+	
+	// Short circuit distance
+	if ( myLight[lightID].typeParams.y <  lightDistance )
+	{
+		return resultColour;
+	}
+
+	// Material diffuse
+	resultColour = matDiffuse;
+
 	// Ambient
 	vec3 norm = normalize(vecNormal);
-	vec3 lightDir = normalize(myLight[lightID].position.rgb - fVecWorldPosition); 
+	vec3 lightDir = normalize(vecToLight); 
 
 	// Diffuse
-	float diff = max(dot(norm, lightDir), 0.0);
-	vec3 diffuse = diff * myLight[lightID].diffuse.rgb;
+	float diffusePower = max(dot(norm, lightDir), 0.0);
+	vec3 diffuseLight = diffusePower * myLight[lightID].diffuse.rgb;
+	resultColour *= diffuseLight;
 
 	// Light Power
 	float lightPower = myLight[lightID].typeParams2.x * 2.0f;
+	resultColour *= lightPower;
 
 	// Specular
 	float specularStrength = 0.5;
@@ -411,124 +423,51 @@ vec3 calcLightColour( in vec3 vecNormal,
 	{
 		specular = texture( texSamp2D03, fUV_X2.xy ).rgb * spec * myLight[lightID].diffuse.rgb; 
 	}
-	
+	resultColour += specular;
 
-	// Result
-	return diffuse * matDiffuse * lightPower + specular;
-}
-
-// Calcualte the contribution of a light at a vertex
-vec3 calcLightColour2( in vec3 vecNormal, 
-                      in vec3 fVecWorldPosition, 
-                      in int lightID, 
-                      in vec3 matDiffuse, 	
-                      in vec4 matSpecular )	
-{
-	vec3 colour = vec3( 0.0f, 0.0f, 0.0f );	
-	vec3 outDiffuse = vec3( 0.0f, 0.0f, 0.0f );
-	vec3 outSpecular = vec3( 0.0f, 0.0f, 0.0f );	
-
-	// Distance between light and vertex (in world)
-	vec3 vecToLight = myLight[lightID].position.xyz - fVecWorldPosition;
-	// How long is this vector?
-	float lightDistance = length(vecToLight);
-	// Short circuit distance
-	if ( myLight[lightID].typeParams.y <  lightDistance )
-	{
-		return colour;
-	}
-	
-	// The "normalized" vector to the light (don't care about distance, just direction)
-	vec3 lightVector = normalize( vecToLight );
-	
-	// The normalized version of the vertex normal
-	vecNormal = normalize(vecNormal);
-	
-	// How much diffuse light is being "reflected" off the surface 
-	float diffFactor = max(0.0f, dot( lightVector, vecNormal ));
-	
-	
-	if (hasColour)
-	{
-		outDiffuse.rgb = ((myLight[lightID].diffuse.rgb 		
-			              * fColor.rgb) +					
-						  (myLight[lightID].diffuse.rgb 	
-						   * materialDiffuse.rgb)) * diffFactor;				
-	}
-	else	
-	{
-		outDiffuse.rgb = myLight[lightID].diffuse.rgb 		// Light contribution
-			             * matDiffuse.rgb					// Material contribution
-						 * diffFactor;						// Factor based on direction
-	}
-					 
-
-
+	// Attenuation
 	float attenuation = 1.0f / 
 	   ( myLight[lightID].attenuation.x										// Constant  
 	   + myLight[lightID].attenuation.y * lightDistance						// Linear
 	   + myLight[lightID].attenuation.z * lightDistance * lightDistance );	// Quad
-	outDiffuse.rgb *= attenuation;
+	resultColour *= attenuation;
 
-	
-	// Vector from vertex to eye 
-	vec3 viewVector = normalize( eyePosition - fVecWorldPosition );
-	vec3 vecLightReflection = reflect( normalize(-lightVector), vecNormal );
-	
-	float specularShininess = matSpecular.w;	
-	vec3 specMatColour = matSpecular.rgb;		
-	
-	outSpecular.rgb = pow( max(0.0f, dot(viewVector,vecLightReflection)), 
-	                  specularShininess)
-			          * specMatColour
-				      * myLight[lightID].specular.rgb;
-				   
-	outSpecular *= attenuation;
-	
-	colour = outDiffuse + outSpecular;
-
-	// Now we have the colour if this was a point light 
-	// See if it's a spot light...
-	if ( myLight[lightID].typeParams.x == 2.0f ) 			// x = type
-	{	// Then it's a spot light! 
+	// Spot light
+	if ( myLight[lightID].typeParams.x == 2.0f )	// x = type
+	{	 
 		// 		0 = point
 		// 		1 = directional
 		// 		2 = spot
-	    // z angle1, w = angle2		- only for spot
-		
+		//		z angle1, w = angle2
+	
 		// Vector from the vertex to the light... 
 		vec3 vecVertexToLight = fVecWorldPosition - myLight[lightID].position.xyz;
+		
 		// Normalize to unit length vector
 		vec3 vecVtoLDirection = normalize(vecVertexToLight);
 		
 		float vertSpotAngle = max(0.0f, dot( vecVtoLDirection, myLight[lightID].direction.xyz ));
 		
-		// Is this withing the angle1?
 		float angleInsideCutCos = cos(myLight[lightID].typeParams.z);		// z angle1
 		float angleOutsideCutCos = cos(myLight[lightID].typeParams.w);		// z angle2
 		
+		// Is this withing the angle1?
 		if ( vertSpotAngle <= angleOutsideCutCos )
-		{	// NO, it's outside this angle1
-			colour = vec3(0.0f, 0.0f, 0.0f );
+		{	
+			resultColour = vec3(0.0f, 0.0f, 0.0f );
 		}
 		else if ( (vertSpotAngle > angleOutsideCutCos ) && 
 		          (vertSpotAngle <= angleInsideCutCos) )
-		{	// inside the 'penumbra' region
+		{
 			// Use smoothstep to get the gradual drop off in brightness
-			float penRatio = smoothstep(angleOutsideCutCos, 
-			                            angleInsideCutCos, 
-										vertSpotAngle );          
+			float penumbraRatio = smoothstep(angleOutsideCutCos, 
+											 angleInsideCutCos, 
+											 vertSpotAngle );          
 			
-			colour *= penRatio;
+			resultColour *= penumbraRatio;
 		}
+	}
 
-	}//if ( typeParams.x
-
-	
-	return colour * myLight[lightID].typeParams2.x * 2.0f;
-}// vec3 calcLightColour(...) 
-
-
-
-
-
+	// Result
+	return resultColour;
+}
