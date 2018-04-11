@@ -8,8 +8,14 @@
 #include <iostream>
 #include <sstream>
 
-bool initialConfig(std::string fileName, unsigned int& width, unsigned int& height, std::string& title)
+bool initialConfig(std::string fileName, int& width, int& height, std::string& title)
 {
+    // Sanity check
+    if (width < 0 || height < 0)
+    {
+        return false;
+    }
+
     std::string theTitle = title;
 
     std::ifstream infoFile("GameConfig.ini");
