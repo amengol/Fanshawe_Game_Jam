@@ -123,11 +123,9 @@ vec3 calcLightColour( in vec3 fVertNormal,
 const float CALCULATE_LIGHTING = 1.0f;
 const float DONT_CALCULATE_LIGHTING = 0.25f;
 
-const int PASS_0_G_BUFFER_PASS = 0;
-const int PASS_1_DEFERRED_RENDER_PASS = 1;
-const int PASS_2_FULL_SCREEN_EFFECT_PASS = 2;
-const int PASS_3_FULL_SCREEN_EFFECT_PASS_2 = 3;
-
+const int FULL_SCENE_RENDER_PASS = 0;
+const int DEFERRED_RENDER_PASS = 1;
+const int FINAL_RENDER_PASS = 99;
 
 void main()
 {	
@@ -138,7 +136,7 @@ void main()
 
 		switch (renderPassNumber)
 	{
-	case PASS_0_G_BUFFER_PASS:	 // (0)
+	case FULL_SCENE_RENDER_PASS:	 // (0)
 	{
 			// Is this a 'debug' wireframe object, i.e. no lighting, just use diffuse
 		if ( bIsDebugWireFrameObject )
@@ -288,12 +286,6 @@ void main()
 							  (texCol07.rgb * texBlend07);
 		}
 
-		
-		
-						  
-
-
-
 
 		vec3 ambientContribution = matDiffuse.rgb * ambientToDiffuseRatio;
 		fragOut_colour.rgb += ambientContribution.rgb;	
@@ -350,8 +342,8 @@ void main()
 												  materialSpecular );
 		}
 	}
-		break;	// end of PASS_0_G_BUFFER_PASS (0):
-	case PASS_1_DEFERRED_RENDER_PASS:	// (1)
+		break;	// end of FULL_SCENE_RENDER_PASS (0):
+	case DEFERRED_RENDER_PASS:	// (1)
 	{
 		vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, gl_FragCoord.y / screenHeight );
 
@@ -359,41 +351,13 @@ void main()
 		vec4 theNormalAtThisPixel = texture( texFBONormal2D, textCoords).rgba;
 		vec3 theVertLocWorldAtThisPixel = texture( texFBOVertexWorldPos2D, textCoords).rgb;
 
-		if ( theNormalAtThisPixel.a != CALCULATE_LIGHTING )
-		{
-			// Return the colour as it is on the colour FBO
-			fragOut_colour.rgb = theColourAtThisPixel.rgb;
-			fragOut_colour.a = 1.0f;
-		}
-		else
-		{
-			// ELSE: do the lighting...
-			for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
-			{
-				fragOut_colour.rgb += calcLightColour( theNormalAtThisPixel.xyz, 					
-													   theVertLocWorldAtThisPixel, 
-													   index, 
-													   theColourAtThisPixel, 
-													   materialSpecular );
-			}
-		}// if ( theNormalAtThisPixel.a != CALCULATE_LIGHTING )
-
-
-		fragOut_colour.rgb *= 7.0f;		// dim projector
+		// Return the colour as it is on the colour FBO
+		fragOut_colour.rgb = theColourAtThisPixel.rgb;
 		fragOut_colour.a = 1.0f;
+
 	}
-		break;	// end of pass PASS_1_DEFERRED_RENDER_PASS (1)
-	case PASS_2_FULL_SCREEN_EFFECT_PASS:	// (2)
-	{
-		vec2 theUVCoords = fUV_X2.xy;
-		theUVCoords.x += staticEffect;
-		theUVCoords.y += staticEffect;
-		fragOut_colour.rgb = texture( fullRenderedImage2D, fUV_X2.xy ).rgb * (1.0f - staticFade);
-		fragOut_colour.rgb += texture( fullRenderedImage2D_Overlay, theUVCoords.xy).rgb * staticFade;
-		fragOut_colour.a = 1.0f;
-	}
-		break;	// end of pass PASS_2_FULL_SCREEN_EFFECT_PASS:
-	case PASS_3_FULL_SCREEN_EFFECT_PASS_2:	// (2)
+		break;	// end of pass DEFERRED_RENDER_PASS (1)
+	case FINAL_RENDER_PASS:	// (99)
 	{
 		vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, gl_FragCoord.y / screenHeight );
 
