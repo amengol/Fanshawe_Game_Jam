@@ -18,6 +18,7 @@ public:
     GLint bIsDebugWireFrameObject;
     GLint hasColour;
     GLint hasAlpha;
+    GLint hasMultiLayerTextures;
     GLint hasReflection;
     GLint isReflectRefract;
     GLint useDiscardAlpha;

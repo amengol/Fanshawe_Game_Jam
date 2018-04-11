@@ -31,6 +31,7 @@ uniform bool hasColour;
 uniform bool hasAlpha;
 uniform bool useDiscardAlpha;
 uniform bool hasReflection;
+uniform bool hasMultiLayerTextures;
 
 uniform int renderPassNumber;	//FBO
 
@@ -235,25 +236,59 @@ void main()
 		
 		// ****************************************************************/
 		vec2 theUVCoords = fUV_X2.xy;		// use UV #1 of vertex
+		vec2 theUV2Coords = fUV_X2.zw;		// use UV #2 of vertex
 			
-		vec4 texCol00 = texture( texSamp2D00, theUVCoords.xy );
-		vec4 texCol01 = texture( texSamp2D01, theUVCoords.xy );
-		vec4 texCol02 = texture( texSamp2D02, theUVCoords.xy );
-		vec4 texCol03 = texture( texSamp2D03, theUVCoords.xy );
-		vec4 texCol04 = texture( texSamp2D04, theUVCoords.xy );
-		vec4 texCol05 = texture( texSamp2D05, theUVCoords.xy );
-		vec4 texCol06 = texture( texSamp2D06, theUVCoords.xy );
-		vec4 texCol07 = texture( texSamp2D07, theUVCoords.xy );
+		vec4 texCol00;
+		vec4 texCol01;
+		vec4 texCol02;
+		vec4 texCol03;
+		vec4 texCol04;
+		vec4 texCol05;
+		vec4 texCol06;
+		vec4 texCol07;
 		//... and so on (to how many textures you are using)
 
-		matDiffuse.rgb += (texCol00.rgb * texBlend00) + 
-		                  (texCol01.rgb * texBlend01) + 
-						  (texCol02.rgb * texBlend02) + 
-						  (texCol03.rgb * texBlend03) +
-						  (texCol04.rgb * texBlend04) +
-						  (texCol05.rgb * texBlend05) +
-						  (texCol06.rgb * texBlend06) +
-						  (texCol07.rgb * texBlend07);
+		if (hasMultiLayerTextures)
+		{
+			texCol00 = texture( texSamp2D00, theUVCoords );
+			texCol01 = texture( texSamp2D01, theUVCoords );
+			texCol02 = texture( texSamp2D02, theUVCoords );
+			texCol03 = texture( texSamp2D03, theUVCoords );
+			texCol04 = texture( texSamp2D04, theUVCoords );
+			texCol05 = texture( texSamp2D05, theUVCoords );
+			texCol06 = texture( texSamp2D06, theUVCoords );
+			texCol07 = texture( texSamp2D07, theUV2Coords );
+
+			matDiffuse.rgb += (texCol00.rgb * texCol07.g) + 
+							  (texCol01.rgb * texCol07.r) + 
+							  (texCol02.rgb * texCol07.b) + 
+							  (texCol03.rgb * texBlend03) +
+							  (texCol04.rgb * texBlend04) +
+							  (texCol05.rgb * texBlend05) +
+							  (texCol06.rgb * texBlend06);
+		}
+		else
+		{
+			texCol00 = texture( texSamp2D00, theUVCoords );
+			texCol01 = texture( texSamp2D01, theUVCoords );
+			texCol02 = texture( texSamp2D02, theUVCoords );
+			texCol03 = texture( texSamp2D03, theUVCoords );
+			texCol04 = texture( texSamp2D04, theUVCoords );
+			texCol05 = texture( texSamp2D05, theUVCoords );
+			texCol06 = texture( texSamp2D06, theUVCoords );
+			texCol07 = texture( texSamp2D07, theUVCoords );
+
+			matDiffuse.rgb += (texCol00.rgb * texBlend00) + 
+							  (texCol01.rgb * texBlend01) + 
+							  (texCol02.rgb * texBlend02) + 
+							  (texCol03.rgb * texBlend03) +
+							  (texCol04.rgb * texBlend04) +
+							  (texCol05.rgb * texBlend05) +
+							  (texCol06.rgb * texBlend06) +
+							  (texCol07.rgb * texBlend07);
+		}
+
+		
 		
 						  
 

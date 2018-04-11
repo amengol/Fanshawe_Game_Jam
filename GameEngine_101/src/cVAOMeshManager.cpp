@@ -275,6 +275,9 @@ bool cVAOMeshManager::loadMeshIntoStaticVAO(cMesh& theMesh, int shaderID, bool b
         glGenBuffers(1, &(theVAOInfo.vertex_buffer_ID));
         glBindBuffer(GL_ARRAY_BUFFER, theVAOInfo.vertex_buffer_ID);
 
+        // Init secondary UVs in case it is a multi layer object
+        theMesh.InitPlaneSecondaryUvs();
+
         // Allocate the global vertex array
         sVertex* pVertices = new sVertex[theMesh.numberOfVertices];
 

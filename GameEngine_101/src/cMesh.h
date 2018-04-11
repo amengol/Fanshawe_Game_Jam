@@ -44,5 +44,7 @@ public:
 
 	void CalculateNormals(void);
 
+    void InitPlaneSecondaryUvs();
+
 };
 #endif

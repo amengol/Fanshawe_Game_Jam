@@ -11,6 +11,7 @@ cUniLocHandler::cUniLocHandler()
     bIsDebugWireFrameObject = -1;
     hasColour = -1;
     hasAlpha = -1;
+    hasMultiLayerTextures = -1;
     hasReflection = -1;
     isReflectRefract = -1;
     useDiscardAlpha = -1;
@@ -34,6 +35,7 @@ void cUniLocHandler::InitShaderUniformLocations(std::string shaderName)
         bIsDebugWireFrameObject = glGetUniformLocation(currentProgID, "bIsDebugWireFrameObject");
         hasColour = glGetUniformLocation(currentProgID, "hasColour");
         hasAlpha = glGetUniformLocation(currentProgID, "hasAlpha");
+        hasMultiLayerTextures = glGetUniformLocation(currentProgID, "hasMultiLayerTextures");
         hasReflection = glGetUniformLocation(currentProgID, "hasReflection");
         isReflectRefract = glGetUniformLocation(currentProgID, "isReflectRefract");
         useDiscardAlpha = glGetUniformLocation(currentProgID, "useDiscardAlpha");

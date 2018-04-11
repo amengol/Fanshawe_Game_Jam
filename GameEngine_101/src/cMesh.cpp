@@ -7,6 +7,8 @@ cMesh::cMesh()
 	this->numberOfTriangles = 0;
 	this->maxExtent = 0.0f;
 	this->scaleForUnitBox = 1.0f;
+    this->pVertices = NULL;
+    this->pTriangles = NULL;
 	return;
 }
 
@@ -150,6 +152,21 @@ void cMesh::CalculateNormals(void)
 	}
 
 	return;
+}
+
+void cMesh::InitPlaneSecondaryUvs()
+{
+    if (this->pVertices != NULL && this->numberOfVertices == 4)
+    {
+        this->pVertices[0].u2 = 0.0f;
+        this->pVertices[0].v2 = 1.0f;
+        this->pVertices[1].u2 = 0.0f;
+        this->pVertices[1].v2 = 0.0f;
+        this->pVertices[2].u2 = 1.0f;
+        this->pVertices[2].v2 = 0.0f;
+        this->pVertices[3].u2 = 1.0f;
+        this->pVertices[3].v2 = 1.0f;
+    }
 }
 
 // Used for the physics calculations

@@ -102,7 +102,11 @@
 	},
 	{ 
 		"meshName" : "Terrain",
-		"textureNames[0]" : "Ground03_D.bmp"		
+		"hasMultiLayerTextures" : true,
+		"textureNames[0]" : "Ground07_D.bmp",
+		"textureNames[1]" : "Ground05_D.bmp",
+		"textureNames[2]" : "Ground03_D.bmp",
+		"textureNames[7]" : "Ground_Overlay.bmp"		
 	},
 	{ 
 		"meshName" : "Limits",

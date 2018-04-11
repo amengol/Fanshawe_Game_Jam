@@ -43,6 +43,7 @@ cGameObject::cGameObject()
     this->pAniState = NULL;	
     this->startDisplacement;
     this->animationsInitiated = false;
+    this->hasMultiLayerTextures = false;
 
 #ifdef _DEBUG
  	//this->m_pTheDR = cDebugRenderer::getInstance();
