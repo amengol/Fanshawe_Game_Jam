@@ -337,6 +337,7 @@ int main()
     // Environment initialization
     g_environment.initLights(currentProgID, g_pLightManager);
     g_environment.setTimeOfDay(cEnvironment::DaySkyLight::NOON);
+    //g_environment.setMode(cEnvironment::Mode::CONTINUOUS);
     //-------------------------------------------------------------------------
     // Texture 
     if(!loadTextures())

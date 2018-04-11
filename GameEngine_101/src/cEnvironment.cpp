@@ -13,45 +13,45 @@ cEnvironment::cEnvironment()
     m_midNight->position = glm::vec3(0.0f, 400.0f, 0.0f);
     m_midNight->diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
     m_midNight->attenuation = glm::vec3(0.0f);
-    m_midNight->attenuation.x = 0.8f;
+    m_midNight->attenuation.x = 1.0f;
     m_midNight->typeParams = glm::vec4(0.0f);
-    m_midNight->typeParams.y = 1000000.0f;
+    m_midNight->typeParams.y = 1000.0f;
     m_midNight->typeParams2 = glm::vec4(0.0f);
 
     m_dawn = new cLight();
     m_dawn->position = glm::vec3(100.0f, 100.0f, 0.0f);
     m_dawn->diffuse = glm::vec3(1.0f, 1.0f, 0.79f);
     m_dawn->attenuation = glm::vec3(0.0f);
-    m_dawn->attenuation.x = 0.8f;
+    m_dawn->attenuation.x = 1.0f;
     m_dawn->typeParams = glm::vec4(0.0f);
-    m_dawn->typeParams.y = 1000000.0f;
+    m_dawn->typeParams.y = 1000.0f;
     m_dawn->typeParams2 = glm::vec4(0.0f);
 
     m_noon = new cLight();
     m_noon->position = glm::vec3(0.0f, 400.0f, 0.0f);
     m_noon->diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
     m_noon->attenuation = glm::vec3(0.0f);
-    m_noon->attenuation.x = 0.8f;
+    m_noon->attenuation.x = 1.0f;
     m_noon->typeParams = glm::vec4(0.0f);
-    m_noon->typeParams.y = 1000000.0f;
+    m_noon->typeParams.y = 1000.0f;
     m_noon->typeParams2 = glm::vec4(0.0f);
 
     m_sunset = new cLight();
     m_sunset->position = glm::vec3(-100.0f, 100.0f, 0.0f);
     m_sunset->diffuse = glm::vec3(1.0f, 0.925f, 0.925f);
     m_sunset->attenuation = glm::vec3(0.0f);
-    m_sunset->attenuation.x = 0.8f;
+    m_sunset->attenuation.x = 1.0f;
     m_sunset->typeParams = glm::vec4(0.0f);
-    m_sunset->typeParams.y = 1000000.0f;
+    m_sunset->typeParams.y = 1000.0f;
     m_sunset->typeParams2 = glm::vec4(0.0f);
 
     m_night = new cLight();
     m_night->position = glm::vec3(0.0f, 400.0f, 0.0f);
     m_night->diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
     m_night->attenuation = glm::vec3(0.0f);
-    m_night->attenuation.x = 0.8f;
+    m_night->attenuation.x = 1.0f;
     m_night->typeParams = glm::vec4(0.0f);
-    m_night->typeParams.y = 1000000.0f;
+    m_night->typeParams.y = 1000.0f;
     m_night->typeParams2 = glm::vec4(0.0f);
     
 }
