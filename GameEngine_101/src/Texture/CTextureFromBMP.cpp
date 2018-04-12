@@ -123,7 +123,7 @@ bool CTextureFromBMP::CreateNewTextureFromBMPFile2( std::string textureName, std
 	//			 GL_UNSIGNED_BYTE,	// type of pixel data
 	//			 this->m_p_theImages);	// pointer to data in memory
 	glTexStorage2D( GL_TEXTURE_2D, 
-		            1,			// MIP map
+		            5,			// MIP map
 					GL_RGBA8, 
 					this->m_numberOfColumns, 
 					this->m_numberOfRows );
