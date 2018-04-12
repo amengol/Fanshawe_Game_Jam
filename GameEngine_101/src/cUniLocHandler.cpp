@@ -45,6 +45,7 @@ void cUniLocHandler::InitShaderUniformLocations(std::string shaderName)
         mView = glGetUniformLocation(currentProgID, "mView");
         mProjection = glGetUniformLocation(currentProgID, "mProjection");
         mWorldInvTrans = glGetUniformLocation(currentProgID, "mWorldInvTranspose");
+        gamaCorrection = glGetUniformLocation(currentProgID, "gamaCorrection");
 
         // Textures
         textSampler00_ID = glGetUniformLocation(currentProgID, "texSamp2D00");

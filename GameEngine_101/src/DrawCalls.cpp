@@ -9,7 +9,7 @@
 #include "Utilities.h"
 
 bool g_clothDebug = false;
-
+float g_gamaCorrection = 1.5f;
 
 //****************************************************************************************
 //    ___  _    _                      _  __  __           _     
@@ -349,7 +349,7 @@ void DrawObject(cGameObject* pTheGO)
     glUniformMatrix4fv(g_uniLocHandler.mWorldInvTrans, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mWorldInvTranpose));
 
     // Diffuse is often 0.2-0.3 the value of the diffuse
-    glUniform1f(g_uniLocHandler.ambientToDiffuseRatio, 0.4f);
+    glUniform1f(g_uniLocHandler.ambientToDiffuseRatio, 0.2f);
 
     // Specular: For now, set this colour to white, and the shininess to something high 
     //	it's an exponent so 64 is pretty shinny (1.0 is "flat", 128 is excessively shiny)
@@ -558,6 +558,9 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, c
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Pass the GamaCorrection
+    glUniform1f(g_uniLocHandler.gamaCorrection, g_gamaCorrection);
 
     ::g_pShaderManager->useShaderProgram("GE101_Shader");
     GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");

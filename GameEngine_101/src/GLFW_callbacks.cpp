@@ -7,6 +7,7 @@ float lastY = g_scrHeight * 0.5f;
 bool firstMouse = true;
 bool cursorOn = true;
 bool isCharacterMoving = false;
+bool G_Pressed = false;
 
 void errorCallback(int error, const char* description)
 {
@@ -38,6 +39,31 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         if (key == GLFW_KEY_0 && action == GLFW_PRESS)
         {
             g_camera.releaseGameObject();
+        }
+
+        if (key == GLFW_KEY_G && action == GLFW_PRESS)
+        {
+            G_Pressed = true;
+        }
+
+        if (key == GLFW_KEY_G && action == GLFW_RELEASE)
+        {
+            G_Pressed = false;
+        }
+
+        if (G_Pressed)
+        {
+            if (key == GLFW_KEY_MINUS && action == GLFW_PRESS)
+            {
+                g_gamaCorrection -= 0.1f;
+                printf("Gama Correction: %f\n", g_gamaCorrection);
+            }
+
+            if (key == GLFW_KEY_EQUAL && action == GLFW_PRESS)
+            {
+                g_gamaCorrection += 0.1f;
+                printf("Gama Correction: %f\n", g_gamaCorrection);
+            }
         }
     }    
 }

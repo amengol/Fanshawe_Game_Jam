@@ -89,6 +89,8 @@ uniform float coefficientRefract; 		// coefficient of refraction
 uniform float staticEffect;
 uniform float staticFade;
 
+// Game correction
+uniform float gamaCorrection;
 
 /*****************************************************/
 struct sLightDesc {
@@ -366,6 +368,7 @@ void main()
 
 		fragOut_colour.rgb = texture( fullRenderedImage2D, textCoords).rgb;
 		fragOut_colour.a = 1.0f;
+		fragOut_colour.rgb = pow(fragOut_colour.rgb, vec3(1.0/gamaCorrection));
 
 		//vec2 offsets[9] = vec2[](
 			//vec2(-offset,  offset), // top-left
