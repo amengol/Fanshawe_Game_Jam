@@ -333,8 +333,8 @@ int main()
     
     // Environment initialization
     g_environment.initLights(currentProgID, g_pLightManager);
-    g_environment.setTimeOfDay(cEnvironment::DaySkyLight::MIDNIGHT);
-    g_environment.setMode(cEnvironment::Mode::CONTINUOUS);
+    g_environment.setTimeOfDay(cEnvironment::DaySkyLight::SUNSET);
+    //g_environment.setMode(cEnvironment::Mode::CONTINUOUS);
     //-------------------------------------------------------------------------
     // Texture 
     if(!loadTextures())
@@ -543,10 +543,8 @@ int main()
         // in case we change the screen size
         if (curWidth != g_FBO_fullScene.width || curHeight != g_FBO_fullScene.height)
         {
-            g_FBO_fullScene.shutdown();
-            g_FBO_deferred.shutdown();
-            g_FBO_fullScene.init(curWidth, curHeight, error);
-            g_FBO_deferred.init(curWidth, curHeight, error);
+            g_FBO_fullScene.reset(curWidth, curHeight, error);
+            g_FBO_deferred.reset(curWidth, curHeight, error);
         }
 
         ::g_pShaderManager->useShaderProgram("GE101_Shader");
