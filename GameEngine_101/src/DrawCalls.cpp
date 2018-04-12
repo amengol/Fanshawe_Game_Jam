@@ -476,11 +476,11 @@ void DrawObject(cGameObject* pTheGO)
     // Multi layer texture object?
     if (pTheGO->hasMultiLayerTextures)
     {
-        glUniform1d(g_uniLocHandler.hasMultiLayerTextures, GL_TRUE);
+        glUniform1f(g_uniLocHandler.hasMultiLayerTextures, GL_TRUE);
     }
     else
     {
-        glUniform1d(g_uniLocHandler.hasMultiLayerTextures, GL_FALSE);
+        glUniform1f(g_uniLocHandler.hasMultiLayerTextures, GL_FALSE);
     }
 
     glUniform1i(g_uniLocHandler.texSampCube00_LocID, 27);
