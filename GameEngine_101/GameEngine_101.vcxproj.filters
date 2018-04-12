@@ -251,6 +251,9 @@
     <ClCompile Include="src\cEnvironment.cpp">
       <Filter>Environment</Filter>
     </ClCompile>
+    <ClCompile Include="src\cFBO_Shadow.cpp">
+      <Filter>FrameBuffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utilities.h">
@@ -423,6 +426,9 @@
     </ClInclude>
     <ClInclude Include="src\cEnvironment.h">
       <Filter>Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cFBO_Shadow.h">
+      <Filter>FrameBuffer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
