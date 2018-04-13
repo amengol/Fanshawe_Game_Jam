@@ -10,4 +10,8 @@ class cCamera;
 void DrawObject(cGameObject* pTheGO);
 
 // The main render call
-void RenderScene(std::vector<cGameObject*> &vec_pGOs, GLFWwindow* pGLFWWindow, cCamera& camera, double deltaTime);
+void RenderScene(std::vector<cGameObject*> &vec_pGOs, 
+                 GLFWwindow* pGLFWWindow, 
+                 cCamera& camera,                 
+                 double deltaTime,
+                 cGameObject* skyBox = NULL);

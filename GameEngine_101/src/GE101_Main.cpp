@@ -558,7 +558,7 @@ int main()
         g_FBO_fullScene.clearBuffers();
 
         // Render to the Screen FBO (1st pass)
-        RenderScene(::g_vecGameObjects, window, g_camera, deltaTime);
+        RenderScene(g_vecGameObjects, window, g_camera, deltaTime, g_pSkyBoxObject);
 
         // Now we point it to the FBO texture
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_deferred.ID);
@@ -590,11 +590,9 @@ int main()
         glUniform1f(screenWidthLocID, (float)g_scrWidth);
         glUniform1f(screenHeightLocID, (float)g_scrHeight);
 
-        // Drawing the skybox because it fills the entire screen
-        // Also, we are using the Fixed Camera
-        std::vector< cGameObject* >  vecSkyBox;
-        vecSkyBox.push_back(::g_pSkyBoxObject);
-        RenderScene(vecSkyBox, window, g_camera, deltaTime);
+        // Only drawing the skybox because it fills the entire screen
+        std::vector< cGameObject* >  emptyVecGOs;
+        RenderScene(emptyVecGOs, window, g_camera, deltaTime, g_pSkyBoxObject);
 
         // Now we are going to draw to the screen itself. There is going to be 2 draws:
         // 1. We draw the full scene using the regulat FBO texture from "g_FBO_Pass2_Deferred"
@@ -612,7 +610,7 @@ int main()
         glUniform1i(fullRenderedImage2D_LocID, 20);
 
         // Render the "Full scene
-        RenderScene(vecSkyBox, window, g_camera, deltaTime);
+        RenderScene(emptyVecGOs, window, g_camera, deltaTime, g_pSkyBoxObject);
 
         // End of the Deferred Render
         //=====================================================================================

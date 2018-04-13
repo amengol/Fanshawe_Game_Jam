@@ -550,7 +550,11 @@ void DrawObject(cGameObject* pTheGO)
     return;
 }
 
-void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, cCamera& camera, double deltaTime)
+void RenderScene(std::vector<cGameObject*>& vec_pGOs, 
+                 GLFWwindow* pGLFWWindow, 
+                 cCamera& camera, 
+                 double deltaTime,
+                 cGameObject* skyBox)
 {
 
     // Clear colour AND depth buffer
@@ -593,6 +597,12 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, GLFWwindow* pGLFWWindow, c
 
         DrawObject(pTheGO);
 
+    }
+
+    // Lastly, draw the SkyBox
+    if (skyBox != NULL)
+    {
+        DrawObject(skyBox);
     }
 
     // Now Draw the transparent objects
