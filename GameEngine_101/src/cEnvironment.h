@@ -6,6 +6,7 @@
     @date April 8th, 2018
 */
 #pragma once
+#include <glm\vec3.hpp>
 
 class cLight;
 class cLightManager;
@@ -57,6 +58,12 @@ public:
 
     // Sets a specifc time of the day in hours
     void setTimeOfDay(float hour);
+
+    // Returns the sun position
+    glm::vec3 getSunPosition();
+
+    // Returns the moon position
+    glm::vec3 getMoonPosition();
 
     // Sets a full time of the day
     void setTimeOfDay(DaySkyLight daySkyLight);

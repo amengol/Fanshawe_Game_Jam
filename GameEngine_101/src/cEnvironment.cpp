@@ -1,5 +1,7 @@
 #include "cEnvironment.h"
 #include "cLightManager.h"
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm\gtx\rotate_vector.hpp>
 
 cEnvironment::cEnvironment()
 {
@@ -136,6 +138,51 @@ void cEnvironment::setTimeOfDay(float hour)
     m_elapsedTime = m_timeOfDay * m_dayDuration;
 }
 
+glm::vec3 cEnvironment::getSunPosition()
+{
+    float hour = m_timeOfDay * 24.0f;
+
+    // Sunlight 6am-6pm
+    if (hour >= 6.0f && hour <= 18.0f)
+    {
+        float dayPercent = (hour - 6.0f) / 12.0f;
+        float angle = glm::radians(dayPercent * 180.0f);
+        glm::vec3 sunDirection = glm::rotate(glm::vec3(1.0f, 0.0f, 0.0f), angle, glm::vec3(0.0f, 0.0f, 1.0f));
+        return sunDirection * 50.0f;
+    }
+    else
+    {
+        return glm::vec3(-10.0f);
+    }
+    
+
+}
+
+glm::vec3 cEnvironment::getMoonPosition()
+{
+    float hour = m_timeOfDay * 24.0f;
+
+    // Moonlight 6pm-6am
+    if (hour < 6.0f)
+    {
+        float nightPercent = (hour / 6.0f);
+        float angle = glm::radians(nightPercent * 90.0f + 90.0f);
+        glm::vec3 sunDirection = glm::rotate(glm::vec3(-1.0f, 0.0f, 0.0f), angle, glm::vec3(0.0f, 0.0f, -1.0f));
+        return sunDirection * 50.0f;
+    }
+    else if (hour > 18.0f)
+    {
+        float nightPercent = 1 - (24.0f - hour) / 6.0f;
+        float angle = glm::radians(nightPercent * 90.0f);
+        glm::vec3 sunDirection = glm::rotate(glm::vec3(-1.0f, 0.0f, 0.0f), angle, glm::vec3(0.0f, 0.0f, -1.0f));
+        return sunDirection * 50.0f;
+    }
+    else
+    {
+        return glm::vec3(-10.0f);
+    }
+}
+
 void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
 {
     switch (daySkyLight)
@@ -194,6 +241,9 @@ void cEnvironment::update(float deltaTime)
     {
         m_elapsedTime += deltaTime;
         m_timeOfDay = fmod(m_elapsedTime, m_dayDuration) / m_dayDuration;
+
+        // Update light positions
+
 
         float hour = m_timeOfDay * 24.0f;
         if (hour >= 0.0f && hour < 6.0f)
