@@ -336,7 +336,17 @@ int main()
     // Environment initialization
     g_environment.initLights(currentProgID, g_pLightManager);
     g_environment.setTimeOfDay(cEnvironment::DaySkyLight::SUNSET);
-    //g_environment.setMode(cEnvironment::Mode::CONTINUOUS);
+    g_environment.setMode(cEnvironment::Mode::CONTINUOUS);
+
+    cGameObject* theSUN = new cGameObject();
+    theSUN->meshName = "SkyBox";
+    theSUN->scale = 3.0f;
+    g_vecGameObjects.push_back(theSUN);
+
+    cGameObject* theMoon = new cGameObject();
+    theMoon->meshName = "SkyBox";
+    theMoon->scale = 3.0f;
+    g_vecGameObjects.push_back(theMoon);
     //-------------------------------------------------------------------------
     // Texture 
     if(!loadTextures())
@@ -511,6 +521,8 @@ int main()
     // Main game or application loop
     while (!glfwWindowShouldClose(window))
     {
+        theSUN->position = g_environment.getSunPosition();
+        theMoon->position = g_environment.getMoonPosition();
         // Now many seconds that have elapsed since we last checked
         double curTime = glfwGetTime();
         double deltaTime = curTime - lastTimeStep;
