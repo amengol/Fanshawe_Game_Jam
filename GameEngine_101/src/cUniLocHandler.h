@@ -29,6 +29,7 @@ public:
     GLint mProjection;
     GLint mWorldInvTrans;
     GLint gamaCorrection;
+    GLint receiveShadow;
 
     // Textures
     GLint textSampler00_ID;

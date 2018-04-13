@@ -151,8 +151,6 @@
     <None Include="assets\shaders\debugVert.glsl" />
     <None Include="assets\shaders\newFrag.glsl" />
     <None Include="assets\shaders\newVert.glsl" />
-    <None Include="assets\shaders\shadow_mapping_depth.fs" />
-    <None Include="assets\shaders\shadow_mapping_depth.vs" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AI\cCharacterControl.cpp" />

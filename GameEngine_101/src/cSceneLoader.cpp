@@ -584,6 +584,22 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 return false;
             }
         }
+
+        // Receive Shadow?
+        bool receiveShadow = true;
+        if (gameObject[jsIndex].HasMember("receiveShadow"))
+        {
+            if (gameObject[jsIndex]["receiveShadow"].IsBool())
+            {
+                receiveShadow = gameObject[jsIndex]["receiveShadow"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"receiveShadow\" member!";
+                return false;
+            }
+        }
         
         // Has Reflection?
         bool hasReflection = false;
@@ -1277,6 +1293,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         theGO->hasAlpha = hasAlpha;
         theGO->useDiscardAlpha = useDiscardAlpha;
         theGO->cullFace = cullFace;
+        theGO->receiveShadow = receiveShadow;
         theGO->hasReflection = hasReflection;
         theGO->rotateX(rotateX);
 		theGO->rotateY(rotateY);

@@ -44,6 +44,7 @@ cGameObject::cGameObject()
     this->startDisplacement;
     this->animationsInitiated = false;
     this->hasMultiLayerTextures = false;
+    this->receiveShadow = true;
 
 #ifdef _DEBUG
  	//this->m_pTheDR = cDebugRenderer::getInstance();

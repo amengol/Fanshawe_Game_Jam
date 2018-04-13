@@ -82,6 +82,7 @@ public:
     bool isDebugAABBActive;
     bool hasReflection;
     bool rotateToCamera;
+    bool receiveShadow;
     glm::vec3 previousPosition;
 	// **********************************
     //Lights

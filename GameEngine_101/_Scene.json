@@ -133,6 +133,7 @@
 		"specular" : [1.0, 1.0, 1.0, 64.0],
 		"textureNames[4]" : "Paladin_normal.bmp",
 		"cullFace" : false,
+		"receiveShadow" : false,
 		"position" : [0.0, 0.0, 0.0],
 		"scale" : 0.01
 	}
