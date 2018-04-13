@@ -501,7 +501,7 @@ int main()
     // Create the FBOs
     g_FBO_fullScene.init(g_scrWidth, g_scrHeight, error);
     g_FBO_deferred.init(g_scrWidth, g_scrHeight, error);
-    g_FBO_shadows.init(1024, 1024, error);
+    g_FBO_shadows.init(8192, 8192, error);
 
     // Will be used in the physics step
     double lastTimeStep = glfwGetTime();
