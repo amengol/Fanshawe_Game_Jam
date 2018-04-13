@@ -629,7 +629,7 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
 
     glm::mat4 lightProjection, lightView;
     glm::mat4 lightSpaceMatrix;
-    float near_plane = 1.0f, far_plane = 2000.0f;
+    float near_plane = 1.0f, far_plane = 200.0f;
     lightProjection = glm::ortho(-60.0f, 60.0f, -60.0f, 60.0f, near_plane, far_plane);
     lightView = glm::lookAt(glm::vec3(-50.0f, 50.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
     lightSpaceMatrix = lightProjection * lightView;
@@ -861,23 +861,8 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
         glUniform1f(g_uniLocHandler.textBlend07_ID, pTheGO->textureBlend[7]);
         // And so on...
 
-        //			glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
-        //			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-        if (pTheGO->bIsWireFrame)
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            glDisable(GL_CULL_FACE);
-        }
-        else if (pTheGO->cullFace)
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            glEnable(GL_CULL_FACE);
-        }
-        else
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            glDisable(GL_CULL_FACE);
-        }
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glEnable(GL_CULL_FACE);
 
         glCullFace(GL_BACK);
 
