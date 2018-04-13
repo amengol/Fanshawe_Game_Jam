@@ -28,15 +28,27 @@ bool cFBO_Shadow::init(int width, int height, std::string &error)
 	this->height = height;
 
 	glGenFramebuffers(1, &( this->ID ));
-	glBindFramebuffer(GL_FRAMEBUFFER, this->ID);
 
 	glGenTextures(1, &( this->depthTexture_ID ));
 	glBindTexture(GL_TEXTURE_2D, this->depthTexture_ID);
 
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT,
-				   this->width,		
-				   this->height);
+	glTexImage2D(GL_TEXTURE_2D, 
+                 0, 
+                 GL_DEPTH_COMPONENT, 
+                 this->width, 
+                 this->height, 
+                 0, 
+                 GL_DEPTH_COMPONENT,
+                 GL_FLOAT, 
+                 NULL);
 
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    
+    // attach depth texture as FBO's depth buffer
+    glBindFramebuffer(GL_FRAMEBUFFER, this->ID);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, this->depthTexture_ID, 0);
     glDrawBuffer(GL_NONE);
     glReadBuffer(GL_NONE);
