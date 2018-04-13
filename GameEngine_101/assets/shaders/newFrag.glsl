@@ -1,6 +1,7 @@
 // Fragment shader
 #version 400
 
+in vec4 FragPosLightSpace;
 in vec4 fColor;					
 in vec3 fVertNormal;			// Also in "world" (no view or projection)
 in vec3 fVecWorldPosition;		// 
@@ -42,6 +43,7 @@ uniform sampler2D texFBOVertexWorldPos2D;
 
 uniform sampler2D fullRenderedImage2D;
 uniform sampler2D fullRenderedImage2D_Overlay;
+uniform sampler2D shadowMap;
 
 uniform float screenWidth;
 uniform float screenHeight;
@@ -127,9 +129,26 @@ const float DONT_CALCULATE_LIGHTING = 0.25f;
 
 const int FULL_SCENE_RENDER_PASS = 0;
 const int DEFERRED_RENDER_PASS = 1;
+const int DEPTH_RENDER_PASS = 2;
 const int FINAL_RENDER_PASS = 99;
 
 const float offset = 1.0 / 3000.0; 
+
+float ShadowCalculation(vec4 fragPosLightSpace)
+{
+    // perform perspective divide
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // check whether current frag pos is in shadow
+    float shadow = currentDepth > closestDepth  ? 1.0 : 0.0;
+
+    return shadow;
+}
 
 void main()
 {	
@@ -339,11 +358,15 @@ void main()
 	//****************************************************************/	
 		for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
 		{
+			float shadow = ShadowCalculation(FragPosLightSpace); 
+
 			fragOut_colour.rgb += calcLightColour( fVertNormal, 					
 			                                      fVecWorldPosition, 
 												  index, 
 			                                      matDiffuse, 
-												  materialSpecular );
+												  materialSpecular ) * (1.0f - shadow);
+
+		   
 		}
 	}
 		break;	// end of FULL_SCENE_RENDER_PASS (0):
@@ -361,6 +384,11 @@ void main()
 
 	}
 		break;	// end of pass DEFERRED_RENDER_PASS (1)
+	case DEPTH_RENDER_PASS:
+	{
+		// Nothing to do in this pass
+	}
+		break;
 	case FINAL_RENDER_PASS:	// (99)
 	{
 		vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, gl_FragCoord.y / screenHeight );

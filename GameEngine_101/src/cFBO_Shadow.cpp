@@ -34,7 +34,7 @@ bool cFBO_Shadow::init(int width, int height, std::string &error)
 
 	glTexImage2D(GL_TEXTURE_2D, 
                  0, 
-                 GL_DEPTH_COMPONENT, 
+                 GL_DEPTH_COMPONENT32F, 
                  this->width, 
                  this->height, 
                  0, 

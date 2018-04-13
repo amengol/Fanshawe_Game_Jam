@@ -1,6 +1,9 @@
 // Vertex shader
 #version 420
 
+uniform mat4 lightSpaceMatrix;
+out vec4 FragPosLightSpace;
+
 uniform mat4 mView;
 uniform mat4 mProjection;
 uniform mat4 mModel;
@@ -38,7 +41,6 @@ out vec3 fBitangent;	// For bump (or normal) mapping
 
 void main()
 {
-    
 	vec4 vertPosition = vec4(vPos, 1.0f);
 	mat4 matModel = mModel;
 	
@@ -78,5 +80,7 @@ void main()
 	
     fColor = vCol;
 	fUV_X2 = uvX2;
+	vec3 FragPos = vec3(mModel * vec4(vPos, 1.0));
+	FragPosLightSpace = lightSpaceMatrix * vec4(FragPos, 1.0);
 }
 

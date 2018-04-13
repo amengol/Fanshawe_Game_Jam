@@ -15,3 +15,6 @@ void RenderScene(std::vector<cGameObject*> &vec_pGOs,
                  cCamera& camera,                 
                  double deltaTime,
                  cGameObject* skyBox = NULL);
+
+// The shadow/depth render call
+void RenderScene(std::vector<cGameObject*> &vec_pGOs, unsigned int shaderID);

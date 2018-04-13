@@ -620,3 +620,275 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs,
 
     }
 }
+
+void RenderScene(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
+{
+
+    //---------------------------------------------------------------------
+    // Camera block
+
+    glm::mat4 lightProjection, lightView;
+    glm::mat4 lightSpaceMatrix;
+    float near_plane = 1.0f, far_plane = 2000.0f;
+    lightProjection = glm::ortho(-60.0f, 60.0f, -60.0f, 60.0f, near_plane, far_plane);
+    lightView = glm::lookAt(glm::vec3(-50.0f, 50.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+    lightSpaceMatrix = lightProjection * lightView;
+
+    glUniformMatrix4fv(g_uniLocHandler.mView, 1, GL_FALSE, &lightView[0][0]);
+    glUniformMatrix4fv(g_uniLocHandler.mProjection, 1, GL_FALSE, &lightProjection[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(shaderID, "lightSpaceMatrix"), 1, GL_FALSE, &lightSpaceMatrix[0][0]);
+
+
+    for (size_t i = 0; i < vec_pGOs.size(); i++)
+    {
+        cGameObject* pTheGO = vec_pGOs[i];
+
+
+        // Is there a game object? 
+        if (pTheGO == 0)
+        {
+            return;
+        }
+
+        // Is the game object renderable?
+        if (!pTheGO->renderable)
+        {
+            return;
+        }
+
+        glUniform1f(g_uniLocHandler.isASkyBox, GL_FALSE);
+
+        // Eye Position
+        glm::vec3 eyePos = g_camera.m_position;
+        glUniform3f(g_uniLocHandler.eyePosition, eyePos.x, eyePos.y, eyePos.z);
+
+        // Was near the draw call, but we need the mesh name
+        std::string meshToDraw = pTheGO->meshName;
+
+
+        std::vector<sVAOInfo> vecVAODrawInfo;
+        if (::g_pVAOManager->lookupStaticVAOsFromName(meshToDraw, vecVAODrawInfo) == false)
+        {	// Didn't find mesh
+            return;
+        }
+
+        GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+
+        // ***************************************************
+        //    ___  _    _                      _  __  __           _     
+        //   / __|| |__(_) _ _   _ _   ___  __| ||  \/  | ___  ___| |_   
+        //   \__ \| / /| || ' \ | ' \ / -_)/ _` || |\/| |/ -_)(_-<| ' \  
+        //   |___/|_\_\|_||_||_||_||_|\___|\__,_||_|  |_|\___|/__/|_||_| 
+        //                                                               
+        GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
+
+        if (pTheGO->pSimpleSkinnedMesh)
+        {
+            // Calculate the pose and load the skinned mesh stuff into the shader, too
+            GLint UniLoc_NumBonesUsed = glGetUniformLocation(curShaderID, "numBonesUsed");
+            GLint UniLoc_BoneIDArray = glGetUniformLocation(curShaderID, "bones");
+            CalculateSkinnedMeshBonesAndLoad(pTheGO, UniLoc_NumBonesUsed, UniLoc_BoneIDArray);
+
+            glUniform1f(UniLoc_IsSkinnedMesh, GL_TRUE);
+        }
+        else
+        {
+            glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
+        }
+
+        // ***************************************************
+
+        // There IS something to draw
+
+        glm::mat4x4 mModel = glm::mat4x4(1.0f);
+
+
+
+        glm::mat4 trans = glm::mat4x4(1.0f);
+
+        // Position by nPhysics?
+        if (pTheGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
+        {
+            glm::vec3 rbPos;
+            pTheGO->rigidBody->GetPostion(rbPos);
+            trans = glm::translate(trans, rbPos);
+        }
+        else if (pTheGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
+        {
+            glm::vec3 rbPos;
+            pTheGO->bt_rigidBody->GetPostion(rbPos);
+            trans = glm::translate(trans, rbPos);
+        }
+        else
+        {
+            trans = glm::translate(trans, pTheGO->position);
+        }
+
+        mModel = mModel * trans;
+
+        // Orientation by nPhysics?
+        glm::mat4 orientation;
+        if (pTheGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
+        {
+            pTheGO->rigidBody->GetMatOrientation(orientation);
+            mModel = mModel * orientation;
+        }
+        else if (pTheGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
+        {
+            pTheGO->bt_rigidBody->GetMatOrientation(orientation);
+            mModel = mModel * orientation;
+        }
+        else
+        {
+            mModel = mModel * pTheGO->orientation;
+        }
+
+        float finalScale = pTheGO->scale;
+
+        glm::mat4 matScale = glm::mat4x4(1.0f);
+        matScale = glm::scale(matScale, glm::vec3(finalScale, finalScale, finalScale));
+        mModel = mModel * matScale;
+
+        glUniformMatrix4fv(g_uniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
+
+        glUniform1f(g_uniLocHandler.hasColour, 0.0f);
+        glUniform1f(g_uniLocHandler.hasAlpha, 0.0f);
+        glUniform1f(g_uniLocHandler.useDiscardAlpha, 0.0f);
+        glUniform1f(g_uniLocHandler.bIsDebugWireFrameObject, 0.0f);
+        glUniform1f(g_uniLocHandler.hasReflection, 0.0f);
+
+        // Set up cube map...
+        GLuint cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("morning");
+        glActiveTexture(GL_TEXTURE27);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
+
+        cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("day");
+        glActiveTexture(GL_TEXTURE28);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
+
+        cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("sunset");
+        glActiveTexture(GL_TEXTURE29);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
+
+        cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("night");
+        glActiveTexture(GL_TEXTURE30);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
+
+        cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("deep_night");
+        glActiveTexture(GL_TEXTURE31);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapNumber);
+
+        // 0 
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D,
+                      ::g_pTextureManager->getTextureIDFromTextureName(pTheGO->textureNames[0]));
+        // 1
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D,
+                      ::g_pTextureManager->getTextureIDFromTextureName(pTheGO->textureNames[1]));
+
+        // 2
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D,
+                      ::g_pTextureManager->getTextureIDFromTextureName(pTheGO->textureNames[2]));
+
+        // 3
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D,
+                      ::g_pTextureManager->getTextureIDFromTextureName(pTheGO->textureNames[3]));
+
+        // 4
+        glActiveTexture(GL_TEXTURE4);
+        glBindTexture(GL_TEXTURE_2D,
+                      ::g_pTextureManager->getTextureIDFromTextureName(pTheGO->textureNames[4]));
+
+        // 5
+        glActiveTexture(GL_TEXTURE5);
+        glBindTexture(GL_TEXTURE_2D,
+                      ::g_pTextureManager->getTextureIDFromTextureName(pTheGO->textureNames[5]));
+
+        // 6
+        glActiveTexture(GL_TEXTURE6);
+        glBindTexture(GL_TEXTURE_2D,
+                      ::g_pTextureManager->getTextureIDFromTextureName(pTheGO->textureNames[6]));
+
+        // 7
+        glActiveTexture(GL_TEXTURE7);
+        glBindTexture(GL_TEXTURE_2D,
+                      ::g_pTextureManager->getTextureIDFromTextureName(pTheGO->textureNames[7]));
+
+        // Multi layer texture object?
+        if (pTheGO->hasMultiLayerTextures)
+        {
+            glUniform1f(g_uniLocHandler.hasMultiLayerTextures, GL_TRUE);
+        }
+        else
+        {
+            glUniform1f(g_uniLocHandler.hasMultiLayerTextures, GL_FALSE);
+        }
+
+        glUniform1i(g_uniLocHandler.texSampCube00_LocID, 27);
+        glUniform1i(g_uniLocHandler.texSampCube01_LocID, 28);
+        glUniform1i(g_uniLocHandler.texSampCube02_LocID, 29);
+        glUniform1i(g_uniLocHandler.texSampCube03_LocID, 30);
+        glUniform1i(g_uniLocHandler.texSampCube04_LocID, 31);
+
+        glUniform1f(g_uniLocHandler.texCubeBlend00_LocID, g_environment.m_dawn->typeParams2.x);
+        glUniform1f(g_uniLocHandler.texCubeBlend01_LocID, g_environment.m_noon->typeParams2.x);
+        glUniform1f(g_uniLocHandler.texCubeBlend02_LocID, g_environment.m_sunset->typeParams2.x);
+        glUniform1f(g_uniLocHandler.texCubeBlend03_LocID, g_environment.m_night->typeParams2.x);
+        glUniform1f(g_uniLocHandler.texCubeBlend04_LocID, g_environment.m_midNight->typeParams2.x);
+
+        // This connects the texture sampler to the texture units... 
+        glUniform1i(g_uniLocHandler.textSampler00_ID, 0);
+        glUniform1i(g_uniLocHandler.textSampler01_ID, 1);
+        glUniform1i(g_uniLocHandler.textSampler02_ID, 2);
+        glUniform1i(g_uniLocHandler.textSampler03_ID, 3);
+        glUniform1i(g_uniLocHandler.textSampler04_ID, 4);
+        glUniform1i(g_uniLocHandler.textSampler05_ID, 5);
+        glUniform1i(g_uniLocHandler.textSampler06_ID, 6);
+        glUniform1i(g_uniLocHandler.textSampler07_ID, 7);
+        // .. and so on
+
+        // And the blending values
+        glUniform1f(g_uniLocHandler.textBlend00_ID, pTheGO->textureBlend[0]);
+        glUniform1f(g_uniLocHandler.textBlend01_ID, pTheGO->textureBlend[1]);
+        glUniform1f(g_uniLocHandler.textBlend02_ID, pTheGO->textureBlend[2]);
+        glUniform1f(g_uniLocHandler.textBlend03_ID, pTheGO->textureBlend[3]);
+        glUniform1f(g_uniLocHandler.textBlend04_ID, pTheGO->textureBlend[4]);
+        glUniform1f(g_uniLocHandler.textBlend05_ID, pTheGO->textureBlend[5]);
+        glUniform1f(g_uniLocHandler.textBlend06_ID, pTheGO->textureBlend[6]);
+        glUniform1f(g_uniLocHandler.textBlend07_ID, pTheGO->textureBlend[7]);
+        // And so on...
+
+        //			glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
+        //			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+        if (pTheGO->bIsWireFrame)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            glDisable(GL_CULL_FACE);
+        }
+        else if (pTheGO->cullFace)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glEnable(GL_CULL_FACE);
+        }
+        else
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            glDisable(GL_CULL_FACE);
+        }
+
+        glCullFace(GL_BACK);
+
+
+        for (size_t i = 0; i < vecVAODrawInfo.size(); i++)
+        {
+            glBindVertexArray(vecVAODrawInfo[i].VAO_ID);
+            glDrawElements(GL_TRIANGLES, vecVAODrawInfo[i].numberOfIndices, GL_UNSIGNED_INT, 0);
+        }
+
+        // Unbind that VAO
+        glBindVertexArray(0);
+    }
+}
