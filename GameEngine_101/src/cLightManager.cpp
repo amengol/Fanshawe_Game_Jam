@@ -165,6 +165,7 @@ void cLightManager::CopyLightInformationToCurrentShader(void)
 					 pCurLight->typeParams.z, 
 					 pCurLight->typeParams.w );
 
+        // x = Light power
         glUniform4f(pCurLight->shaderlocID_typeParams2,
                     pCurLight->typeParams2.x,
                     pCurLight->typeParams2.y,

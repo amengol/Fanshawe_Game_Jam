@@ -2,8 +2,8 @@
     Controls Day/Night cycle and other environment parameters
 
     @author Jorge Amengol
-    @version 0.4
-    @date April 8th, 2018
+    @version 0.6
+    @date April 14th, 2018
 */
 #pragma once
 #include <glm\vec3.hpp>
@@ -17,11 +17,12 @@ public:
     cEnvironment();
     ~cEnvironment();
 
-    cLight* m_midNight;
-    cLight* m_dawn;
-    cLight* m_noon;
-    cLight* m_sunset;
-    cLight* m_night;
+    // Sky blend values
+    float m_midNight;
+    float m_dawn;
+    float m_noon;
+    float m_sunset;
+    float m_night;
 
     enum Mode
     {
@@ -71,11 +72,24 @@ public:
     // Updates Environment parameters
     void update(float deltaTime);
 
+    // Returns the time of the day in hours
+    inline float getTimeOfDay() { return m_timeOfDay * 24.0f; }
+
 private:
     Mode m_mode;                // The day progression mode
     DaySkyLight m_daySkyLight;  // Sky State
     float m_timeOfDay;          // Time of the day
     float m_elapsedTime;        // Elapsed time in seconds
     float m_dayDuration;        // Day duration in seconds
+
+    cLight* m_sunLight;
+    cLight* m_moonLight;
+    
+    // Light colours
+    glm::vec3 m_colourMidnight;
+    glm::vec3 m_colourDawn;
+    glm::vec3 m_colourNoon;
+    glm::vec3 m_colourSunset;
+    glm::vec3 m_colourNight;
 };
 

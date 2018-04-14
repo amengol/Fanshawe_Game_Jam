@@ -498,11 +498,11 @@ void DrawObject(cGameObject* pTheGO)
     glUniform1i(g_uniLocHandler.texSampCube03_LocID, 30);
     glUniform1i(g_uniLocHandler.texSampCube04_LocID, 31);
 
-    glUniform1f(g_uniLocHandler.texCubeBlend00_LocID, g_environment.m_dawn->typeParams2.x);
-    glUniform1f(g_uniLocHandler.texCubeBlend01_LocID, g_environment.m_noon->typeParams2.x);
-    glUniform1f(g_uniLocHandler.texCubeBlend02_LocID, g_environment.m_sunset->typeParams2.x);
-    glUniform1f(g_uniLocHandler.texCubeBlend03_LocID, g_environment.m_night->typeParams2.x);
-    glUniform1f(g_uniLocHandler.texCubeBlend04_LocID, g_environment.m_midNight->typeParams2.x);
+    glUniform1f(g_uniLocHandler.texCubeBlend00_LocID, g_environment.m_dawn);
+    glUniform1f(g_uniLocHandler.texCubeBlend01_LocID, g_environment.m_noon);
+    glUniform1f(g_uniLocHandler.texCubeBlend02_LocID, g_environment.m_sunset);
+    glUniform1f(g_uniLocHandler.texCubeBlend03_LocID, g_environment.m_night);
+    glUniform1f(g_uniLocHandler.texCubeBlend04_LocID, g_environment.m_midNight);
 
     // This connects the texture sampler to the texture units... 
     glUniform1i(g_uniLocHandler.textSampler00_ID, 0);
@@ -640,7 +640,15 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
     glm::mat4 lightSpaceMatrix;
     float near_plane = 1.0f, far_plane = 200.0f;
     lightProjection = glm::ortho(-60.0f, 60.0f, -60.0f, 60.0f, near_plane, far_plane);
-    lightView = glm::lookAt(glm::vec3(-50.0f, 50.0f, 10.0f), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+    float timeOfDay = g_environment.getTimeOfDay();
+    if (timeOfDay >= 6.0f && timeOfDay <= 18.0f)
+    {
+        lightView = glm::lookAt(g_environment.getSunPosition() * 0.25f, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+    }
+    else
+    {
+        lightView = glm::lookAt(g_environment.getMoonPosition() * 0.25f, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+    }
     lightSpaceMatrix = lightProjection * lightView;
 
     glUniformMatrix4fv(g_uniLocHandler.mView, 1, GL_FALSE, &lightView[0][0]);
@@ -842,11 +850,11 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
         glUniform1i(g_uniLocHandler.texSampCube03_LocID, 30);
         glUniform1i(g_uniLocHandler.texSampCube04_LocID, 31);
 
-        glUniform1f(g_uniLocHandler.texCubeBlend00_LocID, g_environment.m_dawn->typeParams2.x);
-        glUniform1f(g_uniLocHandler.texCubeBlend01_LocID, g_environment.m_noon->typeParams2.x);
-        glUniform1f(g_uniLocHandler.texCubeBlend02_LocID, g_environment.m_sunset->typeParams2.x);
-        glUniform1f(g_uniLocHandler.texCubeBlend03_LocID, g_environment.m_night->typeParams2.x);
-        glUniform1f(g_uniLocHandler.texCubeBlend04_LocID, g_environment.m_midNight->typeParams2.x);
+        glUniform1f(g_uniLocHandler.texCubeBlend00_LocID, g_environment.m_dawn);
+        glUniform1f(g_uniLocHandler.texCubeBlend01_LocID, g_environment.m_noon);
+        glUniform1f(g_uniLocHandler.texCubeBlend02_LocID, g_environment.m_sunset);
+        glUniform1f(g_uniLocHandler.texCubeBlend03_LocID, g_environment.m_night);
+        glUniform1f(g_uniLocHandler.texCubeBlend04_LocID, g_environment.m_midNight);
 
         // This connects the texture sampler to the texture units... 
         glUniform1i(g_uniLocHandler.textSampler00_ID, 0);
