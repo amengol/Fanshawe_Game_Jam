@@ -340,11 +340,15 @@ int main()
 
     cGameObject* theSUN = new cGameObject();
     theSUN->meshName = "SkyBox";
-    theSUN->scale = 3.0f;
+    theSUN->textureBlend[0] = 1.0f;
+    theSUN->textureNames[0] = "aster.bmp";
+    theSUN->scale = 6.0f;
     g_vecGameObjects.push_back(theSUN);
 
     cGameObject* theMoon = new cGameObject();
     theMoon->meshName = "SkyBox";
+    theMoon->textureBlend[0] = 1.0f;
+    theMoon->textureNames[0] = "moon.bmp";
     theMoon->scale = 3.0f;
     g_vecGameObjects.push_back(theMoon);
     //-------------------------------------------------------------------------
