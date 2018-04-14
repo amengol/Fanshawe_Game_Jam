@@ -135,7 +135,7 @@ const int FINAL_RENDER_PASS = 99;
 
 const float offset = 1.0 / 3000.0; 
 
-float ShadowCalculation(vec4 fragPosLightSpace)
+float ShadowCalculation(vec4 fragPosLightSpace, vec3 vecNormal, vec3 lightDir)
 {
     // perform perspective divide
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
@@ -146,7 +146,10 @@ float ShadowCalculation(vec4 fragPosLightSpace)
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // check whether current frag pos is in shadow
-    float bias = 0.0005;
+    
+	// Bias
+	float bias = 0.0005;
+	//float bias = max(0.05 * (1.0 - dot(fVertNormal, lightDir)), 0.0005);  
 
 	// PCF
 	float shadow = 0.0;
@@ -372,23 +375,11 @@ void main()
 	//****************************************************************/	
 		for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
 		{
-			if (receiveShadow)
-			{
-				float shadow = ShadowCalculation(FragPosLightSpace);
-				fragOut_colour.rgb += calcLightColour( fVertNormal, 					
+			fragOut_colour.rgb += calcLightColour( fVertNormal, 					
 			                                      fVecWorldPosition, 
 												  index, 
 			                                      matDiffuse, 
-												  materialSpecular ) * (1.0f - shadow);
-			}
-			else
-			{
-				fragOut_colour.rgb += calcLightColour( fVertNormal, 					
-			                                      fVecWorldPosition, 
-												  index, 
-			                                      matDiffuse, 
-												  materialSpecular );
-			}		   
+												  materialSpecular );	   
 		}
 	}
 		break;	// end of FULL_SCENE_RENDER_PASS (0):
@@ -477,12 +468,24 @@ vec3 calcLightColour( in vec3 vecNormal,
 		return resultColour;
 	}
 
+	// Light Direction	
+	vec3 lightDir = normalize(vecToLight); 
+
+	// Calculate shadow
+	float shadow;
+	if (receiveShadow)
+	{
+		shadow = ShadowCalculation(FragPosLightSpace, vecNormal, lightDir);
+		
+		if (shadow == 1.0f)
+		{
+			return resultColour;
+		}
+	}
+
 	// Material diffuse
 	resultColour = matDiffuse;
-
-	// Ambient
 	vec3 norm = normalize(vecNormal);
-	vec3 lightDir = normalize(vecToLight); 
 
 	// Diffuse
 	float diffusePower = max(dot(norm, lightDir), 0.0);
@@ -554,5 +557,5 @@ vec3 calcLightColour( in vec3 vecNormal,
 	}
 
 	// Result
-	return resultColour;
+	return resultColour * (1 - shadow);
 }
