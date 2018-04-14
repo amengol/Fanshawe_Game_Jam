@@ -502,11 +502,11 @@ vec3 calcLightColour( in vec3 vecNormal,
 	vec3 specular;
 	if (hasColour)
 	{
-		specular = matSpecular.rgb * spec * myLight[lightID].diffuse.rgb; 
+		specular = matSpecular.rgb * spec * myLight[lightID].diffuse.rgb * myLight[lightID].specular.rgb; 
 	}
 	else
 	{
-		specular = texture( texSamp2D03, fUV_X2.xy ).rgb * spec * myLight[lightID].diffuse.rgb; 
+		specular = texture( texSamp2D03, fUV_X2.xy ).rgb * spec * myLight[lightID].diffuse.rgb * myLight[lightID].specular.rgb; 
 	}
 	resultColour += specular;
 
