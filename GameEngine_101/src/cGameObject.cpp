@@ -45,6 +45,7 @@ cGameObject::cGameObject()
     this->animationsInitiated = false;
     this->hasMultiLayerTextures = false;
     this->receiveShadow = true;
+    this->selfLight = false;
 
 #ifdef _DEBUG
  	//this->m_pTheDR = cDebugRenderer::getInstance();

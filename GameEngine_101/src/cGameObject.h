@@ -83,6 +83,7 @@ public:
     bool hasReflection;
     bool rotateToCamera;
     bool receiveShadow;
+    bool selfLight;
     glm::vec3 previousPosition;
 	// **********************************
     //Lights
