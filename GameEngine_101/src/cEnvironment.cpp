@@ -2,6 +2,8 @@
 #include "cLightManager.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm\gtx\rotate_vector.hpp>
+#include "cGameObject.h"
+#include "cTransparencyManager.h"
 
 cEnvironment::cEnvironment()
 {
@@ -43,7 +45,9 @@ cEnvironment::~cEnvironment()
 {
 }
 
-void cEnvironment::initLights(int shaderID, cLightManager* lightManager)
+void cEnvironment::initLights(int shaderID, 
+                              cLightManager* lightManager, 
+                              cTransparencyManager* transpManager)
 {
     std::vector<cLight*> lights;
     lights.push_back(m_sunLight);
@@ -51,6 +55,32 @@ void cEnvironment::initLights(int shaderID, cLightManager* lightManager)
 
     lightManager->CreateLights(lights);
     lightManager->LoadShaderUniformLocations(shaderID);
+
+    // Sun
+    m_sunGO = new cGameObject();
+    m_sunGO->meshName = "Plane1x1";
+    m_sunGO->textureBlend[0] = 1.0f;
+    m_sunGO->textureNames[0] = "Sun.bmp";
+    m_sunGO->hasAlpha = true;
+    m_sunGO->useDiscardAlpha = false;
+    m_sunGO->textureNames[1] = "Sun_Alpha.bmp";
+    m_sunGO->rotateToCamera = true;
+    m_sunGO->selfLight = true;
+    m_sunGO->scale = 25.0f;
+    transpManager->transpObjects.push_back(m_sunGO);
+
+    // Moon
+    m_moonGO = new cGameObject();
+    m_moonGO->meshName = "Plane1x1";
+    m_moonGO->textureBlend[0] = 1.0f;
+    m_moonGO->textureNames[0] = "Moon.bmp";
+    m_moonGO->hasAlpha = true;
+    m_moonGO->useDiscardAlpha = false;
+    m_moonGO->textureNames[1] = "Moon_Alpha.bmp";
+    m_moonGO->rotateToCamera = true;
+    m_moonGO->selfLight = true;
+    m_moonGO->scale = 20.0f;
+    transpManager->transpObjects.push_back(m_moonGO);
 }
 
 void cEnvironment::setDayDuration(float minutes)
@@ -334,6 +364,27 @@ void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
 
 void cEnvironment::update(float deltaTime)
 {
+    // Update sun and moon position
+    if (m_sunGO != NULL && m_moonGO != NULL)
+    {
+        m_sunGO->position = getSunPosition();
+        m_sunGO->position.y -= 20.0f;
+
+        m_moonGO->position = getMoonPosition();
+        m_moonGO->position.y -= 20.0f;
+
+        // Avoid the gilbal lock effect on the moon
+        if (getTimeOfDay() >= 5.0f && getTimeOfDay() <= 17.0f)
+        {
+            m_moonGO->rotateToCamera = false;
+        }
+        else
+        {
+            m_moonGO->rotateToCamera = true;
+        }
+    }
+
+
     if (m_mode == CONTINUOUS)
     {
         m_elapsedTime += deltaTime;

@@ -109,27 +109,6 @@
 		"textureNames[7]" : "Ground_Overlay.bmp"		
 	},
 	{ 
-		"meshName" : "Plane1x1",
-		"friendlyName" : "Moon",
-		"textureNames[0]" : "Moon.bmp",
-		"hasAlpha" : true,
-		"textureNames[1]" : "Moon_Alpha.bmp",
-		"hasToBeSorted" : true,
-		"rotateToCamera" : true,
-		"selfLight" : true		
-	},
-	{ 
-		"meshName" : "Plane1x1",
-		"friendlyName" : "Sun",
-		"position" : [1.0, 1.0, 0.0], 
-		"textureNames[0]" : "Sun.bmp",
-		"hasAlpha" : true,
-		"textureNames[1]" : "Sun_Alpha.bmp",
-		"hasToBeSorted" : true,
-		"rotateToCamera" : true,
-		"selfLight" : true		
-	},
-	{ 
 		"meshName" : "Limits",
 		"textureNames[0]" : "Tomb01_D.bmp"		
 	},

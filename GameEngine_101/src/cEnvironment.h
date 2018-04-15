@@ -2,14 +2,16 @@
     Controls Day/Night cycle and other environment parameters
 
     @author Jorge Amengol
-    @version 0.6
-    @date April 14th, 2018
+    @version 1.0
+    @date April 15th, 2018
 */
 #pragma once
 #include <glm\vec3.hpp>
 
 class cLight;
 class cLightManager;
+class cGameObject;
+class cTransparencyManager;
 
 class cEnvironment
 {
@@ -40,7 +42,7 @@ public:
     };
 
     // Init Lights
-    void initLights(int shaderID, cLightManager* lightManager);
+    void initLights(int shaderID, cLightManager*, cTransparencyManager*);
 
     // Sets the mode
     inline void setMode(Mode mode) { m_mode = mode; }
@@ -91,5 +93,9 @@ private:
     glm::vec3 m_colourNoon;
     glm::vec3 m_colourSunset;
     glm::vec3 m_colourNight;
+
+    // Sun and Moon objects
+    cGameObject* m_sunGO;
+    cGameObject* m_moonGO;
 };
 
