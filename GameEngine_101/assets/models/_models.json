@@ -12,6 +12,7 @@
 [
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply"},
 {"meshName" : "Terrain", "meshFile" : "Terrain.obj"},
+{"meshName" : "Plane1x1", "meshFile" : "Plane1x1.obj"},
 {"meshName" : "Limits", "meshFile" : "Limits.obj"},
 {"meshName" : "knight", "type" : 1, "meshFile" : "knight.fbx"},
 {"animName" : "sword_and_shield_idle", "type" : 2, "animFile" : "sword_and_shield_idle.fbx"},

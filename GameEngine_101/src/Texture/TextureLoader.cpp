@@ -84,24 +84,44 @@ bool loadTextures()
         std::cout << "Ground_Overlay is loaded!" << std::endl;
     }
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("aster.bmp", true))
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Sun.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;
     }
     else
     {
-        std::cout << "Ground_Overlay is loaded!" << std::endl;
+        std::cout << "Texture is loaded!" << std::endl;
     }
 
-    if (!::g_pTextureManager->Create2DTextureFromBMPFile("moon.bmp", true))
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Sun_Alpha.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;
     }
     else
     {
-        std::cout << "Ground_Overlay is loaded!" << std::endl;
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Moon.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Moon_Alpha.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
     }
 
     if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ground03_D.bmp", true))

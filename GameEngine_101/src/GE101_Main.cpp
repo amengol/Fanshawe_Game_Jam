@@ -335,22 +335,28 @@ int main()
     
     // Environment initialization
     g_environment.initLights(currentProgID, g_pLightManager);
-    g_environment.setTimeOfDay(cEnvironment::DaySkyLight::SUNSET);
+    g_environment.setTimeOfDay(17);
+    g_environment.setDayDuration(1);
     g_environment.setMode(cEnvironment::Mode::CONTINUOUS);
 
-    cGameObject* theSUN = new cGameObject();
-    theSUN->meshName = "SkyBox";
-    theSUN->textureBlend[0] = 1.0f;
-    theSUN->textureNames[0] = "aster.bmp";
-    theSUN->scale = 6.0f;
-    g_vecGameObjects.push_back(theSUN);
+    cGameObject* theMoon = NULL;
+    cGameObject* theSun = NULL;
+    for (size_t i = 0; i < g_pTranspManager->transpObjects.size(); i++)
+    {
+        if (g_pTranspManager->transpObjects[i]->friendlyName == "Moon")
+        {
+            theMoon = g_pTranspManager->transpObjects[i];
+            theMoon->scale = 20.0f;
+        }
 
-    cGameObject* theMoon = new cGameObject();
-    theMoon->meshName = "SkyBox";
-    theMoon->textureBlend[0] = 1.0f;
-    theMoon->textureNames[0] = "moon.bmp";
-    theMoon->scale = 3.0f;
-    g_vecGameObjects.push_back(theMoon);
+        if (g_pTranspManager->transpObjects[i]->friendlyName == "Sun")
+        {
+            theSun = g_pTranspManager->transpObjects[i];
+            theSun->scale = 30.0f;
+        }
+    }
+
+    
     //-------------------------------------------------------------------------
     // Texture 
     if(!loadTextures())
@@ -525,8 +531,23 @@ int main()
     // Main game or application loop
     while (!glfwWindowShouldClose(window))
     {
-        theSUN->position = g_environment.getSunPosition();
+        theSun->position = g_environment.getSunPosition();
+        theSun->position.y -= 20.0f;
         theMoon->position = g_environment.getMoonPosition();
+        theMoon->position.y -= 20.0f;
+
+        // Hack to avoid the gilbal lock effect on the moon
+        if (g_environment.getTimeOfDay() >= 5.0f && g_environment.getTimeOfDay() <= 17.0f)
+        {
+            theMoon->rotateToCamera = false;
+        }
+        else
+        {
+            theMoon->rotateToCamera = true;
+        }
+
+
+
         // Now many seconds that have elapsed since we last checked
         double curTime = glfwGetTime();
         double deltaTime = curTime - lastTimeStep;
