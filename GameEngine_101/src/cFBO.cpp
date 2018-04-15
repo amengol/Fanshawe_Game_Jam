@@ -103,9 +103,10 @@ bool cFBO::init( int width, int height, std::string &error )
 	{ 
 		GL_COLOR_ATTACHMENT0, 
 		GL_COLOR_ATTACHMENT1, 
-		GL_COLOR_ATTACHMENT2
+		GL_COLOR_ATTACHMENT2,
+        GL_COLOR_ATTACHMENT3
 	};
-	glDrawBuffers(3, draw_bufers);		// There are 2 outputs now
+	glDrawBuffers(4, draw_bufers);		// There are 2 outputs now
 
 	// ***************************************************************
 

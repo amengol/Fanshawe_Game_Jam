@@ -11,7 +11,7 @@ public:
 		ID(0), 
 		colourTexture_0_ID(0),
 		normalTexture_1_ID(1),
-		depthTexture_ID(0), 
+		depthTexture_ID(2),
 		width(-1), height(-1) {};
 
 	GLuint ID;				// g_FBO	// = 0;
