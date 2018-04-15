@@ -681,6 +681,22 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             }
         }
 
+        // Has to be Sorted?
+        bool rotateToCamera = false;
+        if (gameObject[jsIndex].HasMember("rotateToCamera"))
+        {
+            if (gameObject[jsIndex]["rotateToCamera"].IsBool())
+            {
+                rotateToCamera = gameObject[jsIndex]["rotateToCamera"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"rotateToCamera\" member!";
+                return false;
+            }
+        }
+
         // Has Collision Mesh?
         bool hasCollisionMesh = false;
         std::vector<std::string> conllisionMeshesNames;
@@ -1292,6 +1308,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         theGO->hasMultiLayerTextures = hasMultiLayerTextures;
         theGO->hasAlpha = hasAlpha;
         theGO->useDiscardAlpha = useDiscardAlpha;
+        theGO->rotateToCamera = rotateToCamera;
         theGO->cullFace = cullFace;
         theGO->receiveShadow = receiveShadow;
         theGO->hasReflection = hasReflection;
