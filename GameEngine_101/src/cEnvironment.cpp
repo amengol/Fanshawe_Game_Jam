@@ -10,11 +10,11 @@ cEnvironment::cEnvironment()
     m_elapsedTime = 0.0f;
     m_timeOfDay = 0.0f;
 
-    m_colourMidnight = glm::vec3(0.2f, 0.2f, 0.2f);
-    m_colourDawn = glm::vec3(0.5f, 0.5f, 0.395f);
-    m_colourNoon = glm::vec3(1.0f, 1.0f, 1.0f);
+    m_colourMidnight = glm::vec3(0.3f, 0.3f, 0.3f);
+    m_colourDawn = glm::vec3(1.0f, 1.0f, 0.79f);
+    m_colourNoon = glm::vec3(1.6f, 1.6f, 1.44f);
     m_colourSunset = glm::vec3(1.0f, 0.925f, 0.925f);
-    m_colourNight = glm::vec3(0.3f, 0.3f, 0.3f);
+    m_colourNight = glm::vec3(0.4f, 0.4f, 0.4f);
 
     // Create all the lights
     m_sunLight = new cLight();
@@ -239,6 +239,11 @@ void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
         m_sunLight->typeParams2.x = 0.0f; // Power
         m_sunLight->specular = glm::vec4(0.0f);
 
+        m_moonLight->position = getMoonPosition();
+        m_moonLight->typeParams2.x = 1.0f; // Power
+        m_moonLight->specular = glm::vec4(1.0f);
+        m_moonLight->diffuse = m_colourMidnight;
+
         break;
     case cEnvironment::DAWN:
         m_timeOfDay = 0.25f;
@@ -253,6 +258,10 @@ void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
         m_sunLight->typeParams2.x = 1.0f; // Power
         m_sunLight->specular = glm::vec4(1.0f);
         m_sunLight->diffuse = m_colourDawn;
+
+        m_moonLight->position = getMoonPosition();
+        m_moonLight->typeParams2.x = 0.0f; // Power
+        m_moonLight->specular = glm::vec4(0.0f);
 
         break;
     case cEnvironment::NOON:
@@ -269,6 +278,10 @@ void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
         m_sunLight->specular = glm::vec4(1.0f);
         m_sunLight->diffuse = m_colourNoon;
 
+        m_moonLight->position = getMoonPosition();
+        m_moonLight->typeParams2.x = 0.0f; // Power
+        m_moonLight->specular = glm::vec4(0.0f);
+
         break;
     case cEnvironment::SUNSET:
         m_timeOfDay = 0.75f;
@@ -284,6 +297,10 @@ void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
         m_sunLight->specular = glm::vec4(1.0f);
         m_sunLight->diffuse = m_colourSunset;
 
+        m_moonLight->position = getMoonPosition();
+        m_moonLight->typeParams2.x = 0.0f; // Power
+        m_moonLight->specular = glm::vec4(0.0f);
+
         break;
     case cEnvironment::NIGHT:
         m_timeOfDay = 0.875f;
@@ -297,6 +314,11 @@ void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
         m_sunLight->position = getSunPosition();
         m_sunLight->typeParams2.x = 0.0f; // Power
         m_sunLight->specular = glm::vec4(0.0f);
+
+        m_moonLight->position = getMoonPosition();
+        m_moonLight->typeParams2.x = 1.0f; // Power
+        m_moonLight->specular = glm::vec4(1.0f);
+        m_moonLight->diffuse = m_colourNight;
 
         break;
     default:
