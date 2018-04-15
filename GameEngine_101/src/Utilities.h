@@ -33,7 +33,7 @@ void createRamdomGameObjects(int numOfObjects,
                              float minY, float maxY,
                              float minZ, float maxZ);
 
-void turnGameObjectToCamera(cGameObject*, glm::vec3 cameraPosition);
+void turnGameObjectToCamera(cGameObject*, glm::vec3 cameraPosition, bool resetPitch = true);
 
 glm::mat4 getMatrixFromVector(glm::vec3 XZ_Direction);
 

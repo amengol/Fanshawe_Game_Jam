@@ -108,14 +108,23 @@ void createRamdomGameObjects(int numOfObjects,
     return;
 }
 
-void turnGameObjectToCamera(cGameObject* theGO, glm::vec3 cameraPosition)
+void turnGameObjectToCamera(cGameObject* theGO, glm::vec3 cameraPosition, bool resetPitch)
 {
-    glm::vec3 dir = cameraPosition - theGO->position;
-    // Discard X rotations
-    glm::vec3 clippedD = glm::normalize(glm::vec3(dir.x, 0.0f, dir.z));
-    glm::quat qOrientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), clippedD);
-    glm::mat4 orientation = glm::toMat4(qOrientation);
-    theGO->orientation = orientation;
+    glm::vec3 dir = glm::normalize(cameraPosition - theGO->position);
+    if (resetPitch)
+    {
+        // Discard X rotations
+        glm::vec3 clippedD = glm::normalize(glm::vec3(dir.x, 0.0f, dir.z));
+        glm::quat qOrientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), clippedD);
+        glm::mat4 orientation = glm::toMat4(qOrientation);
+        theGO->orientation = orientation;
+    }
+    else
+    {
+        glm::quat qOrientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), dir);
+        glm::mat4 orientation = glm::toMat4(qOrientation);
+        theGO->orientation = orientation;
+    }
 }
 
 glm::mat4 getMatrixFromVector(glm::vec3 XZ_Direction)
