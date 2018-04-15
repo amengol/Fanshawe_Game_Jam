@@ -34,6 +34,7 @@ uniform bool useDiscardAlpha;
 uniform bool hasReflection;
 uniform bool hasMultiLayerTextures;
 uniform bool receiveShadow;
+uniform bool selfLight;
 
 uniform int renderPassNumber;	//FBO
 
@@ -326,12 +327,34 @@ void main()
 							  (texCol07.rgb * texBlend07);
 		}
 
+		// Transparency value (for alpha blending)
+		fragOut_colour.a = materialDiffuse.a;
+
+		// Copy object material diffuse to alpha
+		if (hasAlpha)
+		{
+			if (useDiscardAlpha)
+			{
+				if (texCol01.r < 0.5)
+					discard;
+			}
+			fragOut_colour.a = texCol01.r;
+		}
+		else
+		{
+			fragOut_colour.a = materialDiffuse.a;
+		}
+
+		// Self inlumination
+		if (selfLight)
+		{
+			fragOut_colour.rgb = matDiffuse.rgb * 1.5f;
+			return;
+		}
 
 		vec3 ambientContribution = matDiffuse.rgb * ambientToDiffuseRatio;
 		fragOut_colour.rgb += ambientContribution.rgb;	
-		
-		// Transparency value (for alpha blending)
-		fragOut_colour.a = materialDiffuse.a;
+	
 
 		fragOut_normal.rgb = fVertNormal.xyz;
 
@@ -356,21 +379,6 @@ void main()
 
 			fragOut_colour *= 0.1f;
 		}	
-
-		// Copy object material diffuse to alpha
-		if (hasAlpha)
-		{
-			if (useDiscardAlpha)
-			{
-				if (texCol01.r < 0.5)
-					discard;
-			}
-			fragOut_colour.a = texCol01.r;
-		}
-		else
-		{
-			fragOut_colour.a = materialDiffuse.a;
-		}
 
 	//****************************************************************/	
 		for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
