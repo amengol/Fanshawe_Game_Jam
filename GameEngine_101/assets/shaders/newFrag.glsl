@@ -392,7 +392,7 @@ void main()
 		vec3 theVertLocWorldAtThisPixel = texture( texFBOVertexWorldPos2D, textCoords).rgb;
 
 		// Return the colour as it is on the colour FBO
-		fragOut_colour.rgb = theColourAtThisPixel.rgb;
+		fragOut_colour.rgb = theColourAtThisPixel;
 		fragOut_colour.a = 1.0f;
 
 	}
@@ -405,7 +405,6 @@ void main()
 	case FINAL_RENDER_PASS:	// (99)
 	{
 		vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, gl_FragCoord.y / screenHeight );
-
 
 		fragOut_colour.rgb = texture( fullRenderedImage2D, textCoords).rgb;
 		fragOut_colour.a = 1.0f;
