@@ -422,6 +422,15 @@ void DrawObject(cGameObject* pTheGO)
         glUniform1f(g_uniLocHandler.receiveShadow, 0.0f);
     }
 
+    if (pTheGO->selfLight)
+    {
+        glUniform1f(g_uniLocHandler.selfLight, 1.0f);
+    }
+    else
+    {
+        glUniform1f(g_uniLocHandler.selfLight, 0.0f);
+    }
+
     // Set up cube map...
     GLuint cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("morning");
     glActiveTexture(GL_TEXTURE27);
@@ -622,7 +631,7 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs,
         if(::g_pTranspManager->transpObjects[i]->rotateToCamera)
         {
             // Orient the cloud to the camera
-            turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], g_camera.m_position);
+            turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], g_camera.m_position, false);
         }
         
         DrawObject(::g_pTranspManager->transpObjects[i]);

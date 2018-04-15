@@ -600,6 +600,22 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 return false;
             }
         }
+
+        // Self Lightning?
+        bool selfLight = false;
+        if (gameObject[jsIndex].HasMember("selfLight"))
+        {
+            if (gameObject[jsIndex]["selfLight"].IsBool())
+            {
+                selfLight = gameObject[jsIndex]["selfLight"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"selfLight\" member!";
+                return false;
+            }
+        }
         
         // Has Reflection?
         bool hasReflection = false;
@@ -1312,6 +1328,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         theGO->cullFace = cullFace;
         theGO->receiveShadow = receiveShadow;
         theGO->hasReflection = hasReflection;
+        theGO->selfLight = selfLight;
         theGO->rotateX(rotateX);
 		theGO->rotateY(rotateY);
 		theGO->rotateZ(rotateZ);

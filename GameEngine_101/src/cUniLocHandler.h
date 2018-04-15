@@ -30,6 +30,7 @@ public:
     GLint mWorldInvTrans;
     GLint gamaCorrection;
     GLint receiveShadow;
+    GLint selfLight;
 
     // Textures
     GLint textSampler00_ID;
