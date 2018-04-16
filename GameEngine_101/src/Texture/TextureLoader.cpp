@@ -154,7 +154,27 @@ bool loadTextures()
         std::cout << "Texture is loaded!" << std::endl;
     }
 
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ground03_D_normal.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
     if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ground05_D.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ground05_D_normal.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;
@@ -174,7 +194,27 @@ bool loadTextures()
         std::cout << "Texture is loaded!" << std::endl;
     }
 
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ground07_D_normal.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
     if (!::g_pTextureManager->Create2DTextureFromBMPFile("Tomb01_D.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Tomb01_D_normal.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;

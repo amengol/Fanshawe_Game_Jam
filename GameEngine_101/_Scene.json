@@ -106,11 +106,17 @@
 		"textureNames[0]" : "Ground07_D.bmp",
 		"textureNames[1]" : "Ground05_D.bmp",
 		"textureNames[2]" : "Ground03_D.bmp",
-		"textureNames[7]" : "Ground_Overlay.bmp"		
+		"textureNames[7]" : "Ground_Overlay.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Ground07_D_normal.bmp",
+		"textureNames[5]" : "Ground05_D_normal.bmp",
+		"textureNames[6]" : "Ground03_D_normal.bmp"
 	},
 	{ 
 		"meshName" : "Limits",
-		"textureNames[0]" : "Tomb01_D.bmp"		
+		"textureNames[0]" : "Tomb01_D.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Tomb01_D_normal.bmp"		
 	},
 	{ 
 		"meshName" : "Box",

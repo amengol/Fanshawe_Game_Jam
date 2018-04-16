@@ -382,8 +382,16 @@ void main()
 		vec3 normal;
 		if (hasNormalMap)
 		{	
-			// obtain normal from normal map in range [0,1]
-			normal = texCol04.rgb;
+			if (hasMultiLayerTextures)
+			{
+				// obtain normal from normal map in range [0,1]
+				normal = texCol04.rgb * texCol07.g + texCol05.rgb * texCol07.r +  texCol06.rgb * texCol07.b;
+			}
+			else
+			{
+				// obtain normal from normal map in range [0,1]
+				normal = texCol04.rgb;
+			}
 			// transform normal vector to range [-1,1]
 			normal = normalize(normal * 2.0 - 1.0);
 			// transform to world space

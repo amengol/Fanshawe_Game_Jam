@@ -2,6 +2,7 @@ Day/Night Cycle
 	Multi skymaps
 	Time control
 	Full Day/Light cycle with time of the day control
+Fog system
 Multi Layer texture
 Specular maps
 Gama Correction (Press G and MINUS or EQUAL to change Gama Correction values)
