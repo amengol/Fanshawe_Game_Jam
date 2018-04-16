@@ -11,3 +11,4 @@ Shadows:
 	Use of orthographic projection for "sky/sun light"
 	Oversampling - Percentage-closer Filtering - PCF
 	Selective shadow casting
+Normal mapping

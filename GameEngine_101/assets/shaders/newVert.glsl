@@ -42,11 +42,6 @@ void main()
 {
 	vec4 vertPosition = vec4(vPos, 1.0f);
 	mat4 matModel = mModel;
-	
-	vec3 T = normalize(vec3(mModel * vec4(vTangent,   0.0)));
-	vec3 B = normalize(vec3(mModel * vec4(vBitangent, 0.0)));
-	vec3 N = normalize(vec3(mModel * vec4(vNorm,    0.0)));
-	fTBN = mat3(T, B, N);
 
 	if (!bIsASkinnedMesh)
 	{
@@ -55,6 +50,12 @@ void main()
 		gl_Position = MVP * vertPosition;
 		fVecWorldPosition = vec3( matModel * vertPosition ).xyz;
 		fVertNormal = vec3( mWorldInvTranspose * vec4(vNorm, 1.0f) ).xyz;
+
+		// TBN matrix
+		vec3 T = normalize(vec3(mModel * vec4(vTangent,   0.0)));
+		vec3 B = normalize(vec3(mModel * vec4(vBitangent, 0.0)));
+		vec3 N = normalize(vec3(mModel * vec4(vNorm,    0.0)));
+		fTBN = mat3(T, B, N);
 	}
 	else
 	{
@@ -74,8 +75,18 @@ void main()
 		mat4 matNormal =  mWorldInvTranspose * BoneTransform;
 		//
 		fVertNormal = mat3(matNormal) * normalize(vNorm.xyz);
+
+		vec3 normal = mat3(matNormal) * normalize(vNorm.xyz);
+		vec3 tangent = mat3(matNormal) * normalize(vTangent.xyz);
+		vec3 bitangent = mat3(matNormal) * normalize(vBitangent.xyz);
 		
 		fVecWorldPosition = (mModel * vertPosition).xyz;
+
+		// TBN matrix
+		vec3 T = normalize(vec3(mModel * vec4(tangent,   0.0)));
+		vec3 B = normalize(vec3(mModel * vec4(bitangent, 0.0)));
+		vec3 N = normalize(vec3(mModel * vec4(normal,    0.0)));
+		fTBN = mat3(T, B, N);
 	}
 	
     fColor = vCol;

@@ -23,7 +23,7 @@ bool cSkinnedMesh::LoadMeshFromFile(const std::string &path, const std::string &
 {
 	unsigned int Flags = aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph | aiProcess_JoinIdenticalVertices;
 
-	this->pScene = this->mImporter.ReadFile((path + filename).c_str(), Flags);
+	this->pScene = this->mImporter.ReadFile((path + filename).c_str(), aiProcessPreset_TargetRealtime_Quality);
 
 	if ( this->pScene )
 	{
@@ -559,6 +559,20 @@ void cSkinnedMesh::CreateMeshesObjectFromCurrentModel(std::vector<cMesh>& meshes
             {
                 engMesh.pVertices[vertexIndex].u1 = mesh->mTextureCoords[0][vertexIndex].x;
                 engMesh.pVertices[vertexIndex].v1 = mesh->mTextureCoords[0][vertexIndex].y;
+            }
+
+            if (mesh->mTangents != NULL)
+            {
+                engMesh.pVertices[vertexIndex].tx = mesh->mTangents[vertexIndex].x;
+                engMesh.pVertices[vertexIndex].ty = mesh->mTangents[vertexIndex].y;
+                engMesh.pVertices[vertexIndex].tz = mesh->mTangents[vertexIndex].z;
+            }
+
+            if (mesh->mBitangents != NULL)
+            {
+                engMesh.pVertices[vertexIndex].bx = mesh->mBitangents[vertexIndex].x;
+                engMesh.pVertices[vertexIndex].by = mesh->mBitangents[vertexIndex].y;
+                engMesh.pVertices[vertexIndex].bz = mesh->mBitangents[vertexIndex].z;
             }
 
             // Bone IDs are being passed OK
