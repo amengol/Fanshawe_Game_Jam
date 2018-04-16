@@ -37,6 +37,7 @@ out vec3 fVertNormal;		// Also in "world" (no view or projection)
 out vec3 fVecWorldPosition;	// 
 out vec4 fUV_X2;			// Added: UV 1 and 2 to fragment
 out mat3 fTBN;
+out vec4 viewSpace;
 
 void main()
 {
@@ -75,17 +76,14 @@ void main()
 		mat4 matNormal =  mWorldInvTranspose * BoneTransform;
 		//
 		fVertNormal = mat3(matNormal) * normalize(vNorm.xyz);
-
-		vec3 normal = mat3(matNormal) * normalize(vNorm.xyz);
-		vec3 tangent = mat3(matNormal) * normalize(vTangent.xyz);
-		vec3 bitangent = mat3(matNormal) * normalize(vBitangent.xyz);
 		
 		fVecWorldPosition = (mModel * vertPosition).xyz;
 
 		// TBN matrix
-		vec3 T = normalize(vec3(mModel * vec4(tangent,   0.0)));
-		vec3 B = normalize(vec3(mModel * vec4(bitangent, 0.0)));
-		vec3 N = normalize(vec3(mModel * vec4(normal,    0.0)));
+		mat4 newModel = mModel * BoneTransform;
+		vec3 T = normalize(vec3(newModel * vec4(vTangent,   0.0)));
+		vec3 B = normalize(vec3(newModel * vec4(vBitangent, 0.0)));
+		vec3 N = normalize(vec3(newModel * vec4(vNorm,    0.0)));
 		fTBN = mat3(T, B, N);
 	}
 	
@@ -93,5 +91,8 @@ void main()
 	fUV_X2 = uvX2;
 	vec3 FragPos = vec3(mModel * vec4(vPos, 1.0));
 	FragPosLightSpace = lightSpaceMatrix * vec4(FragPos, 1.0);
+
+	//Needed for FOG calc
+	viewSpace = mView * mModel * vec4(vPos,1);
 }
 

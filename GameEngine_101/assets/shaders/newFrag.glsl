@@ -1,6 +1,14 @@
 // Fragment shader
 #version 400
 
+const vec3 fogColour = vec3(0.25f, 0.2313f, 0.2313f);
+
+//distance
+float dist = 0;
+float fogFactor = 0;
+
+in vec4 viewSpace;
+
 in vec4 FragPosLightSpace;
 in vec4 fColor;					
 in vec3 fVertNormal;			// Also in "world" (no view or projection)
@@ -170,6 +178,12 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 vecNormal, vec3 lightDir)
 
 void main()
 {	
+	// FOG
+	//range based
+	dist = length(viewSpace);
+	// 5 - fog starts; 25 - fog ends
+    fogFactor = (25 - dist)/(25 - 5);
+    fogFactor = clamp( fogFactor, 0.0, 1.0 );
 
 	fragOut_colour = vec4( 0.0f, 0.0f, 0.0f, 1.0f );
 	fragOut_normal = vec4( 0.0f, 0.0f, 0.0f, DONT_CALCULATE_LIGHTING );
@@ -216,6 +230,8 @@ void main()
 			fragOut_vertexWorldPos.xyz = fVecWorldPosition.xyz;
 			fragOut_normal.a = DONT_CALCULATE_LIGHTING;
 
+			// Fog calc
+			fragOut_colour.rgb += mix(fogColour, skyRGBA.rgb, fogFactor);
 			return;	
 		}
 		
@@ -395,14 +411,19 @@ void main()
 		}	
 
 	//****************************************************************/	
+		vec3 lightColor = vec3(0.0f);
 		for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
 		{
-			fragOut_colour.rgb += calcLightColour( normal, 					
+			lightColor += calcLightColour( normal, 					
 			                                      fVecWorldPosition, 
 												  index, 
 			                                      matDiffuse, 
 												  materialSpecular );	   
 		}
+
+		//if you inverse color in glsl mix function you have to
+		//put 1.0 - fogFactor
+		fragOut_colour.rgb += mix(fogColour, lightColor, fogFactor);
 	}
 		break;	// end of FULL_SCENE_RENDER_PASS (0):
 	case DEFERRED_RENDER_PASS:	// (1)
