@@ -36,14 +36,18 @@ out vec4 fColor;				// was: vec4
 out vec3 fVertNormal;		// Also in "world" (no view or projection)
 out vec3 fVecWorldPosition;	// 
 out vec4 fUV_X2;			// Added: UV 1 and 2 to fragment
-out vec3 fTangent;		// For bump (or normal) mapping
-out vec3 fBitangent;	// For bump (or normal) mapping		
+out mat3 fTBN;
 
 void main()
 {
 	vec4 vertPosition = vec4(vPos, 1.0f);
 	mat4 matModel = mModel;
 	
+	vec3 T = normalize(vec3(mModel * vec4(vTangent,   0.0)));
+	vec3 B = normalize(vec3(mModel * vec4(vBitangent, 0.0)));
+	vec3 N = normalize(vec3(mModel * vec4(vNorm,    0.0)));
+	fTBN = mat3(T, B, N);
+
 	if (!bIsASkinnedMesh)
 	{
 		// Calculate the model view projection matrix here
@@ -51,8 +55,6 @@ void main()
 		gl_Position = MVP * vertPosition;
 		fVecWorldPosition = vec3( matModel * vertPosition ).xyz;
 		fVertNormal = vec3( mWorldInvTranspose * vec4(vNorm, 1.0f) ).xyz;
-		fTangent = vTangent;
-		fBitangent = vBitangent;
 	}
 	else
 	{
@@ -72,8 +74,6 @@ void main()
 		mat4 matNormal =  mWorldInvTranspose * BoneTransform;
 		//
 		fVertNormal = mat3(matNormal) * normalize(vNorm.xyz);
-		fTangent = 	mat3(matNormal) * normalize(vTangent.xyz);
-		fBitangent = 	mat3(matNormal) * normalize(vBitangent.xyz);
 		
 		fVecWorldPosition = (mModel * vertPosition).xyz;
 	}

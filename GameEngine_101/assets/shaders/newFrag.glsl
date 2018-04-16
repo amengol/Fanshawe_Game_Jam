@@ -8,9 +8,8 @@ in vec3 fVecWorldPosition;		//
 in vec4 fUV_X2;					// Added: UV 1 and 2 to fragment
 								// UV #1 is .xy 
 								// UV #2 is .zw
-in vec3 fTangent;		// For bump (or normal) mapping
-in vec3 fBitangent;		// For bump (or normal) mapping	
-						
+
+in mat3 fTBN;	// Tangent Bitangent Normal matrix						
 						
 // gl_FragColor is deprecated after version 120
 // Now we specify a specific variable.
@@ -362,7 +361,9 @@ void main()
 			// obtain normal from normal map in range [0,1]
 			normal = texCol04.rgb;
 			// transform normal vector to range [-1,1]
-			normal = normalize(normal * 2.0 - 1.0);  
+			normal = normalize(normal * 2.0 - 1.0);
+			// transform to world space
+			normal = normalize(fTBN * normal); 
 		}
 		else
 		{
