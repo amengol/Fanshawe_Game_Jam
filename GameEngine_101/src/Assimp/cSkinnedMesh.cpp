@@ -21,8 +21,6 @@ cSkinnedMesh::cSkinnedMesh(void)
 
 bool cSkinnedMesh::LoadMeshFromFile(const std::string &path, const std::string &filename)
 {
-	unsigned int Flags = aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph | aiProcess_JoinIdenticalVertices;
-
 	this->pScene = this->mImporter.ReadFile((path + filename).c_str(), aiProcessPreset_TargetRealtime_Quality);
 
 	if ( this->pScene )
