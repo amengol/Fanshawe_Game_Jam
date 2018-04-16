@@ -366,6 +366,26 @@ void DrawObject(cGameObject* pTheGO)
                 pTheGO->diffuseColour.b,
                 pTheGO->diffuseColour.a);
 
+    // Fog parameters
+    if (g_environment.m_fogActive)
+    {
+        glUniform1f(g_uniLocHandler.fogActive, 1.0f);
+
+        // Fog colour
+        glUniform3f(g_uniLocHandler.fogColour,
+                    g_environment.m_fogColour.r,
+                    g_environment.m_fogColour.g,
+                    g_environment.m_fogColour.b);
+
+        // Fog percent
+        glUniform1f(g_uniLocHandler.fogPercent, g_environment.m_fogPercent);
+    }
+    else
+    {
+        glUniform1f(g_uniLocHandler.fogActive, 0.0f);
+    }
+
+
     if (pTheGO->hasColour)
     {
         glUniform1f(g_uniLocHandler.hasColour, 1.0f);

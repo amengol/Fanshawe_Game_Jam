@@ -2,8 +2,8 @@
     Controls Day/Night cycle and other environment parameters
 
     @author Jorge Amengol
-    @version 1.0
-    @date April 15th, 2018
+    @version 1.1
+    @date April 16th, 2018
 */
 #pragma once
 #include <glm\vec3.hpp>
@@ -25,6 +25,11 @@ public:
     float m_noon;
     float m_sunset;
     float m_night;
+
+    // Fog
+    bool m_fogActive;
+    glm::vec3 m_fogColour;
+    float m_fogPercent;
 
     enum Mode
     {

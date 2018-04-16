@@ -6,8 +6,6 @@ typedef int GLint;
 class cUniLocHandler
 {
 public:
-    cUniLocHandler();
-
     void InitShaderUniformLocations(std::string shaderName);
 
     GLint currentProgID;
@@ -32,6 +30,9 @@ public:
     GLint receiveShadow;
     GLint selfLight;
     GLint hasNormalMap;
+    GLint fogActive;
+    GLint fogColour;
+    GLint fogPercent;
 
     // Textures
     GLint textSampler00_ID;

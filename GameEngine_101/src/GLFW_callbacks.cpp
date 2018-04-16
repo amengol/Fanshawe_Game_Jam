@@ -41,6 +41,11 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             g_camera.releaseGameObject();
         }
 
+        if (key == GLFW_KEY_F && action == GLFW_PRESS)
+        {
+            g_environment.m_fogActive = !g_environment.m_fogActive;
+        }
+
         if (key == GLFW_KEY_G && action == GLFW_PRESS)
         {
             G_Pressed = true;

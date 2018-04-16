@@ -1,11 +1,11 @@
 // Fragment shader
 #version 400
 
-const vec3 fogColour = vec3(0.25f, 0.2313f, 0.2313f);
-
-//distance
-float dist = 0;
-float fogFactor = 0;
+// Fog params
+float fogFactor;
+uniform vec3 fogColour;
+uniform float fogPercent;
+uniform bool fogActive;
 
 in vec4 viewSpace;
 
@@ -178,12 +178,20 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 vecNormal, vec3 lightDir)
 
 void main()
 {	
-	// FOG
-	//range based
-	dist = length(viewSpace);
-	// 5 - fog starts; 25 - fog ends
-    fogFactor = (25 - dist)/(25 - 5);
-    fogFactor = clamp( fogFactor, 0.0, 1.0 );
+	// Fog range based
+	if (fogActive)
+	{
+		float dist = length(viewSpace);
+		// 5 - fog starts; 25 - fog ends
+		fogFactor = (25.0 - dist)/(25.0 - 5.0);
+		fogFactor = clamp( fogFactor, 0.0, 1.0 );
+		fogFactor += (1.0 - fogFactor) * (1.0f - fogPercent);
+	}
+	else
+	{
+		fogFactor = 1.0f;
+	}
+
 
 	fragOut_colour = vec4( 0.0f, 0.0f, 0.0f, 1.0f );
 	fragOut_normal = vec4( 0.0f, 0.0f, 0.0f, DONT_CALCULATE_LIGHTING );

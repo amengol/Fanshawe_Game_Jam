@@ -7,6 +7,8 @@
 
 cEnvironment::cEnvironment()
 {
+    m_fogActive = true;
+    m_fogPercent = 1.0f;
     m_mode = STEP;
     m_dayDuration = 15.0f;
     m_elapsedTime = 0.0f;
@@ -119,6 +121,8 @@ void cEnvironment::setTimeOfDay(float hour)
             float factor = (6.0f - hour) / 6.0f;
             glm::vec3 colourLight = (1.0f - factor) * m_colourDawn + factor * m_colourMidnight;
             m_moonLight->diffuse = colourLight;
+            
+            m_fogColour = colourLight * 0.25f;
         }
         else if (hour >= 6.0f && hour < 12.0f)
         {
@@ -139,6 +143,8 @@ void cEnvironment::setTimeOfDay(float hour)
             m_moonLight->position = getMoonPosition();
             m_moonLight->typeParams2.x = 0.0f; // Power
             m_moonLight->specular = glm::vec4(0.0f);
+
+            m_fogColour = colourLight * 0.25f;
         }
         else if (hour >= 12.0f && hour < 18.0f)
         {
@@ -160,6 +166,7 @@ void cEnvironment::setTimeOfDay(float hour)
             m_moonLight->typeParams2.x = 0.0f; // Power
             m_moonLight->specular = glm::vec4(0.0f);
 
+            m_fogColour = colourLight * 0.25f;
         }
         else if (hour >= 18.0f && hour < 21.0f)
         {
@@ -180,6 +187,8 @@ void cEnvironment::setTimeOfDay(float hour)
             float factor = (hour - 18.0f) / 3.0f;
             glm::vec3 colourLight = (1.0f - factor) * m_colourSunset + factor * m_colourNight;
             m_moonLight->diffuse = colourLight;
+
+            m_fogColour = colourLight * 0.25f;
         }
         else
         {
@@ -200,6 +209,8 @@ void cEnvironment::setTimeOfDay(float hour)
             float factor = (hour - 21.0f) / 3.0f;
             glm::vec3 colourLight = (1.0f - factor) * m_colourNight + factor * m_colourMidnight;
             m_moonLight->diffuse = colourLight;
+
+            m_fogColour = colourLight * 0.25f;
         }
     }
 
@@ -274,6 +285,7 @@ void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
         m_moonLight->specular = glm::vec4(1.0f);
         m_moonLight->diffuse = m_colourMidnight;
 
+        m_fogColour = m_colourMidnight * 0.25f;
         break;
     case cEnvironment::DAWN:
         m_timeOfDay = 0.25f;
@@ -293,6 +305,7 @@ void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
         m_moonLight->typeParams2.x = 0.0f; // Power
         m_moonLight->specular = glm::vec4(0.0f);
 
+        m_fogColour = m_colourDawn * 0.25f;
         break;
     case cEnvironment::NOON:
         m_timeOfDay = 0.5f;
@@ -312,6 +325,7 @@ void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
         m_moonLight->typeParams2.x = 0.0f; // Power
         m_moonLight->specular = glm::vec4(0.0f);
 
+        m_fogColour = m_colourNoon * 0.25f;
         break;
     case cEnvironment::SUNSET:
         m_timeOfDay = 0.75f;
@@ -331,6 +345,7 @@ void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
         m_moonLight->typeParams2.x = 0.0f; // Power
         m_moonLight->specular = glm::vec4(0.0f);
 
+        m_fogColour = m_colourSunset * 0.25f;
         break;
     case cEnvironment::NIGHT:
         m_timeOfDay = 0.875f;
@@ -350,6 +365,7 @@ void cEnvironment::setTimeOfDay(DaySkyLight daySkyLight)
         m_moonLight->specular = glm::vec4(1.0f);
         m_moonLight->diffuse = m_colourNight;
 
+        m_fogColour = m_colourNight * 0.25f;
         break;
     default:
         break;
@@ -413,6 +429,9 @@ void cEnvironment::update(float deltaTime)
             float factor = (6.0f - hour) / 6.0f;
             glm::vec3 colourLight = (1.0f - factor) * m_colourDawn + factor * m_colourMidnight;
             m_moonLight->diffuse = colourLight;
+
+            m_fogColour = colourLight * 0.25f;
+            m_fogPercent = 1.0f;
         }
         else if (hour >= 6.0f && hour < 12.0f)
         {
@@ -433,6 +452,9 @@ void cEnvironment::update(float deltaTime)
             m_moonLight->position = getMoonPosition();
             m_moonLight->typeParams2.x = 0.0f; // Power
             m_moonLight->specular = glm::vec4(0.0f);
+
+            m_fogColour = colourLight * 0.25f;
+            m_fogPercent = (1.0f - (hour - 6.0f) / 6.0f);
         }
         else if (hour >= 12.0f && hour < 18.0f)
         {
@@ -453,6 +475,9 @@ void cEnvironment::update(float deltaTime)
             m_moonLight->position = getMoonPosition();
             m_moonLight->typeParams2.x = 0.0f; // Power
             m_moonLight->specular = glm::vec4(0.0f);
+
+            m_fogColour = colourLight * 0.25f;
+            m_fogPercent = (hour - 12.0f) / 6.0f;
         }
         else if (hour >= 18.0f && hour < 21.0f)
         {
@@ -473,6 +498,9 @@ void cEnvironment::update(float deltaTime)
             float factor = (hour - 18.0f) / 3.0f;
             glm::vec3 colourLight = (1.0f - factor) * m_colourSunset + factor * m_colourNight;
             m_moonLight->diffuse = colourLight;
+
+            m_fogColour = colourLight * 0.25f;
+            m_fogPercent = 1.0f;
         }
         else
         {
@@ -493,6 +521,9 @@ void cEnvironment::update(float deltaTime)
             float factor = (hour - 21.0f) / 3.0f;
             glm::vec3 colourLight = (1.0f - factor) * m_colourNight + factor * m_colourMidnight;
             m_moonLight->diffuse = colourLight;
+
+            m_fogColour = colourLight * 0.25f;
+            m_fogPercent = 1.0f;
         }
     }
 }

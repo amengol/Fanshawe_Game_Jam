@@ -2,27 +2,6 @@
 #include "globalGameStuff.h"
 #include "globalOpenGL_GLFW.h"
 
-cUniLocHandler::cUniLocHandler()
-{
-    currentProgID = -1;
-    materialDiffuse = -1;
-    ambientToDiffuseRatio = -1;
-    materialSpecular = -1;
-    bIsDebugWireFrameObject = -1;
-    hasColour = -1;
-    hasAlpha = -1;
-    hasMultiLayerTextures = -1;
-    hasReflection = -1;
-    isReflectRefract = -1;
-    useDiscardAlpha = -1;
-    isASkyBox = -1;
-    eyePosition = -1;
-    mModel = -1;
-    mView = -1;
-    mProjection = -1;
-    mWorldInvTrans = -1;
-}
-
 void cUniLocHandler::InitShaderUniformLocations(std::string shaderName)
 {
     if (shaderName == "GE101_Shader")
@@ -49,6 +28,9 @@ void cUniLocHandler::InitShaderUniformLocations(std::string shaderName)
         receiveShadow = glGetUniformLocation(currentProgID, "receiveShadow");
         selfLight = glGetUniformLocation(currentProgID, "selfLight");
         hasNormalMap = glGetUniformLocation(currentProgID, "hasNormalMap");
+        fogActive = glGetUniformLocation(currentProgID, "fogActive");
+        fogColour = glGetUniformLocation(currentProgID, "fogColour");
+        fogPercent = glGetUniformLocation(currentProgID, "fogPercent");
 
         // Textures
         textSampler00_ID = glGetUniformLocation(currentProgID, "texSamp2D00");
