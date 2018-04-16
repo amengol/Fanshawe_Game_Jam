@@ -35,6 +35,7 @@ uniform bool hasReflection;
 uniform bool hasMultiLayerTextures;
 uniform bool receiveShadow;
 uniform bool selfLight;
+uniform bool hasNormalMap;
 
 uniform int renderPassNumber;	//FBO
 
@@ -354,9 +355,21 @@ void main()
 
 		vec3 ambientContribution = matDiffuse.rgb * ambientToDiffuseRatio;
 		fragOut_colour.rgb += ambientContribution.rgb;	
-	
+		
+		vec3 normal;
+		if (hasNormalMap)
+		{	
+			// obtain normal from normal map in range [0,1]
+			normal = texCol04.rgb;
+			// transform normal vector to range [-1,1]
+			normal = normalize(normal * 2.0 - 1.0);  
+		}
+		else
+		{
+			normal = fVertNormal;
+		}
 
-		fragOut_normal.rgb = fVertNormal.xyz;
+		fragOut_normal.rgb = normal.xyz;
 
 		fragOut_vertexWorldPos.xyz = fVecWorldPosition.xyz;
 
@@ -365,12 +378,12 @@ void main()
 		if ( hasReflection )
 		{
 			vec3 eyeDir = fVecWorldPosition - eyePosition;		
-			vec3 reflectedDirection = normalize(reflect(eyeDir, normalize(fVertNormal)));
-			vec4 fragColor = texture(texSampCube00, fVertNormal.xyz ) * texCubeBlend00 +
-									texture( texSampCube01, fVertNormal.xyz ) * texCubeBlend01 +
-									texture( texSampCube02, fVertNormal.xyz ) * texCubeBlend02 +
-									texture( texSampCube03, fVertNormal.xyz ) * texCubeBlend03 +
-									texture( texSampCube04, fVertNormal.xyz ) * texCubeBlend04;
+			vec3 reflectedDirection = normalize(reflect(eyeDir, normalize(normal)));
+			vec4 fragColor = texture(texSampCube00, normal.xyz ) * texCubeBlend00 +
+									texture( texSampCube01, normal.xyz ) * texCubeBlend01 +
+									texture( texSampCube02, normal.xyz ) * texCubeBlend02 +
+									texture( texSampCube03, normal.xyz ) * texCubeBlend03 +
+									texture( texSampCube04, normal.xyz ) * texCubeBlend04;
 			vec4 matReflect = texCol02;
 			fragOut_colour += fragColor * matReflect;
 			fragOut_colour.rgb += ambientContribution.rgb;	
@@ -383,7 +396,7 @@ void main()
 	//****************************************************************/	
 		for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
 		{
-			fragOut_colour.rgb += calcLightColour( fVertNormal, 					
+			fragOut_colour.rgb += calcLightColour( normal, 					
 			                                      fVecWorldPosition, 
 												  index, 
 			                                      matDiffuse, 

@@ -431,6 +431,15 @@ void DrawObject(cGameObject* pTheGO)
         glUniform1f(g_uniLocHandler.selfLight, 0.0f);
     }
 
+    if (pTheGO->hasNormalMap)
+    {
+        glUniform1f(g_uniLocHandler.hasNormalMap, 1.0f);
+    }
+    else
+    {
+        glUniform1f(g_uniLocHandler.hasNormalMap, 0.0f);
+    }
+
     // Set up cube map...
     GLuint cubeMapNumber = ::g_pTextureManager->getTextureIDFromTextureName("morning");
     glActiveTexture(GL_TEXTURE27);

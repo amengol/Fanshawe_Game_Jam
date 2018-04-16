@@ -31,6 +31,7 @@ public:
     GLint gamaCorrection;
     GLint receiveShadow;
     GLint selfLight;
+    GLint hasNormalMap;
 
     // Textures
     GLint textSampler00_ID;

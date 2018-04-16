@@ -84,6 +84,26 @@ bool loadTextures()
         std::cout << "Ground_Overlay is loaded!" << std::endl;
     }
 
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("brick_wall.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("brick_wall_normal.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Texture is loaded!" << std::endl;
+    }
+
     if (!::g_pTextureManager->Create2DTextureFromBMPFile("Sun.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;

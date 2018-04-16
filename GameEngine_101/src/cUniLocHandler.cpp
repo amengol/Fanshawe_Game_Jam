@@ -48,6 +48,7 @@ void cUniLocHandler::InitShaderUniformLocations(std::string shaderName)
         gamaCorrection = glGetUniformLocation(currentProgID, "gamaCorrection");
         receiveShadow = glGetUniformLocation(currentProgID, "receiveShadow");
         selfLight = glGetUniformLocation(currentProgID, "selfLight");
+        hasNormalMap = glGetUniformLocation(currentProgID, "hasNormalMap");
 
         // Textures
         textSampler00_ID = glGetUniformLocation(currentProgID, "texSamp2D00");

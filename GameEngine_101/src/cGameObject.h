@@ -84,6 +84,7 @@ public:
     bool rotateToCamera;
     bool receiveShadow;
     bool selfLight;
+    bool hasNormalMap;
     glm::vec3 previousPosition;
 	// **********************************
     //Lights

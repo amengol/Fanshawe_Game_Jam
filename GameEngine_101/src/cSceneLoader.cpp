@@ -633,6 +633,22 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             }
         }
         
+        // Has Reflection?
+        bool hasNormalMap = false;
+        if (gameObject[jsIndex].HasMember("hasNormalMap"))
+        {
+            if (gameObject[jsIndex]["hasNormalMap"].IsBool())
+            {
+                hasNormalMap = gameObject[jsIndex]["hasNormalMap"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"hasNormalMap\" member!";
+                return false;
+            }
+        }
+
         // Rotate X
         float rotateX = 0.0f;
         if (gameObject[jsIndex].HasMember("rotateX"))
@@ -1328,6 +1344,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         theGO->cullFace = cullFace;
         theGO->receiveShadow = receiveShadow;
         theGO->hasReflection = hasReflection;
+        theGO->hasNormalMap = hasNormalMap;
         theGO->selfLight = selfLight;
         theGO->rotateX(rotateX);
 		theGO->rotateY(rotateY);
