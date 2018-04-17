@@ -119,11 +119,45 @@
 		"textureNames[4]" : "Tomb01_D_normal.bmp"		
 	},
 	{ 
-		"meshName" : "Box",
-		"textureNames[0]" : "brick_wall.bmp",
-		"textureNames[4]" : "brick_wall_normal.bmp",
+		"meshName" : "Static_Gravestone",
+		"textureNames[0]" : "Gravestone01_D.bmp",
 		"hasNormalMap" : true,
-		"position" : [-2.0, 0.0, 0.0]		
+		"textureNames[4]" : "Gravestone01_D_normal.bmp"		
+	},
+	{ 
+		"meshName" : "Static_Tomb",
+		"textureNames[0]" : "Tomb01_D.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Tomb01_D_normal.bmp"		
+	},
+	{ 
+		"meshName" : "Static_Coffins",
+		"textureNames[0]" : "Coffin01_D.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Coffin01_D_normal.bmp"		
+	},
+	{ 
+		"meshName" : "Static_Plants",
+		"textureNames[0]" : "Plant01_D.bmp",
+		"hasAlpha" : true,
+		"useDiscardAlpha" : true,
+		"textureNames[1]" : "Plant01_D_alpha.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Plant01_D_normal.bmp"		
+	},
+	{ 
+		"meshName" : "Static_Wood",
+		"textureNames[0]" : "Table01_D.bmp",
+		"textureNames[3]" : "Table01_D_specular.bmp",
+		"specular" : [1.0, 1.0, 1.0, 64.0]	
+	},
+	{ 
+		"meshName" : "Statue",
+		"textureNames[0]" : "Statue01_D.bmp",
+		"textureNames[3]" : "Statue01_D_specular.bmp",
+		"specular" : [1.0, 1.0, 1.0, 64.0],
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Statue01_D_normal.bmp"		
 	},
 	{ 
 		"meshName" : "knight",
