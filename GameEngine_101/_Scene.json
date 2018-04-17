@@ -143,7 +143,8 @@
 		"useDiscardAlpha" : true,
 		"textureNames[1]" : "Plant01_D_alpha.bmp",
 		"hasNormalMap" : true,
-		"textureNames[4]" : "Plant01_D_normal.bmp"		
+		"textureNames[4]" : "Plant01_D_normal.bmp",		
+		"cullFace" : false
 	},
 	{ 
 		"meshName" : "Static_Wood",

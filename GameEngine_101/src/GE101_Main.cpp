@@ -506,7 +506,7 @@ int main()
     // Create the FBOs
     g_FBO_fullScene.init(g_scrWidth, g_scrHeight, error);
     g_FBO_deferred.init(g_scrWidth, g_scrHeight, error);
-    g_FBO_alpha_shadow.init(4096, 4096, error);
+    g_FBO_alpha_shadow.init(128, 128, error);
     g_FBO_shadows.init(8192, 8192, error);
 
     // Will be used in the physics step
@@ -601,7 +601,7 @@ int main()
         g_FBO_fullScene.clearBuffers();
 
         // Render to the Screen FBO (1st pass)
-        RenderScene(g_vecGameObjects, window, g_camera, deltaTime, g_pSkyBoxObject);
+        RenderScene(g_vecGameObjects, window, g_camera, deltaTime);
 
         // Now we point it to the FBO texture
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_deferred.ID);
@@ -634,8 +634,7 @@ int main()
         glUniform1f(screenHeightLocID, (float)g_scrHeight);
 
         // Only drawing the skybox because it fills the entire screen
-        std::vector< cGameObject* >  emptyVecGOs;
-        RenderScene(emptyVecGOs, window, g_camera, deltaTime, g_pSkyBoxObject);
+        RenderScene(g_pSkyBoxObject, window, g_camera, deltaTime);
 
         // Now we are going to draw to the screen itself. There is going to be 2 draws:
         // 1. We draw the full scene using the regulat FBO texture from "g_FBO_Pass2_Deferred"
@@ -654,7 +653,7 @@ int main()
         glUniform1i(fullRenderedImage2D_LocID, 20);
 
         // Render the "Full scene
-        RenderScene(emptyVecGOs, window, g_camera, deltaTime, g_pSkyBoxObject);
+        RenderScene(g_pSkyBoxObject, window, g_camera, deltaTime);
 
         // End of the Deferred Render
         //=====================================================================================

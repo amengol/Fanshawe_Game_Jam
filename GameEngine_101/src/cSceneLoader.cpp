@@ -1374,7 +1374,6 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         if (theGO->typeOfObject == SKYBOX)
         {
             g_pSkyBoxObject = theGO;
-            continue;
         }
 
         g_vecGameObjects.push_back(theGO);
