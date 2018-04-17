@@ -186,7 +186,7 @@ void main()
 	{
 		float dist = length(viewSpace);
 		// 5 - fog starts; 25 - fog ends
-		fogFactor = (25.0 - dist)/(25.0 - 5.0);
+		fogFactor = (40.0 - dist)/(40.0 - 8.0);
 		fogFactor = clamp( fogFactor, 0.0, 1.0 );
 		fogFactor += (1.0 - fogFactor) * (1.0f - fogPercent);
 	}
@@ -242,7 +242,7 @@ void main()
 			fragOut_normal.a = DONT_CALCULATE_LIGHTING;
 
 			// Fog calc
-			fragOut_colour.rgb += mix(fogColour, skyRGBA.rgb, fogFactor);
+			fragOut_colour.rgb = mix(fogColour, skyRGBA.rgb, fogFactor);
 			return;	
 		}
 		
@@ -376,6 +376,7 @@ void main()
 		if (selfLight)
 		{
 			fragOut_colour.rgb = matDiffuse.rgb * 1.5f;
+			fragOut_colour.rgb = mix(fogColour, fragOut_colour.rgb, fogFactor);
 			return;
 		}
 
@@ -433,7 +434,7 @@ void main()
 		vec3 lightColor = vec3(0.0f);
 		for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
 		{
-			lightColor += calcLightColour( normal, 					
+			fragOut_colour.rgb += calcLightColour( normal, 					
 			                                      fVecWorldPosition, 
 												  index, 
 			                                      matDiffuse, 
@@ -442,7 +443,7 @@ void main()
 
 		//if you inverse color in glsl mix function you have to
 		//put 1.0 - fogFactor
-		fragOut_colour.rgb += mix(fogColour, lightColor, fogFactor);
+		fragOut_colour.rgb = mix(fogColour, fragOut_colour.rgb, fogFactor);
 	}
 		break;	// end of FULL_SCENE_RENDER_PASS (0):
 	case DEFERRED_RENDER_PASS:	// (1)
