@@ -1534,7 +1534,12 @@ bool cSceneLoader::loadLightParams(int shaderID,
                         lightManager->vecLights[i]->typeParams.x = 2.0f;
                         lightManager->vecLights[i]->typeParams.z = glm::radians(lights[i]["innerAngle"].GetFloat());
                         lightManager->vecLights[i]->typeParams.w = glm::radians(lights[i]["outerAngle"].GetFloat());
-                    }                    
+                    }  
+
+                    if (GO_Light.type == SUN)
+                    {
+                        lightManager->vecLights[i]->typeParams.x = 3.0f;
+                    }
 
                     g_vecGameObjects[j]->vecLightsInfo.push_back(GO_Light);
                     break;
@@ -1581,6 +1586,11 @@ bool cSceneLoader::loadLightParams(int shaderID,
                         lightManager->vecLights[i]->typeParams.x = 2.0f;
                         lightManager->vecLights[i]->typeParams.z = glm::radians(lights[i]["innerAngle"].GetFloat());
                         lightManager->vecLights[i]->typeParams.w = glm::radians(lights[i]["outerAngle"].GetFloat());
+                    }
+
+                    if (GO_Light.type == SUN)
+                    {
+                        lightManager->vecLights[i]->typeParams.x = 3.0f;
                     }
 
                     g_pTranspManager->transpObjects[j]->vecLightsInfo.push_back(GO_Light);

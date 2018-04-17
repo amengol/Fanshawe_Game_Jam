@@ -117,6 +117,7 @@ struct sLightDesc {
 						// 		0 = point
 						// 		1 = directional
 						// 		2 = spot
+						//		3 = sun
 						// y = distance cut-off
 	                    // z angle1, w = angle2		- only for spot
 	
@@ -551,13 +552,16 @@ vec3 calcLightColour( in vec3 vecNormal,
 
 	// Calculate shadow
 	float shadow;
-	if (receiveShadow)
+	if (myLight[lightID].typeParams.x == 3.0f)
 	{
-		shadow = ShadowCalculation(FragPosLightSpace, vecNormal, lightDir);
-		
-		if (shadow == 1.0f)
+		if (receiveShadow)
 		{
-			return resultColour;
+			shadow = ShadowCalculation(FragPosLightSpace, vecNormal, lightDir);
+			
+			if (shadow == 1.0f)
+			{
+				return resultColour;
+			}
 		}
 	}
 
@@ -635,5 +639,12 @@ vec3 calcLightColour( in vec3 vecNormal,
 	}
 
 	// Result
-	return resultColour * (1 - shadow);
+	if (myLight[lightID].typeParams.x == 3.0f)
+	{
+		return resultColour * (1 - shadow);
+	}
+	else
+	{
+		return resultColour;
+	}
 }

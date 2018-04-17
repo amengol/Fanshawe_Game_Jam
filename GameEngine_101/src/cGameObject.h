@@ -29,7 +29,8 @@ enum eTypeOfObject
 enum LightType
 {
     OMNI,
-    SPOT
+    SPOT,
+    SUN
 };
 
 struct lightInfo

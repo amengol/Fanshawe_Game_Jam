@@ -153,6 +153,37 @@
 		"specular" : [1.0, 1.0, 1.0, 64.0]	
 	},
 	{ 
+		"meshName" : "Static_Rocks",
+		"textureNames[0]" : "Campfire01_D.bmp",
+		"textureNames[3]" : "Campfire01_D_specular.bmp",
+		"specular" : [1.0, 1.0, 1.0, 64.0],
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Campfire01_D_normal.bmp"
+	},
+	{ 
+		"meshName" : "Plane1x1",
+		"textureNames[0]" : "Bloom01_D.bmp",
+		"hasAlpha" : true,
+		"textureNames[1]" : "Sun_Alpha.bmp",
+		"hasToBeSorted" : true,
+		"rotateToCamera" : true,
+		"selfLight" : true,
+		"hasToBeSorted" : false,
+		"position" : [10.989, 1.19, -33.64845],
+		"scale" : 2.0
+	},
+	{ 
+		"meshName" : "Plane1x1",
+		"textureNames[0]" : "Bloom02_D.bmp",
+		"hasAlpha" : true,
+		"textureNames[1]" : "Sun_Alpha.bmp",
+		"hasToBeSorted" : true,
+		"rotateToCamera" : true,
+		"selfLight" : true,
+		"hasToBeSorted" : false,
+		"position" : [14.9004, 1.19, 31.918]
+	},
+	{ 
 		"meshName" : "Statue",
 		"textureNames[0]" : "Statue01_D.bmp",
 		"textureNames[3]" : "Statue01_D_specular.bmp",
@@ -915,21 +946,36 @@
 
 "Lights" : 
 [
-#	{
-#		"name" : "morning_sky",
-#		"position" : [100.0, 100.0, 0.0],
-#		"power" : 0.0,
-#		"diffuse" : [1.0, 1.0, 0.79],
-#		"costantAttenuation" :0.8,
-#		"linearAttenuation" :0.0,
-#		"quadraticAttenuation" :0.0,
-#		"attachToGameObject" : "",
-#		"type" : 0,
-#		"innerAngle" : 0.0,
-#		"outerAngle" : 0.0,
-#		"offset" : [0.0, 0.0, 0.0],
-#		"focusDirection" : [0.0, 1.0, 0.0]		
-#	},
+	{
+		"name" : "blue_bloom",
+		"position" : [10.989, 1.19, -33.64845],
+		"power" : 1.0,
+		"diffuse" : [0.165, 0.295, 0.706],
+		"costantAttenuation" :1.0,
+		"linearAttenuation" :0.0,
+		"quadraticAttenuation" :0.1,
+		"attachToGameObject" : "",
+		"type" : 0,
+		"innerAngle" : 0.0,
+		"outerAngle" : 0.0,
+		"offset" : [0.0, 0.0, 0.0],
+		"focusDirection" : [0.0, 1.0, 0.0]		
+	},
+	{
+		"name" : "yellow_bloom",
+		"position" : [14.9004, 1.19, 31.918],
+		"power" : 1.0,
+		"diffuse" : [1.0, 1.0, 0.443],
+		"costantAttenuation" :1.0,
+		"linearAttenuation" :0.0,
+		"quadraticAttenuation" :0.1,
+		"attachToGameObject" : "",
+		"type" : 0,
+		"innerAngle" : 0.0,
+		"outerAngle" : 0.0,
+		"offset" : [0.0, 0.0, 0.0],
+		"focusDirection" : [0.0, 1.0, 0.0]		
+	}
 #	{
 #		"name" : "day_sky",
 #		"position" : [0.0, 400.0, 0.0],

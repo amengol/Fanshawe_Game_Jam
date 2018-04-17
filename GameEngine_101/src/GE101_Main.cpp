@@ -337,9 +337,9 @@ int main()
     
     // Environment initialization
     g_environment.initLights(currentProgID, g_pLightManager, g_pTranspManager);
-    g_environment.setTimeOfDay(18.5);
+    g_environment.setTimeOfDay(0);
     g_environment.setDayDuration(1);
-    g_environment.setMode(cEnvironment::Mode::CONTINUOUS);
+    //g_environment.setMode(cEnvironment::Mode::CONTINUOUS);
 
     
     //-------------------------------------------------------------------------

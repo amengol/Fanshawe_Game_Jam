@@ -18,6 +18,8 @@
 {"meshName" : "Static_Coffins", "meshFile" : "Static_Coffins.obj"},
 {"meshName" : "Static_Plants", "meshFile" : "Static_Plants.ply"},
 {"meshName" : "Static_Wood", "meshFile" : "Static_Wood.obj"},
+{"meshName" : "Static_Rocks", "meshFile" : "Static_Rocks.obj"},
+{"meshName" : "Static_Bloom", "meshFile" : "Static_Bloom.obj"},
 {"meshName" : "Statue", "meshFile" : "Statue.obj"},
 {"meshName" : "Limits", "meshFile" : "Limits.obj"},
 {"meshName" : "knight", "type" : 1, "meshFile" : "knight.fbx"},
