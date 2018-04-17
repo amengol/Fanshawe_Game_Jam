@@ -600,8 +600,8 @@ void DrawObject(cGameObject* pTheGO)
 void RenderScene(std::vector<cGameObject*>& vec_pGOs, 
                  GLFWwindow* pGLFWWindow, 
                  cCamera& camera, 
-                 double deltaTime,
-                 cGameObject* skyBox)
+                 double deltaTime/*,
+                 cGameObject* skyBox*/)
 {
 
     // Clear colour AND depth buffer
@@ -646,11 +646,11 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs,
 
     }
 
-    // Lastly, draw the SkyBox
-    if (skyBox != NULL)
-    {
-        DrawObject(skyBox);
-    }
+    //// Lastly, draw the SkyBox
+    //if (skyBox != NULL)
+    //{
+    //    DrawObject(skyBox);
+    //}
 
     // Now Draw the transparent objects
     ::g_pTranspManager->sortObjects();
@@ -666,6 +666,44 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs,
         DrawObject(::g_pTranspManager->transpObjects[i]);
 
     }
+}
+
+void RenderScene(cGameObject * pTheGO, GLFWwindow * pGLFWWindow, cCamera & camera, double deltaTime)
+{
+    // Clear colour AND depth buffer
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Pass the GamaCorrection
+    glUniform1f(g_uniLocHandler.gamaCorrection, g_gamaCorrection);
+
+    ::g_pShaderManager->useShaderProgram("GE101_Shader");
+    GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+
+    // Update all the light uniforms...
+    // (for the whole scene)
+    ::g_pLightManager->CopyLightInformationToCurrentShader();
+
+    //---------------------------------------------------------------------
+    // Camera block
+
+    glm::mat4x4 matProjection;
+
+    // Projection and view don't change per scene (maybe)
+    matProjection = glm::perspective(glm::radians(g_camera.m_zoom),             // FOV
+        (float)g_scrWidth / (float)g_scrHeight,	// Aspect ratio
+                                     0.1f,		   	                            // Near (as big as possible)
+                                     2000.0f);                                // Far (as small as possible)
+
+    glUniformMatrix4fv(g_uniLocHandler.mView, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(camera.getViewMatrix()));
+    glUniformMatrix4fv(g_uniLocHandler.mProjection, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(matProjection));
+
+    //---------------------------------------------------------------------
+    // "Draw scene" loop
+
+    DrawObject(pTheGO);
 }
 
 void RenderScene(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
