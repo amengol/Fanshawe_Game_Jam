@@ -807,7 +807,16 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
         glUniformMatrix4fv(g_uniLocHandler.mModel, 1, GL_FALSE, (const GLfloat*)glm::value_ptr(mModel));
 
         glUniform1f(g_uniLocHandler.hasColour, 0.0f);
-        glUniform1f(g_uniLocHandler.hasAlpha, 0.0f);
+        
+        if (pTheGO->hasAlpha)
+        {
+            glUniform1f(g_uniLocHandler.hasAlpha, 1.0f);
+        }
+        else
+        {
+            glUniform1f(g_uniLocHandler.hasAlpha, 0.0f);
+        }
+
         glUniform1f(g_uniLocHandler.useDiscardAlpha, 0.0f);
         glUniform1f(g_uniLocHandler.bIsDebugWireFrameObject, 0.0f);
         glUniform1f(g_uniLocHandler.hasReflection, 0.0f);

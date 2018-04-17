@@ -39,6 +39,7 @@
 //    Copying from the Pass2_Deferred buffer to the final screen
 cFBO g_FBO_fullScene;
 cFBO g_FBO_deferred;
+cFBO g_FBO_alpha_shadow;
 cFBO_Shadow g_FBO_shadows;
 
 // Fade Control
@@ -121,8 +122,9 @@ float g_CR_Max = 0.1f;
 double g_CA_CountDown = 0.0f;
 
 const int FULL_SCENE_RENDER_PASS = 0;
-const int DEPTH_RENDER_PASS = 2;
 const int DEFERRED_RENDER_PASS = 1;
+const int SHADOW_ALPHA_PASS = 2;
+const int DEPTH_RENDER_PASS = 3;
 const int FINAL_RENDER_PASS = 99;
 
 // ----------------------------------------------------------------------------
@@ -504,6 +506,7 @@ int main()
     // Create the FBOs
     g_FBO_fullScene.init(g_scrWidth, g_scrHeight, error);
     g_FBO_deferred.init(g_scrWidth, g_scrHeight, error);
+    g_FBO_alpha_shadow.init(4096, 4096, error);
     g_FBO_shadows.init(8192, 8192, error);
 
     // Will be used in the physics step
@@ -556,8 +559,19 @@ int main()
         ::g_pShaderManager->useShaderProgram("GE101_Shader");
         GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
 
-        // Depth pass
+
+
+        // Shadow alpha pass
         GLint renderPassNumber_LocID = glGetUniformLocation(shaderID, "renderPassNumber");
+        glUniform1i(renderPassNumber_LocID, SHADOW_ALPHA_PASS);
+        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_alpha_shadow.ID);
+        g_FBO_alpha_shadow.clearBuffers();
+        glViewport(0, 0, g_FBO_alpha_shadow.width, g_FBO_alpha_shadow.height);
+        RenderScene(g_vecGameObjects, shaderID);
+
+
+
+        // Depth pass
         glUniform1i(renderPassNumber_LocID, DEPTH_RENDER_PASS);
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_shadows.ID);
         g_FBO_shadows.clearBuffer();
@@ -571,7 +585,15 @@ int main()
 
 
 
-
+        // Full render pass
+        GLint shadowMap2DLocID = glGetUniformLocation(shaderID, "shadowMap");
+        GLint shadowAlpha2DLocID = glGetUniformLocation(shaderID, "shadowAlphaMap");
+        glActiveTexture(GL_TEXTURE0 + 20);
+        glBindTexture(GL_TEXTURE_2D, g_FBO_shadows.depthTexture_ID);
+        glUniform1i(shadowMap2DLocID, 20);
+        glActiveTexture(GL_TEXTURE0 + 21);
+        glBindTexture(GL_TEXTURE_2D, g_FBO_alpha_shadow.colourTexture_0_ID);
+        glUniform1i(shadowAlpha2DLocID, 21);
 
         glUniform1i(renderPassNumber_LocID, FULL_SCENE_RENDER_PASS);
 
@@ -591,7 +613,6 @@ int main()
         GLint texFBOColour2DLocID = glGetUniformLocation(shaderID, "texFBOColour2D");
         GLint texFBONormal2DLocID = glGetUniformLocation(shaderID, "texFBONormal2D");
         GLint texFBOWorldPosition2DLocID = glGetUniformLocation(shaderID, "texFBOVertexWorldPos2D");
-        GLint shadowMap2DLocID = glGetUniformLocation(shaderID, "shadowMap");
 
         glActiveTexture(GL_TEXTURE0 + 20);
         glBindTexture(GL_TEXTURE_2D, g_FBO_fullScene.colourTexture_0_ID);
@@ -604,10 +625,6 @@ int main()
         glActiveTexture(GL_TEXTURE0 + 22);
         glBindTexture(GL_TEXTURE_2D, g_FBO_fullScene.vertexWorldPos_2_ID);
         glUniform1i(texFBOWorldPosition2DLocID, 22);
-
-        glActiveTexture(GL_TEXTURE0 + 23);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_shadows.depthTexture_ID);
-        glUniform1i(shadowMap2DLocID, 23);
 
         glfwGetFramebufferSize(window, &g_scrWidth, &g_scrHeight);
 

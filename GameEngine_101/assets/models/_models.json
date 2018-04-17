@@ -16,7 +16,7 @@
 {"meshName" : "Static_Gravestone", "meshFile" : "Static_Gravestone.obj"},
 {"meshName" : "Static_Tomb", "meshFile" : "Static_Tomb.obj"},
 {"meshName" : "Static_Coffins", "meshFile" : "Static_Coffins.obj"},
-{"meshName" : "Static_Plants", "meshFile" : "Static_Plants.obj"},
+{"meshName" : "Static_Plants", "meshFile" : "Static_Plants.ply"},
 {"meshName" : "Static_Wood", "meshFile" : "Static_Wood.obj"},
 {"meshName" : "Statue", "meshFile" : "Statue.obj"},
 {"meshName" : "Limits", "meshFile" : "Limits.obj"},

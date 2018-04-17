@@ -54,6 +54,7 @@ uniform sampler2D texFBOVertexWorldPos2D;
 uniform sampler2D fullRenderedImage2D;
 uniform sampler2D fullRenderedImage2D_Overlay;
 uniform sampler2D shadowMap;
+uniform sampler2D shadowAlphaMap;
 
 uniform float screenWidth;
 uniform float screenHeight;
@@ -139,7 +140,8 @@ const float DONT_CALCULATE_LIGHTING = 0.25f;
 
 const int FULL_SCENE_RENDER_PASS = 0;
 const int DEFERRED_RENDER_PASS = 1;
-const int DEPTH_RENDER_PASS = 2;
+const int SHADOW_ALPHA_PASS = 2;
+const int DEPTH_RENDER_PASS = 3;
 const int FINAL_RENDER_PASS = 99;
 
 const float offset = 1.0 / 3000.0; 
@@ -173,7 +175,7 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 vecNormal, vec3 lightDir)
 	}
 	shadow /= 9.0;
 
-    return shadow;
+	return shadow;
 }
 
 void main()
@@ -456,9 +458,27 @@ void main()
 
 	}
 		break;	// end of pass DEFERRED_RENDER_PASS (1)
+	case SHADOW_ALPHA_PASS:
+	{
+		if (hasAlpha)
+		{
+			fragOut_colour.rgb = texture( texSamp2D01, fUV_X2.xy).rgb;
+		}
+		else
+		{
+			fragOut_colour.rgb = vec3(1.0f);
+		}
+		fragOut_colour.a = 1.0f;
+	}
+		break;
 	case DEPTH_RENDER_PASS:
 	{
-		// Nothing to do in this pass
+		if (hasAlpha)
+		{
+			vec4 textAlpha = texture( texSamp2D01, fUV_X2.xy );
+			if (textAlpha.r < 0.5f)
+				discard;
+		}
 	}
 		break;
 	case FINAL_RENDER_PASS:	// (99)
