@@ -7,12 +7,12 @@ namespace nPhysics
 {
     struct GLInstanceVertex;
 
-	class bt_cSphereShape : public iShape
+	class cSphereShape : public iShape
 	{
 	public:
-		bt_cSphereShape(float radius);
+		cSphereShape(float radius);
 
-		virtual ~bt_cSphereShape();
+		virtual ~cSphereShape();
 
 		virtual bool GetSphereRadius(float& radiusOut);
 
@@ -21,9 +21,9 @@ namespace nPhysics
         inline btCollisionShape* getBulletShape() { return this->fallShape; }
 
 	private:
-		bt_cSphereShape();
-		bt_cSphereShape(const bt_cSphereShape& other);
-		bt_cSphereShape& operator=(const bt_cSphereShape& other);
+		cSphereShape();
+		cSphereShape(const cSphereShape& other);
+		cSphereShape& operator=(const cSphereShape& other);
 
 		float mRadius;
 
@@ -31,13 +31,13 @@ namespace nPhysics
         btCollisionShape* fallShape;
 	};
 
-	class bt_cPlaneShape : public iShape
+	class cPlaneShape : public iShape
 	{
 	public:
 
-		bt_cPlaneShape(const glm::vec3& normal, float planeConst);
+		cPlaneShape(const glm::vec3& normal, float planeConst);
 		
-		virtual ~bt_cPlaneShape();
+		virtual ~cPlaneShape();
 
 		virtual bool GetPlaneNormal(glm::vec3& normalOut);
 		virtual bool GetPlaneConst(float& planeConstOut);
@@ -45,9 +45,9 @@ namespace nPhysics
         inline btCollisionShape* getBulletShape() { return this->groundShape; }
 
 	private:
-		bt_cPlaneShape();
-		bt_cPlaneShape(const bt_cPlaneShape& other);
-		bt_cPlaneShape& operator=(const bt_cPlaneShape& other);
+		cPlaneShape();
+		cPlaneShape(const cPlaneShape& other);
+		cPlaneShape& operator=(const cPlaneShape& other);
 
 		glm::vec3 mNormal;
 		float mPlaneConst;
@@ -56,40 +56,40 @@ namespace nPhysics
         btCollisionShape* groundShape;
 	};
 
-    class bt_cBoxShape : public iShape
+    class cBoxShape : public iShape
     {
     public:
 
-        bt_cBoxShape(const glm::vec3& halfExtents);
+        cBoxShape(const glm::vec3& halfExtents);
 
-        virtual ~bt_cBoxShape();
+        virtual ~cBoxShape();
 
         inline btCollisionShape* getBulletShape() { return this->boxShape; }
 
     private:
-        bt_cBoxShape();
-        bt_cBoxShape(const bt_cBoxShape& other);
-        bt_cBoxShape& operator=(const bt_cBoxShape& other);
+        cBoxShape();
+        cBoxShape(const cBoxShape& other);
+        cBoxShape& operator=(const cBoxShape& other);
 
 
         // Bullet
         btCollisionShape* boxShape;
     };
 
-    class bt_cConvexHullShape : public iShape
+    class cConvexHullShape : public iShape
     {
     public:
 
-        bt_cConvexHullShape(const GLInstanceVertex*, size_t numOfVertices);
+        cConvexHullShape(const GLInstanceVertex*, size_t numOfVertices);
 
-        virtual ~bt_cConvexHullShape();
+        virtual ~cConvexHullShape();
 
         inline btCollisionShape* getBulletShape() { return this->convexHullShape; }
 
     private:
-        bt_cConvexHullShape();
-        bt_cConvexHullShape(const btCollisionShape& other);
-        bt_cConvexHullShape& operator=(const btCollisionShape& other);
+        cConvexHullShape();
+        cConvexHullShape(const btCollisionShape& other);
+        cConvexHullShape& operator=(const btCollisionShape& other);
 
 
         // Bullet

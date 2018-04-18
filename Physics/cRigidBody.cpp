@@ -23,7 +23,7 @@ namespace nPhysics
                                          desc.Position.y, 
                                          desc.Position.z)));
 
-            bt_cPlaneShape* planeShape = dynamic_cast<bt_cPlaneShape*>(shape);
+            cPlaneShape* planeShape = dynamic_cast<cPlaneShape*>(shape);
 
             btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(0, 
                                                                        groundMotionState, 
@@ -47,7 +47,7 @@ namespace nPhysics
                                          desc.Position.y,
                                          desc.Position.z)));
 
-            bt_cSphereShape* sphereShape = dynamic_cast<bt_cSphereShape*>(shape);
+            cSphereShape* sphereShape = dynamic_cast<cSphereShape*>(shape);
 
             // Sphere mass is a factor of its radius
             btScalar sMass;
@@ -73,7 +73,7 @@ namespace nPhysics
         case nPhysics::SHAPE_TYPE_BOX:
         {
 
-            bt_cBoxShape* boxShape = dynamic_cast<bt_cBoxShape*>(shape);
+            cBoxShape* boxShape = dynamic_cast<cBoxShape*>(shape);
 
             // Create Dynamic Objects
             btTransform startTransform;
@@ -111,7 +111,7 @@ namespace nPhysics
         break;
         case SHAPE_TYPE_CONVEX_HULL:
         {
-            bt_cConvexHullShape* convexHull = dynamic_cast<bt_cConvexHullShape*>(shape);
+            cConvexHullShape* convexHull = dynamic_cast<cConvexHullShape*>(shape);
 
             btConvexHullShape* btShape = static_cast<btConvexHullShape*>(convexHull->getBulletShape());
 
@@ -223,20 +223,20 @@ namespace nPhysics
 
     void cRigidBody::GetVelocity(glm::vec3& velocityOut)
     {
-        btVector3 bt_Vel = this->bullet_RigidBody->getLinearVelocity();
-        velocityOut.x = bt_Vel.getX();
-        velocityOut.y = bt_Vel.getY();
-        velocityOut.z = bt_Vel.getZ();
+        btVector3 Vel = this->bullet_RigidBody->getLinearVelocity();
+        velocityOut.x = Vel.getX();
+        velocityOut.y = Vel.getY();
+        velocityOut.z = Vel.getZ();
     }
 
     void cRigidBody::SetVelocity(const glm::vec3 & velocityIn)
     {
-        btVector3 bt_Vel;
-        bt_Vel.setX(velocityIn.x);
-        bt_Vel.setY(velocityIn.y);
-        bt_Vel.setZ(velocityIn.z);
+        btVector3 Vel;
+        Vel.setX(velocityIn.x);
+        Vel.setY(velocityIn.y);
+        Vel.setZ(velocityIn.z);
         this->bullet_RigidBody->activate();
-        this->bullet_RigidBody->setLinearVelocity(bt_Vel);
+        this->bullet_RigidBody->setLinearVelocity(Vel);
     }
 
     //void cRigidBody::SetMatOrientation(const glm::mat4& orientationIn)

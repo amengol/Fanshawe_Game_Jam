@@ -65,18 +65,18 @@ namespace nPhysics
 
 	iShape* cPhysicsFactory::CreateSphere(float radius)
 	{
-		return new bt_cSphereShape(radius);
+		return new cSphereShape(radius);
 	}
 	iShape* cPhysicsFactory::CreatePlane(const glm::vec3& normal, float planeConst)
 	{
-		return new bt_cPlaneShape(normal, planeConst);
+		return new cPlaneShape(normal, planeConst);
 	}
     iShape* cPhysicsFactory::CreateBox(const glm::vec3 & halfExtents)
     {
-        return new bt_cBoxShape(halfExtents);
+        return new cBoxShape(halfExtents);
     }
     iShape* cPhysicsFactory::CreateConvexHull(const GLInstanceVertex* instanceVertex, size_t numOfVertices)
     {
-        return new bt_cConvexHullShape(instanceVertex, numOfVertices);
+        return new cConvexHullShape(instanceVertex, numOfVertices);
     }
 }
