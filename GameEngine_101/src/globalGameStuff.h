@@ -12,7 +12,6 @@
 #include "cModelAssetLoader.h"
 #include "cCameraObject.h"
 #include "Assimp\cAnimationCollection.h"
-#include "cPhysics_Switcher.h"
 #include "cVAOMeshManager.h"
 #include "cDebugRenderer.h"
 #include "cShaderManager.h"
@@ -63,7 +62,6 @@ extern cVAOMeshManager* g_pVAOManager;		            // (GE101_Main.cpp)
 //extern cDebugRenderer* g_pDebugRenderer;	            // (GE101_Main.cpp)
 extern cShaderManager* g_pShaderManager;	            // (GE101_Main.cpp)
 extern CTextureManager*	g_pTextureManager;	            // (GE101_Main.cpp)
-extern cPhysics_Switcher g_physicsSwitcher;             // (GE101_Main.cpp)
 extern cCharacterManager g_characterManager;            // (cSceneLoader.cpp)
 extern cSimpleDebugRenderer* g_pSimpleDebug;            // (GE101_Main.cpp)
 extern cTransparencyManager* g_pTranspManager;          // (GE101_Main.cpp)

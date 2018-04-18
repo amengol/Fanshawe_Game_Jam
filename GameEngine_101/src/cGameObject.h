@@ -130,9 +130,6 @@ public:
     // Rigid Body
     nPhysics::iRigidBody* rigidBody;
 
-    // Rigid Body from bullet 
-    nPhysics::iRigidBody* bt_rigidBody;
-
     // If NULL, then object ISN'T a skinned mesh
     cSkinnedMesh* pSimpleSkinnedMesh;
     cAnimationState* pAniState;

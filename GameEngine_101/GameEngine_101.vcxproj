@@ -199,8 +199,6 @@
     <ClCompile Include="src\GLFW_keyboardCallback.cpp" />
     <ClCompile Include="src\ModelUtilities.cpp" />
     <ClCompile Include="src\opttritri.cpp" />
-    <ClCompile Include="src\Physics.cpp" />
-    <ClCompile Include="src\cPhysics_Switcher.cpp" />
     <ClCompile Include="src\pugixml.cpp" />
     <ClCompile Include="src\sAABB_Triangle.cpp" />
     <ClCompile Include="src\sCollisionTriangle.cpp" />
@@ -249,7 +247,6 @@
     <ClInclude Include="src\Error\COpenGLError.h" />
     <ClInclude Include="src\iDebugRenderer.h" />
     <ClInclude Include="src\OptTriTri.h" />
-    <ClInclude Include="src\cPhysics_Switcher.h" />
     <ClInclude Include="src\sCollisionTriangle.h" />
     <ClInclude Include="src\cSimpleDebugRenderer.h" />
     <ClInclude Include="src\cTriangle.h" />
@@ -257,7 +254,6 @@
     <ClInclude Include="src\globalGameStuff.h" />
     <ClInclude Include="src\globalOpenGL_GLFW.h" />
     <ClInclude Include="src\ModelUtilities.h" />
-    <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\sAABB_Triangle.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\sThreadInfo.h" />

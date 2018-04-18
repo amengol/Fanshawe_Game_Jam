@@ -301,16 +301,10 @@ void DrawObject(cGameObject* pTheGO)
     glm::mat4 trans = glm::mat4x4(1.0f);
 
     // Position by nPhysics?
-    if (pTheGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
+    if (pTheGO->rigidBody != NULL)
     {
         glm::vec3 rbPos;
         pTheGO->rigidBody->GetPostion(rbPos);
-        trans = glm::translate(trans, rbPos);
-    }
-    else if (pTheGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
-    {
-        glm::vec3 rbPos;
-        pTheGO->bt_rigidBody->GetPostion(rbPos);
         trans = glm::translate(trans, rbPos);
     }
     else
@@ -322,14 +316,9 @@ void DrawObject(cGameObject* pTheGO)
 
     // Orientation by nPhysics?
     glm::mat4 orientation;
-    if (pTheGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
+    if (pTheGO->rigidBody != NULL)
     {
         pTheGO->rigidBody->GetMatOrientation(orientation);
-        mModel = mModel * orientation;
-    }
-    else if (pTheGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
-    {
-        pTheGO->bt_rigidBody->GetMatOrientation(orientation);
         mModel = mModel * orientation;
     }
     else
@@ -600,8 +589,7 @@ void DrawObject(cGameObject* pTheGO)
 void RenderScene(std::vector<cGameObject*>& vec_pGOs, 
                  GLFWwindow* pGLFWWindow, 
                  cCamera& camera, 
-                 double deltaTime/*,
-                 cGameObject* skyBox*/)
+                 double deltaTime)
 {
 
     // Clear colour AND depth buffer
@@ -800,16 +788,10 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
         glm::mat4 trans = glm::mat4x4(1.0f);
 
         // Position by nPhysics?
-        if (pTheGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
+        if (pTheGO->rigidBody != NULL)
         {
             glm::vec3 rbPos;
             pTheGO->rigidBody->GetPostion(rbPos);
-            trans = glm::translate(trans, rbPos);
-        }
-        else if (pTheGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
-        {
-            glm::vec3 rbPos;
-            pTheGO->bt_rigidBody->GetPostion(rbPos);
             trans = glm::translate(trans, rbPos);
         }
         else
@@ -821,14 +803,9 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
 
         // Orientation by nPhysics?
         glm::mat4 orientation;
-        if (pTheGO->rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.SUPERDUPER)
+        if (pTheGO->rigidBody != NULL)
         {
             pTheGO->rigidBody->GetMatOrientation(orientation);
-            mModel = mModel * orientation;
-        }
-        else if (pTheGO->bt_rigidBody != NULL && g_physicsSwitcher.gPhysicsEngine == g_physicsSwitcher.BULLET)
-        {
-            pTheGO->bt_rigidBody->GetMatOrientation(orientation);
             mModel = mModel * orientation;
         }
         else

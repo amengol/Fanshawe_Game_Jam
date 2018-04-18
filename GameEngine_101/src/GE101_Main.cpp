@@ -67,8 +67,6 @@ sFade g_Fade;
 nPhysics::iPhysicsFactory* g_pPhysicsFactory = NULL;
 nPhysics::iPhysicsWorld* g_pPhysicsWorld = NULL;
 
-cPhysics_Switcher g_physicsSwitcher;
-
 bool InitPhysics()
 {
     g_pPhysicsFactory = new nPhysics::cPhysicsFactory();
@@ -263,11 +261,6 @@ int main()
         if (GO->rigidBody != NULL)
         {
             g_pPhysicsWorld->AddRigidBody(GO->rigidBody);
-        }
-
-        if (GO->bt_rigidBody != NULL)
-        {
-            //gbt_PhysicsWorld->AddRigidBody(GO->bt_rigidBody);
         }
     }
 

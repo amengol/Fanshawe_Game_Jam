@@ -43,9 +43,6 @@
     <Filter Include="Sounds Related">
       <UniqueIdentifier>{96237b34-24a7-4a2f-8b1e-131adae2a78a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Physics Related">
-      <UniqueIdentifier>{7e17368d-5d4f-4d63-9ede-02f61a2b9c8b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Localization and Text">
       <UniqueIdentifier>{85d9b6fd-b80c-42f0-8bd1-f5431f1e9fbb}</UniqueIdentifier>
     </Filter>
@@ -166,12 +163,6 @@
     </ClCompile>
     <ClCompile Include="src\AI\cSimpleAi_Manager.cpp">
       <Filter>AI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Physics.cpp">
-      <Filter>Physics Related</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cPhysics_Switcher.cpp">
-      <Filter>Physics Related</Filter>
     </ClCompile>
     <ClCompile Include="src\cLocalization.cpp">
       <Filter>Localization and Text</Filter>
@@ -336,12 +327,6 @@
     </ClInclude>
     <ClInclude Include="src\AI\cSimpleAi_Manager.h">
       <Filter>AI</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Physics.h">
-      <Filter>Physics Related</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cPhysics_Switcher.h">
-      <Filter>Physics Related</Filter>
     </ClInclude>
     <ClInclude Include="src\cLocalization.h">
       <Filter>Localization and Text</Filter>
