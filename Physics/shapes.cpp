@@ -124,7 +124,7 @@ namespace nPhysics
     cCapsuleShape::cCapsuleShape(float radius, float height)
         : iShape(SHAPE_TYPE_CAPSULE)
     {
-        this->capmsuleShape = new btCapsuleShape(radius, height);
+        this->capsuleShape = new btCapsuleShape(radius, height);
     }
 
     cCapsuleShape::~cCapsuleShape()

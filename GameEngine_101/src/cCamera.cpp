@@ -189,7 +189,7 @@ void cCamera::lockOnGameObject(cGameObject* GO)
         {
             m_cameraGO = GO;
             m_cameraMode = THIRD_PERSON;
-            GO->rigidBody->GetPostion(m_lookAt);
+            m_lookAt = GO->position;
             m_lookAt += glm::vec3(0.0f, 1.5f, 0.0f);
             m_yaw -= -180.0f;
 
@@ -248,7 +248,7 @@ void cCamera::updateCameraVectors()
     case THIRD_PERSON:
     {
         // LookAt by GameObject
-        m_cameraGO->rigidBody->GetPostion(m_lookAt);
+        m_lookAt = m_cameraGO->position;
         m_lookAt += glm::vec3(0.0f, 1.5f, 0.0f);
 
         // Calculate a direction to guide the new position of the camera

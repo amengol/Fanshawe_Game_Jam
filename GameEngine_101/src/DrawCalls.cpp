@@ -303,9 +303,16 @@ void DrawObject(cGameObject* pTheGO)
     // Position by nPhysics?
     if (pTheGO->rigidBody != NULL)
     {
-        glm::vec3 rbPos;
-        pTheGO->rigidBody->GetPostion(rbPos);
-        trans = glm::translate(trans, rbPos);
+        pTheGO->rigidBody->GetPostion(pTheGO->position);
+
+        // Make an offset value
+        if (pTheGO->pSimpleSkinnedMesh)
+        {
+            pTheGO->position.y -= pTheGO->rigidBody->GetShape()->GetCapsuleHalfHeight() +
+                pTheGO->rigidBody->GetShape()->GetCapsuleRadius();
+        }
+
+        trans = glm::translate(trans, pTheGO->position);
     }
     else
     {
@@ -315,11 +322,16 @@ void DrawObject(cGameObject* pTheGO)
     mModel = mModel * trans;
 
     // Orientation by nPhysics?
-    glm::mat4 orientation;
     if (pTheGO->rigidBody != NULL)
     {
-        pTheGO->rigidBody->GetMatOrientation(orientation);
-        mModel = mModel * orientation;
+        pTheGO->rigidBody->GetMatOrientation(pTheGO->orientation);
+        mModel = mModel * pTheGO->orientation;
+
+        // Update this again here to avoid camera jittrring
+        if (pTheGO->pSimpleSkinnedMesh)
+        {
+            g_camera.updateCameraVectors();
+        }
     }
     else
     {
@@ -790,9 +802,16 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
         // Position by nPhysics?
         if (pTheGO->rigidBody != NULL)
         {
-            glm::vec3 rbPos;
-            pTheGO->rigidBody->GetPostion(rbPos);
-            trans = glm::translate(trans, rbPos);
+            pTheGO->rigidBody->GetPostion(pTheGO->position);
+
+            // Make an offset value
+            if (pTheGO->pSimpleSkinnedMesh)
+            {
+                pTheGO->position.y -= pTheGO->rigidBody->GetShape()->GetCapsuleHalfHeight() +
+                    pTheGO->rigidBody->GetShape()->GetCapsuleRadius();
+            }
+
+            trans = glm::translate(trans, pTheGO->position);
         }
         else
         {
@@ -802,11 +821,16 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
         mModel = mModel * trans;
 
         // Orientation by nPhysics?
-        glm::mat4 orientation;
         if (pTheGO->rigidBody != NULL)
         {
-            pTheGO->rigidBody->GetMatOrientation(orientation);
-            mModel = mModel * orientation;
+            pTheGO->rigidBody->GetMatOrientation(pTheGO->orientation);
+            mModel = mModel * pTheGO->orientation;
+           
+            // Update this again here to avoid camera jittrring
+            if (pTheGO->pSimpleSkinnedMesh)
+            {
+                g_camera.updateCameraVectors();
+            }
         }
         else
         {

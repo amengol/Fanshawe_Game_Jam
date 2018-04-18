@@ -104,7 +104,10 @@ namespace nPhysics
 
         virtual ~cCapsuleShape();
 
-        inline btCollisionShape* getBulletShape() { return this->capmsuleShape; }
+        virtual float GetCapsuleRadius() { return capsuleShape->getRadius(); }
+        virtual float GetCapsuleHalfHeight() { return capsuleShape->getHalfHeight(); }
+
+        inline btCollisionShape* getBulletShape() { return this->capsuleShape; }
 
     private:
         cCapsuleShape();
@@ -113,6 +116,6 @@ namespace nPhysics
 
 
         // Bullet
-        btCapsuleShape* capmsuleShape;
+        btCapsuleShape* capsuleShape;
     };
 }

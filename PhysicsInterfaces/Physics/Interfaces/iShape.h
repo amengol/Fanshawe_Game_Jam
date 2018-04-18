@@ -14,6 +14,8 @@ namespace nPhysics
 		virtual bool GetSphereRadius(float& radiusOut) { return false; }
 		virtual bool GetPlaneNormal(glm::vec3& normalOut) { return false; }
 		virtual bool GetPlaneConst(float& planeConstOut) { return false; }
+        virtual float GetCapsuleRadius() { return false; }
+        virtual float GetCapsuleHalfHeight() { return false; }
 
 	protected:
 		iShape(eShapeType shapeType)

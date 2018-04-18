@@ -519,7 +519,7 @@ int main()
         // Physics step
         g_pPhysicsWorld->TimeStep(deltaTime);
         
-        g_camera.updateCameraVectors();
+        //g_camera.updateCameraVectors();
         g_environment.update(deltaTime);
 
         //PhysicsStep(deltaTime);
