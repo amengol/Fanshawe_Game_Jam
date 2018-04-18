@@ -806,9 +806,10 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             break;
         case SKINNED_MESH:
         {
-            nPhysics::iShape* shape = g_pPhysicsFactory->CreateBox(glm::vec3(0.5f));
+            nPhysics::iShape* shape = g_pPhysicsFactory->CreateCapsule(0.5f, 1.8f);
             nPhysics::sRigidBodyDesc desc;
             desc.Position = position;
+            desc.Mass = 80.0f;
             nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, shape);
             theGO->rigidBody = rb;
 

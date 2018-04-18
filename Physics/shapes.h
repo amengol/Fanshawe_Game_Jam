@@ -95,4 +95,24 @@ namespace nPhysics
         // Bullet
         btConvexHullShape* convexHullShape;
     };
+
+    class cCapsuleShape : public iShape
+    {
+    public:
+
+        cCapsuleShape(float radius, float height);
+
+        virtual ~cCapsuleShape();
+
+        inline btCollisionShape* getBulletShape() { return this->capmsuleShape; }
+
+    private:
+        cCapsuleShape();
+        cCapsuleShape(const btCollisionShape& other);
+        cCapsuleShape& operator=(const btCollisionShape& other);
+
+
+        // Bullet
+        btCapsuleShape* capmsuleShape;
+    };
 }

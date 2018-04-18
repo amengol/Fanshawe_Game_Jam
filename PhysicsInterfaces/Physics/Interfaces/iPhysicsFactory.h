@@ -44,6 +44,7 @@ namespace nPhysics
                                                        const glm::vec3& axis2) = 0;
 
 		virtual iShape* CreateSphere(float radius) = 0;
+        virtual iShape* CreateCapsule(float radius, float height) = 0;
 		virtual iShape* CreatePlane(const glm::vec3& normal, float planeConst) = 0;
         virtual iShape* CreateBox(const glm::vec3& halfExtents) = 0;
         virtual iShape* CreateConvexHull(const GLInstanceVertex*, size_t numOfVertices) = 0;

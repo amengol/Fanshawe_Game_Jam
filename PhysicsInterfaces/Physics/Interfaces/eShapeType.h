@@ -6,6 +6,7 @@ namespace nPhysics
 	{
 		SHAPE_TYPE_PLANE,
 		SHAPE_TYPE_SPHERE,
+        SHAPE_TYPE_CAPSULE,
         SHAPE_TYPE_BOX,
         SHAPE_TYPE_CONVEX_HULL
 	};

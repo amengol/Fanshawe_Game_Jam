@@ -67,6 +67,10 @@ namespace nPhysics
 	{
 		return new cSphereShape(radius);
 	}
+    iShape* cPhysicsFactory::CreateCapsule(float radius, float height)
+    {
+        return new cCapsuleShape(radius, height);
+    }
 	iShape* cPhysicsFactory::CreatePlane(const glm::vec3& normal, float planeConst)
 	{
 		return new cPlaneShape(normal, planeConst);

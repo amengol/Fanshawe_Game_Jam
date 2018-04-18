@@ -50,8 +50,7 @@ namespace nPhysics
             cSphereShape* sphereShape = dynamic_cast<cSphereShape*>(shape);
 
             // Sphere mass is a factor of its radius
-            btScalar sMass;
-            shape->GetSphereRadius(sMass);
+            btScalar sMass = desc.Mass;
 
             btVector3 fallInertia(0, 0, 0);
             sphereShape->getBulletShape()->calculateLocalInertia(sMass, fallInertia);
@@ -70,9 +69,46 @@ namespace nPhysics
             this->bullet_RigidBody->setUserPointer(this);
         }
             break;
+        case SHAPE_TYPE_CAPSULE:
+        {
+            cCapsuleShape* capsuleShape = dynamic_cast<cCapsuleShape*>(shape);
+
+            // Create Dynamic Objects
+            btTransform startTransform;
+            startTransform.setIdentity();
+
+            btScalar mass = desc.Mass;
+
+            //rigidbody is dynamic if and only if mass is non zero, otherwise static
+            bool isDynamic = (mass != 0.f);
+
+            btVector3 localInertia(0, 0, 0);
+            if (isDynamic)
+                capsuleShape->getBulletShape()->calculateLocalInertia(mass, localInertia);
+
+            btVector3 position;
+            position.setX(desc.Position.x);
+            position.setY(desc.Position.y);
+            position.setZ(desc.Position.z);
+
+            startTransform.setOrigin(position);
+
+            btDefaultMotionState* motionState = new btDefaultMotionState(startTransform);
+
+            btRigidBody::btRigidBodyConstructionInfo cInfo(mass, motionState, capsuleShape->getBulletShape(), localInertia);
+
+            //cInfo.m_restitution = 0.4;
+
+            this->bullet_RigidBody = new btRigidBody(cInfo);
+
+            this->bullet_RigidBody->setCollisionFlags(this->bullet_RigidBody->getCollisionFlags() |
+                                                      btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+
+            this->bullet_RigidBody->setUserPointer(this);
+        }
+            break;
         case nPhysics::SHAPE_TYPE_BOX:
         {
-
             cBoxShape* boxShape = dynamic_cast<cBoxShape*>(shape);
 
             // Create Dynamic Objects
