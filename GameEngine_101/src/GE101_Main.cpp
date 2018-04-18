@@ -443,11 +443,11 @@ int main()
     
     //-------------------------------------------------------------------------
     // Limit planes
-    if (!sceneLoader.loadLimitPlanes(error))
-    {
-        std::cout << "The limit planes configuration was not loaded..." << std::endl;
-        std::cout << error << std::endl;
-    }
+    //if (!sceneLoader.loadLimitPlanes(error))
+    //{
+    //    std::cout << "The limit planes configuration was not loaded..." << std::endl;
+    //    std::cout << error << std::endl;
+    //}
 
     //// Debug Render
     ////-------------------------------------------------------------------------

@@ -246,7 +246,8 @@ namespace nPhysics
 
     void cRigidBody::SetVelocityLocal(const glm::vec3& velocity)
     {
-        glm::mat4 orientation = glm::toMat4(this->mRotation);
+        glm::mat4 orientation;
+        this->GetMatOrientation(orientation);
 
         // Local X axis
         glm::vec3 localX = orientation * glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
@@ -258,6 +259,6 @@ namespace nPhysics
         glm::vec3 localZ = orientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
         localZ = localZ * velocity.z;
 
-        this->mVelocity = localX + localY + localZ;
+        this->SetVelocity(localX + localY + localZ);
     }
 }

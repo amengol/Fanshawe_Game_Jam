@@ -809,7 +809,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             nPhysics::iShape* shape = g_pPhysicsFactory->CreateBox(glm::vec3(0.5f));
             nPhysics::sRigidBodyDesc desc;
             desc.Position = position;
-            nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateCharacterBody(desc, shape);
+            nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, shape);
             theGO->rigidBody = rb;
 
             // This assigns the game object to the particular skinned mesh type 
