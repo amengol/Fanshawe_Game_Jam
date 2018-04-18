@@ -545,15 +545,16 @@ int main()
         //// Will lock the fixed camera on the main character
         //g_pFixedCamera->lockOnCharacter(g_characterManager.GetActiveCharacter()->GetCharacter(), true);
          
-        int curWidth, curHeight;
-        glfwGetFramebufferSize(window, &curWidth, &curHeight);
+        glfwGetFramebufferSize(window, &g_scrWidth, &g_scrHeight);
+        if (g_scrHeight == 0)
+            g_scrHeight = 1;
 
         // This is to make sure the resolution will be the right one,  
         // in case we change the screen size
-        if (curWidth != g_FBO_fullScene.width || curHeight != g_FBO_fullScene.height)
+        if (g_scrWidth != g_FBO_fullScene.width || g_scrHeight != g_FBO_fullScene.height)
         {
-            g_FBO_fullScene.reset(curWidth, curHeight, error);
-            g_FBO_deferred.reset(curWidth, curHeight, error);
+            g_FBO_fullScene.reset(g_scrWidth, g_scrHeight, error);
+            g_FBO_deferred.reset(g_scrWidth, g_scrHeight, error);
         }
 
         ::g_pShaderManager->useShaderProgram("GE101_Shader");
@@ -577,7 +578,7 @@ int main()
         g_FBO_shadows.clearBuffer();
         glViewport(0, 0, g_FBO_shadows.width, g_FBO_shadows.height);
         RenderScene(g_vecGameObjects, shaderID);
-        glViewport(0, 0, curWidth, curHeight);
+        glViewport(0, 0, g_scrWidth, g_scrHeight);
 
 
 
@@ -625,8 +626,6 @@ int main()
         glActiveTexture(GL_TEXTURE0 + 22);
         glBindTexture(GL_TEXTURE_2D, g_FBO_fullScene.vertexWorldPos_2_ID);
         glUniform1i(texFBOWorldPosition2DLocID, 22);
-
-        glfwGetFramebufferSize(window, &g_scrWidth, &g_scrHeight);
 
         GLint screenWidthLocID = glGetUniformLocation(shaderID, "screenWidth");
         GLint screenHeightLocID = glGetUniformLocation(shaderID, "screenHeight");
