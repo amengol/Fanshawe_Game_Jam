@@ -895,12 +895,12 @@
 #	}
 ],
 # Limit planes Block (Used in Physics)
-#"Limit_Planes":
-#[
-#	{
-#		"normal" : [0.0, 1.0, 0.0],
-#		"constant" : 0.0
-#	},
+"Limit_Planes":
+[
+	{
+		"normal" : [0.0, 1.0, 0.0],
+		"constant" : 0.0
+	}
 #	{
 #		"normal" : [0.0, 0.0, 1.0],
 #		"constant" : -13.0
@@ -917,7 +917,7 @@
 #		"normal" : [-1.0, 0.0, 0.0],
 #		"constant" : -9.0
 #	}
-#],
+],
 # Lights block. A maximum of 10 light are allowed
 
 
