@@ -189,7 +189,7 @@
 	{ 
 		"meshName" : "Statue",
 		"typeOfObject" : 9,
-		"mass" : 300.0,
+		"mass" : 1000.0,
 		"textureNames[0]" : "Statue01_D.bmp",
 		"textureNames[3]" : "Statue01_D_specular.bmp",
 		"position" : [-9.83124542, 0.0, 9.61458015],

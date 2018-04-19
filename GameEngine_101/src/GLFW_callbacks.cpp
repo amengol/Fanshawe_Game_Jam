@@ -128,6 +128,19 @@ void scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 
 void processCameraInput(GLFWwindow* window, float deltaTime)
 {
+    // Get the character
+    cCharacterControl* pCharacterControl = NULL;
+    pCharacterControl = g_characterManager.GetActiveCharacter();
+    if (pCharacterControl == NULL)
+        return;
+
+    // Keep the angular velocity always zeroed
+    pCharacterControl->GetCharacter()->rigidBody->SetAngularVelocity(glm::vec3(0.0f, 0.0f, 0.0f));
+
+    // Get the current velocity to reference what to do
+    glm::vec3 velocity;
+    pCharacterControl->GetCharacter()->rigidBody->GetLinearVelocity(velocity);
+
     switch (g_camera.getCameraMode())
     {
     case FREE:
@@ -146,12 +159,6 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
         break;
     case THIRD_PERSON:
     {
-        // Get the character
-        cCharacterControl* pCharacterControl = NULL;
-        pCharacterControl = g_characterManager.GetActiveCharacter();
-        if (pCharacterControl == NULL)
-            return;
-
         // Controller test
         int present = glfwJoystickPresent(GLFW_JOYSTICK_1);
 
@@ -177,7 +184,7 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                 
                 if (glm::length(controllerDir) <= 0.9f)
                 {
-                    pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
+                    pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 1.5f));
                     pCharacterControl->Forward();
 
                     // Joystick
@@ -186,7 +193,7 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                 }
                 else
                 {
-                    pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 4.75f));
+                    pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 4.75f));
                     pCharacterControl->ForwardRun();
 
                     // Joystick
@@ -201,8 +208,11 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
             {
                 isCharacterMoving = false;
 
-                pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
-                pCharacterControl->GetCharacter()->rigidBody->SetAngularVelocity(glm::vec3(0.0f, 0.0f, 0.0f));
+                // Don't stop the falling
+                if (velocity.y == 0.0f)
+                {
+                    pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+                }
 
                 // Joystick
                 if (buttons[0] == GLFW_PRESS)

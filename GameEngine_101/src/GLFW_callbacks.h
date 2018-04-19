@@ -2,8 +2,8 @@
     Contains all GLFW callbacks and iput process
     
     @author Jorge Amengol
-    @version 1.1
-    @date April 6th, 2018
+    @version 1.5
+    @date April 19th, 2018
 */
 #pragma once
 #include "globalOpenGL_GLFW.h"

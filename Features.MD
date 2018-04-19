@@ -17,3 +17,4 @@ Normal mapping
 Physics:
 	Implement a debug drawing using a different shader
 	Debug drawing is being called from bullet's DebugDrawWorld() 
+	Scene with various objects as convex hulls
