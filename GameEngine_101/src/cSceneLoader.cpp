@@ -1339,25 +1339,37 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             break;
         case CONVEX_HULL:
         {
-            cMesh theMesh;
-            g_pVAOManager->lookupMeshFromName(meshName, theMesh);
+            std::vector<cMesh> meshes;
+            g_pVAOManager->lookupMeshesFromName(meshName, meshes);
 
-            nPhysics::GLInstanceVertex* instanceVertex = new nPhysics::GLInstanceVertex[theMesh.numberOfVertices];
-            for (size_t i = 0; i < theMesh.numberOfVertices; i++)
+            for (size_t i = 0; i < meshes.size(); i++)
             {
-                instanceVertex[i].xyzw[0] = theMesh.pVertices[i].x;
-                instanceVertex[i].xyzw[1] = theMesh.pVertices[i].y;
-                instanceVertex[i].xyzw[2] = theMesh.pVertices[i].z;
+                nPhysics::GLInstanceVertex* instanceVertex = new nPhysics::GLInstanceVertex[meshes[i].numberOfVertices];
+                for (size_t j = 0; j < meshes[i].numberOfVertices; j++)
+                {
+                    instanceVertex[j].xyzw[0] = meshes[i].pVertices[j].x;
+                    instanceVertex[j].xyzw[1] = meshes[i].pVertices[j].y;
+                    instanceVertex[j].xyzw[2] = meshes[i].pVertices[j].z;
+                }
+
+                nPhysics::iShape* convexHull = g_pPhysicsFactory->CreateConvexHull(instanceVertex, meshes[i].numberOfVertices);
+
+                nPhysics::sRigidBodyDesc desc;
+                desc.Position = position;
+                desc.Mass = mass;
+                desc.Scale = scale;
+                nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, convexHull);
+                g_pPhysicsWorld->AddRigidBody(rb);
+                delete[] instanceVertex;
+                theGO->rigidBody = rb;
             }
 
-            nPhysics::iShape* convexHull = g_pPhysicsFactory->CreateConvexHull(instanceVertex, theMesh.numberOfVertices);
-
-            nPhysics::sRigidBodyDesc desc;
-            desc.Position = position;
-            desc.Mass = mass;
-            desc.Scale = scale;
-            nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, convexHull);
-            theGO->rigidBody = rb;
+            if (meshes.size() != 1)
+            {
+                // If we have several meshes, it is better 
+                // to set theRigidbory to NULL
+                theGO->rigidBody = NULL;
+            }
         }
         break;
         case UNKNOWN:
