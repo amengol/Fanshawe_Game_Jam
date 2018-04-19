@@ -13,7 +13,7 @@
 {"meshName" : "SkyBox", "meshFile" : "SkyBox.ply"},
 {"meshName" : "Terrain", "meshFile" : "Terrain.obj"},
 {"meshName" : "Plane1x1", "meshFile" : "Plane1x1.obj"},
-{"meshName" : "Static_Gravestone", "meshFile" : "Static_Gravestone.obj"},
+{"meshName" : "Static_Gravestone", "meshFile" : "Static_Gravestone.obj", "isPersistent" : true},
 {"meshName" : "Static_Tomb", "meshFile" : "Static_Tomb.obj"},
 {"meshName" : "Static_Coffins", "meshFile" : "Static_Coffins.obj"},
 {"meshName" : "Static_Plants", "meshFile" : "Static_Plants.ply"},

@@ -123,6 +123,8 @@
 	},
 	{ 
 		"meshName" : "Static_Gravestone",
+		"typeOfObject" : 9,
+		"mass" : 0.0,
 		"textureNames[0]" : "Gravestone01_D.bmp",
 		"hasNormalMap" : true,
 		"textureNames[4]" : "Gravestone01_D_normal.bmp"		
