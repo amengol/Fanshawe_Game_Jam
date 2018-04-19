@@ -8,11 +8,11 @@ uniform mat4 mProjection;
 in vec3 vPosition;                             
 in vec3 vColour;                                
 							
-out vec4 gVertColour;                           
+out vec4 vertColour;                           
 												
 void main()                                    
 {                                               
 	gl_Position = mProjection * mView * vec4(vPosition, 1.0f);	
 
-	gVertColour = vec4(vColour, 1.0f);                       
+	vertColour = vec4(vColour, 1.0f);                       
 }

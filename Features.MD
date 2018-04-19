@@ -14,3 +14,6 @@ Shadows:
 	Selective shadow casting
 	Alpha texture shadow test
 Normal mapping
+Physics:
+	Implement a debug drawing using a different shader
+	Debug drawing is being called from bullet's DebugDrawWorld() 
