@@ -8,6 +8,8 @@
 #include "cFixedConstraint.h"
 #include "cUniversalConstraint.h"
 #include "cPhysicsDebugDrawer.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 
 extern ContactAddedCallback	gContactAddedCallback;
@@ -183,8 +185,15 @@ namespace nPhysics
         dynamicsWorld->setDebugDrawer(dd->getBulletDebugDrawer());
     }
 
-    void cPhysicsWorld::DebugDrawWorld()
+    void cPhysicsWorld::DebugDrawWorld(int shaderID, const glm::mat4& viewMatrix, float zoom, int width, int height)
     {
+        // Projection and view don't change per scene (maybe)
+        glm::mat4x4 matProjection = glm::perspective(glm::radians(zoom),
+            (float)width / (float)height, 0.1f, 500.0f);
+
+        glUniformMatrix4fv(glGetUniformLocation(shaderID, "mView"), 1, GL_FALSE, &viewMatrix[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(shaderID, "mProjection"), 1, GL_FALSE, &matProjection[0][0]);
+
         dynamicsWorld->debugDrawWorld();
     }
 

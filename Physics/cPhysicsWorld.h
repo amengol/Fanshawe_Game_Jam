@@ -20,7 +20,7 @@ namespace nPhysics
 		virtual void RemoveRigidBody(iRigidBody* rigidBody);
         virtual void AddConstraint(ContraintType type, iConstraint* constraint);
         virtual void SetDebugDrawer(iPhysicsDebugDrawer* debugDrawer);
-        virtual void DebugDrawWorld();
+        virtual void DebugDrawWorld(int shaderID, const glm::mat4& viewMatrix, float zoom, int width, int height);
 
 	private:
 		

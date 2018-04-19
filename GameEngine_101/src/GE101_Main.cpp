@@ -31,6 +31,7 @@
 #include "GLFW_callBacks.h"
 #include "cEnvironment.h"
 #include "cFBO_Shadow.h"
+#include <cPhysicsDebugDrawer.h>
 
 // Here, the scene is rendered in 3 passes:
 // 1. Render geometry to G buffer
@@ -66,11 +67,14 @@ sFade g_Fade;
 //nPhysics::iPhysicsWorld* gbt_PhysicsWorld = NULL;
 nPhysics::iPhysicsFactory* g_pPhysicsFactory = NULL;
 nPhysics::iPhysicsWorld* g_pPhysicsWorld = NULL;
+nPhysics::iPhysicsDebugDrawer* g_pPhysicsDebug = NULL;
 
 bool InitPhysics()
 {
     g_pPhysicsFactory = new nPhysics::cPhysicsFactory();
     g_pPhysicsWorld = g_pPhysicsFactory->CreateWorld();
+    g_pPhysicsDebug = new nPhysics::cPhysicsDebugDrawer();
+    g_pPhysicsWorld->SetDebugDrawer(g_pPhysicsDebug);
     return true;
 }
 
@@ -208,6 +212,26 @@ int main()
     if (!::g_pShaderManager->createProgramFromFile("GE101_Shader", 
                                                    vertShader, 
                                                    fragShader))
+    {
+        std::cout << "We couldn't create the Shader Program!" << std::endl;
+        std::cout << ::g_pShaderManager->getLastError() << std::endl;
+
+        // Let's exit the program then...
+        return -1;
+    }
+
+    // Bullet debug shader
+    cShaderManager::cShader bulletVS;
+    cShaderManager::cShader bulletFS;
+
+    bulletVS.fileName = "debugVert.glsl";
+    bulletFS.fileName = "debugFrag.glsl";
+
+    ::g_pShaderManager->setBasePath("assets//shaders//");
+
+    if (!::g_pShaderManager->createProgramFromFile("Debug_Shader",
+        bulletVS,
+        bulletFS))
     {
         std::cout << "We couldn't create the Shader Program!" << std::endl;
         std::cout << ::g_pShaderManager->getLastError() << std::endl;
@@ -596,6 +620,15 @@ int main()
 
         // Render to the Screen FBO (1st pass)
         RenderScene(g_vecGameObjects, window, g_camera, deltaTime);
+
+        // Render the DEBUG Physics
+        ::g_pShaderManager->useShaderProgram("Debug_Shader");
+        g_pPhysicsWorld->DebugDrawWorld(g_pShaderManager->getIDFromFriendlyName("Debug_Shader"),
+                                        g_camera.getViewMatrix(),
+                                        g_camera.m_zoom,
+                                        g_scrWidth,
+                                        g_scrHeight);
+        ::g_pShaderManager->useShaderProgram("GE101_Shader");
 
         // Now we point it to the FBO texture
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_deferred.ID);

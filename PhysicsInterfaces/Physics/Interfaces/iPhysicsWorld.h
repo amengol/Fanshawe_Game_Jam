@@ -24,6 +24,6 @@ namespace nPhysics
 		virtual void RemoveRigidBody(iRigidBody* rigidBody) = 0;
         virtual void AddConstraint(ContraintType type, iConstraint* constraint) = 0;
         virtual void SetDebugDrawer(iPhysicsDebugDrawer* debugDrawer) = 0;
-        virtual void DebugDrawWorld() = 0;
+        virtual void DebugDrawWorld(int shaderID, const glm::mat4& viewMatrix, float zoom, int width, int height) = 0;
 	};
 }
