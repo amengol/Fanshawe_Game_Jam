@@ -13,7 +13,7 @@
 
 
 extern ContactAddedCallback	gContactAddedCallback;
-const glm::vec3 GRAVITY = glm::vec3(0.0f, 0.0f, 0.0f);
+const glm::vec3 GRAVITY = glm::vec3(0.0f, -10.0f, 0.0f);
 
 bool callbackFunc(btManifoldPoint& cp, 
                   const btCollisionObjectWrapper* colObj0Wrap, 
