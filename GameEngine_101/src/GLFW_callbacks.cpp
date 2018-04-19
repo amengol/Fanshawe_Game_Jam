@@ -30,47 +30,52 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
             cursorOn = true;
         }
+    }   
 
-        if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+    {
+        g_camera.lockOnGameObject(g_characterManager.GetActiveCharacter()->GetCharacter());
+    }
+
+    if (key == GLFW_KEY_0 && action == GLFW_PRESS)
+    {
+        g_camera.releaseGameObject();
+    }
+
+    if (key == GLFW_KEY_F && action == GLFW_PRESS)
+    {
+        g_environment.m_fogActive = !g_environment.m_fogActive;
+    }
+
+    if (key == GLFW_KEY_B && action == GLFW_PRESS)
+    {
+        g_debugEnable = !g_debugEnable;
+    }
+
+    if (key == GLFW_KEY_G && action == GLFW_PRESS)
+    {
+        G_Pressed = true;
+    }
+
+    if (key == GLFW_KEY_G && action == GLFW_RELEASE)
+    {
+        G_Pressed = false;
+    }
+
+    if (G_Pressed)
+    {
+        if (key == GLFW_KEY_MINUS && action == GLFW_PRESS)
         {
-            g_camera.lockOnGameObject(g_characterManager.GetActiveCharacter()->GetCharacter());
+            g_gamaCorrection -= 0.1f;
+            printf("Gama Correction: %f\n", g_gamaCorrection);
         }
 
-        if (key == GLFW_KEY_0 && action == GLFW_PRESS)
+        if (key == GLFW_KEY_EQUAL && action == GLFW_PRESS)
         {
-            g_camera.releaseGameObject();
+            g_gamaCorrection += 0.1f;
+            printf("Gama Correction: %f\n", g_gamaCorrection);
         }
-
-        if (key == GLFW_KEY_F && action == GLFW_PRESS)
-        {
-            g_environment.m_fogActive = !g_environment.m_fogActive;
-        }
-
-        if (key == GLFW_KEY_G && action == GLFW_PRESS)
-        {
-            G_Pressed = true;
-        }
-
-        if (key == GLFW_KEY_G && action == GLFW_RELEASE)
-        {
-            G_Pressed = false;
-        }
-
-        if (G_Pressed)
-        {
-            if (key == GLFW_KEY_MINUS && action == GLFW_PRESS)
-            {
-                g_gamaCorrection -= 0.1f;
-                printf("Gama Correction: %f\n", g_gamaCorrection);
-            }
-
-            if (key == GLFW_KEY_EQUAL && action == GLFW_PRESS)
-            {
-                g_gamaCorrection += 0.1f;
-                printf("Gama Correction: %f\n", g_gamaCorrection);
-            }
-        }
-    }    
+    }
 }
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height)

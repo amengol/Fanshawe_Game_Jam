@@ -68,6 +68,7 @@ sFade g_Fade;
 nPhysics::iPhysicsFactory* g_pPhysicsFactory = NULL;
 nPhysics::iPhysicsWorld* g_pPhysicsWorld = NULL;
 nPhysics::iPhysicsDebugDrawer* g_pPhysicsDebug = NULL;
+bool g_debugEnable = false;
 
 bool InitPhysics()
 {
@@ -622,13 +623,16 @@ int main()
         RenderScene(g_vecGameObjects, window, g_camera, deltaTime);
 
         // Render the DEBUG Physics
-        ::g_pShaderManager->useShaderProgram("Debug_Shader");
-        g_pPhysicsWorld->DebugDrawWorld(g_pShaderManager->getIDFromFriendlyName("Debug_Shader"),
-                                        g_camera.getViewMatrix(),
-                                        g_camera.m_zoom,
-                                        g_scrWidth,
-                                        g_scrHeight);
-        ::g_pShaderManager->useShaderProgram("GE101_Shader");
+        if (g_debugEnable)
+        {
+            ::g_pShaderManager->useShaderProgram("Debug_Shader");
+            g_pPhysicsWorld->DebugDrawWorld(g_pShaderManager->getIDFromFriendlyName("Debug_Shader"),
+                                            g_camera.getViewMatrix(),
+                                            g_camera.m_zoom,
+                                            g_scrWidth,
+                                            g_scrHeight);
+            ::g_pShaderManager->useShaderProgram("GE101_Shader");
+        }
 
         // Now we point it to the FBO texture
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_deferred.ID);
