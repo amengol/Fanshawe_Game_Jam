@@ -22,7 +22,9 @@ cGameObject::cGameObject()
     this->specular = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	this->bIsUpdatedInPhysics = true;
     this->hadAlreadyCollided = false;
-	this->radius = 0.0f;
+	this->radius = 1.0f;
+    this->mass = 1.0f;
+    this->height = 1.0f;
 	this->typeOfObject = eTypeOfObject::UNKNOWN;
     this->mGOSound = NULL;
     this->mHasSound = false;

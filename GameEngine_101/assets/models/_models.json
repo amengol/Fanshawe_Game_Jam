@@ -20,7 +20,7 @@
 {"meshName" : "Static_Wood", "meshFile" : "Static_Wood.obj"},
 {"meshName" : "Static_Rocks", "meshFile" : "Static_Rocks.obj"},
 {"meshName" : "Static_Bloom", "meshFile" : "Static_Bloom.obj"},
-{"meshName" : "Statue", "meshFile" : "Statue.obj"},
+{"meshName" : "Statue", "meshFile" : "Statue.obj", "isPersistent" : true},
 {"meshName" : "Limits", "meshFile" : "Limits.obj"},
 {"meshName" : "knight", "type" : 1, "meshFile" : "knight.fbx"},
 {"animName" : "sword_and_shield_idle", "type" : 2, "animFile" : "sword_and_shield_idle.fbx"},

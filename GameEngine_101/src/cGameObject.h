@@ -23,6 +23,7 @@ enum eTypeOfObject
     SKYBOX,
     SKINNED_MESH,
     CLOTH,
+    CONVEX_HULL,
 	UNKNOWN = 99
 };
 
@@ -71,6 +72,8 @@ public:
     bool hadAlreadyCollided; // Used to free the object from collision stuck
 	eTypeOfObject typeOfObject;
 	float radius;
+    float mass;
+    float height;
     std::vector<sCollisionGeometry> contacPoints;
     void setCollisionGeometry(cMesh);
 

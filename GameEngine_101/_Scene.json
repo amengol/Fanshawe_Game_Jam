@@ -53,6 +53,8 @@
 #		"right_turn_90" : "right_turn_90"
 #	},
 #	"radius" : 0.0,
+#	"mass" : 1.0,
+#	"height" : 1.0,
 #	"position" : [0.0, 0.0, 0.0], 
 #	"diffuseColour" : [0.0, 0.0, 0.0, 1.0],
 #	"hasMaterialColour" : false,
@@ -90,6 +92,7 @@
 #   SKYBOX = 6,
 #	SKINNED_MESH = 7,
 #	CLOTH = 8,
+#	CONVEX_HULL = 9;
 #	UNKNOWN = 99
 
 "GameObject" :
@@ -185,8 +188,11 @@
 	},
 	{ 
 		"meshName" : "Statue",
+		"typeOfObject" : 9,
+		"mass" : 300.0,
 		"textureNames[0]" : "Statue01_D.bmp",
 		"textureNames[3]" : "Statue01_D_specular.bmp",
+		"position" : [-9.83124542, 0.0, 9.61458015],
 		"specular" : [1.0, 1.0, 1.0, 64.0],
 		"hasNormalMap" : true,
 		"textureNames[4]" : "Statue01_D_normal.bmp"		
@@ -195,6 +201,8 @@
 		"meshName" : "knight",
 		"friendlyName" : "Hero01",		
 		"typeOfObject" : 7,
+		"mass" : 80.0,
+		"height" : 0.9,
 		"defaultAnimation" : "sword_and_shield_idle",
 		"animationList": 
 		{

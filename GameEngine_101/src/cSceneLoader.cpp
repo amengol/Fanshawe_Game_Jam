@@ -10,6 +10,7 @@
 #include <iPhysicsFactory.h>
 #include "globalGameStuff.h"
 #include "Assimp\cAnimationState.h"
+#include <GLInstanceVertex.h>
 
 cCharacterManager g_characterManager;
 
@@ -127,6 +128,38 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             }
         }        
         
+        // mass
+        float mass = 1.0f;
+        if (gameObject[jsIndex].HasMember("mass"))
+        {
+            if (gameObject[jsIndex]["mass"].IsNumber())
+            {
+                mass = gameObject[jsIndex]["mass"].GetFloat();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"mass\" member!";
+                return false;
+            }
+        }
+
+        // mass
+        float height = 1.0f;
+        if (gameObject[jsIndex].HasMember("height"))
+        {
+            if (gameObject[jsIndex]["height"].IsNumber())
+            {
+                height = gameObject[jsIndex]["height"].GetFloat();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"height\" member!";
+                return false;
+            }
+        }
+
         // Position
         glm::vec3 position(0.0f, 0.0f, 0.0f);
         if (gameObject[jsIndex].HasMember("position"))
@@ -806,10 +839,10 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             break;
         case SKINNED_MESH:
         {
-            nPhysics::iShape* shape = g_pPhysicsFactory->CreateCapsule(0.5f, 1.8f);
+            nPhysics::iShape* shape = g_pPhysicsFactory->CreateCapsule(0.5f, height);
             nPhysics::sRigidBodyDesc desc;
             desc.Position = position;
-            desc.Mass = 80.0f;
+            desc.Mass = mass;
             nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, shape);
             theGO->rigidBody = rb;
 
@@ -1303,10 +1336,30 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         }
         break;
         case CLOTH:
-        {
-            
-        }
             break;
+        case CONVEX_HULL:
+        {
+            cMesh theMesh;
+            g_pVAOManager->lookupMeshFromName(meshName, theMesh);
+
+            nPhysics::GLInstanceVertex* instanceVertex = new nPhysics::GLInstanceVertex[theMesh.numberOfVertices];
+            for (size_t i = 0; i < theMesh.numberOfVertices; i++)
+            {
+                instanceVertex[i].xyzw[0] = theMesh.pVertices[i].x;
+                instanceVertex[i].xyzw[1] = theMesh.pVertices[i].y;
+                instanceVertex[i].xyzw[2] = theMesh.pVertices[i].z;
+            }
+
+            nPhysics::iShape* convexHull = g_pPhysicsFactory->CreateConvexHull(instanceVertex, theMesh.numberOfVertices);
+
+            nPhysics::sRigidBodyDesc desc;
+            desc.Position = position;
+            desc.Mass = mass;
+            desc.Scale = scale;
+            nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, convexHull);
+            theGO->rigidBody = rb;
+        }
+        break;
         case UNKNOWN:
             break;
         default:
@@ -1314,6 +1367,8 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         }
         //---------------------------------------------------------------------
         theGO->radius = radius;
+        theGO->mass = mass;
+        theGO->height = height;
         theGO->SetPostiion(position);
         theGO->diffuseColour = diffuseColour;
         theGO->hasColour = hasMaterialColour;
