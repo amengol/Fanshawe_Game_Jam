@@ -35,23 +35,28 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
     if (pAniState->activeAnimation.IncrementTime(deltaTime))
     {
         // Jump only once!
-        if (pAniState->activeAnimation.name == pTheGO->animations.jump)
+        if (pTheGO->characterAnim == eCharacterAnim::JUMP)
         {
             pAniState->activeAnimation.name = pTheGO->animations.idle;
+            pAniState->activeAnimation.totalTime =
+                pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
+            pTheGO->characterAnim = eCharacterAnim::IDLE;
         }
 
         // Jump only once!
-        if (pAniState->activeAnimation.name == pTheGO->animations.jump_forward_walking)
+        if (pTheGO->characterAnim == eCharacterAnim::JUMP_FORWARD_WALKING)
         {
             pAniState->activeAnimation.name = pTheGO->animations.walking;
             pAniState->activeAnimation.totalTime =
                 pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.walking);
+            pTheGO->characterAnim = eCharacterAnim::WALKING;
         }
-        if (pAniState->activeAnimation.name == pTheGO->animations.jump_forward_running)
+        if (pTheGO->characterAnim == eCharacterAnim::JUMP_FORWARD)
         {
             pAniState->activeAnimation.name = pTheGO->animations.running;
             pAniState->activeAnimation.totalTime =
                 pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.running);
+            pTheGO->characterAnim = eCharacterAnim::RUN_FORWARD;
         }
 
         // Fight control

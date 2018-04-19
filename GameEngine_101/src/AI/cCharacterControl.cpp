@@ -20,7 +20,9 @@ void cCharacterControl::Forward()
     if (mCharacter != NULL)
     {
         // Don't cut the jump
-        if (mCharacter->characterAnim != WALKING && mCharacter->characterAnim != JUMP_FORWARD)
+        if (mCharacter->characterAnim != WALKING 
+            && mCharacter->characterAnim != JUMP_FORWARD_WALKING
+            && mCharacter->characterAnim != JUMP_FORWARD)
         {
             // Update rotations
             //UpdateInterruptedRotations();
@@ -57,7 +59,7 @@ void cCharacterControl::Forward(glm::vec3 direction)
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocity(direction * 1.5f);
+            mCharacter->rigidBody->SetLinearVelocity(direction * 1.5f);
             
             glm::mat4 orientation = getMatrixFromVector(direction);
             mCharacter->rigidBody->SetMatOrientation(orientation);
@@ -85,7 +87,7 @@ void cCharacterControl::LeftStrafe()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(1.5f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(1.5f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = LEFT_STRAFE;
         }
@@ -108,7 +110,7 @@ void cCharacterControl::RightStrafe()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(-1.5f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(-1.5f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = RIGHT_STRAFE;
         }
@@ -151,7 +153,7 @@ void cCharacterControl::LeftStrafeRun()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(3.75f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(3.75f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = LEFT_STRAFE_RUN;
         }
@@ -174,7 +176,7 @@ void cCharacterControl::RightStrafeRun()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(-3.75f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(-3.75f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = RIGHT_STRAFE_RUN;
         }
@@ -196,7 +198,7 @@ void cCharacterControl::Backwards()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, -1.125f));
 
             mCharacter->characterAnim = WALKING_BACKWARDS;
         }
@@ -218,7 +220,7 @@ void cCharacterControl::Backwards(glm::vec3 direction)
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocity(direction * -1.125f);
+            mCharacter->rigidBody->SetLinearVelocity(direction * -1.125f);
 
             glm::mat4 orientation = getMatrixFromVector(direction);
             mCharacter->rigidBody->SetMatOrientation(orientation);
@@ -242,7 +244,7 @@ void cCharacterControl::TurnLeft90()
         mCharacter->pAniState->activeAnimation.totalTime =
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+        mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
         mCharacter->rigidBody->SetRateOfTurnY(2880.0f);
 
         mCharacter->characterAnim = TURN_LEFT_90;
@@ -263,7 +265,7 @@ void cCharacterControl::TurnRight90()
         mCharacter->pAniState->activeAnimation.totalTime =
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+        mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
         mCharacter->rigidBody->SetRateOfTurnY(-2880.0f);
 
         mCharacter->characterAnim = TURN_RIGHT_90;
@@ -284,7 +286,7 @@ void cCharacterControl::TurnLeft180()
         mCharacter->pAniState->activeAnimation.totalTime =
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+        mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
         mCharacter->characterAnim = TURN_LEFT_180;
 
@@ -304,7 +306,7 @@ void cCharacterControl::TurnRight180()
         mCharacter->pAniState->activeAnimation.totalTime =
             mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+        mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
         mCharacter->characterAnim = TURN_RIGHT_180;
 
@@ -316,7 +318,7 @@ void cCharacterControl::Jump()
 {
     if (mCharacter != NULL)
     {// Don't cut the jump
-        if (mCharacter->characterAnim != JUMP_FORWARD)
+        if (mCharacter->characterAnim != JUMP_FORWARD && mCharacter->characterAnim != JUMP)
         {
             // Avoid jumping in the air
             std::string animationName = mCharacter->animations.jump;
@@ -333,7 +335,7 @@ void cCharacterControl::Jump()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = JUMP;
 
@@ -397,7 +399,9 @@ void cCharacterControl::Idle()
     if (mCharacter != NULL)
     {
         // Don't cut the jump
-        if (mCharacter->characterAnim != JUMP_FORWARD && mCharacter->characterAnim != IDLE)
+        if (mCharacter->characterAnim != IDLE 
+            && mCharacter->characterAnim != JUMP
+            && mCharacter->characterAnim != JUMP_FORWARD)
         {
 
             std::string animationName = mCharacter->animations.idle;
@@ -408,7 +412,7 @@ void cCharacterControl::Idle()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
             mCharacter->rigidBody->SetRateOfTurnY(0.0f);
 
             mCharacter->characterAnim = IDLE;
@@ -432,7 +436,7 @@ void cCharacterControl::Trick()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = TRICK;
         }
@@ -455,7 +459,7 @@ void cCharacterControl::ViolentTrick()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = VIOLENT_TRICK;
         }
@@ -478,7 +482,7 @@ void cCharacterControl::Runaway()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 3.75f));
 
             mCharacter->characterAnim = RUNAWAY;
         }
@@ -502,7 +506,7 @@ void cCharacterControl::LeftCrossPunch()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = LEFT_CROSS_PUNCH;
         }
@@ -526,7 +530,7 @@ void cCharacterControl::RightCrossPunch()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = RIGHT_CROSS_PUNCH;
         }
@@ -548,7 +552,7 @@ void cCharacterControl::RightKicking()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = RIGHT_KICKING;
         }
@@ -570,7 +574,7 @@ void cCharacterControl::Praying()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = PRAYING;
         }
@@ -592,7 +596,7 @@ void cCharacterControl::Dying()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = DYING_RISING;
         }
@@ -614,7 +618,7 @@ void cCharacterControl::Stunned()
             mCharacter->pAniState->activeAnimation.totalTime =
                 mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-            mCharacter->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = STUNNED;
         }

@@ -200,10 +200,8 @@
 		{
 		"idle" : "sword_and_shield_idle",
 		"walking" : "sword_and_shield_walk_forward",
-		"walking_backwards" : "sword_and_shield_walk_backwards",
-		"left_turn_90" : "sword_and_shield_turn_left_90",
-		"right_turn_90" : "sword_and_shield_turn_right_90",
 		"running": "sword_and_shield_run_forward",
+		"jump" : "sword_and_shield_jump",
 		"jump_forward_walking" : "sword_and_shield_jump_forward_w",
 		"jump_forward_running" : "sword_and_shield_jump_forward_r"
 		},

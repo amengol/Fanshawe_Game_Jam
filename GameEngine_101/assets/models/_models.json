@@ -25,10 +25,8 @@
 {"meshName" : "knight", "type" : 1, "meshFile" : "knight.fbx"},
 {"animName" : "sword_and_shield_idle", "type" : 2, "animFile" : "sword_and_shield_idle.fbx"},
 {"animName" : "sword_and_shield_walk_forward", "type" : 2, "animFile" : "sword_and_shield_walk_forward.fbx"},
-{"animName" : "sword_and_shield_walk_backwards", "type" : 2, "animFile" : "sword_and_shield_walk_backwards.fbx"},
-{"animName" : "sword_and_shield_turn_left_90", "type" : 2, "animFile" : "sword_and_shield_turn_left_90.fbx"},
-{"animName" : "sword_and_shield_turn_right_90", "type" : 2, "animFile" : "sword_and_shield_turn_right_90.fbx"},
 {"animName" : "sword_and_shield_run_forward", "type" : 2, "animFile" : "sword_and_shield_run_forward.fbx"},
+{"animName" : "sword_and_shield_jump", "type" : 2, "animFile" : "sword_and_shield_jump.fbx"},
 {"animName" : "sword_and_shield_jump_forward_w", "type" : 2, "animFile" : "sword_and_shield_jump_forward.fbx"},
 {"animName" : "sword_and_shield_jump_forward_r", "type" : 2, "animFile" : "sword_and_shield_jump_forward.fbx"}
 #{"meshName" : "FacadeSets", "meshFile" : "FacadeSets.obj"},

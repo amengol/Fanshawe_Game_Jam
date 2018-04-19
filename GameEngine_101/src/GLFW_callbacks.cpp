@@ -154,6 +154,7 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
         {
             int count;
             const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
+            const unsigned char* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &count);
 
             if (axes[0] != 0.0f || axes[1] != 0.0f)
             {
@@ -171,27 +172,49 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                 
                 if (glm::length(controllerDir) <= 0.9f)
                 {
-                    pCharacterControl->GetCharacter()->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
+                    pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 1.5f));
                     pCharacterControl->Forward();
+
+                    // Joystick
+                    if (buttons[0] == GLFW_PRESS)
+                        pCharacterControl->ForwardJumpWalking();
                 }
                 else
                 {
-                    pCharacterControl->GetCharacter()->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 4.75f));
+                    pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 4.75f));
                     pCharacterControl->ForwardRun();
+
+                    // Joystick
+                    if (buttons[0] == GLFW_PRESS)
+                        pCharacterControl->ForwardJump();
                 }
+
+                
+
             }// !if (axes[0] != 0.0f || axes[1] != 0.0f)
             else
             {
                 isCharacterMoving = false;
 
-                pCharacterControl->GetCharacter()->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
-                pCharacterControl->Idle();
+                pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+
+                // Joystick
+                if (buttons[0] == GLFW_PRESS)
+                    pCharacterControl->Jump();
+                else
+                    pCharacterControl->Idle();
             }// !else if (axes[0] != 0.0f || axes[1] != 0.0f)
 
             if (axes[2] != 0.0f || axes[3] != 0.0f)
             {
                 g_camera.processJoystickMovement(axes[2] * deltaTime, axes[3] * deltaTime);
             }// !if (axes[0] != 0.0f || axes[1] != 0.0f)
+
+            
+
+            
+            if (buttons[1] == GLFW_PRESS)
+                printf("Button 1 Pressed");
         }
     }
         break;
