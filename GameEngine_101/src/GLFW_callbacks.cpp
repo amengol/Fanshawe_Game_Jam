@@ -8,6 +8,7 @@ bool firstMouse = true;
 bool cursorOn = true;
 bool isCharacterMoving = false;
 bool G_Pressed = false;
+glm::mat4 characterOrientation; // Used to avoid the tilt of the capsule
 
 void errorCallback(int error, const char* description)
 {
@@ -131,15 +132,14 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
     // Get the character
     cCharacterControl* pCharacterControl = NULL;
     pCharacterControl = g_characterManager.GetActiveCharacter();
-    if (pCharacterControl == NULL)
-        return;
-
-    // Keep the angular velocity always zeroed
-    pCharacterControl->GetCharacter()->rigidBody->SetAngularVelocity(glm::vec3(0.0f, 0.0f, 0.0f));
+    
 
     // Get the current velocity to reference what to do
     glm::vec3 velocity;
-    pCharacterControl->GetCharacter()->rigidBody->GetLinearVelocity(velocity);
+    if (pCharacterControl != NULL)
+    {
+        pCharacterControl->GetCharacter()->rigidBody->GetLinearVelocity(velocity);
+    }
 
     switch (g_camera.getCameraMode())
     {
@@ -159,6 +159,9 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
         break;
     case THIRD_PERSON:
     {
+        if (pCharacterControl == NULL)
+            return;
+
         // Controller test
         int present = glfwJoystickPresent(GLFW_JOYSTICK_1);
 
@@ -177,10 +180,10 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                 glm::vec3 normilizedControllerDir = glm::normalize(controllerDir);
 
                 // Get the new character orientaion
-                glm::mat4 chacacterRotation = getMatrixFromVector(normilizedControllerDir);
+                characterOrientation = getMatrixFromVector(normilizedControllerDir);
                 glm::mat4 cameraOrientation = getMatrixFromVector(g_camera.getCameraFrontVector());
-                cameraOrientation *= chacacterRotation;
-                pCharacterControl->GetCharacter()->rigidBody->SetMatOrientation(cameraOrientation);
+                characterOrientation *= cameraOrientation;
+                pCharacterControl->GetCharacter()->rigidBody->SetMatOrientation(characterOrientation);
                 
                 if (glm::length(controllerDir) <= 0.9f)
                 {
@@ -208,11 +211,11 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
             {
                 isCharacterMoving = false;
 
+                // Avoid the tilt of the capsule
+                pCharacterControl->GetCharacter()->rigidBody->SetMatOrientation(characterOrientation);
+
                 // Don't stop the falling
-                if (velocity.y == 0.0f)
-                {
-                    pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
-                }
+                pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 0.0f));
 
                 // Joystick
                 if (buttons[0] == GLFW_PRESS)
