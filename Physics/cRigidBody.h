@@ -23,9 +23,12 @@ namespace nPhysics
         virtual void SetRotation(glm::quat& rotationIn) { this->mRotation = rotationIn; }
         virtual void GetMatOrientation(glm::mat4& orientationOut);
         virtual void SetMatOrientation(const glm::mat4& orientationIn);
-        virtual void GetVelocity(glm::vec3& velocityOut);
-        virtual void SetVelocity(const glm::vec3& velocityIn);
-        virtual void SetVelocityLocal(const glm::vec3& velocity);
+        virtual void GetLinearVelocity(glm::vec3& velocityOut);
+        virtual void SetLinearVelocity(const glm::vec3& velocityIn);
+        virtual void SetLinearVelocityLocal(const glm::vec3& velocity);
+        virtual void GetAngularVelocity(glm::vec3& velocityOut);
+        virtual void SetAngularVelocity(const glm::vec3& velocityIn);
+
 
         inline void setLastPosition(glm::vec3 lastPos) { this->mLastPos = lastPos; }
         inline glm::vec3 getLastPosition() { return this->mLastPos; }

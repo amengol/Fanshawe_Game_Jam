@@ -380,7 +380,7 @@ void cSimpleAi_Manager::goToTarget()
         this->curTargetIndex++;
         if (this->curTargetIndex == this->pathIDs.size())
         {
-            this->mainGO->rigidBody->SetVelocityLocal(glm::vec3(0.0f));
+            this->mainGO->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f));
             return;
         }
 
@@ -403,7 +403,7 @@ void cSimpleAi_Manager::goToTarget()
     this->mainGO->rigidBody->SetRotation(theRot);// ->SetMatOrientation(orientation);
 
     // Set the velocity
-    this->mainGO->rigidBody->SetVelocityLocal(glm::vec3(0.0f, 0.0f, this->curTargetVel));
+    this->mainGO->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, this->curTargetVel));
 }
 
 std::vector<int> cSimpleAi_Manager::findNeighborsIDs(Node* n)

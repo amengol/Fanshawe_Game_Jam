@@ -257,7 +257,7 @@ namespace nPhysics
         this->bullet_RigidBody->setCenterOfMassTransform(transf);
     }
 
-    void cRigidBody::GetVelocity(glm::vec3& velocityOut)
+    void cRigidBody::GetLinearVelocity(glm::vec3& velocityOut)
     {
         btVector3 Vel = this->bullet_RigidBody->getLinearVelocity();
         velocityOut.x = Vel.getX();
@@ -265,7 +265,7 @@ namespace nPhysics
         velocityOut.z = Vel.getZ();
     }
 
-    void cRigidBody::SetVelocity(const glm::vec3 & velocityIn)
+    void cRigidBody::SetLinearVelocity(const glm::vec3 & velocityIn)
     {
         btVector3 Vel;
         Vel.setX(velocityIn.x);
@@ -280,7 +280,7 @@ namespace nPhysics
     //    this->mRotation = glm::toQuat(orientationIn);
     //}
 
-    void cRigidBody::SetVelocityLocal(const glm::vec3& velocity)
+    void cRigidBody::SetLinearVelocityLocal(const glm::vec3& velocity)
     {
         glm::mat4 orientation;
         this->GetMatOrientation(orientation);
@@ -295,6 +295,24 @@ namespace nPhysics
         glm::vec3 localZ = orientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
         localZ = localZ * velocity.z;
 
-        this->SetVelocity(localX + localY + localZ);
+        this->SetLinearVelocity(localX + localY + localZ);
+    }
+
+    void cRigidBody::GetAngularVelocity(glm::vec3& velocityOut)
+    {
+        btVector3 Vel = this->bullet_RigidBody->getAngularVelocity();
+        velocityOut.x = Vel.getX();
+        velocityOut.y = Vel.getY();
+        velocityOut.z = Vel.getZ();
+    }
+
+    void cRigidBody::SetAngularVelocity(const glm::vec3& velocityIn)
+    {
+        btVector3 Vel;
+        Vel.setX(velocityIn.x);
+        Vel.setY(velocityIn.y);
+        Vel.setZ(velocityIn.z);
+        this->bullet_RigidBody->activate();
+        this->bullet_RigidBody->setAngularVelocity(Vel);
     }
 }

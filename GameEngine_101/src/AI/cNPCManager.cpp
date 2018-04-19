@@ -203,7 +203,7 @@ void cNPCManager::SolveForFollower(cCharacterControl* npc, double deltaTime)
     if (distance > mInterestRadius && npc->GetAnimationState() != eCharacterAnim::IDLE)
     {
         npc->Idle();
-        npc->GetCharacter()->rigidBody->SetVelocity(glm::vec3(0.0f));
+        npc->GetCharacter()->rigidBody->SetLinearVelocity(glm::vec3(0.0f));
         return; // Out of the interest radius
     }
     else if (distance > mInterestRadius && npc->GetAnimationState() == eCharacterAnim::IDLE)
@@ -217,7 +217,7 @@ void cNPCManager::SolveForFollower(cCharacterControl* npc, double deltaTime)
         if (npc->GetAnimationState() != eCharacterAnim::IDLE)
         {
             npc->Idle();
-            npc->GetCharacter()->rigidBody->SetVelocity(glm::vec3(0.0f));
+            npc->GetCharacter()->rigidBody->SetLinearVelocity(glm::vec3(0.0f));
         }
 
         if (mPlayer->GetAnimationState() == eCharacterAnim::TRICK)
@@ -254,7 +254,7 @@ void cNPCManager::SolveForFollower(cCharacterControl* npc, double deltaTime)
         npc->Forward();
 
         glm::vec3 npcVelocity;
-        npc->GetCharacter()->rigidBody->GetVelocity(npcVelocity);
+        npc->GetCharacter()->rigidBody->GetLinearVelocity(npcVelocity);
 
         glm::vec3 desiredVelocity = glm::normalize(playerPosition - npcPosition) * 1.5f;
 
@@ -265,7 +265,7 @@ void cNPCManager::SolveForFollower(cCharacterControl* npc, double deltaTime)
         npcVelocity += steering;
         npcVelocity = glm::normalize(npcVelocity) * 1.5f;
 
-        npc->GetCharacter()->rigidBody->SetVelocity(npcVelocity);
+        npc->GetCharacter()->rigidBody->SetLinearVelocity(npcVelocity);
 
         // Reorient the npc to the velocity vector
         glm::mat4 npcOrientation;
@@ -295,7 +295,7 @@ void cNPCManager::SolveForCuriousApproach(cCharacterControl* npc, double deltaTi
         if (npc->GetAnimationState() != eCharacterAnim::IDLE)
         {
             npc->Idle();
-            npc->GetCharacter()->rigidBody->SetVelocity(glm::vec3(0.0f));
+            npc->GetCharacter()->rigidBody->SetLinearVelocity(glm::vec3(0.0f));
         }
 
         if (mPlayer->GetAnimationState() == eCharacterAnim::VIOLENT_TRICK)
@@ -326,7 +326,7 @@ void cNPCManager::SolveForCuriousApproach(cCharacterControl* npc, double deltaTi
         npc->ForwardRun();
 
         glm::vec3 npcVelocity;
-        npc->GetCharacter()->rigidBody->GetVelocity(npcVelocity);
+        npc->GetCharacter()->rigidBody->GetLinearVelocity(npcVelocity);
 
         glm::vec3 desiredVelocity = glm::normalize(playerPosition - npcPosition) * 3.75f;
 
@@ -337,7 +337,7 @@ void cNPCManager::SolveForCuriousApproach(cCharacterControl* npc, double deltaTi
         npcVelocity += steering;
         npcVelocity = glm::normalize(npcVelocity) * 3.75f;
 
-        npc->GetCharacter()->rigidBody->SetVelocity(npcVelocity);
+        npc->GetCharacter()->rigidBody->SetLinearVelocity(npcVelocity);
 
         // Reorient the npc to the velocity vector
         glm::mat4 npcOrientation;
@@ -364,7 +364,7 @@ void cNPCManager::SolveForCuriousEvade(cCharacterControl* npc, double deltaTime)
     npc->Runaway();
 
     glm::vec3 npcVelocity;
-    npc->GetCharacter()->rigidBody->GetVelocity(npcVelocity);
+    npc->GetCharacter()->rigidBody->GetLinearVelocity(npcVelocity);
 
     glm::vec3 desiredVelocity = glm::normalize(npcPosition - playerPosition) * 3.75f;
 
@@ -375,7 +375,7 @@ void cNPCManager::SolveForCuriousEvade(cCharacterControl* npc, double deltaTime)
     npcVelocity += steering;
     npcVelocity = glm::normalize(npcVelocity) * 3.75f;
 
-    npc->GetCharacter()->rigidBody->SetVelocity(npcVelocity);
+    npc->GetCharacter()->rigidBody->SetLinearVelocity(npcVelocity);
 
     // Reorient the npc to the velocity vector
     glm::mat4 npcOrientation;
@@ -402,7 +402,7 @@ void cNPCManager::SolveForAngryPursuit(cCharacterControl* npc, double deltaTime)
     if (distance < mStopDistance * 0.5f)
     {
         npc->RightKicking();
-        npc->GetCharacter()->rigidBody->SetVelocity(glm::vec3(0.0f));
+        npc->GetCharacter()->rigidBody->SetLinearVelocity(glm::vec3(0.0f));
 
         if (mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_KICKING ||
             mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_CROSS_PUNCH)
@@ -432,7 +432,7 @@ void cNPCManager::SolveForAngryPursuit(cCharacterControl* npc, double deltaTime)
         npc->ForwardRun();
 
         glm::vec3 npcVelocity;
-        npc->GetCharacter()->rigidBody->GetVelocity(npcVelocity);
+        npc->GetCharacter()->rigidBody->GetLinearVelocity(npcVelocity);
 
         glm::vec3 desiredVelocity = glm::normalize(playerPosition - npcPosition) * 3.75f;
 
@@ -443,7 +443,7 @@ void cNPCManager::SolveForAngryPursuit(cCharacterControl* npc, double deltaTime)
         npcVelocity += steering;
         npcVelocity = glm::normalize(npcVelocity) * 3.75f;
 
-        npc->GetCharacter()->rigidBody->SetVelocity(npcVelocity);
+        npc->GetCharacter()->rigidBody->SetLinearVelocity(npcVelocity);
 
         // Reorient the npc to the velocity vector
         glm::mat4 npcOrientation;
@@ -497,7 +497,7 @@ void cNPCManager::SolveForAngryEvade(cCharacterControl* npc, double deltaTime)
     }
 
     glm::vec3 npcVelocity;
-    npc->GetCharacter()->rigidBody->GetVelocity(npcVelocity);
+    npc->GetCharacter()->rigidBody->GetLinearVelocity(npcVelocity);
 
     glm::vec3 desiredVelocity = glm::normalize(playerPosition - npcPosition) * 1.125f;
 
@@ -508,7 +508,7 @@ void cNPCManager::SolveForAngryEvade(cCharacterControl* npc, double deltaTime)
     npcVelocity += steering;
     npcVelocity = glm::normalize(npcVelocity) * 1.125f;
 
-    npc->GetCharacter()->rigidBody->SetVelocity(npcVelocity);
+    npc->GetCharacter()->rigidBody->SetLinearVelocity(npcVelocity);
 
     // Reorient the npc to the velocity vector
     glm::mat4 npcOrientation;

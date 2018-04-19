@@ -22,9 +22,11 @@ namespace nPhysics
         virtual void SetRotation(glm::quat& rotationIn) { this->mRotation = rotationIn; }
         virtual void GetMatOrientation(glm::mat4& orientationOut) { orientationOut = this->mOrientation; }
         virtual void SetMatOrientation(const glm::mat4& orientationIn) { this->mOrientation = orientationIn; }
-        virtual void GetVelocity(glm::vec3& velocity) { velocity = this->mVelocity; }
-        virtual void SetVelocity(const glm::vec3& velocity) { this->mVelocity = velocity; }
-        virtual void SetVelocityLocal(const glm::vec3& velocity);
+        virtual void GetLinearVelocity(glm::vec3& velocity) { velocity = this->mVelocity; }
+        virtual void SetLinearVelocity(const glm::vec3& velocity) { this->mVelocity = velocity; }
+        virtual void SetLinearVelocityLocal(const glm::vec3& velocity);
+        virtual void GetAngularVelocity(glm::vec3& velocity) { return; }
+        virtual void SetAngularVelocity(const glm::vec3& velocity) { return; }
         virtual void SetHit(bool hit) { return; }
         virtual bool GetHit() { return false; }
         virtual void rotateX(float degrees);

@@ -54,7 +54,7 @@ namespace nPhysics
     //    this->mRotation = glm::toQuat(orientationIn);
     //}
 
-    void cCharacterBody::SetVelocityLocal(const glm::vec3& velocity)
+    void cCharacterBody::SetLinearVelocityLocal(const glm::vec3& velocity)
     {
         glm::mat4 orientation = this->mOrientation;
 
