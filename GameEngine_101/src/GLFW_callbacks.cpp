@@ -202,6 +202,7 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                 isCharacterMoving = false;
 
                 pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+                pCharacterControl->GetCharacter()->rigidBody->SetAngularVelocity(glm::vec3(0.0f, 0.0f, 0.0f));
 
                 // Joystick
                 if (buttons[0] == GLFW_PRESS)
