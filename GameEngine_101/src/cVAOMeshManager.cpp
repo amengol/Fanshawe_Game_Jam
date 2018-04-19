@@ -699,9 +699,19 @@ bool cVAOMeshManager::loadMeshIntoStaticVAO(cMesh& theMesh, int shaderID, bool b
 
         if (bKeepMesh)
         {
-            std::vector<cMesh> vecMeshes;
-            vecMeshes.push_back(theMesh);
-            this->m_mapNameToMeshes[theMesh.name] = vecMeshes;
+            std::map<std::string, std::vector<cMesh>>::iterator itNameToMeshes 
+                = this->m_mapNameToMeshes.find(theMesh.name);
+            if (itNameToMeshes == this->m_mapNameToMeshes.end())
+            {
+                std::vector<cMesh> vecMeshes;
+                vecMeshes.push_back(theMesh);
+                this->m_mapNameToMeshes[theMesh.name] = vecMeshes;
+            }
+            else
+            {
+                itNameToMeshes->second.push_back(theMesh);
+            }
+            
         }
     }
     
