@@ -171,9 +171,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="cBulletDebugDrawer.h" />
     <ClInclude Include="cCharacterBody.h" />
     <ClInclude Include="cFixedConstraint.h" />
     <ClInclude Include="cHingeConstraint.h" />
+    <ClInclude Include="cPhysicsDebugDrawer.h" />
     <ClInclude Include="cPhysicsFactory.h" />
     <ClInclude Include="cPhysicsWorld.h" />
     <ClInclude Include="cPoint2PointConstraint.h" />
@@ -184,9 +186,11 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cBulletDebugDrawer.cpp" />
     <ClCompile Include="cCharacterBody.cpp" />
     <ClCompile Include="cFixedConstraint.cpp" />
     <ClCompile Include="cHingeConstraint.cpp" />
+    <ClCompile Include="cPhysicsDebugDrawer.cpp" />
     <ClCompile Include="cPhysicsFactory.cpp" />
     <ClCompile Include="cPhysicsWorld.cpp" />
     <ClCompile Include="cPoint2PointConstraint.cpp" />

@@ -18,8 +18,9 @@ namespace nPhysics
 
 		virtual void AddRigidBody(iRigidBody* rigidBody);
 		virtual void RemoveRigidBody(iRigidBody* rigidBody);
-
         virtual void AddConstraint(ContraintType type, iConstraint* constraint);
+        virtual void SetDebugDrawer(iPhysicsDebugDrawer* debugDrawer);
+        virtual void DebugDrawWorld();
 
 	private:
 		

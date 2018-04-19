@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="Physics\Interfaces\eShapeType.h" />
     <ClInclude Include="Physics\Interfaces\GLInstanceVertex.h" />
+    <ClInclude Include="Physics\Interfaces\iPhysicsDebugDrawer.h" />
     <ClInclude Include="Physics\Interfaces\iPhysicsFactory.h" />
     <ClInclude Include="Physics\Interfaces\iPhysicsWorld.h" />
     <ClInclude Include="Physics\Interfaces\iConstraint.h" />

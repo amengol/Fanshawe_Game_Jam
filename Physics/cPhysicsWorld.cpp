@@ -7,6 +7,7 @@
 #include "cHingeConstraint.h"
 #include "cFixedConstraint.h"
 #include "cUniversalConstraint.h"
+#include "cPhysicsDebugDrawer.h"
 
 
 extern ContactAddedCallback	gContactAddedCallback;
@@ -169,6 +170,22 @@ namespace nPhysics
         default:
             break;
         }
+    }
+
+    void cPhysicsWorld::SetDebugDrawer(iPhysicsDebugDrawer* debugDrawer)
+    {
+        cPhysicsDebugDrawer* dd = dynamic_cast<cPhysicsDebugDrawer*>(debugDrawer);
+        if (!dd)
+        {
+            return;
+        }
+
+        dynamicsWorld->setDebugDrawer(dd->getBulletDebugDrawer());
+    }
+
+    void cPhysicsWorld::DebugDrawWorld()
+    {
+        dynamicsWorld->debugDrawWorld();
     }
 
     cPhysicsWorld::RK4_Derivative cPhysicsWorld::evaluate(const RK4_State& initial, 

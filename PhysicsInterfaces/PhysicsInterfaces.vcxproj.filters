@@ -39,5 +39,8 @@
     <ClInclude Include="Physics\Interfaces\GLInstanceVertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\Interfaces\iPhysicsDebugDrawer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
