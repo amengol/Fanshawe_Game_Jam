@@ -30,7 +30,6 @@ bool callbackFunc(btManifoldPoint& cp,
             btVector3 velocity = rb->getLinearVelocity();
             velocity.setY(0.0f);
             rb->setLinearVelocity(velocity);
-            printf("Velocity Y: %f\n", velocity.getY());
         }
     }
 
@@ -42,7 +41,6 @@ bool callbackFunc(btManifoldPoint& cp,
             btVector3 velocity = rb->getLinearVelocity();
             velocity.setY(0.0f);
             rb->setLinearVelocity(velocity);
-            printf("Velocity Y: %f\n", velocity.getY());
         }
     }
 
