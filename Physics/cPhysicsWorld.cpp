@@ -22,6 +22,30 @@ bool callbackFunc(btManifoldPoint& cp,
                   const btCollisionObjectWrapper* colObj1Wrap, 
                   int partId1, int index1)
 {
+    if (colObj0Wrap->getCollisionObject()->getCollisionShape()->getShapeType() == CAPSULE_SHAPE_PROXYTYPE)
+    {
+        if (colObj1Wrap->getCollisionObject()->getCollisionShape()->getShapeType() != STATIC_PLANE_PROXYTYPE)
+        {
+            btRigidBody* rb = (btRigidBody*)colObj0Wrap->getCollisionObject();
+            btVector3 velocity = rb->getLinearVelocity();
+            velocity.setY(0.0f);
+            rb->setLinearVelocity(velocity);
+            printf("Velocity Y: %f\n", velocity.getY());
+        }
+    }
+
+    if (colObj1Wrap->getCollisionObject()->getCollisionShape()->getShapeType() == CAPSULE_SHAPE_PROXYTYPE)
+    {
+        if (colObj0Wrap->getCollisionObject()->getCollisionShape()->getShapeType() != STATIC_PLANE_PROXYTYPE)
+        {
+            btRigidBody* rb = (btRigidBody*)colObj1Wrap->getCollisionObject();
+            btVector3 velocity = rb->getLinearVelocity();
+            velocity.setY(0.0f);
+            rb->setLinearVelocity(velocity);
+            printf("Velocity Y: %f\n", velocity.getY());
+        }
+    }
+
     ((nPhysics::cRigidBody*)colObj0Wrap->getCollisionObject()->getUserPointer())->SetHit(true);
 
     ((nPhysics::cRigidBody*)colObj1Wrap->getCollisionObject()->getUserPointer())->SetHit(true);

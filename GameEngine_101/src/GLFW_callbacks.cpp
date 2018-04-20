@@ -8,6 +8,7 @@ bool firstMouse = true;
 bool cursorOn = true;
 bool isCharacterMoving = false;
 bool G_Pressed = false;
+bool isJumping = false;
 glm::mat4 characterOrientation; // Used to avoid the tilt of the capsule
 
 void errorCallback(int error, const char* description)
@@ -192,7 +193,14 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
 
                     // Joystick
                     if (buttons[0] == GLFW_PRESS)
+                    {
                         pCharacterControl->ForwardJumpWalking();
+                        isJumping = true;
+                    }
+                    else
+                    {
+                        isJumping = false;
+                    }
                 }
                 else
                 {
@@ -201,7 +209,14 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
 
                     // Joystick
                     if (buttons[0] == GLFW_PRESS)
+                    {
                         pCharacterControl->ForwardJump();
+                        isJumping = true;
+                    }
+                    else
+                    {
+                        isJumping = false;
+                    }
                 }
 
                 
