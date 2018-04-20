@@ -61,6 +61,7 @@
 #	"specular" : [0.0, 0.0, 0.0, 1.0],
 #	"scale" : 1.0,
 #	"bIsUpdatedInPhysics" : false,
+#	"renderable" : true,
 #	"bIsWireFrame" : false,
 #	"isDebugAABBActive" : false,
 #	"textureBlend[0]" : 1.0,
@@ -116,6 +117,12 @@
 		"textureNames[6]" : "Ground03_D_normal.bmp"
 	},
 	{ 
+		"meshName" : "Decals",
+		"textureNames[0]" : "Dust01_D.bmp",
+		"hasAlpha" : true,
+		"textureNames[1]" : "Dust01_D_alpha.bmp"		
+	},
+	{ 
 		"meshName" : "Limits",
 		"textureNames[0]" : "Tomb01_D.bmp",
 		"hasNormalMap" : true,
@@ -131,15 +138,90 @@
 	},
 	{ 
 		"meshName" : "Static_Tomb",
+		"typeOfObject" : 9,
+		"mass" : 0.0,
 		"textureNames[0]" : "Tomb01_D.bmp",
 		"hasNormalMap" : true,
 		"textureNames[4]" : "Tomb01_D_normal.bmp"		
 	},
 	{ 
+		"meshName" : "Stations",
+		"textureNames[0]" : "Tomb01_D.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Tomb01_D_normal.bmp"		
+	},
+	{ 
+		"meshName" : "Dummies",
+		"typeOfObject" : 9,
+		"mass" : 0.0,
+		"hasAlpha" : true,
+		"useDiscardAlpha" : true,
+		"textureNames[1]" : "Dummy_Alpha.bmp"
+	},
+	{ 
 		"meshName" : "Static_Coffins",
+		"typeOfObject" : 9,
+		"mass" : 0.0,
 		"textureNames[0]" : "Coffin01_D.bmp",
 		"hasNormalMap" : true,
 		"textureNames[4]" : "Coffin01_D_normal.bmp"		
+	},
+	{ 
+		"meshName" : "Coffin_Closed",
+		"typeOfObject" : 9,
+		"mass" : 200.0,
+		"textureNames[0]" : "Coffin01_D.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Coffin01_D_normal.bmp",
+		"position" : [9.65617085, 0.0, -1.56257629],
+		"rotateY" : 0.0	
+	},
+	{ 
+		"meshName" : "Coffin_Closed",
+		"typeOfObject" : 9,
+		"mass" : 200.0,
+		"textureNames[0]" : "Coffin01_D.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Coffin01_D_normal.bmp",
+		"position" : [-7.10508442, 0.0, -26.96376801],
+		"rotateY" : 36.97423935
+	},
+	{ 
+		"meshName" : "Coffin_Lid",
+		"typeOfObject" : 9,
+		"mass" : 100.0,
+		"textureNames[0]" : "Coffin01_D.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Coffin01_D_normal.bmp",
+		"position" : [5.24928093, 0.56342292, 6.28025913]
+	},
+	{ 
+		"meshName" : "Root_Big",
+		"typeOfObject" : 9,
+		"mass" : 400.0,
+		"textureNames[0]" : "Plant01_D.bmp",
+		"hasAlpha" : true,
+		"useDiscardAlpha" : true,
+		"textureNames[1]" : "Plant01_D_alpha.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Plant01_D_normal.bmp",		
+		"cullFace" : false,
+		"position" : [-22.23881721, 0.36035198, 35.6112442],
+		"rotateY" : 23.90335464
+	},
+	{ 
+		"meshName" : "Root_Big",
+		"typeOfObject" : 9,
+		"mass" : 400.0,
+		"textureNames[0]" : "Plant01_D.bmp",
+		"hasAlpha" : true,
+		"useDiscardAlpha" : true,
+		"textureNames[1]" : "Plant01_D_alpha.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Plant01_D_normal.bmp",		
+		"cullFace" : false,
+		"position" : [-14.96851444, 0.31129003, -36.96934509],
+		"rotateY" : -73.62225342
 	},
 	{ 
 		"meshName" : "Static_Plants",
@@ -153,9 +235,41 @@
 	},
 	{ 
 		"meshName" : "Static_Wood",
+		"typeOfObject" : 9,
+		"mass" : 0.0,
 		"textureNames[0]" : "Table01_D.bmp",
 		"textureNames[3]" : "Table01_D_specular.bmp",
 		"specular" : [1.0, 1.0, 1.0, 64.0]	
+	},
+	{ 
+		"meshName" : "Cab",
+		"typeOfObject" : 9,
+		"mass" : 700.0,
+		"textureNames[0]" : "Table01_D.bmp",
+		"textureNames[3]" : "Table01_D_specular.bmp",
+		"specular" : [1.0, 1.0, 1.0, 64.0],
+		"position" : [8.63450813, 0.5664565, -9.38346863],
+		"rotateY" : 0.0
+	},
+	{ 
+		"meshName" : "Cart",
+		"typeOfObject" : 9,
+		"mass" : 300.0,
+		"textureNames[0]" : "Table01_D.bmp",
+		"textureNames[3]" : "Table01_D_specular.bmp",
+		"specular" : [1.0, 1.0, 1.0, 64.0],
+		"position" : [3.16103223, 0.28681844, -9.07847118],
+		"rotateY" : 63.08944702
+	},
+	{ 
+		"meshName" : "Cart",
+		"typeOfObject" : 9,
+		"mass" : 300.0,
+		"textureNames[0]" : "Table01_D.bmp",
+		"textureNames[3]" : "Table01_D_specular.bmp",
+		"specular" : [1.0, 1.0, 1.0, 64.0],
+		"position" : [4.97696543, 0.28681844, 20.90956497],
+		"rotateY" : 0.0
 	},
 	{ 
 		"meshName" : "Static_Rocks",
@@ -197,7 +311,8 @@
 		"position" : [-9.83124542, 0.0, 9.61458015],
 		"specular" : [1.0, 1.0, 1.0, 64.0],
 		"hasNormalMap" : true,
-		"textureNames[4]" : "Statue01_D_normal.bmp"		
+		"textureNames[4]" : "Statue01_D_normal.bmp",
+		"rotateY" : 90.0		
 	},
 	{ 
 		"meshName" : "knight",
@@ -222,7 +337,7 @@
 		"textureNames[4]" : "Paladin_normal.bmp",
 		"cullFace" : false,
 		"receiveShadow" : false,
-		"position" : [0.0, 0.0, 0.0],
+		"position" : [0.0, 0.9, 0.0],
 		"scale" : 0.01
 	}
 #	{ 

@@ -281,6 +281,22 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 return false;
             }
         }
+
+        // Is renderable
+        bool renderable = true;
+        if (gameObject[jsIndex].HasMember("renderable"))
+        {
+            if (gameObject[jsIndex]["renderable"].IsBool())
+            {
+                renderable = gameObject[jsIndex]["renderable"].GetBool();
+            }
+            else
+            {
+                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                    " is not properly formated for its \"renderable\" member!";
+                return false;
+            }
+        }
        
         // Is Debug AABB Active
         bool isDebugAABBActive = false;
@@ -1359,6 +1375,9 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                 desc.Mass = mass;
                 desc.Scale = scale;
                 nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, convexHull);
+                glm::mat4 orientation(1.0f);
+                orientation = glm::rotate(orientation, glm::radians(rotateY), glm::vec3(0.0f, 1.0f, 0.0f));
+                rb->SetMatOrientation(orientation);
                 g_pPhysicsWorld->AddRigidBody(rb);
                 delete[] instanceVertex;
                 theGO->rigidBody = rb;
@@ -1388,6 +1407,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         theGO->scale = scale;
         theGO->bIsUpdatedInPhysics = bIsUpdatedInPhysics;
         theGO->bIsWireFrame = bIsWireFrame;
+        theGO->renderable = renderable;
         theGO->isDebugAABBActive = isDebugAABBActive;
         theGO->textureBlend[0] = textureBlend_0;
         theGO->textureNames[0] = textureNames_0;
