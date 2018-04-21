@@ -145,27 +145,7 @@ public:
     bool InitCharacterAnimations(std::string& error);
     bool animationsInitiated;   // Control if the animations were already initiated
 
-    struct sContactSpheres
-    {
-        sContactSpheres() :
-            radius(1.0f),
-            position(glm::vec3(0.0f)),
-            colour(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)),
-            timeToFade(1.8f),
-            hasCollided(false)
-        { }
-
-        std::string meshName;
-        float radius;
-        glm::vec3 position;
-        glm::vec4 colour;
-        bool hasCollided;
-        float timeToFade;
-        float elapseTime;
-        glm::vec3 collisionPosition;
-    };
-
-    std::map<std::string, sContactSpheres*> mMapBoneNameTOMeshName;
+    std::map<std::string, cGameObject*> mMapBoneNameTOProp;
 
  private:
      unsigned int m_UniqueID;
