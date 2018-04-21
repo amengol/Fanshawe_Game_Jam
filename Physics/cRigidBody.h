@@ -16,6 +16,7 @@ namespace nPhysics
 
 		virtual iShape* GetShape();
 
+        virtual void Activate();
 		virtual void GetTransform(glm::mat4& transformOut);
 		virtual void GetPostion(glm::vec3& positionOut);
         virtual void SetPosition(glm::vec3& positionIn);

@@ -204,7 +204,12 @@ namespace nPhysics
 		return mShape;
 	}
 
-	void cRigidBody::GetTransform(glm::mat4& transformOut)
+    void cRigidBody::Activate()
+    {
+        this->bullet_RigidBody->activate();
+    }
+
+    void cRigidBody::GetTransform(glm::mat4& transformOut)
 	{
 		transformOut = glm::mat4_cast(mRotation);
 		transformOut[3][0] = mPosition.x;

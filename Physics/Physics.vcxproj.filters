@@ -45,9 +45,6 @@
     <ClInclude Include="cUniversalConstraint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cCharacterBody.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="cBulletDebugDrawer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -81,9 +78,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cUniversalConstraint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cCharacterBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cBulletDebugDrawer.cpp">

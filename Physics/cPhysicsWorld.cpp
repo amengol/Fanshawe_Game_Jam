@@ -100,13 +100,6 @@ namespace nPhysics
         }
 
         this->dynamicsWorld->stepSimulation(deltaTime, 3);
-
-        for (size_t i = 0; i < m_vecCharacterBody.size(); i++)
-        {
-            //RK4
-            m_vecCharacterBody[i]->mLastPos = m_vecCharacterBody[i]->mPosition; // Save the last position
-            integrate(m_vecCharacterBody[i]->mPosition, m_vecCharacterBody[i]->mVelocity, GRAVITY, deltaTime);
-        }
 	}
 
 	void cPhysicsWorld::AddRigidBody(iRigidBody* rigidBody)
@@ -124,19 +117,7 @@ namespace nPhysics
             // Bullet
             cRigidBody* theRB = static_cast<cRigidBody*>(rigidBody);
             this->dynamicsWorld->addRigidBody(theRB->getBulletRigidBody());
-		}
-		
-        cCharacterBody* cb = dynamic_cast<cCharacterBody*>(rigidBody);
-        if (cb)
-        {
-            std::vector<cCharacterBody*>::iterator itCharacterBody;
-            itCharacterBody = std::find(m_vecCharacterBody.begin(), m_vecCharacterBody.end(), cb);
-            if (itCharacterBody == m_vecCharacterBody.end())
-            {
-                m_vecCharacterBody.push_back(cb);
-            }
-        }
-       
+		}       
 	}
 
 	void cPhysicsWorld::RemoveRigidBody(iRigidBody* rigidBody)
@@ -223,45 +204,4 @@ namespace nPhysics
 
         dynamicsWorld->debugDrawWorld();
     }
-
-    cPhysicsWorld::RK4_Derivative cPhysicsWorld::evaluate(const RK4_State& initial, 
-                                                          float dt, 
-                                                          const RK4_Derivative& d)
-    {
-        RK4_State state;
-        state.x = initial.x + d.dx*dt;
-        state.v = initial.v + d.dv*dt;
-
-        RK4_Derivative output;
-        output.dx = state.v;
-        //output.dv = acceleration(state, t + dt);
-        return output;
-    }
-
-    void cPhysicsWorld::integrate(glm::vec3& pos, glm::vec3& vel, glm::vec3 accel, float dt)
-    {
-        // Put the acceleration into the velocity
-        glm::vec3 newVel = vel + accel * dt;
-
-        RK4_State state;
-        state.x = pos;
-        state.v = newVel;
-
-        RK4_Derivative a, b, c, d;
-
-        a = evaluate(state, 0.0f, RK4_Derivative());
-        b = evaluate(state, dt*0.5f, a);
-        c = evaluate(state, dt*0.5f, b);
-        d = evaluate(state, dt, c);
-
-        glm::vec3 dxdt = 1.0f / 6.0f *
-            (a.dx + 2.0f * (b.dx + c.dx) + d.dx);
-
-        glm::vec3 dvdt = 1.0f / 6.0f *
-            (a.dv + 2.0f * (b.dv + c.dv) + d.dv);
-
-        pos = state.x + dxdt * dt;
-        vel = state.v + dvdt * dt;
-    }
-
 }

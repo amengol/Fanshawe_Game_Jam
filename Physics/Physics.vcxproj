@@ -172,7 +172,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cBulletDebugDrawer.h" />
-    <ClInclude Include="cCharacterBody.h" />
     <ClInclude Include="cFixedConstraint.h" />
     <ClInclude Include="cHingeConstraint.h" />
     <ClInclude Include="cPhysicsDebugDrawer.h" />
@@ -187,7 +186,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cBulletDebugDrawer.cpp" />
-    <ClCompile Include="cCharacterBody.cpp" />
     <ClCompile Include="cFixedConstraint.cpp" />
     <ClCompile Include="cHingeConstraint.cpp" />
     <ClCompile Include="cPhysicsDebugDrawer.cpp" />

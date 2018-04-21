@@ -12,8 +12,6 @@ namespace nPhysics
 
 		virtual iRigidBody* CreateRigidBody(const sRigidBodyDesc& desc, iShape* shape);
 
-        virtual iRigidBody* CreateCharacterBody(const sRigidBodyDesc& desc, iShape* shape);
-        
         virtual iConstraint* CreatePoint2PointConstraint(iRigidBody* rbA,
                                                          iRigidBody* rbB,
                                                          const glm::vec3& pivotInA,
