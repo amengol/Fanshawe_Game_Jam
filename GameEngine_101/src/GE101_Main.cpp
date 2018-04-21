@@ -134,7 +134,7 @@ const int FINAL_RENDER_PASS = 99;
 
 int main()
 {
-    InitPhysics();
+    
 
     GLFWwindow* window;
     glfwSetErrorCallback(errorCallback);
@@ -169,6 +169,8 @@ int main()
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     glfwSwapInterval(1);
 
+    // Physics
+    InitPhysics();
     // tell GLFW to capture our mouse
     //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 

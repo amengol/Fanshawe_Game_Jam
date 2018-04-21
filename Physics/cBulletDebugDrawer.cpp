@@ -3,12 +3,22 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-GLuint BulletDebugVBO, BulletDebugVAO;
-
 void cBulletDebugDrawer::SetMatrices(glm::mat4 pViewMatrix, glm::mat4 pProjectionMatrix, int shaderID)
 {
     glUniformMatrix4fv(glGetUniformLocation(shaderID, "mProjection"), 1, GL_FALSE, &pProjectionMatrix[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(shaderID, "mView"), 1, GL_FALSE, &pViewMatrix[0][0]);
+}
+
+cBulletDebugDrawer::cBulletDebugDrawer()
+{
+    glGenBuffers(1, &m_VBO);
+    glGenVertexArrays(1, &m_VAO);
+}
+
+cBulletDebugDrawer::~cBulletDebugDrawer()
+{
+    glDeleteBuffers(1, &m_VBO);
+    glDeleteVertexArrays(1, &m_VAO);
 }
 
 void cBulletDebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
@@ -30,20 +40,13 @@ void cBulletDebugDrawer::drawLine(const btVector3& from, const btVector3& to, co
     points[10] = color.y();
     points[11] = color.z();
 
-    glDeleteBuffers(1, &BulletDebugVBO);
-    glDeleteVertexArrays(1, &BulletDebugVAO);
-    glGenBuffers(1, &BulletDebugVBO);
-    glGenVertexArrays(1, &BulletDebugVAO);
-    glBindVertexArray(BulletDebugVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, BulletDebugVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(points), &points, GL_STATIC_DRAW);
+    glBindVertexArray(m_VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(points), &points, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), 0);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-    glBindVertexArray(0);
-
-    glBindVertexArray(BulletDebugVAO);
     glDrawArrays(GL_LINES, 0, 2);
     glBindVertexArray(0);
 
