@@ -146,6 +146,10 @@ namespace nPhysics
 		{
 			return;
 		}
+
+        // Bullet
+        this->dynamicsWorld->removeRigidBody(rb->getBulletRigidBody());
+
 		std::vector<cRigidBody*>::iterator itRigidBody;
 		
 		itRigidBody = std::remove(m_vecRigidBody.begin(), m_vecRigidBody.end(), rb);
@@ -153,6 +157,7 @@ namespace nPhysics
 		{
             m_vecRigidBody.resize(m_vecRigidBody.size() - 1);
 		}
+
 	}
 
     void cPhysicsWorld::AddConstraint(ContraintType type, iConstraint* constraint)
