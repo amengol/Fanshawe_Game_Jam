@@ -279,18 +279,6 @@ int main()
     //    std::cout << error << std::endl;
     //}
 
-    //-------------------------------------------------------------------------
-    // Load Rigid Bodies
-    for (size_t i = 0; i < g_vecGameObjects.size(); i++)
-    {
-        cGameObject* GO = g_vecGameObjects[i];
-
-        if (GO->rigidBody != NULL)
-        {
-            g_pPhysicsWorld->AddRigidBody(GO->rigidBody);
-        }
-    }
-
     
     //-------------------------------------------------------------------------
     // AABBs

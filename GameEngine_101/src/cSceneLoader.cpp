@@ -837,6 +837,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             desc.Position = position;
             nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, shape);
             theGO->rigidBody = rb;
+            g_pPhysicsWorld->AddRigidBody(rb);
             //nPhysics::iRigidBody* bt_rb = gbt_PhysicsFactory->CreateRigidBody(desc, bt_shape);
             //theGO->bt_rigidBody = bt_rb;
         }            
@@ -861,6 +862,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             desc.Mass = mass;
             nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, shape);
             theGO->rigidBody = rb;
+            g_pPhysicsWorld->AddRigidBody(rb);
 
             // This assigns the game object to the particular skinned mesh type 
             theGO->pSimpleSkinnedMesh = ::g_animationCollection.getSkinnedMeshes(meshName);
@@ -1323,24 +1325,41 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     cCharacterControl* ch = new cCharacterControl();
                     ch->SetCharacter(theGO);
 
-                    // HACK
-                    cGameObject::sContactSpheres* cs1 = new cGameObject::sContactSpheres();
-                    cGameObject::sContactSpheres* cs1_2 = new cGameObject::sContactSpheres();
-                    cGameObject::sContactSpheres* cs2 = new cGameObject::sContactSpheres();
-                    cGameObject::sContactSpheres* cs3 = new cGameObject::sContactSpheres();
-                    cs1->meshName = "sphere_fist";
-                    cs1->radius = 0.25f;
-                    cs1_2->meshName = "sphere_fist";
-                    cs1_2->radius = 0.25f;
-                    cs2->meshName = "sphere_chest";
-                    cs2->radius = 0.45f;
-                    cs3->meshName = "sphere_head";
-                    cs3->radius = 0.3f;
-
-                    theGO->mMapBoneNameTOMeshName["B_L_Hand"] = cs1;
-                    theGO->mMapBoneNameTOMeshName["B_R_Hand"] = cs1_2;
-                    theGO->mMapBoneNameTOMeshName["B_Spine2"] = cs2;
-                    theGO->mMapBoneNameTOMeshName["B_Head"] = cs3;
+                    if (gameObject[jsIndex].HasMember("propsMap"))
+                    {
+                        int numOfPropsToMap = gameObject[jsIndex]["propsMap"].MemberCount();
+                        for (size_t propsIndex = 0; propsIndex < numOfPropsToMap; propsIndex++)
+                        {
+                            if (gameObject[jsIndex]["propsMap"].HasMember("boneToMesh"))
+                            {
+                                if (gameObject[jsIndex]["propsMap"]["boneToMesh"].IsArray())
+                                {
+                                    int numOfElemts = gameObject[jsIndex]["propsMap"]["boneToMesh"].Capacity();
+                                    if (numOfElemts != 2)
+                                    {
+                                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                                            " is not properly formated for its \"boneToMesh\", member!";
+                                        return false;
+                                    }
+                                    std::string boneNameElem = gameObject[jsIndex]["propsMap"]["boneToMesh"][0].GetString();
+                                    std::string meshNameElem = gameObject[jsIndex]["propsMap"]["boneToMesh"][1].GetString();
+                                    theGO->mMapBoneNameTOMeshName[boneNameElem] = meshNameElem;
+                                }
+                                else
+                                {
+                                    error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                                        " is not properly formated for its \"boneToMesh\", member!";
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                                    " is not properly formated for its \"propsMap\", member!";
+                                return false;
+                            }
+                        }
+                    }
 
 
                     if (!g_characterManager.AddCharacter(ch, error))
