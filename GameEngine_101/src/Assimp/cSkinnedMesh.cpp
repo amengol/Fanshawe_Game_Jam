@@ -15,8 +15,6 @@ cSkinnedMesh::cSkinnedMesh(void)
 	this->m_numberOfVertices = 0;
 	this->m_numberOfIndices = 0;
 	this->m_numberOfTriangles = 0;
-    this->mLastHipPosition = glm::vec3(0.0f);
-    this->mLastHipRotation = glm::mat4(1.0f);
 }
 
 bool cSkinnedMesh::LoadMeshFromFile(const std::string &path, const std::string &filename)
@@ -307,24 +305,6 @@ void cSkinnedMesh::ReadNodeHierarchy(float AnimationTime,
 		this->CalcGLMInterpolatedPosition(AnimationTime, pNodeAnim, pos);
 		glm::mat4 TranslationM = glm::translate(glm::mat4(1.0f), pos);
 		
-        std::string strName = NodeName.C_Str();
-        size_t found = strName.find("Hips");
-        if (found != std::string::npos)
-        {
-            // Keep ading the last position to displace the animation
-            mLastHipPosition = pos;
-
-            // Store the last hip rotation too (used in the cCharacterControl)
-            mLastHipRotation = RotationM;
-
-            // Keep only the rotation in the Y axis
-            mLastHipRotation[0].y = 0.0f;
-            mLastHipRotation[1].x = 0.0f;
-            mLastHipRotation[1].y = 1.0f;
-            mLastHipRotation[1].z = 0.0f;
-            mLastHipRotation[2].y = 0.0f;
-        }
-		
 		// Combine the above transformations
 		NodeTransformation = TranslationM * RotationM * ScalingM;
 	}
@@ -347,7 +327,7 @@ void cSkinnedMesh::ReadNodeHierarchy(float AnimationTime,
 		                                                 * ObjectBoneTransformation 
 			                                             * this->mBoneInfo[BoneIndex].BoneOffset;
 
-        mMapBoneToLastLocalTranslation[NodeName.C_Str()] = this->mBoneInfo[BoneIndex].ObjectBoneTransformation;
+        mMapBoneToLastLocalTransformation[NodeName.C_Str()] = this->mBoneInfo[BoneIndex].ObjectBoneTransformation;
 	}
 	else
 	{

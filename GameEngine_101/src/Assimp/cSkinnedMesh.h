@@ -48,9 +48,7 @@ private:
 
 public:
 
-    glm::vec3 mLastHipPosition;     // The most recent hip position
-    glm::mat4 mLastHipRotation;     // The most recent hip rotation
-    std::map<std::string, glm::mat4> mMapBoneToLastLocalTranslation;
+    std::map<std::string, glm::mat4> mMapBoneToLastLocalTransformation;
 
 	unsigned int m_numberOfVertices;
 	unsigned int m_numberOfIndices;
