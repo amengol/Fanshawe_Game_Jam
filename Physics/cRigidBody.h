@@ -11,11 +11,12 @@ namespace nPhysics
 	class cRigidBody : public iRigidBody
 	{
 	public:
+        bool mIsInWorld;
+
 		cRigidBody(const sRigidBodyDesc& desc, iShape* shape);
 		virtual ~cRigidBody();
 
 		virtual iShape* GetShape();
-
         virtual void Activate();
 		virtual void GetTransform(glm::mat4& transformOut);
 		virtual void GetPostion(glm::vec3& positionOut);
@@ -29,6 +30,7 @@ namespace nPhysics
         virtual void SetLinearVelocityLocal(const glm::vec3& velocity);
         virtual void GetAngularVelocity(glm::vec3& velocityOut);
         virtual void SetAngularVelocity(const glm::vec3& velocityIn);
+        virtual inline bool IsInWorld() { return mIsInWorld; }
 
 
         inline void setLastPosition(glm::vec3 lastPos) { this->mLastPos = lastPos; }

@@ -12,6 +12,7 @@ namespace nPhysics
 		, mRotation(desc.Rotation)
         , mOrientation(1.0f)
         , mHit(false)
+        , mIsInWorld(false)
 	{
         switch (shape->GetShapeType())
         {

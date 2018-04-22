@@ -33,5 +33,6 @@ namespace nPhysics
         virtual void SetRateOfTurnX(float rotX) = 0;
         virtual void SetRateOfTurnY(float rotY) = 0;
         virtual void SetRateOfTurnZ(float rotZ) = 0;
+        virtual bool IsInWorld() = 0;
 	};
 }

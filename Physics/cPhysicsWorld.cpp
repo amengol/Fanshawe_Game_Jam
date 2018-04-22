@@ -114,10 +114,13 @@ namespace nPhysics
                 m_vecRigidBody.push_back(rb);
             }
 
+
             // Bullet
             cRigidBody* theRB = static_cast<cRigidBody*>(rigidBody);
             this->dynamicsWorld->addRigidBody(theRB->getBulletRigidBody());
-		}       
+            
+            rb->mIsInWorld = true;
+        }
 	}
 
 	void cPhysicsWorld::RemoveRigidBody(iRigidBody* rigidBody)
@@ -139,6 +142,7 @@ namespace nPhysics
             m_vecRigidBody.resize(m_vecRigidBody.size() - 1);
 		}
 
+        rb->mIsInWorld = false;
 	}
 
     void cPhysicsWorld::AddConstraint(ContraintType type, iConstraint* constraint)
