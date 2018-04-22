@@ -92,6 +92,7 @@ cCamera g_camera;
 //cCameraManger g_CameraManager;
 int g_scrWidth = 1260;
 int g_scrHeight = 768;
+cSceneManager* g_pSeceneManager = NULL;
 cVAOMeshManager* g_pVAOManager = NULL;
 cCameraObject* g_pCamera = NULL;
 cCameraObject* g_pFixedCamera = NULL;
@@ -352,9 +353,9 @@ int main()
     
     //-------------------------------------------------------------------------
     // Texture 
+    g_pTextureManager = new CTextureManager();
     if(!loadTextures())
         std::cout << "Something went wrong while loading the textures!\n";
-
     //-------------------------------------------------------------------------
     // Camera
 
@@ -517,6 +518,30 @@ int main()
     g_FBO_alpha_shadow.init(128, 128, error);
     g_FBO_shadows.init(8192, 8192, error);
 
+    //-------------------------------------------------------------------------
+    // ScreenPlay
+    g_pSeceneManager = new cSceneManager();
+    g_pSeceneManager->addScreen("Disclaimer.bmp",
+                                g_pTextureManager->getTextureIDFromTextureName("Disclaimer.bmp"),
+                                2.0f);
+    g_pSeceneManager->addScreen("Ghosts_n_Goblins_01.bmp",
+                                g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_01.bmp"),
+                                2.0f);
+    g_pSeceneManager->addScreen("Ghosts_n_Goblins_02.bmp",
+                                g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_02.bmp"),
+                                2.0f);
+    g_pSeceneManager->addScreen("Ghosts_n_Goblins_03.bmp",
+                                g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_03.bmp"),
+                                2.0f);
+    g_pSeceneManager->addScreen("Ghosts_n_Goblins_04.bmp",
+                                g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_04.bmp"),
+                                2.0f);
+    g_pSeceneManager->addScreen("Main_Game_Screen",
+                                g_FBO_deferred.colourTexture_0_ID,
+                                0.0f);
+    g_pSeceneManager->init();
+    //-------------------------------------------------------------------------
+
     // Will be used in the physics step
     double lastTimeStep = glfwGetTime();
 
@@ -539,6 +564,8 @@ int main()
 
         //PhysicsStep(deltaTime);
         lastTimeStep = curTime;
+
+        g_pSeceneManager->update(deltaTime);
 
         //=====================================================================
         //Sound
@@ -667,7 +694,8 @@ int main()
         GLint fullRenderedImage2D_LocID = glGetUniformLocation(ShaderID, "fullRenderedImage2D");
 
         glActiveTexture(GL_TEXTURE0 + 20);
-        glBindTexture(GL_TEXTURE_2D, ::g_FBO_deferred.colourTexture_0_ID);
+        int scr = g_pSeceneManager->getActiveScreen();
+        glBindTexture(GL_TEXTURE_2D, g_pSeceneManager->getActiveScreen());
         //glBindTexture(GL_TEXTURE_2D, g_FBO_shadows.depthTexture_ID);
         glUniform1i(fullRenderedImage2D_LocID, 20);
 
@@ -715,6 +743,8 @@ int main()
     delete ::g_pAABBsManager;
     delete ::g_pSoundManager;
     delete ::g_pTranspManager;
+    delete ::g_pTextureManager;
+    delete ::g_pSeceneManager;
 
     return 0;
 

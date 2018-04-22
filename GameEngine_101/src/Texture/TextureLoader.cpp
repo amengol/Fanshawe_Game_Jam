@@ -5,8 +5,6 @@
 
 bool loadTextures()
 {
-    ::g_pTextureManager = new CTextureManager();
-
     ::g_pTextureManager->setBasePath("assets/textures/sb_morning");
     if (!::g_pTextureManager->CreateCubeTextureFromBMPFiles(
         "morning",
@@ -73,6 +71,56 @@ bool loadTextures()
     }
 
     ::g_pTextureManager->setBasePath("assets/textures");
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Disclaimer.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Ground_Overlay is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ghosts_n_Goblins_01.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Ground_Overlay is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ghosts_n_Goblins_02.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Ground_Overlay is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ghosts_n_Goblins_03.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Ground_Overlay is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ghosts_n_Goblins_04.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Ground_Overlay is loaded!" << std::endl;
+    }
 
     if (!::g_pTextureManager->Create2DTextureFromBMPFile("Dust01_D.bmp", true))
     {

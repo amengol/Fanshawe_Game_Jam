@@ -61,6 +61,9 @@
     <Filter Include="Environment">
       <UniqueIdentifier>{623d5fd1-c12f-4db6-be16-c6cd5e4007d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{f90bf318-f350-427f-b42b-a52e232eb738}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\newFrag.glsl">
@@ -142,9 +145,6 @@
     </ClCompile>
     <ClCompile Include="src\cTransparencyManager.cpp">
       <Filter>Game Objects Related</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cSceneLoader.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\sCollisionTriangle.cpp">
       <Filter>Game Objects Related</Filter>
@@ -245,6 +245,12 @@
     <ClCompile Include="src\cFBO_Shadow.cpp">
       <Filter>FrameBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="src\cSceneManager.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cSceneLoader.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utilities.h">
@@ -306,9 +312,6 @@
     </ClInclude>
     <ClInclude Include="src\cTransparencyManager.h">
       <Filter>Game Objects Related</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cSceneLoader.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\sCollisionTriangle.h">
       <Filter>Game Objects Related</Filter>
@@ -414,6 +417,12 @@
     </ClInclude>
     <ClInclude Include="src\cFBO_Shadow.h">
       <Filter>FrameBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cSceneManager.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cSceneLoader.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

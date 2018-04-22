@@ -166,6 +166,7 @@
     <ClCompile Include="src\cAABBsManager.cpp" />
     <ClCompile Include="src\cEnvironment.cpp" />
     <ClCompile Include="src\cFBO_Shadow.cpp" />
+    <ClCompile Include="src\cSceneManager.cpp" />
     <ClCompile Include="src\GLFW_callbacks.cpp" />
     <ClCompile Include="src\cCamera.cpp" />
     <ClCompile Include="src\cCameraManger.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="src\cAABBsManager.h" />
     <ClInclude Include="src\cEnvironment.h" />
     <ClInclude Include="src\cFBO_Shadow.h" />
+    <ClInclude Include="src\cSceneManager.h" />
     <ClInclude Include="src\GLFW_callbacks.h" />
     <ClInclude Include="src\cCamera.h" />
     <ClInclude Include="src\cCameraManger.h" />

@@ -60,6 +60,11 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         g_propsEnabled = !g_propsEnabled;
     }
 
+    if (key == GLFW_KEY_N && action == GLFW_PRESS)
+    {
+        g_pSeceneManager->nextScreen();
+    }
+
     if (key == GLFW_KEY_G && action == GLFW_PRESS)
     {
         G_Pressed = true;

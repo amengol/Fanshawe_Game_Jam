@@ -32,6 +32,7 @@
 #include "sFade.h"
 #include "cCamera.h"
 #include "cEnvironment.h"
+#include "cSceneManager.h"
 
 
 // Finds a GameObject by a friendly name. Returns 0 or NULL if not found
@@ -43,6 +44,7 @@ cGameObject* findObjectByUniqueID(unsigned int ID, std::vector<cGameObject*> &ve
 // Super basic physics update function
 void PhysicsStep(double deltaTime);
 
+extern cSceneManager* g_pSeceneManager;                 // (GE101_Main.cpp)
 extern bool g_propsEnabled;                             // (GLFW_callbacks.cpp)
 extern bool g_debugEnable;                              // (GE101_Main.cpp)
 extern float g_gamaCorrection;                          // (DrawCalls.cpp)
