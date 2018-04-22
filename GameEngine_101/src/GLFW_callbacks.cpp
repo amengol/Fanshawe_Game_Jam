@@ -9,6 +9,7 @@ bool cursorOn = true;
 bool isCharacterMoving = false;
 bool G_Pressed = false;
 bool isJumping = false;
+bool g_propsEnabled = true;
 glm::mat4 characterOrientation; // Used to avoid the tilt of the capsule
 
 void errorCallback(int error, const char* description)
@@ -52,6 +53,11 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     if (key == GLFW_KEY_B && action == GLFW_PRESS)
     {
         g_debugEnable = !g_debugEnable;
+    }
+
+    if (key == GLFW_KEY_P && action == GLFW_PRESS)
+    {
+        g_propsEnabled = !g_propsEnabled;
     }
 
     if (key == GLFW_KEY_G && action == GLFW_PRESS)
@@ -157,6 +163,13 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
             g_camera.processKeyboard(UP, deltaTime);
         if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
             g_camera.processKeyboard(DOWN, deltaTime);
+
+        // Avoid the tilt of the capsule
+        pCharacterControl->GetCharacter()->rigidBody->SetMatOrientation(characterOrientation);
+
+        // Don't stop the falling
+        pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 0.0f));
+
         break;
     case THIRD_PERSON:
     {
