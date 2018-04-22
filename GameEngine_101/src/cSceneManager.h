@@ -7,6 +7,8 @@
 */
 #pragma once
 #include <list>
+
+class cSoundObject;
 class cSceneManager
 {
 public:
@@ -23,7 +25,7 @@ public:
     int getActiveScreen() { return m_activeScreen; }
 
     // Adds a screen
-    void addScreen(std::string name, int ID, float length);
+    void addScreen(std::string name, int ID, float length, cSoundObject* sound = NULL);
 
     // Initializes the scene. 
     // Should run only after all screens added
@@ -56,6 +58,7 @@ private:
         std::string name;
         int ID;
         float length;
+        cSoundObject* sound;
     };
 
     int m_activeScreen;
