@@ -523,22 +523,53 @@ int main()
     g_pSeceneManager = new cSceneManager();
     g_pSeceneManager->addScreen("Disclaimer.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Disclaimer.bmp"),
-                                2.0f);
+                                0.0f);
+
+    cSoundObject* sound = g_pSoundManager->getSoundFromName("Start_Menu");
+    g_pSeceneManager->addScreen("Start_Menu.bmp",
+                                g_pTextureManager->getTextureIDFromTextureName("Start_Menu.bmp"),
+                                0.0f,
+                                sound);
+
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_01.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_01.bmp"),
-                                2.0f);
+                                3.0f);
+
+    sound = g_pSoundManager->getSoundFromName("Start_Demo_01");
+    g_pSeceneManager->addScreen("Ghosts_n_Goblins_01.bmp",
+                                g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_01.bmp"),
+                                2.220f,
+                                sound);
+
+    sound = g_pSoundManager->getSoundFromName("Start_Demo_02");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_02.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_02.bmp"),
-                                2.0f);
+                                3.396f,
+                                sound);
+
+    sound = g_pSoundManager->getSoundFromName("Start_Demo_03");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_03.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_03.bmp"),
-                                2.0f);
+                                1.541f,
+                                sound);
+
+    sound = g_pSoundManager->getSoundFromName("Start_Demo_04");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_04.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_04.bmp"),
-                                2.0f);
+                                1.750f,
+                                sound);
+
+    sound = g_pSoundManager->getSoundFromName("Stage_Introduction_Map");
+    g_pSeceneManager->addScreen("Ghosts_n_Goblins_05.bmp",
+                                g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_05.bmp"),
+                                4.153f,
+                                sound);
+
+    sound = g_pSoundManager->getSoundFromName("Ghosts_n_Goblins_Theme_Rock_Metal_BG");
     g_pSeceneManager->addScreen("Main_Game_Screen",
                                 g_FBO_deferred.colourTexture_0_ID,
-                                0.0f);
+                                0.0f,
+                                sound);
     g_pSeceneManager->init();
     //-------------------------------------------------------------------------
 

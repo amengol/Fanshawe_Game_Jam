@@ -82,6 +82,16 @@ bool loadTextures()
         std::cout << "Ground_Overlay is loaded!" << std::endl;
     }
 
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Start_Menu.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Ground_Overlay is loaded!" << std::endl;
+    }
+
     if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ghosts_n_Goblins_01.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
@@ -113,6 +123,16 @@ bool loadTextures()
     }
 
     if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ghosts_n_Goblins_04.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Ground_Overlay is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Ghosts_n_Goblins_05.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;
         return false;
