@@ -6,6 +6,7 @@
 
 // Forward declare to the actual implementation class
 class cSoundManager_Imp;
+class cSoundObject;
 
 class cSoundManager
 {
@@ -18,6 +19,7 @@ public:
     void initSoundScene();
     void updateSoundScene(glm::vec3 listener);
     bool loadSoundParameters(std::string configFile);
+    cSoundObject* getSoundFromName(std::string name);
 
 private:
     // Pointer to the actual implementation class

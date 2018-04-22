@@ -19,13 +19,14 @@ public:
     void initSoundScene();
     void updateSoundScene(glm::vec3 listener);
     bool loadSoundParameters(std::string configFile);
+    cSoundObject* getSoundFromName(std::string name);
 
     //Only here functions
     void init_fmod();
 
 private:
     
-    std::vector<cSoudObject*> soundObjects;
+    std::vector<cSoundObject*> soundObjects;
 
 
     FMOD_RESULT mresult;

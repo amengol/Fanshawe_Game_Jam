@@ -113,7 +113,7 @@ void cSoundManager_Imp::initSoundScene()
 
 
             //play sound 
-            mresult = msystem->playSound(msounds[i], 0, false, &mchannels[i]);
+            mresult = msystem->playSound(msounds[i], 0, true, &mchannels[i]);
             errorcheck(mresult);
 
             // Set volume
@@ -251,7 +251,7 @@ void cSoundManager_Imp::updateSoundScene(glm::vec3 listener)
 
     for (int i = 0; i < soundObjects.size(); i++)
     {
-        if (soundObjects.at(i)->getMovType() == 2)
+        if (soundObjects[i]->getMovType() == 2)
         {
             //set 3d attributes
             FMOD_VECTOR sound_velocity = { 0.0f, 0.0f, 0.0f };
@@ -262,6 +262,45 @@ void cSoundManager_Imp::updateSoundScene(glm::vec3 listener)
             sound_position.z = v3SoundPos.z;
 
             mresult = mchannels[i]->set3DAttributes(&sound_position, &sound_velocity);
+            errorcheck(mresult);
+        }
+
+        bool fmodPlaying = false;
+        mchannels[i]->isPlaying(&fmodPlaying);
+        errorcheck(mresult);
+
+        if (soundObjects[i]->isPaused())
+        {
+            if (fmodPlaying)
+            {
+                mchannels[i]->setPaused(true);
+                errorcheck(mresult);
+            }
+            else
+            {
+                mchannels[i]->setPaused(false);
+                errorcheck(mresult);
+            }
+        }
+        else
+        {
+            if (fmodPlaying)
+            {
+                mchannels[i]->setPaused(false);
+                errorcheck(mresult);
+            }
+            else
+            {
+                mchannels[i]->setPaused(true);
+                errorcheck(mresult);
+            }
+        }
+
+        if (soundObjects[i]->isStopped())
+        {
+            mchannels[i]->setPaused(true);
+            errorcheck(mresult);
+            mchannels[i]->setPosition(0.0f, FMOD_TIMEUNIT_MS);
             errorcheck(mresult);
         }
     }
@@ -297,7 +336,7 @@ bool cSoundManager_Imp::loadSoundParameters(std::string configFile)
             continue;
         }
 
-        cSoudObject* so = new cSoudObject();
+        cSoundObject* so = new cSoundObject();
 
         int fmod_type = get_FMOD_Type(token);
 
@@ -350,7 +389,7 @@ bool cSoundManager_Imp::loadSoundParameters(std::string configFile)
             {
                 if (g_vecGameObjects[i]->hasSound() && (g_vecGameObjects[i]->getSoundName() == so->getFriendlyName()))
                 {
-                    cSoudObject* movSO = g_vecGameObjects[i]->getSoundObject();                    
+                    cSoundObject* movSO = g_vecGameObjects[i]->getSoundObject();                    
                     movSO->setSource(so->getSource());
                     this->soundObjects.push_back(movSO);
                 }
@@ -382,6 +421,19 @@ bool cSoundManager_Imp::loadSoundParameters(std::string configFile)
     return true;
 
 
+}
+
+cSoundObject* cSoundManager_Imp::getSoundFromName(std::string name)
+{
+    for (size_t i = 0; i < soundObjects.size(); i++)
+    {
+        if (soundObjects[i]->getFriendlyName() == name)
+        {
+            return soundObjects[i];
+        }
+    }
+
+    return NULL;
 }
 
 void errorcheck(FMOD_RESULT result) {

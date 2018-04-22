@@ -37,3 +37,8 @@ bool cSoundManager::loadSoundParameters(std::string configFile)
 {
     return this->pImp->loadSoundParameters(configFile);
 }
+
+cSoundObject* cSoundManager::getSoundFromName(std::string name)
+{
+    return this->pImp->getSoundFromName(name);
+}
