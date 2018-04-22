@@ -105,6 +105,12 @@ public:
     // Stunned
     void Stunned();
 
+    // Slash 01
+    void slash_01();
+
+    // Slash 02
+    void slash_02();
+
     // Returns the Character State
     inline eCharacterState GetCharacterState() { return mCharState; }
 

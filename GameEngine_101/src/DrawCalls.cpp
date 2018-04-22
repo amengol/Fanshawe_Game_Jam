@@ -34,7 +34,8 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
     // Update the next position
     if (pAniState->activeAnimation.IncrementTime(deltaTime))
     {
-        // Jump only once!
+        // Do this movements only once:
+
         if (pTheGO->characterAnim == eCharacterAnim::JUMP)
         {
             pAniState->activeAnimation.name = pTheGO->animations.idle;
@@ -43,7 +44,6 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
             pTheGO->characterAnim = eCharacterAnim::IDLE;
         }
 
-        // Jump only once!
         if (pTheGO->characterAnim == eCharacterAnim::JUMP_FORWARD_WALKING)
         {
             pAniState->activeAnimation.name = pTheGO->animations.walking;
@@ -51,12 +51,29 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
                 pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.walking);
             pTheGO->characterAnim = eCharacterAnim::WALKING;
         }
+
         if (pTheGO->characterAnim == eCharacterAnim::JUMP_FORWARD)
         {
             pAniState->activeAnimation.name = pTheGO->animations.running;
             pAniState->activeAnimation.totalTime =
                 pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.running);
             pTheGO->characterAnim = eCharacterAnim::RUN_FORWARD;
+        }
+
+        if (pTheGO->characterAnim == eCharacterAnim::SLASH_01)
+        {
+            pAniState->activeAnimation.name = pTheGO->animations.idle;
+            pAniState->activeAnimation.totalTime =
+                pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
+            pTheGO->characterAnim = eCharacterAnim::IDLE;
+        }
+
+        if (pTheGO->characterAnim == eCharacterAnim::SLASH_02)
+        {
+            pAniState->activeAnimation.name = pTheGO->animations.idle;
+            pAniState->activeAnimation.totalTime =
+                pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
+            pTheGO->characterAnim = eCharacterAnim::IDLE;
         }
 
         // Fight control

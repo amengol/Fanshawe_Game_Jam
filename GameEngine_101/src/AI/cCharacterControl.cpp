@@ -401,7 +401,9 @@ void cCharacterControl::Idle()
         // Don't cut the jump
         if (mCharacter->characterAnim != IDLE 
             && mCharacter->characterAnim != JUMP
-            && mCharacter->characterAnim != JUMP_FORWARD)
+            && mCharacter->characterAnim != JUMP_FORWARD
+            && mCharacter->characterAnim != SLASH_01
+            && mCharacter->characterAnim != SLASH_02)
         {
 
             std::string animationName = mCharacter->animations.idle;
@@ -621,6 +623,56 @@ void cCharacterControl::Stunned()
             mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
             mCharacter->characterAnim = STUNNED;
+        }
+    }
+}
+
+void cCharacterControl::slash_01()
+{
+    if (mCharacter != NULL)
+    {
+        if (mCharacter->characterAnim != SLASH_01
+            && mCharacter->characterAnim != JUMP
+            && mCharacter->characterAnim != JUMP_FORWARD
+            && mCharacter->characterAnim != JUMP_FORWARD_WALKING)
+        {
+
+            std::string animationName = mCharacter->animations.slash_01;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+
+            mCharacter->characterAnim = SLASH_01;
+        }
+    }
+}
+
+void cCharacterControl::slash_02()
+{
+    if (mCharacter != NULL)
+    {
+        if (mCharacter->characterAnim != SLASH_02
+            && mCharacter->characterAnim != JUMP
+            && mCharacter->characterAnim != JUMP_FORWARD
+            && mCharacter->characterAnim != JUMP_FORWARD_WALKING)
+        {
+
+            std::string animationName = mCharacter->animations.slash_02;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+
+            mCharacter->characterAnim = SLASH_02;
         }
     }
 }

@@ -201,34 +201,88 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                 
                 if (glm::length(controllerDir) <= 0.9f)
                 {
-                    pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 1.5f));
-                    pCharacterControl->Forward();
-
                     // Joystick
                     if (buttons[0] == GLFW_PRESS)
                     {
                         pCharacterControl->ForwardJumpWalking();
                         isJumping = true;
                     }
+                    else if (buttons[2] == GLFW_PRESS)
+                    {
+                        if (pCharacterControl->GetAnimationState() != eCharacterAnim::JUMP
+                            && pCharacterControl->GetAnimationState() != eCharacterAnim::JUMP_FORWARD
+                            && pCharacterControl->GetAnimationState() != eCharacterAnim::JUMP_FORWARD_WALKING)
+                        {
+                            pCharacterControl->slash_01();
+                            isJumping = false;
+                            isCharacterMoving = false;
+                            pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 0.0f));
+                        }
+                    }
+                    else if (buttons[3] == GLFW_PRESS)
+                    {
+                        if (pCharacterControl->GetAnimationState() != eCharacterAnim::JUMP
+                            && pCharacterControl->GetAnimationState() != eCharacterAnim::JUMP_FORWARD
+                            && pCharacterControl->GetAnimationState() != eCharacterAnim::JUMP_FORWARD_WALKING)
+                        {
+                            pCharacterControl->slash_02();
+                            isJumping = false;
+                            isCharacterMoving = false;
+                            pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 0.0f));
+                        }
+                    }
                     else
                     {
-                        isJumping = false;
+                        if (pCharacterControl->GetAnimationState() != eCharacterAnim::SLASH_01
+                            && pCharacterControl->GetAnimationState() != eCharacterAnim::SLASH_02)
+                        {
+                            pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 1.5f));
+                            pCharacterControl->Forward();
+                            isJumping = false;
+                        }
                     }
                 }
                 else
                 {
-                    pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 4.75f));
-                    pCharacterControl->ForwardRun();
-
                     // Joystick
                     if (buttons[0] == GLFW_PRESS)
                     {
                         pCharacterControl->ForwardJump();
                         isJumping = true;
                     }
+                    else if (buttons[2] == GLFW_PRESS)
+                    {
+                        if (pCharacterControl->GetAnimationState() != eCharacterAnim::JUMP
+                            && pCharacterControl->GetAnimationState() != eCharacterAnim::JUMP_FORWARD
+                            && pCharacterControl->GetAnimationState() != eCharacterAnim::JUMP_FORWARD_WALKING)
+                        {
+                            pCharacterControl->slash_01();
+                            isJumping = false;
+                            isCharacterMoving = false;
+                            pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 0.0f));
+                        }
+                    }
+                    else if (buttons[3] == GLFW_PRESS)
+                    {
+                        if (pCharacterControl->GetAnimationState() != eCharacterAnim::JUMP
+                            && pCharacterControl->GetAnimationState() != eCharacterAnim::JUMP_FORWARD
+                            && pCharacterControl->GetAnimationState() != eCharacterAnim::JUMP_FORWARD_WALKING)
+                        {
+                            pCharacterControl->slash_02();
+                            isJumping = false;
+                            isCharacterMoving = false;
+                            pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 0.0f));
+                        }
+                    }
                     else
                     {
-                        isJumping = false;
+                        if (pCharacterControl->GetAnimationState() != eCharacterAnim::SLASH_01
+                            && pCharacterControl->GetAnimationState() != eCharacterAnim::SLASH_02)
+                        {
+                            pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 4.75f));
+                            pCharacterControl->ForwardRun();
+                            isJumping = false;
+                        }
                     }
                 }
 
@@ -248,6 +302,10 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                 // Joystick
                 if (buttons[0] == GLFW_PRESS)
                     pCharacterControl->Jump();
+                else if (buttons[2] == GLFW_PRESS)
+                    pCharacterControl->slash_01();
+                else if (buttons[3] == GLFW_PRESS)
+                    pCharacterControl->slash_02();
                 else
                     pCharacterControl->Idle();
             }// !else if (axes[0] != 0.0f || axes[1] != 0.0f)
@@ -261,7 +319,31 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
 
             
             if (buttons[1] == GLFW_PRESS)
-                printf("Button 1 Pressed");
+                printf("Button 1 Pressed\n");
+            if (buttons[3] == GLFW_PRESS)
+                printf("Button 3 Pressed\n");
+            if (buttons[4] == GLFW_PRESS)
+                printf("Button 4 Pressed\n");
+            if (buttons[5] == GLFW_PRESS)
+                printf("Button 5 Pressed\n");
+            if (buttons[6] == GLFW_PRESS)
+                printf("Button 6 Pressed\n");
+            if (buttons[7] == GLFW_PRESS)
+                printf("Button 7 Pressed\n");
+            if (buttons[8] == GLFW_PRESS)
+                printf("Button 8 Pressed\n");
+            if (buttons[9] == GLFW_PRESS)
+                printf("Button 9 Pressed\n");
+            if (buttons[10] == GLFW_PRESS)
+                printf("Button 10 Pressed\n");
+            if (buttons[11] == GLFW_PRESS)
+                printf("Button 11 Pressed\n");
+            if (buttons[12] == GLFW_PRESS)
+                printf("Button 12 Pressed\n");
+            if (buttons[13] == GLFW_PRESS)
+                printf("Button 13 Pressed\n");
+            if (buttons[14] == GLFW_PRESS)
+                printf("Button 14 Pressed\n");
         }
     }
         break;

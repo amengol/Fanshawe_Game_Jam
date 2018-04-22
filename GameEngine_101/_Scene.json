@@ -358,7 +358,9 @@
 		"running": "sword_and_shield_run_forward",
 		"jump" : "sword_and_shield_jump",
 		"jump_forward_walking" : "sword_and_shield_jump_forward_w",
-		"jump_forward_running" : "sword_and_shield_jump_forward_r"
+		"jump_forward_running" : "sword_and_shield_jump_forward_r",
+		"slash_01" : "sword_and_shield_slash_01",
+		"slash_02" : "sword_and_shield_slash_03"
 		},
 		"propsMap" :
 		[

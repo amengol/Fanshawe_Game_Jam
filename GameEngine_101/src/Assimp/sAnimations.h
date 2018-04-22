@@ -28,4 +28,6 @@ struct sAnimations
     std::string praying;
     std::string dying;
     std::string stunned;
+    std::string slash_01;
+    std::string slash_02;
 };

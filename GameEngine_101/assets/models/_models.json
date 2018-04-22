@@ -39,7 +39,9 @@
 {"animName" : "sword_and_shield_run_forward", "type" : 2, "animFile" : "sword_and_shield_run_forward.fbx"},
 {"animName" : "sword_and_shield_jump", "type" : 2, "animFile" : "sword_and_shield_jump.fbx"},
 {"animName" : "sword_and_shield_jump_forward_w", "type" : 2, "animFile" : "sword_and_shield_jump_forward.fbx"},
-{"animName" : "sword_and_shield_jump_forward_r", "type" : 2, "animFile" : "sword_and_shield_jump_forward.fbx"}
+{"animName" : "sword_and_shield_jump_forward_r", "type" : 2, "animFile" : "sword_and_shield_jump_forward.fbx"},
+{"animName" : "sword_and_shield_slash_01", "type" : 2, "animFile" : "sword_and_shield_slash_01.fbx"},
+{"animName" : "sword_and_shield_slash_03", "type" : 2, "animFile" : "sword_and_shield_slash_03.fbx"}
 #{"meshName" : "FacadeSets", "meshFile" : "FacadeSets.obj"},
 #{"meshName" : "RoofsEtc", "meshFile" : "RoofsEtc.obj"},
 #{"meshName" : "Asphalt", "meshFile" : "Asphalt.obj"},
