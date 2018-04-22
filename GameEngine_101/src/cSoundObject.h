@@ -6,11 +6,11 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include <string>
 
-class cSoudObject
+class cSoundObject
 {
 public:
-    cSoudObject();
-    ~cSoudObject();
+    cSoundObject();
+    ~cSoundObject();
 
     void setPosition(glm::vec3 pos);
     void setfriendlyName(std::string name);
@@ -19,6 +19,13 @@ public:
     void setVolume(float vol);
     void setMute(bool mute);
     void setMovType(int type);
+    void setLoop(bool loop = true) { m_isLooping = loop; }
+    void play();
+    void pause();
+    void stop();
+    bool isPaused() { return m_isPaused; }
+    bool isLooping() { return m_isLooping; }
+    bool isStopped() { return m_isStopped; }
     glm::vec3 getPosition();
     std::string getFriendlyName();
     std::string getSource();
@@ -35,6 +42,9 @@ private:
     std::string source;
     float volume;
     bool isMute;
+    bool m_isPaused;
+    bool m_isLooping;
+    bool m_isStopped;
 };
 
 #endif // !_cSoudObject_HG_
