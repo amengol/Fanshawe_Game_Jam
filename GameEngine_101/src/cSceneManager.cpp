@@ -59,6 +59,11 @@ void cSceneManager::update(float deltaTime)
 {
     if (m_itScreen->length != 0.0f)
     {
+        if (m_itScreen->sound != NULL)
+        {
+            m_itScreen->sound->play();
+        }
+
         m_elapsedTime += deltaTime;
         if (m_elapsedTime > m_itScreen->length)
         {
