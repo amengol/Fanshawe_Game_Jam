@@ -117,7 +117,7 @@ float g_AABBSize = 20.0f;
 //cTextManager g_textManager;
 
 // To deal with sounds
-//cSoundManager* g_pSoundManager = NULL;
+cSoundManager* g_pSoundManager = NULL;
 
 
 float g_ChromaticAberrationOffset = 0.0f;
@@ -320,8 +320,8 @@ int main()
     //}
     //=========================================================================
     // Sound things
-     //g_pSoundManager = new cSoundManager();
-     //g_pSoundManager->initSoundScene();
+     g_pSoundManager = new cSoundManager();
+     g_pSoundManager->initSoundScene();
     //=========================================================================
 
     // End of loading models
@@ -542,7 +542,7 @@ int main()
 
         //=====================================================================
         //Sound
-        //g_pSoundManager->updateSoundScene(g_pCamera->getCameraPosition());
+        g_pSoundManager->updateSoundScene(g_camera.m_position);
         //=====================================================================
 
         ::processCameraInput(window, deltaTime);
@@ -713,7 +713,7 @@ int main()
     delete ::g_pSimpleDebug;
     //delete ::g_pDebugRenderer;
     delete ::g_pAABBsManager;
-    //delete ::g_pSoundManager;
+    delete ::g_pSoundManager;
     delete ::g_pTranspManager;
 
     return 0;
