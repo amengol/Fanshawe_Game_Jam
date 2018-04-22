@@ -538,25 +538,25 @@ int main()
     sound = g_pSoundManager->getSoundFromName("Start_Demo_01");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_01.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_01.bmp"),
-                                2.220f,
+                                2.236f,
                                 sound);
 
     sound = g_pSoundManager->getSoundFromName("Start_Demo_02");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_02.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_02.bmp"),
-                                3.396f,
+                                3.307f,
                                 sound);
 
     sound = g_pSoundManager->getSoundFromName("Start_Demo_03");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_03.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_03.bmp"),
-                                1.541f,
+                                1.615f,
                                 sound);
 
     sound = g_pSoundManager->getSoundFromName("Start_Demo_04");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_04.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_04.bmp"),
-                                1.750f,
+                                1.599f,
                                 sound);
 
     sound = g_pSoundManager->getSoundFromName("Stage_Introduction_Map");
