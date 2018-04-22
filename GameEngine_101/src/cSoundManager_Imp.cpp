@@ -82,7 +82,7 @@ void cSoundManager_Imp::initSoundScene()
 
             mresult = msystem->createSound(this->soundObjects[i]->getSource().c_str(), FMOD_3D, 0, &msounds[i]);
             errorcheck(mresult);
-            mresult = msounds[i]->setMode(FMOD_LOOP_NORMAL);
+            mresult = msounds[i]->setMode(FMOD_CREATESTREAM);
             errorcheck(mresult);
 
             mresult = msounds[i]->set3DMinMaxDistance(0.4f, 5000.0f);
@@ -108,7 +108,7 @@ void cSoundManager_Imp::initSoundScene()
         {
             mresult = msystem->createSound(this->soundObjects[i]->getSource().c_str(), this->soundObjects[i]->getFMODType(), 0, &msounds[i]);
             errorcheck(mresult);
-            mresult = msounds[i]->setMode(FMOD_LOOP_NORMAL);
+            mresult = msounds[i]->setMode(FMOD_CREATESTREAM);
             errorcheck(mresult);
 
 
