@@ -7,7 +7,7 @@
 #include "AI\cCharacterControl.h"
 
 class cMesh;
-class cSoudObject;
+class cSoundObject;
 class sCollisionTriangle;
 class cAnimationState;
 class cSkinnedMesh;
@@ -126,7 +126,7 @@ public:
     // Sound
     bool initSoundObject(std::string name);
     bool hasSound();
-    cSoudObject* getSoundObject();
+    cSoundObject* getSoundObject();
     std::string getSoundName();
     void setGOSoundPos();
 
@@ -153,7 +153,7 @@ public:
      static unsigned int m_nextUniqueID;
 
      // Sound properties
-     cSoudObject* mGOSound;
+     cSoundObject* mGOSound;
      bool mHasSound;
 };
 #endif

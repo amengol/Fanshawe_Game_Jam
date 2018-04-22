@@ -217,7 +217,7 @@ void cGameObject::DebugUpdate(double deltaTime)
  bool cGameObject::initSoundObject(std::string name)
  {
      if(!this->mHasSound) {
-         cSoudObject* theSO = new cSoudObject();
+         cSoundObject* theSO = new cSoundObject();
          theSO->setFMODType(FMOD_3D);
          theSO->setPosition(this->position);
          theSO->setMovType(2);
@@ -234,7 +234,7 @@ void cGameObject::DebugUpdate(double deltaTime)
      return this->mHasSound;
  }
 
- cSoudObject* cGameObject::getSoundObject()
+ cSoundObject* cGameObject::getSoundObject()
  {
      if(this->mHasSound)
          return this->mGOSound;
