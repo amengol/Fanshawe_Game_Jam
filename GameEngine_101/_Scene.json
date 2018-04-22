@@ -315,6 +315,36 @@
 		"rotateY" : 90.0		
 	},
 	{ 
+		"meshName" : "Helmet",
+		"friendlyName" : "Helmet",	
+		"typeOfObject" : 9,
+		"mass" : 100.0,
+		"textureNames[0]" : "Paladin_diffuse.bmp",
+		"textureNames[3]" : "Paladin_specular.bmp",
+		"specular" : [1.0, 1.0, 1.0, 64.0],
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Paladin_normal.bmp",
+		"cullFace" : false,
+		"receiveShadow" : false,
+		"position" : [0.0, 0.0, 0.0],
+		"scale" : 1.0
+	},
+	{ 
+		"meshName" : "Shield",
+		"friendlyName" : "Shield",	
+		"typeOfObject" : 9,
+		"mass" : 100.0,
+		"textureNames[0]" : "Paladin_diffuse.bmp",
+		"textureNames[3]" : "Paladin_specular.bmp",
+		"specular" : [1.0, 1.0, 1.0, 64.0],
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Paladin_normal.bmp",
+		"cullFace" : false,
+		"receiveShadow" : false,
+		"position" : [0.0, 0.0, 0.0],
+		"scale" : 1.0
+	},
+	{ 
 		"meshName" : "knight",
 		"friendlyName" : "Hero01",		
 		"typeOfObject" : 7,
@@ -330,6 +360,11 @@
 		"jump_forward_walking" : "sword_and_shield_jump_forward_w",
 		"jump_forward_running" : "sword_and_shield_jump_forward_r"
 		},
+		"propsMap" :
+		[
+			{ "boneToGameObject" : ["Head", "Helmet"] },
+			{ "boneToGameObject" : ["LeftHand", "Shield"] }
+		],
 		"textureNames[0]" : "Paladin_diffuse.bmp",
 		"textureNames[3]" : "Paladin_specular.bmp",
 		"specular" : [1.0, 1.0, 1.0, 64.0],

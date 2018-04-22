@@ -1327,37 +1327,56 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
 
                     if (gameObject[jsIndex].HasMember("propsMap"))
                     {
-                        int numOfPropsToMap = gameObject[jsIndex]["propsMap"].MemberCount();
-                        for (size_t propsIndex = 0; propsIndex < numOfPropsToMap; propsIndex++)
+                        if (gameObject[jsIndex]["propsMap"].IsArray())
                         {
-                            if (gameObject[jsIndex]["propsMap"].HasMember("boneToMesh"))
+                            int numOfPropsToMap = gameObject[jsIndex]["propsMap"].Capacity();
+                            for (size_t propsIndex = 0; propsIndex < numOfPropsToMap; propsIndex++)
                             {
-                                if (gameObject[jsIndex]["propsMap"]["boneToMesh"].IsArray())
+                                if (gameObject[jsIndex]["propsMap"][propsIndex].HasMember("boneToGameObject"))
                                 {
-                                    int numOfElemts = gameObject[jsIndex]["propsMap"]["boneToMesh"].Capacity();
-                                    if (numOfElemts != 2)
+                                    if (gameObject[jsIndex]["propsMap"][propsIndex]["boneToGameObject"].IsArray())
+                                    {
+                                        if (gameObject[jsIndex]["propsMap"][propsIndex]["boneToGameObject"].Capacity() == 2)
+                                        {
+                                            std::string boneName =
+                                                gameObject[jsIndex]["propsMap"][propsIndex]["boneToGameObject"][0].GetString();
+                                            std::string propName = 
+                                                gameObject[jsIndex]["propsMap"][propsIndex]["boneToGameObject"][1].GetString();
+                                            for (size_t indexGO = 0; indexGO < g_vecGameObjects.size(); indexGO++)
+                                            {
+                                                if (propName == g_vecGameObjects[indexGO]->friendlyName)
+                                                {
+                                                    theGO->mMapBoneNameTOProp[boneName] = g_vecGameObjects[indexGO];
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                                                " is not properly formated for its \"boneToGameObject\" member!";
+                                            return false;
+                                        }
+                                    }
+                                    else
                                     {
                                         error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                                            " is not properly formated for its \"boneToMesh\", member!";
+                                            " is not properly formated for its \"boneToGameObject\" member!";
                                         return false;
                                     }
-                                    std::string boneNameElem = gameObject[jsIndex]["propsMap"]["boneToMesh"][0].GetString();
-                                    std::string meshNameElem = gameObject[jsIndex]["propsMap"]["boneToMesh"][1].GetString();
-                                    theGO->mMapBoneNameTOMeshName[boneNameElem] = meshNameElem;
                                 }
                                 else
                                 {
                                     error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                                        " is not properly formated for its \"boneToMesh\", member!";
+                                        " is not properly formated for its \"boneToGameObject\" member!";
                                     return false;
                                 }
                             }
-                            else
-                            {
-                                error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                                    " is not properly formated for its \"propsMap\", member!";
-                                return false;
-                            }
+                        }
+                        else
+                        {
+                            error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                                " is not properly formated for its \"propsMap\" member!";
+                            return false;
                         }
                     }
 

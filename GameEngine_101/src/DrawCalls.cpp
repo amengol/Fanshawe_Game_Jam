@@ -117,73 +117,37 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
                                               vecOffsets);                 // local offset for each bone
 
     //=========================================================================
-    // Contact points update
-    std::map<std::string, cGameObject::sContactSpheres*>::iterator itGO = pTheGO->mMapBoneNameTOMeshName.begin();
+    // Props update
+    std::map<std::string, cGameObject*>::iterator itGO = pTheGO->mMapBoneNameTOProp.begin();
 
-    for (; itGO != pTheGO->mMapBoneNameTOMeshName.end(); itGO++)
+    for (; itGO != pTheGO->mMapBoneNameTOProp.end(); itGO++)
     {
         std::string boneName = itGO->first;
-        cGameObject::sContactSpheres* contactSphere = itGO->second;
+        cGameObject* prop = itGO->second;
 
-        std::map<std::string, glm::mat4>::iterator itSkinned = 
-            pTheGO->pSimpleSkinnedMesh->mMapBoneToLastLocalTranslation.find(boneName);
-
-        if (itSkinned != pTheGO->pSimpleSkinnedMesh->mMapBoneToLastLocalTranslation.end())
+        if (g_propsEnabled)
         {
-            glm::mat4 boneTranslation = itSkinned->second * pTheGO->scale;
-            glm::mat4 GO_Orientation;
-            pTheGO->rigidBody->GetMatOrientation(GO_Orientation);
-            GO_Orientation *= boneTranslation;
-            //boneTranslation *= GO_Orientation;
+            std::map<std::string, glm::mat4>::iterator itTrans =
+                pTheGO->pSimpleSkinnedMesh->mMapBoneToLastLocalTransformation.find(boneName);
 
-            glm::vec4 vecTrans(1.0f, 1.0f, 1.0f, 1.0f);
-            glm::vec4 pos = GO_Orientation * vecTrans;
-
-            //cGameObject* sphere = new cGameObject();
-            //sphere->meshName = contactSphere->meshName;
-            //sphere->hasColour = true;
-            //sphere->diffuseColour = contactSphere->colour;
-            //sphere->typeOfObject = eTypeOfObject::PLANE;
-            //sphere->position = glm::vec3(pos.x, pos.y, pos.z) + pTheGO->position;
-            
-            // Update the contact sphere
-            contactSphere->position = glm::vec3(pos.x, pos.y, pos.z) + pTheGO->position;;
-
-            
-
-            if (contactSphere->hasCollided)
+            if (itTrans != pTheGO->pSimpleSkinnedMesh->mMapBoneToLastLocalTransformation.end())
             {
-                contactSphere->elapseTime += deltaTime;
-                if (contactSphere->elapseTime >= contactSphere->timeToFade)
-                {
-                    contactSphere->hasCollided = false;
-                    contactSphere->elapseTime = 0.0f;
-                }
 
-                cGameObject* sphereX = new cGameObject();
-                sphereX->meshName = "sphere_fist";
-                sphereX->diffuseColour = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
-                sphereX->bIsWireFrame = true;
-                sphereX->typeOfObject = eTypeOfObject::PLANE;
-                sphereX->position = contactSphere->collisionPosition;
-                float scale = contactSphere->elapseTime / contactSphere->timeToFade;
-                sphereX->scale += scale;
-
-                DrawObject(sphereX);
-
-                delete sphereX;
-
-                //pAniState->activeAnimation.name = pTheGO->animations.stunned;
-                //pAniState->activeAnimation.totalTime =
-                //    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.stunned);
-                //pTheGO->characterAnim = eCharacterAnim::STUNNED;
+                prop->rigidBody->SetMatOrientation(pTheGO->orientation * itTrans->second);
+                glm::vec3 offset = pTheGO->orientation * itTrans->second * glm::vec4(1.0f);
+                prop->rigidBody->SetPosition(offset * pTheGO->scale + pTheGO->position);
             }
-            else if (pTheGO->characterAnim == eCharacterAnim::STUNNED)
+
+            if (prop->rigidBody->IsInWorld())
             {
-                //pAniState->activeAnimation.name = pTheGO->animations.idle;
-                //pAniState->activeAnimation.totalTime =
-                //    pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
-                //pTheGO->characterAnim = eCharacterAnim::IDLE;
+                g_pPhysicsWorld->RemoveRigidBody(prop->rigidBody);
+            }
+        }
+        else
+        {
+            if (!prop->rigidBody->IsInWorld())
+            {
+                g_pPhysicsWorld->AddRigidBody(prop->rigidBody);
             }
         }
     }

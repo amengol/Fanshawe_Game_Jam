@@ -16,6 +16,8 @@
 {"meshName" : "Static_Gravestone", "meshFile" : "Static_Gravestone.obj", "isPersistent" : true},
 {"meshName" : "Static_Tomb", "meshFile" : "Static_Tomb.obj", "isPersistent" : true},
 {"meshName" : "Stations", "meshFile" : "Stations.obj"},
+{"meshName" : "Helmet", "meshFile" : "Helmet.obj", "isPersistent" : true},
+{"meshName" : "Shield", "meshFile" : "Shield.obj", "isPersistent" : true},
 {"meshName" : "Decals", "meshFile" : "Decals.obj"},
 {"meshName" : "Dummies", "meshFile" : "Dummies.obj", "isPersistent" : true},
 {"meshName" : "Static_Coffins", "meshFile" : "Static_Coffins.obj", "isPersistent" : true},
