@@ -52,6 +52,9 @@ public:
     // Sets the mode
     inline void setMode(Mode mode) { m_mode = mode; }
 
+    // Returns the mode
+    inline Mode getMode() { return m_mode; }
+
     // Sets the day duration in minutes
     void setDayDuration(float minutes);
 

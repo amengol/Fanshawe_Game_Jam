@@ -55,6 +55,18 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         g_debugEnable = !g_debugEnable;
     }
 
+    if (key == GLFW_KEY_C && action == GLFW_PRESS)
+    {
+        if (g_environment.getMode() == cEnvironment::Mode::STEP)
+        {
+            g_environment.setMode(cEnvironment::Mode::CONTINUOUS);
+        }
+        else
+        {
+            g_environment.setMode(cEnvironment::Mode::STEP);
+        }
+    }
+
     if (key == GLFW_KEY_P && action == GLFW_PRESS)
     {
         g_propsEnabled = !g_propsEnabled;
