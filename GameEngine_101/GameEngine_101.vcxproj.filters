@@ -31,9 +31,6 @@
     <Filter Include="Global">
       <UniqueIdentifier>{6e8dca10-27a4-4969-be67-77a00fa413c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="AABB">
-      <UniqueIdentifier>{07d5c8e3-55ab-44b0-aa75-11ec89319140}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Textures Related">
       <UniqueIdentifier>{f5d50ab1-6e60-49f3-9cbb-c28d59b1e649}</UniqueIdentifier>
     </Filter>
@@ -125,23 +122,8 @@
     <ClCompile Include="src\GLFW_keyboardCallback.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="src\cDebugRenderer.cpp">
-      <Filter>Render Related</Filter>
-    </ClCompile>
     <ClCompile Include="src\generalGLStuff.cpp">
       <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cAABBsManager.cpp">
-      <Filter>AABB</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cAABB.cpp">
-      <Filter>AABB</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sAABB_Triangle.cpp">
-      <Filter>AABB</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cSimpleDebugRenderer.cpp">
-      <Filter>Render Related</Filter>
     </ClCompile>
     <ClCompile Include="src\cTransparencyManager.cpp">
       <Filter>Game Objects Related</Filter>
@@ -190,9 +172,6 @@
     </ClCompile>
     <ClCompile Include="src\Texture\TextureLoader.cpp">
       <Filter>Textures Related</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cDebugRenderer_BuiltInShapes.cpp">
-      <Filter>Render Related</Filter>
     </ClCompile>
     <ClCompile Include="src\Assimp\cAssimpAssetLoader.cpp">
       <Filter>Assimp and Animation</Filter>
@@ -295,21 +274,6 @@
     <ClInclude Include="src\globalOpenGL_GLFW.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="src\cDebugRenderer.h">
-      <Filter>Render Related</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cAABBsManager.h">
-      <Filter>AABB</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sAABB_Triangle.h">
-      <Filter>AABB</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cAABB.h">
-      <Filter>AABB</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cSimpleDebugRenderer.h">
-      <Filter>Render Related</Filter>
-    </ClInclude>
     <ClInclude Include="src\cTransparencyManager.h">
       <Filter>Game Objects Related</Filter>
     </ClInclude>
@@ -336,9 +300,6 @@
     </ClInclude>
     <ClInclude Include="src\cTextManager.h">
       <Filter>Localization and Text</Filter>
-    </ClInclude>
-    <ClInclude Include="src\iDebugRenderer.h">
-      <Filter>Render Related</Filter>
     </ClInclude>
     <ClInclude Include="src\Error\CErrorLog.h">
       <Filter>Error</Filter>

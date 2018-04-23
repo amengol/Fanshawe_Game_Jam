@@ -13,7 +13,6 @@
 #include "cCameraObject.h"
 #include "Assimp\cAnimationCollection.h"
 #include "cVAOMeshManager.h"
-#include "cDebugRenderer.h"
 #include "cShaderManager.h"
 #include "Texture/cTextureManager.h"
 #include "cUniLocHandler.h"
@@ -22,7 +21,6 @@
 #include <cPhysicsFactory.h>
 #include <cPhysicsWorld.h>
 #include <cPhysicsFactory.h>
-#include "cSimpleDebugRenderer.h"
 #include "cTransparencyManager.h"
 //#include "cTextManager.h"
 //#include "cLocalization.h"
@@ -66,7 +64,6 @@ extern cVAOMeshManager* g_pVAOManager;		            // (GE101_Main.cpp)
 extern cShaderManager* g_pShaderManager;	            // (GE101_Main.cpp)
 extern CTextureManager*	g_pTextureManager;	            // (GE101_Main.cpp)
 extern cCharacterManager g_characterManager;            // (cSceneLoader.cpp)
-extern cSimpleDebugRenderer* g_pSimpleDebug;            // (GE101_Main.cpp)
 extern cTransparencyManager* g_pTranspManager;          // (GE101_Main.cpp)
 extern cModelAssetLoader* g_pModelAssetLoader;	        // (ModelUtilities.cpp)
 extern nPhysics::iPhysicsWorld* g_pPhysicsWorld;        // (GE101_Main.cpp)

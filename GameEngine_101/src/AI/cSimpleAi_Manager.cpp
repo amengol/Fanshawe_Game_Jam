@@ -163,7 +163,7 @@ void cSimpleAi_Manager::updateAi()
 {
     if (this->debugGridEnable)
     {
-        g_pSimpleDebug->drawCustomLines(this->mEdges, glm::vec3(1.0f, 0.0f, 0.0f));
+        //g_pSimpleDebug->drawCustomLines(this->mEdges, glm::vec3(1.0f, 0.0f, 0.0f));
     }    
 
     this->goToTarget();

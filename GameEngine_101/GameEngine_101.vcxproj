@@ -162,8 +162,6 @@
     <ClCompile Include="src\Assimp\cAnimationState.cpp" />
     <ClCompile Include="src\Assimp\cAssimpAssetLoader.cpp" />
     <ClCompile Include="src\Assimp\cSkinnedMesh.cpp" />
-    <ClCompile Include="src\cAABB.cpp" />
-    <ClCompile Include="src\cAABBsManager.cpp" />
     <ClCompile Include="src\cEnvironment.cpp" />
     <ClCompile Include="src\cFBO_Shadow.cpp" />
     <ClCompile Include="src\cSceneManager.cpp" />
@@ -171,8 +169,6 @@
     <ClCompile Include="src\cCamera.cpp" />
     <ClCompile Include="src\cCameraManger.cpp" />
     <ClCompile Include="src\cCameraObject.cpp" />
-    <ClCompile Include="src\cDebugRenderer.cpp" />
-    <ClCompile Include="src\cDebugRenderer_BuiltInShapes.cpp" />
     <ClCompile Include="src\cFBO.cpp" />
     <ClCompile Include="src\cGameObject.cpp" />
     <ClCompile Include="src\cLightManager.cpp" />
@@ -182,7 +178,6 @@
     <ClCompile Include="src\cSceneLoader.cpp" />
     <ClCompile Include="src\cShader.cpp" />
     <ClCompile Include="src\cShaderManager.cpp" />
-    <ClCompile Include="src\cSimpleDebugRenderer.cpp" />
     <ClCompile Include="src\cSoundManager.cpp" />
     <ClCompile Include="src\cSoundManager_Imp.cpp" />
     <ClCompile Include="src\cSoundObject.cpp" />
@@ -201,7 +196,6 @@
     <ClCompile Include="src\ModelUtilities.cpp" />
     <ClCompile Include="src\opttritri.cpp" />
     <ClCompile Include="src\pugixml.cpp" />
-    <ClCompile Include="src\sAABB_Triangle.cpp" />
     <ClCompile Include="src\sCollisionTriangle.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
     <ClCompile Include="src\Texture\C24BitBMPpixel.cpp" />
@@ -221,8 +215,6 @@
     <ClInclude Include="src\Assimp\cAssimpAssetLoader.h" />
     <ClInclude Include="src\Assimp\cSkinnedMesh.h" />
     <ClInclude Include="src\Assimp\sAnimations.h" />
-    <ClInclude Include="src\cAABB.h" />
-    <ClInclude Include="src\cAABBsManager.h" />
     <ClInclude Include="src\cEnvironment.h" />
     <ClInclude Include="src\cFBO_Shadow.h" />
     <ClInclude Include="src\cSceneManager.h" />
@@ -230,7 +222,6 @@
     <ClInclude Include="src\cCamera.h" />
     <ClInclude Include="src\cCameraManger.h" />
     <ClInclude Include="src\cCameraObject.h" />
-    <ClInclude Include="src\cDebugRenderer.h" />
     <ClInclude Include="src\cFBO.h" />
     <ClInclude Include="src\cGameObject.h" />
     <ClInclude Include="src\cLightManager.h" />
@@ -247,16 +238,13 @@
     <ClInclude Include="src\DrawCalls.h" />
     <ClInclude Include="src\Error\CErrorLog.h" />
     <ClInclude Include="src\Error\COpenGLError.h" />
-    <ClInclude Include="src\iDebugRenderer.h" />
     <ClInclude Include="src\OptTriTri.h" />
     <ClInclude Include="src\sCollisionTriangle.h" />
-    <ClInclude Include="src\cSimpleDebugRenderer.h" />
     <ClInclude Include="src\cTriangle.h" />
     <ClInclude Include="src\cVAOMeshManager.h" />
     <ClInclude Include="src\globalGameStuff.h" />
     <ClInclude Include="src\globalOpenGL_GLFW.h" />
     <ClInclude Include="src\ModelUtilities.h" />
-    <ClInclude Include="src\sAABB_Triangle.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\sThreadInfo.h" />
     <ClInclude Include="src\sVAOInfo.h" />

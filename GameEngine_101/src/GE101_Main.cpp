@@ -16,15 +16,12 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-//#include "Physics.h"
 #include "globalGameStuff.h"
-#include "cAABBsManager.h"
 #include "Texture\TextureLoader.h"
 #include "Utilities.h"
 #include "cSceneLoader.h"
 #include "cSoundManager.h"
 #include "DrawCalls.h"
-//#include "../Cloth.h"
 #include "cFBO.h"
 #include "AI\cCharacterControl.h"
 #include "cCamera.h"
@@ -34,35 +31,13 @@
 #include <cPhysicsDebugDrawer.h>
 #include "cSoundObject.h"
 
-// Here, the scene is rendered in 3 passes:
-// 1. Render geometry to G buffer
-// 2. Perform deferred pass, rendering to Deferred buffer
-// 3. Then post-pass ("2nd pass" to the scree)
-//    Copying from the Pass2_Deferred buffer to the final screen
+// The FBOs for the scene
 cFBO g_FBO_fullScene;
 cFBO g_FBO_deferred;
 cFBO g_FBO_alpha_shadow;
 cFBO_Shadow g_FBO_shadows;
 
-
-//
-////=============================================================================
-//// Cloth thingy for now
-//// Just below are three global variables holding the actual animated stuff; Cloth and Ball 
-//Cloth cloth1(glm::vec3(-4.0f, 6.0f, 0.0f), 8.0f, 5.0f, 20, 20); // one Cloth object of the Cloth class
-//glm::vec3 ball_pos(-2.0f, 4.0f, 0.0f); // the center of our one ball
-//float ball_radius = 2.0f; // the radius of our one ball
-//
-//float ball_time = 0; // counter for used to calculate the z position of the ball below
-//
-//void ClothDraw(cGameObject*);
-////=============================================================================
-
-//#include "AI\cSimpleAi_Manager.h"
-
-
-//nPhysics::iPhysicsFactory* gbt_PhysicsFactory = NULL;
-//nPhysics::iPhysicsWorld* gbt_PhysicsWorld = NULL;
+// Physics
 nPhysics::iPhysicsFactory* g_pPhysicsFactory = NULL;
 nPhysics::iPhysicsWorld* g_pPhysicsWorld = NULL;
 nPhysics::iPhysicsDebugDrawer* g_pPhysicsDebug = NULL;
@@ -77,17 +52,9 @@ bool InitPhysics()
     return true;
 }
 
-
-// Function Prototypes
-//void DrawObject(cGameObject* pTheGO);
-//void DrawAABB(cGameObject* pTheGO, float size);
-//void DrawAABBforPoints(std::vector<glm::vec3> vertices, float AABBSize);
-//bool compare(cGameObject* i, cGameObject* j);
-
-// Global variables
+// Other Global variables
 // ----------------------------------------------------------------------------
 cCamera g_camera;
-//cCameraManger g_CameraManager;
 int g_scrWidth = 1260;
 int g_scrHeight = 768;
 cSceneManager* g_pSeceneManager = NULL;
@@ -98,13 +65,9 @@ cGameObject* g_pSkyBoxObject = NULL;
 cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
 cEnvironment g_environment;
-//cDebugRenderer*	g_pDebugRenderer = NULL;
-cSimpleDebugRenderer* g_pSimpleDebug = NULL;
-cAABBsManager* g_pAABBsManager = NULL;
 CTextureManager* g_pTextureManager = NULL;
 cTransparencyManager* g_pTranspManager = NULL;
 std::vector< cGameObject* >  g_vecGameObjects;
-std::map<long long, miniVAOInfo> g_mapAABBIDminiVAO;
 cUniLocHandler g_uniLocHandler;
 long long g_cubeID = -1;
 long long g_lineID = -1;
@@ -278,45 +241,8 @@ int main()
     //    std::cout << error << std::endl;
     //}
 
-    
-    //-------------------------------------------------------------------------
-    // AABBs
-    ::g_pAABBsManager = new cAABBsManager();
-    cMesh meshWithAABBs;
-    ::g_pVAOManager->lookupMeshFromName("Collision", meshWithAABBs);
-    ::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("FacadeSets", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("RoofsEtc", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("Asphalt", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("Concrete", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("Ground1", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("Ground2", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
-    //::g_pVAOManager->lookupMeshFromName("StreetPart", meshWithAABBs);
-    //::g_pAABBsManager->genAABBs(&meshWithAABBs, g_AABBSize);
 
-    //-------------------------------------------------------------------------
-    // Simple Debug Renderer
-    ::g_pSimpleDebug = new cSimpleDebugRenderer();
-    //if(!::g_pSimpleDebug->genDebugGeometry(DEBUG_CUBE, g_AABBSize, g_cubeID))
-    //{
-    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    //}
-    //if(!::g_pSimpleDebug->genDebugGeometry(DEBUG_LINE, 1.0f, g_lineID))
-    //{
-    //    std::cout << "genDebugGeometry: There was en error generating a geometry!\n";
-    //}
 
-    //for(int i = 0; i < g_vecGameObjects.size(); i++)
-    //{
-    //    if(g_vecGameObjects[i]->friendlyName == "Delorean")
-    //        g_vecGameObjects[i]->vel.z = 20.0f;
-    //}
     //=========================================================================
     // Sound things
      g_pSoundManager = new cSoundManager();
@@ -775,9 +701,6 @@ int main()
     
     delete ::g_pShaderManager;
     delete ::g_pVAOManager;
-    delete ::g_pSimpleDebug;
-    //delete ::g_pDebugRenderer;
-    delete ::g_pAABBsManager;
     delete ::g_pSoundManager;
     delete ::g_pTranspManager;
     delete ::g_pTextureManager;
