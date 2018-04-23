@@ -33,6 +33,19 @@ public:
     GLint fogActive;
     GLint fogColour;
     GLint fogPercent;
+    GLint renderPassNumber;
+    GLint shadowMap;
+    GLint shadowAlphaMap;
+    GLint texFBOColour2D;
+    GLint texFBONormal2D;
+    GLint texFBOVertexWorldPos2D;
+    GLint screenWidth;
+    GLint screenHeight;
+    GLint fullRenderedImage2D;
+    GLint fullRenderedImage2D_Overlay;
+    GLint bIsASkinnedMesh;
+    GLint numBonesUsed;
+    GLint bones;
 
     // Textures
     GLint textSampler00_ID;

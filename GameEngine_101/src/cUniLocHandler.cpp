@@ -31,6 +31,19 @@ void cUniLocHandler::InitShaderUniformLocations(std::string shaderName)
         fogActive = glGetUniformLocation(currentProgID, "fogActive");
         fogColour = glGetUniformLocation(currentProgID, "fogColour");
         fogPercent = glGetUniformLocation(currentProgID, "fogPercent");
+        renderPassNumber = glGetUniformLocation(currentProgID, "renderPassNumber");
+        shadowMap = glGetUniformLocation(currentProgID, "shadowMap");
+        shadowAlphaMap = glGetUniformLocation(currentProgID, "shadowAlphaMap");
+        texFBOColour2D = glGetUniformLocation(currentProgID, "texFBOColour2D");
+        texFBONormal2D = glGetUniformLocation(currentProgID, "texFBONormal2D");
+        texFBOVertexWorldPos2D = glGetUniformLocation(currentProgID, "texFBOVertexWorldPos2D");
+        screenWidth = glGetUniformLocation(currentProgID, "screenWidth");
+        screenHeight = glGetUniformLocation(currentProgID, "screenHeight");
+        fullRenderedImage2D = glGetUniformLocation(currentProgID, "fullRenderedImage2D");
+        fullRenderedImage2D_Overlay = glGetUniformLocation(currentProgID, "fullRenderedImage2D_Overlay");
+        bIsASkinnedMesh = glGetUniformLocation(currentProgID, "bIsASkinnedMesh");
+        numBonesUsed = glGetUniformLocation(currentProgID, "numBonesUsed");
+        bones = glGetUniformLocation(currentProgID, "bones");
 
         // Textures
         textSampler00_ID = glGetUniformLocation(currentProgID, "texSamp2D00");

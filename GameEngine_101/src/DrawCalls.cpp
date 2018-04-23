@@ -252,7 +252,7 @@ void DrawObject(cGameObject* pTheGO)
         return;
     }
 
-    GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
+    //GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
 
     // ***************************************************
     //    ___  _    _                      _  __  __           _     
@@ -260,20 +260,16 @@ void DrawObject(cGameObject* pTheGO)
     //   \__ \| / /| || ' \ | ' \ / -_)/ _` || |\/| |/ -_)(_-<| ' \  
     //   |___/|_\_\|_||_||_||_||_|\___|\__,_||_|  |_|\___|/__/|_||_| 
     //                                                               
-    GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
-
     if (pTheGO->pSimpleSkinnedMesh)
     {
         // Calculate the pose and load the skinned mesh stuff into the shader, too
-        GLint UniLoc_NumBonesUsed = glGetUniformLocation(curShaderID, "numBonesUsed");
-        GLint UniLoc_BoneIDArray = glGetUniformLocation(curShaderID, "bones");
-        CalculateSkinnedMeshBonesAndLoad(pTheGO, UniLoc_NumBonesUsed, UniLoc_BoneIDArray);
+        CalculateSkinnedMeshBonesAndLoad(pTheGO, g_uniLocHandler.numBonesUsed, g_uniLocHandler.bones);
 
-        glUniform1f(UniLoc_IsSkinnedMesh, GL_TRUE);
+        glUniform1f(g_uniLocHandler.bIsASkinnedMesh, GL_TRUE);
     }
     else
     {
-        glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
+        glUniform1f(g_uniLocHandler.bIsASkinnedMesh, GL_FALSE);
     }
 
     // ***************************************************
@@ -599,9 +595,6 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs,
     // Pass the GamaCorrection
     glUniform1f(g_uniLocHandler.gamaCorrection, g_gamaCorrection);
 
-    ::g_pShaderManager->useShaderProgram("GE101_Shader");
-    GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-
     // Update all the light uniforms...
     // (for the whole scene)
     ::g_pLightManager->CopyLightInformationToCurrentShader();
@@ -664,9 +657,6 @@ void RenderScene(cGameObject * pTheGO, GLFWwindow * pGLFWWindow, cCamera & camer
 
     // Pass the GamaCorrection
     glUniform1f(g_uniLocHandler.gamaCorrection, g_gamaCorrection);
-
-    ::g_pShaderManager->useShaderProgram("GE101_Shader");
-    GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
 
     // Update all the light uniforms...
     // (for the whole scene)
@@ -751,28 +741,22 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
             return;
         }
 
-        GLint curShaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-
         // ***************************************************
         //    ___  _    _                      _  __  __           _     
         //   / __|| |__(_) _ _   _ _   ___  __| ||  \/  | ___  ___| |_   
         //   \__ \| / /| || ' \ | ' \ / -_)/ _` || |\/| |/ -_)(_-<| ' \  
         //   |___/|_\_\|_||_||_||_||_|\___|\__,_||_|  |_|\___|/__/|_||_| 
         //                                                               
-        GLint UniLoc_IsSkinnedMesh = glGetUniformLocation(curShaderID, "bIsASkinnedMesh");
-
         if (pTheGO->pSimpleSkinnedMesh)
         {
             // Calculate the pose and load the skinned mesh stuff into the shader, too
-            GLint UniLoc_NumBonesUsed = glGetUniformLocation(curShaderID, "numBonesUsed");
-            GLint UniLoc_BoneIDArray = glGetUniformLocation(curShaderID, "bones");
-            CalculateSkinnedMeshBonesAndLoad(pTheGO, UniLoc_NumBonesUsed, UniLoc_BoneIDArray);
+            CalculateSkinnedMeshBonesAndLoad(pTheGO, g_uniLocHandler.numBonesUsed, g_uniLocHandler.bones);
 
-            glUniform1f(UniLoc_IsSkinnedMesh, GL_TRUE);
+            glUniform1f(g_uniLocHandler.bIsASkinnedMesh, GL_TRUE);
         }
         else
         {
-            glUniform1f(UniLoc_IsSkinnedMesh, GL_FALSE);
+            glUniform1f(g_uniLocHandler.bIsASkinnedMesh, GL_FALSE);
         }
 
         // ***************************************************

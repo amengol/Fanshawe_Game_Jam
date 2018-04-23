@@ -624,45 +624,31 @@ int main()
         }
 
         ::g_pShaderManager->useShaderProgram("GE101_Shader");
-        GLint shaderID = ::g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
-
-
 
         // Shadow alpha pass
-        GLint renderPassNumber_LocID = glGetUniformLocation(shaderID, "renderPassNumber");
-        glUniform1i(renderPassNumber_LocID, SHADOW_ALPHA_PASS);
+        glUniform1i(g_uniLocHandler.renderPassNumber, SHADOW_ALPHA_PASS);
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_alpha_shadow.ID);
         g_FBO_alpha_shadow.clearBuffers();
         glViewport(0, 0, g_FBO_alpha_shadow.width, g_FBO_alpha_shadow.height);
-        RenderScene(g_vecGameObjects, shaderID);
-
-
+        RenderScene(g_vecGameObjects, g_uniLocHandler.currentProgID);
 
         // Depth pass
-        glUniform1i(renderPassNumber_LocID, DEPTH_RENDER_PASS);
+        glUniform1i(g_uniLocHandler.renderPassNumber, DEPTH_RENDER_PASS);
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_shadows.ID);
         g_FBO_shadows.clearBuffer();
         glViewport(0, 0, g_FBO_shadows.width, g_FBO_shadows.height);
-        RenderScene(g_vecGameObjects, shaderID);
+        RenderScene(g_vecGameObjects, g_uniLocHandler.currentProgID);
         glViewport(0, 0, g_scrWidth, g_scrHeight);
 
-
-
-
-
-
-
         // Full render pass
-        GLint shadowMap2DLocID = glGetUniformLocation(shaderID, "shadowMap");
-        GLint shadowAlpha2DLocID = glGetUniformLocation(shaderID, "shadowAlphaMap");
         glActiveTexture(GL_TEXTURE0 + 20);
         glBindTexture(GL_TEXTURE_2D, g_FBO_shadows.depthTexture_ID);
-        glUniform1i(shadowMap2DLocID, 20);
+        glUniform1i(g_uniLocHandler.shadowMap, 20);
         glActiveTexture(GL_TEXTURE0 + 21);
         glBindTexture(GL_TEXTURE_2D, g_FBO_alpha_shadow.colourTexture_0_ID);
-        glUniform1i(shadowAlpha2DLocID, 21);
+        glUniform1i(g_uniLocHandler.shadowAlphaMap, 21);
 
-        glUniform1i(renderPassNumber_LocID, FULL_SCENE_RENDER_PASS);
+        glUniform1i(g_uniLocHandler.renderPassNumber, FULL_SCENE_RENDER_PASS);
 
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_fullScene.ID);
         g_FBO_fullScene.clearBuffers();
@@ -687,28 +673,22 @@ int main()
         g_FBO_deferred.clearBuffers();
 
         // Second pass (Deferred)
-        glUniform1i(renderPassNumber_LocID, DEFERRED_RENDER_PASS);
-
-        GLint texFBOColour2DLocID = glGetUniformLocation(shaderID, "texFBOColour2D");
-        GLint texFBONormal2DLocID = glGetUniformLocation(shaderID, "texFBONormal2D");
-        GLint texFBOWorldPosition2DLocID = glGetUniformLocation(shaderID, "texFBOVertexWorldPos2D");
+        glUniform1i(g_uniLocHandler.renderPassNumber, DEFERRED_RENDER_PASS);
 
         glActiveTexture(GL_TEXTURE0 + 20);
         glBindTexture(GL_TEXTURE_2D, g_FBO_fullScene.colourTexture_0_ID);
-        glUniform1i(texFBOColour2DLocID, 20);
+        glUniform1i(g_uniLocHandler.texFBOColour2D, 20);
 
         glActiveTexture(GL_TEXTURE0 + 21);
         glBindTexture(GL_TEXTURE_2D, g_FBO_fullScene.normalTexture_1_ID);
-        glUniform1i(texFBONormal2DLocID, 21);
+        glUniform1i(g_uniLocHandler.texFBONormal2D, 21);
 
         glActiveTexture(GL_TEXTURE0 + 22);
         glBindTexture(GL_TEXTURE_2D, g_FBO_fullScene.vertexWorldPos_2_ID);
-        glUniform1i(texFBOWorldPosition2DLocID, 22);
+        glUniform1i(g_uniLocHandler.texFBOVertexWorldPos2D, 22);
 
-        GLint screenWidthLocID = glGetUniformLocation(shaderID, "screenWidth");
-        GLint screenHeightLocID = glGetUniformLocation(shaderID, "screenHeight");
-        glUniform1f(screenWidthLocID, (float)g_scrWidth);
-        glUniform1f(screenHeightLocID, (float)g_scrHeight);
+        glUniform1f(g_uniLocHandler.screenWidth, (float)g_scrWidth);
+        glUniform1f(g_uniLocHandler.screenHeight, (float)g_scrHeight);
 
         // Only drawing the skybox because it fills the entire screen
         RenderScene(g_pSkyBoxObject, window, g_camera, deltaTime);
@@ -718,17 +698,15 @@ int main()
         // 2. We draw the screen scene, using a dummy mesh at the right place.
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glUniform1i(renderPassNumber_LocID, FINAL_RENDER_PASS);
+        glUniform1i(g_uniLocHandler.renderPassNumber, FINAL_RENDER_PASS);
 
         // The "deferred pass" FBO has a colour texture with the entire rendered scene
         // (including lighting, etc.)
-        GLint fullRenderedImage2D_LocID = glGetUniformLocation(ShaderID, "fullRenderedImage2D");
-
         glActiveTexture(GL_TEXTURE0 + 20);
         int scr = g_pSeceneManager->getActiveScreen();
         glBindTexture(GL_TEXTURE_2D, g_pSeceneManager->getActiveScreen());
         //glBindTexture(GL_TEXTURE_2D, g_FBO_shadows.depthTexture_ID);
-        glUniform1i(fullRenderedImage2D_LocID, 20);
+        glUniform1i(g_uniLocHandler.fullRenderedImage2D, 20);
 
         // Render the "Full scene
         RenderScene(g_pSkyBoxObject, window, g_camera, deltaTime);
