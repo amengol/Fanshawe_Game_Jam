@@ -91,7 +91,7 @@ void cSceneManager::update(float deltaTime)
         m_elapsedTime += deltaTime;
         if (m_activeScreen.fadeToNext)
         {
-            m_activeScreen.fade = sin((m_elapsedTime / m_activeScreen.length) * glm::radians(90.0f));
+            m_activeScreen.fade = m_elapsedTime / m_activeScreen.length;
         }
 
         if (m_elapsedTime > m_activeScreen.length)

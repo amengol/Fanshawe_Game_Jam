@@ -45,6 +45,7 @@ void cUniLocHandler::InitShaderUniformLocations(std::string shaderName)
         numBonesUsed = glGetUniformLocation(currentProgID, "numBonesUsed");
         bones = glGetUniformLocation(currentProgID, "bones");
         fade = glGetUniformLocation(currentProgID, "fade");
+        sysTime = glGetUniformLocation(currentProgID, "sysTime");
 
         // Textures
         textSampler00_ID = glGetUniformLocation(currentProgID, "texSamp2D00");

@@ -47,6 +47,7 @@ public:
     GLint numBonesUsed;
     GLint bones;
     GLint fade;
+    GLint sysTime;
 
     // Textures
     GLint textSampler00_ID;

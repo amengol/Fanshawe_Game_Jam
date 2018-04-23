@@ -560,10 +560,15 @@ int main()
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_05.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_05.bmp"),
                                 4.153f,
+                                sound);
+
+    sound = g_pSoundManager->getSoundFromName("Ghosts_n_Goblins_Theme_Rock_Metal_BG");
+    g_pSeceneManager->addScreen("Ghosts_n_Goblins_05.bmp",
+                                g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_05.bmp"),
+                                3.0f,
                                 sound,
                                 true);
 
-    sound = g_pSoundManager->getSoundFromName("Ghosts_n_Goblins_Theme_Rock_Metal_BG");
     g_pSeceneManager->addScreen("Main_Game_Screen",
                                 g_pTextureManager->getTextureIDFromTextureName("Dummy_Alpha.bmp"),
                                 0.0f,
@@ -699,6 +704,9 @@ int main()
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUniform1i(g_uniLocHandler.renderPassNumber, FINAL_RENDER_PASS);
+
+        // Send the system time
+        glUniform1f(g_uniLocHandler.sysTime, curTime);
 
         // The "deferred pass" FBO has a colour texture with the entire rendered scene
         // (including lighting, etc.)

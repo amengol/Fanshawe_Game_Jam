@@ -1,6 +1,8 @@
 // Fragment shader
 #version 400
 
+#define M_PI 3.141592653
+
 // Fog params
 float fogFactor;
 uniform vec3 fogColour;
@@ -100,6 +102,9 @@ uniform float coefficientRefract; 		// coefficient of refraction
 
 // Fade
 uniform float fade;
+
+// System Time
+uniform float sysTime;
 
 // Game correction
 uniform float gamaCorrection;
@@ -489,6 +494,11 @@ void main()
 		vec4 mainImage = texture( fullRenderedImage2D, textCoords);
 		mainImage.rgb = pow(mainImage.rgb, vec3(1.0/gamaCorrection));
 		
+		if (fade != 0.0f)
+		{
+			textCoords.x += (sin(textCoords.y * 10.0 + sysTime) / 10.0f) * fade;
+		}
+
 		vec4 overlayImage = texture( fullRenderedImage2D_Overlay, textCoords);
 		
 		fragOut_colour = mainImage * fade + overlayImage * (1.0f - fade);
