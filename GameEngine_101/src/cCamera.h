@@ -34,7 +34,7 @@ enum eCameraMode
 // Default camera values
 const float SPEED = 2.5f;
 const float SENSITIVITY = 0.1f;
-const float ZOOM = 30.0f;
+const float ZOOM = 35.0f;
 
 // An abstract camera class that processes input 
 // and calculates the corresponding Euler Angles, 

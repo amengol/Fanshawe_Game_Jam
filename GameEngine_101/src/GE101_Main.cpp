@@ -343,9 +343,9 @@ int main()
     
     // Environment initialization
     g_environment.initLights(currentProgID, g_pLightManager, g_pTranspManager);
-    g_environment.setTimeOfDay(0);
-    g_environment.setDayDuration(1);
+    g_environment.setDayDuration(2);
     //g_environment.setMode(cEnvironment::Mode::CONTINUOUS);
+    g_environment.setTimeOfDay(2.0);
 
     
     //-------------------------------------------------------------------------
@@ -571,6 +571,10 @@ int main()
     double lastTimeStep = glfwGetTime();
 
     //g_pTranspManager->InitSortingThread();
+
+    // Camera initial position
+    g_camera.setYaw(180.0f);
+    g_camera.setPitch(5.0f);
 
     // Main game or application loop
     while (!glfwWindowShouldClose(window))
