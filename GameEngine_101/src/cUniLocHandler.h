@@ -42,12 +42,15 @@ public:
     GLint screenWidth;
     GLint screenHeight;
     GLint fullRenderedImage2D;
+    GLint fullRenderedImage2D_Alpha;
     GLint fullRenderedImage2D_Overlay;
     GLint bIsASkinnedMesh;
     GLint numBonesUsed;
     GLint bones;
     GLint fade;
     GLint sysTime;
+    GLint noise;
+    GLint noiseEffectOn;
 
     // Textures
     GLint textSampler00_ID;

@@ -40,12 +40,15 @@ void cUniLocHandler::InitShaderUniformLocations(std::string shaderName)
         screenWidth = glGetUniformLocation(currentProgID, "screenWidth");
         screenHeight = glGetUniformLocation(currentProgID, "screenHeight");
         fullRenderedImage2D = glGetUniformLocation(currentProgID, "fullRenderedImage2D");
+        fullRenderedImage2D_Alpha = glGetUniformLocation(currentProgID, "fullRenderedImage2D_Alpha");
         fullRenderedImage2D_Overlay = glGetUniformLocation(currentProgID, "fullRenderedImage2D_Overlay");
         bIsASkinnedMesh = glGetUniformLocation(currentProgID, "bIsASkinnedMesh");
         numBonesUsed = glGetUniformLocation(currentProgID, "numBonesUsed");
         bones = glGetUniformLocation(currentProgID, "bones");
         fade = glGetUniformLocation(currentProgID, "fade");
         sysTime = glGetUniformLocation(currentProgID, "sysTime");
+        noise = glGetUniformLocation(currentProgID, "noise");
+        noiseEffectOn = glGetUniformLocation(currentProgID, "noiseEffectOn");
 
         // Textures
         textSampler00_ID = glGetUniformLocation(currentProgID, "texSamp2D00");

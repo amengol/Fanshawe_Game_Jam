@@ -14,7 +14,6 @@ class cSceneManager
 public:
     cSceneManager()
         : m_elapsedTime(0.0f)
-        , m_isScreenOn(true)
     { }
     ~cSceneManager();
 
@@ -28,15 +27,16 @@ public:
     float getFade() { return m_activeScreen.fade; }
 
     // Returns wether the screen is on or not
-    bool isScreenOn() { return m_isScreenOn; }
+    bool inNoiseOn() { return m_activeScreen.m_isNoiseOn; }
 
     // Adds a screen
-    void addScreen(std::string name, 
-                   int ID, 
-                   float length, 
-                   cSoundObject* sound = NULL, 
-                   bool fadeToNext = false,
-                   bool lastScreen = false);
+    void addScreen(std::string name,
+                   int ID,
+                   float length,
+                   bool noiseOn,
+                   bool fadeToNext,
+                   bool lastScreen,
+                   cSoundObject* sound = NULL);
 
     // Initializes the scene. 
     // Should run only after all screens added
@@ -67,6 +67,7 @@ private:
             , fadeToNext(false)
             , fade(0.0f)
             , isLastScreen(false)
+            , m_isNoiseOn(false)
         { }
 
         std::string name;
@@ -76,6 +77,7 @@ private:
         bool fadeToNext;
         float fade;
         bool isLastScreen;
+        bool m_isNoiseOn;
     };
 
     sScreenInfo m_activeScreen;
@@ -83,6 +85,5 @@ private:
     std::list<sScreenInfo> m_listScreenInfo;
     std::list<sScreenInfo>::iterator m_itScreen;
     float m_elapsedTime;
-    bool m_isScreenOn;
 };
 

@@ -27,14 +27,16 @@ void cSceneManager::setActiveScreen(std::string name)
 void cSceneManager::addScreen(std::string name, 
                               int ID, 
                               float length, 
-                              cSoundObject* sound,
-                              bool fadeToNext,
-                              bool lastScreen)
+                              bool noiseOn, 
+                              bool fadeToNext, 
+                              bool lastScreen, 
+                              cSoundObject * sound)
 {
     sScreenInfo screen;
     screen.name = name;
     screen.ID = ID;
     screen.length = length;
+    screen.m_isNoiseOn = noiseOn;
     screen.sound = sound;
     screen.fadeToNext = fadeToNext;
     screen.isLastScreen = lastScreen;

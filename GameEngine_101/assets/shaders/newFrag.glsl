@@ -54,6 +54,7 @@ uniform sampler2D texFBONormal2D;
 uniform sampler2D texFBOVertexWorldPos2D;
 
 uniform sampler2D fullRenderedImage2D;
+uniform sampler2D fullRenderedImage2D_Alpha;
 uniform sampler2D fullRenderedImage2D_Overlay;
 uniform sampler2D shadowMap;
 uniform sampler2D shadowAlphaMap;
@@ -102,6 +103,8 @@ uniform float coefficientRefract; 		// coefficient of refraction
 
 // Fade
 uniform float fade;
+uniform float noise;
+uniform bool noiseEffectOn;
 
 // System Time
 uniform float sysTime;
@@ -499,7 +502,24 @@ void main()
 			textCoords.x += (sin(textCoords.y * 10.0 + sysTime) / 10.0f) * fade;
 		}
 
+		
+
 		vec4 overlayImage = texture( fullRenderedImage2D_Overlay, textCoords);
+
+		if (noiseEffectOn)
+		{
+			vec2 newCoords = textCoords;
+			newCoords.x += noise;
+			newCoords.y -= noise;
+			overlayImage *= texture( fullRenderedImage2D_Alpha, newCoords).r;
+			float mono = (0.2125 * overlayImage.r) + (0.7154 * overlayImage.g) + (0.0721 * overlayImage.b);
+			overlayImage = vec4(vec3(mono), 1.0f);
+			// Sepia
+			overlayImage.r *= 1.2f;
+			overlayImage.g *= 1.0f;
+			overlayImage.b *= 0.8f;
+		}
+		
 		
 		fragOut_colour = mainImage * fade + overlayImage * (1.0f - fade);
 		fragOut_colour.a = 1.0f;

@@ -520,61 +520,50 @@ int main()
     g_pSeceneManager = new cSceneManager();
     g_pSeceneManager->addScreen("Disclaimer.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Disclaimer.bmp"),
-                                0.0f);
+                                0.0f, false, false, false);
 
     cSoundObject* sound = g_pSoundManager->getSoundFromName("Start_Menu");
     g_pSeceneManager->addScreen("Start_Menu.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Start_Menu.bmp"),
-                                0.0f,
-                                sound);
+                                0.0f, true, false, false, sound);
 
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_01.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_01.bmp"),
-                                3.0f);
+                                3.0f, true, false, false);
 
     sound = g_pSoundManager->getSoundFromName("Start_Demo_01");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_01.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_01.bmp"),
-                                2.236f,
-                                sound);
+                                2.236f, false, false, false, sound);
 
     sound = g_pSoundManager->getSoundFromName("Start_Demo_02");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_02.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_02.bmp"),
-                                3.307f,
-                                sound);
+                                3.307f, false, false, false, sound);
 
     sound = g_pSoundManager->getSoundFromName("Start_Demo_03");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_03.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_03.bmp"),
-                                1.615f,
-                                sound);
+                                1.615f, false, false, false, sound);
 
     sound = g_pSoundManager->getSoundFromName("Start_Demo_04");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_04.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_04.bmp"),
-                                1.599f,
-                                sound);
+                                1.599f, false, false, false, sound);
 
     sound = g_pSoundManager->getSoundFromName("Stage_Introduction_Map");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_05.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_05.bmp"),
-                                4.153f,
-                                sound);
+                                4.153f, false, false, false,sound);
 
     sound = g_pSoundManager->getSoundFromName("Ghosts_n_Goblins_Theme_Rock_Metal_BG");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_05.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_05.bmp"),
-                                3.0f,
-                                sound,
-                                true);
+                                1.0f, false, true, false, sound);
 
     g_pSeceneManager->addScreen("Main_Game_Screen",
                                 g_pTextureManager->getTextureIDFromTextureName("Dummy_Alpha.bmp"),
-                                0.0f,
-                                sound,
-                                false,
-                                true);
+                                0.0f, false, false, true, sound);
     g_pSeceneManager->init();
     //-------------------------------------------------------------------------
 
@@ -710,26 +699,32 @@ int main()
 
         // The "deferred pass" FBO has a colour texture with the entire rendered scene
         // (including lighting, etc.)
-        if (g_pSeceneManager->isScreenOn())
+        glActiveTexture(GL_TEXTURE0 + 20);
+        glBindTexture(GL_TEXTURE_2D, g_FBO_deferred.colourTexture_0_ID);
+        glUniform1i(g_uniLocHandler.fullRenderedImage2D, 20);
+
+        glActiveTexture(GL_TEXTURE0 + 21);
+        glBindTexture(GL_TEXTURE_2D, g_pSeceneManager->getActiveScreen());
+        glUniform1i(g_uniLocHandler.fullRenderedImage2D_Overlay, 21);
+
+        if (g_pSeceneManager->inNoiseOn())
         {
-            glActiveTexture(GL_TEXTURE0 + 20);
-            glBindTexture(GL_TEXTURE_2D, g_FBO_deferred.colourTexture_0_ID);
-            glUniform1i(g_uniLocHandler.fullRenderedImage2D, 20);
+            glUniform1f(g_uniLocHandler.noiseEffectOn, 1.0f);
 
-            glActiveTexture(GL_TEXTURE0 + 21);
-            glBindTexture(GL_TEXTURE_2D, g_pSeceneManager->getActiveScreen());
-            glUniform1i(g_uniLocHandler.fullRenderedImage2D_Overlay, 21);
+            glActiveTexture(GL_TEXTURE0 + 22);
+            glBindTexture(GL_TEXTURE_2D, g_pTextureManager->getTextureIDFromTextureName("Old_TV_alpha.bmp"));
+            glUniform1i(g_uniLocHandler.fullRenderedImage2D_Alpha, 22);
 
+            float noiseFactor = getRandInRange(0.0f, 1.0f);
+            glUniform1f(g_uniLocHandler.noise, noiseFactor);
             glUniform1f(g_uniLocHandler.fade, g_pSeceneManager->getFade());
         }
         else
         {
-            glActiveTexture(GL_TEXTURE0 + 20);
-            glBindTexture(GL_TEXTURE_2D, g_FBO_deferred.colourTexture_0_ID);
-            glUniform1i(g_uniLocHandler.fullRenderedImage2D, 20);
-
+            glUniform1f(g_uniLocHandler.noiseEffectOn, 0.0f);
             glUniform1f(g_uniLocHandler.fade, g_pSeceneManager->getFade());
         }
+
 
         // Render the "Full scene
         RenderScene(g_pSkyBoxObject, window, g_camera, deltaTime);
