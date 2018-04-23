@@ -39,6 +39,12 @@ public:
     // Returns wether the screen is on or not
     bool inNoiseOn() { return m_activeScreen.m_isNoiseOn; }
 
+    // Sets the current scene mute state
+    void setMute(bool mute = true);
+
+    // Gets the current scene mute state
+    bool getMute();
+
     // Adds a screen
     void addScreen(std::string name,
                    int ID,

@@ -24,7 +24,17 @@ void cSceneManager::setActiveScreen(std::string name)
     }
 }
 
-void cSceneManager::addScreen(std::string name, 
+void cSceneManager::setMute(bool mute)
+{
+    m_activeScreen.sound->setMute(mute);
+}
+
+bool cSceneManager::getMute()
+{
+    return m_activeScreen.sound->getMute();
+}
+
+void cSceneManager::addScreen(std::string name,
                               int ID, 
                               float length, 
                               bool noiseOn, 

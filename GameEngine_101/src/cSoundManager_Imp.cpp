@@ -314,6 +314,8 @@ void cSoundManager_Imp::updateSoundScene(glm::vec3 listener)
             mchannels[i]->setMode(FMOD_LOOP_OFF);
             errorcheck(mresult);
         }
+
+        mchannels[i]->setMute(soundObjects[i]->getMute());
     }
 
     mresult = msystem->update();

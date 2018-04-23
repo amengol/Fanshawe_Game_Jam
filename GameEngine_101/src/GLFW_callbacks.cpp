@@ -60,6 +60,11 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         g_propsEnabled = !g_propsEnabled;
     }
 
+    if (key == GLFW_KEY_M && action == GLFW_PRESS)
+    {
+        g_pSeceneManager->setMute(!g_pSeceneManager->getMute());
+    }
+
     if (key == GLFW_KEY_N && action == GLFW_PRESS)
     {
         g_pSeceneManager->nextScreen();
