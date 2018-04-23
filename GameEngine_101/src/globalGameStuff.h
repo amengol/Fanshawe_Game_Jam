@@ -10,7 +10,6 @@
 #include <glm/vec3.hpp>
 #include "cLightManager.h"
 #include "cModelAssetLoader.h"
-#include "cCameraObject.h"
 #include "Assimp\cAnimationCollection.h"
 #include "cVAOMeshManager.h"
 #include "cShaderManager.h"
@@ -22,11 +21,7 @@
 #include <cPhysicsWorld.h>
 #include <cPhysicsFactory.h>
 #include "cTransparencyManager.h"
-//#include "cTextManager.h"
-//#include "cLocalization.h"
 #include "AI\cCharacterManager.h"
-//#include "AI\cNPCManager.h"
-#include "cCameraManger.h"
 #include "cCamera.h"
 #include "cEnvironment.h"
 #include "cSceneManager.h"

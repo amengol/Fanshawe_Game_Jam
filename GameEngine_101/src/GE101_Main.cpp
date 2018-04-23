@@ -37,6 +37,13 @@ cFBO g_FBO_deferred;
 cFBO g_FBO_alpha_shadow;
 cFBO_Shadow g_FBO_shadows;
 
+// Shader Passes
+const int FULL_SCENE_RENDER_PASS = 0;
+const int DEFERRED_RENDER_PASS = 1;
+const int SHADOW_ALPHA_PASS = 2;
+const int DEPTH_RENDER_PASS = 3;
+const int FINAL_RENDER_PASS = 99;
+
 // Physics
 nPhysics::iPhysicsFactory* g_pPhysicsFactory = NULL;
 nPhysics::iPhysicsWorld* g_pPhysicsWorld = NULL;
@@ -53,58 +60,33 @@ bool InitPhysics()
 }
 
 // Other Global variables
-// ----------------------------------------------------------------------------
 cCamera g_camera;
 int g_scrWidth = 1260;
 int g_scrHeight = 768;
 cSceneManager* g_pSeceneManager = NULL;
 cVAOMeshManager* g_pVAOManager = NULL;
-cCameraObject* g_pCamera = NULL;
-cCameraObject* g_pFixedCamera = NULL;
 cGameObject* g_pSkyBoxObject = NULL;
 cShaderManager*	g_pShaderManager = NULL;
 cLightManager*	g_pLightManager = NULL;
 cEnvironment g_environment;
 CTextureManager* g_pTextureManager = NULL;
 cTransparencyManager* g_pTranspManager = NULL;
-std::vector< cGameObject* >  g_vecGameObjects;
+std::vector<cGameObject*>  g_vecGameObjects;
 cUniLocHandler g_uniLocHandler;
 long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
-
-//cNPCManager g_NPCManager;
-//cSimpleAi_Manager g_AiManager;
-//cLocalization g_lococalization;
-//cTextManager g_textManager;
-
-// To deal with sounds
 cSoundManager* g_pSoundManager = NULL;
-
-
-float g_ChromaticAberrationOffset = 0.0f;
-float g_CR_Max = 0.1f;
-double g_CA_CountDown = 0.0f;
-
-const int FULL_SCENE_RENDER_PASS = 0;
-const int DEFERRED_RENDER_PASS = 1;
-const int SHADOW_ALPHA_PASS = 2;
-const int DEPTH_RENDER_PASS = 3;
-const int FINAL_RENDER_PASS = 99;
-
-// ----------------------------------------------------------------------------
 
 int main()
 {
-    
-
     GLFWwindow* window;
     glfwSetErrorCallback(errorCallback);
 
     if (!glfwInit())
         exit(EXIT_FAILURE);
 
-    std::string title = "Game Engine 101!";
+    std::string title = "From the Graveyard to the Forest - Game Jam!";
 
     if (!initialConfig("GameConfig.ini", g_scrWidth, g_scrHeight, title))
     {
@@ -131,31 +113,8 @@ int main()
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     glfwSwapInterval(1);
 
-    // Physics
+    // Init Physics
     InitPhysics();
-    // tell GLFW to capture our mouse
-    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-    //// Localization and Text---------------------------------------------------
-    //if (!g_lococalization.init())
-    //{
-    //    std::cout << "There was an error initiating the localization process!" << std::endl;
-    //}
-    //g_lococalization.loadLanguageFromXml("assets\\xml\\localization.xml");
-    
-    //if (!g_textManager.init())
-    //{
-    //    std::cout << "There was an error initiating the text manager!" << std::endl;
-    //}
-    //std::vector<std::wstring> ws;
-    //ws.push_back(L"[1] Lock on Player");
-    //ws.push_back(L"[2] First Person Mode");
-    //ws.push_back(L"[0] Free Camera");
-    //g_textManager.setText(ws, glm::vec3(0.0f, 0.0f, 1.0f));    
-    ////-------------------------------------------------------------------------
-
-    // General error string, used for a number of items during start up
-    std::string error;
 
     std::cout << glGetString(GL_VENDOR) << " "
         << glGetString(GL_RENDERER) << ", "
@@ -166,9 +125,9 @@ int main()
 
     ::g_pShaderManager = new cShaderManager();
 
+    // Main Shader
     cShaderManager::cShader vertShader;
     cShaderManager::cShader fragShader;
-
     vertShader.fileName = "newVert.glsl";
     fragShader.fileName = "newFrag.glsl";
 
@@ -223,6 +182,9 @@ int main()
     // Cloth
     ::g_pVAOManager->genDynamicVAO("Cloth", ShaderID);
     //=========================================================================
+
+    // General error string, used for a number of items during start up
+    std::string error;
 
     cSceneLoader sceneLoader;
     if(!sceneLoader.loadModelsIntoScene(ShaderID, g_pVAOManager, g_pModelAssetLoader, error))
@@ -670,6 +632,8 @@ int main()
         
         g_characterManager.UpdateCollisions(glfwGetTime() - lastTimeStep);
 
+#ifdef PRINT_CAMERA_INFO
+
         // Prints camera information to the title
         std::stringstream ssTitle;
         glm::vec3 curCameraPosition = g_camera.m_position;
@@ -685,6 +649,10 @@ int main()
             << curCameraLookAt.z;
 
         glfwSetWindowTitle(window, ssTitle.str().c_str());
+
+#endif // PRINT_CAMERA_INFO
+
+
                 
         
 
