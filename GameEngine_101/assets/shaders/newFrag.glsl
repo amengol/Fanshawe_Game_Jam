@@ -98,9 +98,8 @@ uniform float reflectBlendRatio;		// How much reflection (0-1)
 uniform float refractBlendRatio;		// How much refraction (0-1)
 uniform float coefficientRefract; 		// coefficient of refraction 
 
-// For rthe static effect
-uniform float staticEffect;
-uniform float staticFade;
+// Fade
+uniform float fade;
 
 // Game correction
 uniform float gamaCorrection;
@@ -487,9 +486,29 @@ void main()
 	{
 		vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, gl_FragCoord.y / screenHeight );
 
-		fragOut_colour.rgb = texture( fullRenderedImage2D, textCoords).rgb;
+		vec4 mainImage = texture( fullRenderedImage2D, textCoords);
+		mainImage.rgb = pow(mainImage.rgb, vec3(1.0/gamaCorrection));
+		
+		vec4 overlayImage = texture( fullRenderedImage2D_Overlay, textCoords);
+		
+		fragOut_colour = mainImage * fade + overlayImage * (1.0f - fade);
 		fragOut_colour.a = 1.0f;
-		fragOut_colour.rgb = pow(fragOut_colour.rgb, vec3(1.0/gamaCorrection));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		//vec2 offsets[9] = vec2[](
 			//vec2(-offset,  offset), // top-left

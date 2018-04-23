@@ -43,9 +43,6 @@ cFBO g_FBO_deferred;
 cFBO g_FBO_alpha_shadow;
 cFBO_Shadow g_FBO_shadows;
 
-// Fade Control
-sFade g_Fade;
-
 
 //
 ////=============================================================================
@@ -563,13 +560,16 @@ int main()
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_05.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_05.bmp"),
                                 4.153f,
-                                sound);
+                                sound,
+                                true);
 
     sound = g_pSoundManager->getSoundFromName("Ghosts_n_Goblins_Theme_Rock_Metal_BG");
     g_pSeceneManager->addScreen("Main_Game_Screen",
-                                g_FBO_deferred.colourTexture_0_ID,
+                                g_pTextureManager->getTextureIDFromTextureName("Dummy_Alpha.bmp"),
                                 0.0f,
-                                sound);
+                                sound,
+                                false,
+                                true);
     g_pSeceneManager->init();
     //-------------------------------------------------------------------------
 
@@ -702,11 +702,26 @@ int main()
 
         // The "deferred pass" FBO has a colour texture with the entire rendered scene
         // (including lighting, etc.)
-        glActiveTexture(GL_TEXTURE0 + 20);
-        int scr = g_pSeceneManager->getActiveScreen();
-        glBindTexture(GL_TEXTURE_2D, g_pSeceneManager->getActiveScreen());
-        //glBindTexture(GL_TEXTURE_2D, g_FBO_shadows.depthTexture_ID);
-        glUniform1i(g_uniLocHandler.fullRenderedImage2D, 20);
+        if (g_pSeceneManager->isScreenOn())
+        {
+            glActiveTexture(GL_TEXTURE0 + 20);
+            glBindTexture(GL_TEXTURE_2D, g_FBO_deferred.colourTexture_0_ID);
+            glUniform1i(g_uniLocHandler.fullRenderedImage2D, 20);
+
+            glActiveTexture(GL_TEXTURE0 + 21);
+            glBindTexture(GL_TEXTURE_2D, g_pSeceneManager->getActiveScreen());
+            glUniform1i(g_uniLocHandler.fullRenderedImage2D_Overlay, 21);
+
+            glUniform1f(g_uniLocHandler.fade, g_pSeceneManager->getFade());
+        }
+        else
+        {
+            glActiveTexture(GL_TEXTURE0 + 20);
+            glBindTexture(GL_TEXTURE_2D, g_FBO_deferred.colourTexture_0_ID);
+            glUniform1i(g_uniLocHandler.fullRenderedImage2D, 20);
+
+            glUniform1f(g_uniLocHandler.fade, g_pSeceneManager->getFade());
+        }
 
         // Render the "Full scene
         RenderScene(g_pSkyBoxObject, window, g_camera, deltaTime);

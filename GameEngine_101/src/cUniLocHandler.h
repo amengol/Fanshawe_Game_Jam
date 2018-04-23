@@ -46,6 +46,7 @@ public:
     GLint bIsASkinnedMesh;
     GLint numBonesUsed;
     GLint bones;
+    GLint fade;
 
     // Textures
     GLint textSampler00_ID;

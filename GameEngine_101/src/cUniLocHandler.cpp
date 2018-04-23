@@ -44,6 +44,7 @@ void cUniLocHandler::InitShaderUniformLocations(std::string shaderName)
         bIsASkinnedMesh = glGetUniformLocation(currentProgID, "bIsASkinnedMesh");
         numBonesUsed = glGetUniformLocation(currentProgID, "numBonesUsed");
         bones = glGetUniformLocation(currentProgID, "bones");
+        fade = glGetUniformLocation(currentProgID, "fade");
 
         // Textures
         textSampler00_ID = glGetUniformLocation(currentProgID, "texSamp2D00");

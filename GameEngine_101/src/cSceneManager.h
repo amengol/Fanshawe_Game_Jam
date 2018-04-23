@@ -2,8 +2,8 @@
     Controls the screens and other params in the scene
     
     @author Jorge Amengol
-    @version 1.0
-    @date April 22th, 2018
+    @version 1.1
+    @date April 23th, 2018
 */
 #pragma once
 #include <list>
@@ -14,7 +14,7 @@ class cSceneManager
 public:
     cSceneManager()
         : m_elapsedTime(0.0f)
-        , m_activeScreen(-1)
+        , m_isScreenOn(true)
     { }
     ~cSceneManager();
 
@@ -22,10 +22,21 @@ public:
     void setActiveScreen(std::string name);
 
     // Returns the active screen ID
-    int getActiveScreen() { return m_activeScreen; }
+    int getActiveScreen() { return m_activeScreen.ID; }
+
+    // Returns the fade value
+    float getFade() { return m_activeScreen.fade; }
+
+    // Returns wether the screen is on or not
+    bool isScreenOn() { return m_isScreenOn; }
 
     // Adds a screen
-    void addScreen(std::string name, int ID, float length, cSoundObject* sound = NULL);
+    void addScreen(std::string name, 
+                   int ID, 
+                   float length, 
+                   cSoundObject* sound = NULL, 
+                   bool fadeToNext = false,
+                   bool lastScreen = false);
 
     // Initializes the scene. 
     // Should run only after all screens added
@@ -53,17 +64,25 @@ private:
         sScreenInfo()
             : ID(0)
             , length(0.0f)
+            , fadeToNext(false)
+            , fade(0.0f)
+            , isLastScreen(false)
         { }
 
         std::string name;
         int ID;
         float length;
         cSoundObject* sound;
+        bool fadeToNext;
+        float fade;
+        bool isLastScreen;
     };
 
-    int m_activeScreen;
+    sScreenInfo m_activeScreen;
+    sScreenInfo m_nextScreen;
     std::list<sScreenInfo> m_listScreenInfo;
     std::list<sScreenInfo>::iterator m_itScreen;
     float m_elapsedTime;
+    bool m_isScreenOn;
 };
 
