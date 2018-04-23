@@ -22,4 +22,4 @@ void RenderScene(cGameObject* pTheGO,
                  double deltaTime);
 
 // The shadow/depth render call
-void RenderScene(std::vector<cGameObject*> &vec_pGOs, unsigned int shaderID);
+void RenderShadow(std::vector<cGameObject*> &vec_pGOs, unsigned int shaderID);

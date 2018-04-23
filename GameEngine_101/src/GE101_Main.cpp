@@ -340,14 +340,14 @@ int main()
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_alpha_shadow.ID);
         g_FBO_alpha_shadow.clearBuffers();
         glViewport(0, 0, g_FBO_alpha_shadow.width, g_FBO_alpha_shadow.height);
-        RenderScene(g_vecGameObjects, g_uniLocHandler.currentProgID);
+        RenderShadow(g_vecGameObjects, g_uniLocHandler.currentProgID);
 
         // Depth pass
         glUniform1i(g_uniLocHandler.renderPassNumber, DEPTH_RENDER_PASS);
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_shadows.ID);
         g_FBO_shadows.clearBuffer();
         glViewport(0, 0, g_FBO_shadows.width, g_FBO_shadows.height);
-        RenderScene(g_vecGameObjects, g_uniLocHandler.currentProgID);
+        RenderShadow(g_vecGameObjects, g_uniLocHandler.currentProgID);
         glViewport(0, 0, g_scrWidth, g_scrHeight);
 
         // Full render pass
