@@ -136,9 +136,9 @@ void cCamera::processJoystickMovement(float xAxis, float yAxis, bool constrainm_
     // Limit the pitch in THIRD_PERSON mode
     if (m_cameraMode == THIRD_PERSON)
     {
-        if (m_pitch > 5.0f)
+        if (m_pitch > 15.0f)
         {
-            m_pitch = 5.0f;
+            m_pitch = 15.0f;
         }
     }
 }
