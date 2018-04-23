@@ -32,6 +32,7 @@
 #include "cEnvironment.h"
 #include "cFBO_Shadow.h"
 #include <cPhysicsDebugDrawer.h>
+#include "cSoundObject.h"
 
 // Here, the scene is rendered in 3 passes:
 // 1. Render geometry to G buffer
@@ -557,6 +558,7 @@ int main()
                                 4.153f, false, false, false,sound);
 
     sound = g_pSoundManager->getSoundFromName("Ghosts_n_Goblins_Theme_Rock_Metal_BG");
+    sound->setLoop();
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_05.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_05.bmp"),
                                 1.0f, false, true, false, sound);

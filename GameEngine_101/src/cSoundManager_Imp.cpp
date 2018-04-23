@@ -303,6 +303,17 @@ void cSoundManager_Imp::updateSoundScene(glm::vec3 listener)
             mchannels[i]->setPosition(0.0f, FMOD_TIMEUNIT_MS);
             errorcheck(mresult);
         }
+
+        if (soundObjects[i]->isLooping())
+        {
+            mchannels[i]->setMode(FMOD_LOOP_NORMAL);
+            errorcheck(mresult);
+        }
+        else
+        {
+            mchannels[i]->setMode(FMOD_LOOP_OFF);
+            errorcheck(mresult);
+        }
     }
 
     mresult = msystem->update();
