@@ -17,11 +17,21 @@ public:
     { }
     ~cSceneManager();
 
+    enum ScreenType
+    {
+        NORMAL,
+        START,
+        LAST
+    };
+
     // Sets the active screen
     void setActiveScreen(std::string name);
 
+    // Returns the active screen
+    int getActiveScreenType() { return m_activeScreen.type; }
+
     // Returns the active screen ID
-    int getActiveScreen() { return m_activeScreen.ID; }
+    int getActiveScreenID() { return m_activeScreen.ID; }
 
     // Returns the fade value
     float getFade() { return m_activeScreen.fade; }
@@ -35,8 +45,8 @@ public:
                    float length,
                    bool noiseOn,
                    bool fadeToNext,
-                   bool lastScreen,
-                   cSoundObject* sound = NULL);
+                   cSoundObject* sound = NULL,
+                   ScreenType type = NORMAL);
 
     // Initializes the scene. 
     // Should run only after all screens added
@@ -44,6 +54,9 @@ public:
 
     // Pass to next screen
     void nextScreen();
+
+    // Change the screen according to the start buttom
+    void joystickStart();
 
     // Resumes the screenplay
     void resumeScreenPlay();
@@ -59,6 +72,7 @@ public:
 
 private:
     
+    
     struct sScreenInfo
     {
         sScreenInfo()
@@ -66,7 +80,7 @@ private:
             , length(0.0f)
             , fadeToNext(false)
             , fade(0.0f)
-            , isLastScreen(false)
+            , type(NORMAL)
             , m_isNoiseOn(false)
         { }
 
@@ -76,7 +90,7 @@ private:
         cSoundObject* sound;
         bool fadeToNext;
         float fade;
-        bool isLastScreen;
+        ScreenType type;
         bool m_isNoiseOn;
     };
 

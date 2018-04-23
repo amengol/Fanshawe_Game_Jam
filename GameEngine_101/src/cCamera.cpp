@@ -1,7 +1,6 @@
 #include "cCamera.h"
 #include "cGameObject.h"
-
-extern bool isCharacterMoving;
+#include "globalGameStuff.h"
 
 cCamera::cCamera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) :
     m_lookAt(glm::vec3(0.0f, 0.0f, -1.0f)),
@@ -103,13 +102,16 @@ void cCamera::processMouseMovement(float xoffset, float yoffset, bool constrainm
 
 void cCamera::processJoystickMovement(float xAxis, float yAxis, bool constrainm_pitch)
 {
+    if (g_pSeceneManager->getActiveScreenType() != cSceneManager::LAST)
+        return;
+
     // Translate the axes to offsets
     float xoffset = (xAxis / 1.000015f) * 90.0f;
     float yoffset = (yAxis / 1.000015f) * 180.0f;
 
     m_yaw += xoffset;
 
-    if (isCharacterMoving)
+    if (g_isCharacterMoving)
     {
         if (m_pitch < -20.0f)
             m_pitch += 5.0f;

@@ -29,8 +29,8 @@ void cSceneManager::addScreen(std::string name,
                               float length, 
                               bool noiseOn, 
                               bool fadeToNext, 
-                              bool lastScreen, 
-                              cSoundObject * sound)
+                              cSoundObject* sound,
+                              ScreenType type)
 {
     sScreenInfo screen;
     screen.name = name;
@@ -39,8 +39,8 @@ void cSceneManager::addScreen(std::string name,
     screen.m_isNoiseOn = noiseOn;
     screen.sound = sound;
     screen.fadeToNext = fadeToNext;
-    screen.isLastScreen = lastScreen;
-    if (lastScreen)
+    screen.type = type;
+    if (type == LAST)
     {
         screen.fade = 1.0f;
     }
@@ -78,6 +78,14 @@ void cSceneManager::nextScreen()
     {
         m_nextScreen = *m_itScreen;
         m_elapsedTime = 0.0f;
+    }
+}
+
+void cSceneManager::joystickStart()
+{
+    if (m_activeScreen.type == START)
+    {
+        this->nextScreen();
     }
 }
 

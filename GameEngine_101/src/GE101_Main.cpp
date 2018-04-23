@@ -521,51 +521,55 @@ int main()
     g_pSeceneManager = new cSceneManager();
     g_pSeceneManager->addScreen("Disclaimer.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Disclaimer.bmp"),
-                                0.0f, false, false, false);
+                                4.0f, false, false);
 
     cSoundObject* sound = g_pSoundManager->getSoundFromName("Start_Menu");
     g_pSeceneManager->addScreen("Start_Menu.bmp",
+                                g_pTextureManager->getTextureIDFromTextureName("Start_Menu_Loading.bmp"),
+                                5.0f, true, false, sound);
+
+    g_pSeceneManager->addScreen("Start_Menu.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Start_Menu.bmp"),
-                                0.0f, true, false, false, sound);
+                                0.0f, true, false, sound, cSceneManager::START);
 
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_01.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_01.bmp"),
-                                3.0f, true, false, false);
+                                3.0f, true, false);
 
     sound = g_pSoundManager->getSoundFromName("Start_Demo_01");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_01.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_01.bmp"),
-                                2.236f, false, false, false, sound);
+                                2.236f, false, false, sound);
 
     sound = g_pSoundManager->getSoundFromName("Start_Demo_02");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_02.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_02.bmp"),
-                                3.307f, false, false, false, sound);
+                                3.307f, false, false, sound);
 
     sound = g_pSoundManager->getSoundFromName("Start_Demo_03");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_03.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_03.bmp"),
-                                1.615f, false, false, false, sound);
+                                1.615f, false, false, sound);
 
     sound = g_pSoundManager->getSoundFromName("Start_Demo_04");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_04.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_04.bmp"),
-                                1.599f, false, false, false, sound);
+                                1.599f, false, false, sound);
 
     sound = g_pSoundManager->getSoundFromName("Stage_Introduction_Map");
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_05.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_05.bmp"),
-                                4.153f, false, false, false,sound);
+                                4.153f, false, false, sound);
 
     sound = g_pSoundManager->getSoundFromName("Ghosts_n_Goblins_Theme_Rock_Metal_BG");
     sound->setLoop();
     g_pSeceneManager->addScreen("Ghosts_n_Goblins_05.bmp",
                                 g_pTextureManager->getTextureIDFromTextureName("Ghosts_n_Goblins_05.bmp"),
-                                1.0f, false, true, false, sound);
+                                1.0f, false, true, sound);
 
     g_pSeceneManager->addScreen("Main_Game_Screen",
                                 g_pTextureManager->getTextureIDFromTextureName("Dummy_Alpha.bmp"),
-                                0.0f, false, false, true, sound);
+                                0.0f, false, false, sound, cSceneManager::LAST);
     g_pSeceneManager->init();
     //-------------------------------------------------------------------------
 
@@ -710,7 +714,7 @@ int main()
         glUniform1i(g_uniLocHandler.fullRenderedImage2D, 20);
 
         glActiveTexture(GL_TEXTURE0 + 21);
-        glBindTexture(GL_TEXTURE_2D, g_pSeceneManager->getActiveScreen());
+        glBindTexture(GL_TEXTURE_2D, g_pSeceneManager->getActiveScreenID());
         glUniform1i(g_uniLocHandler.fullRenderedImage2D_Overlay, 21);
 
         if (g_pSeceneManager->inNoiseOn())

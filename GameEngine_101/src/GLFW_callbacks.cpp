@@ -6,7 +6,7 @@ float lastX = g_scrWidth * 0.5f;
 float lastY = g_scrHeight * 0.5f;
 bool firstMouse = true;
 bool cursorOn = true;
-bool isCharacterMoving = false;
+bool g_isCharacterMoving = false;
 bool G_Pressed = false;
 bool isJumping = false;
 bool g_propsEnabled = true;
@@ -192,7 +192,11 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
 
             if (axes[0] != 0.0f || axes[1] != 0.0f)
             {
-                isCharacterMoving = true;
+                // Only move in the "Game Scene"
+                if (g_pSeceneManager->getActiveScreenType() != cSceneManager::LAST)
+                    return;
+
+                g_isCharacterMoving = true;
 
                 // Mount a normalized vector direction from the controller
                 glm::vec3 controllerDir = glm::vec3(-axes[0], 0.0f, axes[1]);
@@ -220,7 +224,7 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                         {
                             pCharacterControl->slash_01();
                             isJumping = false;
-                            isCharacterMoving = false;
+                            g_isCharacterMoving = false;
                             pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 0.0f));
                         }
                     }
@@ -232,7 +236,7 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                         {
                             pCharacterControl->slash_02();
                             isJumping = false;
-                            isCharacterMoving = false;
+                            g_isCharacterMoving = false;
                             pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 0.0f));
                         }
                     }
@@ -263,7 +267,7 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                         {
                             pCharacterControl->slash_01();
                             isJumping = false;
-                            isCharacterMoving = false;
+                            g_isCharacterMoving = false;
                             pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 0.0f));
                         }
                     }
@@ -275,7 +279,7 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                         {
                             pCharacterControl->slash_02();
                             isJumping = false;
-                            isCharacterMoving = false;
+                            g_isCharacterMoving = false;
                             pCharacterControl->GetCharacter()->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, velocity.y, 0.0f));
                         }
                     }
@@ -296,7 +300,7 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
             }// !if (axes[0] != 0.0f || axes[1] != 0.0f)
             else
             {
-                isCharacterMoving = false;
+                g_isCharacterMoving = false;
 
                 // Avoid the tilt of the capsule
                 pCharacterControl->GetCharacter()->rigidBody->SetMatOrientation(characterOrientation);
@@ -320,7 +324,15 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                 g_camera.processJoystickMovement(axes[2] * deltaTime, axes[3] * deltaTime);
             }// !if (axes[0] != 0.0f || axes[1] != 0.0f)
 
+            if (buttons[6] == GLFW_PRESS)
+            {
+                g_pSeceneManager->joystickStart();
+            }
             
+            if (buttons[7] == GLFW_PRESS)
+            {
+                g_pSeceneManager->joystickStart();
+            }
 
             
             if (buttons[1] == GLFW_PRESS)
@@ -331,10 +343,6 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                 printf("Button 4 Pressed\n");
             if (buttons[5] == GLFW_PRESS)
                 printf("Button 5 Pressed\n");
-            if (buttons[6] == GLFW_PRESS)
-                printf("Button 6 Pressed\n");
-            if (buttons[7] == GLFW_PRESS)
-                printf("Button 7 Pressed\n");
             if (buttons[8] == GLFW_PRESS)
                 printf("Button 8 Pressed\n");
             if (buttons[9] == GLFW_PRESS)
