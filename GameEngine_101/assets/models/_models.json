@@ -32,6 +32,8 @@
 {"meshName" : "Static_Rocks", "meshFile" : "Static_Rocks.obj"},
 {"meshName" : "Static_Bloom", "meshFile" : "Static_Bloom.obj"},
 {"meshName" : "Statue", "meshFile" : "Statue.obj", "isPersistent" : true},
+{"meshName" : "Statue_Small", "meshFile" : "Statue_Small.obj", "isPersistent" : true},
+{"meshName" : "Lucy", "meshFile" : "Lucy.obj", "isPersistent" : true},
 {"meshName" : "Limits", "meshFile" : "Limits.obj"},
 {"meshName" : "knight", "type" : 1, "meshFile" : "knight.fbx"},
 {"animName" : "sword_and_shield_idle", "type" : 2, "animFile" : "sword_and_shield_idle.fbx"},

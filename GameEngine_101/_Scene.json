@@ -315,6 +315,41 @@
 		"rotateY" : 90.0		
 	},
 	{ 
+		"meshName" : "Statue_Small",
+		"typeOfObject" : 9,
+		"mass" : 700.0,
+		"textureNames[0]" : "Statue01_D.bmp",
+		"textureNames[3]" : "Statue01_D_specular.bmp",
+		"position" : [14.5963192, 0.0, 28.68261337],
+		"specular" : [1.0, 1.0, 1.0, 64.0],
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Statue01_D_normal.bmp",
+		"rotateY" : -90.0		
+	},
+	{ 
+		"meshName" : "Statue_Small",
+		"typeOfObject" : 9,
+		"mass" : 700.0,
+		"textureNames[0]" : "Statue01_D.bmp",
+		"textureNames[3]" : "Statue01_D_specular.bmp",
+		"position" : [13.1535759, 0.0, -32.67680359],
+		"specular" : [1.0, 1.0, 1.0, 64.0],
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Statue01_D_normal.bmp",
+		"rotateY" : 0.0		
+	},
+	{ 
+		"meshName" : "Lucy",
+		"typeOfObject" : 9,
+		"mass" : 1000.0,
+		"textureNames[0]" : "Concrete.bmp",
+		"position" : [9.9738636, 0.0, 5.11898613],
+		#"specular" : [1.0, 1.0, 1.0, 64.0],
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Concrete_normal.bmp",
+		"rotateY" : -110.0		
+	},
+	{ 
 		"meshName" : "Helmet",
 		"friendlyName" : "Helmet",	
 		"typeOfObject" : 9,
