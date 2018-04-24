@@ -85,37 +85,59 @@ glm::quat cNPCManager::RotationBetweenVectors(glm::vec3 start, glm::vec3 dest)
 
 void cNPCManager::SolveForGuardian(cCharacterControl* npc, double deltaTime)
 {
-    // Player direction
+    // NPC orientation
+    glm::mat4 NPC_LastOrientation = npc->getLastOrientation();
+
+    // Player distance
     glm::vec3 playerPos;
     mPlayer->GetCharacter()->rigidBody->GetPostion(playerPos);
     glm::vec3 NPC_Pos;
     npc->GetCharacter()->rigidBody->GetPostion(NPC_Pos);
     glm::vec3 playerDir = playerPos - NPC_Pos;
-    playerDir = glm::normalize(glm::vec3(playerDir.x, 0.0f, playerDir.z));
-
-    glm::vec3 npcDir = glm::normalize(npc->getLastOrientation() * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));
-    npcDir = glm::normalize(glm::vec3(npcDir.x, 0.0f, npcDir.z));
-
-    // Angle control
-    float angle = glm::degrees(glm::orientedAngle(npcDir, playerDir, glm::vec3(0.0f, 1.0f, 0.0f)));
-    printf("Angle: %f\n", angle);
-
-    // NPC orientation
-    glm::mat4 NPC_LastOrientation = npc->getLastOrientation();
-
-    if (fabs(angle) >= 10.0f)
+    float playerDistance = glm::length(playerDir);
+    
+    if (playerDistance <= 10.0f)
     {
-        if (angle > 10.0f)
+        // Plyayer direction
+        playerDir = glm::normalize(glm::vec3(playerDir.x, 0.0f, playerDir.z));
+        glm::vec3 npcDir = glm::normalize(npc->getLastOrientation() * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));
+        npcDir = glm::normalize(glm::vec3(npcDir.x, 0.0f, npcDir.z));
+
+        // Angle control
+        float angle = glm::degrees(glm::orientedAngle(npcDir, playerDir, glm::vec3(0.0f, 1.0f, 0.0f)));
+        if (fabs(angle) >= 10.0f)
         {
-            NPC_LastOrientation = glm::rotate(NPC_LastOrientation, (float)deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
-            npc->TurnLeft180();
+            if (angle > 10.0f)
+            {
+                NPC_LastOrientation = glm::rotate(NPC_LastOrientation, (float)deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+                npc->TurnLeft180();
+            }
+            else if ((angle < -10.0f))
+            {
+                NPC_LastOrientation = glm::rotate(NPC_LastOrientation, (float)deltaTime, glm::vec3(0.0f, -1.0f, 0.0f));
+                npc->TurnRight180();
+            }
+
         }
-        else if ((angle < -10.0f))
+        else
         {
-            NPC_LastOrientation = glm::rotate(NPC_LastOrientation, (float)deltaTime, glm::vec3(0.0f, -1.0f, 0.0f));
-            npc->TurnRight180();
+            if (playerDistance > 6.0f &&  playerDistance <= 10.0f)
+            {
+                npc->attack_03();
+            }
+            else if (playerDistance <= 6.0f && playerDistance > 3.0f)
+            {
+                npc->attack_02();
+            }
+            else if (playerDistance <= 3.0f)
+            {
+                npc->attack_01();
+            }
+            else
+            {
+                npc->Idle();
+            }
         }
-        
     }
     else
     {

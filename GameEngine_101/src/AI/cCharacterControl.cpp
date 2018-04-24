@@ -295,7 +295,10 @@ void cCharacterControl::TurnLeft180()
 {
     if (mCharacter != NULL)
     {
-        if (mCharacter->characterAnim != TURN_LEFT_180)
+        if (mCharacter->characterAnim != TURN_LEFT_180
+            && mCharacter->characterAnim != ATTACK_01
+            && mCharacter->characterAnim != ATTACK_02
+            && mCharacter->characterAnim != ATTACK_03)
         {
             std::string animationName = mCharacter->animations.left_turn;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -318,7 +321,10 @@ void cCharacterControl::TurnRight180()
 {
     if (mCharacter != NULL)
     {
-        if (mCharacter->characterAnim != TURN_RIGHT_180)
+        if (mCharacter->characterAnim != TURN_RIGHT_180
+            && mCharacter->characterAnim != ATTACK_01
+            && mCharacter->characterAnim != ATTACK_02
+            && mCharacter->characterAnim != ATTACK_03)
         {
             std::string animationName = mCharacter->animations.right_turn;
             mCharacter->pAniState->activeAnimation.name = animationName;
@@ -658,6 +664,8 @@ void cCharacterControl::attack_01()
     if (mCharacter != NULL)
     {
         if (mCharacter->characterAnim != ATTACK_01
+            && mCharacter->characterAnim != ATTACK_02
+            && mCharacter->characterAnim != ATTACK_03
             && mCharacter->characterAnim != JUMP
             && mCharacter->characterAnim != JUMP_FORWARD
             && mCharacter->characterAnim != JUMP_FORWARD_WALKING)
@@ -683,6 +691,8 @@ void cCharacterControl::attack_02()
     if (mCharacter != NULL)
     {
         if (mCharacter->characterAnim != ATTACK_02
+            && mCharacter->characterAnim != ATTACK_01
+            && mCharacter->characterAnim != ATTACK_03
             && mCharacter->characterAnim != JUMP
             && mCharacter->characterAnim != JUMP_FORWARD
             && mCharacter->characterAnim != JUMP_FORWARD_WALKING)
@@ -708,6 +718,8 @@ void cCharacterControl::attack_03()
     if (mCharacter != NULL)
     {
         if (mCharacter->characterAnim != ATTACK_03
+            && mCharacter->characterAnim != ATTACK_01
+            && mCharacter->characterAnim != ATTACK_02
             && mCharacter->characterAnim != JUMP
             && mCharacter->characterAnim != JUMP_FORWARD
             && mCharacter->characterAnim != JUMP_FORWARD_WALKING)
