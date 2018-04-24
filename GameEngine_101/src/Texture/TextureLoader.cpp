@@ -72,6 +72,26 @@ bool loadTextures()
 
     ::g_pTextureManager->setBasePath("assets/textures");
 
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Mutant_diffuse.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Ground_Overlay is loaded!" << std::endl;
+    }
+
+    if (!::g_pTextureManager->Create2DTextureFromBMPFile("Mutant_normal.bmp", true))
+    {
+        std::cout << "Didn't load the texture. Oh no!" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "Ground_Overlay is loaded!" << std::endl;
+    }
+
     if (!::g_pTextureManager->Create2DTextureFromBMPFile("bear_diffuse.bmp", true))
     {
         std::cout << "Didn't load the texture. Oh no!" << std::endl;

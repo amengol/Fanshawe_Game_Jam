@@ -56,6 +56,16 @@
 {"animName" : "warrok_swiping", "type" : 2, "animFile" : "warrok_swiping.fbx"},
 {"animName" : "warrok_left_turn", "type" : 2, "animFile" : "warrok_left_turn.fbx"},
 {"animName" : "warrok_right_turn", "type" : 2, "animFile" : "warrok_right_turn.fbx"},
-{"animName" : "warrok_roaring", "type" : 2, "animFile" : "warrok_roaring.fbx"}
+{"animName" : "warrok_roaring", "type" : 2, "animFile" : "warrok_roaring.fbx"},
+{"meshName" : "mutant", "type" : 1, "meshFile" : "mutant.fbx"},
+{"animName" : "mutant_idle", "type" : 2, "animFile" : "mutant_idle.fbx"},
+{"animName" : "mutant_walking", "type" : 2, "animFile" : "mutant_walking.fbx"},
+{"animName" : "mutant_run", "type" : 2, "animFile" : "mutant_run.fbx"},
+{"animName" : "mutant_jumping", "type" : 2, "animFile" : "mutant_jumping.fbx"},
+{"animName" : "mutant_punch", "type" : 2, "animFile" : "mutant_punch.fbx"},
+{"animName" : "mutant_swiping", "type" : 2, "animFile" : "mutant_swiping.fbx"},
+{"animName" : "mutant_left_turn", "type" : 2, "animFile" : "mutant_left_turn.fbx"},
+{"animName" : "mutant_right_turn", "type" : 2, "animFile" : "mutant_right_turn.fbx"},
+{"animName" : "mutant_flexing_muscles", "type" : 2, "animFile" : "mutant_flexing_muscles.fbx"}
 ]
 }

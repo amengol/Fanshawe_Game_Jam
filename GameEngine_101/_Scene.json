@@ -437,7 +437,36 @@
 		"textureNames[4]" : "bear_normal.bmp",
 		"cullFace" : false,
 		"receiveShadow" : false,
-		"position" : [2.0, 0.9, 0.0],
+		"position" : [13.0, 0.9, 31.918],
+		"rotateY" : -130.0,
+		"scale" : 0.015
+	},
+	{ 
+		"meshName" : "mutant",
+		"friendlyName" : "NPC02",		
+		"typeOfObject" : 7,
+		"mass" : 80000.0,
+		"radius" : 0.7,
+		"height" : 2.0,
+		"defaultAnimation" : "mutant_idle",
+		"animationList": 
+		{
+		"idle" : "mutant_idle",
+		"walking" : "mutant_walking",
+		"running": "mutant_run",
+		"jump" : "mutant_jumping",
+		"left_turn" : "mutant_left_turn",
+		"right_turn" : "mutant_right_turn",
+		"attack_01" : "mutant_punch",
+		"attack_02" : "mutant_swiping",
+		"attack_03" : "mutant_flexing_muscles"
+		},
+		"textureNames[0]" : "Mutant_diffuse.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "Mutant_normal.bmp",
+		"cullFace" : false,
+		"receiveShadow" : false,
+		"position" : [10.989, 0.9, -32.0],
 		"scale" : 0.015
 	}
 ],
