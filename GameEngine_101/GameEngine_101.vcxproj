@@ -94,7 +94,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Physics\bullet_src;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>freetyped.lib;Physics.lib;assimp-vc140-mt.lib;fmod_vc.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Physics.lib;assimp-vc140-mt.lib;fmod_vc.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -107,7 +107,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Physics\bullet_src;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>freetyped.lib;Physics.lib;assimp-vc140-mt.lib;fmod64_vc.lib;glfw3_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Physics.lib;assimp-vc140-mt.lib;fmod64_vc.lib;glfw3_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -124,7 +124,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>freetype.lib;Physics.lib;assimp-vc140-mt.lib;fmod_vc.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Physics.lib;assimp-vc140-mt.lib;fmod_vc.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -141,7 +141,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>freetype.lib;Physics.lib;assimp-vc140-mt.lib;fmod64_vc.lib;glfw3_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Physics.lib;assimp-vc140-mt.lib;fmod64_vc.lib;glfw3_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -172,7 +172,6 @@
     <ClCompile Include="src\cFBO.cpp" />
     <ClCompile Include="src\cGameObject.cpp" />
     <ClCompile Include="src\cLightManager.cpp" />
-    <ClCompile Include="src\cLocalization.cpp" />
     <ClCompile Include="src\cMesh.cpp" />
     <ClCompile Include="src\cModelAssetLoader.cpp" />
     <ClCompile Include="src\cSceneLoader.cpp" />
@@ -181,7 +180,6 @@
     <ClCompile Include="src\cSoundManager.cpp" />
     <ClCompile Include="src\cSoundManager_Imp.cpp" />
     <ClCompile Include="src\cSoundObject.cpp" />
-    <ClCompile Include="src\cTextManager.cpp" />
     <ClCompile Include="src\cTransparencyManager.cpp" />
     <ClCompile Include="src\cTriangle.cpp" />
     <ClCompile Include="src\cUniLocHandler.cpp" />
@@ -225,7 +223,6 @@
     <ClInclude Include="src\cFBO.h" />
     <ClInclude Include="src\cGameObject.h" />
     <ClInclude Include="src\cLightManager.h" />
-    <ClInclude Include="src\cLocalization.h" />
     <ClInclude Include="src\cMesh.h" />
     <ClInclude Include="src\cModelAssetLoader.h" />
     <ClInclude Include="src\cSceneLoader.h" />
@@ -233,7 +230,6 @@
     <ClInclude Include="src\cSoundManager.h" />
     <ClInclude Include="src\cSoundManager_Imp.h" />
     <ClInclude Include="src\cSoundObject.h" />
-    <ClInclude Include="src\cTextManager.h" />
     <ClInclude Include="src\cUniLocHandler.h" />
     <ClInclude Include="src\DrawCalls.h" />
     <ClInclude Include="src\Error\CErrorLog.h" />

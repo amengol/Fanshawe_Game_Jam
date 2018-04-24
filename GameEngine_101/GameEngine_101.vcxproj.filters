@@ -40,9 +40,6 @@
     <Filter Include="Sounds Related">
       <UniqueIdentifier>{96237b34-24a7-4a2f-8b1e-131adae2a78a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Localization and Text">
-      <UniqueIdentifier>{85d9b6fd-b80c-42f0-8bd1-f5431f1e9fbb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Error">
       <UniqueIdentifier>{8708b02f-f7bf-434b-8f41-e608f68b2798}</UniqueIdentifier>
     </Filter>
@@ -146,14 +143,8 @@
     <ClCompile Include="src\AI\cSimpleAi_Manager.cpp">
       <Filter>AI</Filter>
     </ClCompile>
-    <ClCompile Include="src\cLocalization.cpp">
-      <Filter>Localization and Text</Filter>
-    </ClCompile>
     <ClCompile Include="src\pugixml.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cTextManager.cpp">
-      <Filter>Localization and Text</Filter>
     </ClCompile>
     <ClCompile Include="src\Error\CErrorLog.cpp">
       <Filter>Error</Filter>
@@ -294,12 +285,6 @@
     </ClInclude>
     <ClInclude Include="src\AI\cSimpleAi_Manager.h">
       <Filter>AI</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cLocalization.h">
-      <Filter>Localization and Text</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cTextManager.h">
-      <Filter>Localization and Text</Filter>
     </ClInclude>
     <ClInclude Include="src\Error\CErrorLog.h">
       <Filter>Error</Filter>
