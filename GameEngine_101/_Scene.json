@@ -377,6 +377,7 @@
 		"friendlyName" : "Hero01",		
 		"typeOfObject" : 7,
 		"mass" : 80.0,
+		"radius" : 0.3,
 		"height" : 0.9,
 		"defaultAnimation" : "sword_and_shield_idle",
 		"animationList": 
@@ -413,7 +414,8 @@
 		"friendlyName" : "NPC01",		
 		"typeOfObject" : 7,
 		"mass" : 80000.0,
-		"height" : 0.9,
+		"radius" : 0.7,
+		"height" : 2.0,
 		"defaultAnimation" : "warrok_idle",
 		"animationList": 
 		{
