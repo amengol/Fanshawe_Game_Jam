@@ -36,6 +36,7 @@ private:
     float mThreshold;                       // Distance to avoid staggering
     float mSysTimeDying;                    // Control for dying
     bool mIsDying;                          // Control for dying
+    bool mTurnComplete;                     // Control turns
     cCharacterControl* mPlayer;             // The player
     std::vector<cCharacterControl*> mNPCs;  // The NPCs
 

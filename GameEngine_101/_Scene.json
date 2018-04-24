@@ -412,7 +412,7 @@
 		"meshName" : "warrok",
 		"friendlyName" : "NPC01",		
 		"typeOfObject" : 7,
-		"mass" : 80.0,
+		"mass" : 80000.0,
 		"height" : 0.9,
 		"defaultAnimation" : "warrok_idle",
 		"animationList": 

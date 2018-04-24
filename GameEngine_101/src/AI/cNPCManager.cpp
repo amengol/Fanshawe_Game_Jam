@@ -6,6 +6,8 @@
 #include "..\Assimp\cSkinnedMesh.h"
 #include <GLFW/glfw3.h>
 #include "..\Assimp\cAnimationState.h"
+#include "..\Utilities.h"
+#include <glm/gtx/vector_angle.hpp>
 
 cNPCManager::cNPCManager()
 {
@@ -14,6 +16,7 @@ cNPCManager::cNPCManager()
     mThreshold = 2.0f;
     mSysTimeDying = 0.0f;
     mIsDying = false;
+    mTurnComplete = false;
 }
 
 
@@ -82,73 +85,45 @@ glm::quat cNPCManager::RotationBetweenVectors(glm::vec3 start, glm::vec3 dest)
 
 void cNPCManager::SolveForGuardian(cCharacterControl* npc, double deltaTime)
 {
-    // Evaluate their distance
-    glm::vec3 playerPosition;
-    mPlayer->GetCharacter()->rigidBody->GetPostion(playerPosition);
-    glm::vec3 npcPosition;
-    npc->GetCharacter()->rigidBody->GetPostion(npcPosition);
+    // Player direction
+    glm::vec3 playerPos;
+    mPlayer->GetCharacter()->rigidBody->GetPostion(playerPos);
+    glm::vec3 NPC_Pos;
+    npc->GetCharacter()->rigidBody->GetPostion(NPC_Pos);
+    glm::vec3 playerDir = playerPos - NPC_Pos;
+    playerDir = glm::normalize(glm::vec3(playerDir.x, 0.0f, playerDir.z));
 
-    float distance = glm::length(playerPosition - npcPosition);
+    glm::vec3 npcDir = glm::normalize(npc->getLastOrientation() * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f));
+    npcDir = glm::normalize(glm::vec3(npcDir.x, 0.0f, npcDir.z));
 
-    // Case when the player is out of the interest radius
-    if (distance > mInterestRadius && npc->GetAnimationState() != eCharacterAnim::IDLE)
-    {
-        npc->Idle();
-        npc->GetCharacter()->rigidBody->SetLinearVelocity(glm::vec3(0.0f));
-        return; // Out of the interest radius
-    }
-    else if (distance > mInterestRadius && npc->GetAnimationState() == eCharacterAnim::IDLE)
-    {
-        return; // Out of the interest radius
-    }
+    // Angle control
+    float angle = glm::degrees(glm::orientedAngle(npcDir, playerDir, glm::vec3(0.0f, 1.0f, 0.0f)));
+    printf("Angle: %f\n", angle);
 
-    // Case when the player is too close
-    if (distance < mStopDistance)
+    // NPC orientation
+    glm::mat4 NPC_LastOrientation = npc->getLastOrientation();
+
+    if (fabs(angle) >= 10.0f)
     {
-        if (npc->GetAnimationState() != eCharacterAnim::IDLE)
+        if (angle > 10.0f)
         {
-            npc->Idle();
-            npc->GetCharacter()->rigidBody->SetLinearVelocity(glm::vec3(0.0f));
+            NPC_LastOrientation = glm::rotate(NPC_LastOrientation, (float)deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+            npc->TurnLeft180();
         }
-
-        return;
-    }
-    
-    // Check for enough space before proceed
-    if (distance < mThreshold + mStopDistance && npc->GetAnimationState() == eCharacterAnim::IDLE)
-    {
-        return; // Give it some space to avoid staggering
+        else if ((angle < -10.0f))
+        {
+            NPC_LastOrientation = glm::rotate(NPC_LastOrientation, (float)deltaTime, glm::vec3(0.0f, -1.0f, 0.0f));
+            npc->TurnRight180();
+        }
+        
     }
     else
     {
-        // All other cases
-
-        npc->Forward();
-
-        glm::vec3 npcVelocity;
-        npc->GetCharacter()->rigidBody->GetLinearVelocity(npcVelocity);
-
-        glm::vec3 desiredVelocity = glm::normalize(playerPosition - npcPosition) * 1.5f;
-
-
-        glm::vec3 steering = desiredVelocity - npcVelocity;
-        steering *= deltaTime * 2.0f; // Speed up the steering a litle bit
-
-        npcVelocity += steering;
-        npcVelocity = glm::normalize(npcVelocity) * 1.5f;
-
-        npc->GetCharacter()->rigidBody->SetLinearVelocity(npcVelocity);
-
-        // Reorient the npc to the velocity vector
-        glm::mat4 npcOrientation;
-        npc->GetCharacter()->rigidBody->GetMatOrientation(npcOrientation);
-        glm::vec3 npcDirection = npcOrientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-        npcDirection.y = 0.0f; // Get rid of any pitch information
-
-        glm::quat qRot = RotationBetweenVectors(npcDirection, npcVelocity);
-        npcOrientation *= glm::toMat4(qRot);
-        npc->GetCharacter()->rigidBody->SetMatOrientation(npcOrientation);
+        npc->Idle();
     }
+
+    npc->setLastOrientation(NPC_LastOrientation);
+    npc->GetCharacter()->rigidBody->SetMatOrientation(NPC_LastOrientation);
 }
 
 void cNPCManager::SolveForAngryPursuit(cCharacterControl* npc, double deltaTime)
