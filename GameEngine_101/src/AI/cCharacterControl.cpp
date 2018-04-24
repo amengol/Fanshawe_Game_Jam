@@ -8,7 +8,7 @@
 cCharacterControl::cCharacterControl()
 {
     mCharacter = NULL;
-    mCharState = FOLLOWER;
+    mCharState = GUARDIAN;
     mHealth = 1.0f;
     mSysTimeRot = 0.0f;
     mSysTimeJump = 0.0f;

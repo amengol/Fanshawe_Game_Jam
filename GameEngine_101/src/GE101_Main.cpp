@@ -222,12 +222,13 @@ int main()
         std::cout << "The Game Character was not found!\n";
     }
 
+    // Set NPC Manager  
+    cNPCManager g_NPCManager;
+    g_NPCManager.SetPlayer(g_characterManager.GetActiveCharacter());
+    g_NPCManager.SetNPCs(g_characterManager.GetNPCs());
+
     // Lock on the main character
     g_camera.lockOnGameObject(g_characterManager.GetActiveCharacter()->GetCharacter());
-
-    //// Set NPC Manager    
-    //g_NPCManager.SetPlayer(g_characterManager.GetActiveCharacter());
-    //g_NPCManager.SetNPCs(g_characterManager.GetNPCs());
 
     // Init the FBOs
     g_FBO_fullScene.init(g_scrWidth, g_scrHeight, error);
@@ -319,6 +320,7 @@ int main()
         g_environment.update(deltaTime);
         g_pSeceneManager->update(deltaTime);
         g_pSoundManager->updateSoundScene(g_camera.m_position);
+        g_NPCManager.Evaluate(deltaTime);
         ::processCameraInput(window, deltaTime);
         glfwGetFramebufferSize(window, &g_scrWidth, &g_scrHeight);
         if (g_scrHeight == 0)

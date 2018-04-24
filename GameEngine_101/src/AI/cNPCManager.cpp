@@ -25,126 +25,17 @@ float extension = 35.0f;
 
 void cNPCManager::Evaluate(double deltaTime)
 {
-    // Border control for the player===========================================
-    glm::vec3 playerPosition;
-    mPlayer->GetCharacter()->rigidBody->GetPostion(playerPosition);
-    if (playerPosition.x > extension)
-    {
-        playerPosition.x = -extension + 1.0f;
-        mPlayer->GetCharacter()->rigidBody->SetPosition(playerPosition);
-        return;
-    }
-
-    if (playerPosition.x < -extension)
-    {
-        playerPosition.x = extension - 1.0f;
-        mPlayer->GetCharacter()->rigidBody->SetPosition(playerPosition);
-        return;
-    }
-
-    if (playerPosition.z > extension)
-    {
-        playerPosition.z = -extension + 1.0f;
-        mPlayer->GetCharacter()->rigidBody->SetPosition(playerPosition);
-        return;
-    }
-
-    if (playerPosition.z < -extension)
-    {
-        playerPosition.z = extension - 1.0f;
-        mPlayer->GetCharacter()->rigidBody->SetPosition(playerPosition);
-        return;
-    }
-
 
     for (size_t i = 0; i < mNPCs.size(); i++)
     {
-        // Shift too close NPCs
-        for (size_t j = 0; j < mNPCs.size(); j++)
-        {
-            if (mNPCs[j] == mNPCs[i])
-                continue;
-
-            // Evaluate their distance
-            glm::vec3 npcI_Position;
-            mNPCs[i]->GetCharacter()->rigidBody->GetPostion(npcI_Position);
-            glm::vec3 npcJ_Position;
-            mNPCs[j]->GetCharacter()->rigidBody->GetPostion(npcJ_Position);
-
-            // Border control here to avoid looping again======================
-            if (npcJ_Position.x > extension)
-            {
-                npcJ_Position.x = -extension + 1.0f;
-                mNPCs[j]->GetCharacter()->rigidBody->SetPosition(npcJ_Position);
-                mNPCs[j]->GetCharacter()->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-                mNPCs[j]->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_APPROACH);
-                return;
-            }
-
-            if (npcJ_Position.x < -extension)
-            {
-                npcJ_Position.x = extension - 1.0f;
-                mNPCs[j]->GetCharacter()->rigidBody->SetPosition(npcJ_Position);
-                mNPCs[j]->GetCharacter()->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-                mNPCs[j]->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_APPROACH);
-                return;
-            }
-
-            if (npcJ_Position.z > extension)
-            {
-                npcJ_Position.z = -extension + 1.0f;
-                mNPCs[j]->GetCharacter()->rigidBody->SetPosition(npcJ_Position);
-                mNPCs[j]->GetCharacter()->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-                mNPCs[j]->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_APPROACH);
-                return;
-            }
-
-            if (npcJ_Position.z < -extension)
-            {
-                npcJ_Position.z = extension - 1.0f;
-                mNPCs[j]->GetCharacter()->rigidBody->SetPosition(npcJ_Position);
-                mNPCs[j]->GetCharacter()->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-                mNPCs[j]->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_APPROACH);
-                return;
-            }
-            //=================================================================
-
-            float distance = glm::length(npcJ_Position - npcI_Position);
-
-            if (distance > 0.5f)
-                continue;
-
-            glm::vec3 shiftDirection = npcJ_Position - npcI_Position;
-            shiftDirection = glm::normalize(shiftDirection);
-
-            if (mNPCs[i]->GetAnimationState() != eCharacterAnim::IDLE)
-                npcI_Position += -(shiftDirection * 0.3f);
-            if (mNPCs[j]->GetAnimationState() != eCharacterAnim::IDLE)
-                npcJ_Position += shiftDirection * 0.3f;
-
-            mNPCs[i]->GetCharacter()->rigidBody->SetPosition(npcI_Position);
-            mNPCs[j]->GetCharacter()->rigidBody->SetPosition(npcJ_Position);
-        }
-
+       
         switch (mNPCs[i]->GetCharacterState())
         {
-        case cCharacterControl::eCharacterState::FOLLOWER:
-            SolveForFollower(mNPCs[i], deltaTime);
-            break;
-        case cCharacterControl::eCharacterState::CURIOUS_APPROACH:
-            SolveForCuriousApproach(mNPCs[i], deltaTime);
-            break;
-        case cCharacterControl::eCharacterState::CURIOUS_EVADE:
-            SolveForCuriousEvade(mNPCs[i], deltaTime);
+        case cCharacterControl::eCharacterState::GUARDIAN:
+            SolveForGuardian(mNPCs[i], deltaTime);
             break;
         case cCharacterControl::eCharacterState::ANGRY_PURSUIT:
             SolveForAngryPursuit(mNPCs[i], deltaTime);
-            break;
-        case cCharacterControl::eCharacterState::ANGRY_EVADE:
-            SolveForAngryEvade(mNPCs[i], deltaTime);
-            break;
-        case cCharacterControl::eCharacterState::BAGGING:
-            SolveForBagging(mNPCs[i], deltaTime);
             break;
         case cCharacterControl::eCharacterState::DYING:
             SolveForDying(mNPCs[i], deltaTime);
@@ -189,7 +80,7 @@ glm::quat cNPCManager::RotationBetweenVectors(glm::vec3 start, glm::vec3 dest)
     );
 }
 
-void cNPCManager::SolveForFollower(cCharacterControl* npc, double deltaTime)
+void cNPCManager::SolveForGuardian(cCharacterControl* npc, double deltaTime)
 {
     // Evaluate their distance
     glm::vec3 playerPosition;
@@ -218,25 +109,6 @@ void cNPCManager::SolveForFollower(cCharacterControl* npc, double deltaTime)
         {
             npc->Idle();
             npc->GetCharacter()->rigidBody->SetLinearVelocity(glm::vec3(0.0f));
-        }
-
-        if (mPlayer->GetAnimationState() == eCharacterAnim::TRICK)
-        {
-            npc->GetCharacter()->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-            npc->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_APPROACH);
-        }
-
-        if (mPlayer->GetAnimationState() == eCharacterAnim::VIOLENT_TRICK)
-        {
-            npc->GetCharacter()->diffuseColour = glm::vec4(0.5f, 0.0f, 0.5f, 1.0f);
-            npc->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_EVADE);
-        }
-
-        if (mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_CROSS_PUNCH
-            || mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_KICKING)
-        {
-            npc->GetCharacter()->diffuseColour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-            npc->SetCharacterState(cCharacterControl::eCharacterState::ANGRY_PURSUIT);
         }
 
         return;
@@ -279,115 +151,6 @@ void cNPCManager::SolveForFollower(cCharacterControl* npc, double deltaTime)
     }
 }
 
-void cNPCManager::SolveForCuriousApproach(cCharacterControl* npc, double deltaTime)
-{
-    // Evaluate their distance
-    glm::vec3 playerPosition;
-    mPlayer->GetCharacter()->rigidBody->GetPostion(playerPosition);
-    glm::vec3 npcPosition;
-    npc->GetCharacter()->rigidBody->GetPostion(npcPosition);
-
-    float distance = glm::length(playerPosition - npcPosition);
-
-    // Case when the player is too close
-    if (distance < mStopDistance)
-    {
-        if (npc->GetAnimationState() != eCharacterAnim::IDLE)
-        {
-            npc->Idle();
-            npc->GetCharacter()->rigidBody->SetLinearVelocity(glm::vec3(0.0f));
-        }
-
-        if (mPlayer->GetAnimationState() == eCharacterAnim::VIOLENT_TRICK)
-        {
-            npc->GetCharacter()->diffuseColour = glm::vec4(0.5f, 0.0f, 0.5f, 1.0f);
-            npc->SetCharacterState(cCharacterControl::eCharacterState::CURIOUS_EVADE);
-        }
-
-        if (mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_CROSS_PUNCH
-            || mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_KICKING)
-        {
-            npc->GetCharacter()->diffuseColour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-            npc->SetCharacterState(cCharacterControl::eCharacterState::ANGRY_PURSUIT);
-        }
-
-        return;
-    }
-
-    // Check for enough space before proceed
-    if (distance < mThreshold + mStopDistance && npc->GetAnimationState() == eCharacterAnim::IDLE)
-    {
-        return; // Give it some space to avoid staggering
-    }
-    else
-    {
-        // All other cases
-
-        npc->ForwardRun();
-
-        glm::vec3 npcVelocity;
-        npc->GetCharacter()->rigidBody->GetLinearVelocity(npcVelocity);
-
-        glm::vec3 desiredVelocity = glm::normalize(playerPosition - npcPosition) * 3.75f;
-
-
-        glm::vec3 steering = desiredVelocity - npcVelocity;
-        steering *= deltaTime * 3.0f; // Speed up the steering a litle bit
-
-        npcVelocity += steering;
-        npcVelocity = glm::normalize(npcVelocity) * 3.75f;
-
-        npc->GetCharacter()->rigidBody->SetLinearVelocity(npcVelocity);
-
-        // Reorient the npc to the velocity vector
-        glm::mat4 npcOrientation;
-        npc->GetCharacter()->rigidBody->GetMatOrientation(npcOrientation);
-        glm::vec3 npcDirection = npcOrientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-        npcDirection.y = 0.0f; // Get rid of any pitch information
-
-        glm::quat qRot = RotationBetweenVectors(npcDirection, npcVelocity);
-        npcOrientation *= glm::toMat4(qRot);
-        npc->GetCharacter()->rigidBody->SetMatOrientation(npcOrientation);
-    }
-}
-
-void cNPCManager::SolveForCuriousEvade(cCharacterControl* npc, double deltaTime)
-{
-    // Evaluate their distance
-    glm::vec3 playerPosition;
-    mPlayer->GetCharacter()->rigidBody->GetPostion(playerPosition);
-    glm::vec3 npcPosition;
-    npc->GetCharacter()->rigidBody->GetPostion(npcPosition);
-
-    //float distance = glm::length(playerPosition - npcPosition);
-
-    npc->Runaway();
-
-    glm::vec3 npcVelocity;
-    npc->GetCharacter()->rigidBody->GetLinearVelocity(npcVelocity);
-
-    glm::vec3 desiredVelocity = glm::normalize(npcPosition - playerPosition) * 3.75f;
-
-
-    glm::vec3 steering = desiredVelocity - npcVelocity;
-    steering *= deltaTime * 3.0f; // Speed up the steering a litle bit
-
-    npcVelocity += steering;
-    npcVelocity = glm::normalize(npcVelocity) * 3.75f;
-
-    npc->GetCharacter()->rigidBody->SetLinearVelocity(npcVelocity);
-
-    // Reorient the npc to the velocity vector
-    glm::mat4 npcOrientation;
-    npc->GetCharacter()->rigidBody->GetMatOrientation(npcOrientation);
-    glm::vec3 npcDirection = npcOrientation * glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-    npcDirection.y = 0.0f; // Get rid of any pitch information
-
-    glm::quat qRot = RotationBetweenVectors(npcDirection, npcVelocity);
-    npcOrientation *= glm::toMat4(qRot);
-    npc->GetCharacter()->rigidBody->SetMatOrientation(npcOrientation);
-}
-
 void cNPCManager::SolveForAngryPursuit(cCharacterControl* npc, double deltaTime)
 {
     // Evaluate their distance
@@ -413,8 +176,6 @@ void cNPCManager::SolveForAngryPursuit(cCharacterControl* npc, double deltaTime)
 
             if (npc->GetHealth() > 0.32f)
                 npc->GetCharacter()->diffuseColour.g += deltaTime * 0.1f;
-            else
-                npc->SetCharacterState(cCharacterControl::eCharacterState::ANGRY_EVADE);
         }
 
         return;
@@ -457,100 +218,6 @@ void cNPCManager::SolveForAngryPursuit(cCharacterControl* npc, double deltaTime)
     }
 }
 
-void cNPCManager::SolveForAngryEvade(cCharacterControl* npc, double deltaTime)
-{
-    // Evaluate their distance
-    glm::vec3 playerPosition;
-    mPlayer->GetCharacter()->rigidBody->GetPostion(playerPosition);
-    glm::vec3 npcPosition;
-    npc->GetCharacter()->rigidBody->GetPostion(npcPosition);
-
-    npc->Backwards();
-
-    float distance = glm::length(playerPosition - npcPosition);
-
-    // Case when the player is too close
-    if (distance < mStopDistance * 0.5f)
-    {
-        if (mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_KICKING ||
-            mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_CROSS_PUNCH)
-        {
-            npc->Hurt(deltaTime);
-
-            if (npc->GetHealth() < 0.15f)
-                npc->SetCharacterState(cCharacterControl::eCharacterState::BAGGING);
-            
-        }
-
-        return;
-    }
-    else
-    {
-        if (mPlayer->GetAnimationState() == eCharacterAnim::VIOLENT_TRICK)
-        {
-            npc->Hurt(deltaTime * 0.1f);
-
-            if (npc->GetHealth() < 0.15f)
-                npc->SetCharacterState(cCharacterControl::eCharacterState::BAGGING);
-
-        }
-    }
-
-    glm::vec3 npcVelocity;
-    npc->GetCharacter()->rigidBody->GetLinearVelocity(npcVelocity);
-
-    glm::vec3 desiredVelocity = glm::normalize(playerPosition - npcPosition) * 1.125f;
-
-
-    glm::vec3 steering = npcVelocity - desiredVelocity;
-    steering *= deltaTime * 3.0f; // Speed up the steering a litle bit
-
-    npcVelocity += steering;
-    npcVelocity = glm::normalize(npcVelocity) * 1.125f;
-
-    npc->GetCharacter()->rigidBody->SetLinearVelocity(npcVelocity);
-
-    // Reorient the npc to the velocity vector
-    glm::mat4 npcOrientation;
-    npc->GetCharacter()->rigidBody->GetMatOrientation(npcOrientation);
-    glm::vec3 npcDirection = npcOrientation * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f);
-    npcDirection.y = 0.0f; // Get rid of any pitch information
-
-    glm::quat qRot = RotationBetweenVectors(npcDirection, npcVelocity);
-    npcOrientation *= glm::toMat4(qRot);
-    npc->GetCharacter()->rigidBody->SetMatOrientation(npcOrientation);
-}
-
-void cNPCManager::SolveForBagging(cCharacterControl* npc, double deltaTime)
-{
-    // Evaluate their distance
-    glm::vec3 playerPosition;
-    mPlayer->GetCharacter()->rigidBody->GetPostion(playerPosition);
-    glm::vec3 npcPosition;
-    npc->GetCharacter()->rigidBody->GetPostion(npcPosition);
-
-    npc->Praying();
-
-    float distance = glm::length(playerPosition - npcPosition);
-
-    // Case when the player is too close
-    if (distance < mStopDistance * 0.5f)
-    {
-        if (mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_KICKING ||
-            mPlayer->GetAnimationState() == eCharacterAnim::RIGHT_CROSS_PUNCH)
-        {
-            npc->Hurt(deltaTime * 0.1f);
-
-            if (npc->GetHealth() < 0.01f)
-                npc->SetCharacterState(cCharacterControl::eCharacterState::DYING);
-
-        }
-
-        return;
-    }
-
-}
-
 void cNPCManager::SolveForDying(cCharacterControl* npc, double deltaTime)
 {
     if (mIsDying)
@@ -561,7 +228,7 @@ void cNPCManager::SolveForDying(cCharacterControl* npc, double deltaTime)
 
         if (glfwGetTime() - mSysTimeDying >= totalTimeDying)
         {
-            npc->SetCharacterState(cCharacterControl::eCharacterState::FOLLOWER);
+            npc->SetCharacterState(cCharacterControl::eCharacterState::GUARDIAN);
             npc->GetCharacter()->diffuseColour = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
             npc->Idle();
             npc->Health100();

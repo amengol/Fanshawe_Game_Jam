@@ -1,3 +1,10 @@
+/**
+    Controls NPCs
+    
+    @author Jorge Amengol
+    @version 1.2
+    @date April 24th, 2018
+*/
 #pragma once
 #include <vector>
 #define GLM_ENABLE_EXPERIMENTAL
@@ -32,23 +39,11 @@ private:
     cCharacterControl* mPlayer;             // The player
     std::vector<cCharacterControl*> mNPCs;  // The NPCs
 
-    // Solve the NPC for Fowller
-    void SolveForFollower(cCharacterControl*, double deltaTime);
-
-    // Solve the NPC for Curious Approach
-    void SolveForCuriousApproach(cCharacterControl*, double deltaTime);
-
-    // Solve the NPC for Curious Evade
-    void SolveForCuriousEvade(cCharacterControl*, double deltaTime);
+    // Solve the NPC for Guardian
+    void SolveForGuardian(cCharacterControl*, double deltaTime);
 
     // Solve the NPC for Angry Pursuit
     void SolveForAngryPursuit(cCharacterControl*, double deltaTime);
-
-    // Solve the NPC for Angry Evade
-    void SolveForAngryEvade(cCharacterControl*, double deltaTime);
-
-    // Solve the NPC for Praying
-    void SolveForBagging(cCharacterControl*, double deltaTime);
 
     // Solve the NPC for Dying
     void SolveForDying(cCharacterControl*, double deltaTime);

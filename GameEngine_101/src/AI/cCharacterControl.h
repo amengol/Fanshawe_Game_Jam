@@ -1,3 +1,10 @@
+/**
+    Controls characters
+    
+    @author Jorge Amengol
+    @version 1.5
+    @date April 25th, 2018
+*/
 #pragma once
 #include <map>
 #include <vector>
@@ -12,12 +19,8 @@ public:
 
     enum eCharacterState
     {
-        FOLLOWER,
-        CURIOUS_APPROACH,
-        CURIOUS_EVADE,
+        GUARDIAN,
         ANGRY_PURSUIT,
-        ANGRY_EVADE,
-        BAGGING,
         DYING
     };
 

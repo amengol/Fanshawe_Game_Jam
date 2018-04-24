@@ -25,6 +25,7 @@
 #include "cCamera.h"
 #include "cEnvironment.h"
 #include "cSceneManager.h"
+#include "AI\cNPCManager.h"
 
 
 // Finds a GameObject by a friendly name. Returns 0 or NULL if not found
@@ -46,9 +47,9 @@ extern int g_scrHeight;                                 // (GE101_Main.cpp)
 extern cCamera g_camera;                                // (GE101_Main.cpp)
 extern bool g_clothDebug;                               // (DrawCalls.cpp)
 extern cEnvironment g_environment;                      // (GE101_Main.cpp)
-//extern cCameraObject* g_pCamera;                        // (GE101_Main.cpp)
-//extern cNPCManager g_NPCManager;
-//extern cTextManager g_textManager;                      // (GE101_Main.cpp)
+//extern cCameraObject* g_pCamera;                      // (GE101_Main.cpp)
+extern cNPCManager g_NPCManager;                        // (GE101_Main.cpp)
+//extern cTextManager g_textManager;                    // (GE101_Main.cpp)
 extern cGameObject* g_pSkyBoxObject;                    // (GE101_Main.cpp)
 //extern cCameraManger g_CameraManager;
 //extern cLocalization g_lococalization;                  // (GE101_Main.cpp)
