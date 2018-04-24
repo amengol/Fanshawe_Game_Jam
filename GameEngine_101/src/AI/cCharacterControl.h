@@ -25,10 +25,16 @@ public:
     };
 
     // Sets the Character's GameObject
-    inline void SetCharacter(cGameObject* GO) { mCharacter = GO; }
+    void SetCharacter(cGameObject* GO);
 
     // Returns the Character's GameObject
     inline cGameObject* GetCharacter() { return mCharacter; }
+
+    // Returns the last matrix orientation
+    glm::mat4 getLastOrientation() { return mLastOrientation; }
+
+    // Sets the last matrix orientation
+    void setLastOrientation(const glm::mat4& orienation) { mLastOrientation = orienation; }
 
     // Moves character forward
     void Forward();
@@ -139,6 +145,7 @@ private:
     float mHealth;              // The health of the character
     float mSysTimeRot;          // To control "interrupted" rotations    
     float mSysTimeJump;         // To avoid jumping in the air
+    glm::mat4 mLastOrientation; // Last character orientation;
     cGameObject* mCharacter;    // The controlled character
     eCharacterState mCharState; // The state of the character
     

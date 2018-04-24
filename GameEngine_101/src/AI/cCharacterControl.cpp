@@ -12,6 +12,23 @@ cCharacterControl::cCharacterControl()
     mHealth = 1.0f;
     mSysTimeRot = 0.0f;
     mSysTimeJump = 0.0f;
+    mLastOrientation = glm::mat4(1.0f);
+}
+
+void cCharacterControl::SetCharacter(cGameObject* GO)
+{
+    if (GO != NULL)
+    {
+        if (GO->rigidBody != NULL)
+        {
+            GO->rigidBody->GetMatOrientation(mLastOrientation);
+        }
+        else
+        {
+            mLastOrientation = GO->orientation;
+        }
+        mCharacter = GO;
+    }
 }
 
 void cCharacterControl::Forward()
