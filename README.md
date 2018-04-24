@@ -71,7 +71,7 @@ Implemented a fully Day/Night cycle with:
 - Multiple sky maps seamless blending the scene  
 - Control for the Sun and Moon Light at the right position of the "Dummy Sun/Moon Texture"  
 - Moon and Sun lights change colours during the cycle to match the colour of the sky  
-- Shadows that also follow the Sun/Moon position (see next item)  
+- Shadows that also follows the Sun/Moon position (see next item)  
 
 **Shadows**  
 Implemented Shadows with transparency (foliage):  
@@ -85,11 +85,19 @@ Implement a multi-layer texture for the ground
 - The ground is a blend of 3 textures (with normal maps too)  
 - A forth texture with different texture coordinates commands the blend between them according its RGB channel. Taka a look at the `GameEngine_101\assets\textures\Ground_Overlay.bmp` to see how it looks like  
 
+**NPC System**  
+Implemented a NPC system with "Guardians" behaviors  
+- The NPCs turn to the character correctly  
+- The NPCs use different attacks depending on the distance from the character  
+
 **Scene Control**  
-Implement a scene control to handle Menus, BG music and transitions  
+Implement a scene control to handle Menus, Background music and transitions  
+
+**FOG Effect**  
+Implement a fog effect that fades during the day and increases at night  
 
 **Deffered Old-film effect and Menus**  
-- Implement and "old-film" effect using a texture displacenment combined with a Sepia tone base for the main menu (that is originally coloured). This is a Deferred render   
+- Implement and "old-film" effect using a texture displacement combined with a Sepia tone base for the main menu (that is originally coloured). This is a Deferred render   
 
 **Wave and Fade Menu Effect**  
 - Implement a fade/wave effect at the end of the last screen  
@@ -104,7 +112,7 @@ Gama correction implemented to get the colours right
 Some decals with "dirt" textures are places throughout the scene  
 
 **Normal, Specular and Alpha Maps**  
-The normal + specular + alpha maps were havely used is the scene and are working fine  
+The normal + specular + alpha maps were heavily used is the scene and are working fine  
 
 **Physics**  
 Physics is being driven by Bullet indirectly by a Physics interface  
@@ -112,7 +120,7 @@ Physics is being driven by Bullet indirectly by a Physics interface
 - Debug drawing is being called from own Bullet's DebugDrawWorld()  
 - Scene with various objects as convex hulls  
 - Various objects reacts to the character  
-- Character implemented as a regular Bullet capsule  
+- Characters implemented as a regular Bullet capsule  
 
 **Animation**  
 	Various character animations such as walk, run, jump, attacks etc.  
