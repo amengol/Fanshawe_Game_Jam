@@ -524,52 +524,6 @@ void main()
 		fragOut_colour = mainImage * fade + overlayImage * (1.0f - fade);
 		fragOut_colour.a = 1.0f;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		//vec2 offsets[9] = vec2[](
-			//vec2(-offset,  offset), // top-left
-			//vec2( 0.0f,    offset), // top-center
-			//vec2( offset,  offset), // top-right
-			//vec2(-offset,  0.0f),   // center-left
-			//vec2( 0.0f,    0.0f),   // center-center
-			//vec2( offset,  0.0f),   // center-right
-			//vec2(-offset, -offset), // bottom-left
-			//vec2( 0.0f,   -offset), // bottom-center
-			//vec2( offset, -offset)  // bottom-right    
-		//);
-
-		//// Emboss
-		//float kernel[9] = float[](
-		//    -2, -1,  0,
-		//	-1,  1,  1,
-		//	 0,  1,  2
-		//);
-		
-		//vec3 sampleTex[9];
-		//for(int i = 0; i < 9; i++)
-		//{
-		//    sampleTex[i] = vec3(texture(fullRenderedImage2D, textCoords + offsets[i]));
-		//}
-		
-		//vec3 col = vec3(0.0);
-		//for(int i = 0; i < 9; i++)
-		//    col += sampleTex[i] * kernel[i];
-		
-		//fragOut_colour = vec4(col, 1.0);
 	}
 		break;	// end of pass PASS_3_FULL_SCREEN_EFFECT_PASS_2:
 	}
