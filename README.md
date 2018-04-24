@@ -24,7 +24,7 @@ The Visual Studio solution for this assignment has two projects:
 ### How to build and run  
 
 1. Open the `GameEngine_101.sln` solution  
-2. Choose one **`32 bits`** configuration (Release preferable). The 64 bits version has issues with the alpha mapping.  
+2. Choose one `x86` configuration (Release preferable).
 4. Build the `Physics` project  
 5. Build the `GameEngine_101` project  
 6. Run the `GameEngine_101` project  
@@ -85,11 +85,17 @@ Implement a multi-layer texture for the ground
 - The ground is a blend of 3 textures (with normal maps too)  
 - A forth texture with different texture coordinates commands the blend between them according its RGB channel. Taka a look at the `GameEngine_101\assets\textures\Ground_Overlay.bmp` to see how it looks like  
 
+**Scene Control**  
+Implement a scene control to handle Menus, BG music and transitions  
+
 **Deffered Old-film effect and Menus**  
 - Implement and "old-film" effect using a texture displacenment combined with a Sepia tone base for the main menu (that is originally coloured). This is a Deferred render   
 
 **Wave and Fade Menu Effect**  
 - Implement a fade/wave effect at the end of the last screen  
+
+**Sound**
+Used FMOD to implement BG sounds  
 
 **Gama Correction**  
 Gama correction implemented to get the colours right  
