@@ -427,7 +427,9 @@ void cCharacterControl::Idle()
             && mCharacter->characterAnim != JUMP_FORWARD
             && mCharacter->characterAnim != ATTACK_01
             && mCharacter->characterAnim != ATTACK_02
-            && mCharacter->characterAnim != ATTACK_03)
+            && mCharacter->characterAnim != ATTACK_03
+            && mCharacter->characterAnim != TURN_LEFT_180
+            && mCharacter->characterAnim != TURN_RIGHT_180)
         {
 
             std::string animationName = mCharacter->animations.idle;
