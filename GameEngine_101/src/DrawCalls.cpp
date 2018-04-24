@@ -51,14 +51,21 @@ void CalculateSkinnedMeshBonesAndLoad(cGameObject* pTheGO,
                 pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.running);
             pTheGO->characterAnim = eCharacterAnim::RUN_FORWARD;
         }
-        if (pTheGO->characterAnim == eCharacterAnim::SLASH_01)
+        if (pTheGO->characterAnim == eCharacterAnim::ATTACK_01)
         {
             pAniState->activeAnimation.name = pTheGO->animations.idle;
             pAniState->activeAnimation.totalTime =
                 pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
             pTheGO->characterAnim = eCharacterAnim::IDLE;
         }
-        if (pTheGO->characterAnim == eCharacterAnim::SLASH_02)
+        if (pTheGO->characterAnim == eCharacterAnim::ATTACK_02)
+        {
+            pAniState->activeAnimation.name = pTheGO->animations.idle;
+            pAniState->activeAnimation.totalTime =
+                pTheGO->pSimpleSkinnedMesh->GetAnimationDuration(pTheGO->animations.idle);
+            pTheGO->characterAnim = eCharacterAnim::IDLE;
+        }
+        if (pTheGO->characterAnim == eCharacterAnim::ATTACK_03)
         {
             pAniState->activeAnimation.name = pTheGO->animations.idle;
             pAniState->activeAnimation.totalTime =

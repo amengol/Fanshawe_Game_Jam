@@ -278,19 +278,22 @@ void cCharacterControl::TurnLeft180()
 {
     if (mCharacter != NULL)
     {
-        std::string animationName = mCharacter->animations.left_turn;
-        mCharacter->pAniState->activeAnimation.name = animationName;
+        if (mCharacter->characterAnim != TURN_LEFT_180)
+        {
+            std::string animationName = mCharacter->animations.left_turn;
+            mCharacter->pAniState->activeAnimation.name = animationName;
 
-        mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
 
-        mCharacter->pAniState->activeAnimation.totalTime =
-            mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-        mCharacter->characterAnim = TURN_LEFT_180;
+            mCharacter->characterAnim = TURN_LEFT_180;
 
-        mSysTimeRot = glfwGetTime();
+            mSysTimeRot = glfwGetTime();
+        }
     }
 }
 
@@ -298,19 +301,22 @@ void cCharacterControl::TurnRight180()
 {
     if (mCharacter != NULL)
     {
-        std::string animationName = mCharacter->animations.right_turn;
-        mCharacter->pAniState->activeAnimation.name = animationName;
+        if (mCharacter->characterAnim != TURN_RIGHT_180)
+        {
+            std::string animationName = mCharacter->animations.right_turn;
+            mCharacter->pAniState->activeAnimation.name = animationName;
 
-        mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
 
-        mCharacter->pAniState->activeAnimation.totalTime =
-            mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
 
-        mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-        mCharacter->characterAnim = TURN_RIGHT_180;
+            mCharacter->characterAnim = TURN_RIGHT_180;
 
-        mSysTimeRot = glfwGetTime();
+            mSysTimeRot = glfwGetTime();
+        }
     }
 }
 
@@ -402,8 +408,9 @@ void cCharacterControl::Idle()
         if (mCharacter->characterAnim != IDLE 
             && mCharacter->characterAnim != JUMP
             && mCharacter->characterAnim != JUMP_FORWARD
-            && mCharacter->characterAnim != SLASH_01
-            && mCharacter->characterAnim != SLASH_02)
+            && mCharacter->characterAnim != ATTACK_01
+            && mCharacter->characterAnim != ATTACK_02
+            && mCharacter->characterAnim != ATTACK_03)
         {
 
             std::string animationName = mCharacter->animations.idle;
@@ -627,17 +634,17 @@ void cCharacterControl::Stunned()
     }
 }
 
-void cCharacterControl::slash_01()
+void cCharacterControl::attack_01()
 {
     if (mCharacter != NULL)
     {
-        if (mCharacter->characterAnim != SLASH_01
+        if (mCharacter->characterAnim != ATTACK_01
             && mCharacter->characterAnim != JUMP
             && mCharacter->characterAnim != JUMP_FORWARD
             && mCharacter->characterAnim != JUMP_FORWARD_WALKING)
         {
 
-            std::string animationName = mCharacter->animations.slash_01;
+            std::string animationName = mCharacter->animations.attack_01;
             mCharacter->pAniState->activeAnimation.name = animationName;
 
             mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
@@ -647,22 +654,22 @@ void cCharacterControl::slash_01()
 
             mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-            mCharacter->characterAnim = SLASH_01;
+            mCharacter->characterAnim = ATTACK_01;
         }
     }
 }
 
-void cCharacterControl::slash_02()
+void cCharacterControl::attack_02()
 {
     if (mCharacter != NULL)
     {
-        if (mCharacter->characterAnim != SLASH_02
+        if (mCharacter->characterAnim != ATTACK_02
             && mCharacter->characterAnim != JUMP
             && mCharacter->characterAnim != JUMP_FORWARD
             && mCharacter->characterAnim != JUMP_FORWARD_WALKING)
         {
 
-            std::string animationName = mCharacter->animations.slash_02;
+            std::string animationName = mCharacter->animations.attack_02;
             mCharacter->pAniState->activeAnimation.name = animationName;
 
             mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
@@ -672,7 +679,32 @@ void cCharacterControl::slash_02()
 
             mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
 
-            mCharacter->characterAnim = SLASH_02;
+            mCharacter->characterAnim = ATTACK_02;
+        }
+    }
+}
+
+void cCharacterControl::attack_03()
+{
+    if (mCharacter != NULL)
+    {
+        if (mCharacter->characterAnim != ATTACK_03
+            && mCharacter->characterAnim != JUMP
+            && mCharacter->characterAnim != JUMP_FORWARD
+            && mCharacter->characterAnim != JUMP_FORWARD_WALKING)
+        {
+
+            std::string animationName = mCharacter->animations.attack_03;
+            mCharacter->pAniState->activeAnimation.name = animationName;
+
+            mCharacter->pAniState->activeAnimation.currentTime = 0.0f;
+
+            mCharacter->pAniState->activeAnimation.totalTime =
+                mCharacter->pSimpleSkinnedMesh->GetAnimationDuration(animationName);
+
+            mCharacter->rigidBody->SetLinearVelocityLocal(glm::vec3(0.0f, 0.0f, 0.0f));
+
+            mCharacter->characterAnim = ATTACK_03;
         }
     }
 }

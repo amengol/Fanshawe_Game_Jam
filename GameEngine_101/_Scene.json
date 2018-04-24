@@ -387,8 +387,11 @@
 		"jump" : "sword_and_shield_jump",
 		"jump_forward_walking" : "sword_and_shield_jump_forward_w",
 		"jump_forward_running" : "sword_and_shield_jump_forward_r",
-		"slash_01" : "sword_and_shield_slash_01",
-		"slash_02" : "sword_and_shield_slash_03"
+		"left_turn" : "sword_and_shield_turn_left",
+		"right_turn" : "sword_and_shield_turn_right",
+		"attack_01" : "sword_and_shield_slash_01",
+		"attack_02" : "sword_and_shield_slash_03",
+		"attack_03" : "sword_and_shield_slash_04"
 		},
 		"propsMap" :
 		[
@@ -404,6 +407,36 @@
 		"receiveShadow" : false,
 		"position" : [0.0, 0.9, 0.0],
 		"scale" : 0.01
+	},
+	{ 
+		"meshName" : "warrok",
+		"friendlyName" : "NPC01",		
+		"typeOfObject" : 7,
+		"mass" : 80.0,
+		"height" : 0.9,
+		"defaultAnimation" : "warrok_idle",
+		"animationList": 
+		{
+		"idle" : "warrok_idle",
+		"walking" : "warrok_walking",
+		"running": "warrok_run",
+		"jump" : "warrok_jumping",
+		"left_turn" : "warrok_left_turn",
+		"right_turn" : "warrok_right_turn",
+		"attack_01" : "warrok_punch",
+		"attack_02" : "warrok_swiping",
+		"attack_03" : "warrok_roaring"
+		},
+		"textureNames[0]" : "bear_diffuse.bmp",
+		"hasAlpha" : true,
+		"useDiscardAlpha" : true,
+		"textureNames[1]" : "bear_alpha.bmp",
+		"hasNormalMap" : true,
+		"textureNames[4]" : "bear_normal.bmp",
+		"cullFace" : false,
+		"receiveShadow" : false,
+		"position" : [0.0, 0.9, 0.0],
+		"scale" : 0.015
 	}
 ],
 # Limit planes Block (Used in Physics)

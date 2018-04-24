@@ -1313,34 +1313,50 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
                     }
                 }
 
-                if ((gameObject[jsIndex]["animationList"].HasMember("slash_01")))
+                if ((gameObject[jsIndex]["animationList"].HasMember("attack_01")))
                 {
-                    if (((gameObject[jsIndex]["animationList"]["slash_01"].IsString())))
+                    if (((gameObject[jsIndex]["animationList"]["attack_01"].IsString())))
                     {
-                        theGO->animations.slash_01 =
-                            gameObject[jsIndex]["animationList"]["slash_01"].GetString();
+                        theGO->animations.attack_01 =
+                            gameObject[jsIndex]["animationList"]["attack_01"].GetString();
                         isCharacter = true;
                     }
                     else
                     {
                         error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                            " is not properly formated for its \"animationList\", \"slash_01\" member!";
+                            " is not properly formated for its \"animationList\", \"attack_01\" member!";
                         return false;
                     }
                 }
 
-                if ((gameObject[jsIndex]["animationList"].HasMember("slash_02")))
+                if ((gameObject[jsIndex]["animationList"].HasMember("attack_02")))
                 {
-                    if (((gameObject[jsIndex]["animationList"]["slash_02"].IsString())))
+                    if (((gameObject[jsIndex]["animationList"]["attack_02"].IsString())))
                     {
-                        theGO->animations.slash_02 =
-                            gameObject[jsIndex]["animationList"]["slash_02"].GetString();
+                        theGO->animations.attack_02 =
+                            gameObject[jsIndex]["animationList"]["attack_02"].GetString();
                         isCharacter = true;
                     }
                     else
                     {
                         error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
-                            " is not properly formated for its \"animationList\", \"slash_02\" member!";
+                            " is not properly formated for its \"animationList\", \"attack_02\" member!";
+                        return false;
+                    }
+                }
+
+                if ((gameObject[jsIndex]["animationList"].HasMember("attack_03")))
+                {
+                    if (((gameObject[jsIndex]["animationList"]["attack_03"].IsString())))
+                    {
+                        theGO->animations.attack_03 =
+                            gameObject[jsIndex]["animationList"]["attack_03"].GetString();
+                        isCharacter = true;
+                    }
+                    else
+                    {
+                        error = "The Json Gameobject number " + std::to_string(jsIndex + 1) +
+                            " is not properly formated for its \"animationList\", \"attack_03\" member!";
                         return false;
                     }
                 }

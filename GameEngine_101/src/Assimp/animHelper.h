@@ -30,8 +30,9 @@ enum eCharacterAnim
     PRAYING,
     DYING_RISING,
     STUNNED,
-    SLASH_01,
-    SLASH_02,
+    ATTACK_01,
+    ATTACK_02,
+    ATTACK_03,
     DEAD
 };
 

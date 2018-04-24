@@ -633,7 +633,7 @@ void cGameObject::DebugUpdate(double deltaTime)
          }
      }
 
-     animationName = animations.slash_01;
+     animationName = animations.attack_01;
      if (animationName != "")
      {
          const aiScene* anim = g_animationCollection.getAnimation(animationName);
@@ -649,7 +649,23 @@ void cGameObject::DebugUpdate(double deltaTime)
          }
      }
 
-     animationName = animations.slash_02;
+     animationName = animations.attack_02;
+     if (animationName != "")
+     {
+         const aiScene* anim = g_animationCollection.getAnimation(animationName);
+
+         if (anim != NULL)
+         {
+             this->pSimpleSkinnedMesh->AddAnimationScene(anim, animationName);
+         }
+         else
+         {
+             error.append("The animation " + animationName + " was not found in the Animation Collection class\n");
+             allIsGood = false;
+         }
+     }
+
+     animationName = animations.attack_03;
      if (animationName != "")
      {
          const aiScene* anim = g_animationCollection.getAnimation(animationName);
