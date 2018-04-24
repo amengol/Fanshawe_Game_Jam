@@ -43,7 +43,7 @@ namespace nPhysics
         virtual bool GetHit() { return this->mHit; }
 
         virtual void rotateX(float degrees) { return; }
-        virtual void rotateY(float degrees) { return; }
+        virtual void rotateY(float degrees);
         virtual void rotateZ(float degrees) { return; }
         virtual void SetRateOfTurnX(float rotX) { return; }
         virtual void SetRateOfTurnY(float rotY) { return; }

@@ -861,6 +861,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             desc.Position = position;
             desc.Mass = mass;
             nPhysics::iRigidBody* rb = g_pPhysicsFactory->CreateRigidBody(desc, shape);
+            rb->rotateY(rotateY);
             theGO->rigidBody = rb;
             g_pPhysicsWorld->AddRigidBody(rb);
 

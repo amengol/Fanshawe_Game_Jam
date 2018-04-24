@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "cRigidBody.h"
 #include "shapes.h"
+#include <glm\gtx\transform.hpp>
 
 namespace nPhysics
 {
@@ -281,11 +282,6 @@ namespace nPhysics
         this->bullet_RigidBody->setLinearVelocity(Vel);
     }
 
-    //void cRigidBody::SetMatOrientation(const glm::mat4& orientationIn)
-    //{
-    //    this->mRotation = glm::toQuat(orientationIn);
-    //}
-
     void cRigidBody::SetLinearVelocityLocal(const glm::vec3& velocity)
     {
         glm::mat4 orientation;
@@ -320,5 +316,12 @@ namespace nPhysics
         Vel.setZ(velocityIn.z);
         this->bullet_RigidBody->activate();
         this->bullet_RigidBody->setAngularVelocity(Vel);
+    }
+
+    void cRigidBody::rotateY(float degrees)
+    {
+        glm::mat4 rotation(1.0f);
+        rotation = glm::rotate(rotation, glm::radians(degrees), glm::vec3(0.0f, 1.0f, 0.0f));
+        this->SetMatOrientation(rotation);
     }
 }
