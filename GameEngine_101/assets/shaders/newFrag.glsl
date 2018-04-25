@@ -287,7 +287,7 @@ void main()
 			if (textAlpha.r < 0.5f)
 				discard;
 		}
-	}
+	} // !case DEPTH_RENDER_PASS
 		break;
 	case FULL_SCENE_RENDER_PASS:
 	{
@@ -511,10 +511,13 @@ void main()
 												  materialSpecular );	   
 		}
 		fragOut_colour.rgb = mix(fogColour, fragOut_colour.rgb, fogFactor);
-	}
+	} // !case FULL_SCENE_RENDER_PASS
 		break;
 	case DEFERRED_RENDER_PASS:
 	{
+		// I could blend this pass with the FINAL pass, but I will be
+		// using it for lightining calc per frag in the future
+
 		vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, gl_FragCoord.y / screenHeight );
 
 		vec3 theColourAtThisPixel = texture( texFBOColour2D, textCoords).rgb;
@@ -525,31 +528,35 @@ void main()
 		fragOut_colour.rgb = theColourAtThisPixel;
 		fragOut_colour.a = 1.0f;
 
-	}
+	} // !case DEFERRED_RENDER_PASS
 		break;
 	case FINAL_RENDER_PASS:
 	{
 		vec2 textCoords = vec2( gl_FragCoord.x / screenWidth, gl_FragCoord.y / screenHeight );
 
+		// Main "Game" image
 		vec4 mainImage = texture( fullRenderedImage2D, textCoords);
+		// Gama correction
 		mainImage.rgb = pow(mainImage.rgb, vec3(1.0/gamaCorrection));
-		
+		// Wave effect
 		if (fade != 0.0f)
 		{
+			// The wave effect is being increased by the fade
 			textCoords.x += (sin(textCoords.y * 10.0 + sysTime) / 10.0f) * fade;
 		}
-
-		vec4 overlayImage = texture( fullRenderedImage2D_Overlay, textCoords);
 		
+		// Overlay image (mainly Menus)
+		vec4 overlayImage = texture( fullRenderedImage2D_Overlay, textCoords);
 		if (noiseEffectOn)
 		{
 			vec2 newCoords = textCoords;
 			newCoords.x += noise;
 			newCoords.y -= noise;
 			overlayImage *= texture( fullRenderedImage2D_Alpha, newCoords).r;
+			// Nicely change from RGB to mono
 			float mono = (0.2125 * overlayImage.r) + (0.7154 * overlayImage.g) + (0.0721 * overlayImage.b);
 			overlayImage = vec4(vec3(mono), 1.0f);
-			// Sepia
+			// Fine tune to Sepia
 			overlayImage.r *= 1.2f;
 			overlayImage.g *= 1.0f;
 			overlayImage.b *= 0.8f;
@@ -557,10 +564,9 @@ void main()
 		
 		fragOut_colour = mainImage * fade + overlayImage * (1.0f - fade);
 		fragOut_colour.a = 1.0f;
-
-	}
-		break;	// end of pass PASS_3_FULL_SCREEN_EFFECT_PASS_2:
-	}
+	} // !case FINAL_RENDER_PASS
+		break;
+	} // !switch (renderPassNumber)
 	
 	return;
 }
