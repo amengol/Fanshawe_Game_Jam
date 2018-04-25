@@ -233,6 +233,17 @@ int main()
     g_FBO_deferred.init(g_scrWidth, g_scrHeight, error);
     g_FBO_shadows.init(8192, 8192, error);
 
+    // We are going to need the "Knight" later
+    // This is a workaround the props sync problem
+    cGameObject* knight = NULL;
+    for (size_t i = 0; i < g_vecGameObjects.size(); i++)
+    {
+        if (g_vecGameObjects[i]->friendlyName == "Hero01")
+        {
+            knight = g_vecGameObjects[i];
+        }
+    }
+
     //-------------------------------------------------------------------------
     // ScreenPlay
     g_pSeceneManager = new cSceneManager();
@@ -333,6 +344,10 @@ int main()
         }
 
         g_pShaderManager->useShaderProgram("GE101_Shader");
+
+        // This is a dummy pass with only the knight
+        // to workaround props sync problem
+        RenderScene(knight, window, g_camera, deltaTime);
 
         // Depth pass
         glUniform1i(g_uniLocHandler.renderPassNumber, DEPTH_RENDER_PASS);
