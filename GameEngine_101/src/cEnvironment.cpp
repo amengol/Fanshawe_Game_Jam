@@ -28,7 +28,6 @@ cEnvironment::cEnvironment()
     m_sunLight->attenuation = glm::vec3(0.0f);
     m_sunLight->attenuation.x = 1.0f;
     m_sunLight->typeParams = glm::vec4(0.0f);
-    m_sunLight->typeParams.x = 3.0f; // Sun/moon light
     m_sunLight->typeParams.y = 1000.0f;
     m_sunLight->typeParams2 = glm::vec4(0.0f);
 
@@ -39,7 +38,6 @@ cEnvironment::cEnvironment()
     m_moonLight->attenuation = glm::vec3(0.0f);
     m_moonLight->attenuation.x = 1.0f;
     m_moonLight->typeParams = glm::vec4(0.0f);
-    m_moonLight->typeParams.x = 3.0f; // Sun/moon light
     m_moonLight->typeParams.y = 1000.0f;
     m_moonLight->typeParams2 = glm::vec4(0.0f);
     

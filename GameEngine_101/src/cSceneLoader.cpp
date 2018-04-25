@@ -1692,11 +1692,13 @@ bool cSceneLoader::loadLightParams(int shaderID,
 
                     GO_Light.type = (LightType)lights[i]["type"].GetUint();
 
-                    if(GO_Light.type == SPOT)
+                    switch (GO_Light.type)
                     {
-                        if(!(lights[i]["focusDirection"][0].IsNumber()
-                           && lights[i]["focusDirection"][1].IsNumber()
-                           && lights[i]["focusDirection"][2].IsNumber()))
+                    case SPOT:
+                    {
+                        if (!(lights[i]["focusDirection"][0].IsNumber()
+                            && lights[i]["focusDirection"][1].IsNumber()
+                            && lights[i]["focusDirection"][2].IsNumber()))
                         {
                             error = "The Json light number " + std::to_string(i + 1) +
                                 " is not properly formated for its \"focusDirection\" array!";
@@ -1706,14 +1708,14 @@ bool cSceneLoader::loadLightParams(int shaderID,
                         GO_Light.focusDirection.y = lights[i]["focusDirection"][1].GetFloat();
                         GO_Light.focusDirection.z = lights[i]["focusDirection"][2].GetFloat();
 
-                        lightManager->vecLights[i]->typeParams.x = 2.0f;
+                        lightManager->vecLights[i]->typeParams.x = GO_Light.type;
                         lightManager->vecLights[i]->typeParams.z = glm::radians(lights[i]["innerAngle"].GetFloat());
                         lightManager->vecLights[i]->typeParams.w = glm::radians(lights[i]["outerAngle"].GetFloat());
-                    }  
-
-                    if (GO_Light.type == SUN)
-                    {
-                        lightManager->vecLights[i]->typeParams.x = 3.0f;
+                    }
+                        break;
+                    default:
+                        lightManager->vecLights[i]->typeParams.x = GO_Light.type;
+                        break;
                     }
 
                     g_vecGameObjects[j]->vecLightsInfo.push_back(GO_Light);
@@ -1744,11 +1746,13 @@ bool cSceneLoader::loadLightParams(int shaderID,
 
                     GO_Light.type = (LightType)lights[i]["type"].GetUint();
 
-                    if(GO_Light.type == SPOT)
+                    switch (GO_Light.type)
                     {
-                        if(!(lights[i]["focusDirection"][0].IsNumber()
-                           && lights[i]["focusDirection"][1].IsNumber()
-                           && lights[i]["focusDirection"][2].IsNumber()))
+                    case SPOT:
+                    {
+                        if (!(lights[i]["focusDirection"][0].IsNumber()
+                            && lights[i]["focusDirection"][1].IsNumber()
+                            && lights[i]["focusDirection"][2].IsNumber()))
                         {
                             error = "The Json light number " + std::to_string(i + 1) +
                                 " is not properly formated for its \"focusDirection\" array!";
@@ -1758,14 +1762,14 @@ bool cSceneLoader::loadLightParams(int shaderID,
                         GO_Light.focusDirection.y = lights[i]["focusDirection"][1].GetFloat();
                         GO_Light.focusDirection.z = lights[i]["focusDirection"][2].GetFloat();
 
-                        lightManager->vecLights[i]->typeParams.x = 2.0f;
+                        lightManager->vecLights[i]->typeParams.x = GO_Light.type;
                         lightManager->vecLights[i]->typeParams.z = glm::radians(lights[i]["innerAngle"].GetFloat());
                         lightManager->vecLights[i]->typeParams.w = glm::radians(lights[i]["outerAngle"].GetFloat());
                     }
-
-                    if (GO_Light.type == SUN)
-                    {
-                        lightManager->vecLights[i]->typeParams.x = 3.0f;
+                    break;
+                    default:
+                        lightManager->vecLights[i]->typeParams.x = GO_Light.type;
+                        break;
                     }
 
                     g_pTranspManager->transpObjects[j]->vecLightsInfo.push_back(GO_Light);

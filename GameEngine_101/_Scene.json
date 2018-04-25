@@ -515,8 +515,9 @@
 #}
 
 # Type of lights are:
-# OMNI = 0
-# SPOT = 1
+# DIRECTIONAL = 0
+# OMNI = 2
+# SPOT = 4
 
 "Lights" : 
 [

@@ -34,14 +34,12 @@
 // The FBOs for the scene
 cFBO g_FBO_fullScene;
 cFBO g_FBO_deferred;
-cFBO g_FBO_alpha_shadow;
 cFBO_Shadow g_FBO_shadows;
 
 // Shader Passes
-const int FULL_SCENE_RENDER_PASS = 0;
-const int DEFERRED_RENDER_PASS = 1;
-const int SHADOW_ALPHA_PASS = 2;
-const int DEPTH_RENDER_PASS = 3;
+const int DEPTH_RENDER_PASS = 0;
+const int FULL_SCENE_RENDER_PASS = 1;
+const int DEFERRED_RENDER_PASS = 2;
 const int FINAL_RENDER_PASS = 99;
 
 // Physics
@@ -233,7 +231,6 @@ int main()
     // Init the FBOs
     g_FBO_fullScene.init(g_scrWidth, g_scrHeight, error);
     g_FBO_deferred.init(g_scrWidth, g_scrHeight, error);
-    g_FBO_alpha_shadow.init(128, 128, error);
     g_FBO_shadows.init(8192, 8192, error);
 
     //-------------------------------------------------------------------------
@@ -337,13 +334,6 @@ int main()
 
         g_pShaderManager->useShaderProgram("GE101_Shader");
 
-        // Shadow alpha pass
-        glUniform1i(g_uniLocHandler.renderPassNumber, SHADOW_ALPHA_PASS);
-        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_alpha_shadow.ID);
-        g_FBO_alpha_shadow.clearBuffers();
-        glViewport(0, 0, g_FBO_alpha_shadow.width, g_FBO_alpha_shadow.height);
-        RenderShadow(g_vecGameObjects, g_uniLocHandler.currentProgID);
-
         // Depth pass
         glUniform1i(g_uniLocHandler.renderPassNumber, DEPTH_RENDER_PASS);
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_shadows.ID);
@@ -356,9 +346,6 @@ int main()
         glActiveTexture(GL_TEXTURE0 + 20);
         glBindTexture(GL_TEXTURE_2D, g_FBO_shadows.depthTexture_ID);
         glUniform1i(g_uniLocHandler.shadowMap, 20);
-        glActiveTexture(GL_TEXTURE0 + 21);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_alpha_shadow.colourTexture_0_ID);
-        glUniform1i(g_uniLocHandler.shadowAlphaMap, 21);
         glUniform1i(g_uniLocHandler.renderPassNumber, FULL_SCENE_RENDER_PASS);
         glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_fullScene.ID);
         g_FBO_fullScene.clearBuffers();

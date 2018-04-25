@@ -35,7 +35,6 @@ public:
     GLint fogPercent;
     GLint renderPassNumber;
     GLint shadowMap;
-    GLint shadowAlphaMap;
     GLint texFBOColour2D;
     GLint texFBONormal2D;
     GLint texFBOVertexWorldPos2D;

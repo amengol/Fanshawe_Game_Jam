@@ -33,7 +33,6 @@ void cUniLocHandler::InitShaderUniformLocations(std::string shaderName)
         fogPercent = glGetUniformLocation(currentProgID, "fogPercent");
         renderPassNumber = glGetUniformLocation(currentProgID, "renderPassNumber");
         shadowMap = glGetUniformLocation(currentProgID, "shadowMap");
-        shadowAlphaMap = glGetUniformLocation(currentProgID, "shadowAlphaMap");
         texFBOColour2D = glGetUniformLocation(currentProgID, "texFBOColour2D");
         texFBONormal2D = glGetUniformLocation(currentProgID, "texFBONormal2D");
         texFBOVertexWorldPos2D = glGetUniformLocation(currentProgID, "texFBOVertexWorldPos2D");
