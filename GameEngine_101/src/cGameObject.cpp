@@ -8,27 +8,27 @@
 
 cGameObject::cGameObject()
 {
-	this->scale = 1.0f;
+    this->scale = 1.0f;
     this->rateOfTurnX = 0.0f;
     this->rateOfTurnY = 0.0f;
     this->rateOfTurnZ = 0.0f;
-	this->position = glm::vec3(0.0f);
+    this->position = glm::vec3(0.0f);
     this->previousPosition = glm::vec3(0.0f);
-	this->orientation = glm::mat4x4(1.0f);
+    this->orientation = glm::mat4x4(1.0f);
     this->vecOrientation = glm::vec3(0.0f);
-	this->vel = glm::vec3(0.0f);
-	this->accel = glm::vec3(0.0f);
-	this->diffuseColour = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    this->vel = glm::vec3(0.0f);
+    this->accel = glm::vec3(0.0f);
+    this->diffuseColour = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
     this->specular = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	this->bIsUpdatedInPhysics = true;
+    this->bIsUpdatedInPhysics = true;
     this->hadAlreadyCollided = false;
-	this->radius = 1.0f;
+    this->radius = 1.0f;
     this->mass = 1.0f;
     this->height = 1.0f;
-	this->typeOfObject = eTypeOfObject::UNKNOWN;
+    this->typeOfObject = eTypeOfObject::UNKNOWN;
     this->mGOSound = NULL;
     this->mHasSound = false;
-	this->bIsWireFrame = false;
+    this->bIsWireFrame = false;
     this->renderable = true;
     this->hasColour = false;
     this->hasAlpha = false;
@@ -51,15 +51,15 @@ cGameObject::cGameObject()
     this->hasNormalMap = false;
 
 #ifdef _DEBUG
- 	//this->m_pTheDR = cDebugRenderer::getInstance();
+    //this->m_pTheDR = cDebugRenderer::getInstance();
  #endif
 
-	return;
+    return;
 }
 
 cGameObject::~cGameObject()
 {
-	return;
+    return;
 }
 
 void cGameObject::SetPostiion(glm::vec3 pos)
@@ -122,11 +122,11 @@ void cGameObject::setCollisionGeometry(cMesh mesh)
 void cGameObject::DebugUpdate(double deltaTime)
  {
  #ifdef _DEBUG
- 	/*this->m_pTheDR->AddLine( this->position, 
- 							 this->position + this->vel, 
- 							 this->diffuseColour );*/
+    /*this->m_pTheDR->AddLine( this->position, 
+                             this->position + this->vel, 
+                             this->diffuseColour );*/
  #endif
- 	return;
+    return;
  }
  
  //void cGameObject::Update(float deltaTime, glm::vec3 GRAVITY)

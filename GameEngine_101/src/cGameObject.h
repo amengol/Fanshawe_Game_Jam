@@ -24,7 +24,7 @@ enum eTypeOfObject
     SKINNED_MESH,
     CLOTH,
     CONVEX_HULL,
-	UNKNOWN = 99
+    UNKNOWN = 99
 };
 
 enum LightType
@@ -53,31 +53,31 @@ struct sCollisionGeometry
 class cGameObject
 {
 public:
-	cGameObject();
-	~cGameObject();
+    cGameObject();
+    ~cGameObject();
 
     void SetPostiion(glm::vec3 pos);
-	glm::vec3 position;
+    glm::vec3 position;
     glm::mat4x4 orientation;
     glm::vec3 vecOrientation;
-	float scale;
+    float scale;
     float rateOfTurnX;
     float rateOfTurnY;
     float rateOfTurnZ;
-	// **********************************
-	// Physics properties
-	glm::vec3 vel;
-	glm::vec3 accel;
-	bool bIsUpdatedInPhysics;
+    // **********************************
+    // Physics properties
+    glm::vec3 vel;
+    glm::vec3 accel;
+    bool bIsUpdatedInPhysics;
     bool hadAlreadyCollided; // Used to free the object from collision stuck
-	eTypeOfObject typeOfObject;
-	float radius;
+    eTypeOfObject typeOfObject;
+    float radius;
     float mass;
     float height;
     std::vector<sCollisionGeometry> contacPoints;
     void setCollisionGeometry(cMesh);
 
-	bool bIsWireFrame;
+    bool bIsWireFrame;
     bool renderable;
     bool hasColour;
     bool hasAlpha;
@@ -90,14 +90,14 @@ public:
     bool selfLight;
     bool hasNormalMap;
     glm::vec3 previousPosition;
-	// **********************************
+    // **********************************
     //Lights
     bool hasLights;
     std::vector<lightInfo> vecLightsInfo;
     // **********************************
-	glm::vec4 diffuseColour;
+    glm::vec4 diffuseColour;
     glm::vec4 specular;
-	std::string meshName;
+    std::string meshName;
 
     // AI
     bool hasAI;
@@ -114,10 +114,10 @@ public:
     std::string friendlyName;
     inline unsigned int getUniqueID(void) { return this->m_UniqueID; }
 
-	// Behaviour
- 	//void Update(float deltaTime, glm::vec3 GRAVITY);
+    // Behaviour
+    //void Update(float deltaTime, glm::vec3 GRAVITY);
  
- 	void DebugUpdate(double deltaTime);
+    void DebugUpdate(double deltaTime);
 
     void rotateX(float degreesX);
     void rotateY(float degreesY);
