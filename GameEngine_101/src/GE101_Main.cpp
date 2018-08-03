@@ -6,24 +6,19 @@
    @version 2.0
 */
 
-#include "globalOpenGL_GLFW.h"
+
 #include <iostream>
 #include <stdio.h>
-#include <fstream>
-#include <sstream>
 #include <string>
 #include "cGameObject.h"
-#include <glm/mat4x4.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include "globalGameStuff.h"
-#include "Texture\TextureLoader.h"
+#include "Texture/TextureLoader.h"
 #include "Utilities.h"
 #include "cSceneLoader.h"
 #include "cSoundManager.h"
 #include "DrawCalls.h"
 #include "cFBO.h"
-#include "AI\cCharacterControl.h"
+#include "AI/cCharacterControl.h"
 #include "cCamera.h"
 #include "GLFW_callBacks.h"
 #include "cEnvironment.h"
@@ -32,9 +27,9 @@
 #include "cSoundObject.h"
 
 // The FBOs for the scene
-cFBO g_FBO_fullScene;
-cFBO g_FBO_deferred;
-cFBO_Shadow g_FBO_shadows;
+cFBO g_fboFullScene;
+cFBO g_fboDeferred;
+cFBO_Shadow g_fboShadows;
 
 // Shader Passes
 const int DEPTH_RENDER_PASS = 0;
@@ -43,10 +38,10 @@ const int DEFERRED_RENDER_PASS = 2;
 const int FINAL_RENDER_PASS = 99;
 
 // Physics
-nPhysics::iPhysicsFactory* g_pPhysicsFactory = NULL;
-nPhysics::iPhysicsWorld* g_pPhysicsWorld = NULL;
-nPhysics::iPhysicsDebugDrawer* g_pPhysicsDebug = NULL;
-bool g_debugEnable = false;
+nPhysics::iPhysicsFactory* g_pPhysicsFactory = nullptr;
+nPhysics::iPhysicsWorld* g_pPhysicsWorld = nullptr;
+nPhysics::iPhysicsDebugDrawer* g_pPhysicsDebug = nullptr;
+bool gDebugEnable = false;
 
 bool InitPhysics()
 {
@@ -61,24 +56,23 @@ bool InitPhysics()
 cCamera g_camera;
 int g_scrWidth = 1260;
 int g_scrHeight = 768;
-cSceneManager* g_pSeceneManager = NULL;
-cVAOMeshManager* g_pVAOManager = NULL;
-cGameObject* g_pSkyBoxObject = NULL;
-cShaderManager*	g_pShaderManager = NULL;
-cLightManager*	g_pLightManager = NULL;
+cSceneManager* g_pSeceneManager = nullptr;
+cVAOMeshManager* g_pVaoManager = nullptr;
+cGameObject* g_pSkyBoxObject = nullptr;
+cShaderManager*	g_pShaderManager = nullptr;
+cLightManager*	g_pLightManager = nullptr;
 cEnvironment g_environment;
-CTextureManager* g_pTextureManager = NULL;
-cTransparencyManager* g_pTranspManager = NULL;
+CTextureManager* g_pTextureManager = nullptr;
+cTransparencyManager* g_pTranspManager = nullptr;
 std::vector<cGameObject*>  g_vecGameObjects;
 cUniLocHandler g_uniLocHandler;
 long long g_cubeID = -1;
 long long g_lineID = -1;
 float g_AABBSize = 20.0f;
-cSoundManager* g_pSoundManager = NULL;
+cSoundManager* g_pSoundManager = nullptr;
 
 int main()
 {
-    GLFWwindow* window;
     glfwSetErrorCallback(errorCallback);
 
     if (!glfwInit())
@@ -94,7 +88,8 @@ int main()
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-    window = glfwCreateWindow(g_scrWidth, g_scrHeight, title.c_str(), NULL, NULL);
+    
+    GLFWwindow* window = glfwCreateWindow(g_scrWidth, g_scrHeight, title.c_str(), nullptr, nullptr);
     if (!window)
     {
         glfwTerminate();
@@ -108,7 +103,7 @@ int main()
     glfwSetKeyCallback(window, keyCallback);
     glfwSetScrollCallback(window, scrollCallback);
 
-    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
     glfwSwapInterval(1);
 
     // Init Physics
@@ -157,7 +152,7 @@ int main()
     // Load things
     g_pModelAssetLoader = new cModelAssetLoader();
     g_pModelAssetLoader->setBasePath("assets/models/");
-    g_pVAOManager = new cVAOMeshManager();
+    g_pVaoManager = new cVAOMeshManager();
     g_uniLocHandler.currentProgID = g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
     g_uniLocHandler.InitShaderUniformLocations("GE101_Shader");
     // General error string, used for a number of items during start up
@@ -165,7 +160,7 @@ int main()
     cSceneLoader sceneLoader;
     // Models
     if(!sceneLoader.loadModelsIntoScene(g_uniLocHandler.currentProgID, 
-                                        g_pVAOManager, 
+                                        g_pVaoManager, 
                                         g_pModelAssetLoader, 
                                         error))
     {
@@ -229,13 +224,13 @@ int main()
     g_camera.lockOnGameObject(g_characterManager.GetActiveCharacter()->GetCharacter());
 
     // Init the FBOs
-    g_FBO_fullScene.init(g_scrWidth, g_scrHeight, error);
-    g_FBO_deferred.init(g_scrWidth, g_scrHeight, error);
-    g_FBO_shadows.init(8192, 8192, error);
+    g_fboFullScene.init(g_scrWidth, g_scrHeight, error);
+    g_fboDeferred.init(g_scrWidth, g_scrHeight, error);
+    g_fboShadows.init(8192, 8192, error);
 
     // We are going to need the "Knight" later
     // This is a workaround the props sync problem
-    cGameObject* knight = NULL;
+    cGameObject* knight = nullptr;
     for (size_t i = 0; i < g_vecGameObjects.size(); i++)
     {
         if (g_vecGameObjects[i]->friendlyName == "Hero01")
@@ -302,7 +297,7 @@ int main()
     //-------------------------------------------------------------------------
 
     // Will be used in the physics step
-    double lastTimeStep = glfwGetTime();
+    float lastTimeStep = static_cast<float>(glfwGetTime());
 
     // Camera initial position
     g_camera.setYaw(180.0f);
@@ -313,8 +308,8 @@ int main()
     // Main Game Loop
     while (!glfwWindowShouldClose(window))
     {
-        double curTime = glfwGetTime();
-        double deltaTime = curTime - lastTimeStep;
+        const float curTime = static_cast<float>(glfwGetTime());
+        const float deltaTime = curTime - lastTimeStep;
 
 #ifdef PRINT_FPS
         printf("%f frames per second\n", 1.0f / deltaTime);
@@ -337,10 +332,10 @@ int main()
         }
 
         // This is to make sure the resolution will be the right one
-        if (g_scrWidth != g_FBO_fullScene.width || g_scrHeight != g_FBO_fullScene.height)
+        if (g_scrWidth != g_fboFullScene.width || g_scrHeight != g_fboFullScene.height)
         {
-            g_FBO_fullScene.reset(g_scrWidth, g_scrHeight, error);
-            g_FBO_deferred.reset(g_scrWidth, g_scrHeight, error);
+            g_fboFullScene.reset(g_scrWidth, g_scrHeight, error);
+            g_fboDeferred.reset(g_scrWidth, g_scrHeight, error);
         }
 
         g_pShaderManager->useShaderProgram("GE101_Shader");
@@ -351,23 +346,23 @@ int main()
 
         // Depth pass
         glUniform1i(g_uniLocHandler.renderPassNumber, DEPTH_RENDER_PASS);
-        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_shadows.ID);
-        g_FBO_shadows.clearBuffer();
-        glViewport(0, 0, g_FBO_shadows.width, g_FBO_shadows.height);
+        glBindFramebuffer(GL_FRAMEBUFFER, g_fboShadows.ID);
+        g_fboShadows.clearBuffer();
+        glViewport(0, 0, g_fboShadows.width, g_fboShadows.height);
         RenderShadow(g_vecGameObjects, g_uniLocHandler.currentProgID);
         glViewport(0, 0, g_scrWidth, g_scrHeight);
 
         // Full render pass
         glActiveTexture(GL_TEXTURE0 + 20);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_shadows.depthTexture_ID);
+        glBindTexture(GL_TEXTURE_2D, g_fboShadows.depthTexture_ID);
         glUniform1i(g_uniLocHandler.shadowMap, 20);
         glUniform1i(g_uniLocHandler.renderPassNumber, FULL_SCENE_RENDER_PASS);
-        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_fullScene.ID);
-        g_FBO_fullScene.clearBuffers();
+        glBindFramebuffer(GL_FRAMEBUFFER, g_fboFullScene.ID);
+        g_fboFullScene.clearBuffers();
         RenderScene(g_vecGameObjects, window, g_camera, deltaTime);
 
         // Render the DEBUG Physics
-        if (g_debugEnable)
+        if (gDebugEnable)
         {
             g_pShaderManager->useShaderProgram("Debug_Shader");
             g_pPhysicsWorld->DebugDrawWorld(g_pShaderManager->getIDFromFriendlyName("Debug_Shader"),
@@ -379,24 +374,24 @@ int main()
         }
 
         // Deferred Pass
-        glBindFramebuffer(GL_FRAMEBUFFER, g_FBO_deferred.ID);
-        g_FBO_deferred.clearBuffers();
+        glBindFramebuffer(GL_FRAMEBUFFER, g_fboDeferred.ID);
+        g_fboDeferred.clearBuffers();
         glUniform1i(g_uniLocHandler.renderPassNumber, DEFERRED_RENDER_PASS);
 
         glActiveTexture(GL_TEXTURE0 + 20);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_fullScene.colourTexture_0_ID);
+        glBindTexture(GL_TEXTURE_2D, g_fboFullScene.colourTexture_0_ID);
         glUniform1i(g_uniLocHandler.texFBOColour2D, 20);
 
         glActiveTexture(GL_TEXTURE0 + 21);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_fullScene.normalTexture_1_ID);
+        glBindTexture(GL_TEXTURE_2D, g_fboFullScene.normalTexture_1_ID);
         glUniform1i(g_uniLocHandler.texFBONormal2D, 21);
 
         glActiveTexture(GL_TEXTURE0 + 22);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_fullScene.vertexWorldPos_2_ID);
+        glBindTexture(GL_TEXTURE_2D, g_fboFullScene.vertexWorldPos_2_ID);
         glUniform1i(g_uniLocHandler.texFBOVertexWorldPos2D, 22);
 
-        glUniform1f(g_uniLocHandler.screenWidth, (float)g_scrWidth);
-        glUniform1f(g_uniLocHandler.screenHeight, (float)g_scrHeight);
+        glUniform1f(g_uniLocHandler.screenWidth, static_cast<float>(g_scrWidth));
+        glUniform1f(g_uniLocHandler.screenHeight, static_cast<float>(g_scrHeight));
         RenderScene(g_pSkyBoxObject, window, g_camera, deltaTime);
 
         // Final render pass
@@ -406,7 +401,7 @@ int main()
         glUniform1f(g_uniLocHandler.sysTime, curTime);
         
         glActiveTexture(GL_TEXTURE0 + 20);
-        glBindTexture(GL_TEXTURE_2D, g_FBO_deferred.colourTexture_0_ID);
+        glBindTexture(GL_TEXTURE_2D, g_fboDeferred.colourTexture_0_ID);
         glUniform1i(g_uniLocHandler.fullRenderedImage2D, 20);
 
         glActiveTexture(GL_TEXTURE0 + 21);
@@ -422,7 +417,7 @@ int main()
             glBindTexture(GL_TEXTURE_2D, g_pTextureManager->getTextureIDFromTextureName("Old_TV_alpha.bmp"));
             glUniform1i(g_uniLocHandler.fullRenderedImage2D_Alpha, 22);
 
-            float noiseFactor = getRandInRange(0.0f, 1.0f);
+            const float noiseFactor = getRandInRange(0.0f, 1.0f);
             glUniform1f(g_uniLocHandler.noise, noiseFactor);
             glUniform1f(g_uniLocHandler.fade, g_pSeceneManager->getFade());
         }
@@ -463,7 +458,7 @@ int main()
 
     
     delete ::g_pShaderManager;
-    delete ::g_pVAOManager;
+    delete ::g_pVaoManager;
     delete ::g_pSoundManager;
     delete ::g_pTranspManager;
     delete ::g_pTextureManager;

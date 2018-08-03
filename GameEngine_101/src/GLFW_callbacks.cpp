@@ -52,7 +52,7 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
     if (key == GLFW_KEY_B && action == GLFW_PRESS)
     {
-        g_debugEnable = !g_debugEnable;
+        gDebugEnable = !gDebugEnable;
     }
 
     if (key == GLFW_KEY_C && action == GLFW_PRESS)

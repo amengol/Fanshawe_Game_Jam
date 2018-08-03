@@ -256,7 +256,7 @@ void DrawObject(cGameObject* pTheGO)
 
 
     std::vector<sVAOInfo> vecVAODrawInfo;
-    if (::g_pVAOManager->lookupStaticVAOsFromName(meshToDraw, vecVAODrawInfo) == false)
+    if (::g_pVaoManager->lookupStaticVAOsFromName(meshToDraw, vecVAODrawInfo) == false)
     {	// Didn't find mesh
         return;
     }
@@ -655,7 +655,7 @@ void RenderShadow(std::vector<cGameObject*>& vec_pGOs, unsigned int shaderID)
 
         std::string meshToDraw = pTheGO->meshName;
         std::vector<sVAOInfo> vecVAODrawInfo;
-        if (::g_pVAOManager->lookupStaticVAOsFromName(meshToDraw, vecVAODrawInfo) == false)
+        if (::g_pVaoManager->lookupStaticVAOsFromName(meshToDraw, vecVAODrawInfo) == false)
         {	// Didn't find mesh
             return;
         }

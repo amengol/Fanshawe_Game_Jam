@@ -880,7 +880,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
 
             if (vecMeshes.size() != 0)
             {
-                if (!g_pVAOManager->loadMeshesIntoStaticVAO(vecMeshes, shaderID, false))
+                if (!g_pVaoManager->loadMeshesIntoStaticVAO(vecMeshes, shaderID, false))
                 {
                     error = "Could not load skinned mesh model into new VAO";
                 }
@@ -1443,7 +1443,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         case CONVEX_HULL:
         {
             std::vector<cMesh> meshes;
-            g_pVAOManager->lookupMeshesFromName(meshName, meshes);
+            g_pVaoManager->lookupMeshesFromName(meshName, meshes);
 
             for (size_t i = 0; i < meshes.size(); i++)
             {
@@ -1530,7 +1530,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
             for (int i = 0; i < conllisionMeshesNames.size(); i++)
             {
                 std::vector<cMesh> vecMeshes;
-                g_pVAOManager->lookupMeshesFromName(conllisionMeshesNames[i], vecMeshes);
+                g_pVaoManager->lookupMeshesFromName(conllisionMeshesNames[i], vecMeshes);
                 if (vecMeshes.size() != 0)
                 {
                     cMesh collMesh = vecMeshes[0];
