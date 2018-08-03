@@ -2,33 +2,25 @@
 #define _cModelAssetLoader_HG_
 
 #include <string>
-#include <fstream>
 
 class cMesh;
 
 class cModelAssetLoader
 {
 public:
-	cModelAssetLoader();
+    cModelAssetLoader();
 
-
-	// Note the & symbol which is "by reference" which means
-	//	it's NOT a copy, but referring to the original object.
-	// ALSO note that this is a C++ thing (& isn't a thing in C)
-	bool LoadPlyFileIntoMesh( std::string filename, cMesh &theMesh );
-	bool LoadPlyFileIntoMeshWithNormals( std::string filename, cMesh &theMesh );
-    bool LoadPlyFileIntoMeshWithNormals_and_colours(std::string filename, cMesh &theMesh);
-	bool LoadPlyFileIntoMeshWith_Normals_and_UV( std::string filename, cMesh &theMesh );
-	
-	// Is the full path, so requires end slash. 
-	// Is directly pre-pended to any file that's being loaded.
-	void setBasePath( std::string fullPathWITHslash );
-	std::string getBasePath(void);
+    bool LoadPlyFileIntoMesh( std::string filename, cMesh &theMesh ) const;
+    bool LoadPlyFileIntoMeshWithNormals( std::string filename, cMesh &theMesh ) const;
+    bool LoadPlyFileIntoMeshWithNormalsAndColours(std::string filename, cMesh &theMesh) const;
+    bool LoadPlyFileIntoMeshWithNormalsAndUv( std::string filename, cMesh &theMesh ) const;
+    
+    void SetBasePath( std::string fullPath );
+    std::string GetBasePath() const;
 
 private:
-	void m_ReadFileToToken( std::ifstream &file, std::string token );
-
-	std::string m_basePath;
+    static void ReadFileToToken( std::ifstream &file, std::string token );
+    std::string basePath_;
 };
 
 #endif
