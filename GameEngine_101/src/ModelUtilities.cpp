@@ -56,7 +56,7 @@ bool Load3DModelsIntoMeshManager(int shaderID,
 
     std::string jsonStr;
 
-    if(!loadFileIntoString(jsonStr, filePath + "_models.json"))
+    if(!LoadFileIntoString(jsonStr, filePath + "_models.json"))
     {
         ssError << "Didn't load the Json file!" << std::endl;
         bAllGood = false;

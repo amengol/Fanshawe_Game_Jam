@@ -19,7 +19,7 @@ DWORD WINAPI SortClouds(void* pInitialData)	// CreateThread() format
         for (size_t i = 0; i < transpObjects->size(); i++)
         {
             cGameObject* cloud = transpObjects->at(i);
-            turnGameObjectToCamera(cloud, g_camera.m_position);
+            TurnGameObjectToCamera(cloud, g_camera.m_position);
         }
 
         Sleep(2000);

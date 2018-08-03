@@ -78,7 +78,7 @@ void cCharacterControl::Forward(glm::vec3 direction)
 
             mCharacter->rigidBody->SetLinearVelocity(direction * 1.5f);
             
-            glm::mat4 orientation = getMatrixFromVector(direction);
+            glm::mat4 orientation = GetMatrixFromVector(direction);
             mCharacter->rigidBody->SetMatOrientation(orientation);
 
             mCharacter->rigidBody->SetRateOfTurnY(0.0f);
@@ -239,7 +239,7 @@ void cCharacterControl::Backwards(glm::vec3 direction)
 
             mCharacter->rigidBody->SetLinearVelocity(direction * -1.125f);
 
-            glm::mat4 orientation = getMatrixFromVector(direction);
+            glm::mat4 orientation = GetMatrixFromVector(direction);
             mCharacter->rigidBody->SetMatOrientation(orientation);
 
             mCharacter->rigidBody->SetRateOfTurnY(0.0f);

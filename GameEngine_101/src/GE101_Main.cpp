@@ -80,7 +80,7 @@ int main()
 
     std::string title = "From the Graveyard to the Forest - Game Jam!";
 
-    if (!initialConfig("GameConfig.ini", g_scrWidth, g_scrHeight, title))
+    if (!InitialConfig("GameConfig.ini", "Title_End", g_scrWidth, g_scrHeight, title))
     {
         std::cout << "Can't find config file" << std::endl;
         std::cout << "Using defaults" << std::endl;
@@ -417,7 +417,7 @@ int main()
             glBindTexture(GL_TEXTURE_2D, g_pTextureManager->getTextureIDFromTextureName("Old_TV_alpha.bmp"));
             glUniform1i(g_uniLocHandler.fullRenderedImage2D_Alpha, 22);
 
-            const float noiseFactor = getRandInRange(0.0f, 1.0f);
+            const float noiseFactor = GetRandInRange(0.0f, 1.0f);
             glUniform1f(g_uniLocHandler.noise, noiseFactor);
             glUniform1f(g_uniLocHandler.fade, g_pSeceneManager->getFade());
         }

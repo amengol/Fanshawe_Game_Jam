@@ -577,7 +577,7 @@ void RenderScene(std::vector<cGameObject*>& vec_pGOs,
         if(::g_pTranspManager->transpObjects[i]->rotateToCamera)
         {
             // Orient the cloud to the camera
-            turnGameObjectToCamera(::g_pTranspManager->transpObjects[i], camera.m_position, false);
+            TurnGameObjectToCamera(::g_pTranspManager->transpObjects[i], camera.m_position, false);
         }
         DrawObject(::g_pTranspManager->transpObjects[i]);
     }

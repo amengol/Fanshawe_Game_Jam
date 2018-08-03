@@ -34,7 +34,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
 
     std::string jsonStr;
 
-    if (!loadFileIntoString(jsonStr, "_Scene.json"))
+    if (!LoadFileIntoString(jsonStr, "_Scene.json"))
     {
         error = "Didn't load the Json Scene file!";
         return false;
@@ -1567,7 +1567,7 @@ bool cSceneLoader::loadLightParams(int shaderID,
 
     std::string jsonStr;
 
-    if(!loadFileIntoString(jsonStr, "_Scene.json"))
+    if(!LoadFileIntoString(jsonStr, "_Scene.json"))
     {
         error = "Didn't load the Json Scene file!";
         return false;
@@ -1786,7 +1786,7 @@ bool cSceneLoader::loadCameraParams(cCamera& camera, std::string& error)
 {
     std::string jsonStr;
 
-    if(!loadFileIntoString(jsonStr, "_Scene.json"))
+    if(!LoadFileIntoString(jsonStr, "_Scene.json"))
     {
         error = "Didn't load the Json Scene file!";
         return false;
@@ -1935,7 +1935,7 @@ bool cSceneLoader::loadLimitPlanes(std::string& error)
 {
     std::string jsonStr;
 
-    if (!loadFileIntoString(jsonStr, "_Scene.json"))
+    if (!LoadFileIntoString(jsonStr, "_Scene.json"))
     {
         error = "Didn't load the Json Scene file!";
         return false;

@@ -220,8 +220,8 @@ void processCameraInput(GLFWwindow* window, float deltaTime)
                 glm::vec3 normilizedControllerDir = glm::normalize(controllerDir);
 
                 // Get the new character orientaion
-                characterOrientation = getMatrixFromVector(normilizedControllerDir);
-                glm::mat4 cameraOrientation = getMatrixFromVector(g_camera.getCameraFrontVector());
+                characterOrientation = GetMatrixFromVector(normilizedControllerDir);
+                glm::mat4 cameraOrientation = GetMatrixFromVector(g_camera.getCameraFrontVector());
                 characterOrientation *= cameraOrientation;
                 pCharacterControl->GetCharacter()->rigidBody->SetMatOrientation(characterOrientation);
                 

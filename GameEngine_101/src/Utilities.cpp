@@ -2,13 +2,12 @@
 #include <cstdlib>	// rand() and RAND_MAX
 #include <time.h>
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm\gtx\vector_angle.hpp>
+#include <glm/gtx/vector_angle.hpp>
 #include <string>
 #include <fstream>
-#include <iostream>
 #include <sstream>
 
-bool initialConfig(std::string fileName, int& width, int& height, std::string& title)
+bool InitialConfig(const std::string& fileName, const std::string& titleEnd, int& width, int& height, std::string& title)
 {
     // Sanity check
     if (width < 0 || height < 0)
@@ -18,128 +17,129 @@ bool initialConfig(std::string fileName, int& width, int& height, std::string& t
 
     std::string theTitle = title;
 
-    std::ifstream infoFile("GameConfig.ini");
+    std::ifstream infoFile(fileName);
 
     if (!infoFile.is_open())
     {    // File didn't open...
         return false;
     }
-    else
-    {    // File DID open, so read it... 
-        std::string a;
+    
+    // File DID open, so read it... 
+    std::string a;
 
-        infoFile >> a;    // "Game"
-        infoFile >> a;    // "Config"
-        infoFile >> a;    // "width"
+    infoFile >> a;    // "Game"
+    infoFile >> a;    // "Config"
+    infoFile >> a;    // "width"
 
-        infoFile >> width;
+    infoFile >> width;
 
-        infoFile >> a;    // "height"
+    infoFile >> a;    // "height"
 
-        infoFile >> height;
+    infoFile >> height;
 
-        infoFile >> a;    // Title_Start
+    infoFile >> a;    // Title_Start
 
-        std::stringstream ssTitle;
-        bool bKeepReading = true;
-        do
+    std::stringstream ssTitle;
+    bool bKeepReading = true;
+    do
+    {
+        infoFile >> a;
+        if (a != titleEnd)
         {
-            infoFile >> a;
-            if (a != "Title_End")
-            {
-                ssTitle << a << " ";
-            }
-            else
-            {    // it IS the end! 
-                bKeepReading = false;
-                title = ssTitle.str();
-            }
-        } while (bKeepReading);
+            ssTitle << a << " ";
+        }
+        else
+        {    // it IS the end! 
+            bKeepReading = false;
+            title = ssTitle.str();
+        }
+    } while (bKeepReading);
 
-        return true;
-
-    }//if ( ! infoFile.is_open() )
+    return true;
 }
 
-void createRamdomGameObjects(int numOfObjects,
-                             std::vector<cGameObject*>& theVecGO,
+void CreateRamdomGameObjects(const int numOfObjects,
+                             std::vector<cGameObject*>& theVecGo,
                              std::vector<GameObjectsInfo> info,
-                             float minX, float maxX,
-                             float minY, float maxY,
-                             float minZ, float maxZ)
+                             const float minX,
+                             const float maxX,
+                             const float minY,
+                             const float maxY,
+                             const float minZ,
+                             const float maxZ)
 {
-    srand(time(NULL));
+    srand(time(nullptr));
 
     for(int i = 0; i < numOfObjects; i++)
     {
-        cGameObject* theGO = new cGameObject();
+        cGameObject* gameObject = new cGameObject();
 
         // Pic one object
 
-        int objIndex = std::rand() % info.size();
+        const int objIndex = std::rand() % info.size();
 
-        theGO->meshName = info[objIndex].meshName;
-        theGO->textureBlend[0] = 1.0f;
-        theGO->textureNames[0] = info[objIndex].texture;
-        theGO->textureBlend[1] = 0.0f;
-        theGO->textureNames[1] = info[objIndex].alpha;
-        theGO->bIsUpdatedInPhysics = false;
-        theGO->bIsWireFrame = false;
-        theGO->hasAlpha = true;
-        theGO->useDiscardAlpha = false;
-        theGO->cullFace = false;
-        theGO->rotateToCamera = true;
-        theGO->typeOfObject = TERRAIN;
+        gameObject->meshName = info[objIndex].meshName;
+        gameObject->textureBlend[0] = 1.0f;
+        gameObject->textureNames[0] = info[objIndex].texture;
+        gameObject->textureBlend[1] = 0.0f;
+        gameObject->textureNames[1] = info[objIndex].alpha;
+        gameObject->bIsUpdatedInPhysics = false;
+        gameObject->bIsWireFrame = false;
+        gameObject->hasAlpha = true;
+        gameObject->useDiscardAlpha = false;
+        gameObject->cullFace = false;
+        gameObject->rotateToCamera = true;
+        gameObject->typeOfObject = TERRAIN;
 
         // Calculate a random position
-        int rangeX = maxX - minX;
-        int x = (std::rand() % rangeX) + minX;
-        int rangeY = maxY - minY;
-        int y = (std::rand() % rangeY) + minY;
-        int rangeZ = maxZ - minZ;
-        int z = (std::rand() % rangeZ) + minZ;
+        const int rangeX = maxX - minX;
+        const int x = (std::rand() % rangeX) + minX;
+        const int rangeY = maxY - minY;
+        const int y = (std::rand() % rangeY) + minY;
+        const int rangeZ = maxZ - minZ;
+        const int z = (std::rand() % rangeZ) + minZ;
 
-        theGO->position = glm::vec3((float)x, (float)y, (float)z);
+        gameObject->position = glm::vec3(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
 
 
-        theVecGO.push_back(theGO);
+        theVecGo.push_back(gameObject);
     }
 
     return;
 }
 
-void turnGameObjectToCamera(cGameObject* theGO, glm::vec3 cameraPosition, bool resetPitch)
+void TurnGameObjectToCamera(cGameObject* theGo, const glm::vec3 cameraPosition, const bool resetPitch)
 {
-    glm::vec3 dir = glm::normalize(cameraPosition - theGO->position);
+    const glm::vec3 dir = normalize(cameraPosition - theGo->position);
     if (resetPitch)
     {
         // Discard X rotations
-        glm::vec3 clippedD = glm::normalize(glm::vec3(dir.x, 0.0f, dir.z));
-        glm::quat qOrientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), clippedD);
-        glm::mat4 orientation = glm::toMat4(qOrientation);
-        theGO->orientation = orientation;
+        const glm::vec3 clippedD = normalize(glm::vec3(dir.x, 0.0f, dir.z));
+        const glm::quat qOrientation = rotation(glm::vec3(0.0f, 0.0f, 1.0f), clippedD);
+        const glm::mat4 orientation = toMat4(qOrientation);
+        theGo->orientation = orientation;
     }
     else
     {
-        glm::quat qOrientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), dir);
-        glm::mat4 orientation = glm::toMat4(qOrientation);
-        theGO->orientation = orientation;
+        const glm::quat qOrientation = rotation(glm::vec3(0.0f, 0.0f, 1.0f), dir);
+        const glm::mat4 orientation = toMat4(qOrientation);
+        theGo->orientation = orientation;
     }
 }
 
-glm::mat4 getMatrixFromVector(glm::vec3 XZ_Direction)
+glm::mat4 GetMatrixFromVector(glm::vec3 xzDirection)
 {
     // Discard y values
-    XZ_Direction.y = 0;
+    xzDirection.y = 0;
 
     // Mage sure it is normalizard
-    XZ_Direction = glm::normalize(XZ_Direction);
+    xzDirection = glm::normalize(xzDirection);
 
-    glm::quat qOrientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), XZ_Direction);
+    const glm::quat qOrientation = glm::rotation(glm::vec3(0.0f, 0.0f, 1.0f), xzDirection);
     return glm::toMat4(qOrientation);
 }
 
-bool loadFileIntoString(std::string& theString, std::string fileName)
+bool LoadFileIntoString(std::string& theString, std::string fileName)
 {   
 
     std::ifstream file(fileName.c_str());
@@ -149,12 +149,10 @@ bool loadFileIntoString(std::string& theString, std::string fileName)
         return false;
     }
 
-    std::string token;
-    
 
     while(!file.eof())
     {
-        token = "";
+        std::string token = "";
         file >> token;
         
         // Ignore lines starting with #
