@@ -13,7 +13,6 @@
 #include <string>
 //#include "Physics.h"
 #include <vector>
-#include <glm\vec3.hpp>
 
 class cVAOMeshManager;
 class cModelAssetLoader;
@@ -29,8 +28,10 @@ public:
     // Loads all cGameObjects into scene. Internaly it loads also the mesh
     // models into cVAOMeshManager using the cModelAssetLoader. Reports back an
     // error via a string
-    bool loadModelsIntoScene(int shaderID, cVAOMeshManager*, 
-                             cModelAssetLoader*, std::string& error);
+    bool LoadModelsIntoScene(int shaderId,
+                             const std::string& filePath,
+                             cVAOMeshManager* vao, 
+                             std::string& error) const;
 
     // Loads all lights parameters from a json file. Reports back an
     // error via a string
@@ -45,8 +46,5 @@ public:
     
     // Loads limit planes to be used in the Physics Engine
     bool loadLimitPlanes(std::string& error);
-
-private:
-
 };
 #endif // !_cSceneLoader_HG_

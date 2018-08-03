@@ -22,12 +22,12 @@ cSceneLoader::~cSceneLoader()
 {
 }
 
-bool cSceneLoader::loadModelsIntoScene(int shaderID, 
-                                       cVAOMeshManager* VAO,
-                                       cModelAssetLoader* assetLoader, 
-                                       std::string& error)
+bool cSceneLoader::LoadModelsIntoScene(const int shaderId,
+                                       const std::string& filePath,
+                                       cVAOMeshManager* vao,
+                                       std::string& error) const
 {
-    if (!Load3DModelsIntoMeshManager(shaderID, VAO, assetLoader, error))
+    if (!Load3DModelsIntoMeshManager(shaderId, filePath, vao, error))
     {
         return false;
     }
@@ -880,7 +880,7 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
 
             if (vecMeshes.size() != 0)
             {
-                if (!g_pVaoManager->loadMeshesIntoStaticVAO(vecMeshes, shaderID, false))
+                if (!g_pVaoManager->loadMeshesIntoStaticVAO(vecMeshes, shaderId, false))
                 {
                     error = "Could not load skinned mesh model into new VAO";
                 }
@@ -1498,9 +1498,9 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         theGO->isDebugAABBActive = isDebugAABBActive;
         theGO->textureBlend[0] = textureBlend_0;
         theGO->textureNames[0] = textureNames_0;
-		theGO->textureBlend[1] = textureBlend_1;
+        theGO->textureBlend[1] = textureBlend_1;
         theGO->textureNames[1] = textureNames_1;
-		theGO->textureBlend[2] = textureBlend_2;
+        theGO->textureBlend[2] = textureBlend_2;
         theGO->textureNames[2] = textureNames_2;
         theGO->textureBlend[3] = textureBlend_3;
         theGO->textureNames[3] = textureNames_3;
@@ -1522,8 +1522,8 @@ bool cSceneLoader::loadModelsIntoScene(int shaderID,
         theGO->hasNormalMap = hasNormalMap;
         theGO->selfLight = selfLight;
         theGO->rotateX(rotateX);
-		theGO->rotateY(rotateY);
-		theGO->rotateZ(rotateZ);
+        theGO->rotateY(rotateY);
+        theGO->rotateZ(rotateZ);
 
         if (hasCollisionMesh)
         {

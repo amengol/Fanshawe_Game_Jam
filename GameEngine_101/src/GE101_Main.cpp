@@ -25,6 +25,7 @@
 #include "cFBO_Shadow.h"
 #include <cPhysicsDebugDrawer.h>
 #include "cSoundObject.h"
+#include "cPhysicsFactory.h"
 
 // The FBOs for the scene
 cFBO g_fboFullScene;
@@ -150,8 +151,6 @@ int main()
     g_pTranspManager = new cTransparencyManager();
 
     // Load things
-    g_pModelAssetLoader = new cModelAssetLoader();
-    g_pModelAssetLoader->setBasePath("assets/models/");
     g_pVaoManager = new cVAOMeshManager();
     g_uniLocHandler.currentProgID = g_pShaderManager->getIDFromFriendlyName("GE101_Shader");
     g_uniLocHandler.InitShaderUniformLocations("GE101_Shader");
@@ -159,9 +158,9 @@ int main()
     std::string error;
     cSceneLoader sceneLoader;
     // Models
-    if(!sceneLoader.loadModelsIntoScene(g_uniLocHandler.currentProgID, 
+    if(!sceneLoader.LoadModelsIntoScene(g_uniLocHandler.currentProgID,
+                                        "assets//models//",
                                         g_pVaoManager, 
-                                        g_pModelAssetLoader, 
                                         error))
     {
         std::cout << "Not all models were loaded..." << std::endl;
