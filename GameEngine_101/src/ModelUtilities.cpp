@@ -9,11 +9,13 @@
 #include <iostream>
 #include "globalGameStuff.h"
 
+cAnimationCollection g_animationCollection; 
+
 bool Load3DModelsIntoMeshManager(const int shaderId,
+                                 const std::string& filePath,
                                  cVAOMeshManager* pVaoManager,
                                  std::string& error)
 {
-    std::string filePath = "assets//models//";
     std::stringstream ssError;
     bool bAllGood = true;
 
@@ -25,8 +27,7 @@ bool Load3DModelsIntoMeshManager(const int shaderId,
         bAllGood = false;
     }
 
-    const char* json = new char[jsonStr.size() + 1];
-    json = jsonStr.c_str();
+    const char* json = jsonStr.c_str();
 
     rapidjson::Document document;
 
@@ -113,19 +114,18 @@ bool Load3DModelsIntoMeshManager(const int shaderId,
             g_animationCollection.addSkinnedMesh(meshName, skinnedMesh);
             continue;
         }
-            break;
         case 2: // ANIMATIONS
         {
             if (a[i]["animName"].IsString() && a[i]["animFile"].IsString())
             {
-                std::string animName = a[i]["animName"].GetString();
+                const std::string animName = a[i]["animName"].GetString();
                 if (animName == "")
                 {
                     std::cout << "The animName must have a value!\n";
                     return false;
                 }
 
-                std::string animFile = a[i]["animFile"].GetString();
+                const std::string animFile = a[i]["animFile"].GetString();
                 if (animFile == "")
                 {
                     std::cout << "The animFile must have a value!\n";
@@ -136,29 +136,23 @@ bool Load3DModelsIntoMeshManager(const int shaderId,
                 cAssimpAssetLoader ail;
                 const aiScene* pScene = ail.GetAiSceneFromFile(filePath, animFile);
                 // Load the models
-                if (pScene == NULL)
+                if (pScene == nullptr)
                 {
                     std::cout << "There was an error importing the aiScene from file. "
                         << "See \"assimp_log.txt\" for details.\n";
                     return false;
                 }
-                else
-                {
-                    std::cout << "Assimp Animation Scene created.\n";
-                }
-
+                std::cout << "Assimp Animation Scene created.\n";
+                
                 g_animationCollection.addAnimationCollection(animName, pScene);
 
                 continue;
             }
-            else
-            {
-                error = "The Json Gameobject number " + std::to_string(i + 1) +
+            
+            error = "The Json Gameobject number " + std::to_string(i + 1) +
                     " is not properly formated for its \"animName\" or \"animFile\" member!";
-                return false;
-            }
+            return false;
         }
-            break;
         default:
             break;
         }
@@ -189,10 +183,8 @@ bool Load3DModelsIntoMeshManager(const int shaderId,
                       << "See \"assimp_log.txt\" for details.\n";
             return false;
         }
-        else
-        {
-            std::cout << "Assimp scene created.\n";
-        }
+        
+        std::cout << "Assimp scene created.\n";
 
         // Load the meshes into the VAO manager
         if (!ail.loadMeshesIntoVAO(pVaoManager, shaderId, meshName, isPersistent))
@@ -201,10 +193,8 @@ bool Load3DModelsIntoMeshManager(const int shaderId,
                       << "See \"assimp_log.txt\" for details.\n";
             return false;
         }
-        else
-        {
-            std::cout << "Meshes loaded into the VAO manager.\n";
-        }
+        
+        std::cout << "Meshes loaded into the VAO manager.\n";
     }
 
     if (!bAllGood)

@@ -5,6 +5,7 @@
 #include "cVAOMeshManager.h"
 
 bool Load3DModelsIntoMeshManager(int shaderId,
+                                 const std::string& filePath,
                                  cVAOMeshManager* pVaoManager,
                                  std::string &error);
 
