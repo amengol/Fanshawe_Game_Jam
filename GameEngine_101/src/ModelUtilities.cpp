@@ -3,52 +3,15 @@
 #include "cMesh.h"
 #include <sstream>
 #include <vector>
-#include "cGameObject.h"
 #include "Utilities.h"
-#include <rapidjson\document.h>
-#include "Assimp\cAssimpAssetLoader.h"
+#include <rapidjson/document.h>
+#include "Assimp/cAssimpAssetLoader.h"
 #include <iostream>
 #include "globalGameStuff.h"
 
-cAnimationCollection g_animationCollection;
-
-cModelAssetLoader* g_pModelAssetLoader = NULL;
-
-// Returns 0 or NULL if not found
-cGameObject* findObjectByFriendlyName(std::string friendlyName, std::vector<cGameObject*> &vec_pGameObjects)
-{
-    // Linear search, baby!
-    unsigned int numObjects = (unsigned int)vec_pGameObjects.size();
-    for (unsigned int index = 0; index != numObjects; index++)
-    {
-        if (vec_pGameObjects[index]->friendlyName == friendlyName)
-        {
-            return vec_pGameObjects[index];
-        }
-    }
-    // Didn't find it
-    return NULL;
-}
-
-cGameObject* findObjectByUniqueID(unsigned int ID, std::vector<cGameObject*> &vec_pGameObjects)
-{
-    // Linear search, baby!
-    unsigned int numObjects = (unsigned int)vec_pGameObjects.size();
-    for (unsigned int index = 0; index != numObjects; index++)
-    {
-        if (ID = vec_pGameObjects[index]->getUniqueID())
-        {
-            return vec_pGameObjects[index];
-        }
-    }
-    // Didn't find it
-    return NULL;
-}
-
-bool Load3DModelsIntoMeshManager(int shaderID,
-    cVAOMeshManager* pVAOManager,
-    cModelAssetLoader* pModelAssetLoader,
-    std::string &error)
+bool Load3DModelsIntoMeshManager(const int shaderId,
+                                 cVAOMeshManager* pVaoManager,
+                                 std::string& error)
 {
     std::string filePath = "assets//models//";
     std::stringstream ssError;
@@ -232,7 +195,7 @@ bool Load3DModelsIntoMeshManager(int shaderID,
         }
 
         // Load the meshes into the VAO manager
-        if (!ail.loadMeshesIntoVAO(pVAOManager, shaderID, meshName, isPersistent))
+        if (!ail.loadMeshesIntoVAO(pVaoManager, shaderId, meshName, isPersistent))
         {
             std::cout << "There was an error loading the meshes into the VAO manager. "
                       << "See \"assimp_log.txt\" for details.\n";

@@ -1,38 +1,35 @@
-#ifndef _globalGameStuff_HG_
-#define _globalGameStuff_HG_
-
-// This is all the global 'game' stuff, so:
-// - not OpenGL rendering stuff (unless we can't help it)
-// - just 'engine' or game play stuff
+/**
+ * This is all the global 'game' stuff, so:
+ * - not OpenGL rendering stuff (unless we can't help it)
+ * - just 'engine' or game play stuff
+ */
+#pragma once
 
 #include "cGameObject.h"
 #include <vector>
-#include <glm/vec3.hpp>
 #include "cLightManager.h"
 #include "cModelAssetLoader.h"
-#include "Assimp\cAnimationCollection.h"
+#include "Assimp/cAnimationCollection.h"
 #include "cVAOMeshManager.h"
 #include "cShaderManager.h"
 #include "Texture/cTextureManager.h"
 #include "cUniLocHandler.h"
 #include <iPhysicsFactory.h>
 #include <cPhysicsWorld.h>
-#include <cPhysicsFactory.h>
-#include <cPhysicsWorld.h>
-#include <cPhysicsFactory.h>
 #include "cTransparencyManager.h"
-#include "AI\cCharacterManager.h"
+#include "AI/cCharacterManager.h"
 #include "cCamera.h"
 #include "cEnvironment.h"
 #include "cSceneManager.h"
-#include "AI\cNPCManager.h"
+#include "AI/cNPCManager.h"
 
+/**
+ * \brief Finds a GameObject by a friendly name. Returns nullptr if not found
+ */
+cGameObject* FindObjectByFriendlyName(std::string friendlyName, std::vector<cGameObject*>& gameObjects);
 
-// Finds a GameObject by a friendly name. Returns 0 or NULL if not found
-cGameObject* findObjectByFriendlyName(std::string friendlyName, std::vector<cGameObject*> &vec_pGameObjects);
-
-// Finds a GameObject by a unique ID
-cGameObject* findObjectByUniqueID(unsigned int ID, std::vector<cGameObject*> &vec_pGameObjects);
+// Finds a GameObject by a unique ID. Returns nullptr if not found
+cGameObject* FindObjectByUniqueId(unsigned int id, std::vector<cGameObject*>& gameObjects);
 
 // Super basic physics update function
 void PhysicsStep(double deltaTime);
@@ -66,5 +63,3 @@ extern nPhysics::iPhysicsWorld* g_pPhysicsWorld;        // (GE101_Main.cpp)
 extern cAnimationCollection g_animationCollection;      // (ModelUtilities.cpp)
 extern std::vector<cGameObject*> g_vecGameObjects;      // (GE101_Main.cpp)
 extern nPhysics::iPhysicsFactory* g_pPhysicsFactory;    // (GE101_Main.cpp)
-
-#endif
