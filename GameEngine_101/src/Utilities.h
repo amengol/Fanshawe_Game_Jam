@@ -1,7 +1,7 @@
 #ifndef _Utilities_HG_
 #define _Utilities_HG_
 
-#include <vector>;
+#include <vector>
 #include "cGameObject.h"
 #include <glm/glm.hpp>
 

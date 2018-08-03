@@ -68,7 +68,7 @@ void CreateRamdomGameObjects(const int numOfObjects,
                              const float minZ,
                              const float maxZ)
 {
-    srand(time(nullptr));
+    srand(static_cast<unsigned>(time(nullptr)));
 
     for(int i = 0; i < numOfObjects; i++)
     {
@@ -92,12 +92,12 @@ void CreateRamdomGameObjects(const int numOfObjects,
         gameObject->typeOfObject = TERRAIN;
 
         // Calculate a random position
-        const int rangeX = maxX - minX;
-        const int x = (std::rand() % rangeX) + minX;
-        const int rangeY = maxY - minY;
-        const int y = (std::rand() % rangeY) + minY;
-        const int rangeZ = maxZ - minZ;
-        const int z = (std::rand() % rangeZ) + minZ;
+        const int rangeX = static_cast<int>(maxX - minX);
+        const int x = static_cast<int>(std::rand() % rangeX + minX);
+        const int rangeY = static_cast<int>(maxY - minY);
+        const int y = static_cast<int>(std::rand() % rangeY + minY);
+        const int rangeZ = static_cast<int>(maxZ - minZ);
+        const int z = static_cast<int>(std::rand() % rangeZ + minZ);
 
         gameObject->position = glm::vec3(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
 
